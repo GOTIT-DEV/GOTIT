@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lotmaterielextestreferencedans list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lotMaterielExtEstReferenceDan in lotMaterielExtEstReferenceDans %}
+            <tr>
+                <td><a href="{{ path('lotmaterielextestreferencedans_show', { 'id': lotMaterielExtEstReferenceDan.id }) }}">{{ lotMaterielExtEstReferenceDan.id }}</a></td>
+                <td>{% if lotMaterielExtEstReferenceDan.dateCre %}{{ lotMaterielExtEstReferenceDan.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if lotMaterielExtEstReferenceDan.dateMaj %}{{ lotMaterielExtEstReferenceDan.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ lotMaterielExtEstReferenceDan.userCre }}</td>
+                <td>{{ lotMaterielExtEstReferenceDan.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('lotmaterielextestreferencedans_show', { 'id': lotMaterielExtEstReferenceDan.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('lotmaterielextestreferencedans_edit', { 'id': lotMaterielExtEstReferenceDan.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('lotmaterielextestreferencedans_new') }}">Create a new lotMaterielExtEstReferenceDan</a>
+        </li>
+    </ul>
+{% endblock %}

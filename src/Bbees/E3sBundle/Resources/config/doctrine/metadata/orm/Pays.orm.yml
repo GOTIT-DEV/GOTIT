@@ -1,0 +1,52 @@
+Pays:
+    type: entity
+    table: pays
+    uniqueConstraints:
+        cu_pays_cle_primaire:
+            columns:
+                - code_pays
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codePays:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_pays
+        nomPays:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_pays
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

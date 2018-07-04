@@ -1,0 +1,63 @@
+Voc:
+    type: entity
+    table: voc
+    uniqueConstraints:
+        cu_voc_cle_primaire:
+            columns:
+                - code
+                - parent
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        code:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        libelle:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+        parent:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        commentaire:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

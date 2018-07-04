@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Motuestgenerepars list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for motuEstGenerePar in motuEstGenerePars %}
+            <tr>
+                <td><a href="{{ path('motuestgenerepar_show', { 'id': motuEstGenerePar.id }) }}">{{ motuEstGenerePar.id }}</a></td>
+                <td>{% if motuEstGenerePar.dateCre %}{{ motuEstGenerePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if motuEstGenerePar.dateMaj %}{{ motuEstGenerePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ motuEstGenerePar.userCre }}</td>
+                <td>{{ motuEstGenerePar.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('motuestgenerepar_show', { 'id': motuEstGenerePar.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('motuestgenerepar_edit', { 'id': motuEstGenerePar.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('motuestgenerepar_new') }}">Create a new motuEstGenerePar</a>
+        </li>
+    </ul>
+{% endblock %}

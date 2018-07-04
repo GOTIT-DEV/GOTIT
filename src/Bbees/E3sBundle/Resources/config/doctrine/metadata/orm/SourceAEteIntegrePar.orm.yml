@@ -1,0 +1,62 @@
+SourceAEteIntegrePar:
+    type: entity
+    table: source_a_ete_integre_par
+    indexes:
+        IDX_16DC6005821B1D3F:
+            columns:
+                - source_fk
+        IDX_16DC6005B53CD04C:
+            columns:
+                - personne_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        sourceFk:
+            targetEntity: Source
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        personneFk:
+            targetEntity: Personne
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

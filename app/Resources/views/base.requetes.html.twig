@@ -1,0 +1,39 @@
+<!-- A COMPLETER / MODIFIER  -->
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}  
+    <!-- Switchery -->
+    <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block titlepage %}
+   <div class="clearfix"></div>
+{% endblock %}
+
+{% block action %}
+{% endblock %} 
+
+{% block body %}
+   <div class="clearfix"></div>
+{% endblock %}
+
+{% block link %}
+    <div class="clearfix"></div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }} 
+    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
+    <!-- Switchery -->
+    <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('e3s/js/queries.js') }}"></script>
+    <script src="{{ asset('e3s/js/plots.js') }}"></script>
+    <script src="{{ asset('e3s/js/bootgrid.formatters.js') }}"></script>
+    <!-- Mustache templating engine -->
+    <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
+{% endblock %}
+

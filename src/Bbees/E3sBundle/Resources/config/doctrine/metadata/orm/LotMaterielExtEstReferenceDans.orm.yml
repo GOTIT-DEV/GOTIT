@@ -1,0 +1,62 @@
+LotMaterielExtEstReferenceDans:
+    type: entity
+    table: lot_materiel_ext_est_reference_dans
+    indexes:
+        IDX_D2338BB240D80ECD:
+            columns:
+                - lot_materiel_ext_fk
+        IDX_D2338BB2821B1D3F:
+            columns:
+                - source_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        lotMaterielExtFk:
+            targetEntity: LotMaterielExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_ext_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sourceFk:
+            targetEntity: Source
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

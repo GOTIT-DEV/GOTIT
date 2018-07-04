@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="images/favicon.ico" type="image/ico" />
+
+    <title>
+        {% block title %}
+            BDD E3S 
+        {% endblock %}
+    </title>
+
+    
+    {% block stylesheets %}
+    <!-- Bootstrap -->
+    <link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('e3s/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ asset('e3s/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{{ asset('e3s/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">	
+    <!-- Custom Theme Style -->
+    <link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">
+    <!-- Bootgrid -->
+    <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.css') }}" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+    {% endblock %}
+    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
+    
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>BDD E3S</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div class="profile clearfix">
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2>Philippe Grison</h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
+
+            <br />
+            
+            
+            <!-- sidebar menu -->
+            {% block sidebar %}
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <ul class="nav side-menu">
+                  <li><a href="{{ path('default_index') }}"><i class="fa fa-home"></i> {{'title.Dashboard'|trans}} </a></li>
+                  <li><a><i class="fa fa-edit"></i>{{'title.Terrain'|trans}}<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('station_index') }}">{{'title.station'|trans}}</a></li>
+                      <li><a href="{{ path('collecte_index') }}">{{'title.collecte'|trans}}</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-binoculars"></i>{{'title.Analyse morphologique'|trans}} <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('lotmateriel_index') }}">{{'title.lotmateriel'|trans}}</a></li>
+                      <li><a href="{{ path('individu_index') }}">{{'title.individu'|trans}}</a></li>
+                      <li><a href="{{ path('individulame_index') }}">{{'title.individulame'|trans}}</a></li>
+                      <li><a href="{{ path('lotmaterielext_index') }}">{{'title.lotmaterielext'|trans}}</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-table"></i>{{'title.Analyses génétiques'|trans}} <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('adn_index') }}">{{'title.adn'|trans}}</a></li>
+                      <li><a href="{{ path('pcr_index') }}">{{'title.pcr'|trans}}</a></li>
+                      <li><a href="{{ path('chromatogramme_index') }}">{{'title.chromatogramme'|trans}}</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-bar-chart-o"></i>{{'title.Etude séquençage'|trans}} <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{ path('sequenceassemblee_index')}}">{{'title.sequenceassemblee'|trans}}</a></li>
+                      <li><a href="{{ path('sequenceassembleeext_index')}}">{{'title.sequenceassembleeext'|trans}}</a></li>
+                      <li><a href="{{ path('motu_index')}}">{{'title.motu'|trans}}</a></li>
+                    </ul>
+                  </li>
+                   <li><a><i class="fa fa-tasks"></i>{{'title.Stock'|trans}}<span class="fa fa-chevron-down"></span></a>                      
+                    <ul class="nav child_menu">
+                    <li><a href="#">{{'title.lotmateriel'|trans}}</a></li>
+                    <li><a href="#">{{'title.individulame'|trans}}</a></li>
+                    <li><a href="#">{{'title.adn'|trans}}</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="{{ path('source_index') }}"><i class="fa fa-newspaper-o"></i>{{'title.Source bibliographique'|trans}}</a></li>   
+                  <li><a><i class="fa fa-lock"></i> Référentiels <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    <li><a href="{{ path('voc_index') }}">{{'title.voc'|trans}} </a></li>
+                    <li><a href="{{ path('referentieltaxon_index') }}">{{'title.referentieltaxon'|trans}} </a></li>
+                    <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
+                    <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
+                    <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
+                    <li><a href="{{ path('pays_index') }}">{{'title.pays'|trans}}</a></li>
+                    <li><a href="{{ path('commune_index') }}">{{'title.commune'|trans}}</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    <li><a href="{{ path('formulaire3') }}">Echantillonnage <samp>COI</samp></a></li>
+                    <li><a href="{{ path('formulaire1') }}">Identification des MOTUs</a></li>
+                    <li><a href="{{ path('formulaire2') }}">Réarrangement des taxons</a></li>                   
+                    <li><a href="{{ path('formulaire4') }}">Carte de richesse</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+            {% endblock %}
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            {% block navfooter %}	
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            {% endblock %}
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        {% block topnav %}	
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Philippe Grison
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+        {% endblock %}
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+        <div class="">
+            
+        {% block titlepage %}
+           <div class="clearfix"></div>
+        {% endblock %}
+        
+        <ul>
+        {% block action %}
+        {% endblock %} 
+        </ul>
+        
+        {% block body %}
+           <div class="clearfix"></div>
+        {% endblock %}
+        
+        {% block link %}
+            <div class="clearfix"></div>
+        {% endblock %}
+        </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        {% block footer %}
+        <footer>
+          <div class="pull-right">
+            Base de données e3s - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        {% endblock %}
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    {% block scripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('e3s/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('e3s/vendors/nprogress/nprogress.js') }}"></script>
+    <!-- Chart.js -->
+    <script src="{{ asset('e3s/vendors/Chart.js/dist/Chart.min.js') }}"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="{{ asset('e3s/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('e3s/vendors/iCheck/icheck.min.js') }}"></script>
+    <!-- Skycons -->
+    <script src="{{ asset('e3s/vendors/skycons/skycons.js') }}"></script>
+    <!-- DateJS -->
+    <script src="{{ asset('e3s/vendors/DateJS/build/date.js') }}"></script>
+    <!-- Switchery -->
+    <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
+    
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('e3s/js/e3s.js') }}"></script>
+    <script src="{{ asset('e3s/js/custom.min.js') }}"></script>
+    <script src="{{ asset('e3s/js/queries.js') }}"></script>
+    <script src="{{ asset('e3s/js/plots.js') }}"></script>
+    <script src="{{ asset('e3s/js/bootgrid.formatters.js') }}"></script>
+    <!-- Bootgrid -->
+    <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
+    <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.js') }}"></script>
+    <!-- Mustache templating engine -->
+    <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
+    
+    {% endblock %}
+    
+  </body>
+
+</html>

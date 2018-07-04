@@ -1,0 +1,5 @@
+bbees_e3s:
+    resource: "@BbeesE3sBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

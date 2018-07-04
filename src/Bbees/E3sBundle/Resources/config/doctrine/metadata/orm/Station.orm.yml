@@ -1,0 +1,158 @@
+Station:
+    type: entity
+    table: station
+    indexes:
+        IDX_9F39F8B143D4E2C:
+            columns:
+                - commune_fk
+        IDX_9F39F8B1B1C3431A:
+            columns:
+                - pays_fk
+        IDX_9F39F8B14D50D031:
+            columns:
+                - point_acces_voc_fk
+        IDX_9F39F8B1C23046AE:
+            columns:
+                - habitat_type_voc_fk
+        IDX_9F39F8B1E86DBD90:
+            columns:
+                - precision_lat_long_voc_fk
+    uniqueConstraints:
+        cu_station_cle_primaire:
+            columns:
+                - code_station
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeStation:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_station
+        nomStation:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_station
+        latDegDec:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            column: lat_deg_dec
+        longDegDec:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            column: long_deg_dec
+        altitudeM:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: altitude_m
+        infoLocalisation:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: info_localisation
+        infoDescription:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: info_description
+        commentaireStation:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_station
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        communeFk:
+            targetEntity: Commune
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                commune_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        paysFk:
+            targetEntity: Pays
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                pays_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pointAccesVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                point_acces_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        habitatTypeVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                habitat_type_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        precisionLatLongVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                precision_lat_long_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

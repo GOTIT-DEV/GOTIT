@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Esteffectuepars list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for estEffectuePar in estEffectuePars %}
+            <tr>
+                <td><a href="{{ path('esteffectuepar_show', { 'id': estEffectuePar.id }) }}">{{ estEffectuePar.id }}</a></td>
+                <td>{% if estEffectuePar.dateCre %}{{ estEffectuePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if estEffectuePar.dateMaj %}{{ estEffectuePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ estEffectuePar.userCre }}</td>
+                <td>{{ estEffectuePar.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('esteffectuepar_show', { 'id': estEffectuePar.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('esteffectuepar_edit', { 'id': estEffectuePar.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('esteffectuepar_new') }}">Create a new estEffectuePar</a>
+        </li>
+    </ul>
+{% endblock %}

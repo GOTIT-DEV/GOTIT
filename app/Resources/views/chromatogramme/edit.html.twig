@@ -1,0 +1,74 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : CHROMATOGRAMME #}
+
+{% block body %}
+    
+    {{ parent() }}              
+ 
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+// Personne Modal Action spécifiques
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+ </script>
+ 
+<script type="text/javascript">  
+//  interface Formulaire
+    $(document).ready(function(){
+         {% if action == 'edit'  %}  
+           // L'ajout d'un bouton Back to the pcr
+            addBackToRelatedRecord('chromatogramme', 'pcr', "{{'title.pcr'|trans}}");
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", false); 
+             }); 
+        {% endif %}
+        {% if action == 'new'  %} 
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
+             }); 
+            // fonctionnalités spécifiques : generation automatiquement du  codeChromato
+            setCodeChromato();
+            $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').change(function (e) { setCodeChromato();}) 
+            $('#bbees_e3sbundle_chromatogramme_numYas').keyup(function (e) { setCodeChromato();}) 
+            // La fonction qui genere automatiquement le codeCollecte
+            function setCodeChromato() {
+                var code = '';
+                var primerSelected = $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk option:selected').text();
+                var numYAS = $('#bbees_e3sbundle_chromatogramme_numYas').val();
+                if(numYAS == '') numYAS = "{{'Num yas'|trans}}";
+                code = numYAS + '|'+ primerSelected ;
+                $('#bbees_e3sbundle_chromatogramme_codeChromato').val(code);
+            }
+        {% endif %}           
+    });
+</script>
+
+{% endblock %}

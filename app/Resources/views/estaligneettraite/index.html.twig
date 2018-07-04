@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Estaligneettraites list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for estAligneEtTraite in estAligneEtTraites %}
+            <tr>
+                <td><a href="{{ path('estaligneettraite_show', { 'id': estAligneEtTraite.id }) }}">{{ estAligneEtTraite.id }}</a></td>
+                <td>{% if estAligneEtTraite.dateCre %}{{ estAligneEtTraite.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if estAligneEtTraite.dateMaj %}{{ estAligneEtTraite.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ estAligneEtTraite.userCre }}</td>
+                <td>{{ estAligneEtTraite.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('estaligneettraite_show', { 'id': estAligneEtTraite.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('estaligneettraite_edit', { 'id': estAligneEtTraite.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('estaligneettraite_new') }}">Create a new estAligneEtTraite</a>
+        </li>
+    </ul>
+{% endblock %}

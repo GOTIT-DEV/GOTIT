@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+{% form_theme edit_form 'form-theme.html.twig'   %}
+
+{# initialise la variable entityname à partir du nom de la route : 'entityname_index'  #}
+{% set route = app.request.attributes.get('_route') %}
+{% set entityname = route|split('_')[0] %}
+{% set action = route|split('_')[1] %}
+{% set actioncontroller = route|split('_')[1] %}
+{% set route_new =  [entityname, '_new']|join  %} 
+{% set route_index =  [entityname, '_index']|join  %}
+{% if (app.request.query.get('nameFk') is defined) and (app.request.query.get('nameFk') is not null) and  (app.request.query.get('nameFk') !='')%}
+   {% set nameFk =  app.request.query.get('nameFk')  %} 
+   {% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %} 
+   {% set idFk = app.request.query.get('idFk') %} 
+{% endif %}
+{% if (app.request.query.get('valid') is defined and app.request.query.get('valid')!='' )%} 
+    {% set flagvalid = app.request.query.get('valid') %}  
+    {% else %}
+        {% if (valid is defined and valid == 1 )%} 
+            {% set flagvalid = valid %}  
+        {% else %}
+            {% set flagvalid = 0 %} 
+        {% endif %}
+{% endif %}
+
+
+{% block titlepage %}  
+    <div class="page-title">
+      <div class="title_left">
+        <h1>
+            {% if  flagvalid == 1 and actioncontroller != 'new'%} <i class="glyphicon glyphicon-ok"></i>  {% endif %}
+            {{['title.',entityname ]|join|trans}}
+        </h1>
+      </div>
+      <div class="title_right">
+      </div>
+    </div>            
+    <div class="clearfix"></div>
+{% endblock %}   
+
+{% block body %}
+    
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">           
+        <div class="x_content">                      
+          <br />
+            {% set dateNow = "now"|date('Y-m-d H:i:s',timezone="Europe/Paris")  %}
+            {{ form_start(edit_form) }}
+            {{ form_errors(edit_form) }}
+            {% if edit_form.dateMaj %}{{ form_widget(edit_form.dateMaj, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %}
+            {% if edit_form.dateCre and edit_form.dateCre is empty  and edit_form.dateCre == '' %} 
+                {{ form_widget(edit_form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
+                {% else %}
+                {{ form_widget(edit_form.dateCre, {'attr': {'style': 'display:none '} }) }}
+            {% endif %} 
+            {% if nameFk is defined and action == 'new' and formNameFk %}  {{  form_row( attribute(edit_form, nameFk), {'value' : idFk  } ) }} {% endif %}
+            {{ form_widget(edit_form) }} 
+            </br>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                 <button type="submit" class="btn btn-round btn-success " value="Create" >{{'buton.Valid'|trans}}</button> 
+                 <a href="{{ path(route_index) }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a>
+                 {% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
+                    <a href="{{ path(route_index) }}?searchPatern={{ app.request.query.get('searchPatern') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
+                 {% endif %}
+                 {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
+                     {% if nameFk is defined %}
+                    <a href="{{ path(route_index) }}?nameFk={{nameFk}}&idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
+                    {% else %}
+                    <a href="{{ path(route_index) }}?idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
+                     {% endif %}
+                 {% endif %}
+                </div>
+            </div>               
+        {{ form_end(edit_form) }}
+        </div>            
+
+        </div>
+      </div>
+    </div>                     
+{% endblock %}
+
+

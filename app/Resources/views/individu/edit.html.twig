@@ -1,0 +1,157 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : INDIVIDU #}
+
+{% block body %}
+    
+    {{ parent() }}   
+    
+    <!-- Modal : myModalPersonne -->
+     <div id="myModalPersonne" class="modal" role="dialog">
+     <div class="modal-dialog">
+     <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h1 class="modal-title">Personne</h1>
+          </div>
+          <div class="modal-body">
+            <div id='content_to_change_personne'>
+                {{ render(controller('BbeesE3sBundle:Personne:newmodal')) }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+     </div>
+ 
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+// Personne Moadal Action spécifiques
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+// Actions Jquery     
+    $(document).ready(function(){                
+        // Modal myModalPersonne : Manage new Personne for est_identifie_pars
+        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
+                    ev.preventDefault();		
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_individu_especeIdentifiees');
+                    var index = $container.find(':input').length; 
+                    var $container = $('div#bbees_e3sbundle_individu_especeIdentifiees_0_estIdentifiePars');
+                    callAjax(form, $container, index);		
+	});        
+        // Collection especeIdentifiees (EspeceIdentifiee)
+        var $container = $('div#bbees_e3sbundle_individu_especeIdentifiees');   
+        addArrayCollectionButtonEmbed('bbees_e3sbundle_individu_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
+    });
+</script>
+<script type="text/javascript">  
+//  interface Formulaire
+    $(document).ready(function(){ 
+        // fonctionalités des champ date(s) & date_precision 
+        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
+        $('#bbees_e3sbundle_individu_especeIdentifiees_0_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_individu_especeIdentifiees_0', 'dateIdentification', message);
+        })
+        $('[for^=bbees_e3sbundle_individu_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_individu_especeIdentifiees_0', 'dateIdentification', message);
+        })
+        $('#bbees_e3sbundle_individu_especeIdentifiees_1_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_individu_especeIdentifiees_1', 'dateIdentification', message);
+        })
+        $('[for^=bbees_e3sbundle_individu_especeIdentifiees_1_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_individu_especeIdentifiees_1', 'dateIdentification', message);
+        })
+        // La fonction qui genere automatiquement le codeCollecte
+            function setCodeIndBiomol() {
+                var code = '';
+                var RefTaxonSelected = $('#bbees_e3sbundle_individu_especeIdentifiees_0_referentielTaxonFk option:selected').text();
+                var codeLot = $('#bbees_e3sbundle_individu_lotMaterielFk option:selected').text();
+                var codeCollecte = codeLot;
+                if (codeLot.split("|").length >1) codeCollecte = codeLot.split("|")[1];
+                var numIndBiomol = $('#bbees_e3sbundle_individu_numIndBiomol').val();
+                if (RefTaxonSelected == '') RefTaxonSelected = "{{'Choose a Taxon'|trans}}" ;
+                if (numIndBiomol == '') numIndBiomol = "{{'Num ind biomol'|trans}}";
+                //alert(RefTaxonSelected);
+                code = RefTaxonSelected + '_' + codeCollecte + '_' + numIndBiomol;
+                //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
+                $('#bbees_e3sbundle_individu_codeIndBiomol').val(code);
+            }
+        // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...           
+        {% if action == 'edit'  %}  
+            // L'ajout d'un bouton Back to the lotMateriel
+            addBackToRelatedRecord('individu', 'lotMateriel', "{{'title.lotmateriel'|trans}}");
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            $('#bbees_e3sbundle_individu_lotMaterielFk').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_individu"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_individu_lotMaterielFk').attr("disabled", false); 
+             }); 
+            // fonctionnalités spécifiques : generation automatiquement du  codeIndBiomol
+            /*$('#bbees_e3sbundle_individu_codeIndBiomol').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_individu"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_individu_codeIndBiomol').attr("disabled", false); 
+             });*/
+            //if ($('#bbees_e3sbundle_individu_codeIndBiomol').val() == '') {setCodeIndBiomol();}
+            $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { setCodeIndBiomol();})
+            $('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndBiomol();})
+            $('#bbees_e3sbundle_individu_numIndBiomol').keyup(function (e) { setCodeIndBiomol();})  
+        {% endif %}
+        {% if action == 'new'  %}  
+            $('#bbees_e3sbundle_individu_numIndBiomol').hide();
+            $('#bbees_e3sbundle_individu_codeIndBiomol').hide();
+            $('#bbees_e3sbundle_individu_codeIndTriMorpho').attr("disabled", true);  
+            $(document).on('submit','form[name="bbees_e3sbundle_individu"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_individu_codeIndTriMorpho').attr("disabled", false); 
+            });
+            // fonctionnalités spécifiques : generation automatiquement du  codeIndividuTriMorpho
+            setCodeIndTriMorpho();
+            $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { setCodeIndTriMorpho(); })
+            $('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndTriMorpho(); })
+            $('#bbees_e3sbundle_individu_codeTube').keyup(function (e) { setCodeIndTriMorpho(); }) 
+            // La fonction qui genere automatiquement le codeCollecte
+            function setCodeIndTriMorpho() {
+                var code = '';
+                var RefTaxonSelected = $('#bbees_e3sbundle_individu_especeIdentifiees_0_referentielTaxonFk option:selected').text();
+                var codeLot = $('#bbees_e3sbundle_individu_lotMaterielFk option:selected').text();
+                var codeCollecte = codeLot;
+                if (codeLot.split("|").length >1) codeCollecte = codeLot.split("|")[1];
+                var codeTube = $('#bbees_e3sbundle_individu_codeTube').val();
+                if (RefTaxonSelected == '') RefTaxonSelected = "{{'Choose a Taxon'|trans}}" ;
+                if (codeTube == '') codeTube = "{{'Code tube'|trans}}";
+                //alert(RefTaxonSelected);
+                code = RefTaxonSelected + '|' + codeCollecte + '[' + codeTube + ']';
+                //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
+                $('#bbees_e3sbundle_individu_codeIndTriMorpho').val(code);
+            }
+        {% endif %}
+
+    });
+</script>
+
+{% endblock %}

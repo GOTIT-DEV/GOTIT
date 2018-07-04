@@ -1,0 +1,21 @@
+importfiles.form: |
+      (1) Choisir le type de fichier CSV à importer
+
+
+      (2) Selectionner le fichier CSV à importer
+
+      le fichier csv doit être enregistrer avec les options :
+           - l'encodage des caractères en UTF-8 
+           - le "point virgule" comme délimiteur d'enregistrement
+           - les guillemets comme  délimteur des champs texte
+importfilesstation: |
+    INFO : Formulaire d'importation des données relatives à la table Station. Procédez par étapes : 
+    - intégrez les nouvelles données de références nécessaire aux données Station (templates Vov & Pays)
+    - intégrez les données des Stations (template Station)
+importfilescollecte: |
+    INFO : Formulaire d'importation des données relatives à la table Collecte. Procédez par étapes : 
+    - intégrez les  données relatives aux données Station (Programmes & Personne) 
+    - intégrez les nouvelles données de références nécessaire aux données Station (templates Voc & Référrentiel Taxon) *
+    - intégrez les données des Stations (template Collecte)
+    (*) cette étape est reservée au administrateur. En cas de nécéssité contactez un adminisrtateur de la base de données e3s
+ButtonBackToTheList: Back to the list

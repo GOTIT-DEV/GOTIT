@@ -1,0 +1,62 @@
+ACibler:
+    type: entity
+    table: a_cibler
+    indexes:
+        IDX_C0DF0CE4662D9B98:
+            columns:
+                - collecte_fk
+        IDX_C0DF0CE47B09E3BC:
+            columns:
+                - referentiel_taxon_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        collecteFk:
+            targetEntity: Collecte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                collecte_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        referentielTaxonFk:
+            targetEntity: ReferentielTaxon
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                referentiel_taxon_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Compositionlotmateriel</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ compositionLotMateriel.id }}</td>
+            </tr>
+            <tr>
+                <th>Nbindividus</th>
+                <td>{{ compositionLotMateriel.nbIndividus }}</td>
+            </tr>
+            <tr>
+                <th>Commentairecompolotmateriel</th>
+                <td>{{ compositionLotMateriel.commentaireCompoLotMateriel }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if compositionLotMateriel.dateCre %}{{ compositionLotMateriel.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if compositionLotMateriel.dateMaj %}{{ compositionLotMateriel.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ compositionLotMateriel.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ compositionLotMateriel.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('compositionlotmateriel_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('compositionlotmateriel_edit', { 'id': compositionLotMateriel.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

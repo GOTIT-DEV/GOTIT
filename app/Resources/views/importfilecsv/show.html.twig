@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Import File CSV - Message</h1>
+
+    
+    {{message|raw}}
+    
+    <ul>
+        <li>
+            <a href="{{ path('importfilestation_index') }}">Back to Import Station</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilecollecte_index') }}">Back to Import Collecte</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilelotmateriel_index') }}">Back to Import Lot Materiel</a>
+        </li>
+         <li>
+            <a href="{{ path('importfileindividulame_index') }}">Back to Import Individu & Lame</a>
+        </li>
+        <li>
+            <a href="{{ path('importfileadn_index') }}">Back to Import Adn</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilepcrchromato_index') }}">Back to Import Pcr-Chromato</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilesequenceassemblee_index') }}">Back to Import Sequence assemblee</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilesequenceassembleeext_index') }}">Back to Import Sequence assemblee Externe</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilemotu_index') }}">Back to Import Motu</a>
+        </li>
+        <li>
+            <a href="{{ path('importfilelotmaterielext_index') }}">Back to Import Lot materiel Externe</a>
+        </li>
+    </ul>
+{% endblock %}

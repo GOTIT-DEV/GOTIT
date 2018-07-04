@@ -1,0 +1,62 @@
+SequenceAssembleeEstRealisePar:
+    type: entity
+    table: sequence_assemblee_est_realise_par
+    indexes:
+        IDX_F6971BA85BE90E48:
+            columns:
+                - sequence_assemblee_fk
+        IDX_F6971BA8B53CD04C:
+            columns:
+                - personne_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        sequenceAssembleeFk:
+            targetEntity: SequenceAssemblee
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        personneFk:
+            targetEntity: Personne
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+ 
+{#  {% set entityname = edit_form.vars.name|split('_')[2] %} #}
+{% set route = app.request.attributes.get('_route') %}
+{% set entityname = route|split('_')[0] %}
+{% set route_index =  [entityname, '_index']|join  %}
+
+{% block body %}
+    <div class="page-title">
+      <div class="title_left">
+        <h1>{{entityname|capitalize}}</h1>
+      </div>
+      <div class="title_right">
+      </div>
+    </div>
+    
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">         
+            <div class="x_content">                      
+              <br />
+            {{ form_start(edit_form) }}
+            {{ form_errors(edit_form) }}
+                {{ form_widget(edit_form, { 'attr': {'readonly': 'readonly'} }) }}
+                 </br>
+                 <div class="clearfix"></div>
+                <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                 <a href="{{ path(route_index) }}" class="btn btn-round btn-primary">Back to the list</a>
+                 {% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
+                     <a href="{{ path(route_index) }}?searchPatern={{ app.request.query.get('searchPatern') }}" class="btn btn-round btn-primary  ">Back to the selection</a>
+                 {% else %}                 
+                 {% endif %}
+                </div>
+            </div>
+            {{ form_end(edit_form) }}
+            </div>            
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+// On récupère le block parent définit dans base.html.twig qui fait un appel à la librairie jquery dont on a besoin
+{{ parent() }}
+
+<script type="text/javascript">  
+    $(" :input").prop("disabled", true);
+</script>
+
+{% endblock %}

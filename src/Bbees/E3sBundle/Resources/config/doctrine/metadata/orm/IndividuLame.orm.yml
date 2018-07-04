@@ -1,0 +1,111 @@
+IndividuLame:
+    type: entity
+    table: individu_lame
+    indexes:
+        IDX_8DA827E2A30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_8DA827E22B644673:
+            columns:
+                - boite_fk
+        IDX_8DA827E25F2C6176:
+            columns:
+                - individu_fk
+    uniqueConstraints:
+        cu_individu_lame_cle_primaire:
+            columns:
+                - code_lame_coll
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeLameColl:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_lame_coll
+        libelleLame:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: libelle_lame
+        dateLame:
+            type: date
+            nullable: true
+            column: date_lame
+        nomDossierPhotos:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: nom_dossier_photos
+        commentaireLame:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_lame
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        boiteFk:
+            targetEntity: Boite
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                boite_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        individuFk:
+            targetEntity: Individu
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                individu_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

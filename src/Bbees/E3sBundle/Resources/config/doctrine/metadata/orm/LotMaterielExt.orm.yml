@@ -1,0 +1,126 @@
+LotMaterielExt:
+    type: entity
+    table: lot_materiel_ext
+    indexes:
+        IDX_EEFA43F3662D9B98:
+            columns:
+                - collecte_fk
+        IDX_EEFA43F3A30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_EEFA43F382ACDC4:
+            columns:
+                - nb_individus_voc_fk
+        IDX_EEFA43F3B0B56B73:
+            columns:
+                - pigmentation_voc_fk
+        IDX_EEFA43F3A897CC9E:
+            columns:
+                - yeux_voc_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeLotMaterielExt:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_lot_materiel_ext
+        dateCreationLotMaterielExt:
+            type: date
+            nullable: true
+            column: date_creation_lot_materiel_ext
+        commentaireLotMaterielExt:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_lot_materiel_ext
+        commentaireNbIndividus:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_nb_individus
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        collecteFk:
+            targetEntity: Collecte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                collecte_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        nbIndividusVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                nb_individus_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pigmentationVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                pigmentation_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        yeuxVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                yeux_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

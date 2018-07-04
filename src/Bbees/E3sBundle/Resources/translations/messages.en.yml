@@ -1,0 +1,327 @@
+column name: English_Libelle
+A faire: Sample status
+Accession number: Sequence accession number
+Accession number sqc ass ext: External sequence accession number
+Adn fk: DNA table
+Altitude m: Elevation m asl
+Annee debut: Starting year
+Annee fin: Ending year
+Annee source: Source year
+Boite fk: Box table
+Chromatogramme fk: Chromatogramme table
+Clade: Clade
+Code: Code
+Code adn: DNA code
+Code boite: Box code
+Code chromato: Chromato code
+Code collecte: Sample code
+Code collection voc fk: Collection code
+Code commune: Municipality code
+Code ind biomol: Specimen molecular code
+Code ind tri morpho: Specimen morphological code
+Code lame coll: Collection slide code
+Code lot materiel: Biological material code
+Code lot materiel ext: External biological material code
+Code pays: Country code
+Code pcr: PCR code
+Code programme: Program code
+Code source: Source code
+Code sqc alignement: Sequence alignment code
+Code sqc ass: Sequence code
+Code sqc ass ext: External sequence code
+Code sqc ass ext alignement: External sequence alignment code
+Code station: Site code
+Code taxon: Taxon code
+Code tube: Tube code
+Collecte fk: Sampling table
+Commentaire: Comments
+Commentaire adn: DNA comments
+Commentaire boite: Box comments
+Commentaire chromato: Chromato comments
+Commentaire collecte: Sampling comments
+Commentaire compo lot materiel: Biological material composition comments
+Commentaire conseil sqc: Sequencing advice
+Commentaire esp id: Identified species comments
+Commentaire etablissement: Institution comments
+Commentaire ind: Specimen comments
+Commentaire lame: Slide comments
+Commentaire lot materiel: Biological material comments
+Commentaire lot materiel ext: External biological material comments
+Commentaire motu: MOTU comments
+Commentaire nb individus: Number of specimens comments
+Commentaire personne: Person comments
+Commentaire programme: Program comments
+Commentaire ref: Taxon comments
+Commentaire source: Source comments
+Commentaire sqc ass: Sequence comments
+Commentaire sqc ass ext: External sequence comments
+Commentaire station: Site comments
+Commune fk: Municipality table
+Concentration ng microlitre: Concentration ng per micro litre
+Conductivite micro sie cm: Specific conductance (micro_sie_cm)
+Critere identification voc fk: Identification criterion
+Date adn: DNA date
+Date collecte: Sampling date
+Date cre: Creation date
+Date creation lot materiel ext: External biological material creation date
+Date creation sqc ass: Sequence creation date
+Date creation sqc ass ext: External sequence creation date
+Date identification: Identification date
+Date lame: Slide date
+Date lot materiel: Biological material date
+Date maj: Updating date
+Date motu: MOTU date
+Date pcr: PCR date
+Date precision voc fk: Date precision
+Detail pcr: PCR details
+Duree echantillonnage mn: Sampling duration
+Espece identifiee fk: Identified species table
+Etablissement fk: Institution table
+Family: Family
+Fixateur voc fk: Fixative
+Gene voc fk: Gene
+Gene voc fk: Gene
+Genus: Genus
+Habitat type voc fk: Habitat type
+Id: Identification number
+Individu fk: Specimen table
+Individu fk: Specimen table
+Individu fk: Specimen table
+Individu lame fk: Specimen slide table
+Info description: Site description
+Info localisation: Site location
+Lat deg dec: Latitude Dec Deg
+Leg voc fk: Donation
+Libelle: Name
+Libelle boite: Box name
+Libelle collection: Collection name
+Libelle lame: Slide name
+Libelle source: Source title
+Long deg dec: Longitude Dec Deg
+Lot materiel ext fk: External biological material table
+Lot materiel ext fk: External biological material table
+Lot materiel ext fk: External biological material table
+Lot materiel fk: Biological material table
+Lot materiel fk: Biological material table
+Lot materiel fk: Biological material table
+Lot materiel fk: Biological material table
+Lot materiel fk: Biological material table
+Methode extraction adn voc fk: DNA extraction method
+Methode motu voc fk: MOTU method
+Motu fk: MOTU table
+Nb individus: Number of specimens
+Nb individus voc fk: Number of specimens
+Nom commune: Municipality name
+Nom complet: Person full name
+Nom dossier photos: Photo folder name
+Nom etablissement: Institution name
+Nom fichier csv: csv file name
+Nom pays: Country name
+Nom personne: Person name
+Nom personne ref: Person name bis
+Nom programme: Program name
+Nom region: Region name
+Nom station: Site name
+Noms responsables: Program coordinator
+Num ind biomol: Specimen molecular number
+Num individu sqc ass ext: External sequence specimen number
+Num motu: MOTU number
+Num pcr: PCR number
+Num yas: YAS number
+Objectif: Targeted taxa
+Ordre: Order
+Origine sqc ass ext voc fk: External sequence origin
+Parent: Parent
+Pays fk: Country table
+Pcr fk: PCR table
+Personne fk: Person table
+Pigmentation voc fk: Pigmentation
+Pigmentation voc fk: Pigmentation
+Point acces voc fk: Access type
+Precision lat long voc fk: Coordinate precision
+Primer chromato voc fk: Chromato primer
+Primer pcr end voc fk: PCR primer reverse
+Primer pcr start voc fk: PCR primer forward
+Programme fk: Program table
+Qualite adn voc fk: DNA quality
+Qualite chromato voc fk: Chromato quality
+Qualite pcr voc fk: PCR quality
+Rank: Taxon rank
+Referentiel taxon fk: Taxa table
+Referentiel taxon fk: Taxa table
+Remarque pcr: PCR comments
+Sampling method voc fk: Sampling method
+Sequence assemblee ext fk: External sequence table
+Sequence assemblee fk: Sequence table
+Source fk: Source table
+Species: Species
+Specificite voc fk: PCR specificity
+Station fk: Site table
+Statut sqc ass voc fk: Sequence status
+Statut sqc ass voc fk: External sequence status
+Subclass: Subclass
+Subspecies: Subspecies
+Taxname: Taxon name
+Taxname ref: Taxon name synonym
+Taxon origine sqc ass ext: External sequence primary taxon
+Temperature c: Temperature (Celcius)
+Type boite voc fk: Box type
+Type collection voc fk: Collection type
+Type financeur: Funding agency
+Type individu voc fk: Specimen type
+User cre: Creation user name
+User maj: Updating user name
+Validity: Taxon validity
+Yeux voc fk: Vision
+Choose a Motu File: Select the MOTU File to import
+Choose a origineSqcAssExt: Choose an origine
+Choose a chromatogramme: Choose a chromatogramme
+Choose a statut: Choose a status
+Choose a status: Choose a status
+Choose a Person: Choose a person
+Choose a Etablissement: Choose an etablissement
+Choose a DNA:  Choose a DNA
+Choose a gene: Choose a gene
+Choose a quality: Choose a quality
+Choose a specificity: Choose a specificity
+Choose a primer start: Choose a primer start
+Choose a primer end: Choose a primer end
+Choose a Country: Choose a Country
+Choose a Commune: Choose a Municipality
+Choose an Habitat Type: Choose an Habitat Type
+Choose an Access Point: Choose an Access Point
+Choose a GPS Distance Quality: Choose a GPS Distance Quality
+Choose a Station: Choose a Station
+Choose a Sampling method: Choose a Sampling method
+Choose a Fixateur: Choose a Fixative
+Choose a Program: Choose a Program
+Choose a Taxon: Choose a Taxname
+Choose a Collecte: Choose a Collecte
+Choose a Pigmentation: Choose a Pigmentation
+Choose a Eye: Choose a Eye
+Choose a Box: Choose a Box
+Choose a Type: Choose a Type
+Choose a Lot Materiel: Choose a Lot Material
+Choose a Source: Choose a Source
+Choose an individu: Choose an individu
+Choose a method: Choose a method
+Choose a PCR: Choose a PCR
+Choose a primer: Choose a primer
+Choose a socitety: Choose a socitety
+Motu est genere pars: Is realized by
+Auto generated code: Auto generated code
+Code Chromato | Specificite : Code Chromato | Specificity
+Sqc ext est reference danss: Is published in
+Sqc ext est realise pars: Is realized by
+Sqc est publie danss: Is published in
+Sequence assemblee est realise pars: Is realized by
+Est aligne et traites: Is aligned with
+Lot materiel ext est realise pars: Is realized by
+Lot materiel ext est reference danss: Is published in
+Adn est realise pars: Is realized by
+Individu lame est realise pars: Is realized by
+Lot materiel est realise pars: Is realized by
+Espece identifiees: Identified specie(s)
+Composition lot materiels: Composition of lot material
+Est identifie pars: Is identified by
+Lot est publie danss: Is published in
+Pcr est realise pars: PCR is realised by
+A pour sampling methods: Sampling method(s)
+A pour fixateurs: Fixative(s)
+Est finance pars: Financial program(s)
+Est effectue pars: Is realized by
+A ciblers: Target(s)
+No: No
+Yes: Yes
+Personne: Person
+buton.NewVoc: Create a new vocabulary
+buton.NewReferentieltaxon: Create a new Taxname
+buton.NewPersonne: Create a new Person
+buton.NewEtablissement: Create a new Institution
+buton.NewProgramme: Create a new program
+buton.NewPays: Create a new country
+buton.NewMotu: Create a new MOTU
+buton.ImportMotu: Import a new set of MOTU and related data
+buton.NewSequenceassembleeext: Create a new Source Sequence
+buton.ImportSequenceassembleeext: Import a new set of Source Sequences and related data
+buton.NewSequenceassemblee: Create a new Sequence
+buton.ImportSequenceassemblee: Import a new set of Sequences and related data
+buton.NewCommune: Create a new Municipality
+buton.NewLotmaterielext: Create a new Source material
+buton.ImportLotmaterielext: Import a new set of Source material and related data
+buton.NewStation: Create a new Station
+buton.ImportStation: Import a new set of stations and related data
+buton.NewCollecte: Create a new Collecte
+buton.ImportCollecte: Import a new set of collectes and related data
+buton.NewLotmateriel: Create a new lot material
+buton.ImportLotmateriel: Import a new set of lots material and related data
+buton.NewIndividu: Create a new Individu
+buton.ImportIndividu: Import a new set of individus and related data
+buton.NewIndividulame: Create a new Slide
+buton.ImportIndividulame: Import a new set of slides and related data
+buton.NewAdn: Create a new DNA
+buton.ImportAdn: Import a new set of DNA and related data
+buton.NewPcr: Create a new PCR
+buton.ImportPcr: Import a new set of PCR and related data
+buton.NewChromatogramme: Create a new Chromatogramme
+buton.ImportChromatogramme: Import a new set of Chromatogrammes and related data
+buton.Valid: Valid
+buton.BackToTheSelection: Back to the selection
+buton.BackToTheList: Back to the list
+buton.showAllRecord: Show all records
+Envoyer: Import CSV file
+list.List code adn: List of DNA code(s)
+list.Date creation lot materiel: Date creation
+list.lastCodeSeqAss: Last code sequence
+list.lastStatutSeqAss: Last statut 
+list.lastCodeSeqAlignement: Last code alignement
+list.lastDateSeqAss: Last date sequence
+list.Date maj: Date Up
+list.Date cre: Date Cre
+list.Lat deg dec: Latitude
+list.Long deg dec: Longitude
+list.Liste taxons: List of taxname(s)
+list.Liste personnes: List of person(s)
+list.Last taxname: Last taxname
+list.Last identification date: Last id. date
+list.Last identification critere: Last id. criterium
+title.Dashboard: Dashboard
+title.Terrain: Working area
+title.station: Station
+title.collecte: Collect
+title.Analyse morphologique: Morphological analysis
+title.lotmateriel: Material
+title.individu: Individu
+title.individulame: Slide
+title.lotmaterielext: Source material
+title.Analyses génétiques: Genetic analysis
+title.adn: DNA
+title.pcr: PCR
+title.chromatogramme: Chromatogram
+title.Etude séquençage: Sequences analysis
+title.sequenceassemblee: E3S sequences
+title.sequenceassembleeext: Source sequences
+title.motu: MOTU
+title.Stock: Stock
+title.Source bibliographique: Bibliography sources
+title.Référentiels: Referential
+title.voc: Vocabulary
+title.referentieltaxon: Taxname
+title.personne: Person
+title.pays: Country
+title.commune: Municipality
+title.etablissement: Institution
+title.programme: Program
+title.Recherche bdd: Search in database
+alert.datePrecisionINCONNU:  date fields must be left blank 
+alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
+alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
+alert.datePrecisionJOUR:  All date fields have to be filled with the format JJ-MM-YYYY
+alert.BadFormatDate: Bad date format (JJ-MM-YYYY) or bad value (JJ=[1,31] MM=[1,12] YYYY=[1000,2999]
+
+
+
+
+
+
+

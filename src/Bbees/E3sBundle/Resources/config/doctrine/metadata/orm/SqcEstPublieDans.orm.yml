@@ -1,0 +1,62 @@
+SqcEstPublieDans:
+    type: entity
+    table: sqc_est_publie_dans
+    indexes:
+        IDX_BA97B9C4821B1D3F:
+            columns:
+                - source_fk
+        IDX_BA97B9C45BE90E48:
+            columns:
+                - sequence_assemblee_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        sourceFk:
+            targetEntity: Source
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sequenceAssembleeFk:
+            targetEntity: SequenceAssemblee
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

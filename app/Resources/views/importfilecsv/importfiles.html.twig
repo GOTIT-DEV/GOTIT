@@ -1,0 +1,88 @@
+{% extends 'importfilecsv.html.twig' %}
+
+{# retourne le nom de la route dans l'url #}
+{% set route_index = app.request.attributes.get('_route') %}
+{% set route_url = route_index|split('_')[0] %}
+
+{% block body %}
+    
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Import Files CSV </h3>
+      </div>
+      <div class="title_right">
+      </div>
+    </div>  
+    
+    <div class="clearfix"></div>
+        
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        
+          <div class="x_panel">
+            
+            <div class="x_content">                      
+              <br />
+                <div class="form-group">
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">
+                      {{'importfiles.form'|trans({},'importfiles')|nl2br}}
+                  </label>
+                    {{ form_start(form , { 'attr': {'class': 'form-horizontal form-label-left'} }) }}
+                    {{ form_errors(form) }}
+                    <div class="form-group">
+                        
+                    {% if (form.motuFk is defined) %}
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      {{ form_widget(form.motuFk, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    {% endif %}
+                    
+                     {% if (form.type_csv is defined) %}
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      {{ form_widget(form.type_csv, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      &nbsp;
+                    </div>
+
+                    {% if (form.fichier_motu is defined) %}
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      {{ form_widget(form.fichier_motu) }}
+                    </div>
+                    {% endif %}
+                    {% if (form.fichier is defined) %}
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      {{ form_widget(form.fichier) }}
+                    </div>
+                    {% endif %}
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                      &nbsp;
+                    </div>
+                     <div class="col-md-6 col-sm-6 col-xs-12 ">
+                        {{ form_widget( form.envoyer , { 'attr': {'class': 'btn btn-success'} }) }} 
+                      </div>
+                    </div>
+   
+                    <div class="ln_solid"></div>
+                    <div>
+                        {% if message is not empty %} 
+                            {{message|raw}} 
+                             {% else %}
+                            {{route_url|trans({},'importfiles')|nl2br}}     
+                        {% endif %}
+                    </div>
+                    {{ form_end(form) }}
+                 </div>
+    
+             </div>            
+          </div>
+                                
+      </div>
+    </div>
+             
+{% endblock %}

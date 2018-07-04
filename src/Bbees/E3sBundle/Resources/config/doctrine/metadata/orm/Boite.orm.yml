@@ -1,0 +1,107 @@
+Boite:
+    type: entity
+    table: boite
+    indexes:
+        IDX_7718EDEF9E7B0E1F:
+            columns:
+                - type_collection_voc_fk
+        IDX_7718EDEF41A72D48:
+            columns:
+                - code_collection_voc_fk
+        IDX_7718EDEF57552D30:
+            columns:
+                - type_boite_voc_fk
+    uniqueConstraints:
+        cu_boite_cle_primaire:
+            columns:
+                - code_boite
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeBoite:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_boite
+        libelleBoite:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: libelle_boite
+        libelleCollection:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: libelle_collection
+        commentaireBoite:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_boite
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        typeCollectionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type_collection_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        codeCollectionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                code_collection_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        typeBoiteVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type_boite_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

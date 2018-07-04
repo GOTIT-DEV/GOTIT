@@ -1,0 +1,151 @@
+EspeceIdentifiee:
+    type: entity
+    table: espece_identifiee
+    indexes:
+        IDX_49D19C8DFB5F790:
+            columns:
+                - critere_identification_voc_fk
+        IDX_49D19C8DA30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_49D19C8DCDD1F756:
+            columns:
+                - sequence_assemblee_ext_fk
+        IDX_49D19C8D40D80ECD:
+            columns:
+                - lot_materiel_ext_fk
+        IDX_49D19C8D54DBBD4D:
+            columns:
+                - lot_materiel_fk
+        IDX_49D19C8D7B09E3BC:
+            columns:
+                - referentiel_taxon_fk
+        IDX_49D19C8D5F2C6176:
+            columns:
+                - individu_fk
+        IDX_49D19C8D5BE90E48:
+            columns:
+                - sequence_assemblee_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateIdentification:
+            type: date
+            nullable: true
+            column: date_identification
+        commentaireEspId:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_esp_id
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        critereentificationVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                critere_identification_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sequenceAssembleeExtFk:
+            targetEntity: SequenceAssembleeExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_ext_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielExtFk:
+            targetEntity: LotMaterielExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_ext_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        referentielTaxonFk:
+            targetEntity: ReferentielTaxon
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                referentiel_taxon_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        individuFk:
+            targetEntity: Individu
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                individu_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sequenceAssembleeFk:
+            targetEntity: SequenceAssemblee
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

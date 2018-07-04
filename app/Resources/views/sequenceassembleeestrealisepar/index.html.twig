@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sequenceassembleeestrealisepars list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sequenceAssembleeEstRealisePar in sequenceAssembleeEstRealisePars %}
+            <tr>
+                <td><a href="{{ path('sequenceassembleeestrealisepar_show', { 'id': sequenceAssembleeEstRealisePar.id }) }}">{{ sequenceAssembleeEstRealisePar.id }}</a></td>
+                <td>{% if sequenceAssembleeEstRealisePar.dateCre %}{{ sequenceAssembleeEstRealisePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if sequenceAssembleeEstRealisePar.dateMaj %}{{ sequenceAssembleeEstRealisePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ sequenceAssembleeEstRealisePar.userCre }}</td>
+                <td>{{ sequenceAssembleeEstRealisePar.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sequenceassembleeestrealisepar_show', { 'id': sequenceAssembleeEstRealisePar.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sequenceassembleeestrealisepar_edit', { 'id': sequenceAssembleeEstRealisePar.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sequenceassembleeestrealisepar_new') }}">Create a new sequenceAssembleeEstRealisePar</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,121 @@
+Collecte:
+    type: entity
+    table: collecte
+    indexes:
+        IDX_55AE4A3DA30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_55AE4A3D50BB334E:
+            columns:
+                - leg_voc_fk
+        IDX_55AE4A3D369AB36B:
+            columns:
+                - station_fk
+    uniqueConstraints:
+        cu_collecte_cle_primaire:
+            columns:
+                - code_collecte
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeCollecte:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_collecte
+        dateCollecte:
+            type: date
+            nullable: true
+            column: date_collecte
+        dureeEchantillonnageMn:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: duree_echantillonnage_mn
+        temperatureC:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: temperature_c
+        conductiviteMicroSieCm:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: conductivite_micro_sie_cm
+        aFaire:
+            type: smallint
+            nullable: true
+            options:
+                unsigned: false
+            column: a_faire
+        commentaireCollecte:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_collecte
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        legVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                leg_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        stationFk:
+            targetEntity: Station
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                station_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,62 @@
+APourSamplingMethod:
+    type: entity
+    table: a_pour_sampling_method
+    indexes:
+        IDX_5A6BD88A29B38195:
+            columns:
+                - sampling_method_voc_fk
+        IDX_5A6BD88A662D9B98:
+            columns:
+                - collecte_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        samplingMethodVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sampling_method_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        collecteFk:
+            targetEntity: Collecte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                collecte_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

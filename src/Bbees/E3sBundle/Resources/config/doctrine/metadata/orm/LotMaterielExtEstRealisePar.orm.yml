@@ -1,0 +1,62 @@
+LotMaterielExtEstRealisePar:
+    type: entity
+    table: lot_materiel_ext_est_realise_par
+    indexes:
+        IDX_7D78636FB53CD04C:
+            columns:
+                - personne_fk
+        IDX_7D78636F40D80ECD:
+            columns:
+                - lot_materiel_ext_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        personneFk:
+            targetEntity: Personne
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielExtFk:
+            targetEntity: LotMaterielExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_ext_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

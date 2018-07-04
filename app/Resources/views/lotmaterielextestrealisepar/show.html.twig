@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lotmaterielextestrealisepar</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lotMaterielExtEstRealisePar.id }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if lotMaterielExtEstRealisePar.dateCre %}{{ lotMaterielExtEstRealisePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if lotMaterielExtEstRealisePar.dateMaj %}{{ lotMaterielExtEstRealisePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ lotMaterielExtEstRealisePar.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ lotMaterielExtEstRealisePar.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('lotmaterielextestrealisepar_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('lotmaterielextestrealisepar_edit', { 'id': lotMaterielExtEstRealisePar.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

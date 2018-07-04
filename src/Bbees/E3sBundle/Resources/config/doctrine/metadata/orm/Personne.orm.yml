@@ -1,0 +1,81 @@
+Personne:
+    type: entity
+    table: personne
+    indexes:
+        IDX_FCEC9EFE8441376:
+            columns:
+                - etablissement_fk
+    uniqueConstraints:
+        cu_personne_cle_primaire:
+            columns:
+                - nom_personne
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nomPersonne:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: nom_personne
+        nomComplet:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: nom_complet
+        nomPersonneRef:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: nom_personne_ref
+        commentairePersonne:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_personne
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        etablissementFk:
+            targetEntity: Etablissement
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                etablissement_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

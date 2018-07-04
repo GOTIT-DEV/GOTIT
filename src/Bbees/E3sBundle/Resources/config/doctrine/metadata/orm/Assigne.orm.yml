@@ -1,0 +1,94 @@
+Assigne:
+    type: entity
+    table: assigne
+    indexes:
+        IDX_4E79CB8DCDD1F756:
+            columns:
+                - sequence_assemblee_ext_fk
+        IDX_4E79CB8D40E7E0B3:
+            columns:
+                - methode_motu_voc_fk
+        IDX_4E79CB8D5BE90E48:
+            columns:
+                - sequence_assemblee_fk
+        IDX_4E79CB8D503B4409:
+            columns:
+                - motu_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        numMotu:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            column: num_motu
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        sequenceAssembleeExtFk:
+            targetEntity: SequenceAssembleeExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_ext_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        methodeMotuVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                methode_motu_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sequenceAssembleeFk:
+            targetEntity: SequenceAssemblee
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        motuFk:
+            targetEntity: Motu
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                motu_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

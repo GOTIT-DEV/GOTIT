@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sqcextestrealisepar</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sqcExtEstRealisePar.id }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if sqcExtEstRealisePar.dateCre %}{{ sqcExtEstRealisePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if sqcExtEstRealisePar.dateMaj %}{{ sqcExtEstRealisePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ sqcExtEstRealisePar.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ sqcExtEstRealisePar.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sqcextestrealisepar_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sqcextestrealisepar_edit', { 'id': sqcExtEstRealisePar.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

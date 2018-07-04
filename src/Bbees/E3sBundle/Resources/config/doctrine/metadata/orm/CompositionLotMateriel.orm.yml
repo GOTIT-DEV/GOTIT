@@ -1,0 +1,75 @@
+CompositionLotMateriel:
+    type: entity
+    table: composition_lot_materiel
+    indexes:
+        IDX_10A697444236D33E:
+            columns:
+                - type_individu_voc_fk
+        IDX_10A6974454DBBD4D:
+            columns:
+                - lot_materiel_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nbIndividus:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: nb_individus
+        commentaireCompoLotMateriel:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_compo_lot_materiel
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        typeIndividuVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type_individu_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

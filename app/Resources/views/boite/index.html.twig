@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Boites list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codeboite</th>
+                <th>Libelleboite</th>
+                <th>Libellecollection</th>
+                <th>Commentaireboite</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for boite in boites %}
+            <tr>
+                <td><a href="{{ path('boite_show', { 'id': boite.id }) }}">{{ boite.id }}</a></td>
+                <td>{{ boite.codeBoite }}</td>
+                <td>{{ boite.libelleBoite }}</td>
+                <td>{{ boite.libelleCollection }}</td>
+                <td>{{ boite.commentaireBoite }}</td>
+                <td>{% if boite.dateCre %}{{ boite.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if boite.dateMaj %}{{ boite.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ boite.userCre }}</td>
+                <td>{{ boite.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('boite_show', { 'id': boite.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('boite_edit', { 'id': boite.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('boite_new') }}">Create a new boite</a>
+        </li>
+    </ul>
+{% endblock %}

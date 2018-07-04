@@ -1,0 +1,52 @@
+Motu:
+    type: entity
+    table: motu
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nomFichierCsv:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_fichier_csv
+        dateMotu:
+            type: date
+            nullable: false
+            column: date_motu
+        commentaireMotu:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_motu
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

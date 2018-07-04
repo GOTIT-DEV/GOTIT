@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Esteffectuepar</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ estEffectuePar.id }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if estEffectuePar.dateCre %}{{ estEffectuePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if estEffectuePar.dateMaj %}{{ estEffectuePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ estEffectuePar.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ estEffectuePar.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('esteffectuepar_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('esteffectuepar_edit', { 'id': estEffectuePar.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

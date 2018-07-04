@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sqcextestrealisepars list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sqcExtEstRealisePar in sqcExtEstRealisePars %}
+            <tr>
+                <td><a href="{{ path('sqcextestrealisepar_show', { 'id': sqcExtEstRealisePar.id }) }}">{{ sqcExtEstRealisePar.id }}</a></td>
+                <td>{% if sqcExtEstRealisePar.dateCre %}{{ sqcExtEstRealisePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if sqcExtEstRealisePar.dateMaj %}{{ sqcExtEstRealisePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ sqcExtEstRealisePar.userCre }}</td>
+                <td>{{ sqcExtEstRealisePar.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sqcextestrealisepar_show', { 'id': sqcExtEstRealisePar.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('sqcextestrealisepar_edit', { 'id': sqcExtEstRealisePar.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sqcextestrealisepar_new') }}">Create a new sqcExtEstRealisePar</a>
+        </li>
+    </ul>
+{% endblock %}

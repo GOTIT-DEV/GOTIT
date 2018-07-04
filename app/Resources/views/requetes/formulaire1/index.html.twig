@@ -1,0 +1,250 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Assignations des MOTUs aux espèces</h1>
+    <hr>
+    <form id="main-form" action="#" class="row">
+        <fieldset>
+            <legend><h2>Paramètres de recherche</h2></legend>
+            <div class="col-xs-12 col-md-7 col-lg-6 col-lg-offset-1">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="form-check">
+
+                                    <strong>
+                                        Recherche par espèce
+                                    </strong>
+                                    <span class="pull-right">
+                                        <input class="switchbox pull-right" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked>
+                                        </span>
+                                        <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+                                        
+                                </div>
+                            </div>
+                            <div class="panel-body" id="taxa-select">
+                                {% include 'requetes/species.selector.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>Méthodes de délimitation</strong>
+                            </div>
+                            <div  id="method-form" class="panel-body form-horizontal"
+                                data-url="{{path('methodsindate')}}"
+                                data-spinner=".method-spinner" >
+                                {% include 'requetes/method.selector.html.twig' with {method_check_array: true} %}
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-5 col-lg-4">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Identification</strong>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label" for="niveau">Niveau d'identification</label><br/>
+                                <select name="niveau" id="id-level" class="form-control" width='100%'>
+                                    <option value="1">Lot matériel</option>
+                                    <option value="2">Individu</option>
+                                    <option value="3">Séquence</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-horizontal">
+                                <label>Critères d'identification</label>
+                                
+                                {% for critere in criteres %}
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-inline">
+                                            <label>
+                                                <input type="checkbox" name="criteres[]" value="{{critere.id}}" checked="checked">
+                                                {{critere.libelle}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row help-block">
+                                <span class="fa fa-info-circle fa-lg col-xs-1" style='min-height:100%'></span>
+                                <span id="help-criteres" class="col-xs-11">
+                                    Ne sélectionner aucun critère d'identification revient à tous les sélectionner
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="center-block">
+            <center>
+                <input type="submit" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
+            </center>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table id="result-table" class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                    <th data-column-id="taxname" data-formatter="taxonLink">Taxon</th>
+                    <th data-column-id="methode">Méthode</th>
+                    <th data-column-id="date_motu" data-formatter="date_format" data-searchable="false">Date Méthode</th>
+                    <th data-column-id="nb_seq" data-converter="numeric" data-searchable="false">Séquences</th>
+                    <th data-column-id="nb_motus" data-converter="numeric" data-searchable="false">MOTUs</th>
+                    <th data-column-id="id_methode" data-formatter="details" data-sortable="false" data-searchable="false">Détails</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="modal-container"></div>
+
+    {% verbatim %}
+    <template id="details-form-template">
+        <form class='details-form'>
+            <input type='hidden' name='taxon' value="{{ id }}"/>
+            <input type='hidden' name='methode' value="{{ id_methode }}"/>
+            <input type='hidden' name='date_motu' value="{{ id_date_motu }}"/>
+            <button type='submit' class='btn btn-xs btn-default command-details' data-toggle='modal' data-target='#detailsModal' data-row-id="{{ id }}">
+            <span class='fa fa-th-list'></span></button>
+        </form>
+    </template>
+    
+    {% endverbatim %}
+
+{% endblock %}
+
+{% block scripts %}
+
+    {{ parent() }}
+
+    <script>
+        function onGenusSelected() {
+            $("#submit-button").prop("disabled", true);
+            $("#taxon-spinner").removeClass("hidden");
+            $.post("{{path('speciesingenus')}}", {
+                genus: $('#genus').val()
+            }, function (response) {
+                var species = $('#species');
+                species.html('')
+                for (i = 0; i < response.data.length; i++) {
+                    species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
+                }
+                $("#submit-button").prop("disabled", false);
+                $("#taxon-spinner").addClass("hidden");
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            initSwitchery('.switchbox');
+
+            var niveau=0;
+            var criteres={};
+
+            var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0,-1);
+
+            onGenusSelected();
+            onDateMotuSelected("#method-form", "#submit-button", 'checkbox');
+
+            $('#taxaFilter').on('change', function () {
+                if (this.checked) {
+                    $(".taxa-select").prop('disabled', false);
+                }
+                else {
+                    $(".taxa-select").prop('disabled', true);
+                }
+            });
+
+            $('#genus').change(onGenusSelected);
+
+            $('#date_methode').change(function () {
+                onDateMotuSelected("#method-form", "#submit-button", "checkbox");
+            });
+
+            $("#result-table").bootgrid({
+                ajax: false,
+                caseSensitive: false,
+                multiSort: true,
+                formatters: {
+                    "details": bgDetailsForm,
+                    "date_format": bgDateFormat,
+                    'taxonLink': function(column, row) {
+                        {% verbatim %} 
+                        return Mustache.render(
+                            "<a href='" + referentieltaxon_url +  "{{id}}'>{{taxname}}</a>", 
+                            row );
+                        {% endverbatim %}
+                    }
+                }
+            }).on("loaded.rs.jquery.bootgrid", function (e) {
+                $(".details-form").submit(function (event) {
+                    event.preventDefault();
+                    console.log(criteres);
+                    var form_data = $(this).serializeArray();
+                    for (var i=0; i<criteres.length; i++){
+                        form_data.push({name: 'criteres[]', value: criteres[i]});
+                    }
+                    form_data.push({name: 'niveau', value: niveau});
+                    console.log(form_data);
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ path('detailsModal') }}",
+                        data: $.param(form_data),
+                        success: function (response) {
+                            $("#modal-container").html(response);
+                            $("#details-table").bootgrid({
+                                formatters:{
+                                    ncbiLink: function(column, row) {
+                                        return Mustache.render(
+                                            {%verbatim%}
+                                            "<a href='https://www.ncbi.nlm.nih.gov/nuccore/{{accession}}'>{{accession}}</a>",
+                                            {accession : row[column.id]}
+                                            {% endverbatim %}
+                                        );
+                                    }
+                                }
+                            });
+                            $("#detailsModal").modal('show');
+                        }
+                    });
+                });
+            });
+
+            $("#main-form").submit(function (event) {
+                event.preventDefault();
+                console.log(criteres);
+                var form_data = $(this).serialize();
+                console.log(form_data);
+                $.ajax({
+                    url: "{{ path('requete1') }}",
+                    type: "POST",
+                    data: form_data,
+                    success: function (response) {
+                        niveau = response.niveau;
+                        criteres = response.criteres;
+                        $("#result-table").bootgrid("clear");
+                        $("#result-table").bootgrid("append", response.rows);
+                        $("#result-table").bootgrid("reload");
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+{% endblock %}

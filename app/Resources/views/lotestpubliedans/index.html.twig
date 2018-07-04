@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lotestpubliedans list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lotEstPublieDan in lotEstPublieDans %}
+            <tr>
+                <td><a href="{{ path('lotestpubliedans_show', { 'id': lotEstPublieDan.id }) }}">{{ lotEstPublieDan.id }}</a></td>
+                <td>{% if lotEstPublieDan.dateCre %}{{ lotEstPublieDan.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if lotEstPublieDan.dateMaj %}{{ lotEstPublieDan.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ lotEstPublieDan.userCre }}</td>
+                <td>{{ lotEstPublieDan.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('lotestpubliedans_show', { 'id': lotEstPublieDan.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('lotestpubliedans_edit', { 'id': lotEstPublieDan.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('lotestpubliedans_new') }}">Create a new lotEstPublieDan</a>
+        </li>
+    </ul>
+{% endblock %}

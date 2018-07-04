@@ -1,0 +1,62 @@
+LotEstPublieDans:
+    type: entity
+    table: lot_est_publie_dans
+    indexes:
+        IDX_EA07BFA754DBBD4D:
+            columns:
+                - lot_materiel_fk
+        IDX_EA07BFA7821B1D3F:
+            columns:
+                - source_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sourceFk:
+            targetEntity: Source
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

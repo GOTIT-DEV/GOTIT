@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Apourfixateurs list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aPourFixateur in aPourFixateurs %}
+            <tr>
+                <td><a href="{{ path('apourfixateur_show', { 'id': aPourFixateur.id }) }}">{{ aPourFixateur.id }}</a></td>
+                <td>{% if aPourFixateur.dateCre %}{{ aPourFixateur.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if aPourFixateur.dateMaj %}{{ aPourFixateur.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ aPourFixateur.userCre }}</td>
+                <td>{{ aPourFixateur.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('apourfixateur_show', { 'id': aPourFixateur.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('apourfixateur_edit', { 'id': aPourFixateur.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('apourfixateur_new') }}">Create a new aPourFixateur</a>
+        </li>
+    </ul>
+{% endblock %}

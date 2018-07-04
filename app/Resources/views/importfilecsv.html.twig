@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block link %}
+    {# initialise la variable entityname à partir du nom de la route : 'importfilesentityname_index'  #}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set route_entity_index = route[11:] %}
+    {% set entityname = route_entity_index|split('_')[0] %}
+    <div class="clearfix"></div>
+    <br />
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="input-group" role="group">       
+                <div class="input-group-btn" role="group">  
+                   <button type="button" class="btn btn-primary  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Go to Import other set of files <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilesstation_index') }}">Go to Import Station</a> <br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilescollecte_index') }}">Go to Import Collecte</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfileslotmateriel_index') }}">Go to Import Lot Materiel</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilesindividu_index') }}">Go to Import Individu </a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilesindividulame_index') }}">Go to Import Lame</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfileslotmaterielext_index') }}">Go to Import Lot materiel Externe</a><br />
+                       <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilesadn_index') }}">Go to Import Adn</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilespcr_index') }}">Go to Import Pcr</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfileschromatogramme_index') }}">Go to Import Chromato</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilespcrchromato_index') }}">Go to Import Pcr-Chromato</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilessequenceassemblee_index') }}">Go to Import Sequence assemblee</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilessequenceassembleeext_index') }}">Go to Import Sequence assemblee Externe</a><br />
+                        <i class="fa fa-arrow-circle-o-right"> </i> 
+                            <a href="{{ path('importfilesmotu_index') }}">Go to Import Motu</a><br />
+                    </ul>         
+                </div>
+
+                <div class="input-group-btn" role="group"> 
+                    <a href="{{ path( route_entity_index) }}" class="btn  btn-primary" type="button" role="button">Back to the list of {{ entityname }}s</a> 
+                </div>
+            </div> 
+
+        </div> 
+
+
+    </div>
+{% endblock %}

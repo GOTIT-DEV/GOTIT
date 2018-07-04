@@ -1,0 +1,168 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : COLLECTE #}
+
+{% block body %}
+    {{ parent() }}
+            
+    <!-- Modal : myModalProgramme -->
+    <div id="myModalProgramme" class="modal" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h1 class="modal-title">Programme</h1>
+         </div>
+         <div class="modal-body">
+           <div id='content_to_change_programme'>
+                   {{ render(controller('BbeesE3sBundle:Programme:newmodal')) }}
+           </div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+    </div>           
+    <!-- Modal : myModalPersonne -->
+     <div id="myModalPersonne" class="modal" role="dialog">
+     <div class="modal-dialog">
+     <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h1 class="modal-title">Personne</h1>
+          </div>
+          <div class="modal-body">
+            <div id='content_to_change_personne'>
+                    {{ render(controller('BbeesE3sBundle:Personne:newmodal')) }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+     </div>
+                   
+{% endblock %}
+
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+//  Modal MyProgramme :  Actions spécifiques
+    $('#myModalProgramme').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_programme_codeProgramme').keyup(function (e) {
+            var modal = $(this);
+            var codeProgramme = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_programme_codeProgramme').val(codeProgramme);
+        })
+    })
+// Personne Modal Action spécifiques
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+        $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+// Actions Jquery     
+    $(document).ready(function(){       
+        // Modal myModalProgramme : manage  new Programme 
+        $(document).on('submit','form[name="bbees_e3sbundle_programme"]',function(ev){
+                    ev.preventDefault();
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_collecte_estFinancePars');
+                    var index = $container.find(':input').length;    
+                    callAjax(form, $container, index);	
+	});   
+        // Modal myModalPersonne : Manage new Personne  
+        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
+                    ev.preventDefault();		
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_collecte_estEffectuePars');
+                    var index = $container.find(':input').length; 
+                    callAjax(form, $container, index);		
+	});            
+        // Collection estFinancePars (Programme) 
+        var $container = $('div#bbees_e3sbundle_collecte_estFinancePars'); 
+        $('#bbees_e3sbundle_collecte_estFinancePars label').attr('class','invisible'); 
+        addArrayCollectionButton($container,"Programme",true);       
+        // Collection estEffectuePars (Personne)
+        var $container = $('div#bbees_e3sbundle_collecte_estEffectuePars'); 
+        $('#bbees_e3sbundle_collecte_estEffectuePars label').attr('class','invisible');  
+        addArrayCollectionButton($container,"Personne",true);              
+        // Collection aPourSamplingMethods (Voc)
+        var $container = $('div#bbees_e3sbundle_collecte_aPourSamplingMethods'); 
+        $('#bbees_e3sbundle_collecte_aPourSamplingMethods label').attr('class','invisible'); 
+        addArrayCollectionButton($container,"SamplingMethod");      
+        // Collection aPourFixateurs (Voc)
+        var $container = $('div#bbees_e3sbundle_collecte_aPourFixateurs'); 
+        $('#bbees_e3sbundle_collecte_aPourFixateurs label').attr('class','invisible'); 
+        addArrayCollectionButton($container,"Fixateur");   
+        // Collection aPourFixateurs (ACibler)
+        var $container = $('div#bbees_e3sbundle_collecte_aCiblers'); 
+        $('#bbees_e3sbundle_collecte_aCiblers label').attr('class','invisible');
+        addArrayCollectionButton($container,"ACibler");
+    });
+ </script>
+ 
+<script type="text/javascript">  
+//  interface Formulaire
+    $(document).ready(function(){
+        // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+        $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", true); 
+        $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+            // deverouillage des champ descativé pour permettre l enregistrement
+            $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", false); 
+         });         
+        // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+        $('#bbees_e3sbundle_collecte_stationFk').change(function (e) {              
+            setCodeCollecte();
+        })
+        // fonctionalités des champ date(s) & date_precision 
+        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
+        $('#bbees_e3sbundle_collecte_dateCollecte').change(function (e) { 
+            dateFormat('bbees_e3sbundle_collecte', 'dateCollecte', message);
+        })
+        $('[for^=bbees_e3sbundle_collecte_datePrecisionVocFk]').click(function (e) { 
+            if (dateDateprecision('bbees_e3sbundle_collecte','dateCollecte', message)) {setCodeCollecte();}
+        })                
+        {% if action == 'edit'  %} 
+        // L'ajout d'un bouton Back to  the station
+            addBackToRelatedRecord('collecte', 'station', "{{'title.station'|trans}}" );
+        {% endif %}
+        // La fonction qui genere automatiquement le codeCollecte
+        function setCodeCollecte() {
+            var codeCollecte = '';
+            var nomStation = $('#bbees_e3sbundle_collecte_stationFk option:selected').text();
+            codeCollecte = nomStation + '_';
+            var valueDatePrecision = $('input:checked').val();
+            var datePrecision = $('label[for=bbees_e3sbundle_collecte_datePrecisionVocFk_'+valueDatePrecision+']').text().trim();
+            var dateCollecteMonth = $('#bbees_e3sbundle_collecte_dateCollecte_month').val();
+            dateCollecteMonth =  (dateCollecteMonth < 10) ? '0'+dateCollecteMonth.toString() : dateCollecteMonth.toString();
+            var dateCollecteYear = $('#bbees_e3sbundle_collecte_dateCollecte_year').val();
+            if (datePrecision == 'INCONNU') {codeCollecte = codeCollecte + '000000';}
+            if (datePrecision == 'ANNEE' ) {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
+            if (datePrecision == 'MOIS' || datePrecision == 'JOUR') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
+            //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
+            $('#bbees_e3sbundle_collecte_codeCollecte').val(codeCollecte);
+        }
+    });
+</script>
+
+{% endblock %}

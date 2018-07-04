@@ -1,0 +1,117 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : STATION #}
+
+{% block body %}
+    {{ parent() }}
+            
+    <!-- Definition des Modal(s) -->
+    <div id="myModalCommune" class="modal" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Commune</h4>
+         </div>
+         <div class="modal-body">
+           <div id='content_to_change_station'>
+                   {{ render(controller('BbeesE3sBundle:Commune:newmodal' )) }}
+           </div>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+    </div>
+                   
+{% endblock %}
+
+
+{% block scripts %}
+{{ parent() }}
+
+<script type="text/javascript">  
+
+{% if edit_form.paysFk.vars.data.id is defined %}
+    {% set paysId = edit_form.paysFk.vars.data.id %}
+{% else %}  
+    {% set paysId = 0 %}
+{% endif %}
+    
+    var nbSelectPays = 0;  
+    $(document).ready(function(){
+        // MAJ du codeStation, nomStation
+        maj($('#bbees_e3sbundle_station_codeStation'));
+        maj($('#bbees_e3sbundle_station_nomStation'));          
+
+        // fonctionnalités spécifiques : affecte automatiquement le id du pays slectionné
+        var paysId = {{paysId}};
+        
+        // Generation automatique de la nouvell liste des communes filtrées par le pays qui a été selectionné           
+        $('#bbees_e3sbundle_station_paysFk').change(function (e) { 
+            if (nbSelectPays == 0 ) { //  memorisation  de la liste des communes 
+                $listeOptionCommune =  $('select#bbees_e3sbundle_station_communeFk').find('option');
+            }
+            var paysCode = $('#bbees_e3sbundle_station_paysFk option:selected').text();
+            var paysId = $('#bbees_e3sbundle_station_paysFk option:selected').val();           
+            $('#myModalCommune').find('#bbees_e3sbundle_commune_paysFk').val(paysId);
+            // modification de la liste déroulante des communes
+            var nbCommune = $("#bbees_e3sbundle_station_communeFk").length;
+            var newlisteCommune = '<option value="" selected="selected">{{'Choose a Commune'|trans}}</option>';          
+            var compt = 0;
+            $('select#bbees_e3sbundle_station_communeFk option').remove();
+            $listeOptionCommune.each(function() {
+                var communeInTab = $(this).text().split("|");
+                var communeVal = $(this).val();
+                var nbSeparateur = communeInTab.length;
+                if (nbSeparateur == 3 && communeInTab[2] == paysCode) { //  creation de la nouvelle liste des communes
+                    newlisteCommune = newlisteCommune+'<option value="'+communeVal+'" >'+$(this).text()+'</option>'; 
+                }
+                compt++;
+            });
+            nbSelectPays ++;
+            $('select#bbees_e3sbundle_station_communeFk').append(newlisteCommune);
+        })
+        
+        // Gestion de la modal Commune On ajoute le bouton "Add new Commune"
+        // 1) Ajout du bouton "Add new Commune"
+        var $container = $('select[id="bbees_e3sbundle_station_communeFk"]');
+        var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModalCommune">Add a new Commune</button></div></br>');
+        $addBoutonAdd.insertBefore($container);
+        // 2) Actions de la modal myModalCommune ; (i) mise en majuscule des champ nomCommune et nomRegion (ii) generation automatique du code commune
+        $('#myModalCommune').on('show.bs.modal', function (e) {
+            var modal = $(this);
+            $('#bbees_e3sbundle_commune_paysFk').attr("disabled", true); 
+            $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
+            $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
+                var modal = $(this);
+                var nomCommune = modal.val().toUpperCase();        
+                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
+                modal.val(nomCommune);
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+            })
+            $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
+                var modal = $(this);
+                var nomRegion = modal.val().toUpperCase();
+                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
+                modal.val(nomRegion);
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+            })
+            })  
+
+        // 3) Actions après la création d'une nouvelle Commune 
+        $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
+            $('#bbees_e3sbundle_commune_paysFk').attr("disabled", false); 
+            $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             
+            ev.preventDefault();		
+            var form = $(this);               
+            var $container = $('#bbees_e3sbundle_station_communeFk');    
+            callAjax(form, $container);
+	}); 
+               
+    });
+ </script>
+{% endblock %}

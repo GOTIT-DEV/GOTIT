@@ -1,0 +1,32 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : PAYS #}
+
+{% block body %}
+    
+    {{ parent() }}   
+
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+//  interface Formulaire
+$(document).ready(function(){
+        // L'ajout d'un bouton Back to the collecte
+        // MAJ du codeStation, nomStation
+        maj($('#bbees_e3sbundle_pays_codePays'));
+        maj($('#bbees_e3sbundle_pays_nomPays')); 
+        {% if action == 'edit'  %}  
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+        {% endif %}
+        {% if action == 'new'  %} 
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
+            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+        {% endif %}
+    });
+</script>
+
+{% endblock %}

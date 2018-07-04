@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Sources list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codesource</th>
+                <th>Anneesource</th>
+                <th>Libellesource</th>
+                <th>Commentairesource</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for source in sources %}
+            <tr>
+                <td><a href="{{ path('source_show', { 'id': source.id }) }}">{{ source.id }}</a></td>
+                <td>{{ source.codeSource }}</td>
+                <td>{{ source.anneeSource }}</td>
+                <td>{{ source.libelleSource }}</td>
+                <td>{{ source.commentaireSource }}</td>
+                <td>{% if source.dateCre %}{{ source.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if source.dateMaj %}{{ source.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ source.userCre }}</td>
+                <td>{{ source.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('source_show', { 'id': source.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('source_edit', { 'id': source.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('source_new') }}">Create a new source</a>
+        </li>
+    </ul>
+{% endblock %}

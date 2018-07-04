@@ -1,0 +1,151 @@
+SequenceAssembleeExt:
+    type: entity
+    table: sequence_assemblee_ext
+    indexes:
+        IDX_9E9F85CF9D3CDB05:
+            columns:
+                - gene_voc_fk
+        IDX_9E9F85CFA30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_9E9F85CF514D78E0:
+            columns:
+                - origine_sqc_ass_ext_voc_fk
+        IDX_9E9F85CF662D9B98:
+            columns:
+                - collecte_fk
+        IDX_9E9F85CF88085E0F:
+            columns:
+                - statut_sqc_ass_voc_fk
+    uniqueConstraints:
+        cu_sequence_assemblee_ext_cle_primaire:
+            columns:
+                - code_sqc_ass_ext
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeSqcAssExt:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: code_sqc_ass_ext
+        dateCreationSqcAssExt:
+            type: date
+            nullable: true
+            column: date_creation_sqc_ass_ext
+        accessionNumberSqcAssExt:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: accession_number_sqc_ass_ext
+        codeSqcAssExtAlignement:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: code_sqc_ass_ext_alignement
+        numIndividuSqcAssExt:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: num_individu_sqc_ass_ext
+        taxonOrigineSqcAssExt:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: taxon_origine_sqc_ass_ext
+        commentaireSqcAssExt:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_sqc_ass_ext
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        geneVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                gene_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        origineSqcAssExtVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                origine_sqc_ass_ext_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        collecteFk:
+            targetEntity: Collecte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                collecte_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        statutSqcAssVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                statut_sqc_ass_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

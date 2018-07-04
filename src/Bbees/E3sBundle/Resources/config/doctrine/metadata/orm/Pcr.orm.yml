@@ -1,0 +1,163 @@
+Pcr:
+    type: entity
+    table: pcr
+    indexes:
+        IDX_5B6B99369D3CDB05:
+            columns:
+                - gene_voc_fk
+        IDX_5B6B99368B4A1710:
+            columns:
+                - qualite_pcr_voc_fk
+        IDX_5B6B99366CCC2566:
+            columns:
+                - specificite_voc_fk
+        IDX_5B6B99362C5B04A7:
+            columns:
+                - primer_pcr_start_voc_fk
+        IDX_5B6B9936F1694267:
+            columns:
+                - primer_pcr_end_voc_fk
+        IDX_5B6B9936A30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_5B6B99364B06319D:
+            columns:
+                - adn_fk
+    uniqueConstraints:
+        cu_pcr_cle_primaire:
+            columns:
+                - code_pcr
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codePcr:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_pcr
+        numPcr:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: num_pcr
+        datePcr:
+            type: date
+            nullable: true
+            column: date_pcr
+        detailPcr:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: detail_pcr
+        remarquePcr:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: remarque_pcr
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        geneVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                gene_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        qualitePcrVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                qualite_pcr_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        specificiteVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                specificite_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        primerPcrStartVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                primer_pcr_start_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        primerPcrEndVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                primer_pcr_end_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        adnFk:
+            targetEntity: Adn
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                adn_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pcrestrealisepars list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pcrEstRealisePar in pcrEstRealisePars %}
+            <tr>
+                <td><a href="{{ path('pcrestrealisepar_show', { 'id': pcrEstRealisePar.id }) }}">{{ pcrEstRealisePar.id }}</a></td>
+                <td>{% if pcrEstRealisePar.dateCre %}{{ pcrEstRealisePar.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if pcrEstRealisePar.dateMaj %}{{ pcrEstRealisePar.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ pcrEstRealisePar.userCre }}</td>
+                <td>{{ pcrEstRealisePar.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pcrestrealisepar_show', { 'id': pcrEstRealisePar.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pcrestrealisepar_edit', { 'id': pcrEstRealisePar.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pcrestrealisepar_new') }}">Create a new pcrEstRealisePar</a>
+        </li>
+    </ul>
+{% endblock %}

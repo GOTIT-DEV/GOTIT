@@ -1,0 +1,97 @@
+Individu:
+    type: entity
+    table: individu
+    indexes:
+        IDX_5EE42FCE4236D33E:
+            columns:
+                - type_individu_voc_fk
+        IDX_5EE42FCE54DBBD4D:
+            columns:
+                - lot_materiel_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeIndBiomol:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: code_ind_biomol
+        codeIndTriMorpho:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_ind_tri_morpho
+        codeTube:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_tube
+        numIndBiomol:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: num_ind_biomol
+        commentaireInd:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_ind
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        typeIndividuVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type_individu_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

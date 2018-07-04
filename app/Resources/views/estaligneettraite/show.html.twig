@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Estaligneettraite</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ estAligneEtTraite.id }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if estAligneEtTraite.dateCre %}{{ estAligneEtTraite.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if estAligneEtTraite.dateMaj %}{{ estAligneEtTraite.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ estAligneEtTraite.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ estAligneEtTraite.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('estaligneettraite_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('estaligneettraite_edit', { 'id': estAligneEtTraite.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

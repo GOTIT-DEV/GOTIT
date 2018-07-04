@@ -1,0 +1,128 @@
+Adn:
+    type: entity
+    table: adn
+    indexes:
+        adn_code_adn:
+            columns:
+                - code_adn
+        cle_etrangere1:
+            columns:
+                - date_precision_voc_fk
+        cle_etrangere3:
+            columns:
+                - individu_fk
+        cle_etrangere:
+            columns:
+                - methode_extraction_adn_voc_fk
+        cle_etrangere2:
+            columns:
+                - boite_fk
+        IDX_1DCF9AF9C53B46B:
+            columns:
+                - qualite_adn_voc_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeAdn:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_adn
+        dateAdn:
+            type: date
+            nullable: true
+            column: date_adn
+        concentrationNgMicrolitre:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            column: concentration_ng_microlitre
+        commentaireAdn:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_adn
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        methodeExtractionAdnVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                methode_extraction_adn_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        individuFk:
+            targetEntity: Individu
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                individu_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        qualiteAdnVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                qualite_adn_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        boiteFk:
+            targetEntity: Boite
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                boite_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,62 @@
+EstAligneEtTraite:
+    type: entity
+    table: est_aligne_et_traite
+    indexes:
+        IDX_BD45639EEFCFD332:
+            columns:
+                - chromatogramme_fk
+        IDX_BD45639E5BE90E48:
+            columns:
+                - sequence_assemblee_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        chromatogrammeFk:
+            targetEntity: Chromatogramme
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                chromatogramme_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        sequenceAssembleeFk:
+            targetEntity: SequenceAssemblee
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sequence_assemblee_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

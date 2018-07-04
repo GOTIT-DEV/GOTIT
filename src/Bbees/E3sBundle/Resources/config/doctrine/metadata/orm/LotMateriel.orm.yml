@@ -1,0 +1,130 @@
+LotMateriel:
+    type: entity
+    table: lot_materiel
+    indexes:
+        IDX_BA1841A5A30C442F:
+            columns:
+                - date_precision_voc_fk
+        IDX_BA1841A5B0B56B73:
+            columns:
+                - pigmentation_voc_fk
+        IDX_BA1841A5A897CC9E:
+            columns:
+                - yeux_voc_fk
+        IDX_BA1841A5662D9B98:
+            columns:
+                - collecte_fk
+        IDX_BA1841A52B644673:
+            columns:
+                - boite_fk
+    uniqueConstraints:
+        cu_lot_materiel_cle_primaire:
+            columns:
+                - code_lot_materiel
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeLotMateriel:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_lot_materiel
+        dateLotMateriel:
+            type: date
+            nullable: true
+            column: date_lot_materiel
+        commentaireConseilSqc:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_conseil_sqc
+        commentaireLotMateriel:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_lot_materiel
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        datePrecisionVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                date_precision_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pigmentationVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                pigmentation_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        yeuxVocFk:
+            targetEntity: Voc
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                yeux_voc_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        collecteFk:
+            targetEntity: Collecte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                collecte_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        boiteFk:
+            targetEntity: Boite
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                boite_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

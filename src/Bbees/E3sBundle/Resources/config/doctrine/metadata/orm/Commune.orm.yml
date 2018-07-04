@@ -1,0 +1,74 @@
+Commune:
+    type: entity
+    table: commune
+    indexes:
+        IDX_E2E2D1EEB1C3431A:
+            columns:
+                - pays_fk
+    uniqueConstraints:
+        cu_commune_cle_primaire:
+            columns:
+                - code_commune
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeCommune:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_commune
+        nomCommune:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_commune
+        nomRegion:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_region
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        paysFk:
+            targetEntity: Pays
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                pays_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

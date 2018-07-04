@@ -1,0 +1,52 @@
+Etablissement:
+    type: entity
+    table: etablissement
+    uniqueConstraints:
+        cu_etablissement_cle_primaire:
+            columns:
+                - nom_etablissement
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nomEtablissement:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_etablissement
+        commentaireEtablissement:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_etablissement
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

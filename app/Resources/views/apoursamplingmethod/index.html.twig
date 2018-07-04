@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Apoursamplingmethods list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aPourSamplingMethod in aPourSamplingMethods %}
+            <tr>
+                <td><a href="{{ path('apoursamplingmethod_show', { 'id': aPourSamplingMethod.id }) }}">{{ aPourSamplingMethod.id }}</a></td>
+                <td>{% if aPourSamplingMethod.dateCre %}{{ aPourSamplingMethod.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if aPourSamplingMethod.dateMaj %}{{ aPourSamplingMethod.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ aPourSamplingMethod.userCre }}</td>
+                <td>{{ aPourSamplingMethod.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('apoursamplingmethod_show', { 'id': aPourSamplingMethod.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('apoursamplingmethod_edit', { 'id': aPourSamplingMethod.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('apoursamplingmethod_new') }}">Create a new aPourSamplingMethod</a>
+        </li>
+    </ul>
+{% endblock %}

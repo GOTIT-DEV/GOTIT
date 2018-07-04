@@ -1,0 +1,85 @@
+Programme:
+    type: entity
+    table: programme
+    uniqueConstraints:
+        cu_programme_cle_primaire:
+            columns:
+                - code_programme
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeProgramme:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_programme
+        nomProgramme:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+            column: nom_programme
+        nomsResponsables:
+            type: text
+            nullable: false
+            length: null
+            options:
+                fixed: false
+            column: noms_responsables
+        typeFinanceur:
+            type: string
+            nullable: true
+            length: 1024
+            options:
+                fixed: false
+            column: type_financeur
+        anneeDebut:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: annee_debut
+        anneeFin:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: annee_fin
+        commentaireProgramme:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_programme
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

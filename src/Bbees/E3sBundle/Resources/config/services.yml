@@ -1,0 +1,19 @@
+services:
+    bbees_e3s.import_file_csv:
+        class: Bbees\E3sBundle\Services\ImportFileCsv
+        arguments: ['@doctrine.orm.entity_manager']
+        
+    bbees_e3s.import_file_e3s:
+        class: Bbees\E3sBundle\Services\ImportFileE3s
+        arguments: ['@doctrine.orm.entity_manager','@bbees_e3s.import_file_csv']
+        
+    bbees_e3s.generic_function_e3s:
+        class: Bbees\E3sBundle\Services\GenericFunctionE3s
+        arguments: ['@doctrine.orm.entity_manager']
+        
+    bbees_e3s.query_builder_e3s:
+        class: Bbees\E3sBundle\Services\QueryBuilderService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    Bbees\E3sBundle\Services\QueryBuilderService: '@bbees_e3s.query_builder_e3s'
+     

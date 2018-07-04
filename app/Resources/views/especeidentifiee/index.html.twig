@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Especeidentifiees list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dateidentification</th>
+                <th>Commentaireespid</th>
+                <th>Datecre</th>
+                <th>Datemaj</th>
+                <th>Usercre</th>
+                <th>Usermaj</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for especeIdentifiee in especeIdentifiees %}
+            <tr>
+                <td><a href="{{ path('especeidentifiee_show', { 'id': especeIdentifiee.id }) }}">{{ especeIdentifiee.id }}</a></td>
+                <td>{% if especeIdentifiee.dateIdentification %}{{ especeIdentifiee.dateIdentification|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ especeIdentifiee.commentaireEspId }}</td>
+                <td>{% if especeIdentifiee.dateCre %}{{ especeIdentifiee.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if especeIdentifiee.dateMaj %}{{ especeIdentifiee.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ especeIdentifiee.userCre }}</td>
+                <td>{{ especeIdentifiee.userMaj }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('especeidentifiee_show', { 'id': especeIdentifiee.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('especeidentifiee_edit', { 'id': especeIdentifiee.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('especeidentifiee_new') }}">Create a new especeIdentifiee</a>
+        </li>
+    </ul>
+{% endblock %}

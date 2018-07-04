@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/lotmateriel/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/adn/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/pcr/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/sequenceassemblee/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/web/e3s/js/e3s.js</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/src/Bbees/E3sBundle/Services/ImportFileE3s.php</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/src/Bbees/E3sBundle/Resources/translations/messages.en.yml</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/individulame/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/collecte/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/src/Bbees/E3sBundle/Controller/SequenceAssembleeExtController.php</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/chromatogramme/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/lotmaterielext/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/app/Resources/views/individu/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_1/src/Bbees/E3sBundle/Controller/SequenceAssembleeController.php</file>
+        </group>
+    </open-files>
+</project-private>

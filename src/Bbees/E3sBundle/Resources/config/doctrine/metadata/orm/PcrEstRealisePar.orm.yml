@@ -1,0 +1,62 @@
+PcrEstRealisePar:
+    type: entity
+    table: pcr_est_realise_par
+    indexes:
+        IDX_1041853B2B63D494:
+            columns:
+                - pcr_fk
+        IDX_1041853BB53CD04C:
+            columns:
+                - personne_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        pcrFk:
+            targetEntity: Pcr
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                pcr_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        personneFk:
+            targetEntity: Personne
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Especeidentifiee</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ especeIdentifiee.id }}</td>
+            </tr>
+            <tr>
+                <th>Dateidentification</th>
+                <td>{% if especeIdentifiee.dateIdentification %}{{ especeIdentifiee.dateIdentification|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Commentaireespid</th>
+                <td>{{ especeIdentifiee.commentaireEspId }}</td>
+            </tr>
+            <tr>
+                <th>Datecre</th>
+                <td>{% if especeIdentifiee.dateCre %}{{ especeIdentifiee.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{% if especeIdentifiee.dateMaj %}{{ especeIdentifiee.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Usercre</th>
+                <td>{{ especeIdentifiee.userCre }}</td>
+            </tr>
+            <tr>
+                <th>Usermaj</th>
+                <td>{{ especeIdentifiee.userMaj }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('especeidentifiee_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('especeidentifiee_edit', { 'id': especeIdentifiee.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

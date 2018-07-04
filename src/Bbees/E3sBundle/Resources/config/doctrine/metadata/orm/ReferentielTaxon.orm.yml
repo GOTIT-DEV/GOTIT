@@ -1,0 +1,124 @@
+ReferentielTaxon:
+    type: entity
+    table: referentiel_taxon
+    uniqueConstraints:
+        cu_referentiel_taxon_cle_primaire:
+            columns:
+                - taxname
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        taxname:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        rank:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        subclass:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        ordre:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        family:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        genus:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        species:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        subspecies:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        validity:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: false
+        codeTaxon:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_taxon
+        commentaireRef:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_ref
+        objectif:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        clade:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        taxnameRef:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: taxname_ref
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

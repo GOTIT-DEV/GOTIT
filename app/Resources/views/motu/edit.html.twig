@@ -1,0 +1,89 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : MOTU #}
+
+{% block body %}
+    
+    {{ parent() }}   
+           
+    <!-- Modal : myModalPersonne -->
+     <div id="myModalPersonne" class="modal" role="dialog">
+     <div class="modal-dialog">
+     <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h1 class="modal-title">Personne</h1>
+          </div>
+          <div class="modal-body">
+            <div id='content_to_change_personne'>
+                    {{ render(controller('BbeesE3sBundle:Personne:newmodal')) }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+     </div>
+ 
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+// Personne Moadal Action spécifiques
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+// Actions Jquery     
+    $(document).ready(function(){         
+        // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
+        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
+                    ev.preventDefault();		
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_motu_motuEstGenerePars');
+                    var index = $container.find(':input').length; 
+                    callAjax(form, $container, index);		
+	});                    
+               
+        // Collection lotMaterielEstRealisePars (Personne)
+        var $container = $('div#bbees_e3sbundle_motu_motuEstGenerePars'); 
+        addArrayCollectionButton($container,"Personne",true);       
+ 
+    });
+ </script>
+ 
+<script type="text/javascript">  
+//  interface Formulaire
+$(document).ready(function(){
+        // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+        // fonctionalités des champ date(s) & date_precision 
+        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
+        $('#bbees_e3sbundle_motu_dateMotu').change(function (e) { 
+            dateFormat('bbees_e3sbundle_motu', 'dateMotu', message);
+        })
+        {% if action == 'edit'  %}  
+        {% endif %}
+        {% if action == 'new'  %}          
+        {% endif %}
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+Source:
+    type: entity
+    table: source
+    uniqueConstraints:
+        cu_source_cle_primaire:
+            columns:
+                - code_source
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codeSource:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: code_source
+        anneeSource:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: annee_source
+        libelleSource:
+            type: string
+            nullable: false
+            length: 2048
+            options:
+                fixed: false
+            column: libelle_source
+        commentaireSource:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: commentaire_source
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    lifecycleCallbacks: {  }

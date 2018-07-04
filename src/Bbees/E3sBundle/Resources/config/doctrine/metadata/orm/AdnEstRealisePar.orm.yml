@@ -1,0 +1,62 @@
+AdnEstRealisePar:
+    type: entity
+    table: adn_est_realise_par
+    indexes:
+        IDX_B786C5214B06319D:
+            columns:
+                - adn_fk
+        IDX_B786C521B53CD04C:
+            columns:
+                - personne_fk
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        dateCre:
+            type: datetime
+            nullable: true
+            column: date_cre
+        dateMaj:
+            type: datetime
+            nullable: true
+            column: date_maj
+        userCre:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_cre
+        userMaj:
+            type: bigint
+            nullable: true
+            options:
+                unsigned: false
+            column: user_maj
+    manyToOne:
+        adnFk:
+            targetEntity: Adn
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                adn_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        personneFk:
+            targetEntity: Personne
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
