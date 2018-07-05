@@ -98,7 +98,7 @@ class ChromatogrammeController extends Controller
              "vocGene.code" => $entity->getPcrFk()->getGeneVocFk()->getCode(), 
              "pcr.codePcr" => $entity->getPcrFk()->getCodePcr(),  
              "pcr.numPcr" => $entity->getPcrFk()->getNumPcr(), 
-             "vocQualiteChromato.code" => $entity->getQualiteChromatoVocFk()->getCode(),   
+             "vocQualiteChromato.code" => $entity->getQualiteChromatoVocFk()->getLibelle(),   
              "chromatogramme.dateCre" => $DateCre, "chromatogramme.dateMaj" => $DateMaj,
              "lastCodeSeqAss" => $lastCodeSeqAss,"lastStatutSeqAss" => $lastStatutSeqAss,"lastCodeSeqAlignement" => $lastCodeSeqAlignement,"lastDateSeqAss" => $lastDateSeqAss,
              "linkSequenceassemblee" => $linkSqcAss,);

@@ -62,17 +62,7 @@
                     var index = $container.find(':input').length; 
                     callAjax(form, $container, index);		
 	}); 
-
-        // Modal myModalPersonne : Manage new Personne for est_identifie_pars
-        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
-                    ev.preventDefault();		
-                    var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_adn_especeIdentifiees');
-                    var index = $container.find(':input').length; 
-                    var $container = $('div#bbees_e3sbundle_adn_especeIdentifiees_0_estIdentifiePars');
-                    callAjax(form, $container, index);		
-	});
-               
+              
         // Collection lotMaterielEstRealisePars (Personne)
         var $container = $('div#bbees_e3sbundle_adn_adnEstRealisePars'); 
         addArrayCollectionButton($container,"Personne",true); 

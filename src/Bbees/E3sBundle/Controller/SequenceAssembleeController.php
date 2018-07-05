@@ -116,15 +116,24 @@ class SequenceAssembleeController extends Controller
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
+            // récuparation de la liste concaténée des sources associés à la sqc
+            $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
+            $arrayListeSource = array();
+            foreach($query as $taxon) {
+                 $arrayListeSource[] = $taxon['source'];
+            }
+            $listSource = implode(", ", $arrayListeSource);
             //
             $tab_toshow[] = array("id" => $id, "sequenceAssemblee.id" => $id, 
              "individu.codeIndBiomol" => $codeIndBiomol,
              "sequenceAssemblee.codeSqcAlignement" => $entity->getCodeSqcAlignement(),
              "sequenceAssemblee.codeSqcAss" => $entity->getCodeSqcAss(),
+             "sequenceAssemblee.accessionNumber" => $entity->getAccessionNumber(),
              "vocGene.code" => $geneSeqAss, 
              "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),                 
              "sequenceAssemblee.dateCreationSqcAss" => $DateCreationSqcAss,   
-             "lastTaxname" => $lastTaxname,   
+             "lastTaxname" => $lastTaxname,  
+             "listSource" => $listSource, 
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
              "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj,  );

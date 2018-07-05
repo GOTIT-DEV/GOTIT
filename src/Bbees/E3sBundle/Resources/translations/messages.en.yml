@@ -173,6 +173,7 @@ User cre: Creation user name
 User maj: Updating user name
 Validity: Taxon validity
 Yeux voc fk: Vision
+Choose an option : Choose an option
 Choose a Motu File: Select the MOTU File to import
 Choose a origineSqcAssExt: Choose an origine
 Choose a chromatogramme: Choose a chromatogramme
@@ -270,6 +271,10 @@ buton.BackToTheSelection: Back to the selection
 buton.BackToTheList: Back to the list
 buton.showAllRecord: Show all records
 Envoyer: Import CSV file
+list.Date creation sqc ass ext: Date creation
+list.Accession number sqc ass ext: Ext. Acc. Number
+list.Accession number: Acc. Number
+list.List source: Source(s)
 list.List code adn: List of DNA code(s)
 list.Date creation lot materiel: Date creation
 list.lastCodeSeqAss: Last code sequence
@@ -288,7 +293,7 @@ list.Last identification critere: Last id. criterium
 title.Dashboard: Dashboard
 title.Terrain: Working area
 title.station: Station
-title.collecte: Collect
+title.collecte: Sampling
 title.Analyse morphologique: Morphological analysis
 title.lotmateriel: Material
 title.individu: Individu

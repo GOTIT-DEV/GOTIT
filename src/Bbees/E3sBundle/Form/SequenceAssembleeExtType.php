@@ -76,7 +76,7 @@ class SequenceAssembleeExtType extends AbstractType
                         'prototype' => true,
                         'prototype_name' => '__name__',
                         'by_reference' => false,
-                        'entry_options' => array('label' => false)
+                        'entry_options' => array('label' => false, 'refTaxonLabel' => 'codeTaxon')
                 )) 
                 ->add('sqcExtEstReferenceDanss', CollectionType::class , array(
                         'entry_type' => SqcExtEstReferenceDansEmbedType::class,

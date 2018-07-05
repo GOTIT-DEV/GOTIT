@@ -162,11 +162,12 @@ class LotMaterielExtController extends Controller
         $deleteForm = $this->createDeleteForm($lotMaterielExt);
         $editForm = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);
 
-        return $this->render('lotmaterielext/show.html.twig', array(
+        return $this->render('show.html.twig', array(
             'lotMaterielExt' => $lotMaterielExt,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+
     }
 
     /**

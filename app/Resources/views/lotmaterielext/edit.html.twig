@@ -58,7 +58,7 @@
         $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
                     ev.preventDefault();		
                     var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielEstRealisePars');
+                    var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars');
                     var index = $container.find(':input').length; 
                     callAjax(form, $container, index);		
 	}); 

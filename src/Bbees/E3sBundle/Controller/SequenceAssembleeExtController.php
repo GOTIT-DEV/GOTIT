@@ -88,19 +88,30 @@ class SequenceAssembleeExtController extends Controller
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
+            // récuparation de la liste concaténée des sources associés à la sqc
+            $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcExtEstReferenceDans seerd JOIN seerd.sourceFk s WHERE seerd.sequenceAssembleeExtFk = '.$id.'')->getResult();            
+            $arrayListeSource = array();
+            foreach($query as $taxon) {
+                 $arrayListeSource[] = $taxon['source'];
+            }
+            $listSource = implode(", ", $arrayListeSource);
             //
             $tab_toshow[] = array("id" => $id, "sequenceAssembleeExt.id" => $id, 
              "sequenceAssembleeExt.codeSqcAssExtAlignement" => $entity->getCodeSqcAssExtAlignement(),
              "sequenceAssembleeExt.codeSqcAssExt" => $entity->getCodeSqcAssExt(),
              "sequenceAssembleeExt.accessionNumberSqcAssExt" => $entity->getAccessionNumberSqcAssExt(),
              "vocGene.code" => $entity->getGeneVocFk()->getCode(), 
+             "vocDatePrecision.code" => $entity->getDatePrecisionVocFk()->getCode(), 
              "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),                 
              "sequenceAssembleeExt.dateCreationSqcAssExt" => $dateCreationSqcAssExt,  
              "sequenceAssembleeExt.taxonOrigineSqcAssExt" => $entity->getTaxonOrigineSqcAssExt(),
+             "sequenceAssembleeExt.numIndividuSqcAssExt" => $entity->getNumIndividuSqcAssExt(),
+             "vocStatutSqcAss.code"  => $entity->getStatutSqcAssVocFk()->getCode(),
              "collecte.codeCollecte" => $entity->getCollecteFk()->getCodeCollecte(),
              "lastTaxname" => $lastTaxname,   
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
+             "listSource" => $listSource, 
              "sequenceAssembleeExt.dateCre" => $DateCre, "sequenceAssembleeExt.dateMaj" => $DateMaj,  );
         }    
  

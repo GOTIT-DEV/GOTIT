@@ -2,6 +2,7 @@
 
 /*
  * This file is part of the Bundle E3s package.
+ * 
  *
  * (c) Philippe Grison <philippe.grison@mnhn.fr>
  * 

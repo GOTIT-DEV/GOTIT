@@ -94,30 +94,58 @@
     $(document).ready(function(){
         // fonctionalités des champ date(s) & date_precision 
         var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
-        $('#bbees_e3sbundle_sequenceassemblee_dateCreationSqcAss').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee', 'dateCreationSqcAss', message);
+        $('#bbees_e3sbundle_sequenceassembleeext_dateCreationSqcAss').change(function (e) { 
+            dateFormat('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAss', message);
         }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee', 'dateCreationSqcAss', message);
+        $('[for^=bbees_e3sbundle_sequenceassembleeext_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAss', message);
         }) 
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0', 'dateIdentification', message);
+        $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0', 'dateIdentification', message);
         }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0', 'dateIdentification', message);
+        $('[for^=bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0', 'dateIdentification', message);
         })
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1', 'dateIdentification', message);
+        $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_1_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_1', 'dateIdentification', message);
         }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1', 'dateIdentification', message);
+        $('[for^=bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_1_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_1', 'dateIdentification', message);
         }) 
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2', 'dateIdentification', message);
+        $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2', 'dateIdentification', message);
         }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2', 'dateIdentification', message);
+        $('[for^=bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2', 'dateIdentification', message);
         })
+        $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees').change(function (e) { setCodeSqcAssExt();})
+        $('#bbees_e3sbundle_sequenceassembleeext_collecteFk').change(function (e) {  setCodeSqcAssExt();})
+        $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk').change(function (e) {  setCodeSqcAssExt();})
+        $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk').change(function (e) {  setCodeSqcAssExt();})
+        $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
+        $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
+        // La fonction qui genere automatiquement le code Sqc Ass Ext
+        function setCodeSqcAssExt() {
+            var code = '';
+            var RefTaxonSelected = $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0_referentielTaxonFk option:selected').text();
+            var statut = $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk option:selected').text();
+            var codeCollecte = $('#bbees_e3sbundle_sequenceassembleeext_collecteFk option:selected').text();
+            var origine = $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk option:selected').text();
+            var numIndividu = $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').val();
+            var accessionNumber = $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').val();               
+            if (statut == '') statut = "{{'Choose a statut'|trans}}" ;
+            if (RefTaxonSelected == '') RefTaxonSelected = "{{'Choose a Taxon'|trans}}" ;
+            if (numIndividu == '') numIndividu = "{{'Num individu sqc ass ext'|trans}}";
+            if (accessionNumber == '') accessionNumber = "{{'Accession number sqc ass ext'|trans}}";
+            //alert(RefTaxonSelected);
+            if (statut=='VALIDEE'){
+                code =  RefTaxonSelected+'_'+codeCollecte+'_'+numIndividu+'_'+accessionNumber+'|'+origine ;
+            } else {
+                code =  statut+'_'+RefTaxonSelected+'_'+codeCollecte+'_'+numIndividu+'_'+accessionNumber+'|'+origine ;
+            }
+            $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').val(code);
+            $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').val(code);
+        }
         // fonctionnalités spécifiques : generation automatiquement du  codeChromato
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
@@ -128,13 +156,13 @@
             // on desactive le formulaire sequence assemblee
             //$("form[name=bbees_e3sbundle_sequenceassemblee] :input").prop("disabled", true);
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-            {% if valid is not defined  %}  $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').val("{{'Auto generated code'|trans}}"); {% endif %}
+            {% if valid is not defined  %}  setCodeSqcAssExt(); {% endif %}
             $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
                 // deverouillage des champ descativé pour permettre l enregistrement
                 $('bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", false); 
              }); 
-            {% if valid is not defined  %} $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').val("{{'Auto generated code'|trans}}"); {% endif %}
+            {% if valid is not defined  %} setCodeSqcAssExt(); {% endif %}
             $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
                 // deverouillage des champ descativé pour permettre l enregistrement

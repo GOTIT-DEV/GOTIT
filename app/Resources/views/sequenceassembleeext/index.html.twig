@@ -13,7 +13,7 @@
 {% endblock %} 
 
 {% block body %}     
-    {# definition des collones à afficher 
+    {# definition des collones à afficher  Num individu sqc ass ext
     RQ! pour les collones sortable suffixer les nom de champs par le nom des tables nomTable.nomChamp #} 
     <div class="table-responsive">        
     <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
@@ -22,13 +22,17 @@
                 <th data-column-id="sequenceAssembleeExt.id" data-type="numeric" data-visible="false">Id</th>
                 <th data-column-id="sequenceAssembleeExt.codeSqcAssExt" data-sortable="true" data-visible="true">{{'Code sqc ass ext'|trans}}</th> 
                 <th data-column-id="sequenceAssembleeExt.codeSqcAssExtAlignement" data-sortable="true" data-visible="false">{{'Code sqc ass ext alignement'|trans}}</th>
-                <th data-column-id="sequenceAssembleeExt.accessionNumberSqcAssExt" data-sortable="true">{{'Accession number sqc ass ext'|trans}}</th>
+                <th data-column-id="sequenceAssembleeExt.accessionNumberSqcAssExt" data-sortable="true">{{'list.Accession number sqc ass ext'|trans}}</th>
                 <th data-column-id="vocGene.code" data-sortable="true">{{'Gene voc fk'|trans}}</th>                
-                <th data-column-id="sequenceAssembleeExt.dateCreationSqcAssExt" data-type="date">{{'Date creation sqc ass ext'|trans}}</th>
+                <th data-column-id="sequenceAssembleeExt.dateCreationSqcAssExt" data-type="date">{{'list.Date creation sqc ass ext'|trans}}</th>
+                <th data-column-id="vocDatePrecision.code" data-sortable="true">{{'Date precision voc fk'|trans}}</th>  
                 <th data-column-id="lastTaxname" data-sortable="false" data-visible="true">{{'list.Last taxname'|trans}}</th>                 
                 <th data-column-id="lastdateIdentification" data-sortable="false" data-visible="false">{{'list.Last identification date'|trans}}</th>
                 <th data-column-id="sequenceAssembleeExt.taxonOrigineSqcAssExt" data-visible="false">{{'Taxon origine sqc ass ext'|trans}}</th>
                 <th data-column-id="collecte.codeCollecte" data-visible="false">{{'Code collecte'|trans}}</th>
+                <th data-column-id="sequenceAssembleeExt.numIndividuSqcAssExt" data-sortable="true" data-visible="false">{{'Num individu sqc ass ext'|trans}}</th>
+                <th data-column-id="vocStatutSqcAss.code" data-sortable="true" data-visible="false">{{'Statut sqc ass voc fk'|trans}}</th>
+                <th data-column-id="listSource" data-sortable="false" data-visible="false">{{'list.List source'|trans}}</th> 
                 <th data-column-id="sequenceAssembleeExt.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
                 <th data-column-id="sequenceAssembleeExt.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
                 <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">Show</th>
