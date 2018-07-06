@@ -153,8 +153,6 @@
             $("form[name=form] :input").prop("disabled", true);
         {% endif %}
         {% if action == 'new'  %}  
-            // on desactive le formulaire sequence assemblee
-            //$("form[name=bbees_e3sbundle_sequenceassemblee] :input").prop("disabled", true);
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             {% if valid is not defined  %}  setCodeSqcAssExt(); {% endif %}
             $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", true); 
