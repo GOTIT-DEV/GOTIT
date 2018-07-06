@@ -146,11 +146,11 @@ class SequenceAssembleeExtController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();            
             // on initialise le code sqcAlignement : setCodeSqcAssExtAlignement($codeSqcAlignement)
-            $codeSqcAssExt = $this->createCodeSqcAssExt($sequenceAssembleeExt);
-            $sequenceAssembleeExt->setCodeSqcAssExt($codeSqcAssExt);
+            //$codeSqcAssExt = $this->createCodeSqcAssExt($sequenceAssembleeExt);
+            //$sequenceAssembleeExt->setCodeSqcAssExt($codeSqcAssExt);
             // on initialise le code sqcAlignement : setCodeSqcAssExtAlignement($codeSqcAlignement)
-            $codeSqcAssExtAlignementExt = $this->createCodeSqcAssExtAlignement($sequenceAssembleeExt);
-            $sequenceAssembleeExt->setCodeSqcAssExtAlignement($codeSqcAssExtAlignementExt);
+            //$codeSqcAssExtAlignementExt = $this->createCodeSqcAssExtAlignement($sequenceAssembleeExt);
+            //$sequenceAssembleeExt->setCodeSqcAssExtAlignement($codeSqcAssExtAlignementExt);
             $em->persist($sequenceAssembleeExt);
             try {
                 $em->flush();
@@ -213,10 +213,6 @@ class SequenceAssembleeExtController extends Controller
             $service->DelArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssembleeExt, $especeIdentifiees);
             $service->DelArrayCollection('SqcExtEstReferenceDanss',$sequenceAssembleeExt, $sqcExtEstReferenceDanss);
             $service->DelArrayCollection('SqcExtEstRealisePars',$sequenceAssembleeExt, $sqcExtEstRealisePars);
-            //$em->persist($sequenceAssembleeExt); 
-            // on initialise le code sqcAlignement : setCodeSqcAssExtAlignement($codeSqcAlignement)
-            $codeSqcAssExtAlignementExt = $this->createCodeSqcAssExtAlignement($sequenceAssembleeExt);
-            $sequenceAssembleeExt->setCodeSqcAssExtAlignement($codeSqcAssExtAlignementExt);
             $em->persist($sequenceAssembleeExt);
             // flush
             try {

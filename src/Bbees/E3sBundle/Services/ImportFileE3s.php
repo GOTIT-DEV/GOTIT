@@ -3146,8 +3146,8 @@ class ImportFileE3s
                        }
                    }
                    // on adapte les format des long et lat
-                   if ($field == 'station.latDegDec' || $field == 'station.longDegDec') {$dataColCsv = floatval(str_replace(",", ".", $dataColCsv));}
-                   if ($field == 'station.altitudeM' ) {$dataColCsv = intval(str_replace(",", ".", $dataColCsv));}
+                   if ($field == 'station.latDegDec' || $field == 'station.longDegDec') {$dataColCsv = ($dataColCsv != '') ?  floatval(str_replace(",", ".", $dataColCsv)): null;}
+                   if ($field == 'station.altitudeM') {$dataColCsv = ($dataColCsv != '') ?  intval(str_replace(",", ".", $dataColCsv)) : null; }
                    // on enregistre la valeurs du champ
                    $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                    $entity->$method($dataColCsv);                     

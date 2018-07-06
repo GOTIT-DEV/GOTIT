@@ -102,6 +102,10 @@
             }
         // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...           
         {% if action == 'edit'  %}  
+            //  A PREVOIR : pour les rôles Membre-Projet & Membre-Collaborateur :
+            //  a) possibilité de créer le code_ind_biomol si son contenu est vide
+            //  b) verouillage du contenu du code_ind_biomol si il a déjà été  renseigné
+
             // L'ajout d'un bouton Back to the lotMateriel
             addBackToRelatedRecord('individu', 'lotMateriel', "{{'title.lotmateriel'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...

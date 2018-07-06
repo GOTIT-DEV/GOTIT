@@ -94,11 +94,11 @@
     $(document).ready(function(){
         // fonctionalités des champ date(s) & date_precision 
         var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
-        $('#bbees_e3sbundle_sequenceassembleeext_dateCreationSqcAss').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAss', message);
+        $('#bbees_e3sbundle_sequenceassembleeext_dateCreationSqcAssExt').change(function (e) { 
+            dateFormat('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAssExt', message);
         }) 
         $('[for^=bbees_e3sbundle_sequenceassembleeext_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAss', message);
+            dateDateprecision('bbees_e3sbundle_sequenceassembleeext', 'dateCreationSqcAssExt', message);
         }) 
         $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0_dateIdentification').change(function (e) { 
             dateFormat('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_0', 'dateIdentification', message);
@@ -149,8 +149,6 @@
         // fonctionnalités spécifiques : generation automatiquement du  codeChromato
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-            // on desactive le formulaire sequence assemblee
-            $("form[name=form] :input").prop("disabled", true);
         {% endif %}
         {% if action == 'new'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...

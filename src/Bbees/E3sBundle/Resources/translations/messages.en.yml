@@ -196,8 +196,8 @@ Choose a Station: Choose a Station
 Choose a Sampling method: Choose a Sampling method
 Choose a Fixateur: Choose a Fixative
 Choose a Program: Choose a Program
-Choose a Taxon: Choose a Taxname
-Choose a Collecte: Choose a Collecte
+Choose a Taxon: Choose a Taxon
+Choose a Collecte: Choose a Sampling
 Choose a Pigmentation: Choose a Pigmentation
 Choose a Eye: Choose a Eye
 Choose a Box: Choose a Box
@@ -311,7 +311,7 @@ title.Stock: Stock
 title.Source bibliographique: Bibliography sources
 title.Référentiels: Referential
 title.voc: Vocabulary
-title.referentieltaxon: Taxname
+title.referentieltaxon: Taxon
 title.personne: Person
 title.pays: Country
 title.commune: Municipality
