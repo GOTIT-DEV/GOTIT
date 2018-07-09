@@ -3,6 +3,7 @@
 namespace Bbees\E3sBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Source
@@ -77,7 +78,18 @@ class Source
      * @ORM\Column(name="user_maj", type="bigint", nullable=true)
      */
     private $userMaj;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SourceAEteIntegrePar", mappedBy="sourceFk", cascade={"persist"})
+     */
+    protected $sourceAEteIntegrePars;
+    
+    
+    
+    public function __construct()
+    {
+        $this->sourceAEteIntegrePars = new ArrayCollection();
+    }
 
 
     /**
@@ -280,5 +292,40 @@ class Source
     public function getUserMaj()
     {
         return $this->userMaj;
+    }
+
+    /**
+     * Add sourceAEteIntegrePar
+     *
+     * @param \Bbees\E3sBundle\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar
+     *
+     * @return Source
+     */
+    public function addSourceAEteIntegrePar(\Bbees\E3sBundle\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar)
+    {
+        $sourceAEteIntegrePar->setSourceFk($this);
+        $this->sourceAEteIntegrePars[] = $sourceAEteIntegrePar;
+
+        return $this;
+    }
+
+    /**
+     * Remove sourceAEteIntegrePar
+     *
+     * @param \Bbees\E3sBundle\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar
+     */
+    public function removeSourceAEteIntegrePar(\Bbees\E3sBundle\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar)
+    {
+        $this->sourceAEteIntegrePars->removeElement($sourceAEteIntegrePar);
+    }
+
+    /**
+     * Get sourceAEteIntegrePars
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSourceAEteIntegrePars()
+    {
+        return $this->sourceAEteIntegrePars;
     }
 }

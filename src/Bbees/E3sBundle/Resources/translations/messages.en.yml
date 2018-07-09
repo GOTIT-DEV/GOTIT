@@ -209,6 +209,7 @@ Choose a method: Choose a method
 Choose a PCR: Choose a PCR
 Choose a primer: Choose a primer
 Choose a socitety: Choose a socitety
+Source a ete integre pars: Is realized by
 Motu est genere pars: Is realized by
 Auto generated code: Auto generated code
 Code Chromato | Specificite : Code Chromato | Specificity
@@ -235,6 +236,10 @@ A ciblers: Target(s)
 No: No
 Yes: Yes
 Personne: Person
+buton.Import sqc assemblee publie: Source to sequence as file
+buton.Import lot materiel publie: Source to biological material as file
+buton.ImportSource: Import a new set of bibliography source
+buton.NewSource: Create a new bibliography source
 buton.NewVoc: Create a new vocabulary
 buton.NewReferentieltaxon: Create a new Taxname
 buton.NewPersonne: Create a new Person
@@ -308,6 +313,7 @@ title.sequenceassemblee: E3S sequences
 title.sequenceassembleeext: Source sequences
 title.motu: MOTU
 title.Stock: Stock
+title.source: Bibliography sources
 title.Source bibliographique: Bibliography sources
 title.Référentiels: Referential
 title.voc: Vocabulary

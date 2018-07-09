@@ -53,7 +53,7 @@ class SourceAEteIntegrePar
     /**
      * @var \Source
      *
-     * @ORM\ManyToOne(targetEntity="Source")
+     * @ORM\ManyToOne(targetEntity="Source", inversedBy="sourceAEteIntegrePars")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id")
      * })

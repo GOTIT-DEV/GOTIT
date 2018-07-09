@@ -1,21 +1,87 @@
-{% extends 'base.html.twig' %}
+{% extends 'edit.html.twig' %}
+
+{# EDIT : SOURCE #}
 
 {% block body %}
-    <h1>Source edit</h1>
+    
+    {{ parent() }} 
+    
+    <!-- Modal : myModalPersonne -->
+     <div id="myModalPersonne" class="modal" role="dialog">
+     <div class="modal-dialog">
+     <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h1 class="modal-title">Personne</h1>
+          </div>
+          <div class="modal-body">
+            <div id='content_to_change_personne'>
+                    {{ render(controller('BbeesE3sBundle:Personne:newmodal')) }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+     </div>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('source_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+// Personne Moadal Action spécifiques
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+// Actions Jquery     
+    $(document).ready(function(){         
+        // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
+        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
+                    ev.preventDefault();		
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_source_sourceAEteIntegrePars');
+                    var index = $container.find(':input').length; 
+                    callAjax(form, $container, index);		
+	}); 
+              
+        // Collection lotMaterielEstRealisePars (Personne)
+        var $container = $('div#bbees_e3sbundle_source_sourceAEteIntegrePars'); 
+        addArrayCollectionButton($container,"Personne",true); 
+
+    });
+ </script>
+ 
+<script type="text/javascript">  
+//  interface Formulaire
+$(document).ready(function(){
+
+        {% if action == 'edit'  %}  
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+        {% endif %}
+        {% if action == 'new'  %} 
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
+            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+        {% endif %}
+    });
+</script>
+
 {% endblock %}

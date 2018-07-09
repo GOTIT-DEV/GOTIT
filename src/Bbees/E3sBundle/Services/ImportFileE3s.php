@@ -26,6 +26,308 @@ class ImportFileE3s
        $this->importFileCsv = $importFileCsv ;
     }
 
+    /**
+    *  importCSVDataLotMaterielPublie($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.lot_materiel-publie
+    */ 
+    public function importCSVDataLotMaterielPublie($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataLotMaterielPublie = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielPublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataLotMaterielPublie as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
+            ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+            ->getQuery()
+            ->getResult();
+            //$query_source
+            $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
+            ->where('source.codeSource LIKE :code_source')
+            ->setParameter('code_source', $data["source.code_source"])
+            ->getQuery()
+            ->getResult();                
+            if (count($query_lot) == 0 || count($query_source) == 0) {
+                if (count($query_lot) == 0) $message .= "ERROR : le code lot materiel <b>".$data["code_lot_materiel"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+                if (count($query_source) == 0) $message .= "ERROR : le code source <b>".$data["source.code_source"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            } else {
+                // recherche du nombre de sequence_assemblee associée au chromato  id (cf. table EstAligneEtTraite)                    //$query_lepd = $em->createQuery('SELECT lepd.id as id_lepd FROM BbeesE3sBundle:LotEstPublieDans lepd JOIN lepd.sourceFk s WHERE lepd.lotMaterielFk = '.$query[0]['id_lot'].' AND s.codeSource = '.$data["source.code_source"])->getResult();                    
+                $query_lepd = $em->getRepository("BbeesE3sBundle:LotEstPublieDans")->createQueryBuilder('lepd')
+                        ->where('lepd.lotMaterielFk = :id_lot')
+                        ->setParameter('id_lot', $query_lot[0]->getId())
+                        ->andwhere('source.codeSource = :code_source')
+                        ->setParameter('code_source', $data["source.code_source"])
+                        ->leftJoin('BbeesE3sBundle:Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
+                        ->getQuery()
+                        ->getResult();              
+                if (count($query_lepd) != 0 ) {
+                    $message .= 'ERROR : le code source <b>'.$data["source.code_source"].'</b> existe déja dans la bdd pour le lot materiel : '.$data["code_lot_materiel"].' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+                } else {
+                    $entityRel = new \Bbees\E3sBundle\Entity\LotEstPublieDans();
+                    $method = "setSourceFk";
+                    $entityRel->$method($query_source[0]);
+                    $method = "setLotMaterielFk";
+                    $entityRel->$method($query_lot[0]);
+                    $entityRel->setDateCre($DateImport);
+                    $entityRel->setDateMaj($DateImport); 
+                    $em->persist($entityRel);
+                }                             
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataLotMaterielPublie). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
+    *  importCSVDataSqcAssembleePublie($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.sqc_assemblee-publie
+    */ 
+    public function importCSVDataSqcAssembleePublie($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataSqcAssembleePublie = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataSqcAssembleePublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_sqc_ass", "code_sqc_ass")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataSqcAssembleePublie as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_sa = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sa')
+            ->where('sa.codeSqcAss LIKE :code_sqc_ass')
+            ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
+            ->getQuery()
+            ->getResult();
+            //$query_source
+            $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
+            ->where('source.codeSource LIKE :code_source')
+            ->setParameter('code_source', $data["source.code_source"])
+            ->getQuery()
+            ->getResult();                
+            if (count($query_sa) == 0 || count($query_source) == 0) {
+                if (count($query_sa) == 0) $message .= "ERROR : le code s&quence assemblée <b>".$data["code_sqc_ass"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+                if (count($query_source) == 0) $message .= "ERROR : le code source <b>".$data["source.code_source"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            } else {
+                // recherche du nombre de sequence_assemblee associée au chromato  id (cf. table EstAligneEtTraite)                    //$query_lepd = $em->createQuery('SELECT lepd.id as id_lepd FROM BbeesE3sBundle:LotEstPublieDans lepd JOIN lepd.sourceFk s WHERE lepd.lotMaterielFk = '.$query[0]['id_lot'].' AND s.codeSource = '.$data["source.code_source"])->getResult();                    
+                $query_lepd = $em->getRepository("BbeesE3sBundle:SqcEstPublieDans")->createQueryBuilder('sepd')
+                        ->where('sepd.sequenceAssembleeFk = :id_sa')
+                        ->setParameter('id_sa', $query_sa[0]->getId())
+                        ->getQuery()
+                        ->getResult();              
+                if (count($query_lepd) != 0 ||  $query_sa[0]->getAccessionNumber() != '') {
+                    if (count($query_lepd) != 0)  $message .= 'ERROR : un code source existe déja dans la bdd pour la sequence assemblee: '.$data["code_sqc_ass"].' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+                    if ( $query_sa[0]->getAccessionNumber() != '')  $message .= 'ERROR :un accession number <b>'.$query_sa[0]->getAccessionNumber().'</b> existe déja dans la bdd pour la sequence assemblee : '.$data["code_sqc_ass"].' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>";    
+                } else {
+                    $method = "setAccessionNumber";
+                    $query_sa[0]->$method($data["accession_number"]);
+                    $query_sa[0]->setDateMaj($DateImport); 
+                    $entityRel = new \Bbees\E3sBundle\Entity\SqcEstPublieDans();
+                    $method = "setSourceFk";
+                    $entityRel->$method($query_source[0]);
+                    $method = "setSequenceAssembleeFk";
+                    $entityRel->$method($query_sa[0]);
+                    $entityRel->setDateCre($DateImport);
+                    $entityRel->setDateMaj($DateImport); 
+                    $em->persist($entityRel);
+                }                             
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataSqcAssembleePublie). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
+    *  importCSVDataSource($fichier)
+     * $fichier : le path vers le fichiers csv downloader
+     * importation des données csv : template source
+    */ 
+    public function importCSVDataSource($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvData = $importFileCsvService->readCSV($fichier);
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"adn", "adn.code_adn")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template adn </b>");             
+            exit;
+        }
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine   
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+        foreach($csvData as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $compt++;
+            # Enregistrement des données de collecte
+            $entity = new \Bbees\E3sBundle\Entity\Source();    
+            // on boucle sur l'ensemble des colonnes dont le nom commence par collecte.
+            foreach($columnByTable["source"] as $ColCsv){  
+                $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field'); // station.codeStation  
+                $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv],'tnrOx');
+                if ($dataColCsv !== $data[$ColCsv] ) {
+                    $message .= "ERROR : Des caractères spéciaux sont à supprimer dans <b>" .$data[$ColCsv]. '</b> <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
+                }
+                if ($dataColCsv === '') $dataColCsv = NULL;
+                $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag pour savoir si 1) il s'agit d'une clés étrangère 
+                if (!$flag_foreign) { // cas ou il n'esiste pas de parentheses = pas de table liée
+                    $varfield = explode(".", $field)[1];
+                    // var_dump($ColCsv); var_dump($field); exit;
+                    if($ColCsv == 'source.code_source') { // On teste pour savoir si le adn.code_source a déja été créé. 
+                        $record_entity = $em->getRepository("BbeesE3sBundle:Source")->findOneBy(array("codeSource" => $dataColCsv)); 
+                        if($record_entity !== NULL){ 
+                           $message .= "ERROR : le code code_source <b>".$data[$ColCsv]."</b> existe déjà dans la bdd. <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
+                        }
+                    }
+                    
+                    // on adapte les format des types float
+                    if ($ColCsv == 'source.annee_source' && !is_null($dataColCsv)) {$dataColCsv = intval(str_replace(",", ".", $dataColCsv));}
+                    // on adapte les formats de date
+                    // on enregistre la valeurs du champ
+                    $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
+                    $entity->$method($dataColCsv);                     
+                }
+                if($flag_foreign){ // cas d'une foreign key (cas ou il existe des parenthèses dans le nom de champ) 
+                    $varfield = explode(".", strstr($field, '(', true))[1];
+                    $linker = explode('.', trim($foreign_content[0],"()"));  // {commune,nom_commune}
+                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); // Commune
+                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); // nomCommune
+                    if (!is_null($dataColCsv)) {
+                        // On teste pour savoir si il s'agit d'une foreign key de la table Voc de la forme:  parentVocFk ou parentVocAliasFk
+                        $varfield_parent = strstr($varfield, 'Voc', true);
+                        if (!$varfield_parent) {
+                        $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                        } else {
+                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                        }  
+                        if($foreign_record === NULL){  
+                           switch ($foreign_table) {
+                                case "Voc":
+                                    if ($data[$ColCsv] == '')  {
+                                        $foreign_record = NULL;
+                                    }  else {
+                                      $message .= "ERROR : ".$foreign_table.".".$foreign_field.".".$varfield_parent." <b>[" . $data[$ColCsv]. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";                                 
+                                    }                             
+                                    break;   
+                                default:
+                                   $message .= "ERROR : ".$foreign_table.".".$foreign_field ." <b>[" . $data[$ColCsv]. "]</b> INCONNU <br> ligne ". (string)($l+2) . ": " . join(';', $data). "<br>";
+                            }
+                         } else {
+                            $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
+                            $entity->$method($foreign_record);
+                        }
+                    }
+                }                
+            }
+            $entity->setDateCre($DateImport);
+            $entity->setDateMaj($DateImport);
+            $em->persist($entity);
+            
+            # Enregistrement du  SourceAEteIntegrePar                    
+             foreach($columnByTable["source_a_ete_integre_par"] as $ColCsv){   
+                $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv],'tnrOx');
+                if ($dataColCsv !== $data[$ColCsv] ) {
+                    $message .= "ERROR : Des caractères spéciaux sont à supprimer dans <b>" .$data[$ColCsv]. '</b> <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
+                }
+                $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field'); // station.codeStation                
+                $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag pour savoir si 1) il s'agit d'une clés étrangère                 
+                $varfield = explode(".", strstr($field, '(', true))[1];
+                $linker = explode('.', trim($foreign_content[0],"()"));  // {personne,nom_personne}
+                $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); // Personne
+                $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); // nomPersonne
+                $tab_foreign_field = explode("$",$dataColCsv); // On  transforme le contenu du champ dans un tableau
+                if($flag_foreign && trim($dataColCsv) != ''){ 
+                    foreach($tab_foreign_field as $val_foreign_field){ 
+                        $val_foreign_field = trim($val_foreign_field);
+                        $entityRel = new \Bbees\E3sBundle\Entity\SourceAEteIntegrePar();
+                        $method = "setSourceFk";
+                        $entityRel->$method($entity);
+                        // On teste pour savoir si il s'agit d'une foreign key de la table Voc de la forme:  parentVocFk ou parentVocAliasFk
+                        $varfield_parent = strstr($varfield, 'Voc', true);
+                        if (!$varfield_parent) {
+                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                        } else {
+                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                        }  
+                        if($foreign_record === NULL){  
+                           switch ($foreign_table) {
+                                case "Voc":
+                                    if ($data[$ColCsv] == '')  {
+                                        $foreign_record = NULL;
+                                    }  else {
+                                      $message .= "ERROR : ".$foreign_table.".".$foreign_field.".".$varfield_parent." <b>[" . $data[$ColCsv]. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";                                 
+                                    }                             
+                                    break; 
+                                default:
+                                   $message .= "ERROR : ".$foreign_table.".".$foreign_field ." <b>[" . $val_foreign_field. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
+                            }
+                         } else {
+                            $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
+                            $entityRel->$method($foreign_record);                               
+                        }  
+                        $entityRel->setDateCre($DateImport);
+                        $entityRel->setDateMaj($DateImport); 
+                        $em->persist($entityRel);
+                    }
+                } 
+             }                         
+        }      
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvData). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
     
     /**
     *  importCSVDataPcrChromato($fichier)
@@ -1996,7 +2298,7 @@ class ImportFileE3s
     *  importCSVDataMotuFile($fichier)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
-     * importation des données csv : template motu
+     * importation des données csv : template import.motu-assigne
     */ 
     public function importCSVDataMotuFile($fichier,\Bbees\E3sBundle\Entity\Motu $motu)
     {
@@ -3858,173 +4160,6 @@ class ImportFileE3s
         } else {
             return $info.'</br>'.$message;
         }
-    }
-     
-    /**
-    *  importCSVDataSource($fichier)
-    * importation des données csv : template source
-    * $fichier : le path vers le fichiers csv downloader
-    */ 
-    public function importCSVDataSource($fichier)
-    {     
-        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
-        $csvData = $importFileCsvService->readCSV($fichier);
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template source </b>");             
-            exit;
-        }
-        $DateImport= $importFileCsvService->GetCurrentTimestamp();
-        $em = $this->entityManager;    // appel du manager de Doctrine  
-        $compt = 0;
-        $message = '';
-        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');            
-        foreach($csvData as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
-            $compt++;
-            $entity = new \Bbees\E3sBundle\Entity\Source();
-            if (array_key_exists("source" ,$columnByTable)) {
-               foreach($columnByTable["source"] as $ColCsv){  
-                   $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field'); // station.codeStation                
-                   $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag pour savoir si 1) il s'agit d'une clés étrangère  
-                   $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv],'tnrOx');
-                   if ($dataColCsv !== $data[$ColCsv] ) {
-                       $message .= "ERROR : Des caractères spéciaux sont à supprimer dans <b>" .$data[$ColCsv]. '</b> <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
-                   } 
-                   if (!$flag_foreign) { // cas ou il n'esiste pas de parentheses = pas de table liée
-                       $varfield = explode(".", $field)[1];
-                       if($field == 'source.codeSource') { // On teste pour savoir si le code_programme a déja été créé. 
-                           $record_entity = $em->getRepository("BbeesE3sBundle:Source")->findOneBy(array("codeSource" => $dataColCsv)); 
-                           if($record_entity !== NULL){ 
-                              $message .= "ERROR : le code Source <b>".$data[$ColCsv].'</b> existe déjà dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-                           }
-                       }
-                       if ($dataColCsv === '') $dataColCsv = NULL; // si il n'y a pas de valeur on initialise la valeur a NULL
-                         // on adapte les formats
-                       if ($ColCsv == 'source.date_integration_source' ) {
-                       // ajuste le date incomplete du type m/Y ou Y en 01/m/Y ou 01/01/Y
-                       if ($dataColCsv != ''){
-                           if (count(explode("/",$dataColCsv))== 2) $dataColCsv = "01/".$dataColCsv;
-                           if (count(explode("/",$dataColCsv))== 1) $dataColCsv = "01/01/".$dataColCsv;
-                           $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
-                           if (!$eventDate) {
-                               $message .= "ERROR : le format de date n est pas valide  <b>".$data[$ColCsv]."-".$dataColCsv."</b> du type d/m/Y: <br> ligne ".(string)($l+2).": ".join(';', $data)."<br>";
-                               $dataColCsv = NULL; 
-                           } else {
-                               $tabdate = explode("/",$dataColCsv);
-                               if (checkdate($tabdate[1], $tabdate[0], $tabdate[2])) {
-                                   $dataColCsv = date_format($eventDate, 'Y-m-d');
-                                   $dataColCsv = new \DateTime($dataColCsv);
-                               } else {
-                                   $message .= "ERROR : le format de date n est pas correcte <b>".$data[$ColCsv]."-".$dataColCsv."</b> du type d/m/Y: <br> ligne ".(string)($l+2).": ".join(';', $data)."<br>";
-                                   $dataColCsv = NULL; 
-                               }
-                           }
-                           //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
-                       } else {
-                         $dataColCsv = NULL;  
-                       }
-                   }
-                      $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
-                      $entity->$method($dataColCsv);   // on enregistre la valeurs du champ                        
-                   }
-                   if($flag_foreign){ 
-                       $varfield = explode(".", strstr($field, '(', true))[1];
-                       $linker = explode('.', trim($foreign_content[0],"()"));  // {commune,nom_commune}
-                       $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); // Commune
-                       $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); // nomCommune
-                       // On teste pour savoir si il s'agit d'une foreign key de la table Voc de la forme:  parentVocFk ou parentVocAliasFk
-                       $varfield_parent = strstr($varfield, 'Voc', true);
-                       if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
-                       } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
-                       }  
-                       if($foreign_record === NULL){  
-                          switch ($foreign_table) {
-                                case "Voc":
-                                    if ($data[$ColCsv] == '')  {
-                                        $foreign_record = NULL;
-                                    }  else {
-                                      $message .= "ERROR : ".$foreign_table.".".$foreign_field.".".$varfield_parent." <b>[" . $data[$ColCsv]. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";                                 
-                                    }                             
-                                    break; 
-                               default:
-                                  $message .= "ERROR : ".$foreign_table.".".$foreign_field." <b>[" . $data[$ColCsv]. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
-                           }
-                        } else {
-                           $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
-                           $entity->$method($foreign_record);
-                       } 
-                   } 
-               }
-               $entity->setDateCre($DateImport);
-               $entity->setDateMaj($DateImport);
-               $em->persist($entity);    
-
-               # Enregistrement du source_a_ete_integre_par                     
-               foreach($columnByTable["source_a_ete_integre_par"] as $ColCsv){   
-                  $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv],'tnrOx');
-                  if ($dataColCsv !== $data[$ColCsv] ) {
-                      $message .= "ERROR : Des caractères spéciaux sont à supprimer dans <b>" .$data[$ColCsv]. '</b> <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
-                  }
-                  $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field'); // station.codeStation                
-                  $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag pour savoir si 1) il s'agit d'une clés étrangère                 
-                  $varfield = explode(".", strstr($field, '(', true))[1];
-                  $linker = explode('.', trim($foreign_content[0],"()"));  // {personne,nom_personne}
-                  $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); // Personne
-                  $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); // nomPersonne
-                  $tab_foreign_field = explode("$",$dataColCsv); // On  transforme le contenu du champ dans un tableau
-                  if($flag_foreign && trim($dataColCsv) != ''){ 
-                      foreach($tab_foreign_field as $val_foreign_field){ 
-                          $val_foreign_field = trim($val_foreign_field);
-                          $entityRel = new \Bbees\E3sBundle\Entity\SourceAEteIntegrePar();
-                          $method = "setSourceFk";
-                          $entityRel->$method($entity);
-                          // On teste pour savoir si il s'agit d'une foreign key de la table Voc de la forme:  parentVocFk ou parentVocAliasFk
-                          $varfield_parent = strstr($varfield, 'Voc', true);
-                          if (!$varfield_parent) {
-                            $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
-                          } else {
-                             $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
-                          }  
-                          if($foreign_record === NULL){  
-                             switch ($foreign_table) {
-                                case "Voc":
-                                    if ($data[$ColCsv] == '')  {
-                                        $foreign_record = NULL;
-                                    }  else {
-                                      $message .= "ERROR : ".$foreign_table.".".$foreign_field.".".$varfield_parent." <b>[" . $data[$ColCsv]. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";                                 
-                                    }                             
-                                    break; 
-                                default:
-                                    $message .= "ERROR : ".$foreign_table.".".$foreign_field ." <b>[" . $val_foreign_field. ']</b> INCONNU <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
-                              }
-                           } else {
-                              $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
-                              $entityRel->$method($foreign_record);                               
-                          }  
-                          $entityRel->setDateCre($DateImport);
-                          $entityRel->setDateMaj($DateImport); 
-                          $em->persist($entityRel);
-                      }
-                  } 
-               }                
-           } else {
-              return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
-              exit;
-           }    
-       }        
-       if ($message ==''){
-           try {
-               $flush = $em->flush();
-               return "Import de ". count($csvData). " données  ! </br>".$info;
-               } 
-           catch(\Doctrine\DBAL\DBALException $e) {
-               return 'probleme de FLUSH : </br>'.strval($e);
-           }          
-       } else {
-           return $info.'</br>'.$message;
-       }
     }
 
 }
