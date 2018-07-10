@@ -1,227 +1,227 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.requetes.html.twig' %}
 {% block body %}
-    <h1>Couverture géographique d'échantillonnage</h1>
-    <hr>
-    <div class='row' style='padding:10px'>
-        <div class="col-xs-12 col-lg-3 col-lg-offset-0">
-            <form id="main-form" action="#" >
-                <fieldset>
-                    <legend><h2 style='margin-bottom:18px'>Paramètres</h2></legend>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-12 col-lg-offset-0">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="form-check">
-                                        <strong>
-                                            Recherche par espèce
-                                        </strong>
-                                        <span class="pull-right">
-                                        <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked>
-                                        </span>
-                                        <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
-                                    </div>
-                                </div>
-                                <div class="panel-body" id="taxa-select">
-                                    {% include 'requetes/species.selector.html.twig' %}
-                                </div>
-                                <div class="panel-footer">
-                                <input type="submit" value="Rechercher" class="btn btn-primary btn-block" id="submit-button">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        
-                </fieldset>
-            </form>
-        </div>
-        <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
-            <h2>Résultats</h2>
-            <div class="table-responsive">
-                <table id="result-table" class="table table-condensed table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th data-column-id="taxname" data-formatter="taxonLink">Taxon</th>
-                            <th data-column-id="nb_sta" data-converter="numeric" data-searchable="false">Nombre stations</th>
-                            <th data-column-id="lmp" data-converter="numeric" data-searchable="false" >LMP (Deg)</th>
-                            <th data-column-id="mle" data-converter="float_number" data-searchable="false">MLE (Km)</th>
-                            <th data-column-id="nb_sta_co1" data-converter="numeric" data-searchable="false">Nombre stations [COI]</th>
-                            <th data-column-id="lmp_co1" data-converter="float_number" data-searchable="false" >LMP (Deg) [COI]</th>
-                            <th data-column-id="mle_co1" data-converter="float_number" data-searchable="false">MLE (Km) [COI]</th>
-                            <th data-column-id="id" data-formatter="details" data-searchable="false" data-sortable="false">Loc.</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+  <h1>Couverture géographique d'échantillonnage</h1>
+  <hr>
+  <div class='row' style='padding:10px'>
+    <div class="col-xs-12 col-lg-3 col-lg-offset-0">
+      <form id="main-form" action="#">
+        <fieldset>
+          <legend>
+            <h2 style='margin-bottom:18px'>Paramètres</h2>
+          </legend>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-12 col-lg-offset-0">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="form-check">
+                    <strong>
+                      Recherche par espèce
+                    </strong>
+                    <span class="pull-right">
+                      <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
+                    </span>
+                    <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+                  </div>
+                </div>
+                <div class="panel-body" id="taxa-select">
+                  {% include 'requetes/species.selector.html.twig' %}
+                </div>
+                <div class="panel-footer">
+                  <input type="submit" value="Rechercher" class="btn btn-primary btn-block" id="submit-button">
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-    
+          </div>
 
-    {% verbatim %}
+        </fieldset>
+      </form>
+    </div>
+    <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
+      <h2>Résultats</h2>
+      <div class="table-responsive">
+        <table id="result-table" class="table table-condensed table-hover table-striped">
+          <thead>
+            <tr>
+              <th data-column-id="taxname" data-formatter="taxonLink">Taxon</th>
+              <th data-column-id="nb_sta" data-converter="numeric" data-searchable="false">Nombre stations</th>
+              <th data-column-id="lmp" data-converter="numeric" data-searchable="false">LMP (Deg)</th>
+              <th data-column-id="mle" data-converter="float_number" data-searchable="false">MLE (Km)</th>
+              <th data-column-id="nb_sta_co1" data-converter="numeric" data-searchable="false">Nombre stations [COI]</th>
+              <th data-column-id="lmp_co1" data-converter="float_number" data-searchable="false">LMP (Deg) [COI]</th>
+              <th data-column-id="mle_co1" data-converter="float_number" data-searchable="false">MLE (Km) [COI]</th>
+              <th data-column-id="id" data-formatter="details" data-searchable="false" data-sortable="false">Loc.</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  {% verbatim %}
     <template id="details-form-template">
-        <form class='details-form'>
-            <input type='hidden' name='taxon' value="{{ id }}"/>
-            <input type='hidden' name='lmp_lm' value="{{ lmp }}"/>
-            <input type='hidden' name='lmp_co1' value="{{ lmp_co1 }}"/>
-            <button type='submit' class='btn btn-xs btn-default command-details' data-toggle='modal' data-target='#detailsModal' data-row-id="{{ id }}" style="width:25px">
-            <span class='fa fa-map-marker'></span></button>
-        </form>
+      <form class='details-form'>
+        <input type='hidden' name='taxon' value="{{ id }}"/>
+        <input type='hidden' name='lmp_lm' value="{{ lmp }}"/>
+        <input type='hidden' name='lmp_co1' value="{{ lmp_co1 }}"/>
+        <button type='submit' class='btn btn-xs btn-default command-details' data-toggle='modal' data-target='#detailsModal' data-row-id="{{ id }}" style="width:25px">
+          <span class='fa fa-map-marker'></span>
+        </button>
+      </form>
     </template>
     <template id="method-form-checkbox">
-        <div class="checkbox checkbox-inline">
-            <label >
-                <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
-                {{code}}
-                
-            </label>
-        </div>
+      <div class="checkbox checkbox-inline">
+        <label>
+          <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
+          {{code}}
+        </label>
+      </div>
     </template>
-    {% endverbatim %}
+  {% endverbatim %}
 
-    <div id="modal-container">
-        {% include 'requetes/formulaire3/details.modal.html.twig' with {'taxname':''} %}
-    </div>
+  <div id="modal-container">
+    {% include 'requetes/formulaire3/details.modal.html.twig'
+    with {
+      'taxname' : ''
+    } %}
+  </div>
 
 {% endblock %}
 
 {% block scripts %}
 
-{{ parent() }}
+  {{ parent() }}
 
-
-<script>
+  <script>
     function onGenusSelected() {
-        $("#submit-button").prop("disabled", true);
-        $("#taxon-spinner").removeClass("hidden");
-        $.post("{{path('speciesingenus')}}", {
-            genus: $('#genus').val()
-        }, function (response) {
-            var species = $('#species');
-            species.html('')
-            for (i = 0; i < response.data.length; i++) {
-                species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-            }
-            $("#submit-button").prop("disabled", false);
-            $("#taxon-spinner").addClass("hidden");
-        });
+      $("#submit-button").prop("disabled", true);
+      $("#taxon-spinner").removeClass("hidden");
+      $.post("{{path('speciesingenus')}}", {
+        genus: $('#genus').val()
+      }, function (response) {
+        var species = $('#species');
+        species.html('')
+        for (i = 0; i < response.data.length; i++) {
+          species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
+        }
+        $("#submit-button").prop("disabled", false);
+        $("#taxon-spinner").addClass("hidden");
+      });
     }
 
-    
-
+    /* **************************
+*  Document ready
+**************************** */
     $(document).ready(function () {
 
+      initSwitchery('.switchbox');
 
-        initSwitchery('.switchbox');
+      var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
 
+      window.onresize = function () {
+        $(".geo-overlay").show();
+        Plotly.Plots.resize(gd).then(function () {
+          $(".geo-overlay").hide();
+        });
+      };
 
-        var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0,-1);
+      onGenusSelected();
 
-        window.onresize = function() {
-            $(".geo-overlay").show();
-            Plotly.Plots.resize(gd).then(function(){
-                $(".geo-overlay").hide();
-            });
-        };
+      $('#taxaFilter').on('change', function () {
+        if (this.checked) {
+          $(".taxa-select").prop('disabled', false);
+        } else {
+          $(".taxa-select").prop('disabled', true);
+        }
+      });
 
+      $('#genus').on('change', function () {
         onGenusSelected();
+      });
 
-        $('#taxaFilter').on('change', function () {
-            if (this.checked) {
-                $(".taxa-select").prop('disabled', false);
-            }
-            else {
-                $(".taxa-select").prop('disabled', true);
-            }
-        });
-
-        $('#genus').on('change', function () {
-            onGenusSelected();
-        });
-
-
-        $("#result-table").bootgrid({
-            ajax: false,
-            caseSensitive: false,
-            formatters: {
-                "details": bgDetailsForm,
-                "number_format": bgRoundFloat,
-                'taxonLink': function(column, row) {
-                    return Mustache.render(
-                        {% verbatim %} "<a href='" + referentieltaxon_url +  "{{id}}'>{{taxname}}</a>" {% endverbatim %}, 
-                        row );
-                }
+      $("#result-table").bootgrid({
+        ajax: false,
+        caseSensitive: false,
+        formatters: {
+          "details": bgDetailsForm,
+          "number_format": bgRoundFloat,
+          'taxonLink': function (column, row) {
+            return Mustache.render({% verbatim %}
+              "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>"
+            {% endverbatim %}, row);
+          }
+        },
+        converters: {
+          'float_number': {
+            from: function (value) {
+              console.log("from", value, typeof value);
+              if (value == null) {
+                return 0
+              } else {
+                return parseFloat(value).toFixed(3);
+              }
             },
-            converters: {
-                'float_number': {
-                    from: function (value) { 
-                        console.log("from", value, typeof value);
-                        if (value == null){
-                            return 0
-                        }else{
-                            return parseFloat(value).toFixed(3); 
-                        }
-                    },
-                    to: function (value) { 
-                        console.log("to", value, typeof value);
-                        if(value == null){
-                            return 0;
-                        }else{
-                            return parseFloat(value).toFixed(3); 
-                        }
-                    }
-                }
+            to: function (value) {
+              console.log("to", value, typeof value);
+              if (value == null) {
+                return 0;
+              } else {
+                return parseFloat(value).toFixed(3);
+              }
             }
-        }).on("loaded.rs.jquery.bootgrid", function (e) {
-            $(".details-form").submit(function (event) {
-                event.preventDefault();
-                var taxid = $(this).find("input[name='taxon']").val();
-                var lmp = $(this).find("input[name='lmp_lm']").val();
-                var lmp_co1 = $(this).find("input[name='lmp_co1']").val();
-                var data = $(this).serialize();
-                $(".geo-overlay").show();
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    url: "{{ path('geocoords') }}",
-                    success: function (response) {
-                        gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
-                        $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
-                        $('#detailsModal').on('shown.bs.modal', function (e) {
-                            Plotly.Plots.resize(gd).then(function(){
-                                $(".geo-overlay").hide();
-                            });
-                        })
-                        $("#detailsModal").modal('show');
-
-                    }
+          }
+        }
+      }).on("loaded.rs.jquery.bootgrid", function (e) {
+        $(".details-form").submit(function (event) {
+          event.preventDefault();
+          var taxid = $(this).find("input[name='taxon']").val();
+          var lmp = $(this).find("input[name='lmp_lm']").val();
+          var lmp_co1 = $(this).find("input[name='lmp_co1']").val();
+          var data = $(this).serialize();
+          $(".geo-overlay").show();
+          $.ajax({
+            type: 'POST',
+            data: data,
+            url: "{{ path('geocoords') }}",
+            success: function (response) {
+              gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
+              $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
+              $('#detailsModal').on('shown.bs.modal', function (e) {
+                Plotly.Plots.resize(gd).then(function () {
+                  $(".geo-overlay").hide();
                 });
-            });
+              })
+              $("#detailsModal").modal('show');
+
+            }
+          });
+        });
+      });
+
+      $("#main-form").submit(function (event) {
+        event.preventDefault();
+        var form_data = $(this).serialize();
+        $.ajax({
+          url: "{{ path('requete3') }}",
+          type: "POST",
+          data: form_data,
+          success: function (response) {
+            $("#result-table").bootgrid("clear");
+
+            var dataArray = [];
+            for (var row in response.rows) {
+              if (response.rows.hasOwnProperty(row)) 
+                dataArray.push(response.rows[row]);
+              }
+            
+            $("#result-table").bootgrid("append", dataArray);
+            $("#result-table").bootgrid("reload");
+          }
         });
 
-        $("#main-form").submit(function (event) {
-            event.preventDefault();
-            var form_data = $(this).serialize();
-            $.ajax({
-                url: "{{ path('requete3') }}",
-                type: "POST",
-                data: form_data,
-                success: function (response) {
-                    $("#result-table").bootgrid("clear");
-
-                    var dataArray = [];
-                    for(var row in response.rows) {
-                        if (response.rows.hasOwnProperty(row))
-                            dataArray.push(response.rows[row]);
-                    }
-
-                    $("#result-table").bootgrid("append", dataArray);
-                    $("#result-table").bootgrid("reload");
-                }
-            });
-
-        });
+      });
 
     });
-</script>
+  </script>
 
 {% endblock %}

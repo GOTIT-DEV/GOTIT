@@ -1,11 +1,16 @@
-<!-- A COMPLETER / MODIFIER  -->
-
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}  
     <!-- Switchery -->
     <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block headincl %}
+    <!-- Plotly -->
+    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
 {% endblock %}
 
 {% block titlepage %}
@@ -25,11 +30,10 @@
 
 {% block scripts %}
     {{ parent() }} 
-    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
     <!-- Switchery -->
     <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
 
-    <!-- Custom Theme Scripts -->
+    <!-- Custom Scripts -->
     <script src="{{ asset('e3s/js/queries.js') }}"></script>
     <script src="{{ asset('e3s/js/plots.js') }}"></script>
     <script src="{{ asset('e3s/js/bootgrid.formatters.js') }}"></script>
