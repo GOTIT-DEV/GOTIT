@@ -1,0 +1,82 @@
+{# Formulaire 4 : résultats 
+  
+  Requiert variables :
+  - methods_list
+#}
+
+{# Onglets #}
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active disabled" id="result-tab">
+    <a href="#result-pane" aria-controls="result-pane" role="tab">
+      <strong>
+        <i class="fa fa-th-list"></i>
+        Liste des MOTUs</strong>
+    </a>
+  </li>
+  <li role="presentation" class="disabled" id="geolocation-tab" title="Nécessite de choisir un taxon et une méthode">
+    <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab">
+      <strong>
+        <i class="fa fa-map-marker"></i>
+        Distribution géographique</strong>
+    </a>
+  </li>
+</ul>
+
+{# Contenu des onglets #}
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
+    <div class="well well-sm">
+      <div class="table-responsive">
+        <table id="result-table" class="table table-condensed table-hover table-striped">
+          <thead>
+            <tr>
+              <th data-column-id="taxname" data-formatter="taxonLink" data-converter="string">Taxon</th>
+              <th data-column-id="id" data-converter="numeric" data-searchable="false">SeqID</th>
+              <th data-column-id="type_seq" data-formatter="typeSeq" data-converter="string">Type</th>
+              <th data-column-id="accession_number" data-formatter="ncbiLink" data-converter="string">Accession</th>
+              {% for method in methods_list %}
+                <th
+                  data-column-id="{{method.code|lower}}_{{method.date_motu|date('Y')}}"
+                  data-converter="numeric"
+                  data-searchable="false">{{method.code|upper}}
+                  {{method.date_motu|date('Y')}}</th>
+              {% endfor %}
+              <th data-column-id="latitude" data-formatter="float_number" data-searchable="false">Lat.</th>
+              <th data-column-id="longitude" data-formatter="float_number" data-searchable="false">Long.</th>
+              <th data-column-id="code_station">Station</th>
+              <th data-column-id="commune">Commune</th>
+              <th data-column-id="pays">Pays</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" class="tab-pane fade in out" id="geolocation-pane">
+    <div class="well well-sm">
+      <h4 id="geo-title"></h4>
+      <template id="geo-title-template">
+        <center>
+          {% verbatim %}
+
+            Répartition des MOTUs de
+            {{taxname}}
+            <span class='label label-info'>
+              {{code_methode}}
+              {{date_methode}}
+            </span>
+          {% endverbatim %}
+        </center>
+      </template>
+      <hr>
+      <div class="geo-container">
+        <div id="motu-geo-map" style="width:100%;height:700px"></div>
+        <div class="geo-overlay">
+          <i class="fa fa-spinner fa-spin fa-4x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

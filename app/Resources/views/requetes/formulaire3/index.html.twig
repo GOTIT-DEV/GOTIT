@@ -11,51 +11,16 @@
 
     <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
       <h2>Résultats</h2>
-      <div class="table-responsive">
-        <table id="result-table" class="table table-condensed table-hover table-striped">
-          <thead>
-            <tr>
-              <th data-column-id="taxname" data-formatter="taxonLink">Taxon</th>
-              <th data-column-id="nb_sta" data-converter="numeric" data-searchable="false">Nombre stations</th>
-              <th data-column-id="lmp" data-converter="numeric" data-searchable="false">LMP (Deg)</th>
-              <th data-column-id="mle" data-converter="float_number" data-searchable="false">MLE (Km)</th>
-              <th data-column-id="nb_sta_co1" data-converter="numeric" data-searchable="false">Nombre stations [COI]</th>
-              <th data-column-id="lmp_co1" data-converter="float_number" data-searchable="false">LMP (Deg) [COI]</th>
-              <th data-column-id="mle_co1" data-converter="float_number" data-searchable="false">MLE (Km) [COI]</th>
-              <th data-column-id="id" data-formatter="details" data-searchable="false" data-sortable="false">Loc.</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      {% include 'requetes/formulaire3/results.html.twig' %}
     </div>
 
   </div>
 
-  {% verbatim %}
-    <template id="details-form-template">
-      <form class='details-form'>
-        <input type='hidden' name='taxon' value="{{ id }}"/>
-        <input type='hidden' name='lmp_lm' value="{{ lmp }}"/>
-        <input type='hidden' name='lmp_co1' value="{{ lmp_co1 }}"/>
-        <button type='submit' class='btn btn-xs btn-default command-details' data-toggle='modal' data-target='#detailsModal' data-row-id="{{ id }}" style="width:25px">
-          <span class='fa fa-map-marker'></span>
-        </button>
-      </form>
-    </template>
-    <template id="method-form-checkbox">
-      <div class="checkbox checkbox-inline">
-        <label>
-          <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
-          {{code}}
-        </label>
-      </div>
-    </template>
-  {% endverbatim %}
+  {% include 'requetes/formulaire3/extra_templates.html.twig' %}
 
+  {# Modal #}
   <div id="modal-container">
-    {% include 'requetes/formulaire3/details.modal.html.twig'
-    with {
+    {% include 'requetes/formulaire3/details.modal.html.twig' with {
       'taxname' : ''
     } %}
   </div>
@@ -84,8 +49,8 @@
     }
 
     /* **************************
-*  Document ready
-**************************** */
+    *  Document ready
+    **************************** */
     $(document).ready(function () {
 
       initSwitchery('.switchbox');

@@ -7,21 +7,7 @@
   {% include 'requetes/formulaire1/form.html.twig' with criteres %}
 
   {# Tableau résultats #}
-  <div class="table-responsive">
-    <table id="result-table" class="table table-condensed table-hover table-striped">
-      <thead>
-        <tr>
-          <th data-column-id="taxname" data-formatter="taxonLink">Taxon</th>
-          <th data-column-id="methode">Méthode</th>
-          <th data-column-id="date_motu" data-formatter="date_format" data-searchable="false">Date Méthode</th>
-          <th data-column-id="nb_seq" data-converter="numeric" data-searchable="false">Séquences</th>
-          <th data-column-id="nb_motus" data-converter="numeric" data-searchable="false">MOTUs</th>
-          <th data-column-id="id_methode" data-formatter="details" data-sortable="false" data-searchable="false">Détails</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  {% include 'requetes/formulaire1/results.html.twig' %}
 
   {# Modal et templates HTML #}
   <div id="modal-container"></div>

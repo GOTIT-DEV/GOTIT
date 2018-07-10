@@ -8,56 +8,7 @@
       {% include 'requetes/formulaire2/form.html.twig' %}
     </div>
     <div class="col-xs-12 col-sm-8">
-      <fieldset>
-        <legend>
-          <h3>Résultats</h3>
-        </legend>
-
-        <ul class="nav nav-tabs" role="tablist" id="result-tabs">
-          <li role="presentation" class="active disabled" id="recto-tab">
-            <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='recto'>
-              <strong>Référence
-                <i class="fa fa-arrow-circle-right "></i>
-                Méthodes
-              </strong>
-            </a>
-          </li>
-          <li role="presentation" class="disabled" id="verso-tab">
-            <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='verso'>
-              <strong>Méthodes
-                <i class="fa fa-arrow-circle-right "></i>
-                Référence</strong>
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
-            <div class="well well-sm">
-              <div id="barplot">
-                <center>
-                  <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
-                </center>
-              </div>
-              <hr>
-              <div class="table-responsive">
-                <table id="result-table" class="table table-condensed table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th data-column-id="methode">Méthode</th>
-                      <th data-column-id="date_motu" data-formatter="date_format">Jeu de données</th>
-                      <th data-column-id="match">Matchs</th>
-                      <th data-column-id="split">Splits</th>
-                      <th data-column-id="lump">Lumps</th>
-                      <th data-column-id="reshuffling">Reshufflings</th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </fieldset>
+      {% include 'requetes/formulaire2/results.html.twig' %}
     </div>
   </div>
 {% endblock %}

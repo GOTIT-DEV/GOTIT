@@ -20,7 +20,13 @@
                   Recherche par espèce
                 </strong>
                 <span class="pull-right">
-                  <input class="switchbox pull-right" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
+                  <input
+                    class="switchbox pull-right"
+                    type="checkbox"
+                    name="taxaFilter"
+                    id="taxaFilter"
+                    autocomplete="off"
+                    checked="checked">
                 </span>
                 <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
 
@@ -36,7 +42,11 @@
             <div class="panel-heading">
               <strong>Méthodes de délimitation</strong>
             </div>
-            <div id="method-form" class="panel-body form-horizontal" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
+            <div
+              id="method-form"
+              class="panel-body form-horizontal"
+              data-url="{{path('methodsindate')}}"
+              data-spinner=".method-spinner">
               {% include 'requetes/method.selector.html.twig' with {
                 method_check_array : true
               } %}
