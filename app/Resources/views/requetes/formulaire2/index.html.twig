@@ -18,9 +18,7 @@
                             </label>
                         </div>
                     </div>
-                    <div id="morpho">
-                    <div class="collapse panel-collapse" class="panel-body">
-                    </div>
+                    <div class="collapse panel-collapse in" id="morpho">
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -191,7 +189,6 @@
         
         $('input[name="reference"]').change(toggleFormSelect);
         $(checkedRef).trigger('change');
-        $(checkedRef.data('target')).collapse('show');
 
         
 
