@@ -3,58 +3,14 @@
   <h1>Carte de richesse génétique</h1>
   <hr>
   <div class='row'>
+
     <div class="col-xs-12">
-      <form id="main-form" action="#">
-        <fieldset>
-          <legend>
-            <h2>Paramètres</h2>
-          </legend>
-          <div class="row">
-            <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-2">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div class="form-check">
-                    <strong>
-                      Recherche par espèce
-                    </strong>
-                    <span class="pull-right">
-                      <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
-                    </span>
-                    <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
-                  </div>
-                </div>
-                <div class="panel-body" id="taxa-select">
-                  {% include 'requetes/species.selector.html.twig' %}
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-5 col-lg-4">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <strong>Visualisation par méthode de délimitation</strong>
-                  <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
-                </div>
-                <div id="method-form" class="panel-body form-horizontal" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
-                  {% include 'requetes/method.selector.html.twig' %}
-                </div>
-                <div class="panel-footer">
-                  La visualisation superpose la répartition géographique des MOTUs de la
-                  <strong>méthode</strong>
-                  sélectionnée à celle du
-                  <strong>taxon</strong>
-                  sélectionné
-                </div>
-              </div>
-            </div>
-          </div>
-          <center>
-            <input type="submit" href="#resultats" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
-          </center>
-        </fieldset>
-      </form>
+      {% include 'requetes/formulaire4/form.html.twig' %}
     </div>
   </div>
+
   <hr>
+  
   <div class="row">
     <h2 id="resultats">Résultats</h2>
 

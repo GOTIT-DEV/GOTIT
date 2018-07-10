@@ -2,100 +2,11 @@
 {% block body %}
   <h1>Assignations des MOTUs aux espèces</h1>
   <hr>
-  <form id="main-form" action="#" class="row">
-    <fieldset>
-      <legend>
-        <h2>Paramètres de recherche</h2>
-      </legend>
-      <div class="col-xs-12 col-md-7 col-lg-6 col-lg-offset-1">
-        <div class="row">
-          <div class="col-sm-6 col-xs-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <div class="form-check">
 
-                  <strong>
-                    Recherche par espèce
-                  </strong>
-                  <span class="pull-right">
-                    <input class="switchbox pull-right" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
-                  </span>
-                  <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+  {# Formulaire #}
+  {% include 'requetes/formulaire1/form.html.twig' with criteres %}
 
-                </div>
-              </div>
-              <div class="panel-body" id="taxa-select">
-                {% include 'requetes/species.selector.html.twig' %}
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xs-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <strong>Méthodes de délimitation</strong>
-              </div>
-              <div id="method-form" class="panel-body form-horizontal" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
-                {% include 'requetes/method.selector.html.twig' with {
-                  method_check_array : true
-                } %}
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-5 col-lg-4">
-        <div class="row">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <strong>Identification</strong>
-            </div>
-            <div class="panel-body">
-              <div class="form-group">
-                <label class="control-label" for="niveau">Niveau d'identification</label>
-                <br/>
-                <select name="niveau" id="id-level" class="form-control" width='100%'>
-                  <option value="1">Lot matériel</option>
-                  <option value="2">Individu</option>
-                  <option value="3">Séquence</option>
-                </select>
-              </div>
-              <hr>
-              <div class="form-horizontal">
-                <label>Critères d'identification</label>
-
-                {% for critere in criteres %}
-                  <div class="form-group">
-                    <div class="checkbox checkbox-inline">
-                      <label>
-                        <input type="checkbox" name="criteres[]" value="{{critere.id}}" checked="checked">
-                        {{critere.libelle}}
-                      </label>
-                    </div>
-                  </div>
-                {% endfor %}
-
-              </div>
-            </div>
-            <div class="panel-footer">
-              <div class="row help-block">
-                <span class="fa fa-info-circle fa-lg col-xs-1" style='min-height:100%'></span>
-                <span id="help-criteres" class="col-xs-11">
-                  Ne sélectionner aucun critère d'identification revient à tous les sélectionner
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-    <div class="center-block">
-      <center>
-        <input type="submit" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
-      </center>
-    </div>
-  </form>
-
+  {# Tableau résultats #}
   <div class="table-responsive">
     <table id="result-table" class="table table-condensed table-hover table-striped">
       <thead>
@@ -112,6 +23,7 @@
     </table>
   </div>
 
+  {# Modal et templates HTML #}
   <div id="modal-container"></div>
 
   {% verbatim %}
@@ -128,6 +40,8 @@
 
   {% endverbatim %}
 {% endblock %}
+
+{# Scripts #}
 {% block scripts %}
   {{ parent() }}
 
