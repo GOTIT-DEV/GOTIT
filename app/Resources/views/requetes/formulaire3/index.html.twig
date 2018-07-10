@@ -146,82 +146,82 @@
           "details": bgDetailsForm,
           "number_format": bgRoundFloat,
           'taxonLink': function (column, row) {
-            return Mustache.render({% verbatim %}
-              "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>"
-            {% endverbatim %}, row);
-          }
-        },
-        converters: {
-          'float_number': {
-            from: function (value) {
-              console.log("from", value, typeof value);
-              if (value == null) {
-                return 0
-              } else {
-                return parseFloat(value).toFixed(3);
-              }
-            },
-            to: function (value) {
-              console.log("to", value, typeof value);
-              if (value == null) {
-                return 0;
-              } else {
-                return parseFloat(value).toFixed(3);
-              }
+            {% verbatim %}
+              return Mustache.render("<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>", row);
+            {% endverbatim %}
+        }
+      },
+      converters: {
+        'float_number': {
+          from: function (value) {
+            console.log("from", value, typeof value);
+            if (value == null) {
+              return 0
+            } else {
+              return parseFloat(value).toFixed(3);
+            }
+          },
+          to: function (value) {
+            console.log("to", value, typeof value);
+            if (value == null) {
+              return 0;
+            } else {
+              return parseFloat(value).toFixed(3);
             }
           }
         }
-      }).on("loaded.rs.jquery.bootgrid", function (e) {
-        $(".details-form").submit(function (event) {
-          event.preventDefault();
-          var taxid = $(this).find("input[name='taxon']").val();
-          var lmp = $(this).find("input[name='lmp_lm']").val();
-          var lmp_co1 = $(this).find("input[name='lmp_co1']").val();
-          var data = $(this).serialize();
-          $(".geo-overlay").show();
-          $.ajax({
-            type: 'POST',
-            data: data,
-            url: "{{ path('geocoords') }}",
-            success: function (response) {
-              gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
-              $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
-              $('#detailsModal').on('shown.bs.modal', function (e) {
-                Plotly.Plots.resize(gd).then(function () {
-                  $(".geo-overlay").hide();
-                });
-              })
-              $("#detailsModal").modal('show');
-
-            }
-          });
-        });
-      });
-
-      $("#main-form").submit(function (event) {
+      }
+    }).on("loaded.rs.jquery.bootgrid", function (e) {
+      $(".details-form").submit(function (event) {
         event.preventDefault();
-        var form_data = $(this).serialize();
+        var taxid = $(this).find("input[name='taxon']").val();
+        var lmp = $(this).find("input[name='lmp_lm']").val();
+        var lmp_co1 = $(this).find("input[name='lmp_co1']").val();
+        var data = $(this).serialize();
+        $(".geo-overlay").show();
         $.ajax({
-          url: "{{ path('requete3') }}",
-          type: "POST",
-          data: form_data,
+          type: 'POST',
+          data: data,
+          url: "{{ path('geocoords') }}",
           success: function (response) {
-            $("#result-table").bootgrid("clear");
+            gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
+            $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
+            $('#detailsModal').on('shown.bs.modal', function (e) {
+              Plotly.Plots.resize(gd).then(function () {
+                $(".geo-overlay").hide();
+              });
+            })
+            $("#detailsModal").modal('show');
 
-            var dataArray = [];
-            for (var row in response.rows) {
-              if (response.rows.hasOwnProperty(row)) 
-                dataArray.push(response.rows[row]);
-              }
-            
-            $("#result-table").bootgrid("append", dataArray);
-            $("#result-table").bootgrid("reload");
           }
         });
+      });
+    });
 
+    $("#main-form").submit(function (event) {
+      event.preventDefault();
+      var form_data = $(this).serialize();
+      $.ajax({
+        url: "{{ path('requete3') }}",
+        type: "POST",
+        data: form_data,
+        success: function (response) {
+          $("#result-table").bootgrid("clear");
+
+          var dataArray = [];
+          for (var row in response.rows) {
+            if (response.rows.hasOwnProperty(row)) 
+              dataArray.push(response.rows[row]);
+            }
+          
+          $("#result-table").bootgrid("append", dataArray);
+          $("#result-table").bootgrid("reload");
+        }
       });
 
     });
+
+  });
   </script>
 
 {% endblock %}

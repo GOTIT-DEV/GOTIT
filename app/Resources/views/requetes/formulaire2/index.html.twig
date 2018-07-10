@@ -1,231 +1,229 @@
 {% extends 'base.requetes.html.twig' %}
-{%  block body %}
-    <h2>Réarrangements des taxons par méthode de délimitation</h2>
-    <hr>
-    <div class="row">
+{% block body %}
+  <h2>Réarrangements des taxons par méthode de délimitation</h2>
+  <hr>
+  <div class="row">
     <div class="col-xs-12 col-sm-4">
-    <form id="query2Form" action="#">
+      <form id="query2Form" action="#">
         <fieldset>
-            <legend><h3>Référence</h3></legend>
-            <div class="panel-group" id="form-accordion" role="tablist" aria-multiselectable="true">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="radio">
-                            <label class="control-label">
-                                <input type='radio' name='reference' value=0  checked
-                                    data-toggle="collapse" data-target="#morpho" data-parent="#form-accordion">
-                                <strong>Morphologie</strong>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="collapse panel-collapse in" id="morpho">
-                    </div>
+          <legend>
+            <h3>Référence</h3>
+          </legend>
+          <div class="panel-group" id="form-accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="radio">
+                  <label class="control-label">
+                    <input type='radio' name='reference' value="0" checked="checked" data-toggle="collapse" data-target="#morpho" data-parent="#form-accordion">
+                    <strong>Morphologie</strong>
+                  </label>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="radio">
-                            <label class="control-label">
-                                <input type='radio' name='reference' value=1
-                                    data-toggle="collapse" data-target="#taxon-collapse" data-parent="#form-accordion">
-                                <strong>Morphologie par taxon</strong>
-                            </label>
-                        </div>
-                    </div>
-                        
-                    <div class="collapse panel-collapse" id="taxon-collapse">
-                        <div class="panel-body">
-                            {% include 'requetes/species.selector.html.twig' %}
-                        </div>
-                    </div>
+              </div>
+              <div class="collapse panel-collapse in" id="morpho"></div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="radio">
+                  <label class="control-label">
+                    <input type='radio' name='reference' value="1" data-toggle="collapse" data-target="#taxon-collapse" data-parent="#form-accordion">
+                    <strong>Morphologie par taxon</strong>
+                  </label>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="radio">
-                            <label class="control-label">
-                                <input type='radio' name='reference' value=2 
-                                    data-toggle="collapse" data-target="#method-form" data-parent="#form-accordion">
-                                <strong>Méthode moléculaire</strong>
-                                <i class="fa fa-spinner fa-spin pull-right hidden" id="method-spinner" style="font-size:16px"></i>
-                            </label>
-                        </div>
-                    </div>
+              </div>
 
-                    <div class="collapse panel-collapse" id="method-form" 
-                        data-url="{{path('methodsindate')}}"
-                        data-spinner=".method-spinner" >
-                        <div class="panel-body form-horizontal">
-                            {% include 'requetes/method.selector.html.twig' %}
-                        </div>
-                    </div>
+              <div class="collapse panel-collapse" id="taxon-collapse">
+                <div class="panel-body">
+                  {% include 'requetes/species.selector.html.twig' %}
                 </div>
-                        
+              </div>
             </div>
-            <div class="well well-sm">
-                <input type="submit" value="Rechercher" class="btn btn-block btn-primary">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="radio">
+                  <label class="control-label">
+                    <input type='radio' name='reference' value="2" data-toggle="collapse" data-target="#method-form" data-parent="#form-accordion">
+                    <strong>Méthode moléculaire</strong>
+                    <i class="fa fa-spinner fa-spin pull-right hidden" id="method-spinner" style="font-size:16px"></i>
+                  </label>
+                </div>
+              </div>
+
+              <div class="collapse panel-collapse" id="method-form" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
+                <div class="panel-body form-horizontal">
+                  {% include 'requetes/method.selector.html.twig' %}
+                </div>
+              </div>
             </div>
-                
+
+          </div>
+          <div class="well well-sm">
+            <input type="submit" value="Rechercher" class="btn btn-block btn-primary">
+          </div>
+
         </fieldset>
-        
-    </form>
+
+      </form>
     </div>
     <div class="col-xs-12 col-sm-8">
-    <fieldset>
-            <legend>
-                <h3>Résultats</h3> 
-            </legend>
+      <fieldset>
+        <legend>
+          <h3>Résultats</h3>
+        </legend>
 
-            <ul class="nav nav-tabs" role="tablist" id="result-tabs">
-                <li role="presentation" class="active disabled" id="recto-tab">
-                    <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='recto'>
-                        <strong>Référence <i class="fa fa-arrow-circle-right "></i> Méthodes </strong>
-                    </a></li>
-                <li role="presentation" class="disabled" id="verso-tab">
-                    <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='verso'>
-                        <strong>Méthodes <i class="fa fa-arrow-circle-right "></i> Référence</strong>
-                    </a></li>
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
-                    <div class = "well well-sm">
-                        <div id="barplot">
-                            <center>
-                                <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
-                            </center>
-                        </div>  
-                        <hr>
-                        <div class="table-responsive">
-                            <table id="result-table" class="table table-condensed table-hover table-striped">
-                                <thead>
-                                <tr>
-                                    <th data-column-id="methode">Méthode</th>
-                                    <th data-column-id="date_motu" data-formatter="date_format">Jeu de données</th>
-                                    <th data-column-id="match">Matchs</th>
-                                    <th data-column-id="split">Splits</th>
-                                    <th data-column-id="lump">Lumps</th>
-                                    <th data-column-id="reshuffling">Reshufflings</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+        <ul class="nav nav-tabs" role="tablist" id="result-tabs">
+          <li role="presentation" class="active disabled" id="recto-tab">
+            <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='recto'>
+              <strong>Référence
+                <i class="fa fa-arrow-circle-right "></i>
+                Méthodes
+              </strong>
+            </a>
+          </li>
+          <li role="presentation" class="disabled" id="verso-tab">
+            <a href="#result-pane" aria-controls="result-pane" role="tab" data-target='verso'>
+              <strong>Méthodes
+                <i class="fa fa-arrow-circle-right "></i>
+                Référence</strong>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
+            <div class="well well-sm">
+              <div id="barplot">
+                <center>
+                  <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
+                </center>
+              </div>
+              <hr>
+              <div class="table-responsive">
+                <table id="result-table" class="table table-condensed table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th data-column-id="methode">Méthode</th>
+                      <th data-column-id="date_motu" data-formatter="date_format">Jeu de données</th>
+                      <th data-column-id="match">Matchs</th>
+                      <th data-column-id="split">Splits</th>
+                      <th data-column-id="lump">Lumps</th>
+                      <th data-column-id="reshuffling">Reshufflings</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
             </div>
-    </fieldset>
+          </div>
+        </div>
+      </fieldset>
     </div>
-    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
 
-    {{ parent() }}
+  {{ parent() }}
 
-    <script>
+  <script>
 
-    function onSpeciesSelected(){
-        $("#submit-button").prop("disabled", true);
-        $("#taxon-spinner").removeClass("hidden");
-        $.post("{{path('taxname-search')}}", {
-            species: $('#species').val(),
-            genus: $("#genus").val()
-        }, function (response) {
-            var taxname = $('#taxname');
-            taxname.html('')
-            for (i = 0; i < response.data.length; i++) {
-                taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
-            }
-            $("#submit-button").prop("disabled", false);
-            $("#taxon-spinner").addClass("hidden");
-        });
+    function onSpeciesSelected() {
+      $("#submit-button").prop("disabled", true);
+      $("#taxon-spinner").removeClass("hidden");
+      $.post("{{path('taxname-search')}}", {
+        species: $('#species').val(),
+        genus: $("#genus").val()
+      }, function (response) {
+        var taxname = $('#taxname');
+        taxname.html('')
+        for (i = 0; i < response.data.length; i++) {
+          taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
+        }
+        $("#submit-button").prop("disabled", false);
+        $("#taxon-spinner").addClass("hidden");
+      });
     }
 
     function onGenusSelected() {
-        $("#submit-button").prop("disabled", true);
-        $("#taxon-spinner").removeClass("hidden");
-        $.post("{{path('speciesingenus')}}", {
-            genus: $('#genus').val()
-        }, function (response) {
-            var species = $('#species');
-            species.html('')
-            for (i = 0; i < response.data.length; i++) {
-                species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-            }
-            {% if with_taxname %}
-                onSpeciesSelected();
-            {% else %}
-            $("#submit-button").prop("disabled", false);
-            $("#taxon-spinner").addClass("hidden");
-            {% endif %}
-        });
+      $("#submit-button").prop("disabled", true);
+      $("#taxon-spinner").removeClass("hidden");
+      $.post("{{path('speciesingenus')}}", {
+        genus: $('#genus').val()
+      }, function (response) {
+        var species = $('#species');
+        species.html('')
+        for (i = 0; i < response.data.length; i++) {
+          species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
+        }
+        {% if with_taxname %}
+          onSpeciesSelected();
+        {% else %}
+          $("#submit-button").prop("disabled", false);
+          $("#taxon-spinner").addClass("hidden");
+        {% endif %}
+      });
     }
 
-    function displayResults(data){
-        $("#result-table").bootgrid("clear");
-        $("#result-table").bootgrid("append", data);
-        $("#result-table").bootgrid("reload");
-        barPlot("#barplot", data);
+    function displayResults(data) {
+      $("#result-table").bootgrid("clear");
+      $("#result-table").bootgrid("append", data);
+      $("#result-table").bootgrid("reload");
+      barPlot("#barplot", data);
     }
-
-    
 
     $(document).ready(function () {
 
-        var countData;
+      var countData;
 
-        var gd;
+      var gd;
 
-        $('#genus').change(onGenusSelected);
-        $('#genus').trigger('change');
+      $('#genus').change(onGenusSelected);
+      $('#genus').trigger('change');
 
-        $('#species').change(onSpeciesSelected);
+      $('#species').change(onSpeciesSelected);
 
-        
-        $('#date_methode').change(function() {
-            onDateMotuSelected("#method-form", "#submit-button");
-        });
-        $('#date_methode').trigger('change');
-        
-        var checkedRef = $('input[name="reference"]:checked');
-        
-        $('input[name="reference"]').change(toggleFormSelect);
-        $(checkedRef).trigger('change');
+      $('#date_methode').change(function () {
+        onDateMotuSelected("#method-form", "#submit-button");
+      });
+      $('#date_methode').trigger('change');
 
-        
+      var checkedRef = $('input[name="reference"]:checked');
 
-        $("#result-table").bootgrid({
-            ajax: false,
-            caseSensitive: false,
-            multiSort: true,
-            formatters: {
-                "details": bgDetailsForm,
-                "date_format": bgDateFormat
-            }
-        });
+      $('input[name="reference"]').change(toggleFormSelect);
+      $(checkedRef).trigger('change');
 
-        $("#query2Form").submit(function (event) {
-            event.preventDefault();
-            
-            var form_data = $(this).serialize();
-            console.log(form_data);
-            $.ajax({
-                url: "{{ path('requete2') }}",
-                type: "POST",
-                data: form_data,
-                success: function (response) {
-                    countData = response;
-                    var tab = $("#result-tabs").find('li.active a');
-                    var target = tab.data('target');
-                    displayResults(countData[target]);
-                    $(".nav-tabs li").removeClass("disabled");
-                    $(".nav-tabs li a").attr("data-toggle", "tab");
-                    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                        displayResults(countData[$(e.target).data('target')]);
-                    });
-                }
+      $("#result-table").bootgrid({
+        ajax: false,
+        caseSensitive: false,
+        multiSort: true,
+        formatters: {
+          "details": bgDetailsForm,
+          "date_format": bgDateFormat
+        }
+      });
+
+      $("#query2Form").submit(function (event) {
+        event.preventDefault();
+
+        var form_data = $(this).serialize();
+        console.log(form_data);
+        $.ajax({
+          url: "{{ path('requete2') }}",
+          type: "POST",
+          data: form_data,
+          success: function (response) {
+            countData = response;
+            var tab = $("#result-tabs").find('li.active a');
+            var target = tab.data('target');
+            displayResults(countData[target]);
+            $(".nav-tabs li").removeClass("disabled");
+            $(".nav-tabs li a").attr("data-toggle", "tab");
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+              displayResults(countData[$(e.target).data('target')]);
             });
+          }
         });
+      });
 
     })
-</script>
+  </script>
 
 {% endblock %}

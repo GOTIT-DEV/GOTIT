@@ -1,16 +1,14 @@
 {% extends "requetes/base.modal.html.twig" %}
 {% block modal_title %}
-    {{ taxname }}
+  {{ taxname }}
 {% endblock %}
 
 {% block modal_body %}
-<div class="geo-container">
-<div id="station-geo-map" style="width:100%">
-</div>
+  <div class="geo-container">
+    <div id="station-geo-map" style="width:100%"></div>
 
-<div class="geo-overlay">
-<i class="fa fa-spinner fa-spin fa-4x"></i>
-</div>
-
-</div>
+    <div class="geo-overlay">
+      <i class="fa fa-spinner fa-spin fa-4x"></i>
+    </div>
+  </div>
 {% endblock %}

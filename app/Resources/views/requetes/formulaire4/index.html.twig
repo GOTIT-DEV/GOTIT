@@ -1,309 +1,307 @@
 {% extends 'base.requetes.html.twig' %}
 {% block body %}
-    <h1>Carte de richesse génétique</h1>
-    <hr>
-    <div class='row'>
-        <div class="col-xs-12">
-            <form id="main-form" action="#" >
-                <fieldset>
-                    <legend><h2>Paramètres</h2></legend>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-2">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="form-check">
-                                    <strong>
-                                        Recherche par espèce
-                                    </strong>
-                                    <span class="pull-right">
-                                        <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked>
-                                    </span>
-                                    <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
-                                </div>
-                            </div>
-                            <div class="panel-body" id="taxa-select">
-                                {% include 'requetes/species.selector.html.twig' %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-5 col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <strong>Visualisation par méthode de délimitation</strong>
-                                <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
-                            </div>
-                            <div id="method-form" class="panel-body form-horizontal" 
-                                data-url="{{path('methodsindate')}}"
-                                data-spinner=".method-spinner" >
-                                {% include 'requetes/method.selector.html.twig' %}
-                            </div>
-                            <div class="panel-footer">
-                                La visualisation superpose la répartition géographique des MOTUs de la <strong>méthode</strong> sélectionnée à celle du <strong>taxon</strong> sélectionné
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <center>
-                        <input type="submit" href="#resultats" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
-                     </center>
-                </fieldset>
-            </form>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <h2 id="resultats">Résultats</h2>
-
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active disabled" id="result-tab">
-                        <a href="#result-pane" aria-controls="result-pane" role="tab">
-                            <strong><i class="fa fa-th-list"></i> Liste des MOTUs</strong>
-                        </a></li>
-                    <li role="presentation" class="disabled" id="geolocation-tab" title="Nécessite de choisir un taxon et une méthode">
-                        <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab">
-                            <strong><i class="fa fa-map-marker"></i> Distribution géographique</strong>
-                        </a></li>
-                </ul>
-
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
-                    <div class="well well-sm">
-                        <div class="table-responsive">
-                            <table id="result-table" class="table table-condensed table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th data-column-id="taxname" data-formatter="taxonLink" data-converter="string">Taxon</th>
-                                        <th data-column-id="id" data-converter="numeric" data-searchable="false">SeqID</th>
-                                        <th data-column-id="type_seq" data-formatter="typeSeq" data-converter="string">Type</th>
-                                        <th data-column-id="accession_number" data-formatter="ncbiLink" data-converter="string" >Accession</th>
-                                        {% for method in methods_list %}
-                                        <th data-column-id="{{method.code|lower}}_{{method.date_motu|date('Y')}}" 
-                                            data-converter="numeric" 
-                                            data-searchable="false">{{method.code|upper}} {{method.date_motu|date('Y')}}</th>
-                                        {% endfor %}
-                                        <th data-column-id="latitude" data-formatter="float_number" data-searchable="false">Lat.</th>
-                                        <th data-column-id="longitude" data-formatter="float_number" data-searchable="false">Long.</th>
-                                        <th data-column-id="code_station">Station</th>
-                                        <th data-column-id="commune" >Commune</th>
-                                        <th data-column-id="pays" >Pays</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
+  <h1>Carte de richesse génétique</h1>
+  <hr>
+  <div class='row'>
+    <div class="col-xs-12">
+      <form id="main-form" action="#">
+        <fieldset>
+          <legend>
+            <h2>Paramètres</h2>
+          </legend>
+          <div class="row">
+            <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="form-check">
+                    <strong>
+                      Recherche par espèce
+                    </strong>
+                    <span class="pull-right">
+                      <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
+                    </span>
+                    <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+                  </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade in out" id="geolocation-pane" >
-                    <div class="well well-sm">
-                        <h4 id="geo-title"></h4>
-                        {% verbatim %}
-                        <template id="geo-title-template">
-                        <center>
-                        Répartition des MOTUs de {{taxname}} 
-                        <span class='label label-info'>
-                            {{code_methode}}
-                            {{date_methode}}
-                        </span>
-                        </center>
-                        </template>
-                        {% endverbatim %}
-                        <hr>
-                        <div class="geo-container">
-                            <div id="motu-geo-map" style="width:100%;height:700px">
-                            </div>
-                            <div class="geo-overlay">
-                                <i class="fa fa-spinner fa-spin fa-4x"></i>
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-body" id="taxa-select">
+                  {% include 'requetes/species.selector.html.twig' %}
                 </div>
+              </div>
             </div>
-        </div>
+            <div class="col-xs-12 col-sm-5 col-lg-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <strong>Visualisation par méthode de délimitation</strong>
+                  <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
+                </div>
+                <div id="method-form" class="panel-body form-horizontal" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
+                  {% include 'requetes/method.selector.html.twig' %}
+                </div>
+                <div class="panel-footer">
+                  La visualisation superpose la répartition géographique des MOTUs de la
+                  <strong>méthode</strong>
+                  sélectionnée à celle du
+                  <strong>taxon</strong>
+                  sélectionné
+                </div>
+              </div>
+            </div>
+          </div>
+          <center>
+            <input type="submit" href="#resultats" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
+          </center>
+        </fieldset>
+      </form>
     </div>
-    
+  </div>
+  <hr>
+  <div class="row">
+    <h2 id="resultats">Résultats</h2>
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active disabled" id="result-tab">
+        <a href="#result-pane" aria-controls="result-pane" role="tab">
+          <strong>
+            <i class="fa fa-th-list"></i>
+            Liste des MOTUs</strong>
+        </a>
+      </li>
+      <li role="presentation" class="disabled" id="geolocation-tab" title="Nécessite de choisir un taxon et une méthode">
+        <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab">
+          <strong>
+            <i class="fa fa-map-marker"></i>
+            Distribution géographique</strong>
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
+        <div class="well well-sm">
+          <div class="table-responsive">
+            <table id="result-table" class="table table-condensed table-hover table-striped">
+              <thead>
+                <tr>
+                  <th data-column-id="taxname" data-formatter="taxonLink" data-converter="string">Taxon</th>
+                  <th data-column-id="id" data-converter="numeric" data-searchable="false">SeqID</th>
+                  <th data-column-id="type_seq" data-formatter="typeSeq" data-converter="string">Type</th>
+                  <th data-column-id="accession_number" data-formatter="ncbiLink" data-converter="string">Accession</th>
+                  {% for method in methods_list %}
+                    <th data-column-id="{{method.code|lower}}_{{method.date_motu|date('Y')}}" data-converter="numeric" data-searchable="false">{{method.code|upper}}
+                      {{method.date_motu|date('Y')}}</th>
+                  {% endfor %}
+                  <th data-column-id="latitude" data-formatter="float_number" data-searchable="false">Lat.</th>
+                  <th data-column-id="longitude" data-formatter="float_number" data-searchable="false">Long.</th>
+                  <th data-column-id="code_station">Station</th>
+                  <th data-column-id="commune">Commune</th>
+                  <th data-column-id="pays">Pays</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade in out" id="geolocation-pane">
+        <div class="well well-sm">
+          <h4 id="geo-title"></h4>
+          <template id="geo-title-template">
+            <center>
+              {% verbatim %}
+
+                Répartition des MOTUs de
+                {{taxname}}
+                <span class='label label-info'>
+                  {{code_methode}}
+                  {{date_methode}}
+                </span>
+              {% endverbatim %}
+            </center>
+          </template>
+          <hr>
+          <div class="geo-container">
+            <div id="motu-geo-map" style="width:100%;height:700px"></div>
+            <div class="geo-overlay">
+              <i class="fa fa-spinner fa-spin fa-4x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
-
-
 
 {% block scripts %}
 
 {{ parent() }}
 
-
 <script>
 
-    function onSpeciesSelected(){
-        $("#submit-button").prop("disabled", true);
-        $("#taxon-spinner").removeClass("hidden");
-        $.post("{{path('taxname-search')}}", {
-            species: $('#species').val(),
-            genus: $("#genus").val()
-        }, function (response) {
-            var taxname = $('#taxname');
-            taxname.html('')
-            for (i = 0; i < response.data.length; i++) {
-                taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
-            }
-            $("#submit-button").prop("disabled", false);
-            $("#taxon-spinner").addClass("hidden");
-        });
-    }
-
-    function onGenusSelected() {
-        $("#submit-button").prop("disabled", true);
-        $("#taxon-spinner").removeClass("hidden");
-        $.post("{{path('speciesingenus')}}", {
-            genus: $('#genus').val()
-        }, function (response) {
-            var species = $('#species');
-            species.html('')
-            for (i = 0; i < response.data.length; i++) {
-                species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-            }
-            {% if with_taxname %}
-                onSpeciesSelected();
-            {% else %}
-            $("#submit-button").prop("disabled", false);
-            $("#taxon-spinner").addClass("hidden");
-            {% endif %}
-        });
-    }
-
-    
-    
-
-    $(document).ready(function () {
-
-        var switchBtn = initSwitchery(".switchbox");
-
-        var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0,-1);
-        var gd;
-
-        onDateMotuSelected("#method-form", "#submit-button");
-
-        $('#taxaFilter').change(function () {
-            if (this.checked) {
-                $(".taxa-select").prop('disabled', false);
-                $("#method-form select").prop('disabled', false);
-            }
-            else {
-                $(".taxa-select").prop('disabled', true);
-                $("#method-form select").prop('disabled', true);
-            }
-        });
-        $('#taxaFilter').trigger('change');
-
-        $('#genus').change(onGenusSelected);
-        $('#genus').trigger('change');
-
-        $('#species').change(onSpeciesSelected);
-
-        $('#date_methode').change(function (e) {
-                onDateMotuSelected("#method-form", "#submit-button");
-            });
-
-
-        $("#result-table").bootgrid({
-            ajax: false,
-            caseSensitive: false,
-            formatters: {
-                details: bgDetailsForm,
-                number_format: bgRoundFloat,
-                taxonLink: function(column, row) {
-                    return Mustache.render(
-                        {% verbatim %} "<a href='" + referentieltaxon_url +  "{{id}}'>{{taxname}}</a>" {% endverbatim %}, 
-                        row );
-                },
-                ncbiLink: bgNcbiLink,
-                typeSeq: bgTypeSeq
-            },
-            converters: {
-                'float_number': {
-                    from: function (value) { 
-                        //console.log("from", value, typeof value);
-                        if (value == null){
-                            return 0
-                        }else{
-                            return parseFloat(value).toFixed(3); 
-                        }
-                    },
-                    to: function (value) { 
-                        //console.log("to", value, typeof value);
-                        if(value == null){
-                            return 0;
-                        }else{
-                            return parseFloat(value).toFixed(3); 
-                        }
-                    }
-                }
-            }
-        });
-
-        $("#main-form").submit(function (event) {
-            event.preventDefault();
-            $("#result-tab a").attr("data-toggle", "tab");
-            if($('#taxaFilter').is(':checked')){
-                var show_geo = true;
-                $("#geolocation-tab a").attr("data-toggle", "tab");
-                $("#geolocation-tab").removeClass("disabled");
-            }else{
-                var show_geo = false;
-                $("#geolocation-tab a").removeAttr("data-toggle");
-                $("#geolocation-tab").addClass("disabled");
-
-                $("#result-tab a").tab("show");
-            }
-             $(".geo-overlay").show();
-
-            var form_data = $(this).serialize();
-            $.ajax({
-                url: "{{ path('requete4') }}",
-                type: "POST",
-                data: form_data,
-                success: function (response) {
-                    $("#result-table").bootgrid("clear");
-                    scrollTo("#resultats");
-
-                    if (show_geo){
-                        $("#geo-title").html(
-                            Mustache.render(
-                                $("#geo-title-template").html(),
-                                {
-                                    taxname: response.geo[0]['taxname'],
-                                    code_methode: response.methode.code,
-                                    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-                                })
-                            );
-                        gd = motuGeoPlot(response.geo);
-                        Plotly.Plots.resize(gd).then(function(){
-                                $(".geo-overlay").hide();
-                            });
-                        $(".nav-tabs li").removeClass("disabled");
-                    }
-
-                    var dataArray = [];
-                    for(var row in response.rows) {
-                        if (response.rows.hasOwnProperty(row))
-                            dataArray.push(response.rows[row]);
-                    }
-
-                    $("#result-table").bootgrid("append", dataArray);
-                    $("#result-table").bootgrid("reload");
-                    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                        scrollTo('#resultats', 500);
-                        $(".geo-overlay").hide();
-                    });
-                    $("#geolocation-tab a ").on('shown.bs.tab', function(e){
-                        scrollTo('#resultats', 500);
-                        $(".geo-overlay").show();
-                        Plotly.Plots.resize(gd).then(function(){
-                            $(".geo-overlay").hide();
-                        });
-                    });
-                }
-            });
-        });        
+  function onSpeciesSelected() {
+    $("#submit-button").prop("disabled", true);
+    $("#taxon-spinner").removeClass("hidden");
+    $.post("{{path('taxname-search')}}", {
+      species: $('#species').val(),
+      genus: $("#genus").val()
+    }, function (response) {
+      var taxname = $('#taxname');
+      taxname.html('')
+      for (i = 0; i < response.data.length; i++) {
+        taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
+      }
+      $("#submit-button").prop("disabled", false);
+      $("#taxon-spinner").addClass("hidden");
     });
+  }
+
+  function onGenusSelected() {
+    $("#submit-button").prop("disabled", true);
+    $("#taxon-spinner").removeClass("hidden");
+    $.post("{{path('speciesingenus')}}", {
+      genus: $('#genus').val()
+    }, function (response) {
+      var species = $('#species');
+      species.html('')
+      for (i = 0; i < response.data.length; i++) {
+        species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
+      }
+      {% if with_taxname %}
+        onSpeciesSelected();
+      {% else %}
+        $("#submit-button").prop("disabled", false);
+        $("#taxon-spinner").addClass("hidden");
+      {% endif %}
+    });
+  }
+
+  $(document).ready(function () {
+
+    var switchBtn = initSwitchery(".switchbox");
+
+    var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
+    var gd;
+
+    onDateMotuSelected("#method-form", "#submit-button");
+
+    $('#taxaFilter').change(function () {
+      if (this.checked) {
+        $(".taxa-select").prop('disabled', false);
+        $("#method-form select").prop('disabled', false);
+      } else {
+        $(".taxa-select").prop('disabled', true);
+        $("#method-form select").prop('disabled', true);
+      }
+    });
+    $('#taxaFilter').trigger('change');
+
+    $('#genus').change(onGenusSelected);
+    $('#genus').trigger('change');
+
+    $('#species').change(onSpeciesSelected);
+
+    $('#date_methode').change(function (e) {
+      onDateMotuSelected("#method-form", "#submit-button");
+    });
+
+    $("#result-table").bootgrid({
+      ajax: false,
+      caseSensitive: false,
+      formatters: {
+        details: bgDetailsForm,
+        number_format: bgRoundFloat,
+        taxonLink: function (column, row) {
+          {% verbatim %}
+            return Mustache.render("<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>", row);
+          {% endverbatim %}
+      },
+      ncbiLink: bgNcbiLink,
+      typeSeq: bgTypeSeq
+    },
+    converters: {
+      'float_number': {
+        from: function (value) {
+          //console.log("from", value, typeof value);
+          if (value == null) {
+            return 0
+          } else {
+            return parseFloat(value).toFixed(3);
+          }
+        },
+        to: function (value) {
+          //console.log("to", value, typeof value);
+          if (value == null) {
+            return 0;
+          } else {
+            return parseFloat(value).toFixed(3);
+          }
+        }
+      }
+    }
+  });
+
+  $("#main-form").submit(function (event) {
+    event.preventDefault();
+    $("#result-tab a").attr("data-toggle", "tab");
+    if ($('#taxaFilter').is(':checked')) {
+      var show_geo = true;
+      $("#geolocation-tab a").attr("data-toggle", "tab");
+      $("#geolocation-tab").removeClass("disabled");
+    } else {
+      var show_geo = false;
+      $("#geolocation-tab a").removeAttr("data-toggle");
+      $("#geolocation-tab").addClass("disabled");
+
+      $("#result-tab a").tab("show");
+    }
+    $(".geo-overlay").show();
+
+    var form_data = $(this).serialize();
+    $.ajax({
+      url: "{{ path('requete4') }}",
+      type: "POST",
+      data: form_data,
+      success: function (response) {
+        $("#result-table").bootgrid("clear");
+        scrollTo("#resultats");
+
+        if (show_geo) {
+          $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
+            taxname: response.geo[0]['taxname'],
+            code_methode: response.methode.code,
+            date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+          }));
+          gd = motuGeoPlot(response.geo);
+          Plotly.Plots.resize(gd).then(function () {
+            $(".geo-overlay").hide();
+          });
+          $(".nav-tabs li").removeClass("disabled");
+        }
+
+        var dataArray = [];
+        for (var row in response.rows) {
+          if (response.rows.hasOwnProperty(row)) 
+            dataArray.push(response.rows[row]);
+          }
+        
+        $("#result-table").bootgrid("append", dataArray);
+        $("#result-table").bootgrid("reload");
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          scrollTo('#resultats', 500);
+          $(".geo-overlay").hide();
+        });
+        $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
+          scrollTo('#resultats', 500);
+          $(".geo-overlay").show();
+          Plotly.Plots.resize(gd).then(function () {
+            $(".geo-overlay").hide();
+          });
+        });
+      }
+    });
+  });
+});
 </script>
 
 {% endblock %}

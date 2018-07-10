@@ -1,43 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}  
-    <!-- Switchery -->
-    <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
-    <!-- Custom Theme Style -->
-    <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
+  {{ parent() }}
+  <!-- Switchery -->
+  <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+  <!-- Custom Theme Style -->
+  <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block headincl %}
-    <!-- Plotly -->
-    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
+  <!-- Plotly -->
+  <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
 {% endblock %}
 
 {% block titlepage %}
-   <div class="clearfix"></div>
+  <div class="clearfix"></div>
 {% endblock %}
 
-{% block action %}
-{% endblock %} 
+{% block action %}{% endblock %}
 
 {% block body %}
-   <div class="clearfix"></div>
+  <div class="clearfix"></div>
 {% endblock %}
 
 {% block link %}
-    <div class="clearfix"></div>
+  <div class="clearfix"></div>
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }} 
-    <!-- Switchery -->
-    <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
+  {{ parent() }}
+  <!-- Switchery -->
+  <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
 
-    <!-- Custom Scripts -->
-    <script src="{{ asset('e3s/js/queries.js') }}"></script>
-    <script src="{{ asset('e3s/js/plots.js') }}"></script>
-    <script src="{{ asset('e3s/js/bootgrid.formatters.js') }}"></script>
-    <!-- Mustache templating engine -->
-    <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
+  <!-- Custom Scripts -->
+  <script src="{{ asset('e3s/js/queries.js') }}"></script>
+  <script src="{{ asset('e3s/js/plots.js') }}"></script>
+  <script src="{{ asset('e3s/js/bootgrid.formatters.js') }}"></script>
+  <!-- Mustache templating engine -->
+  <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
 {% endblock %}
-
