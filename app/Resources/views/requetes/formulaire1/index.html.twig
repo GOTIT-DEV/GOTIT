@@ -30,15 +30,13 @@
     $(document).ready(function () {
 
 			let speciesSelector = new SpeciesSelector("#main-form")
+			let methodSelector = new MethodSelector("#main-form", 'checkbox')
+
       initSwitchery('.switchbox');
 
       var niveau = 0;
       var criteres = {};
       var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
-      // refresh list of methods in selected dataset
-      $('#date_methode').change(function () {
-        onDateMotuSelected("#method-form", "#submit-button", "checkbox");
-      }).trigger('change')
 
       // toggle taxonomy form
       $('#taxaFilter').change(function () {

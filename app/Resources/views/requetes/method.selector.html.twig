@@ -1,36 +1,41 @@
 {# Composant de formulaire pour sélectionner un jeu de données et une méthode #}
-
-<div class="form-group">
-  <label for="date_methode">Jeu de données</label>
-  <select name="date_methode" id="date_methode" class="form-control methode-select">
-    {% for date_motu in dates_methode %}
-      <option value={{date_motu.id}}>
-        {{date_motu.dateMotu|date('d M Y')}}
-      </option>
-    {% endfor %}
-  </select>
-</div>
-<hr>
-<div class="form-group">
-  <label>Méthode</label>
-  <div id="methodes-container">
-    {% if method_check_array is defined %}
-      <center>
-        <i class="fa fa-spinner fa-spin method-spinner" style="font-size:24px"></i>
-      </center>
-
-    {% else %}
-      <select name="methode" id="methode" class="form-control methode-select"></select>
-    {% endif %}
+<div
+  id="method-form"
+  class="method-selector form-horizontal"
+  data-url="{{path('methodsindate')}}"
+  data-spinner=".method-spinner">
+  <div class="form-group">
+    <label for="date_methode">Jeu de données</label>
+    <select name="date_methode" id="date_methode" class="form-control date-motu-select">
+      {% for date_motu in dates_methode %}
+        <option value="{{date_motu.id}}">
+          {{date_motu.dateMotu|date('d M Y')}}
+        </option>
+      {% endfor %}
+    </select>
   </div>
-</div>
-<template id="method-form-checkbox">
-  <div class="checkbox checkbox-inline">
-    <label>
-      {% verbatim %}
-        <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
-        {{code}}
-      {% endverbatim %}
-    </label>
+  <hr>
+  <div class="form-group">
+    <label>Méthode</label>
+    <div id="method-container" class=".method-container">
+      {% if method_check_array is defined %}
+        <center>
+          <i class="fa fa-spinner fa-spin method-spinner" style="font-size:24px"></i>
+        </center>
+
+      {% else %}
+        <select name="methode" id="methode" class="form-control method-select"></select>
+      {% endif %}
+    </div>
   </div>
-</template>
+  <template id="method-form-checkbox">
+    <div class="checkbox checkbox-inline">
+      <label>
+        {% verbatim %}
+          <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
+          {{code}}
+        {% endverbatim %}
+      </label>
+    </div>
+  </template>
+</div>

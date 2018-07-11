@@ -26,14 +26,7 @@
   $(document).ready(function () {
 
     var switchBtn = initSwitchery(".switchbox");
-
-    var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
-    var gd;
-
-    let speciesSelector = new SpeciesSelector("#main-form", true)
-    
-
-    $('#taxaFilter').change(function () {
+		$('#taxaFilter').change(function () {
       if (this.checked) {
         $(".taxa-select").prop('disabled', false);
         $("#method-form select").prop('disabled', false);
@@ -41,12 +34,14 @@
         $(".taxa-select").prop('disabled', true);
         $("#method-form select").prop('disabled', true);
       }
-    });
-    $('#taxaFilter').trigger('change');
-
-    $('#date_methode').change(function (e) {
-      onDateMotuSelected("#method-form", "#submit-button");
     }).trigger('change');
+
+    var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
+    var gd;
+
+    let speciesSelector = new SpeciesSelector("#main-form", true)
+    let methodSelector = new MethodSelector("#main-form")
+
 
     $("#result-table").bootgrid({
       ajax: false,

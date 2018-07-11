@@ -2,15 +2,18 @@ class SpeciesSelector {
   constructor(formId, withTaxname = false) {
     this.form = $(formId)
     this.selector = this.form.find(".species-selector")
+    this.genus = this.selector.find('.genus-select')
+    this.species = this.selector.find('.species-select')
     this.withTaxname = withTaxname
 
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
 
-    this.selector.find('.genus-select')
+    // Init event handlers
+    this.genus
       .change(this.onGenusSelected)
       .trigger('change');
-    this.selector.find('.species-select')
+    this.species
       .change(this.onSpeciesSelected);
   }
 
@@ -28,10 +31,10 @@ class SpeciesSelector {
     var spSel = this
     spSel.toggleWaitingResponse(true)
     $.post(spSel.selector.data('url'), {
-      genus: spSel.selector.find('.genus-select').val()
+      genus: spSel.genus.val()
     }, function(response) {
       var data = response.data.map(makeOption)
-      spSel.selector.find('.species-select').html($.makeArray(data))
+      spSel.species.html($.makeArray(data))
       if (spSel.withTaxname) {
         spSel.onSpeciesSelected();
       } else {
@@ -49,8 +52,8 @@ class SpeciesSelector {
     var spSel = this
     var taxnameSel = spSel.selector.find('.taxname-select')
     $.post(taxnameSel.data('url'), {
-        species: spSel.selector.find('.species-select').val(),
-        genus: spSel.selector.find('.genus-select').val()
+        species: spSel.species.val(),
+        genus: spSel.genus.val()
       },
       function(response) {
         var data = response.data.map(makeOption)
@@ -74,27 +77,65 @@ function initSwitchery(selector, size = 'small') {
 
   var elems = Array.prototype.slice.call(document.querySelectorAll(selector));
   elems.forEach(function(html) {
-    var switchery = new Switchery(html, { size: size });
+    return new Switchery(html, { size: size });
   });
 
 }
 
-function toggleFormSelect(event) {
-  switch (event.target.value) {
-    case 0:
-      $(".methode-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', true);
-      break;
 
-    case 1:
-      $(".methode-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', false);
-      break;
+class MethodSelector {
+  constructor(formId, mode = "select") { // mode : 'select' or 'checkbox'
+    this.form = $(formId)
+    this.selector = this.form.find('.method-selector')
+    this.mode = mode
+    if (this.mode == 'checkbox') {
+      this.container = this.selector.find('#method-container')
+      this.checkboxTemplate = this.selector.find('#method-form-checkbox')
+      console.log('checkbox')
+    }
+    this.datasets = this.selector.find('.date-motu-select')
+    this.methods = this.selector.find('.method-select')
+    this.onDateMotuSelected = this.onDateMotuSelected.bind(this)
 
-    case 2:
-      $(".methode-select").prop('disabled', false);
-      $(".methode-select").prop('disabled', true);
-      break;
+    this.datasets.change(this.onDateMotuSelected).trigger('change')
+  }
+
+  toggleWaitingResponse(waiting) {
+
+    this.form.find("input[type='submit']").prop("disabled", waiting);
+    if (waiting) {
+      $(".method-spinner").removeClass("hidden");
+    } else {
+      $(".method-spinner").addClass("hidden");
+    }
+  }
+
+  onDateMotuSelected() {
+    this.toggleWaitingResponse(true)
+    var methSel = this
+    $.post(
+      this.selector.data('url'), { date_methode: this.datasets.val() },
+      function(response) {
+
+        if (methSel.mode == 'select') {
+          var data = response.data.map(makeOption)
+          methSel.methods.html($.makeArray(data));
+        } else if (methSel.mode == 'checkbox') {
+          var data = response.data.map(makeCheckboxes)
+          console.log($.makeArray(data))
+          methSel.container.html($.makeArray(data));
+          console.log(methSel.container.html())
+        }
+        methSel.toggleWaitingResponse(false)
+      });
+
+    function makeOption(data) {
+      return Mustache.render('<option value={{id}}>{{code}}</option>', data);
+    }
+
+    function makeCheckboxes(data) {
+      return Mustache.render(methSel.checkboxTemplate.html(), data);
+    }
   }
 }
 

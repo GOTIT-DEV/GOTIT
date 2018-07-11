@@ -36,11 +36,7 @@
             <strong>Visualisation par méthode de délimitation</strong>
             <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
           </div>
-          <div
-            id="method-form"
-            class="panel-body form-horizontal"
-            data-url="{{path('methodsindate')}}"
-            data-spinner=".method-spinner">
+          <div class="panel-body">
             {% include 'requetes/method.selector.html.twig' %}
           </div>
           <div class="panel-footer">
