@@ -1,6 +1,6 @@
 {# Formulaire 3 #}
 
-<form id="main-form" action="#">
+<form id="main-form" action="#" data-url="{{ path('requete3') }}">
   <fieldset>
     <legend>
       <h2 style='margin-bottom:18px'>Paramètres</h2>
@@ -17,7 +17,7 @@
               <span class="pull-right">
                 <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
               </span>
-              <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+              <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
             </div>
           </div>
           <div class="panel-body" id="taxa-select">

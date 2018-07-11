@@ -1,21 +1,28 @@
-<div class="form-group">
-  <label class="control-label" for="genus">Genre :</label><br/>
-  <select name="genus" id="genus" class="form-control taxa-select">
-    {% for genus in genus_set %}
-      <option value={{genus.genus}}>
-        {{genus.genus}}
-      </option>
-    {% endfor %}
-  </select>
-</div>
-<div class="form-group">
-  <label class="control-label" for="species">Espèce :</label><br/>
-  <select name="species" id="species" class="form-control taxa-select"></select>
-</div>
-{% if with_taxname is defined and with_taxname %}
+<div data-url={{path('speciesingenus')}} id="species-selector" class="species-selector">
   <div class="form-group">
-    <label class="control-label" for="taxname">Taxon :
-    </label><br/>
-    <select name="taxname" id="taxname" class="form-control taxa-select"></select>
+    <label class="control-label" for="genus">Genre :</label><br/>
+    <select name="genus" id="genus" class="form-control taxa-select genus-select">
+      {% for genus in genus_set %}
+        <option value={{genus.genus}}>
+          {{genus.genus}}
+        </option>
+      {% endfor %}
+    </select>
   </div>
-{% endif %}
+  <div class="form-group">
+    <label class="control-label" for="species">Espèce :</label><br/>
+    <select name="species" id="species" class="form-control taxa-select species-select"></select>
+  </div>
+  {% if with_taxname is defined and with_taxname %}
+    <div class="form-group">
+      <label class="control-label" for="taxname">Taxon :
+      </label><br/>
+      <select
+        name="taxname"
+        id="taxname"
+        class="form-control taxa-select taxname-select"
+        data-url={{path('taxname-search')}}>
+      </select>
+    </div>
+  {% endif %}
+</div>

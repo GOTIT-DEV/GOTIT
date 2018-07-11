@@ -1,6 +1,6 @@
 {# Formulaire 4 #}
 
-<form id="main-form" action="#">
+<form id="main-form" action="#" data-url="{{ path('requete4') }}">
   <fieldset>
     <legend>
       <h2>Paramètres</h2>
@@ -14,9 +14,15 @@
                 Recherche par espèce
               </strong>
               <span class="pull-right">
-                <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
+                <input
+                  class="switchbox"
+                  type="checkbox"
+                  name="taxaFilter"
+                  id="taxaFilter"
+                  autocomplete="off"
+                  checked="checked">
               </span>
-              <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+              <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
             </div>
           </div>
           <div class="panel-body" id="taxa-select">
@@ -30,7 +36,11 @@
             <strong>Visualisation par méthode de délimitation</strong>
             <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
           </div>
-          <div id="method-form" class="panel-body form-horizontal" data-url="{{path('methodsindate')}}" data-spinner=".method-spinner">
+          <div
+            id="method-form"
+            class="panel-body form-horizontal"
+            data-url="{{path('methodsindate')}}"
+            data-spinner=".method-spinner">
             {% include 'requetes/method.selector.html.twig' %}
           </div>
           <div class="panel-footer">
@@ -44,7 +54,12 @@
       </div>
     </div>
     <center>
-      <input type="submit" href="#resultats" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button">
+      <input
+        type="submit"
+        href="#resultats"
+        value="Rechercher"
+        class="btn btn-primary btn-lg"
+        id="submit-button">
     </center>
   </fieldset>
 </form>

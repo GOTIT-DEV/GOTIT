@@ -23,43 +23,6 @@
 
 <script>
 
-  function onSpeciesSelected() {
-    $("#submit-button").prop("disabled", true);
-    $("#taxon-spinner").removeClass("hidden");
-    $.post("{{path('taxname-search')}}", {
-      species: $('#species').val(),
-      genus: $("#genus").val()
-    }, function (response) {
-      var taxname = $('#taxname');
-      taxname.html('')
-      for (i = 0; i < response.data.length; i++) {
-        taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
-      }
-      $("#submit-button").prop("disabled", false);
-      $("#taxon-spinner").addClass("hidden");
-    });
-  }
-
-  function onGenusSelected() {
-    $("#submit-button").prop("disabled", true);
-    $("#taxon-spinner").removeClass("hidden");
-    $.post("{{path('speciesingenus')}}", {
-      genus: $('#genus').val()
-    }, function (response) {
-      var species = $('#species');
-      species.html('')
-      for (i = 0; i < response.data.length; i++) {
-        species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-      }
-      {% if with_taxname %}
-        onSpeciesSelected();
-      {% else %}
-        $("#submit-button").prop("disabled", false);
-        $("#taxon-spinner").addClass("hidden");
-      {% endif %}
-    });
-  }
-
   $(document).ready(function () {
 
     var switchBtn = initSwitchery(".switchbox");
@@ -67,7 +30,8 @@
     var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
     var gd;
 
-    onDateMotuSelected("#method-form", "#submit-button");
+    let speciesSelector = new SpeciesSelector("#main-form", true)
+    
 
     $('#taxaFilter').change(function () {
       if (this.checked) {
@@ -80,14 +44,9 @@
     });
     $('#taxaFilter').trigger('change');
 
-    $('#genus').change(onGenusSelected);
-    $('#genus').trigger('change');
-
-    $('#species').change(onSpeciesSelected);
-
     $('#date_methode').change(function (e) {
       onDateMotuSelected("#method-form", "#submit-button");
-    });
+    }).trigger('change');
 
     $("#result-table").bootgrid({
       ajax: false,
@@ -97,7 +56,10 @@
         number_format: bgRoundFloat,
         taxonLink: function (column, row) {
           {% verbatim %}
-            return Mustache.render("<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>", row);
+            return Mustache.render(
+              "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>",
+              row
+            );
           {% endverbatim %}
       },
       ncbiLink: bgNcbiLink,
@@ -142,8 +104,9 @@
     $(".geo-overlay").show();
 
     var form_data = $(this).serialize();
+    var targetUrl = $(this).data('url')
     $.ajax({
-      url: "{{ path('requete4') }}",
+      url: targetUrl,
       type: "POST",
       data: form_data,
       success: function (response) {
@@ -169,8 +132,9 @@
             dataArray.push(response.rows[row]);
           }
         
-        $("#result-table").bootgrid("append", dataArray);
-        $("#result-table").bootgrid("reload");
+        $("#result-table")
+          .bootgrid("append", dataArray)
+          .bootgrid("reload");
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
           scrollTo('#resultats', 500);
           $(".geo-overlay").hide();

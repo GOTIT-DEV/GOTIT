@@ -32,30 +32,15 @@
   {{ parent() }}
 
   <script>
-    function onGenusSelected() {
-      $("#submit-button").prop("disabled", true);
-      $("#taxon-spinner").removeClass("hidden");
-      $.post("{{path('speciesingenus')}}", {
-        genus: $('#genus').val()
-      }, function (response) {
-        var species = $('#species');
-        species.html('')
-        for (i = 0; i < response.data.length; i++) {
-          species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-        }
-        $("#submit-button").prop("disabled", false);
-        $("#taxon-spinner").addClass("hidden");
-      });
-    }
 
     /* **************************
     *  Document ready
     **************************** */
     $(document).ready(function () {
-
       initSwitchery('.switchbox');
-
       var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
+
+      let speciesSelector = new SpeciesSelector("#main-form", false)
 
       window.onresize = function () {
         $(".geo-overlay").show();
@@ -64,19 +49,13 @@
         });
       };
 
-      onGenusSelected();
-
-      $('#taxaFilter').on('change', function () {
+      $('#taxaFilter').change(function () {
         if (this.checked) {
           $(".taxa-select").prop('disabled', false);
         } else {
           $(".taxa-select").prop('disabled', true);
         }
-      });
-
-      $('#genus').on('change', function () {
-        onGenusSelected();
-      });
+      }).trigger('change')
 
       $("#result-table").bootgrid({
         ajax: false,
@@ -86,7 +65,10 @@
           "number_format": bgRoundFloat,
           'taxonLink': function (column, row) {
             {% verbatim %}
-              return Mustache.render("<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>", row);
+              return Mustache.render(
+                "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>",
+                row
+              );
             {% endverbatim %}
         }
       },
@@ -140,8 +122,9 @@
     $("#main-form").submit(function (event) {
       event.preventDefault();
       var form_data = $(this).serialize();
+      var targetUrl = $(this).data('url')
       $.ajax({
-        url: "{{ path('requete3') }}",
+        url: targetUrl,
         type: "POST",
         data: form_data,
         success: function (response) {

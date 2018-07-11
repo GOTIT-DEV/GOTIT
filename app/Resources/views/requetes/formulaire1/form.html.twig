@@ -4,7 +4,7 @@
     - criteres
 #}
 
-<form id="main-form" action="#" class="row">
+<form id="main-form" action="#" class="row" data-url="{{path('requete1')}}">
   <fieldset>
     <legend>
       <h2>Paramètres de recherche</h2>
@@ -28,7 +28,7 @@
                     autocomplete="off"
                     checked="checked">
                 </span>
-                <i class="fa fa-spinner fa-spin pull-right" id="taxon-spinner" style="font-size:16px"></i>
+                <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
 
               </div>
             </div>
@@ -47,6 +47,7 @@
               class="panel-body form-horizontal"
               data-url="{{path('methodsindate')}}"
               data-spinner=".method-spinner">
+
               {% include 'requetes/method.selector.html.twig' with {
                 method_check_array : true
               } %}

@@ -19,70 +19,21 @@
 
   <script>
 
-    function onSpeciesSelected() {
-      $("#submit-button").prop("disabled", true);
-      $("#taxon-spinner").removeClass("hidden");
-      $.post("{{path('taxname-search')}}", {
-        species: $('#species').val(),
-        genus: $("#genus").val()
-      }, function (response) {
-        var taxname = $('#taxname');
-        taxname.html('')
-        for (i = 0; i < response.data.length; i++) {
-          taxname.append('<option value=' + response.data[i].id + '>' + response.data[i].taxname + '</option>');
-        }
-        $("#submit-button").prop("disabled", false);
-        $("#taxon-spinner").addClass("hidden");
-      });
-    }
-
-    function onGenusSelected() {
-      $("#submit-button").prop("disabled", true);
-      $("#taxon-spinner").removeClass("hidden");
-      $.post("{{path('speciesingenus')}}", {
-        genus: $('#genus').val()
-      }, function (response) {
-        var species = $('#species');
-        species.html('')
-        for (i = 0; i < response.data.length; i++) {
-          species.append('<option value=' + response.data[i].species + '>' + response.data[i].species + '</option>');
-        }
-        {% if with_taxname %}
-          onSpeciesSelected();
-        {% else %}
-          $("#submit-button").prop("disabled", false);
-          $("#taxon-spinner").addClass("hidden");
-        {% endif %}
-      });
-    }
-
-    function displayResults(data) {
-      $("#result-table").bootgrid("clear");
-      $("#result-table").bootgrid("append", data);
-      $("#result-table").bootgrid("reload");
-      barPlot("#barplot", data);
-    }
-
     $(document).ready(function () {
 
-      var countData;
-
-      var gd;
-
-      $('#genus').change(onGenusSelected);
-      $('#genus').trigger('change');
-
-      $('#species').change(onSpeciesSelected);
+      var countData
+      var gd
+			
+			let speciesSelector = new SpeciesSelector("#main-form", true)
 
       $('#date_methode').change(function () {
         onDateMotuSelected("#method-form", "#submit-button");
-      });
-      $('#date_methode').trigger('change');
+      }).trigger('change');
 
-      var checkedRef = $('input[name="reference"]:checked');
-
-      $('input[name="reference"]').change(toggleFormSelect);
-      $(checkedRef).trigger('change');
+      $('input[name="reference"]')
+        .change(toggleFormSelect)
+        .filter(':checked')
+        .trigger('change')
 
       $("#result-table").bootgrid({
         ajax: false,
@@ -94,13 +45,12 @@
         }
       });
 
-      $("#query2Form").submit(function (event) {
+      $("#main-form").submit(function (event) {
         event.preventDefault();
-
         var form_data = $(this).serialize();
-        console.log(form_data);
+        var targetUrl = $(this).data('url')
         $.ajax({
-          url: "{{ path('requete2') }}",
+          url: targetUrl,
           type: "POST",
           data: form_data,
           success: function (response) {
@@ -108,13 +58,22 @@
             var tab = $("#result-tabs").find('li.active a');
             var target = tab.data('target');
             displayResults(countData[target]);
-            $(".nav-tabs li").removeClass("disabled");
-            $(".nav-tabs li a").attr("data-toggle", "tab");
+            $(".nav-tabs li")
+              .removeClass("disabled")
+              .find('a')
+              .attr("data-toggle", "tab");
             $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
               displayResults(countData[$(e.target).data('target')]);
             });
           }
-        });
+        })
+        function displayResults(data) {
+          $("#result-table")
+            .bootgrid("clear")
+            .bootgrid("append", data)
+            .bootgrid("reload");
+          barPlot("#barplot", data);
+        }
       });
 
     })
