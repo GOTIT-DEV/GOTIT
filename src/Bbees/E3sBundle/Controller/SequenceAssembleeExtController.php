@@ -145,12 +145,6 @@ class SequenceAssembleeExtController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();            
-            // on initialise le code sqcAlignement : setCodeSqcAssExtAlignement($codeSqcAlignement)
-            //$codeSqcAssExt = $this->createCodeSqcAssExt($sequenceAssembleeExt);
-            //$sequenceAssembleeExt->setCodeSqcAssExt($codeSqcAssExt);
-            // on initialise le code sqcAlignement : setCodeSqcAssExtAlignement($codeSqcAlignement)
-            //$codeSqcAssExtAlignementExt = $this->createCodeSqcAssExtAlignement($sequenceAssembleeExt);
-            //$sequenceAssembleeExt->setCodeSqcAssExtAlignement($codeSqcAssExtAlignementExt);
             $em->persist($sequenceAssembleeExt);
             try {
                 $em->flush();
@@ -162,10 +156,10 @@ class SequenceAssembleeExtController extends Controller
             return $this->redirectToRoute('sequenceassembleeext_edit', array('id' => $sequenceAssembleeExt->getId(), 'valid' => 1));                     
         } 
         
-            return $this->render('sequenceassembleeext/edit.html.twig', array(
-                                'sequenceAssembleeExt' => $sequenceAssembleeExt,
-                                'edit_form' => $form->createView(),
-            )); 
+        return $this->render('sequenceassembleeext/edit.html.twig', array(
+                            'sequenceAssembleeExt' => $sequenceAssembleeExt,
+                            'edit_form' => $form->createView(),
+        )); 
     }
 
     /**

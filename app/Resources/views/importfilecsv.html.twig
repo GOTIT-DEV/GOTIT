@@ -5,6 +5,7 @@
     {% set route = app.request.attributes.get('_route') %}
     {% set route_entity_index = route[11:] %}
     {% set entityname = route_entity_index|split('_')[0] %}
+    {# cas particulier des autres imports/outils metiers #}  
     {% if route_entity_index == 'lotmaterielpublie_index' %} 
        {% set route_entity_index = 'source_index' %}
        {% set entityname = 'source' %}

@@ -1,21 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'edit.html.twig' %}
+
+{# EDIT : BOITE #}
 
 {% block body %}
-    <h1>Boite edit</h1>
+    
+    {{ parent() }}       
+ 
+{% endblock %}
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
-    <ul>
-        <li>
-            <a href="{{ path('boite_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+<script type="text/javascript">  
+
+//  interface Formulaire
+    $(document).ready(function(){
+    // Actions Jquery                        
+        // Collection $sqcEstPublieDanss (Source)
+        $('div#bbees_e3sbundle_boite_adns :input').attr("disabled", true); 
+        $('div#bbees_e3sbundle_boite_lotMateriels :input').attr("disabled", true);
+        $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", true);
+        {% if  app.request.query.get('typeBoite') == 'ADN'  %}  
+            var $container = $('div#bbees_e3sbundle_boite_adns' ); 
+            //addArrayCollectionButton($container,"Adn",false,false); 
+        {% endif %}
+        {% if  app.request.query.get('typeBoite') == 'LOT'  %}  
+            var $container = $('div#bbees_e3sbundle_boite_lotMateriels');             
+            //addArrayCollectionButton($container,"LotMateriel",false,false); 
+        {% endif %}
+        {% if  app.request.query.get('typeBoite') == 'LAME'  %}  
+            var $container = $('div#bbees_e3sbundle_boite_individuLames');             
+            //addArrayCollectionButton($container,"IndividuLame",false,false);
+        {% endif %} 
+    });
+ </script>
+ 
+<script type="text/javascript">  
+//  interface Formulaire
+    $(document).ready(function(){
+        // fonctionalités des champ date(s) & date_precision 
+
+        {% if action == 'edit'  %}  
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+        {% endif %}
+        {% if action == 'new'  %} 
+        {% endif %}   
+    });
+</script>
+
 {% endblock %}

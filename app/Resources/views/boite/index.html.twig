@@ -1,53 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'index.html.twig' %}
+{#  BOITE #}
 
-{% block body %}
-    <h1>Boites list</h1>
+    {# initialise le tableau des entitées liées ([entity1,entity2 ... ])  vers lesquelles on souhaite faire un lien-racourcis  
+    1) le tableau des resulatats devra comprendre un collonne du type : <th data-column-id="linkEntity" data-formatter="linkEntity" data-sortable="false">Col.</th>
+    2) le controller devra renvoyer dans le tableau rows les collones du type :  "linkEntity1" => "patern1" ,  "linkeEntity2" => "patern2" ... #}
+    {% set links =  [] %}
+    
+    
 
-    <table>
+{% block action %}
+    {{ parent() }}
+    {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>#}
+    {# <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel range'|trans}}</a> #}
+{% endblock %}
+
+{% block body %}  
+    
+    {# definition des collones à afficher 
+     ! pour les collones sortable suffixer les nom de champs par le nom des tables nomTable.nomChamp #}
+    <div class="table-responsive">        
+    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Codeboite</th>
-                <th>Libelleboite</th>
-                <th>Libellecollection</th>
-                <th>Commentaireboite</th>
-                <th>Datecre</th>
-                <th>Datemaj</th>
-                <th>Usercre</th>
-                <th>Usermaj</th>
-                <th>Actions</th>
+                <th data-column-id="boite.id" data-type="numeric" data-visible="false" >Id</th>
+                <th data-column-id="boite.codeBoite" data-sortable="true">{{'Code boite'|trans}}</th> 
+                <th data-column-id="vocCodeCollection.code" data-sortable="true" data-visible="true">{{'Code collection voc fk'|trans}}</th> 
+                <th data-column-id="boite.libelleBoite" data-sortable="true">{{'Libelle boite'|trans}}</th> 
+                <th data-column-id="boite.libelleCollection" data-sortable="true" data-visible="false">{{'Libelle collection'|trans}}</th> 
+                <th data-column-id="boite.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
+                <th data-column-id="boite.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
+                <th data-column-id="show" data-formatter="show" data-sortable="false" data-width="20">Show</th>
+                <th data-column-id="edit" data-formatter="edit" data-sortable="false" data-width="20">Edit</th>
+                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">Del</th>
             </tr>
         </thead>
-        <tbody>
-        {% for boite in boites %}
-            <tr>
-                <td><a href="{{ path('boite_show', { 'id': boite.id }) }}">{{ boite.id }}</a></td>
-                <td>{{ boite.codeBoite }}</td>
-                <td>{{ boite.libelleBoite }}</td>
-                <td>{{ boite.libelleCollection }}</td>
-                <td>{{ boite.commentaireBoite }}</td>
-                <td>{% if boite.dateCre %}{{ boite.dateCre|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if boite.dateMaj %}{{ boite.dateMaj|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ boite.userCre }}</td>
-                <td>{{ boite.userMaj }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('boite_show', { 'id': boite.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('boite_edit', { 'id': boite.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('boite_new') }}">Create a new boite</a>
-        </li>
-    </ul>
+    </div>       
 {% endblock %}

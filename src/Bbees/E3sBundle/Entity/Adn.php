@@ -122,7 +122,7 @@ class Adn
     /**
      * @var \Boite
      *
-     * @ORM\ManyToOne(targetEntity="Boite")
+     * @ORM\ManyToOne(targetEntity="Boite", inversedBy="adns")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id")
      * })

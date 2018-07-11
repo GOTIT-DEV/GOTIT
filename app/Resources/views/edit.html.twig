@@ -66,6 +66,9 @@
                  {% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
                     <a href="{{ path(route_index) }}?searchPatern={{ app.request.query.get('searchPatern') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
                  {% endif %}
+                 {% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
+                    <a href="{{ path(route_index) }}?typeBoite={{ app.request.query.get('typeBoite') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
+                 {% endif %}
                  {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
                      {% if nameFk is defined %}
                     <a href="{{ path(route_index) }}?nameFk={{nameFk}}&idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                

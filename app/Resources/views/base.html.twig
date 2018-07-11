@@ -95,9 +95,9 @@
                   </li>
                    <li><a><i class="fa fa-tasks"></i>{{'title.Stock'|trans}}<span class="fa fa-chevron-down"></span></a>                      
                     <ul class="nav child_menu">
-                    <li><a href="#">{{'title.lotmateriel'|trans}}</a></li>
-                    <li><a href="#">{{'title.individulame'|trans}}</a></li>
-                    <li><a href="#">{{'title.adn'|trans}}</a></li>
+                    <li><a href="{{ path('boite_index',{'typeBoite':'LOT'}) }}">{{'title.lotmateriel'|trans}}</a></li>
+                    <li><a href="{{ path('boite_index',{'typeBoite':'LAME'}) }}">{{'title.individulame'|trans}}</a></li>
+                    <li><a href="{{ path('boite_index',{'typeBoite':'ADN'}) }}">{{'title.adn'|trans}}</a></li>
                     </ul>
                   </li>
                   <li><a href="{{ path('source_index') }}"><i class="fa fa-newspaper-o"></i>{{'title.Source bibliographique'|trans}}</a></li>   

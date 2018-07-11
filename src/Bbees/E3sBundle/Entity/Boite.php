@@ -3,6 +3,7 @@
 namespace Bbees\E3sBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Boite
@@ -108,7 +109,28 @@ class Boite
      */
     private $typeBoiteVocFk;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="LotMateriel", mappedBy="boiteFk", cascade={"persist"})
+     */
+    protected $lotMateriels;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
+     */
+    protected $adns;
+  
+    /**
+     * @ORM\OneToMany(targetEntity="IndividuLame", mappedBy="boiteFk", cascade={"persist"})
+     */
+    protected $individuLames;
+    
+    
+    public function __construct()
+    {
+        $this->lotMateriels = new ArrayCollection();
+    	$this->adns = new ArrayCollection();
+        $this->individuLames = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -382,5 +404,110 @@ class Boite
     public function getTypeBoiteVocFk()
     {
         return $this->typeBoiteVocFk;
+    }
+
+    /**
+     * Add lotMateriel
+     *
+     * @param \Bbees\E3sBundle\Entity\LotMateriel $lotMateriel
+     *
+     * @return Boite
+     */
+    public function addLotMateriel(\Bbees\E3sBundle\Entity\LotMateriel $lotMateriel)
+    {
+        $lotMateriel->setBoiteFk($this);
+        $this->lotMateriels[] = $lotMateriel;
+
+        return $this;
+    }
+
+    /**
+     * Remove lotMateriel
+     *
+     * @param \Bbees\E3sBundle\Entity\LotMateriel $lotMateriel
+     */
+    public function removeLotMateriel(\Bbees\E3sBundle\Entity\LotMateriel $lotMateriel)
+    {
+        $this->lotMateriels->removeElement($lotMateriel);
+    }
+
+    /**
+     * Get lotMateriels
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLotMateriels()
+    {
+        return $this->lotMateriels;
+    }
+
+    /**
+     * Add adn
+     *
+     * @param \Bbees\E3sBundle\Entity\Adn $adn
+     *
+     * @return Boite
+     */
+    public function addAdn(\Bbees\E3sBundle\Entity\Adn $adn)
+    {
+        $adn->setBoiteFk($this);
+        $this->adns[] = $adn;
+
+        return $this;
+    }
+
+    /**
+     * Remove adn
+     *
+     * @param \Bbees\E3sBundle\Entity\Adn $adn
+     */
+    public function removeAdn(\Bbees\E3sBundle\Entity\Adn $adn)
+    {
+        $this->adns->removeElement($adn);
+    }
+
+    /**
+     * Get adns
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdns()
+    {
+        return $this->adns;
+    }
+
+    /**
+     * Add individuLame
+     *
+     * @param \Bbees\E3sBundle\Entity\IndividuLame $individuLame
+     *
+     * @return Boite
+     */
+    public function addIndividuLame(\Bbees\E3sBundle\Entity\IndividuLame $individuLame)
+    {
+        $individuLame->setBoiteFk($this);
+        $this->individuLames[] = $individuLame;
+
+        return $this;
+    }
+
+    /**
+     * Remove individuLame
+     *
+     * @param \Bbees\E3sBundle\Entity\IndividuLame $individuLame
+     */
+    public function removeIndividuLame(\Bbees\E3sBundle\Entity\IndividuLame $individuLame)
+    {
+        $this->individuLames->removeElement($individuLame);
+    }
+
+    /**
+     * Get individuLames
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIndividuLames()
+    {
+        return $this->individuLames;
     }
 }

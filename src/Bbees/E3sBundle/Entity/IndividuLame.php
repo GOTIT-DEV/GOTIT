@@ -99,7 +99,7 @@ class IndividuLame
     /**
      * @var \Boite
      *
-     * @ORM\ManyToOne(targetEntity="Boite")
+     * @ORM\ManyToOne(targetEntity="Boite", inversedBy="individuLames")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id")
      * })

@@ -17,13 +17,18 @@
     {% if app.request.query.get('idFk') is defined and  app.request.query.get('idFk') != '' %} 
         {% set varUrl_idFk =  app.request.query.get('idFk')  %}
     {% else %}
-        {% set varUrl_idFk = '0' %}
+        {% set varUrl_idFk = 0 %}
     {% endif %}    
     {% if app.request.query.get('nameFk') is defined and  app.request.query.get('nameFk') != '' %} 
         {% set varUrl_nameFk =  app.request.query.get('nameFk')  %}
     {% else %}
         {% set varUrl_nameFk = '' %}
     {% endif %}
+    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
+        {% set varUrl_typeBoite =  app.request.query.get('typeBoite')  %}
+    {% else %}
+        {% set varUrl_typeBoite = '' %}
+    {% endif %} 
     {% set titleEntityName =  ['title.',entityname]|join  %} 
 
 {% block titlepage %}
@@ -57,7 +62,8 @@ $(document).ready(function(){
         {        
             return {
                 searchPatern: "{{ app.request.query.get('searchPatern') }}",
-                idFk: "{{ app.request.query.get('idFk') }}"
+                idFk: "{{ app.request.query.get('idFk') }}",
+                typeBoite: "{{ app.request.query.get('typeBoite') }}"
             };
         },
         labels: {
@@ -86,7 +92,7 @@ $(document).ready(function(){
                     is_num = is_num.match(/^\d+$/);
                     if( is_num > 0) {
                         return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fa fa-eye fa-fw\"></span></a>";
-                    }else{
+                    } else {
                         return "<a href=\"{{ path(link_index)}}?searchPatern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fa fa-eye fa-fw\"></span></a>";
                     }                 
                  } else {
@@ -101,9 +107,13 @@ $(document).ready(function(){
             },
             "edit": function(column, row, value)
             {
-                 if ( {{varUrl_idFk}} != '0' ) {
+                 if ( {{varUrl_idFk}} != 0 ) {
                     return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"fa fa-pencil fa-fw\"></span></a>";                  
-                 } else {
+                 } 
+                 if ( '{{varUrl_typeBoite}}' != '' ) {
+                    return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"fa fa-pencil fa-fw\"></span></a>";                  
+                 } 
+                 if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
                    return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"fa fa-pencil fa-fw\"></span></a>";
                  }               
             },
