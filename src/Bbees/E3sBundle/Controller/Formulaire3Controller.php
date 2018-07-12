@@ -47,6 +47,13 @@ class Formulaire3Controller extends Controller {
         $all_sta = $service->getSpeciesGeoSummary($data);
         $coi_sta = $service->getSpeciesGeoSummary($data, $coi=true);
 
+				foreach($all_sta as $id => $sta){
+					$all_sta[$id] = array_merge(array(
+						'nb_sta_co1' => 0,
+						'lmp_co1' => null,
+						'mle_co1' => null
+					), $all_sta[$id]);
+				}
         foreach($coi_sta as $id => $coi){
             if (array_key_exists($id, $all_sta)){
                 $all_sta[$id] = array_merge($all_sta[$id], $coi_sta[$id]);
@@ -58,7 +65,7 @@ class Formulaire3Controller extends Controller {
                 ), $coi_sta[$id]);
             }
         }
-        $res = $all_sta;
+        $res = array_values($all_sta);
         //dump($res);
         return new JsonResponse(array('rows' => $res));
     }
