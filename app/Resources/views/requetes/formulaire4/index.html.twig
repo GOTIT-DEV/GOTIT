@@ -17,134 +17,16 @@
 
 {% endblock %}
 
+
 {% block scripts %}
 
 {{ parent() }}
 
-<script>
+	<script>
+	const methodList = JSON.parse("{{methods_list|json_encode()|raw |e('js')}}")
+	console.log(methodList)
+	</script>
 
-  $(document).ready(function () {
-
-    var switchBtn = initSwitchery(".switchbox");
-		$('#taxaFilter').change(function () {
-      if (this.checked) {
-        $(".taxa-select").prop('disabled', false);
-        $("#method-form select").prop('disabled', false);
-      } else {
-        $(".taxa-select").prop('disabled', true);
-        $("#method-form select").prop('disabled', true);
-      }
-    }).trigger('change');
-
-    var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
-    var gd;
-
-    let speciesSelector = new SpeciesSelector("#main-form", true)
-    let methodSelector = new MethodSelector("#main-form")
-
-
-    $("#result-table").bootgrid({
-      ajax: false,
-      caseSensitive: false,
-      formatters: {
-        details: bgDetailsForm,
-        number_format: bgRoundFloat,
-        taxonLink: function (column, row) {
-          {% verbatim %}
-            return Mustache.render(
-              "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>",
-              row
-            );
-          {% endverbatim %}
-      },
-      ncbiLink: bgNcbiLink,
-      typeSeq: bgTypeSeq
-    },
-    converters: {
-      'float_number': {
-        from: function (value) {
-          //console.log("from", value, typeof value);
-          if (value == null) {
-            return 0
-          } else {
-            return parseFloat(value).toFixed(3);
-          }
-        },
-        to: function (value) {
-          //console.log("to", value, typeof value);
-          if (value == null) {
-            return 0;
-          } else {
-            return parseFloat(value).toFixed(3);
-          }
-        }
-      }
-    }
-  });
-
-  $("#main-form").submit(function (event) {
-    event.preventDefault();
-    $("#result-tab a").attr("data-toggle", "tab");
-    if ($('#taxaFilter').is(':checked')) {
-      var show_geo = true;
-      $("#geolocation-tab a").attr("data-toggle", "tab");
-      $("#geolocation-tab").removeClass("disabled");
-    } else {
-      var show_geo = false;
-      $("#geolocation-tab a").removeAttr("data-toggle");
-      $("#geolocation-tab").addClass("disabled");
-
-      $("#result-tab a").tab("show");
-    }
-    $(".geo-overlay").show();
-
-    var form_data = $(this).serialize();
-    var targetUrl = $(this).data('url')
-    $.ajax({
-      url: targetUrl,
-      type: "POST",
-      data: form_data,
-      success: function (response) {
-        $("#result-table").bootgrid("clear");
-        scrollTo("#resultats");
-
-        if (show_geo) {
-          $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-            taxname: response.geo[0]['taxname'],
-            code_methode: response.methode.code,
-            date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-          }));
-          gd = motuGeoPlot(response.geo);
-          Plotly.Plots.resize(gd).then(function () {
-            $(".geo-overlay").hide();
-          });
-          $(".nav-tabs li").removeClass("disabled");
-        }
-
-        var dataArray = [];
-        for (var row in response.rows) {
-          if (response.rows.hasOwnProperty(row)) 
-            dataArray.push(response.rows[row]);
-          }
-        
-        $("#result-table")
-          .bootgrid("append", dataArray)
-          .bootgrid("reload");
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-          scrollTo('#resultats', 500);
-          $(".geo-overlay").hide();
-        });
-        $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
-          scrollTo('#resultats', 500);
-          $(".geo-overlay").show();
-          Plotly.Plots.resize(gd).then(function () {
-            $(".geo-overlay").hide();
-          });
-        });
-      }
-    });
-  });
-});
-</script>
+  <script src = "{{asset('e3s/js/requetes/carte_richesse.js')}}"></script>
 
 {% endblock %}
