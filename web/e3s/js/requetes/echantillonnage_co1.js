@@ -3,8 +3,11 @@
  **************************** */
 $(document).ready(function() {
   initSwitchery('.switchbox');
+  $("#main-form").find("button[type='submit']").button('loading')
 
-  let speciesSelector = new SpeciesSelector("#main-form", false, callback = function() {
+  let speciesSelector = new SpeciesSelector("#main-form", false)
+
+  speciesSelector.promise.then(function() {
     initDataTable("#result-table")
   })
 

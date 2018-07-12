@@ -10,7 +10,9 @@ class SpeciesSelector {
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
 
-    // Init event handlers
+    // Promise resolved when ready
+    this.promise = new $.Deferred()
+      // Init event handlers
     this.genus
       .change(this.onGenusSelected)
       .trigger('change');
@@ -22,9 +24,11 @@ class SpeciesSelector {
 
     this.form.find("input[type='submit']").prop("disabled", waiting);
     if (waiting) {
+      this.promise = new $.Deferred()
       $(".taxon-spinner").removeClass("hidden");
     } else {
       $(".taxon-spinner").addClass("hidden");
+      this.promise.resolve()
       this.callback()
     }
   }
@@ -97,6 +101,10 @@ class MethodSelector {
     }
     this.datasets = this.selector.find('.date-motu-select')
     this.methods = this.selector.find('.method-select')
+
+    // Promise resolved when ready
+    this.promise = new $.Deferred()
+
     this.onDateMotuSelected = this.onDateMotuSelected.bind(this)
 
     this.datasets.change(this.onDateMotuSelected).trigger('change')
@@ -106,8 +114,10 @@ class MethodSelector {
 
     this.form.find("input[type='submit']").prop("disabled", waiting);
     if (waiting) {
+      this.promise = new $.Deferred()
       $(".method-spinner").removeClass("hidden");
     } else {
+      this.promise.resolve()
       $(".method-spinner").addClass("hidden");
     }
   }
@@ -124,9 +134,7 @@ class MethodSelector {
           methSel.methods.html($.makeArray(data));
         } else if (methSel.mode == 'checkbox') {
           var data = response.data.map(makeCheckboxes)
-          console.log($.makeArray(data))
           methSel.container.html($.makeArray(data));
-          console.log(methSel.container.html())
         }
         methSel.toggleWaitingResponse(false)
       });
