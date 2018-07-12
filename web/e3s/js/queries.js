@@ -1,10 +1,11 @@
 class SpeciesSelector {
-  constructor(formId, withTaxname = false) {
+  constructor(formId, withTaxname = false, callback = function() {}) {
     this.form = $(formId)
     this.selector = this.form.find(".species-selector")
     this.genus = this.selector.find('.genus-select')
     this.species = this.selector.find('.species-select')
     this.withTaxname = withTaxname
+    this.callback = callback
 
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
@@ -24,6 +25,7 @@ class SpeciesSelector {
       $(".taxon-spinner").removeClass("hidden");
     } else {
       $(".taxon-spinner").addClass("hidden");
+      this.callback()
     }
   }
 
