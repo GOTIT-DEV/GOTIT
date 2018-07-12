@@ -1,3 +1,7 @@
+/** SpeciesSelector
+ * Classe pour gérer le chargement dynamique des espèces en fonction du genre
+ * dans les <select> des formulaires
+ */
 class SpeciesSelector {
   constructor(formId, withTaxname = false, callback = function() {}) {
     this.form = $(formId)
@@ -75,22 +79,12 @@ class SpeciesSelector {
   }
 }
 
-function scrollTo(elt_id, time = 1000) {
-  $('html, body').animate({
-    scrollTop: $(elt_id).offset().top
-  }, time);
-}
-
-function initSwitchery(selector, size = 'small') {
-
-  var elems = Array.prototype.slice.call(document.querySelectorAll(selector));
-  elems.forEach(function(html) {
-    return new Switchery(html, { size: size });
-  });
-
-}
 
 
+/** MethodSelector
+ * Classe pour gérer le chargement dynamique des méthodes en fonction du
+ * dataset dans les <select> des formulaires
+ */
 class MethodSelector {
   constructor(formId, mode = "select") { // mode : 'select' or 'checkbox'
     this.form = $(formId)
@@ -151,31 +145,29 @@ class MethodSelector {
   }
 }
 
-function onDateMotuSelected(dateFormModule, submitBtn, mode = "select") { // mode : 'select' or 'checkbox'
-  var module = $(dateFormModule);
-  var spinners = $(module.data('spinner'));
-  var dateMotu = module.find("select[name='date_methode']");
-  var methode = module.find("select[name='methode']");
-  $(submitBtn).prop("disabled", true);
-  $(spinners).removeClass("hidden");
-  $.post(
-    module.data('url'), { date_methode: dateMotu.val() },
-    function(response) {
-      if (mode == 'select') {
-        methode.html('');
-        for (i = 0; i < response.data.length; i++) {
-          methode.append(
-            Mustache.render('<option value={{id}}>{{code}}</option>', response.data[i]));
-        }
-      } else if (mode == 'checkbox') {
-        var container = module.find('#methodes-container');
-        var template = module.find("#method-form-checkbox").html();
-        container.html('');
-        for (i = 0; i < response.data.length; i++) {
-          container.append(Mustache.render(template, response.data[i]));
-        }
-      }
-      $(submitBtn).prop("disabled", false);
-      $(spinners).addClass("hidden");
-    });
+/**
+ * Raccourci pour animation scroll
+ * 
+ * @param {string} elt_id identifiant de l'élément à atteindre
+ * @param {int} time temps d'animation en ms
+ */
+function scrollTo(elt_id, time = 1000) {
+  $('html, body').animate({
+    scrollTop: $(elt_id).offset().top
+  }, time);
+}
+
+/**
+ * Raccourci d'initialisation des éléments switchery
+ * 
+ * @param {string} selector element.s à initialiser
+ * @param {string} size taille du switch
+ */
+function initSwitchery(selector, size = 'small') {
+
+  var elems = Array.prototype.slice.call(document.querySelectorAll(selector));
+  elems.forEach(function(html) {
+    return new Switchery(html, { size: size });
+  });
+
 }
