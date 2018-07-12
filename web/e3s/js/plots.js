@@ -158,8 +158,8 @@ function geoPlot(rows_no_co1, rows_co1, lmp = false, lmp_co1 = false) {
   if (lmp) {
     data.push({
       type: 'scattergeo',
-      lon: Array.from(new Array(110), (x, i) => i - 30),
-      lat: Array(140).fill(lmp),
+      lon: Array.from(new Array(360), (_, i) => -180 + i),
+      lat: Array(360).fill(lmp),
       hoverinfo: "none",
       mode: 'lines',
       line: {
@@ -174,8 +174,8 @@ function geoPlot(rows_no_co1, rows_co1, lmp = false, lmp_co1 = false) {
   if (lmp_co1) {
     data.push({
       type: 'scattergeo',
-      lon: Array.from(new Array(110), (x, i) => i - 30),
-      lat: Array(140).fill(lmp_co1),
+      lon: Array.from(new Array(360), (_, i) => -180 + i),
+      lat: Array(360).fill(lmp_co1),
       hoverinfo: "none",
       mode: 'lines',
       line: {
