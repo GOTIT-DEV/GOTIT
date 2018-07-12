@@ -4,6 +4,8 @@
   {{ parent() }}
   <!-- Switchery -->
   <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+	<!-- Datatables -->
+  <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
   <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
 {% endblock %}
@@ -29,6 +31,8 @@
 
 {% block scripts %}
   {{ parent() }}
+	<!-- Datatables -->
+  <script src="{{ asset('e3s/vendors/datatables/datatables.min.js') }}"></script>
   <!-- Switchery -->
   <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
 

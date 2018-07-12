@@ -10,9 +10,13 @@
     </div>
 
     <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
-      <h2>Résultats</h2>
-      {% include 'requetes/formulaire3/results.html.twig' %}
-    </div>
+      <fieldset>
+        <legend>
+          <h2 style='margin-bottom:18px'>Résultats</h2>
+        </legend>
+        {% include 'requetes/formulaire3/results.html.twig' %}
+      </div>
+    </fieldset>
 
   </div>
 
@@ -24,126 +28,9 @@
       'taxname' : ''
     } %}
   </div>
-
 {% endblock %}
 
 {% block scripts %}
-
   {{ parent() }}
-
-  <script>
-
-    /* **************************
-    *  Document ready
-    **************************** */
-    $(document).ready(function () {
-      initSwitchery('.switchbox');
-      var referentieltaxon_url = "{{path('referentieltaxon_show', {id:0})}}".slice(0, -1);
-
-      let speciesSelector = new SpeciesSelector("#main-form", false)
-
-      window.onresize = function () {
-        $(".geo-overlay").show();
-        Plotly.Plots.resize(gd).then(function () {
-          $(".geo-overlay").hide();
-        });
-      };
-
-      $('#taxaFilter').change(function () {
-        if (this.checked) {
-          $(".taxa-select").prop('disabled', false);
-        } else {
-          $(".taxa-select").prop('disabled', true);
-        }
-      }).trigger('change')
-
-      $("#result-table").bootgrid({
-        ajax: false,
-        caseSensitive: false,
-        formatters: {
-          "details": bgDetailsForm,
-          "number_format": bgRoundFloat,
-          'taxonLink': function (column, row) {
-            {% verbatim %}
-              return Mustache.render(
-                "<a href='" + referentieltaxon_url + "{{id}}'>{{taxname}}</a>",
-                row
-              );
-            {% endverbatim %}
-        }
-      },
-      converters: {
-        'float_number': {
-          from: function (value) {
-            console.log("from", value, typeof value);
-            if (value == null) {
-              return 0
-            } else {
-              return parseFloat(value).toFixed(3);
-            }
-          },
-          to: function (value) {
-            console.log("to", value, typeof value);
-            if (value == null) {
-              return 0;
-            } else {
-              return parseFloat(value).toFixed(3);
-            }
-          }
-        }
-      }
-    }).on("loaded.rs.jquery.bootgrid", function (e) {
-      $(".details-form").submit(function (event) {
-        event.preventDefault();
-        var taxid = $(this).find("input[name='taxon']").val();
-        var lmp = $(this).find("input[name='lmp_lm']").val();
-        var lmp_co1 = $(this).find("input[name='lmp_co1']").val();
-        var data = $(this).serialize();
-        $(".geo-overlay").show();
-        $.ajax({
-          type: 'POST',
-          data: data,
-          url: "{{ path('geocoords') }}",
-          success: function (response) {
-            gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
-            $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
-            $('#detailsModal').on('shown.bs.modal', function (e) {
-              Plotly.Plots.resize(gd).then(function () {
-                $(".geo-overlay").hide();
-              });
-            })
-            $("#detailsModal").modal('show');
-
-          }
-        });
-      });
-    });
-
-    $("#main-form").submit(function (event) {
-      event.preventDefault();
-      var form_data = $(this).serialize();
-      var targetUrl = $(this).data('url')
-      $.ajax({
-        url: targetUrl,
-        type: "POST",
-        data: form_data,
-        success: function (response) {
-          $("#result-table").bootgrid("clear");
-
-          var dataArray = [];
-          for (var row in response.rows) {
-            if (response.rows.hasOwnProperty(row)) 
-              dataArray.push(response.rows[row]);
-            }
-          
-          $("#result-table").bootgrid("append", dataArray);
-          $("#result-table").bootgrid("reload");
-        }
-      });
-
-    });
-
-  });
-  </script>
-
+  <script src="{{asset('e3s/js/requetes/echantillonnage_co1.js')}}"></script>
 {% endblock %}

@@ -15,7 +15,13 @@
                 Recherche par espèce
               </strong>
               <span class="pull-right">
-                <input class="switchbox" type="checkbox" name="taxaFilter" id="taxaFilter" autocomplete="off" checked="checked">
+                <input
+                  class="switchbox"
+                  type="checkbox"
+                  name="taxaFilter"
+                  id="taxaFilter"
+                  autocomplete="off"
+                  checked="checked">
               </span>
               <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
             </div>
@@ -24,7 +30,12 @@
             {% include 'requetes/species.selector.html.twig' %}
           </div>
           <div class="panel-footer">
-            <input type="submit" value="Rechercher" class="btn btn-primary btn-block" id="submit-button">
+            <button
+              type="submit"
+              value="Rechercher"
+              class="btn btn-primary btn-block"
+              id="submit-button"
+              data-loading-text="<i class='fa fa-spinner fa-spin'></i>">Rechercher</button>
           </div>
         </div>
       </div>
