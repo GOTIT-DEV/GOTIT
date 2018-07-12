@@ -9,8 +9,8 @@ class SpeciesSelector {
 
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
-
-    // Promise resolved when ready
+    this.toggleWaitingResponse = this.toggleWaitingResponse.bind(this)
+      // Promise resolved when ready
     this.promise = new $.Deferred()
       // Init event handlers
     this.genus
@@ -22,13 +22,13 @@ class SpeciesSelector {
 
   toggleWaitingResponse(waiting) {
 
-    this.form.find("input[type='submit']").prop("disabled", waiting);
+    //this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
       this.promise = new $.Deferred()
       $(".taxon-spinner").removeClass("hidden");
     } else {
-      $(".taxon-spinner").addClass("hidden");
       this.promise.resolve()
+      $(".taxon-spinner").addClass("hidden");
       this.callback()
     }
   }
@@ -41,8 +41,10 @@ class SpeciesSelector {
     }, function(response) {
       var data = response.data.map(makeOption)
       spSel.species.html($.makeArray(data))
-      if (spSel.withTaxname) {
+      console.log(spSel.withTaxname)
+      if (spSel.withTaxname === true) {
         spSel.onSpeciesSelected();
+        //spSel.toggleWaitingResponse(false)
       } else {
         spSel.toggleWaitingResponse(false)
       }
@@ -54,8 +56,8 @@ class SpeciesSelector {
   }
 
   onSpeciesSelected() {
-    this.toggleWaitingResponse(true)
     var spSel = this
+      //spSel.toggleWaitingResponse(true)
     var taxnameSel = spSel.selector.find('.taxname-select')
     $.post(taxnameSel.data('url'), {
         species: spSel.species.val(),
@@ -112,7 +114,7 @@ class MethodSelector {
 
   toggleWaitingResponse(waiting) {
 
-    this.form.find("input[type='submit']").prop("disabled", waiting);
+    this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
       this.promise = new $.Deferred()
       $(".method-spinner").removeClass("hidden");

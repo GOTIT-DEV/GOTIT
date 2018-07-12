@@ -16,7 +16,8 @@
 {% block scripts %}
 
   {{ parent() }}
-
+  <script src="{{asset('e3s/js/requetes/rearrangements.js')}}"></script>
+{# 
   <script>
     function toggleFormSelect(event) {
       switch (event.target.value) {
@@ -90,6 +91,6 @@
       });
 
     })
-  </script>
+  </script> #}
 
 {% endblock %}
