@@ -36,6 +36,8 @@ function initDataTable(tableId) {
     }
 
     table.DataTable({
+      autoWidth: false,
+      responsive: true,
       ajax: {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
@@ -90,6 +92,8 @@ function initDataTable(tableId) {
             success: function(response) {
               var modal = $(response)
               modal.find("#details-table").DataTable({
+                autoWidth: false,
+                responsive: true,
                 columnDefs: [{
                   targets: [1],
                   render: function(data, type, row) {

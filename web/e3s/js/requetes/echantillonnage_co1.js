@@ -42,6 +42,8 @@ function initDataTable(tableId) {
     const renderNumber = $.fn.dataTable.render.number('', '.', 3);
 
     table.DataTable({
+      autoWidth: false,
+      responsive: true,
       ajax: {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
