@@ -204,7 +204,7 @@ function geoPlot(rows_no_co1, rows_co1, lmp = false, lmp_co1 = false) {
     },
     showlegend: true,
     geo: {
-      scope: 'europe',
+      scope: 'world',
       resolution: 50,
       projection: {
         type: 'miller'
@@ -342,7 +342,7 @@ function motuGeoPlot(rows) {
     },
     showlegend: true,
     geo: {
-      scope: 'europe',
+      scope: 'world',
       resolution: 50,
       projection: {
         type: 'miller'
