@@ -1,6 +1,6 @@
 <?php
 
-namespace Bbees\E3sBundle\Controller;
+namespace Bbees\E3sBundle\Controller\requetes;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,13 +14,13 @@ use Bbees\E3sBundle\Entity\Motu;
 use Bbees\E3sBundle\Entity\ReferentielTaxon;
 
 /**
- * @Route("formulaire3")
+ * @Route("/requetes/echantillonnage")
  */
-class Formulaire3Controller extends Controller {
+class EchantillonnageController extends Controller {
 
 
     /**
-     * @Route("/", name="formulaire3")
+     * @Route("/", name="echantillonnage")
      */
     public function index()
     {
@@ -29,7 +29,7 @@ class Formulaire3Controller extends Controller {
         # obtention de la liste des genres
         $genus_set = $service->getGenusSet();
 
-        return $this->render('requetes/formulaire3/index.html.twig', array(
+        return $this->render('requetes/echantillonnage/index.html.twig', array(
             'genus_set' => $genus_set
         ));
     }

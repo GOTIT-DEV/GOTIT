@@ -6,7 +6,7 @@
 
     <div class="col-xs-12 col-lg-3 col-lg-offset-0">
       {# Formulaire #}
-      {% include 'requetes/formulaire3/form.html.twig' %}
+      {% include 'requetes/echantillonnage/form.html.twig' %}
     </div>
 
     <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
@@ -14,17 +14,17 @@
         <legend>
           <h2 style='margin-bottom:18px'>Résultats</h2>
         </legend>
-        {% include 'requetes/formulaire3/results.html.twig' %}
+        {% include 'requetes/echantillonnage/results.html.twig' %}
       </div>
     </fieldset>
 
   </div>
 
-  {% include 'requetes/formulaire3/extra_templates.html.twig' %}
+  {% include 'requetes/echantillonnage/extra_templates.html.twig' %}
 
   {# Modal #}
   <div id="modal-container">
-    {% include 'requetes/formulaire3/details.modal.html.twig' with {
+    {% include 'requetes/echantillonnage/details.modal.html.twig' with {
       'taxname' : ''
     } %}
   </div>
