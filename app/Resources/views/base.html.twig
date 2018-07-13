@@ -115,10 +115,26 @@
                   </li>
                   <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a href="{{ path('echantillonnage') }}">Echantillonnage <samp>COI</samp></a></li>
-                    <li><a href="{{ path('assign-motu') }}">Identification des MOTUs</a></li>
-                    <li><a href="{{ path('rearrangements') }}">Réarrangement des taxons</a></li>                   
-                    <li><a href="{{ path('richesse') }}">Carte de richesse</a></li>
+                    <li><a href="{{ path('echantillonnage') }}">
+										{% trans from 'requetes' %}
+										queries.echantillonnage.nav
+										{% endtrans %}
+										</a></li>
+                    <li><a href="{{ path('assign-motu') }}">
+										{% trans from 'requetes' %}
+										queries.motu.nav
+										{% endtrans %}
+										</a></li>
+                    <li><a href="{{ path('rearrangements') }}">
+										{% trans from 'requetes' %}
+										queries.rearrangement.nav
+										{% endtrans %}
+										</a></li>                   
+                    <li><a href="{{ path('richesse') }}">
+										{% trans from 'requetes' %}
+										queries.richesse.nav
+										{% endtrans %}
+										</a></li>
                     </ul>
                   </li>
                 </ul>
