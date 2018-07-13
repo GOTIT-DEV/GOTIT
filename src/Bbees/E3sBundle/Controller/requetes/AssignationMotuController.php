@@ -97,8 +97,8 @@ class AssignationMotuController extends Controller {
     $service = $this->get('bbees_e3s.query_builder_e3s');
     $res     = $service->getMotuSeqList($data);
     # Processing template de la modal
-    return $this->render('requetes/assign-motu/details.modal.html.twig', array(
-      'details' => $res,
+    return new JsonResponse(array(
+      'rows' => $res,
     ));
   }
 }

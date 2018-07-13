@@ -76,3 +76,5 @@ columns:
   reshuffling: Reshuffling
   commune: Municipality
   pays: Country
+  gene: Gene
+  seqcode: Seq. Code

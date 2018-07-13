@@ -49,6 +49,13 @@
               <th>{% trans %}
                 columns.seqid
                 {% endtrans %}</th>
+              <th
+                id="col-code-seq"
+                data-url-int="{{path('sequenceassemblee_show', {id:0}) | trim(0)}}"
+                data-url-ext="{{path('sequenceassembleeext_show', {id:0}) | trim(0)}}">
+                {% trans %}
+                columns.seqcode
+                {% endtrans %}</th>
               <th>{% trans %}
                 columns.type
                 {% endtrans %}</th>

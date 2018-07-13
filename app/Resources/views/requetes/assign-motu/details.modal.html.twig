@@ -1,35 +1,29 @@
 {% extends "requetes/base.modal.html.twig" %}
 
-{% block modal_title %}
-  {{details|first.taxname}}
-  <span class="label label-default">{{details|first.methode}}</span>
-  <span class="label label-info">{{details|first.date_motu|date('Y-m-d')}}</span>
-{% endblock %}
-
 {% block modal_body %}
-{% trans_default_domain 'requetes' %}
+  {% trans_default_domain 'requetes' %}
   <div class="table-responsive" style='width:100%'>
-    <table id="details-table" class="table table-condensed table-hover table-striped">
+    <table
+      id="details-table"
+      data-url="{{ path('detailsModal') }}"
+      class="table table-condensed table-hover table-striped">
       <thead>
         <tr>
           <th>{{"columns.seqid" | trans}}</th>
+          <th
+            id="col-code-seq"
+            data-url-int="{{path('sequenceassemblee_show', {id:0}) | trim(0)}}"
+            data-url-ext="{{path('sequenceassembleeext_show', {id:0}) | trim(0)}}">
+            {{"columns.seqcode" | trans}}
+          </th>
           <th>{{"columns.accession" | trans}}</th>
+          <th>{{"columns.gene" | trans}}</th>
           <th>{{"columns.type" | trans}}</th>
           <th>{{"columns.motu" | trans}}</th>
           <th>{{"columns.critere" | trans}}</th>
         </tr>
       </thead>
-      <tbody>
-        {% for row in details %}
-          <tr>
-            <td>{{row.id}}</td>
-            <td>{{row.acc}}</td>
-            <td>{{row.type|capitalize}}</td>
-            <td>{{row.motu}}</td>
-            <td>{{row.critere}}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 {% endblock %}

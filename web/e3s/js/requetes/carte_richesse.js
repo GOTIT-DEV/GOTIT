@@ -88,6 +88,19 @@ function initDataTable(tableId) {
         }, {
           data: "id"
         }, {
+          data: 'code',
+          render: function(data, type, row) {
+            let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+            let baseUrl = table.find("#col-code-seq").data(lookUpAttr)
+            return Mustache.render(
+              "<a href='{{baseUrl}}{{id}}'>{{data}}</a>", {
+                baseUrl: baseUrl,
+                id: row.id,
+                data: data
+              }
+            );
+          }
+        }, {
           data: "type_seq",
           render: function(data, type, row) {
             return data ? "Externe" : "Interne"

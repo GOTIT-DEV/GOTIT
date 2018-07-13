@@ -2,13 +2,15 @@
  *  Document ready
  **************************** */
 $(document).ready(function() {
+
+
   initSwitchery('.switchbox');
   $("#main-form").find("button[type='submit']").button('loading')
   let speciesSelector = new SpeciesSelector("#main-form", false)
   let methodSelector = new MethodSelector("#main-form", 'checkbox')
     // Wait for both selectors to be ready
   $.when(speciesSelector.promise, methodSelector.promise).done(function() {
-    initDataTable("#result-table")
+    initDataTable("#result-table", "#details-table")
   });
 
   var niveau = 0;
@@ -27,14 +29,13 @@ $(document).ready(function() {
  *  Initialize datatable
  **************************** */
 
-function initDataTable(tableId) {
+function initDataTable(tableId, detailsId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
     const urls = {
       refTaxon: table.find("th#col-taxname").data('linkUrl'),
-      detailsModal: table.find("th#col-details").data('linkUrl'),
     }
-
+    let details = undefined
     table.DataTable({
       autoWidth: false,
       responsive: true,
@@ -78,48 +79,21 @@ function initDataTable(tableId) {
         $("#main-form").find("button[type='submit']").button('reset')
         $(".details-form").off('submit').on('submit', function(event) {
           event.preventDefault();
-
-          var form_data = $(this).serializeArray(); // form in last cell of row
-          for (var i = 0; i < criteres.length; i++) {
-            form_data.push({ name: 'criteres[]', value: criteres[i] });
-          }
-          form_data.push({ name: 'niveau', value: niveau });
-          // End of data serialization console.log(form_data);
-          $.ajax({ // prepare ajax request
-            type: 'POST',
-            url: urls.detailsModal,
-            data: $.param(form_data),
-            success: function(response) {
-              var modal = $(response)
-              modal.find("#details-table").DataTable({
-                autoWidth: false,
-                responsive: true,
-                columnDefs: [{
-                  targets: [1],
-                  render: function(data, type, row) {
-                    return Mustache.render(
-                      "<a href='https://www.ncbi.nlm.nih.gov/nuccore/{{accession}}'>{{accession}}</a>", {
-                        accession: data
-                      }
-                    );
-                  }
-                }],
-                dom: "lfrtipB",
-                buttons: [
-                  'copy', 'csv', 'excel'
-                ],
-                initComplete: function(settings) {
-                  modal.modal('show');
-                }
-              });
-            }
-          });
+          $(this).addClass('submitted')
+          details.ajax.reload()
+          $("#modal-container .modal").modal('show');
+          $(this).removeClass('submitted')
         });
+
+
       }
     }).on('xhr', function() {
       var response = table.DataTable().ajax.json()
       niveau = response.niveau;
       criteres = response.criteres;
+      if (!$.fn.DataTable.isDataTable(detailsId)) {
+        details = initModalTable(detailsId)
+      }
     });
 
     /****************
@@ -133,4 +107,65 @@ function initDataTable(tableId) {
 
     });
   }
+}
+
+function initModalTable(tableId) {
+  let detailsTable = $(tableId)
+  let detailsDataTable = detailsTable.DataTable({
+    autoWidth: false,
+    responsive: true,
+    ajax: {
+      type: 'POST',
+      url: detailsTable.data('url'),
+      dataSrc: 'rows',
+      data: function(d) {
+        let form = $('.details-form.submitted')
+        let form_data = form.serializeArray();
+        for (var i = 0; i < criteres.length; i++) {
+          form_data.push({ name: 'criteres[]', value: criteres[i] });
+        }
+        form_data.push({ name: 'niveau', value: niveau });
+        return $.param(form_data)
+      }
+    },
+    columns: [
+      { data: 'id' },
+      {
+        data: 'code',
+        render: function(data, type, row) {
+          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
+          return Mustache.render(
+            "<a href='{{baseUrl}}{{id}}'>{{data}}</a>", {
+              baseUrl: baseUrl,
+              id: row.id,
+              data: data
+            }
+          );
+        }
+      }, {
+        data: 'acc',
+        render: function(data, type, row) {
+          return Mustache.render(
+            "<a href='https://www.ncbi.nlm.nih.gov/nuccore/{{accession}}'>{{accession}}</a>", {
+              accession: data
+            }
+          );
+        }
+      }, {
+        data: 'gene'
+      }, {
+        data: 'type',
+      }, {
+        data: 'motu'
+      }, {
+        data: 'critere'
+      }
+    ],
+    dom: "lfrtipB",
+    buttons: [
+      'copy', 'csv', 'excel'
+    ]
+  });
+  return detailsDataTable
 }
