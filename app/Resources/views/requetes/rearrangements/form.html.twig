@@ -1,9 +1,15 @@
 {# Formulaire 2 #}
 
+{% trans_default_domain 'requetes' %}
+
 <form id="main-form" action="#" data-url="{{ path('requete2') }}">
   <fieldset>
     <legend>
-      <h3>Référence</h3>
+      <h3>
+        {% trans %}
+        label.reference
+        {% endtrans %}
+      </h3>
     </legend>
     <div class="panel-group" id="form-accordion" role="tablist" aria-multiselectable="true">
       <div class="panel panel-default">
@@ -18,7 +24,11 @@
                 data-toggle="collapse"
                 data-target="#morpho"
                 data-parent="#form-accordion">
-              <strong>Morphologie</strong>
+              <strong>
+                {% trans %}
+                label.morphologie
+                {% endtrans %}
+              </strong>
             </label>
           </div>
         </div>
@@ -35,7 +45,11 @@
                 data-toggle="collapse"
                 data-target="#taxon-collapse"
                 data-parent="#form-accordion">
-              <strong>Morphologie par taxon</strong>
+              <strong>
+                {% trans %}
+                label.morphotaxon
+                {% endtrans %}
+              </strong>
             </label>
           </div>
         </div>
@@ -57,7 +71,11 @@
                 data-toggle="collapse"
                 data-target="#method-panel"
                 data-parent="#form-accordion">
-              <strong>Méthode moléculaire</strong>
+              <strong>
+							{% trans %}
+							methode.label
+							{% endtrans %}
+							</strong>
               <i class="fa fa-spinner fa-spin pull-right hidden " id="method-spinner" style="font-size:16px"></i>
             </label>
           </div>
@@ -77,7 +95,9 @@
         value="Rechercher"
         class="btn btn-block btn-primary"
         data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
-        Rechercher
+        {% trans %}
+        label.search.bouton
+        {% endtrans %}
       </button>
     </div>
 

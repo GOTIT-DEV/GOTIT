@@ -1,9 +1,13 @@
 {# Formulaire 3 #}
 
+{% trans_default_domain 'requetes' %}
+
 <form id="main-form" action="#" data-url="{{ path('requete3') }}">
   <fieldset>
     <legend>
-      <h2 style='margin-bottom:18px'>Paramètres</h2>
+      <h2 style='margin-bottom:18px'>
+        {{ "label.search.param" | trans }}
+      </h2>
     </legend>
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-12 col-lg-offset-0">
@@ -12,7 +16,7 @@
 
             <div class="form-check">
               <strong>
-                Recherche par espèce
+                {{ "label.search.espece" | trans }}
               </strong>
               <span class="pull-right">
                 <input
@@ -35,7 +39,9 @@
               value="Rechercher"
               class="btn btn-primary btn-block"
               id="submit-button"
-              data-loading-text="<i class='fa fa-spinner fa-spin'></i>">Rechercher</button>
+              data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+							{{ "label.search.bouton" | trans }}
+							</button>
           </div>
         </div>
       </div>

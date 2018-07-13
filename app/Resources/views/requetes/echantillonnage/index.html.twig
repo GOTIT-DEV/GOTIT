@@ -1,6 +1,11 @@
 {% extends 'base.requetes.html.twig' %}
+
+{% trans_default_domain 'requetes' %}
+
 {% block body %}
-  <h1>Couverture géographique d'échantillonnage</h1>
+  <h1>
+	{{"queries.echantillonnage.title" | trans }}
+	</h1>
   <hr>
   <div class='row' style='padding:10px'>
 
@@ -12,7 +17,9 @@
     <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
       <fieldset>
         <legend>
-          <h2 style='margin-bottom:18px'>Résultats</h2>
+          <h2 style='margin-bottom:18px'>
+					{{"label.resultats" | trans }}
+					</h2>
         </legend>
         {% include 'requetes/echantillonnage/results.html.twig' %}
       </div>

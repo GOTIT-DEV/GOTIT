@@ -1,6 +1,10 @@
 {% extends 'base.requetes.html.twig' %}
 {% block body %}
-  <h1>Carte de richesse génétique</h1>
+  <h1>
+    {% trans from 'requetes' %}
+    queries.richesse.title
+    {% endtrans %}
+  </h1>
   <hr>
   <div class='row'>
     <div class="col-xs-12">
@@ -10,23 +14,25 @@
   </div>
   <hr>
   <div class="row">
-    <h2 id="resultats">Résultats</h2>
+    <h2 id="resultats">
+      {% trans from 'requetes' %}
+      label.resultats
+      {% endtrans %}
+    </h2>
     {% include 'requetes/richesse/results.html.twig' with methods_list %}
   </div>
 </div>
 
 {% endblock %}
 
-
 {% block scripts %}
 
 {{ parent() }}
 
-	<script>
-	const methodList = JSON.parse("{{methods_list|json_encode()|raw |e('js')}}")
-	console.log(methodList)
-	</script>
+<script>
+  const methodList = JSON.parse("{{methods_list|json_encode()|raw |e('js')}}")
+</script>
 
-  <script src = "{{asset('e3s/js/requetes/carte_richesse.js')}}"></script>
+<script src="{{asset('e3s/js/requetes/carte_richesse.js')}}"></script>
 
 {% endblock %}

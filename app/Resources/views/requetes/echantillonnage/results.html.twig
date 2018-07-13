@@ -1,23 +1,33 @@
 {# Résultats formulaire 3 #}
+
+{% trans_default_domain 'requetes' %}
+
 <div class="table-responsive-md">
   <table id="result-table" class="table table-condensed table-hover table-striped" style="width:100%">
     <thead>
       <tr>
         <th></th>
-        <th colspan="3">Sampling</th>
-        <th colspan="3">Sampling [COI]
+        <th colspan="3">
+          {{"columns.sampling.specimen" | trans}}
+        </th>
+        <th colspan="3">
+          {{"columns.sampling.co1" | trans}}
         </th>
         <th></th>
       </tr>
       <tr>
-        <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0}) | trim('0')}}">Taxon</th>
-        <th>Stations</th>
-        <th>LMP (Deg)</th>
-        <th>MLE (Km)</th>
-        <th>Stations</th>
-        <th>LMP (Deg)</th>
-        <th>MLE (Km)</th>
-        <th id="col-details" data-link-url="{{ path('geocoords') }}">Loc.</th>
+        <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0}) | trim('0')}}">
+          {{"columns.taxon" | trans}}
+        </th>
+        <th>{{"columns.stations" | trans}}</th>
+        <th>{{"columns.lmp" | trans}}</th>
+        <th>{{"columns.mle" | trans}}</th>
+        <th>{{"columns.stations" | trans}}</th>
+        <th>{{"columns.lmp" | trans}}</th>
+        <th>{{"columns.mle" | trans}}</th>
+        <th id="col-details" data-link-url="{{ path('geocoords') }}">
+          {{"columns.loc" | trans}}
+        </th>
       </tr>
     </thead>
     <tbody></tbody>

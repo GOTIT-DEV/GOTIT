@@ -101,7 +101,10 @@ function initDataTable(tableId) {
             url: urls.geocoords,
             success: function(response) {
               gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1);
-              $("#detailsModal .modal-title").html("Couverture géographique : " + response.taxname);
+              $("#detailsModal .modal-title").html(
+                Mustache.render($("template#details-modal-title").html(), {
+                  taxname: response.taxname
+                }));
               $('#detailsModal').on('shown.bs.modal', function(e) {
                 Plotly.Plots.resize(gd).then(function() {
                   $(".geo-overlay").hide();

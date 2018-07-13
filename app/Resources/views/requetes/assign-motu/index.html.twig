@@ -1,6 +1,10 @@
 {% extends 'base.requetes.html.twig' %}
 {% block body %}
-  <h1>Assignations des MOTUs aux espèces</h1>
+  <h1>
+		{% trans from 'requetes' %}
+		queries.motu.title
+		{% endtrans %}
+	</h1>
   <hr>
 
   {# Formulaire #}

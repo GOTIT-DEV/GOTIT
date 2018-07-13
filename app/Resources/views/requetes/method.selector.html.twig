@@ -1,11 +1,16 @@
 {# Composant de formulaire pour sélectionner un jeu de données et une méthode #}
+{% trans_default_domain 'requetes' %}
 <div
   id="method-form"
   class="method-selector form-horizontal"
   data-url="{{path('methodsindate')}}"
   data-spinner=".method-spinner">
   <div class="form-group">
-    <label for="date_methode">Jeu de données</label>
+    <label for="date_methode">
+      {% trans %}
+      label.dataset
+      {% endtrans %}
+    </label>
     <select name="date_methode" id="date_methode" class="form-control date-motu-select">
       {% for date_motu in dates_methode %}
         <option value="{{date_motu.id}}">
@@ -16,7 +21,11 @@
   </div>
   <hr>
   <div class="form-group">
-    <label>Méthode</label>
+    <label>
+		{% trans %}
+		methode.label
+		{% endtrans %}
+		</label>
     <div id="method-container" class=".method-container">
       {% if method_check_array is defined %}
         <center>

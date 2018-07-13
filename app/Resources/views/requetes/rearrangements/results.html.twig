@@ -1,8 +1,14 @@
 {# Résultats formulaire 2 #}
 
+{% trans_default_domain 'requetes' %}
+
 <fieldset>
   <legend>
-    <h3>Résultats</h3>
+    <h3>
+      {% trans %}
+      label.resultats
+      {% endtrans %}
+    </h3>
   </legend>
 
   <ul class="nav nav-tabs" role="tablist" id="result-tabs">
@@ -13,9 +19,14 @@
         role="tab"
         data-side='recto'
         data-toggle="tab">
-        <strong>Référence
+        <strong>
+          {% trans %}
+          tabs.reference
+          {% endtrans %}
           <i class="fa fa-arrow-circle-right "></i>
-          Méthodes
+          {% trans %}
+          tabs.methodes
+          {% endtrans %}
         </strong>
       </a>
     </li>
@@ -26,9 +37,15 @@
         role="tab"
         data-side='verso'
         data-toggle="tab">
-        <strong>Méthodes
+        <strong>
+          {% trans %}
+          tabs.methodes
+          {% endtrans %}
           <i class="fa fa-arrow-circle-right "></i>
-          Référence</strong>
+          {% trans %}
+          tabs.reference
+          {% endtrans %}
+        </strong>
       </a>
     </li>
   </ul>
@@ -49,12 +66,12 @@
             data-target="recto">
             <thead>
               <tr>
-                <th>Méthode</th>
-                <th>Jeu de données</th>
-                <th>Match</th>
-                <th>Split</th>
-                <th>Lump</th>
-                <th>Reshuffling</th>
+                <th>{{"columns.methode" | trans}}</th>
+                <th>{{"columns.dataset" | trans}}</th>
+                <th>{{"columns.match" | trans}}</th>
+                <th>{{"columns.split" | trans}}</th>
+                <th>{{"columns.lump" | trans}}</th>
+                <th>{{"columns.reshuffling" | trans}}</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -78,12 +95,12 @@
             data-target="verso">
             <thead>
               <tr>
-                <th>Méthode</th>
-                <th>Jeu de données</th>
-                <th>Match</th>
-                <th>Split</th>
-                <th>Lump</th>
-                <th>Reshuffling</th>
+                <th>{{"columns.methode" | trans}}</th>
+                <th>{{"columns.dataset" | trans}}</th>
+                <th>{{"columns.match" | trans}}</th>
+                <th>{{"columns.split" | trans}}</th>
+                <th>{{"columns.lump" | trans}}</th>
+                <th>{{"columns.reshuffling" | trans}}</th>
               </tr>
             </thead>
             <tbody></tbody>
