@@ -68,7 +68,6 @@ function toggleFormSelect(event) {
       $(".method-select").prop('disabled', false);
       $(".taxa-select").prop('disabled', true);
       break;
-
   }
 }
 
@@ -124,7 +123,7 @@ function initDataTable(tableId) {
     dataTable.on('xhr', function() {
       var response = dataTable.ajax.json()
       var barplot = table.data('barplot')
-      var gd = barPlot(barplot, response[side]);
+      var gd = barPlot(barplot, response[side])
       uiReceivedResponse()
       $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         Plotly.Plots.resize(gd)
@@ -136,8 +135,8 @@ function initDataTable(tableId) {
      */
     $("#main-form").submit(function(event) {
       event.preventDefault();
-      $(this).find("button[type='submit']").button('loading')
-      var results = table.DataTable()
+      uiWaitResponse()
+      let results = table.DataTable()
       results.ajax.reload()
     });
   }

@@ -10,13 +10,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Controller pour les requêtes sur l'assignation des MOTUs et leur comptage
+ *
  * @Route("/requetes/assign-motu")
  */
 class AssignationMotuController extends Controller {
 
   /**
    * @Route("/", name="assign-motu")
-   * 
+   *
    * Rendu du template de la page
    */
   public function index() {
@@ -41,7 +43,7 @@ class AssignationMotuController extends Controller {
 
   /**
    * @Route("/methods-in-date", name="methodsindate")
-   * 
+   *
    * Liste les méthodes présentes dans un dataset
    * Utilisé pour remplir les select du formulaire
    */
@@ -58,9 +60,9 @@ class AssignationMotuController extends Controller {
 
   /**
    * @Route("/requete", name="requete1")
-   * 
+   *
    * Renvoie un objet JSON utilisé pour remplir la table de résultats (rows),
-   * et des informations supplémentaires indiquant les paramètres de la 
+   * et des informations supplémentaires indiquant les paramètres de la
    * requêtes initiale (methodes, niveau, criteres)
    */
   public function searchQuery(Request $request) {

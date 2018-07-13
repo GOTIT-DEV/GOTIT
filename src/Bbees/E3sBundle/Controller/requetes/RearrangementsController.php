@@ -9,35 +9,44 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Formulaire 2 controller.
+ * Controller pour requête sur le réarrangements des MOTUs
  *
  * @Route("requetes/rearrangements")
  */
 class RearrangementsController extends Controller {
   /**
    * @Route("/", name="rearrangements")
+   *
+   * Rendu du template de la page principale
    */
   public function indexAction() {
-    $service = $this->get('bbees_e3s.query_builder_e3s');
-    $doctrine = $this->getDoctrine();
+    // Obtention de la liste des Genus
+    $service   = $this->get('bbees_e3s.query_builder_e3s');
     $genus_set = $service->getGenusSet();
+    # Obtention de la liste des MOTU Datasets
+    $doctrine      = $this->getDoctrine();
     $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
+    # Rendu du template
     return $this->render('requetes/rearrangements/index.html.twig', array(
       'dates_methode' => $dates_methode,
-      'genus_set' => $genus_set,
-      "with_taxname" => true,
+      'genus_set'     => $genus_set,
+      "with_taxname"  => true,
     ));
   }
 
   /**
    * @Route("/requete", name="requete2")
+   * 
+   * Renvoie un objet JSON pour remplir la table de résultats
    */
   public function searchQuery(Request $request) {
+    // Utilisation de PHP PDO plutôt que Doctrine
     $pdo = $this->getDoctrine()->getManager()->getConnection();
-
+    // Référence : radio button coché (morpho, morpho filtré ou méthode)
     $reference = $request->request->get('reference'); // 0 : morpho, 1 : molecular
 
-    if ($reference < 2) { // morpho
+    if ($reference < 2) {
+      // morpho
       $rawSql = "SELECT distinct Ass.num_motu,
                 voc.code AS methode,
                 voc.id AS id_methode,
@@ -55,7 +64,8 @@ class RearrangementsController extends Controller {
                     OR Ass.sequence_assemblee_ext_fk=Esp.sequence_assemblee_ext_fk
                 JOIN referentiel_taxon R ON Esp.referentiel_taxon_fk=R.id
                 WHERE voc.code != 'HAPLO'";
-      if ($reference == 1) { // taxa filter
+      if ($reference == 1) {
+        // taxa filter
         $rawSql .= " AND R.id = :tax_id";
         $stmt = $pdo->prepare($rawSql);
         $stmt->bindValue('tax_id', $request->request->get('taxname'));
@@ -64,10 +74,11 @@ class RearrangementsController extends Controller {
       }
 
       $stmt->execute();
-    } else { //molecular
+    } else {
+      //molecular
       $id_date_motu = $request->request->get('date_methode');
-      $id_methode = $request->request->get('methode');
-      $rawSql = "SELECT distinct
+      $id_methode   = $request->request->get('methode');
+      $rawSql       = "SELECT distinct
                 a1.num_motu as taxid,
                 a2.num_motu as num_motu,
                 v2.code AS methode,
@@ -92,23 +103,22 @@ class RearrangementsController extends Controller {
 
       $stmt = $pdo->prepare($rawSql);
       $stmt->execute(array(
-        'id_methode' => $id_methode,
+        'id_methode'   => $id_methode,
         'id_date_motu' => $id_date_motu,
       ));
-
     }
-
+    // Données brutes des séquences et assignations par méthode
     $result = $stmt->fetchAll();
-    dump($result);
-
+    // Comptage des assignations sur l'ensemble des séquences
     $counters = $this->prepareMotuCountArray();
+    // Si résultats brut vide : rien à compter
     if ($result) {
       $counters = $this->compareMotuSets($result, $counters);
     }
     $recto = $counters['forward'];
     $verso = $counters['reverse'];
-    //dump($recto);
 
+    // Restructuration des résultats de comptage
     $res = [];
     foreach ($recto as $id_date => $date_motu) {
       foreach ($date_motu as $id_m => $methode) {
@@ -130,7 +140,7 @@ class RearrangementsController extends Controller {
       }
     }
     $verso = $res;
-
+    // Renvoi de la réponse JSON
     return new JsonResponse(array(
       'recto' => $recto,
       'verso' => $verso,
@@ -139,20 +149,23 @@ class RearrangementsController extends Controller {
 
   private function compareMethodSets($methodSet1, $methodSet2, $counters) {
     $motuCounter = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
-    $revCounter = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
+    $revCounter  = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
 
     foreach ($methodSet1 as $ref_id => $motuSet) {
 
-      if (count($motuSet) == 1) { // taxon has 1 motu
-        $motu = $motuSet[0]; // count taxons in the single motu
+      if (count($motuSet) == 1) {
+        // taxon has 1 motu
+        $motu       = $motuSet[0]; // count taxons in the single motu
         $reverseCnt = count($methodSet2[$motu['num_motu']]);
-        if ($reverseCnt == 1) { // motu has 1 taxon : match
+        if ($reverseCnt == 1) {
+          // motu has 1 taxon : match
           $motuCounter['match'] += 1;
           $revCounter['match'] += 1;
 
-        } elseif ($reverseCnt > 1) { // motu has many taxon : lump or reshuffle
+        } elseif ($reverseCnt > 1) {
+          // motu has many taxon : lump or reshuffle
           $reverseMotus = $methodSet2[$motu['num_motu']];
-          $lump = true; // lump if all taxon have only current motu, else reshuffle
+          $lump         = true; // lump if all taxon have only current motu, else reshuffle
           foreach ($reverseMotus as $revMotu) {
             $nb_motus = count($methodSet1[$revMotu['taxid']]);
             if ($nb_motus > 1) // at least one taxon has many motu
@@ -161,23 +174,29 @@ class RearrangementsController extends Controller {
             }
 
           }
-          if ($lump) { // many taxons, one motu
+          if ($lump) {
+            // many taxons, one motu
             $motuCounter['lump'] += 1;
-          } else { // many taxons, many motu
+          } else {
+            // many taxons, many motu
             $motuCounter['reshuffling'] += 1;
           }
 
           $revCounter['split'] += 1; // taxon is a split of motu anyway
 
         }
-      } elseif (count($motuSet) > 1) { // taxon has many motus
+      } elseif (count($motuSet) > 1) {
+        // taxon has many motus
         $lump = true;
-        foreach ($motuSet as $motu) { // each motu is split or reshuffling
+        foreach ($motuSet as $motu) {
+          // each motu is split or reshuffling
           $reverseCnt = count($methodSet2[$motu['num_motu']]);
 
-          if ($reverseCnt == 1) { // motu has only current taxon : split
+          if ($reverseCnt == 1) {
+            // motu has only current taxon : split
             $motuCounter['split'] += 1;
-          } elseif ($reverseCnt > 1) { // many taxons, many motus : reshuffling
+          } elseif ($reverseCnt > 1) {
+            // many taxons, many motus : reshuffling
             $motuCounter['reshuffling'] += 1;
             $lump = false;
           }
@@ -233,10 +252,10 @@ class RearrangementsController extends Controller {
     $motuSets = $this->buildComparisonSets($rows);
     dump($motuSets);
     $taxonSet = $motuSets['ref'];
-    $motuSet = $motuSets['motus'];
+    $motuSet  = $motuSets['motus'];
     foreach ($taxonSet as $date => $methodes) {
       foreach ($methodes as $meth => $motus) {
-        $methCounters = $this->compareMethodSets($motus, $motuSet[$date][$meth], $counters);
+        $methCounters                      = $this->compareMethodSets($motus, $motuSet[$date][$meth], $counters);
         $counters['forward'][$date][$meth] = array_merge(
           $counters['forward'][$date][$meth],
           $methCounters[0]
@@ -252,10 +271,9 @@ class RearrangementsController extends Controller {
   }
 
   private function buildComparisonSets($rows) {
-    //dump($rows);
     $ordered = array();
     foreach ($rows as $row) {
-      $ordered['ref'][$row['id_date_methode']][$row['id_methode']][$row['taxid']][] = $row;
+      $ordered['ref'][$row['id_date_methode']][$row['id_methode']][$row['taxid']][]      = $row;
       $ordered['motus'][$row['id_date_methode']][$row['id_methode']][$row['num_motu']][] = $row;
     }
 
@@ -263,15 +281,15 @@ class RearrangementsController extends Controller {
   }
 
   private function prepareMotuCountArray() {
-    $service = $this->get('bbees_e3s.query_builder_e3s');
-    $methodes = $service->listMethodsByDate();
+    $service     = $this->get('bbees_e3s.query_builder_e3s');
+    $methodes    = $service->listMethodsByDate();
     $resultArray = array();
-    $keys = ['match', 'split', 'lump', 'reshuffling'];
+    $keys        = ['match', 'split', 'lump', 'reshuffling'];
     foreach ($methodes as $m) {
-      $resultArray[$m['id_date_motu']][$m['id']] = array_fill_keys($keys, 0);
-      $resultArray[$m['id_date_motu']][$m['id']]['methode'] = $m['code'];
+      $resultArray[$m['id_date_motu']][$m['id']]              = array_fill_keys($keys, 0);
+      $resultArray[$m['id_date_motu']][$m['id']]['methode']   = $m['code'];
       $resultArray[$m['id_date_motu']][$m['id']]['date_motu'] = $m['date_motu'];
-      $resultArray[$m['id_date_motu']][$m['id']]['label'] = $m['code'] . ' ' . $m['date_motu']->format('Y');
+      $resultArray[$m['id_date_motu']][$m['id']]['label']     = $m['code'] . ' ' . $m['date_motu']->format('Y');
     }
     $reverseArray = $resultArray;
     return [
