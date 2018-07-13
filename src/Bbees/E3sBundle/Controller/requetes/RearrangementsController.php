@@ -1,6 +1,6 @@
 <?php
 
-namespace Bbees\E3sBundle\Controller;
+namespace Bbees\E3sBundle\Controller\requetes;
 
 use Bbees\E3sBundle\Entity\Motu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,18 +11,18 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Formulaire 2 controller.
  *
- * @Route("formulaire2")
+ * @Route("requetes/rearrangements")
  */
-class Formulaire2Controller extends Controller {
+class RearrangementsController extends Controller {
   /**
-   * @Route("/", name="formulaire2")
+   * @Route("/", name="rearrangements")
    */
   public function indexAction() {
     $service = $this->get('bbees_e3s.query_builder_e3s');
     $doctrine = $this->getDoctrine();
     $genus_set = $service->getGenusSet();
     $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
-    return $this->render('requetes/formulaire2/index.html.twig', array(
+    return $this->render('requetes/rearrangements/index.html.twig', array(
       'dates_methode' => $dates_methode,
       'genus_set' => $genus_set,
       "with_taxname" => true,
