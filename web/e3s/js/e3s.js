@@ -12,12 +12,14 @@ function  addArrayCollectionButtonEmbed(container, nameFirstFieldCollection, nam
         var index = $('[id^="'+container+'_"][id$="_'+nameFirstFieldCollection+'"]').length;
         //alert('index='+index);
         if (addnew){
-           // ajout du bonton add 
-           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">Add a new '+nameCollection+'</button>');
+           // ajout du bonton add New
+           var nameAddNewButon = "Add a new "+nameCollection;
+           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">'+addButon[nameAddNewButon]+'</button>');
            $containerCollectionEmbed.prepend($addBoutonAdd);   
         }
         // On ajoute un lien pour ajouter une nouvelle catégorie
-        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">Add a '+nameCollection+'</a></span>');
+        var nameAddButon = "Add a "+nameCollection;
+        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">'+addButon[nameAddButon]+'</a></span>');
         $containerCollectionEmbed.prepend($addLink);
         // Si le champ obligatoire on affiche le formulaire Embed
         if (index == 0 && fieldRequired) {
@@ -63,12 +65,14 @@ function  addArrayCollectionButton3($container, nameArrayCollectionEmbed, nameFi
         $container.prepend('</br></br>');
         // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
         if (addnew){
-           // ajout du bonton add 
-           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">Add a new '+nameCollection+'</button>');
+           // ajout du bonton add New
+           var nameAddNewButon = "Add a new "+nameCollection;
+           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">'+addButon[nameAddNewButon]+'</button>');
            $container.prepend($addBoutonAdd);   
        }
         // On ajoute un lien pour ajouter une nouvelle catégorie
-        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">Add a '+nameCollection+'</a></span>');
+        var nameAddButon = "Add a "+nameCollection;
+        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">'+addButon[nameAddButon]+'</a></span>');
         $container.prepend($addLink); 
         //on recherche l'index ;
         if(nameFirstFieldCollection !==''){
@@ -127,12 +131,14 @@ function  addArrayCollectionButton2(container, nameFirstFieldCollection, nameCol
         var index = $(selecteur).length;
         //alert("index="+index);
         if (addnew){
-           // ajout du bonton add 
-           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">Add a new '+nameCollection+'</button>');
+           // ajout du bonton add New
+           var nameAddNewButon = "Add a new "+nameCollection;
+           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">'+addButon[nameAddNewButon]+'</button>');
            $container.prepend($addBoutonAdd);   
        }
         // On ajoute un lien pour ajouter une nouvelle catégorie
-        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">Add a '+nameCollection+'</a></span>');
+        var nameAddButon = "Add a "+nameCollection;
+        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">'+addButon[nameAddButon]+'</a></span>');
         $container.prepend($addLink);
         // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un
         if (index == 0 && fieldRequired) { 
@@ -172,12 +178,14 @@ function  addArrayCollectionButton($container, nameCollection, addnew = false, f
         // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
         var index = $container.find(':input').length;
         if (addnew){
-           // ajout du bonton add 
-           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">Add a new '+nameCollection+'</button>');
+           // ajout du bonton add New
+           var nameAddNewButon = "Add a new "+nameCollection;
+           var $addBoutonAdd= $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal'+nameCollection+'">'+addButon[nameAddNewButon]+'</button>');
            $container.prepend($addBoutonAdd);   
        }
         // On ajoute un lien pour ajouter une nouvelle catégorie
-        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">Add a '+nameCollection+'</a></span>');
+        var nameAddButon = "Add a "+nameCollection;
+        var $addLink = $('<span><a href="#" id="add_'+nameCollection+'" class="btn btn-primary btn-sm">'+addButon[nameAddButon]+'</a></span>');
         $container.prepend($addLink);
         // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
         $addLink.click(function(e) {

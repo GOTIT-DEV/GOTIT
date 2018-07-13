@@ -27,6 +27,431 @@ class ImportFileE3s
     }
 
     /**
+    *  importCSVDataAdnDeplace($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.adn-range
+    */ 
+    public function importCSVDataAdnDeplace($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.adn-range</b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataAdnRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_adn = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+            ->where('adn.codeAdn  LIKE :code_adn')
+            ->setParameter('code_adn', $data["code_adn"])
+            ->getQuery()
+            ->getResult();
+            $flagAdn = count($query_adn);
+            if ($flagAdn == 0) $message .= "ERROR : le code adn <b>".$data["code_adn"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }               
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagAdn && $flagBoite) { 
+                if ( $flagBoiteAffecte ) { 
+                    $query_adn[0]->setBoiteFk($query_boite[0]);
+                    $query_adn[0]->setDateMaj($DateImport); 
+                    $em->persist($query_adn[0]); 
+                } else {                
+                    $query_adn[0]->setBoiteFk(null);
+                    $query_adn[0]->setDateMaj($DateImport); 
+                    $em->persist($query_adn[0]);   
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataAdnRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
+    *  importCSVDataIndividuLameRange($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.adn-range
+    */ 
+    public function importCSVDataAdnRange($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.adn-range </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataAdnRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_adn = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+            ->where('adn.codeAdn  LIKE :code_adn')
+            ->setParameter('code_adn', $data["code_adn"])
+            ->getQuery()
+            ->getResult();
+            $flagAdn = count($query_adn);
+            if ($flagAdn == 0) $message .= "ERROR : le code lame coll <b>".$data["code_adn"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }     
+            if ($flagBoiteAffecte == 0) $message .= "ERROR : le code boite  n a pas été renseigné pour le code lamme coll <b>".$data["code_lame_coll"]." <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagAdn && $flagBoite && $flagBoiteAffecte) { 
+                if ($query_adn[0]->getBoiteFk() != null) {
+                     $message .= 'ERROR : l adn <b>'.$data["code_adn"].'</b> a déjà été affecté à une boite : '.$query_adn[0]->getBoiteFk()->getCodeBoite().' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>";                                    
+                } else {
+                    $query_adn[0]->setBoiteFk($query_boite[0]);
+                    $query_adn[0]->setDateMaj($DateImport); 
+                    $em->persist($query_adn[0]); 
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataAdnRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+  
+    
+    /**
+    *  importCSVDataIndividuLameDeplace($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.individu_lame-range
+    */ 
+    public function importCSVDataIndividuLameDeplace($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataIndividuLamelRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_lame = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('lame')
+            ->where('lame.codeLameColl  LIKE :code_lame_coll')
+            ->setParameter('code_lame_coll', $data["code_lame_coll"])
+            ->getQuery()
+            ->getResult();
+            $flagLame = count($query_lame);
+            if ($flagLame == 0) $message .= "ERROR : le code lame coll <b>".$data["code_lame_coll"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }               
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagLame && $flagBoite) { 
+                if ( $flagBoiteAffecte ) { 
+                    $query_lame[0]->setBoiteFk($query_boite[0]);
+                    $query_lame[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lame[0]); 
+                } else {                
+                    $query_lame[0]->setBoiteFk(null);
+                    $query_lame[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lame[0]);   
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataIndividuLamelRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
+    *  importCSVDataIndividuLameRange($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.individu_lame-range
+    */ 
+    public function importCSVDataIndividuLameRange($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataIndividuLamelRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_lame = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('lame')
+            ->where('lame.codeLameColl  LIKE :code_lame_coll')
+            ->setParameter('code_lame_coll', $data["code_lame_coll"])
+            ->getQuery()
+            ->getResult();
+            $flagLame = count($query_lame);
+            if ($flagLame == 0) $message .= "ERROR : le code lame coll <b>".$data["code_lame_coll"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }     
+            if ($flagBoiteAffecte == 0) $message .= "ERROR : le code boite  n a pas été renseigné pour le code lamme coll <b>".$data["code_lame_coll"]." <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagLame && $flagBoite && $flagBoiteAffecte) { 
+                if ($query_lame[0]->getBoiteFk() != null) {
+                     $message .= 'ERROR : la lame <b>'.$data["code_lame_coll"].'</b> a déjà été affecté à une boite : '.$query_lame[0]->getBoiteFk()->getCodeBoite().' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>";                                    
+                } else {
+                    $query_lame[0]->setBoiteFk($query_boite[0]);
+                    $query_lame[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lame[0]); 
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataIndividuLamelRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+  
+    
+    /**
+    *  importCSVDataLotMaterielDeplace($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.lot_materiel-range
+    */ 
+    public function importCSVDataLotMaterielDeplace($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataLotMaterielRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
+            ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+            ->getQuery()
+            ->getResult();
+            $flagLot = count($query_lot);
+            if ($flagLot == 0) $message .= "ERROR : le code lot materiel <b>".$data["code_lot_materiel"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }               
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagLot && $flagBoite) { 
+                if ( $flagBoiteAffecte ) { 
+                    $query_lot[0]->setBoiteFk($query_boite[0]);
+                    $query_lot[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lot[0]); 
+                } else {                
+                    $query_lot[0]->setBoiteFk(null);
+                    $query_lot[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lot[0]);   
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataLotMaterielRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
+    *  importCSVDataLotMaterielRange($fichier)
+    *    $fichier : le path vers le fichiers csv de metadata  downloader
+    *  $fichier : le path vers le fichiers csv des  données  downloader
+     * importation des données csv : template import.lot_materiel-range
+    */ 
+    public function importCSVDataLotMaterielRange($fichier)
+    {
+        $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
+        $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
+        //var_dump($columnByTable); exit;
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
+            exit;
+        }     
+        $DateImport= $importFileCsvService->GetCurrentTimestamp();
+        $em = $this->entityManager;    // appel du manager de Doctrine  
+        // traitement ligne par ligne du fichier csv          
+        $compt = 0;
+        $message = '';
+        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+ 
+        foreach($csvDataLotMaterielRange as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
+            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
+            ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+            ->getQuery()
+            ->getResult();
+            $flagLot = count($query_lot);
+            if ($flagLot == 0) $message .= "ERROR : le code lot materiel <b>".$data["code_lot_materiel"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            //$query_boite
+            $flagBoite = 1;
+            $flagBoiteAffecte = 0;
+            if($data["code_boite"] != null || $data["code_boite"] != '') {
+                $flagBoiteAffecte = 1;
+                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $data["code_boite"])
+                ->getQuery()
+                ->getResult(); 
+                $flagBoite = count($query_boite);
+            }     
+            if ($flagBoiteAffecte == 0) $message .= "ERROR : le code boite  n a pas été renseigné pour le code lot materiel <b>".$data["code_lot_materiel"]." <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagBoiteAffecte && $flagBoite == 0) $message .= "ERROR : le code boite <b>".$data["code_boite"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
+            if ($flagLot && $flagBoite && $flagBoiteAffecte) { 
+                if ($query_lot[0]->getBoiteFk() != null) {
+                     $message .= 'ERROR : le  lot materiel <b>'.$data["code_lot_materiel"].'</b> a déjà été affecté à une boite : '.$query_lot[0]->getBoiteFk()->getCodeBoite().' <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>";                                    
+                } else {
+                    $query_lot[0]->setBoiteFk($query_boite[0]);
+                    $query_lot[0]->setDateMaj($DateImport); 
+                    $em->persist($query_lot[0]); 
+                }
+            }
+        }
+    
+        if ($message == ''){
+            try {
+                $flush = $em->flush();
+                return "Import de ". count($csvDataLotMaterielRange). " données  ! </br>".$info;
+                } 
+            catch(\Doctrine\DBAL\DBALException $e) {
+                return 'probleme de FLUSH : </br>'.strval($e);
+            }          
+        } else {
+            return $info.'</br>'.$message;
+        }
+    }
+
+    
+    /**
     *  importCSVDataLotMaterielPublie($fichier)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader

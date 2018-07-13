@@ -2,6 +2,23 @@
 
 {# EDIT : BOITE #}
 
+{% block titlepage %}
+    <div class="page-title">
+      <div class="title_left">
+        <h1>
+            {% if  flagvalid == 1 and actioncontroller != 'new'%} <i class="glyphicon glyphicon-ok"></i>  {% endif %}
+            {{['title.',entityname ]|join|trans}} 
+            {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
+                ( {{ ['type = ',app.request.query.get('typeBoite')]|join}} )
+            {% endif %}
+        </h1>
+      </div>
+      <div class="title_right">
+      </div>
+    </div>            
+    <div class="clearfix"></div>
+{% endblock %}
+
 {% block body %}
     
     {{ parent() }}       
@@ -17,22 +34,28 @@
 //  interface Formulaire
     $(document).ready(function(){
     // Actions Jquery                        
-        // Collection $sqcEstPublieDanss (Source)
+        // Collection $sqcEstPublieDanss (Source)        
         $('div#bbees_e3sbundle_boite_adns :input').attr("disabled", true); 
         $('div#bbees_e3sbundle_boite_lotMateriels :input').attr("disabled", true);
         $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", true);
-        {% if  app.request.query.get('typeBoite') == 'ADN'  %}  
-            var $container = $('div#bbees_e3sbundle_boite_adns' ); 
-            //addArrayCollectionButton($container,"Adn",false,false); 
+        $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('div#bbees_e3sbundle_boite_adns :input').attr("disabled", false); 
+                $('div#bbees_e3sbundle_boite_lotMateriels :input').attr("disabled", false);
+                $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", false);
+        }); 
+        // Selection automatique du champ typeBoite si il est passé en paramètre URL
+        {% if  app.request.query.get('typeBoite')is defined and  app.request.query.get('typeBoite') != ''  %}  
+            var typeBoite = "{{app.request.query.get('typeBoite')}}";
+            $("#bbees_e3sbundle_boite_typeBoiteVocFk option").filter(function() {
+                return this.text == typeBoite; 
+            }).attr('selected', true);
+            $('#bbees_e3sbundle_boite_typeBoiteVocFk').attr("disabled", true)
+            $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
+                    // deverouillage des champ descativé pour permettre l enregistrement
+                    $('#bbees_e3sbundle_boite_typeBoiteVocFk').attr("disabled", false); 
+            });
         {% endif %}
-        {% if  app.request.query.get('typeBoite') == 'LOT'  %}  
-            var $container = $('div#bbees_e3sbundle_boite_lotMateriels');             
-            //addArrayCollectionButton($container,"LotMateriel",false,false); 
-        {% endif %}
-        {% if  app.request.query.get('typeBoite') == 'LAME'  %}  
-            var $container = $('div#bbees_e3sbundle_boite_individuLames');             
-            //addArrayCollectionButton($container,"IndividuLame",false,false);
-        {% endif %} 
     });
  </script>
  

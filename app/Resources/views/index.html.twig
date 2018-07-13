@@ -50,7 +50,11 @@
 {{ parent() }}   
 {# affichage du message d'erreur sur Delete si il existe des enregistrements liés #}
 {% if exception_message is defined %} 
-    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index)}}";</script> 
+                {% if  varUrl_typeBoite != ''  %} 
+                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";</script> 
+                {% else %} 
+                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index)}}";</script> 
+                {% endif %}
 {% endif %}
 {# gestion de la liste bootgrid #} 
 <script type="text/javascript">     
@@ -119,7 +123,11 @@ $(document).ready(function(){
             },
             "delete": function(column, row, value)
             {
-                return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('e3s/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
+                if ( '{{varUrl_typeBoite}}' != '' ) {
+                   return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('e3s/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
+                } else {
+                    return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('e3s/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
+                }
             }
         }
     }); 

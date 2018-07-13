@@ -1,4 +1,4 @@
-column name: English_Libelle
+# Intitulés des champs de la base de données E3S Version Anglaise
 A faire: Sample status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
@@ -173,6 +173,7 @@ User cre: Creation user name
 User maj: Updating user name
 Validity: Taxon validity
 Yeux voc fk: Vision
+# Intitulés des listes de selection
 Choose a typeCollection: Choose a type of Collection
 Choose a codeCollection: Choose a code of Collection
 Choose a typeBoite: Choose a type of box
@@ -212,6 +213,7 @@ Choose a method: Choose a method
 Choose a PCR: Choose a PCR
 Choose a primer: Choose a primer
 Choose a socitety: Choose a socitety
+# intitulés des collections ou tableaux relatifs aux tables relationnelles de type N-N
 Source a ete integre pars: Is realized by
 Adns: DNAs
 Lot materiels: Biological materials
@@ -242,6 +244,25 @@ A ciblers: Target(s)
 No: No
 Yes: Yes
 Personne: Person
+# Intitulés des boutons de l'interface
+buton.Add a Chromatogramme: Add a Chromatogram
+buton.Add a Source: Add a Source
+buton.Add a CompositionLotMateriel: Add a Composition of Material
+buton.Add a EspeceIdentifiee: Add a Identify specie
+buton.Add a new Commune: Add a new Municipality
+buton.Add a SamplingMethod: Add a Sampling Method
+buton.Add a Fixateur: Add a Fixative
+buton.Add a Programme: Add a Program
+buton.Add a new Programme: Add a new Program
+buton.Add a Personne: Add a Person
+buton.Add a new Personne: Add a new Person
+buton.Add a ACibler: Add a target (Taxon)
+buton.Import adn deplace: Move or Delete DNA boxes as file
+buton.Import adn range: Store DNA boxes as file
+buton.Import individu lame deplace: Move or Delete slides as file
+buton.Import individu lame range: Store slides as file
+buton.Import lot materiel deplace: Move or Delete biological material as file
+buton.Import lot materiel range: Store biological material as file
 buton.NewBoite: Create a new box
 buton.Import sqc assemblee publie: Source to sequence as file
 buton.Import lot materiel publie: Source to biological material as file
@@ -283,6 +304,7 @@ buton.BackToTheSelection: Back to the selection
 buton.BackToTheList: Back to the list
 buton.showAllRecord: Show all records
 Envoyer: Import CSV file
+# intitulés des colonnes des listes d'enregistrements
 list.Date creation sqc ass ext: Date creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
@@ -302,6 +324,8 @@ list.Liste personnes: List of person(s)
 list.Last taxname: Last taxname
 list.Last identification date: Last id. date
 list.Last identification critere: Last id. criterium
+# Titres des pages
+title.Référentiels: Referentials
 title.boite: Box
 title.Dashboard: Dashboard
 title.Terrain: Working area
@@ -309,7 +333,7 @@ title.station: Station
 title.collecte: Sampling
 title.Analyse morphologique: Morphological analysis
 title.lotmateriel: Material
-title.individu: Individu
+title.individu: Specimen
 title.individulame: Slide of Specimen
 title.lotmaterielext: Source material
 title.Analyses génétiques: Genetic analysis
@@ -332,15 +356,29 @@ title.commune: Municipality
 title.etablissement: Institution
 title.programme: Program
 title.Recherche bdd: Search in database
+# messages d'alerte relatif à la gestion des dates
 alert.datePrecisionINCONNU:  date fields must be left blank 
 alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
 alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
 alert.datePrecisionJOUR:  All date fields have to be filled with the format JJ-MM-YYYY
 alert.BadFormatDate: Bad date format (JJ-MM-YYYY) or bad value (JJ=[1,31] MM=[1,12] YYYY=[1000,2999]
-
-
-
-
-
-
+# menus de la liste déroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
+import.liste: Go to Import other set of files 
+import.boite.lotmaterielrange: Go to Store biological material as file
+import.boite.individulamerange: Go to Store slides as file
+import.boite.adnrange: Go to Store DNAs as file
+import.station: Go to Import Station
+import.collecte: Go to Import Sampling
+import.lotmateriel: Go to Import Lot Material
+import.individu: Go to Import Individu
+import.individulame: Go to Slide of Specimen
+import.lotmaterielext: Go to Source material
+import.adn: Go to DNA
+import.pcr: Go to PCR
+import.chromatogramme: Go to Chromatogram
+import.pcrchromato: Go to PCR & Chromatogram
+import.sequenceassemblee: Go to E3S sequences
+import.sequenceassembleeext: Go to Source sequences
+import.motu: Go to Import Motu
+import.source: Go to Bibliography sources
 

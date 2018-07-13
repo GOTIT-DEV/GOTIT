@@ -39,7 +39,6 @@
 {% endblock %}   
 
 {% block body %}
-    
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">           
@@ -50,7 +49,7 @@
             {{ form_errors(edit_form) }}
             {% if edit_form.dateMaj %}{{ form_widget(edit_form.dateMaj, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %}
             {% if edit_form.dateCre and edit_form.dateCre is empty  and edit_form.dateCre == '' %} 
-                {{ form_widget(edit_form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
+                {{ form_widget(edit_form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none'} }) }}
                 {% else %}
                 {{ form_widget(edit_form.dateCre, {'attr': {'style': 'display:none '} }) }}
             {% endif %} 
@@ -86,4 +85,25 @@
     </div>                     
 {% endblock %}
 
+ 
 
+{% block scripts %}
+<script type="text/javascript">     
+    var addButon = {
+    "Add a SamplingMethod":"{{'buton.Add a SamplingMethod'|trans}}",
+    "Add a Fixateur":"{{'buton.Add a Fixateur'|trans}}",
+    "Add a Programme":"{{'buton.Add a Programme'|trans}}",
+    "Add a new Programme":"{{'buton.Add a new Programme'|trans}}",
+    "Add a Personne":"{{'buton.Add a Personne'|trans}}",
+    "Add a new Personne":"{{'buton.Add a new Personne'|trans}}",
+    "Add a ACibler":"{{'buton.Add a ACibler'|trans}}",
+    "Add a EspeceIdentifiee":"{{'buton.Add a EspeceIdentifiee'|trans}}",
+    "Add a CompositionLotMateriel":"{{'buton.Add a CompositionLotMateriel'|trans}}",
+    "Add a Source":"{{'buton.Add a Source'|trans}}",
+    "Add a Chromatogramme":"{{'buton.Add a Chromatogramme'|trans}}",
+    };
+</script>
+
+{{ parent() }}
+
+{% endblock %}

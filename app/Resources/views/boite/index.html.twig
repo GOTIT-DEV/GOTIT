@@ -7,11 +7,37 @@
     {% set links =  [] %}
     
     
+{% block titlepage %}
+    <h1>
+        {{['title.',entityname ]|join|trans}} 
+        {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
+            ( {{ ['type = ',app.request.query.get('typeBoite')]|join}} )
+        {% endif %} 
+    </h1>
+{% endblock %}  
 
 {% block action %}
-    {{ parent() }}
+    {# gestion des parametres d'url #}
+        <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
+        {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
+            <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
+         {% else %}
+             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
+        {% endif %}
     {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>#}
-    {# <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel range'|trans}}</a> #}
+    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LOT' %} 
+        <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel range'|trans}}</a>
+        <a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel deplace'|trans}}</a>
+    {% endif %} 
+     {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LAME' %} 
+        <a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import individu lame range'|trans}}</a>
+        <a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import individu lame deplace'|trans}}</a>
+    {% endif %} 
+    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'ADN' %} 
+        <a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import adn range'|trans}}</a>
+        <a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import adn deplace'|trans}}</a>
+    {% endif %} 
+
 {% endblock %}
 
 {% block body %}  
