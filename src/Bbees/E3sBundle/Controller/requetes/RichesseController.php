@@ -1,6 +1,6 @@
 <?php
 
-namespace Bbees\E3sBundle\Controller;
+namespace Bbees\E3sBundle\Controller\requetes;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,13 +14,13 @@ use Bbees\E3sBundle\Entity\Motu;
 use Bbees\E3sBundle\Entity\ReferentielTaxon;
 
 /**
- * @Route("formulaire4")
+ * @Route("/requetes/richesse")
  */
-class Formulaire4Controller extends Controller {
+class RichesseController extends Controller {
 
 
     /**
-     * @Route("/", name="formulaire4")
+     * @Route("/", name="richesse")
      */
     public function index()
     {
@@ -32,7 +32,7 @@ class Formulaire4Controller extends Controller {
         $genus_set = $service->getGenusSet();
         $methods_list = $service->listMethodsByDate();
 
-        return $this->render('requetes/formulaire4/index.html.twig', array(
+        return $this->render('requetes/richesse/index.html.twig', array(
             'genus_set' => $genus_set,
             'dates_methode' => $dates_methode,
             'methods_list' => $methods_list,
