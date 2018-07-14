@@ -117,6 +117,10 @@ function initDataTable(tableId) {
         data: "lump"
       }, {
         data: "reshuffling"
+      }, {
+        data: 'nb_seq'
+      }, {
+        data: 'nb_sta'
       }]
     })
 

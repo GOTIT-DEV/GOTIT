@@ -36,7 +36,7 @@ class RearrangementsController extends Controller {
 
   /**
    * @Route("/requete", name="requete2")
-   * 
+   *
    * Renvoie un objet JSON pour remplir la table de résultats
    */
   public function searchQuery(Request $request) {
@@ -55,7 +55,10 @@ class RearrangementsController extends Controller {
                 R.id AS taxid,
                 R.genus,
                 R.species,
-                R.taxname
+                R.taxname,
+                Ass.sequence_assemblee_fk as seq,
+                Ass.sequence_assemblee_ext_fk as seq_ext,
+                sta.id as id_sta
                 FROM Assigne Ass
                 JOIN motu ON Ass.motu_fk=motu.id
                 JOIN voc ON Ass.methode_motu_voc_fk=voc.id
@@ -63,6 +66,18 @@ class RearrangementsController extends Controller {
                     ON Ass.sequence_assemblee_fk=Esp.sequence_assemblee_fk
                     OR Ass.sequence_assemblee_ext_fk=Esp.sequence_assemblee_ext_fk
                 JOIN referentiel_taxon R ON Esp.referentiel_taxon_fk=R.id
+
+                LEFT JOIN sequence_assemblee_ext sext ON Esp.sequence_assemblee_ext_fk=sext.id
+                LEFT JOIN sequence_assemblee seq ON Esp.sequence_assemblee_fk=seq.id
+                LEFT JOIN est_aligne_et_traite eat ON eat.sequence_assemblee_fk=seq.id
+                LEFT JOIN chromatogramme chr ON chr.id = eat.chromatogramme_fk
+                LEFT JOIN pcr ON chr.pcr_fk=pcr.id
+                LEFT JOIN adn ON pcr.adn_fk=adn.id
+                LEFT JOIN individu ind ON ind.id = adn.individu_fk
+                LEFT JOIN lot_materiel lm ON ind.lot_materiel_fk=lm.id
+                JOIN collecte co ON co.id = sext.collecte_fk OR co.id=lm.collecte_fk
+                JOIN station sta ON co.station_fk = sta.id
+
                 WHERE voc.code != 'HAPLO'";
       if ($reference == 1) {
         // taxa filter
@@ -84,7 +99,10 @@ class RearrangementsController extends Controller {
                 v2.code AS methode,
                 v2.id AS id_methode,
                 m2.id AS id_date_methode,
-                m2.date_motu AS date_motu
+                m2.date_motu AS date_motu,
+                a1.sequence_assemblee_fk as seq,
+                a1.sequence_assemblee_ext_fk as seq_ext,
+                sta.id as id_sta
                 FROM assigne a1
                 JOIN motu m1 ON a1.motu_fk=m1.id
                 JOIN voc v1 ON a1.methode_motu_voc_fk=v1.id
@@ -93,6 +111,18 @@ class RearrangementsController extends Controller {
                     OR a1.sequence_assemblee_ext_fk=a2.sequence_assemblee_ext_fk
                 JOIN voc v2 ON a2.methode_motu_voc_fk=v2.id
                 JOIN motu m2 ON m2.id=a2.motu_fk
+
+                LEFT JOIN sequence_assemblee_ext sext ON a1.sequence_assemblee_ext_fk=sext.id
+                LEFT JOIN sequence_assemblee seq ON a1.sequence_assemblee_fk=seq.id
+                LEFT JOIN est_aligne_et_traite eat ON eat.sequence_assemblee_fk=seq.id
+                LEFT JOIN chromatogramme chr ON chr.id = eat.chromatogramme_fk
+                LEFT JOIN pcr ON chr.pcr_fk=pcr.id
+                LEFT JOIN adn ON pcr.adn_fk=adn.id
+                LEFT JOIN individu ind ON ind.id = adn.individu_fk
+                LEFT JOIN lot_materiel lm ON ind.lot_materiel_fk=lm.id
+                JOIN collecte co ON co.id = sext.collecte_fk OR co.id=lm.collecte_fk
+                JOIN station sta ON co.station_fk = sta.id
+
                 WHERE v1.code != 'HAPLO'
                 AND v2.code !='HAPLO'
                 AND v2.id != :id_methode
@@ -148,11 +178,17 @@ class RearrangementsController extends Controller {
   }
 
   private function compareMethodSets($methodSet1, $methodSet2, $counters) {
-    $motuCounter = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
-    $revCounter  = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
-
+    $motuCounter = array_fill_keys(['match', 'split', 'lump', 'reshuffling', 'nb_seq', 'nb_sta'], 0);
+    $revCounter  = array_fill_keys(['match', 'split', 'lump', 'reshuffling', 'nb_seq', 'nb_sta'], 0);
+    $seqInt      = [];
+    $seqExt      = [];
+    $id_sta      = [];
     foreach ($methodSet1 as $ref_id => $motuSet) {
-
+      foreach ($motuSet as $row) {
+        $seqInt[] = $row['seq'];
+        $seqExt[] = $row['seq_ext'];
+        $id_sta[] = $row['id_sta'];
+      }
       if (count($motuSet) == 1) {
         // taxon has 1 motu
         $motu       = $motuSet[0]; // count taxons in the single motu
@@ -161,7 +197,6 @@ class RearrangementsController extends Controller {
           // motu has 1 taxon : match
           $motuCounter['match'] += 1;
           $revCounter['match'] += 1;
-
         } elseif ($reverseCnt > 1) {
           // motu has many taxon : lump or reshuffle
           $reverseMotus = $methodSet2[$motu['num_motu']];
@@ -172,7 +207,6 @@ class RearrangementsController extends Controller {
             {
               $lump = false;
             }
-
           }
           if ($lump) {
             // many taxons, one motu
@@ -181,9 +215,7 @@ class RearrangementsController extends Controller {
             // many taxons, many motu
             $motuCounter['reshuffling'] += 1;
           }
-
           $revCounter['split'] += 1; // taxon is a split of motu anyway
-
         }
       } elseif (count($motuSet) > 1) {
         // taxon has many motus
@@ -191,7 +223,6 @@ class RearrangementsController extends Controller {
         foreach ($motuSet as $motu) {
           // each motu is split or reshuffling
           $reverseCnt = count($methodSet2[$motu['num_motu']]);
-
           if ($reverseCnt == 1) {
             // motu has only current taxon : split
             $motuCounter['split'] += 1;
@@ -200,7 +231,6 @@ class RearrangementsController extends Controller {
             $motuCounter['reshuffling'] += 1;
             $lump = false;
           }
-
         }
         if ($lump) {
           $revCounter['lump'] += 1;
@@ -209,53 +239,62 @@ class RearrangementsController extends Controller {
         }
       }
     }
-
-    // $revCounter[$date][$meth] = array_merge($revCounter[$date][$meth], $counters[1]);
+    $seqInt = array_filter(array_unique($seqInt));
+    $seqExt = array_filter(array_unique($seqExt));
+    $nb_seq = count($seqInt) + count($seqExt);
+    $nb_sta = count(array_filter(array_unique($id_sta)));
+    // dump($sequences);
+    $motuCounter['nb_seq'] = $nb_seq;
+    $motuCounter['nb_sta'] = $nb_sta;
+    $revCounter['nb_seq']  = $nb_seq;
+    $revCounter['nb_sta']  = $nb_sta;
     return [$motuCounter, $revCounter];
   }
 
+  /**
+   * Count split, shift, lumps and reshuffling in
+   *  morphological species caused by each molecular method
+   *
+   *  motuSets is a dictionnary used to group results by taxid and motuid,
+   *  separating between method+datemethode.
+   *  It allows to count the motu asigned to one taxon in each method,
+   *  and the other way around. Used to do set comparisons and find
+   *  split lumps match and reshufflings. Looks like :
+   *  'ref' :
+   *  taxon_id :
+   *  date_methode_id :
+   *  methode_id :
+   *  taxid: [    // array of
+   *  'id' : taxon id,
+   *  'num_motu' : motu id,
+   *  'id_methode : method id,
+   *  'id_date_methode' : date motu id,
+   *  ]
+   *  date_motu_id :
+   *  method_id:
+   *  motu id: [    // array of
+   *  'id' : taxon id,
+   *  'num_motu' : motu id,
+   *  'id_methode : method id,
+   *  'id_date_methode' : date motu id,
+   *  ]
+   *
+   *  motuCounter counts each split match lump reshuffling,
+   *  grouping by methode. Access is :
+   *  date_methode_id :
+   *  methode_id :
+   *  ['split', 'match', 'lump', 'reshuffling']
+   */
   private function compareMotuSets($rows, $counters) {
-    /* Count split, shift, lumps and reshuffling in
-    morphological species caused by each molecular method
-
-    motuSets is a dictionnary used to group results by taxid and motuid,
-    separating between method+datemethode.
-    It allows to count the motu asigned to one taxon in each method,
-    and the other way around. Used to do set comparisons and find
-    split lumps match and reshufflings. Looks like :
-    'ref' :
-    taxon_id :
-    date_methode_id :
-    methode_id :
-    taxid: [    // array of
-    'id' : taxon id,
-    'num_motu' : motu id,
-    'id_methode : method id,
-    'id_date_methode' : date motu id,
-    ]
-    date_motu_id :
-    method_id:
-    motu id: [    // array of
-    'id' : taxon id,
-    'num_motu' : motu id,
-    'id_methode : method id,
-    'id_date_methode' : date motu id,
-    ]
-
-    motuCounter counts each split match lump reshuffling,
-    grouping by methode. Access is :
-    date_methode_id :
-    methode_id :
-    ['split', 'match', 'lump', 'reshuffling']
-
-     */
+    // Structure ordonnées par reference:dataset:methode:identifiant
     $motuSets = $this->buildComparisonSets($rows);
-    dump($motuSets);
-    $taxonSet = $motuSets['ref'];
-    $motuSet  = $motuSets['motus'];
+    $taxonSet = $motuSets['ref']; // Reference par taxon
+    $motuSet  = $motuSets['motus']; // Reference par motu
     foreach ($taxonSet as $date => $methodes) {
       foreach ($methodes as $meth => $motus) {
-        $methCounters                      = $this->compareMethodSets($motus, $motuSet[$date][$meth], $counters);
+        // Count by methods
+        $methCounters = $this->compareMethodSets($motus, $motuSet[$date][$meth], $counters);
+        // Merge counts by method to counters
         $counters['forward'][$date][$meth] = array_merge(
           $counters['forward'][$date][$meth],
           $methCounters[0]
@@ -266,10 +305,17 @@ class RearrangementsController extends Controller {
         );
       }
     }
-
     return $counters;
   }
 
+  /**
+   * Ordonne les résultats bruts dans une structure en fonction de
+   * reference:
+   *  dataset:
+   *    methode:
+   *      identifiant:
+   *        DATA
+   */
   private function buildComparisonSets($rows) {
     $ordered = array();
     foreach ($rows as $row) {
@@ -280,16 +326,22 @@ class RearrangementsController extends Controller {
     return $ordered;
   }
 
+  /**
+   *
+   */
   private function prepareMotuCountArray() {
     $service     = $this->get('bbees_e3s.query_builder_e3s');
     $methodes    = $service->listMethodsByDate();
     $resultArray = array();
     $keys        = ['match', 'split', 'lump', 'reshuffling'];
     foreach ($methodes as $m) {
-      $resultArray[$m['id_date_motu']][$m['id']]              = array_fill_keys($keys, 0);
+      $resultArray[$m['id_date_motu']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
+      // Ajout d'infos sur la méthode
       $resultArray[$m['id_date_motu']][$m['id']]['methode']   = $m['code'];
       $resultArray[$m['id_date_motu']][$m['id']]['date_motu'] = $m['date_motu'];
       $resultArray[$m['id_date_motu']][$m['id']]['label']     = $m['code'] . ' ' . $m['date_motu']->format('Y');
+      $resultArray[$m['id_date_motu']][$m['id']]['nb_seq']    = 0;
+      $resultArray[$m['id_date_motu']][$m['id']]['nb_sta']    = 0;
     }
     $reverseArray = $resultArray;
     return [

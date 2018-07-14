@@ -419,6 +419,8 @@ class QueryBuilderService {
     return $stmt->fetchAll(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
   }
 
+
+  
   public function getMotuGeoLocation($data, $single_method = false) {
 
     $taxid = $data->get('taxname');
