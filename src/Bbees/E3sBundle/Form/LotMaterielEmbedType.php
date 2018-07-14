@@ -19,10 +19,10 @@ class LotMaterielEmbedType extends AbstractType
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {        
         $builder->add('codeLotMateriel')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'label' => false, 'attr'=>array('style'=>'display:none;')))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
+                ->add('dateMaj', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
                 ->add('userCre', HiddenType::class, array())
                 ->add('userMaj', HiddenType::class, array())
                 ;
@@ -33,9 +33,9 @@ class LotMaterielEmbedType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+       $resolver->setDefaults(array(
             'data_class' => 'Bbees\E3sBundle\Entity\LotMateriel'
-        ));
+        ));       
     }
 
     /**

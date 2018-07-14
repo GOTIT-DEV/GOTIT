@@ -131,7 +131,7 @@ class BoiteController extends Controller
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
                 return $this->render('boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
-            return $this->redirectToRoute('boite_edit', array('id' => $boite->getId(), 'valid' => 1));                     
+            return $this->redirectToRoute('boite_edit', array('id' => $boite->getId(), 'valid' => 1, 'typeBoite' => $request->get('typeBoite')));                     
         } 
 
         return $this->render('boite/edit.html.twig', array(
@@ -224,7 +224,7 @@ class BoiteController extends Controller
             }   
         }
         
-        return $this->redirectToRoute('boite_index');
+        return $this->redirectToRoute('boite_index', array('typeBoite' => $request->get('typeBoite')));
     }
 
     /**

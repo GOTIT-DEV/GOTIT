@@ -1,7 +1,6 @@
 importfiles.form: |
     (1) Choose which file to import
 
-
     (2) Select csv file from list
 
     the csv file have to be record with the options :
@@ -9,6 +8,41 @@ importfiles.form: |
          - the "semicolon" as record delimiter
          - quotation marks as text field delimiter
          
+importfilessource : |
+    INFO : Form to import Source data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : personne) *
+    - process the Source data (templates : source)
+    (*) only for administrator. if necessary please contact e3s database administrator         
+importfilesadndeplace  : |
+    INFO : Proceed by step :  
+    - process the  data (template import.adn-range) 
+importfilesadnrange : |
+    INFO : Proceed by step :  
+    - process the  data (template import.adn-range)  
+importfilesindividulamedeplace  : |
+    INFO : Proceed by step :  
+    - process the  data (template import.individu_lame-range) 
+importfilesindividulamerange : |
+    INFO : Proceed by step :  
+    - process the  data (template import.individu_lame-range)   
+importfileslotmaterieldeplace : |
+    INFO : Proceed by step :  
+    - process the  data (template import.lot_materiel-range) 
+importfileslotmaterielrange : |
+    INFO : Proceed by step :  
+    - process the  data (template import.lot_materiel-range)       
+importfileslotmaterielpublie : |
+    INFO : Form to link sources to biological materials as file. Proceed by step : 
+    - (if necessary) process the referential data (templates : personne) *
+    - (if necessary) process the linked data (templates : source) 
+    - process the  data (template import.lot_materiel-publie)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilessqcassembleepublie : |
+    INFO : Form to link sources to biological materials as file. Proceed by step : 
+    - (if necessary) process the referential data (templates : personne) *
+    - (if necessary) process the linked data (templates : source) 
+    - process the data (template import.sqc_assemblee-publie)
+    (*) only for administrator. if necessary please contact e3s database administrator
 importfilessequenceassemblee : | 
     INFO : Form to import E3S Sequences data and relative. Proceed by step : 
     - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne) *

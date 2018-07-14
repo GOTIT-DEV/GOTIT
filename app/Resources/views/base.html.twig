@@ -13,7 +13,6 @@
             BDD GDSTI-E3S 
         {% endblock %}
     </title>
-
     
     {% block stylesheets %}
     <!-- Bootstrap -->
@@ -101,7 +100,7 @@
                     </ul>
                   </li>
                   <li><a href="{{ path('source_index') }}"><i class="fa fa-newspaper-o"></i>{{'title.Source bibliographique'|trans}}</a></li>   
-                  <li><a><i class="fa fa-lock"></i> Référentiels <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-lock"></i> {{'title.Référentiels'|trans}} <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     <li><a href="{{ path('voc_index') }}">{{'title.voc'|trans}} </a></li>
                     <li><a href="{{ path('referentieltaxon_index') }}">{{'title.referentieltaxon'|trans}} </a></li>
