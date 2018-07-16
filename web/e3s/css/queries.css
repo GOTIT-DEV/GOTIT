@@ -38,3 +38,28 @@ div.geo-container {
     display: table-cell;
   }
 }
+
+select.concordance.typeA {
+  background: rgba(0, 253, 0, 0.289);
+}
+
+select.concordance.typeB {
+  background: rgba(255, 145, 0, 0.556);
+}
+
+select.concordance.typeC {
+  background: rgba(249, 0, 75, 0.446);
+}
+
+select.concordance.unassigned {
+  background: rgba(9, 60, 94, 0.303);
+}
+
+select.concordance.no-constraints {
+  color: rgb(160, 160, 160);
+  background: white;
+}
+
+select.concordance option {
+  background: white;
+}

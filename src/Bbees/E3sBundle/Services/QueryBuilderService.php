@@ -9,47 +9,14 @@ use Doctrine\ORM\EntityManager;
  */
 class QueryBuilderService {
   private $entityManager;
-  private $CTE_COI;
-  private $CTE_STA;
 
   public function __construct(EntityManager $manager) {
     $this->entityManager = $manager;
-    $this->CTE_COI       = "(
-        SELECT DISTINCT id_sta, referentiel_taxon_fk
-        FROM (
-            SELECT  sta.id as id_sta, eid.referentiel_taxon_fk
-                FROM station sta
-                JOIN collecte co ON sta.id=co.station_fk
-                JOIN lot_materiel lm ON lm.collecte_fk = co.id
-                JOIN individu ind ON ind.lot_materiel_fk=lm.id
-                JOIN adn ON adn.individu_fk=ind.id
-                JOIN pcr ON adn.id=pcr.adn_fk
-                JOIN voc ON voc.id=pcr.gene_voc_fk
-                JOIN espece_identifiee eid ON eid.lot_materiel_fk = lm.id
-                WHERE voc.code='COI'
-            UNION
-            SELECT stat.id as id_sta, eid2.referentiel_taxon_fk
-                FROM station stat
-                JOIN collecte col ON stat.id = col.id
-                JOIN sequence_assemblee_ext saext ON saext.collecte_fk=col.id
-                JOIN espece_identifiee eid2 ON sequence_assemblee_ext_fk = saext.id
-                JOIN voc ON voc.id=saext.gene_voc_fk
-                WHERE voc.code='COI'
-            ) sta_co1
-        )
-        ";
-
-    $this->CTE_STA = "(SELECT DISTINCT eid.referentiel_taxon_fk,
-            sta.id as id_sta, sta.long_deg_dec as longitude, sta.lat_deg_dec as latitude
-            FROM ESPECE_IDENTIFIEE eid
-            LEFT JOIN (SELECT * FROM lot_materiel lm UNION SELECT * FROM lot_materiel_ext lmext) lmall
-                ON eid.lot_materiel_fk = lmall.id
-            LEFT JOIN sequence_assemblee_ext seq ON eid.sequence_assemblee_ext_fk=seq.id
-            JOIN collecte co ON co.id = lmall.collecte_fk OR seq.collecte_fk=co.id
-            JOIN station sta ON co.station_fk = sta.id
-        )
-        ";
   }
+
+  /***************************************************************************
+   * UTILITY QUERIES
+   ***************************************************************************/
 
   public function getGenusSet() {
     $qb    = $this->entityManager->createQueryBuilder();
@@ -106,14 +73,28 @@ class QueryBuilderService {
     return $query->getArrayResult();
   }
 
-  private function joinIndivSeq($query) {
-    return $query->join('BbeesE3sBundle:Adn', 'adn', 'WITH', 'i.id = adn.individuFk')
+  /****************************************************************************
+   * JOINERS
+   ****************************************************************************/
+
+  private function joinIndivSeq($query, $indivAlias, $seqAlias) {
+    return $query->join('BbeesE3sBundle:Adn', 'adn', 'WITH', "$indivAlias.id = adn.individuFk")
       ->join('BbeesE3sBundle:Pcr', 'pcr', 'WITH', 'adn.id = pcr.adnFk')
       ->join('BbeesE3sBundle:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('BbeesE3sBundle:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
       ->join('BbeesE3sBundle:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
-      ->join('BbeesE3sBundle:SequenceAssemblee', 'seq', 'WITH', 'seq.id = at.sequenceAssembleeFk')
+      ->join('BbeesE3sBundle:SequenceAssemblee', $seqAlias, 'WITH', "$seqAlias.id = at.sequenceAssembleeFk")
       ->join('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
+  }
+
+  private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
+    return $query->leftJoin('BbeesE3sBundle:Adn', 'adn', 'WITH', "$indivAlias.id = adn.individuFk")
+      ->leftJoin('BbeesE3sBundle:Pcr', 'pcr', 'WITH', 'adn.id = pcr.adnFk')
+      ->leftJoin('BbeesE3sBundle:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
+      ->leftJoin('BbeesE3sBundle:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
+      ->leftJoin('BbeesE3sBundle:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
+      ->leftJoin('BbeesE3sBundle:SequenceAssemblee', $seqAlias, 'WITH', "$seqAlias.id = at.sequenceAssembleeFk")
+      ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
 
   private function joinEspeceStation($query, $aliasEsp, $aliasSta) {
@@ -136,6 +117,9 @@ class QueryBuilderService {
 
   }
 
+  /*****************************************************************************
+   * QUERIES
+   *****************************************************************************/
   public function getMotuCountList($data) {
 
     $niveau       = $data->get('niveau');
@@ -154,12 +138,12 @@ class QueryBuilderService {
     case 1: #lot matériel
       $query = $query->join('BbeesE3sBundle:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
         ->join('BbeesE3sBundle:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-      $query = $this->joinIndivSeq($query)->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
+      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
       break;
 
     case 2: #individu
       $query = $query->join('BbeesE3sBundle:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-      $query = $this->joinIndivSeq($query)->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
+      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
       break;
 
     case 3: # sequence
@@ -202,6 +186,81 @@ class QueryBuilderService {
     return $query->getArrayResult();
   }
 
+  public function getSpeciesAssignment($data) {
+    $columnsMap = array(
+      'lot-materiel' => 'lmrt',
+      'individu'     => 'indivrt',
+      'sequence'     => 'seqrt',
+    );
+    $typeConstraints = array_fill_keys(
+      ["A", "B", "C"],
+      array());
+    $undefinedSeq = ($data->get('sequence') == '1');
+    foreach ($data as $key => $value) {
+      if (in_array($value, array_keys($typeConstraints))) {
+        $typeConstraints[$value][] = $columnsMap[$key];
+      }
+    }
+    dump($typeConstraints);
+    dump($undefinedSeq);
+
+    $qb    = $this->entityManager->createQueryBuilder();
+    $query = $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm') // lot matériel
+      ->addSelect('lmrt.id as idtax_lm, lmrt.taxname as taxname_lm') // taxon lot matériel
+      ->addSelect('lmvoc.code as critere_lm') // critere lot matériel
+      ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // individu
+      ->addSelect('indivrt.id as idtax_indiv, indivrt.taxname as taxname_indiv') // taxon individu
+      ->addSelect('ivoc.code as critere_indiv') // critere individu
+      ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
+      ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
+      ->addSelect('seqvoc.code as critere_seq') // critere sequence
+    // JOIN lot matériel
+      ->from('BbeesE3sBundle:LotMateriel', 'lm')
+      ->join('BbeesE3sBundle:EspeceIdentifiee', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
+      ->join('BbeesE3sBundle:ReferentielTaxon', 'lmrt', 'WITH', 'lmrt.id = eidlm.referentielTaxonFk')
+      ->join('BbeesE3sBundle:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
+    // JOIN individu
+      ->join('BbeesE3sBundle:Individu', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
+      ->join('BbeesE3sBundle:EspeceIdentifiee', 'eidindiv', 'WITH', 'indiv.id = eidindiv.individuFk')
+      ->join('BbeesE3sBundle:ReferentielTaxon', 'indivrt', 'WITH', 'indivrt.id = eidindiv.referentielTaxonFk')
+      ->join('BbeesE3sBundle:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id')
+    ;
+    // JOIN sequence
+    $query = $this->leftJoinIndivSeq($query, 'indiv', 'seq')
+      ->leftJoin('BbeesE3sBundle:EspeceIdentifiee', 'eidseq', 'WITH', 'seq.id = eidseq.sequenceAssembleeFk')
+      ->leftJoin('BbeesE3sBundle:ReferentielTaxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.referentielTaxonFk')
+      ->leftJoin('BbeesE3sBundle:Voc', 'seqvoc', 'WITH', 'eidseq.critereIdentificationVocFk=seqvoc.id')
+    ;
+    if ($undefinedSeq) {
+      $query=$query->andWhere('seq.id IS NULL');
+    }
+    // FILTER based on user defined constraints
+    $visited = [];
+    foreach ($typeConstraints as $type => $identicals) {
+      if ($identicals) {
+        $current  = [];
+        //dump($visited);
+        $refTable = $identicals[0];
+        foreach ($identicals as $tableAlias) {
+          $current[] = $tableAlias;
+          if ($tableAlias != $refTable) {
+            $query = $query->andWhere("$refTable.id = $tableAlias.id");
+            dump("$refTable = $tableAlias");
+          }
+          foreach($visited as $different){
+            $query = $query->andWhere("$tableAlias.id != $different.id"); 
+            dump("$tableAlias != $different");
+          }
+        }
+        //dump($current);
+        $visited = array_merge($current, $visited);
+      }
+    }
+    $query = $query->distinct()->getQuery();
+    $res   = $query->getArrayResult();
+    return $res;
+  }
+
   public function getMotuSeqList($data) {
     $id_taxon     = $data->get('taxon');
     $id_methode   = $data->get('methode');
@@ -220,17 +279,16 @@ class QueryBuilderService {
       ->from('BbeesE3sBundle:ReferentielTaxon', 'rt')
       ->join('BbeesE3sBundle:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
-
     switch ($niveau) {
     case 1: #lot matériel
       $query = $query->join('BbeesE3sBundle:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
         ->join('BbeesE3sBundle:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-      $query = $this->joinIndivSeq($query);
+      $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
     case 2: #individu
       $query = $query->join('BbeesE3sBundle:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-      $query = $this->joinIndivSeq($query);
+      $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
     case 3: # sequence
@@ -419,8 +477,6 @@ class QueryBuilderService {
     return $stmt->fetchAll(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
   }
 
-
-  
   public function getMotuGeoLocation($data, $single_method = false) {
 
     $taxid = $data->get('taxname');

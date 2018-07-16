@@ -7,6 +7,7 @@ label:
     param: Search fields
     espece: Search by species
     bouton: Search
+    constraints: Constraint parameters
   resultats: Results
   reference: Reference method
   morphologie: Morphology
@@ -29,9 +30,24 @@ methode:
 ui:
   fermer: Close
 entity:
-  lotmateriel: Biological material
-  individu: Specimen
-  seq: DNA sequence
+  lotmateriel: 
+    label: Biological material
+    id: Bio. mat. ID
+    species: BM taxon
+    code: BM code
+  individu: 
+    label: Specimen
+    id: Specimen ID
+    species: Specimen taxon
+    # code:
+    #   biomol:
+    #   trimorpho:
+  seq: 
+    label: DNA sequence
+    id: Seq. ID
+    species : Seq. taxon
+    code : Seq. code
+
 queries:
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
@@ -46,6 +62,8 @@ queries:
     title: COI sampling sites
     nav: COI data set
 columns:
+  id: ID
+  code: Code
   nbseq: Seq. count
   nbsta: Sites count
   stations: Sites
@@ -78,3 +96,7 @@ columns:
   pays: Country
   gene: Gene
   seqcode: Seq. Code
+  critere: Ident. criterion
+  any: Any
+  undefined: Undefined
+  #codetrimorpho:
