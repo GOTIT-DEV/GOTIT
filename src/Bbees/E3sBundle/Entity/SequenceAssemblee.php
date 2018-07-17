@@ -119,21 +119,25 @@ class SequenceAssemblee
 
     /**
      * @ORM\OneToMany(targetEntity="SequenceAssembleeEstRealisePar", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sequenceAssembleeEstRealisePars;
     
     /**
      * @ORM\OneToMany(targetEntity="SqcEstPublieDans", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcEstPublieDanss;
   
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
     
     /**
      * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estAligneEtTraites;
     

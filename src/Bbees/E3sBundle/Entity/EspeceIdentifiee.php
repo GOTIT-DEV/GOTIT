@@ -147,6 +147,7 @@ class EspeceIdentifiee
     
     /**
      * @ORM\OneToMany(targetEntity="EstIdentifiePar", mappedBy="especeIdentifieeFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estIdentifiePars;
 

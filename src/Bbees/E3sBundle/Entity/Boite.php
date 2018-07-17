@@ -111,16 +111,19 @@ class Boite
 
     /**
      * @ORM\OneToMany(targetEntity="LotMateriel", mappedBy="boiteFk", cascade={"persist"})
+     * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
      */
     protected $lotMateriels;
     
     /**
      * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
+     * @ORM\OrderBy({"codeAdn" = "ASC"})
      */
     protected $adns;
   
     /**
      * @ORM\OneToMany(targetEntity="IndividuLame", mappedBy="boiteFk", cascade={"persist"})
+     * @ORM\OrderBy({"codeLameColl" = "ASC"})
      */
     protected $individuLames;
     

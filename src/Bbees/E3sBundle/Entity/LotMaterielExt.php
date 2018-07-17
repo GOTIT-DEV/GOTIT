@@ -131,16 +131,19 @@ class LotMaterielExt
 
      /**
      * @ORM\OneToMany(targetEntity="LotMaterielExtEstRealisePar", mappedBy="lotMaterielExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotMaterielExtEstRealisePars;
     
     /**
      * @ORM\OneToMany(targetEntity="LotMaterielExtEstReferenceDans", mappedBy="lotMaterielExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotMaterielExtEstReferenceDanss;
   
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="lotMaterielExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;   
     

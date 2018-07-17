@@ -153,16 +153,19 @@ class SequenceAssembleeExt
 
     /**
      * @ORM\OneToMany(targetEntity="SqcExtEstRealisePar", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcExtEstRealisePars;
     
     /**
      * @ORM\OneToMany(targetEntity="SqcExtEstReferenceDans", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcExtEstReferenceDanss;
   
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
     

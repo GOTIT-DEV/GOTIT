@@ -159,6 +159,7 @@ class Pcr
     
     /**
      * @ORM\OneToMany(targetEntity="PcrEstRealisePar", mappedBy="pcrFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $pcrEstRealisePars;
     

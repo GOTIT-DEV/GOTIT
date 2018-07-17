@@ -108,6 +108,7 @@ class Individu
     
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="individuFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
     

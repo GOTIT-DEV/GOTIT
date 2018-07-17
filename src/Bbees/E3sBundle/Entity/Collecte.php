@@ -132,26 +132,31 @@ class Collecte
 
     /**
      * @ORM\OneToMany(targetEntity="APourSamplingMethod", mappedBy="collecteFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aPourSamplingMethods;
     
     /**
      * @ORM\OneToMany(targetEntity="APourFixateur", mappedBy="collecteFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aPourFixateurs;
     
     /**
      * @ORM\OneToMany(targetEntity="EstFinancePar", mappedBy="collecteFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estFinancePars;
     
     /**
      * @ORM\OneToMany(targetEntity="EstEffectuePar", mappedBy="collecteFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estEffectuePars;
     
     /**
      * @ORM\OneToMany(targetEntity="ACibler", mappedBy="collecteFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aCiblers;
     

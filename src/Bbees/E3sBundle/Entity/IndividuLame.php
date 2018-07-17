@@ -118,6 +118,7 @@ class IndividuLame
 
     /**
      * @ORM\OneToMany(targetEntity="IndividuLameEstRealisePar", mappedBy="individuLameFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $individuLameEstRealisePars;
     

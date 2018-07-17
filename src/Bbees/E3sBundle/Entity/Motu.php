@@ -74,6 +74,7 @@ class Motu
 
     /**
      * @ORM\OneToMany(targetEntity="MotuEstGenerePar", mappedBy="motuFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $motuEstGenerePars;
     

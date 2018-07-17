@@ -582,7 +582,7 @@ var longArray = [longGPS];
       showlakes: true,
       lakecolor: '#fff',
       showland: true,
-      landcolor: '#2bc',
+      landcolor: 'lightgrey',
       countrycolor: 'grey',
       countrywidth: 1,
       subunitcolor: '#d3d3d3',

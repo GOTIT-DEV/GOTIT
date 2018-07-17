@@ -131,6 +131,7 @@ class Adn
 
     /**
      * @ORM\OneToMany(targetEntity="AdnEstRealisePar", mappedBy="adnFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $adnEstRealisePars;
     

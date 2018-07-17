@@ -81,6 +81,7 @@ class Source
     
     /**
      * @ORM\OneToMany(targetEntity="SourceAEteIntegrePar", mappedBy="sourceFk", cascade={"persist"})
+     * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sourceAEteIntegrePars;
     

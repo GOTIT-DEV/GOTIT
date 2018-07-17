@@ -322,7 +322,7 @@ class ImportFileE3s
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
             return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
             exit;
         }     
@@ -393,7 +393,7 @@ class ImportFileE3s
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
             return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
             exit;
         }     
@@ -463,7 +463,7 @@ class ImportFileE3s
         $csvDataLotMaterielPublie = $importFileCsvService->readCSV($fichier);      
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielPublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel")) { 
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
             return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
             exit;
         }     
@@ -540,8 +540,8 @@ class ImportFileE3s
         $csvDataSqcAssembleePublie = $importFileCsvService->readCSV($fichier);      
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataSqcAssembleePublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_sqc_ass", "code_sqc_ass")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_sqc_ass", "code_sqc_ass") || !$importFileCsvService->testNameColumnCSV($columnByTable,"accession_number", "accession_number") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template  import.sqc_assemblee-publie </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
