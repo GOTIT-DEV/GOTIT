@@ -34,14 +34,14 @@ entity:
     label: Biological material
     id: Bio. mat. ID
     species: BM taxon
-    code: BM code
+    code: Bio. mat. code
   individu: 
     label: Specimen
     id: Specimen ID
     species: Specimen taxon
-    # code:
-    #   biomol:
-    #   trimorpho:
+    code:
+       biomol: Specimen mol. code
+       trimorpho: Specimen morph. code
   seq: 
     label: DNA sequence
     id: Seq. ID
@@ -61,6 +61,9 @@ queries:
   echantillonnage:
     title: COI sampling sites
     nav: COI data set
+  concordance:
+    nav: Species names
+    title: Compare species name attribution
 columns:
   id: ID
   code: Code
@@ -96,7 +99,6 @@ columns:
   pays: Country
   gene: Gene
   seqcode: Seq. Code
-  critere: Ident. criterion
   any: Any
   undefined: Undefined
   #codetrimorpho:
