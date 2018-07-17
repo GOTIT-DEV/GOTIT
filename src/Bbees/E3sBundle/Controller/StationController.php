@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Station controller.
@@ -90,6 +91,52 @@ class StationController extends Controller
         return $response;          
     }
 
+    /**
+     * @Route("/geocoordstations/", name="geocoordstations")
+     * @Method("POST")
+     */
+    public function geoCoords(Request $request){
+        $data = $request->request;
+        $latitude = $data->get('latitude');
+        $longitude = $data->get('longitude');
+        $diffLatitudeLongitude = 1;
+        //
+        $em = $this->getDoctrine()->getManager();
+              
+        $tab_toshow =[];
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+            ->where('station.longDegDec < :longMax')
+            ->setParameter('longMax', $longitude+$diffLatitudeLongitude)
+            ->andWhere('station.longDegDec > :longMin')
+            ->setParameter('longMin', $longitude-$diffLatitudeLongitude)
+            ->andWhere('station.latDegDec < :latMax')
+            ->setParameter('latMax', $latitude+$diffLatitudeLongitude)            
+            ->andWhere('station.latDegDec > :latMin')
+            ->setParameter('latMin', $latitude-$diffLatitudeLongitude)
+            ->getQuery()
+            ->getResult();
+        $nb_entities = count($entities_toshow);
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id, "station.id" => $id, 
+            "station.codeStation" => $entity->getCodeStation(),
+             "station.nomStation" => $entity->getNomStation(),
+             "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
+             "pays.codePays" => $entity->getPaysFk()->getCodePays(),
+             "station.latDegDec" => $entity->getLatDegDec(), 
+             "station.longDegDec" => $entity->getLongDegDec()
+             );
+        } 
+        
+        return new JsonResponse(array(
+            'stations' => $tab_toshow,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ));
+    }
     
     /**
      * Creates a new station entity.

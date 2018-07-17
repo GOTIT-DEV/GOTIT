@@ -297,7 +297,8 @@ function addDeleteLink($prototype, visible = true, nameCollection = '') {
         data: form.serialize(),
         beforeSend: function(htmlResponse) {  
             var $content_to_change = $('div#content_to_change_'+htmlResponse['entityname']);
-            $content_to_change.html('<img id="img_load" src="https://d13yacurqjgara.cloudfront.net/users/82092/screenshots/1073359/spinner.gif" height="42" width="42" />');						
+            //$content_to_change.html('<img id="img_load" src="https://d13yacurqjgara.cloudfront.net/users/82092/screenshots/1073359/spinner.gif" height="42" width="42" />');
+            $content_to_change.html('<i class="fa fa-spinner fa-spin fa-4x"></i>');
                                 },
         error: function(jqXHR, textStatus, errorThrown) {
                 alert('error ajax request : '+errorThrown);
@@ -421,3 +422,186 @@ function dateFormat(container, nameFieldDate,  message){
     $('#'+container+'_datePrecisionVocFk_'+valueDatePrecision).prop( "checked", false );
     return flagDate;
 }
+
+/**
+ * Renvoie un tableau des valeurs d'une clé d'un objet JSON.
+ * @param {Object} json objet JSON
+ * @param {any} key clé à cibler
+ */
+function unpack(json, key) {
+    return json.map(function(row) { return row[key] })
+}
+
+/**
+ * Fonction d'affichage des stations situées dans une aire de 0.1x0.1 deg autour d'un point GPS
+ * 
+ * @param {Object} json_stations  
+ * @param {number} latGPS
+ * @param {number} longGPS
+ */
+function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
+/**
+ * Fonction pour extraire les données JSON et construire un objet de données 
+ * pour plotly
+ * 
+ * @param {Object} json données json
+ * @param {Object} update données à ajouter
+ */
+
+var longmin = Number(longGPS) - 0.1;
+var longmax = Number(longGPS) + 0.1;
+var latmin = Number(latGPS) - 0.1;
+var latmax = Number(latGPS) + 0.1;
+var latGPS = parseFloat(latGPS);
+var longGPS = parseFloat(longGPS);
+var latArray = [latGPS];
+var longArray = [longGPS];
+
+  function build_station_data(json, update = {}) {
+    const  latitude = unpack(json, 'station.latDegDec'),
+      longitude = unpack(json, 'station.longDegDec'),
+      code_station = unpack(json, 'station.codeStation'),
+      nom_station = unpack(json, 'station.nomStation'),
+      code_commune = unpack(json,'commune.codeCommune')
+    // Initialisation des hover text
+    var hoverText = []
+    for (var i = 0; i < latitude.length; i++) {
+      var difLat = parseFloat(latitude[i]-latGPS).toFixed(6);
+      var difLong = parseFloat(longitude[i]-longGPS).toFixed(6);
+      var stationText = [
+        "Code: " + code_station[i],
+        "Nom: " + nom_station[i] ,
+        "Coords: " + latitude[i] + "  /  " + longitude[i],
+        "Diff Coords: " + difLat + "  /  " + difLong,       
+        "Commune: " + code_commune[i]        
+      ].join("<br>")
+      hoverText.push(stationText)
+    }
+    const data = {
+      type: 'scattergeo',
+      lat: latitude,
+      lon: longitude,
+      hoverinfo: 'text',
+      text: hoverText,
+      marker: {
+        size: 8,
+        line: {
+          width: 1,
+          color: 'grey'
+        }
+      },
+      name: "Stations",
+    }
+    // Ajout données supplémentaires à l'objet data
+    $.extend(true, data, update)
+    return data
+  }
+
+    // Init plotly
+    var d3 = Plotly.d3
+    $("#station-geo-map").html('')
+    var gd3 = d3.select('#station-geo-map')
+    var gd = gd3.node()
+
+    // Données
+    const data_stations = build_station_data(json_stations, {
+      name: "Stations BDD",
+      marker: {
+        symbol: "circle-open",
+        size: 10,
+        color: "orange",
+        opacity: 0.8,
+        line: {
+          width: 2,
+          color: "green",
+        }
+      }
+    })
+
+    const dataSelectedStation = {
+      type: 'scattergeo',
+      lat: latArray,
+      lon: longArray,
+      marker: {
+            symbol: "triangle-up",
+            size: 5,
+            color: "red",
+            opacity: 0.3,
+            line: {
+              width: 2,
+              color: "red",
+            }
+      },
+      name: "GPS : lat = "+latGPS+"  /  long = "+longGPS,
+    }
+    
+  // Objet data : contient les scatterplots
+  var data = [
+    data_stations,
+    dataSelectedStation
+  ]
+
+
+  // Objet data complet : scatterplots 
+
+  // Paramètres d'affichage du graphique
+  const layout = {
+    font: {
+      family: 'Droid Serif, serif',
+      size: 14
+    },
+    titlefont: {
+      size: 16
+    },
+    height: 600,
+    margin: {
+      l: 0,
+      r: 0,
+      t: 15,
+      b: 0
+    },
+    showlegend: true,
+    geo: { // carte geographique
+      scope: 'world',
+      resolution: 50,
+      lonaxis: {
+        'range': [longmin, longmax]
+            },
+      lataxis: {
+        'range': [latmin, latmax]
+            },
+      center: {
+         'lon': longGPS,
+         'lat': latGPS
+      },      
+      projection: {
+        type: 'miller'
+      },
+      showrivers: true,
+      rivercolor: '#fff',
+      showlakes: true,
+      lakecolor: '#fff',
+      showland: true,
+      landcolor: '#2bc',
+      countrycolor: 'grey',
+      countrywidth: 1,
+      subunitcolor: '#d3d3d3',
+      showocean: true,
+      oceancolor: 'lightblue',
+      showframe: true,
+      framecolor: '#000',
+      framewidth: 2,
+      bgcolor: 'lightgrey'
+    }
+  }
+
+  Plotly.newPlot(gd, data, layout, {
+    displaylogo: false, // pas de logo, enlever boutons de controle inutiles
+    modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d']
+  })
+
+  Plotly.Plots.resize(gd) // Remplir l'espace dans le DOM
+
+  return gd // Renvoi objet plotly
+}
+

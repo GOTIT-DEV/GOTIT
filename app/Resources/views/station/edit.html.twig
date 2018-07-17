@@ -2,16 +2,22 @@
 
 {# EDIT : STATION #}
 
+{# ! A METTRE ULTERIEUREMENT danns un nouveau block créé par Louis {% block headincl %} #}
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
             
-    <!-- Definition des Modal(s) -->
+    <!-- Definition des Modal(s) : myModalCommune : formulaire Commune pour l'ajout dynamique d'une nouvelle commune -->
     <div id="myModalCommune" class="modal" role="dialog">
     <div class="modal-dialog">
     <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Commune</h4>
+            <h4 class="modal-title">{{'title.commune'|trans}}</h4>
          </div>
          <div class="modal-body">
            <div id='content_to_change_station'>
@@ -19,10 +25,34 @@
            </div>
          </div>
          <div class="modal-footer">
-           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           <button type="button" class="btn btn-default" data-dismiss="modal">{{'buton.Close'|trans}}</button>
          </div>
        </div>
      </div>
+    </div>
+    <!-- Definition des Modal(s) : detailsModal pour l'affichage des station autour du point GPS latitude/longitude -->       
+    <div id="detailsModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">{{'modal-title.Station - Localisation'|trans}}</h4>
+          </div>
+          <div class="modal-body">
+                <div class="geo-container">
+                <div id="station-geo-map" style="width:100%">
+                </div>
+                <div class="geo-overlay">
+                <i class="fa fa-spinner fa-spin fa-4x"></i>
+                </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{'buton.Close'|trans}}</button>
+          </div>
+        </div>
+      </div>
     </div>
                    
 {% endblock %}
@@ -30,6 +60,8 @@
 
 {% block scripts %}
 {{ parent() }}
+
+<script src="{{ asset('e3s/js/plots.js') }}"></script>
 
 <script type="text/javascript">  
 
@@ -101,7 +133,6 @@
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
             })  
-
         // 3) Actions après la création d'une nouvelle Commune 
         $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
             $('#bbees_e3sbundle_commune_paysFk').attr("disabled", false); 
@@ -111,6 +142,37 @@
             var $container = $('#bbees_e3sbundle_station_communeFk');    
             callAjax(form, $container);
 	}); 
+        
+        // Gestion du bouton "Show Station"
+        // 1) Ajout du bouton "See Stations"
+        var $container = $('select[id="bbees_e3sbundle_station_precisionLatLongVocFk"]');
+        var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailsModal">{{'buton.See Stations Around'|trans}}</button></div></br>');
+        $addBoutonAdd.insertBefore($container);
+        //
+        $('#detailsModal').on('show.bs.modal', function (ev) {
+            var latitude = $('#bbees_e3sbundle_station_latDegDec').val();
+            var longitude = $('#bbees_e3sbundle_station_longDegDec').val();
+            //var data = $(this).serialize();
+            var  data = {'latitude': latitude, 'longitude':longitude };            
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: "{{ path('geocoordstations') }}",
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('error ajax request : '+errorThrown);
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                beforeSend: function(htmlResponse) {  
+                    $(".geo-overlay").show();
+                                },
+                success: function (response) {
+                    $(".geo-overlay").hide();
+                    gd = stationsPlot(response.stations, latitude, longitude);
+                }
+            });
+        });
                
     });
  </script>

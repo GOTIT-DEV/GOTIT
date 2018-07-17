@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class AdnType extends AbstractType
 {
@@ -45,7 +46,7 @@ class AdnType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a method'))
-                ->add('concentrationNgMicrolitre')
+                ->add('concentrationNgMicrolitre', NumberType::class,array( 'scale' => 4 ))
                 ->add('commentaireAdn')
                 ->add('qualiteAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {

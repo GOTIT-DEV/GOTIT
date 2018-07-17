@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class StationType extends AbstractType
 {
@@ -42,7 +43,8 @@ class StationType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
-                ->add('latDegDec')->add('longDegDec')
+                ->add('latDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
+                ->add('longDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
                 ->add('precisionLatLongVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose a GPS Distance Quality',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')

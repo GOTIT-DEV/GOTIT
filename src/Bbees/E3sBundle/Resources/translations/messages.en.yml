@@ -1,4 +1,10 @@
 # Intitulés des champs de la base de données E3S Version Anglaise
+# boutons ajouter > 16/07/2018
+title.Personne: Person
+buton.See Stations Around: See Stations Around GPS Point
+modal-title.Station - Localisation: Map of the Nearest Stations (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
+buton.Close: Close
+# En attente de validation par Florian 16/07/2018
 A faire: Sample status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
@@ -381,4 +387,3 @@ import.sequenceassemblee: Go to E3S sequences
 import.sequenceassembleeext: Go to Source sequences
 import.motu: Go to Import Motu
 import.source: Go to Bibliography sources
-
