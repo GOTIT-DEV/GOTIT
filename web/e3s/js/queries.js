@@ -210,6 +210,50 @@ jQuery.fn.dataTable.render.ellipsis = function(cutoff, wordbreak, escapeHtml) {
       shortened = esc(shortened);
     }
 
-    return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
+    return '<span class="ellipsis" data-toggle="tooltip" data-placement="top" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
   };
 };
+
+function linkify(url, col, ellipsis = true) {
+  return function(data, type, row) {
+    let res = Mustache.render(
+      "<a href='{{baseUrl}}{{id}}'>", {
+        baseUrl: url,
+        id: row[col],
+      });
+    if (ellipsis) res += $.fn.dataTable.render.ellipsis(20, true)(data, type, row)
+    else res += data
+    res += "</a>"
+    return res
+  }
+}
+
+const dtconfig = {
+  expandColumn: {
+    data: null,
+    defaultContent: "",
+    "className": "control",
+    "orderable": false,
+  },
+  responsiveRenderOptions: {
+    "display": $.fn.dataTable.render.ellipsis(20, true),
+    "responsive": null,
+    "_": null,
+  },
+  buttons: [{
+    extend: 'copy',
+    exportOptions: {
+      orthogonal: null
+    }
+  }, {
+    extend: "csv",
+    exportOptions: {
+      orthogonal: null
+    }
+  }, {
+    extend: 'excel',
+    exportOptions: {
+      orthogonal: null
+    }
+  }],
+}

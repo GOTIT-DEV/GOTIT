@@ -77,14 +77,10 @@ function initDataTable(tableId) {
         }
       },
       dom: "lfrtipB",
-      buttons: [
-        'copy', 'csv', 'excel'
-      ],
+      buttons: dtconfig.buttons,
       columns: [{
           data: "taxname",
-          render: function(data, type, row) {
-            return "<a href='" + urls.refTaxon + row.id + "'>" + data + "</a>"
-          }
+          render: linkify(urls.refTaxon, 'id', true)
         }, {
           data: "id"
         }, {
@@ -92,13 +88,7 @@ function initDataTable(tableId) {
           render: function(data, type, row) {
             let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
             let baseUrl = table.find("#col-code-seq").data(lookUpAttr)
-            return Mustache.render(
-              "<a href='{{baseUrl}}{{id}}'>{{data}}</a>", {
-                baseUrl: baseUrl,
-                id: row.id,
-                data: data
-              }
-            );
+            return linkify(baseUrl, 'id', true)(data, type, row)
           }
         }, {
           data: "type_seq",
@@ -108,9 +98,7 @@ function initDataTable(tableId) {
         },
         {
           data: "accession_number",
-          render: function(data, type, row) {
-            return Mustache.render("<a href='https://www.ncbi.nlm.nih.gov/nuccore/{{accession}}'>{{accession}}</a>", { accession: data })
-          }
+          render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
         },
         {
           data: "th_2013",
@@ -150,7 +138,10 @@ function initDataTable(tableId) {
         {
           data: "pays"
         },
-      ]
+      ],
+      drawCallback: function() {
+        $('[data-toggle="tooltip"]').tooltip()
+      }
     })
 
     dataTable.on('xhr', function() {

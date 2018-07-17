@@ -25,10 +25,10 @@ $(document).ready(function() {
   }).trigger('change')
 })
 
-/* **************************
- *  Initialize datatable
- **************************** */
 
+/* **********************************************
+ *  Initialize datatable
+ ********************************************** */
 function initDataTable(tableId, detailsId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
@@ -53,9 +53,7 @@ function initDataTable(tableId, detailsId) {
       ],
       columns: [{
         data: "taxname",
-        render: function(data, type, row) {
-          return "<a href='" + urls.refTaxon + row.id + "'>" + data + "</a>"
-        }
+        render: linkify(urls.refTaxon, 'id', true)
       }, {
         data: "methode"
       }, {
@@ -77,6 +75,7 @@ function initDataTable(tableId, detailsId) {
       drawCallback: function(settings) {
 
         $("#main-form").find("button[type='submit']").button('reset')
+        $('[data-toggle="tooltip"]').tooltip()
         $(".details-form").off('submit').on('submit', function(event) {
           event.preventDefault();
           $(this).addClass('submitted')
@@ -135,37 +134,29 @@ function initModalTable(tableId) {
         render: function(data, type, row) {
           let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
           let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
-          return Mustache.render(
-            "<a href='{{baseUrl}}{{id}}'>{{data}}</a>", {
-              baseUrl: baseUrl,
-              id: row.id,
-              data: data
-            }
-          );
+          return linkify(baseUrl, 'id', true)(data, type, row)
         }
       }, {
         data: 'acc',
-        render: function(data, type, row) {
-          return Mustache.render(
-            "<a href='https://www.ncbi.nlm.nih.gov/nuccore/{{accession}}'>{{accession}}</a>", {
-              accession: data
-            }
-          );
-        }
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
       }, {
         data: 'gene'
       }, {
         data: 'type',
+        render: function(data, type, row) {
+          return data ? "Externe" : "Interne"
+        }
       }, {
-        data: 'motu'
+        data: 'motu',
       }, {
         data: 'critere'
       }
     ],
     dom: "lfrtipB",
-    buttons: [
-      'copy', 'csv', 'excel'
-    ]
+    buttons: dtconfig.buttons,
+    drawCallback: function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    }
   });
   return detailsDataTable
 }

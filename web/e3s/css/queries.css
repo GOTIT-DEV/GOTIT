@@ -63,3 +63,15 @@ select.concordance.no-constraints {
 select.concordance option {
   background: white;
 }
+
+.tooltip {
+  max-width: unset;
+}
+
+.tooltip-inner {
+  max-width: unset;
+}
+
+.tooltip-arrow {
+  max-width: unset;
+}

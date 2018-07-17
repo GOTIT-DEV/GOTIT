@@ -43,7 +43,12 @@ function initDataTable(tableId) {
 
     table.DataTable({
         autoWidth: false,
-        responsive: true,
+        responsive: {
+          orthogonal: "responsive",
+          details: {
+            type: 'column'
+          }
+        },
         ajax: {
           "url": $("#main-form").data("url"),
           "dataSrc": "rows",
@@ -53,41 +58,44 @@ function initDataTable(tableId) {
           }
         },
         dom: "lfrtipB",
-        buttons: [
-          'copy', 'csv', 'excel'
+        buttons: dtconfig.buttons,
+        order: [1, 'asc'],
+        columns: [
+          dtconfig.expandColumn,
+          {
+            data: "taxname",
+            render: linkify(urls.refTaxon, 'id', true)
+          }, {
+            data: "nb_sta"
+          }, {
+            data: "lmp",
+            render: renderNumber,
+            defaultContent: "-"
+          }, {
+            data: "mle",
+            render: renderNumber,
+            defaultContent: "-"
+          }, {
+            data: "nb_sta_co1"
+          }, {
+            data: "lmp_co1",
+            render: renderNumber,
+            defaultContent: "-"
+          }, {
+            data: "mle_co1",
+            render: renderNumber,
+            defaultContent: "-"
+          }, {
+            data: "id",
+            render: function(data, type, row) {
+              var template = $("#details-form-template").html()
+              return Mustache.render(template, row)
+            }
+          }
         ],
-        columns: [{
-          data: "taxname",
-          render: function(data, type, row) {
-            return "<a href='" + urls.refTaxon + row.id + "'>" + data + "</a>"
-          }
-        }, {
-          data: "nb_sta"
-        }, {
-          data: "lmp",
-          render: renderNumber
-        }, {
-          data: "mle",
-          render: renderNumber
-        }, {
-          data: "nb_sta_co1"
-        }, {
-          data: "lmp_co1",
-          render: renderNumber,
-          defaultContent: "-"
-        }, {
-          data: "mle_co1",
-          render: renderNumber,
-          defaultContent: "-"
-        }, {
-          data: "id",
-          render: function(data, type, row) {
-            var template = $("#details-form-template").html()
-            return Mustache.render(template, row)
-          }
-        }],
         drawCallback: function(settings) {
             $("#main-form").find("button[type='submit']").button('reset')
+            $('[data-toggle="tooltip"]').tooltip()
             $(".details-form").submit(function(event) {
                 event.preventDefault()
                 var taxid = $(this).find("input[name='taxon']").val()

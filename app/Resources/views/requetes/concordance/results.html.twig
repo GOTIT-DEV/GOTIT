@@ -4,8 +4,13 @@
 
 <div class="table-responsive-md">
   <table id="result-table" class="table table-condensed table-hover table-striped" style="width:100%">
-    <thead>
+    <thead
+      data-url-lot-materiel="{{path('lotmateriel_show', {id:0})|trim(0)}}"
+      data-url-individu="{{path('individu_show', {id:0})|trim(0)}}"
+      data-url-sequence="{{path('sequenceassemblee_show', {id:0})|trim(0)}}"
+      data-url-ref-taxon="{{path('referentieltaxon_show', {id:0})|trim(0)}}">
       <tr>
+        <th></th>
         <th colspan="3">
           {{"entity.lotmateriel.label" | trans}}
         </th>
@@ -17,20 +22,21 @@
         </th>
       </tr>
       <tr>
+        <th></th>
         <th>
           {{"entity.lotmateriel.code" | trans}}
         </th>
         <th>{{"columns.taxon" | trans}}</th>
         <th>{{"columns.critere" | trans}}</th>
-				<th>
-          {{"entity.individu.code_biomol" | trans}}
+        <th>
+          {{"entity.individu.code.biomol" | trans}}
         </th>
-				<th>
-          {{"entity.individu.code_trimorpho" | trans}}
+        <th>
+          {{"entity.individu.code.trimorpho" | trans}}
         </th>
         <th>{{"columns.taxon" | trans}}</th>
         <th>{{"columns.critere" | trans}}</th>
-				<th>
+        <th>
           {{"entity.seq.code" | trans}}
         </th>
         <th>{{"columns.taxon" | trans}}</th>

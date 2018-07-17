@@ -90,22 +90,12 @@ function initDataTable(tableId) {
           return $("#main-form").serialize()
         }
       },
-      buttons: {
-        dom: {
-          container: {
-            tag: 'aside'
-          }
-        }
-      },
       dom: 'lf<"clear pull-right"B>rtip',
-      buttons: [
-        'copy', 'csv', 'excel'
-      ],
+      buttons: dtconfig.buttons,
       columns: [{
         data: "methode"
       }, {
         data: "date_motu",
-        //width: "15%",
         render: function(data, type, row) {
           return Date.parse(row.date_motu.date).toString('MMM yyyy');
         },
@@ -121,7 +111,10 @@ function initDataTable(tableId) {
         data: 'nb_seq'
       }, {
         data: 'nb_sta'
-      }]
+      }],
+      drawCallback: function() {
+        $('[data-toggle="tooltip"]').tooltip()
+      }
     })
 
     dataTable.on('xhr', function() {

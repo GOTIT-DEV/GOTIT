@@ -6,22 +6,6 @@ $(document).ready(function() {
     .change(updateChoiceColor)
     .trigger('change')
   initDataTable("#result-table")
-
-  // $("#main-form").submit(function(event) {
-  //   const formData = $(this).serialize()
-  //   console.log(formData)
-  //   event.preventDefault();
-
-  //   $.ajax({
-  //     type: "POST",
-  //     data: formData,
-  //     url: "http://localhost:8000/requetes/concordance/search",
-  //     success: function(response) {
-  //       console.log(response)
-  //     }
-  //   })
-  // })
-
 })
 
 /**
@@ -52,6 +36,9 @@ function updateChoiceColor(event) {
   }
 }
 
+
+
+
 /* **************************
  *  Initialize datatable
  **************************** */
@@ -59,15 +46,32 @@ function updateChoiceColor(event) {
 function initDataTable(tableId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
+    const thead = table.find("thead")
     const urls = {
-      refTaxon: table.find("th#col-taxname").data('linkUrl'),
+      refTaxon: thead.data('urlRefTaxon'),
+      lotMateriel: thead.data('urlLotMateriel'),
+      individu: thead.data('urlIndividu'),
+      sequence: thead.data('urlSequence'),
       geocoords: table.find("th#col-details").data('linkUrl')
     }
-    const renderNumber = $.fn.dataTable.render.number('', '.', 3)
+
+    function renderLinkify(fieldName) {
+      return {
+        responsive: linkify(urls.refTaxon, fieldName, false),
+        _: null,
+        display: linkify(urls.refTaxon, fieldName)
+      }
+    }
 
     table.DataTable({
         autoWidth: false,
-        responsive: true,
+        // responsive: true,
+        responsive: {
+          orthogonal: "responsive",
+          details: {
+            type: 'column'
+          }
+        },
         ajax: {
           "url": $("#main-form").data("url"),
           "dataSrc": "rows",
@@ -77,45 +81,52 @@ function initDataTable(tableId) {
           }
         },
         dom: "lfrtipB",
-        buttons: [
-          'copy', 'csv', 'excel'
+        buttons: dtconfig.buttons,
+        order: [1, 'asc'],
+        columns: [
+          dtconfig.expandColumn, {
+            data: "code_lm",
+            render: renderLinkify('id_lm')
+          }, {
+            data: "taxname_lm",
+            render: renderLinkify('idtax_lm')
+          },
+          {
+            data: "critere_lm"
+          },
+          {
+            data: "code_biomol",
+            render: renderLinkify('id_indiv')
+          },
+          {
+            data: "code_tri_morpho",
+            render: renderLinkify('id_indiv')
+          },
+          {
+            data: "taxname_indiv",
+            render: renderLinkify('idtax_lm')
+          },
+          {
+            data: "critere_indiv"
+          },
+          {
+            data: "code_seq",
+            defaultContent: "-",
+            render: renderLinkify('id_seq')
+          },
+          {
+            data: "taxname_seq",
+            render: renderLinkify('idtax_lm'),
+            defaultContent: "-"
+          },
+          {
+            data: "critere_seq",
+            defaultContent: "-"
+          }
         ],
-        columns: [{
-          data: "code_lm",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-            // render: function(data, type, row) {
-            //   return "<a href='" + urls.refTaxon + row.id + "'>" + data + "</a>"
-            // }
-        }, {
-          data: "taxname_lm",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-        }, {
-          data: "critere_lm"
-        }, {
-          data: "code_biomol",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-        }, {
-          data: "code_tri_morpho",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-        }, {
-          data: "taxname_indiv",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-        }, {
-          data: "critere_indiv"
-        }, {
-          data: "code_seq",
-          defaultContent: "-",
-          render: $.fn.dataTable.render.ellipsis(20, true)
-        }, {
-          data: "taxname_seq",
-          render: $.fn.dataTable.render.ellipsis(20, true),
-          defaultContent: "-"
-        }, {
-          data: "critere_seq",
-          defaultContent: "-"
-        }],
         drawCallback: function(settings) {
             $("#main-form").find("button[type='submit']").button('reset')
+            $('[data-toggle="tooltip"]').tooltip()
           } // drawCallback
       }) // datatables
 
