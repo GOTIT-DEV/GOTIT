@@ -3,6 +3,10 @@
  **************************** */
 $(document).ready(function () {
   initSwitchery('.switchbox')
+  $('#taxaFilter')
+    .change(toggleTaxonForm('.taxa-select'))
+    .trigger('change')
+
   uiWaitResponse()
 
   let speciesSelector = new SpeciesSelector("#main-form", false)
@@ -13,15 +17,10 @@ $(document).ready(function () {
 
   window.onresize = function () {
     $(".geo-overlay").show()
-    Plotly.Plots.resize(gd).then(function () {
-      $(".geo-overlay").hide()
-    });
-  };
-
-  $('#taxaFilter')
-    .change(toggleTaxonForm('.taxa-select'))
-    .trigger('change')
-
+    Plotly.Plots
+      .resize(gd)
+      .then($(".geo-overlay").hide)
+  }
 })
 
 
@@ -106,7 +105,7 @@ function initDataTable(tableId) {
         }
       ],
       drawCallback: function (settings) {
-        $("#main-form").find("button[type='submit']").button('reset')
+        uiReceivedResponse()
         $('[data-toggle="tooltip"]').tooltip()
         $(".details-form").submit(function (event) {
           event.preventDefault()

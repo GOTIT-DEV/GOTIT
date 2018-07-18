@@ -2,10 +2,8 @@
  *  Document ready
  **************************** */
 $(document).ready(function () {
-
-
   initSwitchery('.switchbox');
-  $("#main-form").find("button[type='submit']").button('loading')
+  uiWaitResponse()
   let speciesSelector = new SpeciesSelector("#main-form", false)
   let methodSelector = new MethodSelector("#main-form", 'checkbox')
   // Wait for both selectors to be ready
@@ -32,7 +30,7 @@ function initDataTable(tableId, detailsId) {
       refTaxon: table.find("th#col-taxname").data('linkUrl'),
     }
     let details = undefined
-    table.DataTable({
+    var dataTable = table.DataTable({
       autoWidth: false,
       responsive: true,
       ajax: {
@@ -69,7 +67,7 @@ function initDataTable(tableId, detailsId) {
         }
       }],
       drawCallback: function (settings) {
-        $("#main-form").find("button[type='submit']").button('reset')
+        uiReceivedResponse()
         $('[data-toggle="tooltip"]').tooltip()
         $(".details-form").off('submit').on('submit', function (event) {
           event.preventDefault();
@@ -93,8 +91,8 @@ function initDataTable(tableId, detailsId) {
      */
     $("#main-form").submit(function (event) {
       event.preventDefault();
-      $(this).find("button[type='submit']").button('loading')
-      table.DataTable().ajax.reload()
+      uiWaitResponse()
+      dataTable.ajax.reload()
 
     });
   }
@@ -112,12 +110,12 @@ function initModalTable(tableId) {
       data: function (d) {
         let form = $('.details-form.submitted')
         let form_data = form.serializeArray();
-        for (var i = 0; i < criteres.length; i++) {
+        criteres.forEach(crit => {
           form_data.push({
             name: 'criteres[]',
-            value: criteres[i]
-          });
-        }
+            value: crit
+          })
+        })
         form_data.push({
           name: 'niveau',
           value: niveau
@@ -154,4 +152,18 @@ function initModalTable(tableId) {
     }
   });
   return detailsDataTable
+}
+
+/**
+ * Active le mode attente / loading
+ */
+function uiWaitResponse() {
+  $("#main-form").find("button[type='submit']").button('loading')
+}
+
+/**
+ * Désactive le mode attente 
+ */
+function uiReceivedResponse() {
+  $("#main-form").find("button[type='submit']").button('reset')
 }

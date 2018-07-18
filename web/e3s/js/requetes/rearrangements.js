@@ -97,7 +97,7 @@ function initDataTable(tableId) {
       }, {
         data: "date_motu",
         render: function(data, type, row) {
-          return Date.parse(row.date_motu.date).toString('MMM yyyy');
+          return Date.parse(data.date).toString('MMM yyyy');
         },
       }, {
         data: "match"
@@ -133,8 +133,7 @@ function initDataTable(tableId) {
     $("#main-form").submit(function(event) {
       event.preventDefault();
       uiWaitResponse()
-      let results = table.DataTable()
-      results.ajax.reload()
+      table.DataTable().ajax.reload()
     });
   }
 }

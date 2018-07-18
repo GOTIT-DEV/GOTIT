@@ -3,7 +3,7 @@
  * dans les <select> des formulaires
  */
 class SpeciesSelector {
-  constructor(formId, withTaxname = false, callback = function() {}) {
+  constructor(formId, withTaxname = false, callback = function () {}) {
     this.form = $(formId)
     this.selector = this.form.find(".species-selector")
     this.genus = this.selector.find('.genus-select')
@@ -14,9 +14,9 @@ class SpeciesSelector {
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
     this.toggleWaitingResponse = this.toggleWaitingResponse.bind(this)
-      // Promise resolved when ready
+    // Promise resolved when ready
     this.promise = new $.Deferred()
-      // Init event handlers
+    // Init event handlers
     this.genus
       .change(this.onGenusSelected)
       .trigger('change');
@@ -25,8 +25,6 @@ class SpeciesSelector {
   }
 
   toggleWaitingResponse(waiting) {
-
-    //this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
       this.promise = new $.Deferred()
       $(".taxon-spinner").removeClass("hidden");
@@ -42,32 +40,31 @@ class SpeciesSelector {
     spSel.toggleWaitingResponse(true)
     $.post(spSel.selector.data('url'), {
       genus: spSel.genus.val()
-    }, function(response) {
+    }, function (response) {
       var data = response.data.map(makeOption)
       spSel.species.html($.makeArray(data))
-      console.log(spSel.withTaxname)
       if (spSel.withTaxname === true) {
         spSel.onSpeciesSelected();
-        //spSel.toggleWaitingResponse(false)
       } else {
         spSel.toggleWaitingResponse(false)
       }
     });
 
     function makeOption(data) {
-      return '<option value=' + data.species + '>' + data.species + '</option>'
+      return Mustache.render(
+        '<option value={{species}}>{{species}}</option>',
+        data)
     }
   }
 
   onSpeciesSelected() {
     var spSel = this
-      //spSel.toggleWaitingResponse(true)
     var taxnameSel = spSel.selector.find('.taxname-select')
     $.post(taxnameSel.data('url'), {
         species: spSel.species.val(),
         genus: spSel.genus.val()
       },
-      function(response) {
+      function (response) {
         var data = response.data.map(makeOption)
         taxnameSel.html($.makeArray(data))
         spSel.toggleWaitingResponse(false)
@@ -122,9 +119,10 @@ class MethodSelector {
     this.toggleWaitingResponse(true)
     var methSel = this
     $.post(
-      this.selector.data('url'), { date_methode: this.datasets.val() },
-      function(response) {
-
+      this.selector.data('url'), {
+        date_methode: this.datasets.val()
+      },
+      function (response) {
         if (methSel.mode == 'select') {
           var data = response.data.map(makeOption)
           methSel.methods.html($.makeArray(data));
@@ -133,7 +131,7 @@ class MethodSelector {
           methSel.container.html($.makeArray(data));
         }
         methSel.toggleWaitingResponse(false)
-      });
+      })
 
     function makeOption(data) {
       return Mustache.render('<option value={{id}}>{{code}}</option>', data);
@@ -166,15 +164,22 @@ function scrollTo(elt_id, time = 1000) {
 function initSwitchery(selector, size = 'small') {
 
   var elems = Array.prototype.slice.call(document.querySelectorAll(selector));
-  elems.forEach(function(html) {
-    return new Switchery(html, { size: size });
+  elems.forEach(function (html) {
+    return new Switchery(html, {
+      size: size
+    });
   });
 
 }
 
-
-jQuery.fn.dataTable.render.ellipsis = function(cutoff, wordbreak, escapeHtml) {
-  var esc = function(t) {
+/**
+ * Renderer pour tronquer les données trop longues dans datatables
+ * @param {int} cutoff nombre de caractères max
+ * @param {boolean} wordbreak coupure de mot autorisée
+ * @param {boolean} escapeHtml échappement de caractères
+ */
+jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
+  var esc = function (t) {
     return t
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -182,7 +187,7 @@ jQuery.fn.dataTable.render.ellipsis = function(cutoff, wordbreak, escapeHtml) {
       .replace(/"/g, '&quot;');
   };
 
-  return function(d, type, row) {
+  return function (d, type, row) {
     // Order, search and type get the original data
     if (type !== 'display') {
       return d;
@@ -214,7 +219,7 @@ jQuery.fn.dataTable.render.ellipsis = function(cutoff, wordbreak, escapeHtml) {
  * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
  */
 function linkify(url, col, ellipsis = true) {
-  return function(data, type, row) {
+  return function (data, type, row) {
     let res = Mustache.render(
       "<a href='{{baseUrl}}{{id}}'>", {
         baseUrl: url,

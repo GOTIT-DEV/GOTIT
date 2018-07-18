@@ -1,10 +1,11 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function() {
+$(document).ready(function () {
   $("select.concordance")
     .change(updateChoiceColor)
     .trigger('change')
+  uiWaitResponse()
   initDataTable("#result-table")
 })
 
@@ -16,7 +17,6 @@ $(document).ready(function() {
 function updateChoiceColor(event) {
   const target = $(event.target)
   target.removeClass("typeA typeB typeC unassigned no-constraints")
-  console.log(target)
   switch (target.val()) {
     case "A":
       target.addClass("typeA")
@@ -63,81 +63,93 @@ function initDataTable(tableId) {
       }
     }
 
-    table.DataTable({
-        autoWidth: false,
-        // responsive: true,
-        responsive: {
-          orthogonal: "responsive",
-          details: {
-            type: 'column'
-          }
+    var dataTable = table.DataTable({
+      autoWidth: false,
+      responsive: {
+        orthogonal: "responsive",
+        details: {
+          type: 'column'
+        }
+      },
+      ajax: {
+        "url": $("#main-form").data("url"),
+        "dataSrc": "rows",
+        "type": "POST",
+        "data": function (d) {
+          return $("#main-form").serialize()
+        }
+      },
+      dom: "lfrtipB",
+      buttons: dtconfig.buttons,
+      order: [1, 'asc'],
+      columns: [
+        dtconfig.expandColumn, {
+          data: "code_lm",
+          render: renderLinkify('id_lm')
+        }, {
+          data: "taxname_lm",
+          render: renderLinkify('idtax_lm')
         },
-        ajax: {
-          "url": $("#main-form").data("url"),
-          "dataSrc": "rows",
-          "type": "POST",
-          "data": function(d) {
-            return $("#main-form").serialize()
-          }
+        {
+          data: "critere_lm"
         },
-        dom: "lfrtipB",
-        buttons: dtconfig.buttons,
-        order: [1, 'asc'],
-        columns: [
-          dtconfig.expandColumn, {
-            data: "code_lm",
-            render: renderLinkify('id_lm')
-          }, {
-            data: "taxname_lm",
-            render: renderLinkify('idtax_lm')
-          },
-          {
-            data: "critere_lm"
-          },
-          {
-            data: "code_biomol",
-            render: renderLinkify('id_indiv')
-          },
-          {
-            data: "code_tri_morpho",
-            render: renderLinkify('id_indiv')
-          },
-          {
-            data: "taxname_indiv",
-            render: renderLinkify('idtax_lm')
-          },
-          {
-            data: "critere_indiv"
-          },
-          {
-            data: "code_seq",
-            defaultContent: "-",
-            render: renderLinkify('id_seq')
-          },
-          {
-            data: "taxname_seq",
-            render: renderLinkify('idtax_lm'),
-            defaultContent: "-"
-          },
-          {
-            data: "critere_seq",
-            defaultContent: "-"
-          }
-        ],
-        drawCallback: function(settings) {
-            $("#main-form").find("button[type='submit']").button('reset')
-            $('[data-toggle="tooltip"]').tooltip()
-          } // drawCallback
-      }) // datatables
+        {
+          data: "code_biomol",
+          render: renderLinkify('id_indiv')
+        },
+        {
+          data: "code_tri_morpho",
+          render: renderLinkify('id_indiv')
+        },
+        {
+          data: "taxname_indiv",
+          render: renderLinkify('idtax_lm')
+        },
+        {
+          data: "critere_indiv"
+        },
+        {
+          data: "code_seq",
+          defaultContent: "-",
+          render: renderLinkify('id_seq')
+        },
+        {
+          data: "taxname_seq",
+          render: renderLinkify('idtax_lm'),
+          defaultContent: "-"
+        },
+        {
+          data: "critere_seq",
+          defaultContent: "-"
+        }
+      ],
+      drawCallback: function (settings) {
+        uiReceivedResponse()
+        $('[data-toggle="tooltip"]').tooltip()
+      } // drawCallback
+    }) // datatables
 
     /****************
      * Submit form handler
      */
-    $("#main-form").submit(function(event) {
+    $("#main-form").submit(function (event) {
       event.preventDefault()
-      $(this).find("button[type='submit']").button('loading')
-      var results = table.DataTable()
-      results.ajax.reload()
+      uiWaitResponse()
+      dataTable.ajax.reload()
     })
   }
+}
+
+/**
+ * Active le mode attente / loading
+ */
+function uiWaitResponse() {
+  $("#main-form").find("button[type='submit']").button('loading')
+}
+
+/**
+ * Désactive le mode attente 
+ */
+function uiReceivedResponse() {
+  $("#main-form").find("button[type='submit']").button('reset')
 }

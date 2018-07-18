@@ -105,14 +105,10 @@ function updateMap(response) {
   $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
     scrollTo('#resultats', 500)
     $(".geo-overlay").show()
-    Plotly.Plots.resize(gd).then(function () {
-      $(".geo-overlay").hide()
-    })
+    Plotly.Plots.resize(gd).then($(".geo-overlay").hide)
   })
   // Show overlay on resize
-  Plotly.Plots.resize(gd).then(function () {
-    $(".geo-overlay").hide()
-  })
+  Plotly.Plots.resize(gd).then($(".geo-overlay").hide)
 }
 
 /**
@@ -220,8 +216,7 @@ function initDataTable(tableId, formId = "#main-form") {
     form.submit(function (event) {
       event.preventDefault();
       uiWaitResponse()
-      var results = table.DataTable()
-      results.ajax.reload()
+      dataTable.ajax.reload()
     });
   }
 }
