@@ -187,33 +187,32 @@ jQuery.fn.dataTable.render.ellipsis = function(cutoff, wordbreak, escapeHtml) {
     if (type !== 'display') {
       return d;
     }
-
     if (typeof d !== 'number' && typeof d !== 'string') {
       return d;
     }
-
     d = d.toString(); // cast numbers
-
     if (d.length <= cutoff) {
       return d;
     }
-
     var shortened = d.substr(0, cutoff - 1);
-
     // Find the last white space character in the string
     if (wordbreak) {
       shortened = shortened.replace(/\s([^\s]*)$/, '');
     }
-
     // Protect against uncontrolled HTML input
     if (escapeHtml) {
       shortened = esc(shortened);
     }
-
     return '<span class="ellipsis" data-toggle="tooltip" data-placement="top" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
   };
 };
 
+/**
+ * Un renderer pour les liens dans datatables
+ * @param {string} url URL de base à utiliser
+ * @param {string} col nom de la colonne JSON à utiliser
+ * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
+ */
 function linkify(url, col, ellipsis = true) {
   return function(data, type, row) {
     let res = Mustache.render(
@@ -225,6 +224,21 @@ function linkify(url, col, ellipsis = true) {
     else res += data
     res += "</a>"
     return res
+  }
+}
+
+/**
+ * Active/désactive des formulaires en écoutant un événement
+ * 
+ * @param {Object} event événement lancé par la switchbox taxon
+ */
+function toggleTaxonForm() {
+  args = Array.from(arguments)
+  return function (event) {
+    let disable = !event.target.checked
+    args.forEach(element => {
+      $(element).prop('disabled', disable)
+    });
   }
 }
 

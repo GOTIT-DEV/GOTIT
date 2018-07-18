@@ -1,28 +1,24 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function() {
+$(document).ready(function () {
 
 
   initSwitchery('.switchbox');
   $("#main-form").find("button[type='submit']").button('loading')
   let speciesSelector = new SpeciesSelector("#main-form", false)
   let methodSelector = new MethodSelector("#main-form", 'checkbox')
-    // Wait for both selectors to be ready
-  $.when(speciesSelector.promise, methodSelector.promise).done(function() {
+  // Wait for both selectors to be ready
+  $.when(speciesSelector.promise, methodSelector.promise).done(function () {
     initDataTable("#result-table", "#details-table")
   });
 
   var niveau = 0;
   var criteres = {};
 
-  $('#taxaFilter').change(function() {
-    if (this.checked) {
-      $(".taxa-select").prop('disabled', false);
-    } else {
-      $(".taxa-select").prop('disabled', true);
-    }
-  }).trigger('change')
+  $('#taxaFilter')
+    .change(toggleTaxonForm('.taxa-select'))
+    .trigger('change')
 })
 
 
@@ -43,7 +39,7 @@ function initDataTable(tableId, detailsId) {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
         "type": "POST",
-        "data": function(d) {
+        "data": function (d) {
           return $("#main-form").serialize()
         }
       },
@@ -58,7 +54,7 @@ function initDataTable(tableId, detailsId) {
         data: "methode"
       }, {
         data: "date_methode",
-        render: function(data, type, row) {
+        render: function (data, type, row) {
           return Date.parse(row.date_motu.date).toString('MMM yyyy');
         }
       }, {
@@ -67,26 +63,23 @@ function initDataTable(tableId, detailsId) {
         data: "nb_motus"
       }, {
         data: "id",
-        render: function(data, type, row) {
+        render: function (data, type, row) {
           var template = $("#details-form-template").html();
           return Mustache.render(template, row);
         }
       }],
-      drawCallback: function(settings) {
-
+      drawCallback: function (settings) {
         $("#main-form").find("button[type='submit']").button('reset')
         $('[data-toggle="tooltip"]').tooltip()
-        $(".details-form").off('submit').on('submit', function(event) {
+        $(".details-form").off('submit').on('submit', function (event) {
           event.preventDefault();
           $(this).addClass('submitted')
           details.ajax.reload()
           $("#modal-container .modal").modal('show');
           $(this).removeClass('submitted')
         });
-
-
       }
-    }).on('xhr', function() {
+    }).on('xhr', function () {
       var response = table.DataTable().ajax.json()
       niveau = response.niveau;
       criteres = response.criteres;
@@ -98,11 +91,10 @@ function initDataTable(tableId, detailsId) {
     /****************
      * Submit form handler
      */
-    $("#main-form").submit(function(event) {
+    $("#main-form").submit(function (event) {
       event.preventDefault();
       $(this).find("button[type='submit']").button('loading')
-      var results = table.DataTable()
-      results.ajax.reload()
+      table.DataTable().ajax.reload()
 
     });
   }
@@ -117,19 +109,25 @@ function initModalTable(tableId) {
       type: 'POST',
       url: detailsTable.data('url'),
       dataSrc: 'rows',
-      data: function(d) {
+      data: function (d) {
         let form = $('.details-form.submitted')
         let form_data = form.serializeArray();
         for (var i = 0; i < criteres.length; i++) {
-          form_data.push({ name: 'criteres[]', value: criteres[i] });
+          form_data.push({
+            name: 'criteres[]',
+            value: criteres[i]
+          });
         }
-        form_data.push({ name: 'niveau', value: niveau });
+        form_data.push({
+          name: 'niveau',
+          value: niveau
+        });
         return $.param(form_data)
       }
     },
     columns: [{
       data: 'code',
-      render: function(data, type, row) {
+      render: function (data, type, row) {
         let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
         let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
         return linkify(baseUrl, 'id', true)(data, type, row)
@@ -141,7 +139,7 @@ function initModalTable(tableId) {
       data: 'gene'
     }, {
       data: 'type',
-      render: function(data, type, row) {
+      render: function (data, type, row) {
         return data ? "Externe" : "Interne"
       }
     }, {
@@ -151,7 +149,7 @@ function initModalTable(tableId) {
     }],
     dom: "lfrtipB",
     buttons: dtconfig.buttons,
-    drawCallback: function() {
+    drawCallback: function () {
       $('[data-toggle="tooltip"]').tooltip()
     }
   });

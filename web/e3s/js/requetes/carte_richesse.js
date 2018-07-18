@@ -1,46 +1,62 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function() {
-  var showGeo = false
+$(document).ready(function () {
+  // Initialiser l'activation/désactivation du filtrage taxon
   initSwitchery(".switchbox");
-  $('#taxaFilter').change(function() {
-    if (this.checked) {
-      $(".taxa-select").prop('disabled', false);
-      $("#method-form select").prop('disabled', false);
-    } else {
-      $(".taxa-select").prop('disabled', true);
-      $("#method-form select").prop('disabled', true);
-    }
-  }).trigger('change');
+  $('#taxaFilter')
+    .change(toggleTaxonForm('.taxa-select', '#method-form select'))
+    .trigger('change');
 
+  // taxaFilterActive : true si données géographiques disponibles dans la réponse
+  var taxFilterActive = false
+  // Passer l'UI en statut attente/loading
   uiWaitResponse()
 
+  // Initialiser les deux selecteurs du formulaire
   let speciesSelector = new SpeciesSelector("#main-form", true)
   let methodSelector = new MethodSelector("#main-form")
 
+  // Formulaires prêts : initialiser datatables
   $.when(speciesSelector.promise, methodSelector.promise)
-    .done(function() {
+    .done(function () {
       initDataTable("#result-table")
     })
 
 });
 
 
+/**
+ * Active le mode attente / loading
+ */
 function uiWaitResponse() {
   $("#main-form").find("button[type='submit']").button('loading')
-  showGeo = $('#taxaFilter').is(':checked')
-  toggleMap(showGeo)
+  taxaFilterActive = $('#taxaFilter').is(':checked')
+  toggleMap(taxaFilterActive)
   toggleResults(false)
 
 }
 
-function uiReceivedResponse() {
+/**
+ * Désactive le mode attente ; mettre à jour les onglets
+ * @param {Object} response réponse JSON
+ */
+function uiReceivedResponse(response) {
   $("#main-form").find("button[type='submit']").button('reset')
+  let showGeo = (taxaFilterActive && response.geo.length)
+  if (showGeo) {
+    updateMap(response)
+  }
+  toggleMap(showGeo)
   toggleResults(true)
   $(".geo-overlay").show();
+
 }
 
+/**
+ * Active/désactive l'onglet résultats
+ * @param {boolean} activate mode d'activation de l'onglet
+ */
 function toggleResults(activate) {
   if (activate) {
     $("#result-tab a").attr("data-toggle", "tab")
@@ -51,6 +67,10 @@ function toggleResults(activate) {
   }
 }
 
+/**
+ * Active/désactive l'onglet map
+ * @param {Object} activate mode d'activation de l'onglet
+ */
 function toggleMap(activate) {
   if (activate) {
     $("#geolocation-tab a").attr("data-toggle", "tab")
@@ -64,13 +84,47 @@ function toggleMap(activate) {
   }
 }
 
-/* **************************
- *  Initialize datatable
- **************************** */
+/**
+ * Met à jour la carte avec les données JSON
+ * @param {Object} response réponse JSON
+ */
+function updateMap(response) {
+  // Update title
+  $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
+    taxname: response.geo[0]['taxname'],
+    code_methode: response.methode.code,
+    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+  }));
+  // Plot data
+  let gd = motuGeoPlot(response.geo)
+  // Overlay et événements changement d'onglet
+  $('#result-tab a ').on('shown.bs.tab', function (e) {
+    scrollTo('#resultats', 500)
+    $(".geo-overlay").hide()
+  })
+  $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
+    scrollTo('#resultats', 500)
+    $(".geo-overlay").show()
+    Plotly.Plots.resize(gd).then(function () {
+      $(".geo-overlay").hide()
+    })
+  })
+  // Show overlay on resize
+  Plotly.Plots.resize(gd).then(function () {
+    $(".geo-overlay").hide()
+  })
+}
 
-function initDataTable(tableId) {
+/**
+ * Initialise datatables pour remplir la table *
+ * en utilisant les données du formulaire
+ * @param {string} tableId identifiant de la table dans le DOM
+ * @param {string} formId identifiant du formulaire dans le DOM
+ */
+function initDataTable(tableId, formId = "#main-form") {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
+    const form = $(formId)
     const urls = {
       refTaxon: table.find("th#col-taxname").data('linkUrl')
     }
@@ -80,11 +134,11 @@ function initDataTable(tableId) {
       autoWidth: false,
       responsive: true,
       ajax: {
-        "url": $("#main-form").data("url"),
+        "url": form.data("url"),
         "dataSrc": "rows",
         "type": "POST",
-        "data": function(d) {
-          return $("#main-form").serialize()
+        "data": function (d) {
+          return form.serialize()
         }
       },
       dom: "lfrtipB",
@@ -96,14 +150,14 @@ function initDataTable(tableId) {
           render: linkify(urls.refTaxon, 'id', true)
         }, {
           data: 'code',
-          render: function(data, type, row) {
+          render: function (data, type, row) {
             let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
             let baseUrl = table.find("#col-code-seq").data(lookUpAttr)
             return linkify(baseUrl, 'id', true)(data, type, row)
           }
         }, {
           data: "type_seq",
-          render: function(data, type, row) {
+          render: function (data, type, row) {
             return data ? "Externe" : "Interne"
           }
         },
@@ -140,63 +194,34 @@ function initDataTable(tableId) {
           render: renderNumber,
           defaultContent: "-"
         },
-        { data: "code_station" },
-        { data: "commune" },
-        { data: "pays" },
+        {
+          data: "code_station"
+        },
+        {
+          data: "commune"
+        },
+        {
+          data: "pays"
+        },
       ],
-      drawCallback: function() {
+      drawCallback: function () {
         $('[data-toggle="tooltip"]').tooltip()
       }
     })
 
-    dataTable.on('xhr', function() {
-      if (showGeo) {
-        var response = dataTable.ajax.json()
-        if (response.geo.length) {
-          updateMap(response)
-        } else {
-          toggleMap(false)
-        }
-      }
-      uiReceivedResponse()
+    dataTable.on('xhr', function () {
+      let response = dataTable.ajax.json()
+      uiReceivedResponse(response)
     });
 
     /*******************************
      * Submit form handler
      ***************************** */
-    $("#main-form").submit(function(event) {
+    form.submit(function (event) {
       event.preventDefault();
       uiWaitResponse()
       var results = table.DataTable()
       results.ajax.reload()
     });
   }
-}
-
-function updateMap(response) {
-  // Update title
-  $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-    taxname: response.geo[0]['taxname'],
-    code_methode: response.methode.code,
-    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-  }));
-  // Plot data
-  gd = motuGeoPlot(response.geo)
-    // Show overlay on resize
-  Plotly.Plots.resize(gd).then(function() {
-    $(".geo-overlay").hide()
-  })
-  $(".nav-tabs li").removeClass("disabled");
-  // Auto scroll
-  $('#result-tab a ').on('shown.bs.tab', function(e) {
-    scrollTo('#resultats', 500)
-    $(".geo-overlay").hide()
-  })
-  $("#geolocation-tab a ").on('shown.bs.tab', function(e) {
-    scrollTo('#resultats', 500)
-    $(".geo-overlay").show()
-    Plotly.Plots.resize(gd).then(function() {
-      $(".geo-overlay").hide()
-    })
-  })
 }
