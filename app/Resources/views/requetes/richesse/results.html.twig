@@ -43,13 +43,11 @@
         <table id="result-table" class="table table-condensed table-hover table-striped">
           <thead>
             <tr>
+							<th></th>
               <th id="col-taxname"
                 data-link-url="{{path('referentieltaxon_show', {id:0}) | trim(0)}}">
 								{% trans %}
                 columns.taxon
-                {% endtrans %}</th>
-              <th>{% trans %}
-                columns.seqid
                 {% endtrans %}</th>
               <th
                 id="col-code-seq"

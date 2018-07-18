@@ -127,31 +127,28 @@ function initModalTable(tableId) {
         return $.param(form_data)
       }
     },
-    columns: [
-      { data: 'id' },
-      {
-        data: 'code',
-        render: function(data, type, row) {
-          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-          let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
-          return linkify(baseUrl, 'id', true)(data, type, row)
-        }
-      }, {
-        data: 'acc',
-        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
-      }, {
-        data: 'gene'
-      }, {
-        data: 'type',
-        render: function(data, type, row) {
-          return data ? "Externe" : "Interne"
-        }
-      }, {
-        data: 'motu',
-      }, {
-        data: 'critere'
+    columns: [{
+      data: 'code',
+      render: function(data, type, row) {
+        let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+        let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
+        return linkify(baseUrl, 'id', true)(data, type, row)
       }
-    ],
+    }, {
+      data: 'acc',
+      render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
+    }, {
+      data: 'gene'
+    }, {
+      data: 'type',
+      render: function(data, type, row) {
+        return data ? "Externe" : "Interne"
+      }
+    }, {
+      data: 'motu',
+    }, {
+      data: 'critere'
+    }],
     dom: "lfrtipB",
     buttons: dtconfig.buttons,
     drawCallback: function() {

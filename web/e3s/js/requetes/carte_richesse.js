@@ -78,11 +78,11 @@ function initDataTable(tableId) {
       },
       dom: "lfrtipB",
       buttons: dtconfig.buttons,
-      columns: [{
+      order: [1, 'asc'],
+      columns: [
+        dtconfig.expandColumn, {
           data: "taxname",
           render: linkify(urls.refTaxon, 'id', true)
-        }, {
-          data: "id"
         }, {
           data: 'code',
           render: function(data, type, row) {
@@ -147,40 +147,45 @@ function initDataTable(tableId) {
     dataTable.on('xhr', function() {
       if (showGeo) {
         var response = dataTable.ajax.json()
-        $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-          taxname: response.geo[0]['taxname'],
-          code_methode: response.methode.code,
-          date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-        }));
-        gd = motuGeoPlot(response.geo);
-        Plotly.Plots.resize(gd).then(function() {
-          $(".geo-overlay").hide();
-        });
-        $(".nav-tabs li").removeClass("disabled");
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-          scrollTo('#resultats', 500);
-          $(".geo-overlay").hide();
-        });
-        $("#geolocation-tab a ").on('shown.bs.tab', function(e) {
-          scrollTo('#resultats', 500);
-          $(".geo-overlay").show();
+        if (response.geo.length) {
+          $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
+            taxname: response.geo[0]['taxname'],
+            code_methode: response.methode.code,
+            date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+          }));
+          gd = motuGeoPlot(response.geo);
           Plotly.Plots.resize(gd).then(function() {
             $(".geo-overlay").hide();
           });
-        });
+          $(".nav-tabs li").removeClass("disabled");
+          $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            scrollTo('#resultats', 500);
+            $(".geo-overlay").hide();
+          });
+          $("#geolocation-tab a ").on('shown.bs.tab', function(e) {
+            scrollTo('#resultats', 500);
+            $(".geo-overlay").show();
+            Plotly.Plots.resize(gd).then(function() {
+              $(".geo-overlay").hide();
+            });
+          });
+        } else {
+          $("#geolocation-tab a").removeAttr("data-toggle");
+          $("#geolocation-tab").addClass("disabled");
+          $("#result-tab a").tab("show");
+        }
       }
       uiReceivedResponse()
     });
 
-    /****************
+    /*******************************
      * Submit form handler
-     */
+     ***************************** */
     $("#main-form").submit(function(event) {
       event.preventDefault();
       uiWaitResponse()
       var results = table.DataTable()
       results.ajax.reload()
-
     });
   }
 }
