@@ -34,7 +34,7 @@ class StationType extends AbstractType
                                     ->setParameter('parent', 'habitatType')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
                 ->add('pointAccesVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose an Access Point',
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -42,7 +42,7 @@ class StationType extends AbstractType
                                     ->setParameter('parent', 'pointAcces')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
                 ->add('latDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
                 ->add('longDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
                 ->add('precisionLatLongVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose a GPS Distance Quality',
@@ -52,7 +52,7 @@ class StationType extends AbstractType
                                     ->setParameter('parent', 'precisionLatLong')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
                 ->add('altitudeM')
                 ->add('commentaireStation')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'disabled' => true ))

@@ -33,7 +33,7 @@ class CollecteType extends AbstractType
                                     ->setParameter('parent', 'datePrecision')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('aPourSamplingMethods', CollectionType::class , array(
         		'entry_type' => APourSamplingMethodEmbedType::class,
         		'allow_add' => true,
@@ -91,7 +91,7 @@ class CollecteType extends AbstractType
                                ->setParameter('parent', 'leg')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
                 ->add('userCre', HiddenType::class, array())

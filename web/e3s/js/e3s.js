@@ -386,6 +386,31 @@ function dateDateprecision(container, nameFieldDate,  message){
                 alert(message["JOUR"]);
             }         
           break;
+        case 'NOT KNOWN':
+            if (dateCollecteYear != '' || dateCollecteMonth != '' || dateCollecteDay!= ''){
+                flagDatePrecision = 0;
+                alert(message["INCONNU"]);
+            } 
+          break;
+        case 'YEAR':
+            if (dateCollecteYear == '' || Number(dateCollecteMonth) != 1 || Number(dateCollecteDay) != 1){
+                //alert(dateCollecteYear+' - '+Number(dateCollecteMonth)+' - '+Number(dateCollecteDay));
+                flagDatePrecision = 0;
+                alert(message["ANNEE"]);
+            }         
+          break;
+        case 'MONTH':
+            if (dateCollecteYear == '' || dateCollecteMonth == '' || Number(dateCollecteDay) != 1){
+                flagDatePrecision = 0;
+                alert(message["MOIS"]);
+            }         
+          break;
+        case 'DAY':
+            if (dateCollecteYear == '' || dateCollecteMonth == '' || dateCollecteDay == ''){
+                flagDatePrecision = 0;
+                alert(message["JOUR"]);
+            }         
+          break;
         default:
             flagDatePrecision = 0;
 

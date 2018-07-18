@@ -31,7 +31,7 @@ class IndividuLameType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('nomDossierPhotos')
                 ->add('commentaireLame')
                 ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',

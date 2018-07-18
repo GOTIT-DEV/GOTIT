@@ -30,7 +30,7 @@ class PcrType extends AbstractType
                                     ->setParameter('parent', 'gene')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
                 ->add('primerPcrStartVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -55,7 +55,7 @@ class PcrType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('qualitePcrVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -63,7 +63,7 @@ class PcrType extends AbstractType
                                     ->setParameter('parent', 'qualitePcr')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality')) 
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality')) 
                 ->add('specificiteVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -71,7 +71,7 @@ class PcrType extends AbstractType
                                     ->setParameter('parent', 'specificite')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a specificity')) 
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a specificity')) 
                 ->add('detailPcr')
                 ->add('remarquePcr')
                 ->add('pcrEstRealisePars', CollectionType::class , array(

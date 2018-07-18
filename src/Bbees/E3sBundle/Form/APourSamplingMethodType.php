@@ -22,7 +22,7 @@ class APourSamplingMethodType extends AbstractType
                                     ->setParameter('parent', 'samplingMethod')
                                     ->orderBy('voc.libelle', 'ASC');
                             }, 
-                        'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
+                        'choice_translation_domain' => true,'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
                         'placeholder' => 'Choose a Sampling method',
                         ))
                 ->add('collecteFk');

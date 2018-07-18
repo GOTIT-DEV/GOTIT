@@ -22,7 +22,7 @@ class APourFixateurEmbedType extends AbstractType
                                     ->setParameter('parent', 'fixateur')
                                     ->orderBy('voc.libelle', 'ASC');
                             }, 
-                        'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false, 'placeholder' => 'Choose a Fixateur',)
+                        'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false, 'placeholder' => 'Choose a Fixateur',)
                             );
     }
     

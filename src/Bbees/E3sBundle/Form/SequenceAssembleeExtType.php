@@ -41,7 +41,7 @@ class SequenceAssembleeExtType extends AbstractType
                                 ->setParameter('parent', 'gene')
                                 ->orderBy('voc.libelle', 'ASC');
                     }, 
-                'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
+                'choice_translation_domain' => true, 'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
                 ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
@@ -58,7 +58,7 @@ class SequenceAssembleeExtType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))  
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))  
                 ->add('commentaireSqcAssExt')
                 ->add('sqcExtEstRealisePars', CollectionType::class , array(
                         'entry_type' => SqcExtEstRealiseParEmbedType::class,

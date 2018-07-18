@@ -34,7 +34,7 @@ class LotMaterielExtType extends AbstractType
                                     ->setParameter('parent', 'pigmentation')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
                 ->add('yeuxVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -42,7 +42,7 @@ class LotMaterielExtType extends AbstractType
                                     ->setParameter('parent', 'yeux')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
                 ->add('commentaireLotMaterielExt')   
                 ->add('nbIndividusVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
@@ -51,7 +51,7 @@ class LotMaterielExtType extends AbstractType
                                     ->setParameter('parent', 'nbIndividus')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose an option'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose an option'))
                 ->add('commentaireNbIndividus')
                 ->add('dateCreationLotMaterielExt', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
                 ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
@@ -61,7 +61,7 @@ class LotMaterielExtType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('lotMaterielExtEstRealisePars', CollectionType::class , array(
         		'entry_type' => LotMaterielExtEstRealiseParEmbedType::class,
         		'allow_add' => true,

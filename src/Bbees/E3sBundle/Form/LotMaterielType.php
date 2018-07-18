@@ -30,7 +30,7 @@ class LotMaterielType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('lotMaterielEstRealisePars', CollectionType::class , array(
         		'entry_type' => LotMaterielEstRealiseParEmbedType::class,
         		'allow_add' => true,
@@ -56,7 +56,7 @@ class LotMaterielType extends AbstractType
                                     ->setParameter('parent', 'yeux')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
                 ->add('pigmentationVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -64,7 +64,7 @@ class LotMaterielType extends AbstractType
                                     ->setParameter('parent', 'pigmentation')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
                 ->add('commentaireConseilSqc')
                 ->add('commentaireLotMateriel')
                 ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',

@@ -30,7 +30,7 @@ class IndividuType extends AbstractType
                                     ->setParameter('parent', 'typeIndividu')
                                     ->orderBy('voc.libelle', 'ASC');
                         },
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Type'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Type'))
                 ->add('numIndBiomol')
                 ->add('codeIndBiomol')
                 ->add('commentaireInd')

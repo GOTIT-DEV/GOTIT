@@ -3,19 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Resources/translations/messages.fr.yml</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Services/ImportFileE3s.php</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Resources/translations/importfiles.fr.yml</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/boite/index.html.twig</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/edit.html.twig</file>
             <file>file:/D:/www/e3s-www/e3s14_3/web/e3s/js/e3s.js</file>
             <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Resources/translations/messages.en.yml</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Form/BoiteType.php</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/boite/edit.html.twig</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Resources/translations/messages.fr.yml</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Services/ImportFileE3s.php</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/index.html.twig</file>
             <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Resources/translations/importfiles.en.yml</file>
             <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/base.html.twig</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Controller/BoiteController.php</file>
-            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Entity/Boite.php</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/web/e3s/js/plots.js</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/src/Bbees/E3sBundle/Form/StationType.php</file>
+            <file>file:/D:/www/e3s-www/e3s14_3/app/Resources/views/edit.html.twig</file>
         </group>
     </open-files>
 </project-private>

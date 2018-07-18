@@ -34,7 +34,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                                 ->setParameter('parent', 'critereIdentification')
                                 ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
                         )
                 ->add('dateIdentification', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
                 ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
@@ -44,7 +44,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                                 ->setParameter('parent', 'datePrecision')
                                 ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
                     )
                 ->add('commentaireEspId')
                 ->add('estIdentifiePars', CollectionType::class , array(

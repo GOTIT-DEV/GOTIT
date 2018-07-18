@@ -37,7 +37,7 @@ class AdnType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('methodeExtractionAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -45,7 +45,7 @@ class AdnType extends AbstractType
                                     ->setParameter('parent', 'methodeExtractionAdn')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a method'))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a method'))
                 ->add('concentrationNgMicrolitre', NumberType::class,array( 'scale' => 4 ))
                 ->add('commentaireAdn')
                 ->add('qualiteAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
@@ -55,7 +55,7 @@ class AdnType extends AbstractType
                                     ->setParameter('parent', 'qualiteAdn')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality'))             
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality'))             
                 ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('boite')

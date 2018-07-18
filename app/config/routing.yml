@@ -1,5 +1,7 @@
 bbees_e3s:
     resource: "@BbeesE3sBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|fr
 

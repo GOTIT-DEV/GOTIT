@@ -32,7 +32,7 @@ class SequenceAssembleeType extends AbstractType
                                ->setParameter('parent', 'datePrecision')
                                ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
@@ -40,7 +40,7 @@ class SequenceAssembleeType extends AbstractType
                                     ->setParameter('parent', 'statutSqcAss')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a status')) 
+                     'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a status')) 
                 ->add('estAligneEtTraites', CollectionType::class , array(
         		'entry_type' => EstAligneEtTraiteEmbedType::class,
         		'allow_add' => true,
