@@ -29,28 +29,39 @@ $(document).ready(function() {
 
 function uiWaitResponse() {
   $("#main-form").find("button[type='submit']").button('loading')
-
-  $("#result-tab a").addClass("disabled");
-  $("#result-tab a").removeAttr("data-toggle");
-
-  if ($('#taxaFilter').is(':checked')) {
-    showGeo = true
-    $("#geolocation-tab a").attr("data-toggle", "tab")
-    $("#geolocation-tab a").removeClass('disabled')
-  } else {
-    showGeo = false
-    $("#geolocation-tab a").removeAttr("data-toggle");
-    $("#geolocation-tab").addClass("disabled");
-    $("#result-tab a").tab("show");
-  }
+  showGeo = $('#taxaFilter').is(':checked')
+  toggleMap(showGeo)
+  toggleResults(false)
 
 }
 
 function uiReceivedResponse() {
   $("#main-form").find("button[type='submit']").button('reset')
-  $("#result-tab a").attr("data-toggle", "tab")
-  $("#result-tab a").removeClass('disabled')
+  toggleResults(true)
   $(".geo-overlay").show();
+}
+
+function toggleResults(activate) {
+  if (activate) {
+    $("#result-tab a").attr("data-toggle", "tab")
+    $("#result-tab a").removeClass('disabled')
+  } else {
+    $("#result-tab a").addClass("disabled")
+    $("#result-tab a").removeAttr("data-toggle")
+  }
+}
+
+function toggleMap(activate) {
+  if (activate) {
+    $("#geolocation-tab a").attr("data-toggle", "tab")
+    $("#geolocation-tab a").removeClass('disabled')
+    $("#geolocation-tab").removeClass('disabled')
+  } else {
+    $("#geolocation-tab a").removeAttr("data-toggle")
+    $("#geolocation-tab a").addClass("disabled")
+    $("#geolocation-tab").addClass("disabled")
+    $("#result-tab a").tab("show");
+  }
 }
 
 /* **************************
@@ -63,7 +74,7 @@ function initDataTable(tableId) {
     const urls = {
       refTaxon: table.find("th#col-taxname").data('linkUrl')
     }
-    const renderNumber = $.fn.dataTable.render.number('', '.', 3);
+    const renderNumber = $.fn.dataTable.render.number('', '.', 3)
 
     var dataTable = table.DataTable({
       autoWidth: false,
@@ -129,15 +140,9 @@ function initDataTable(tableId) {
           render: renderNumber,
           defaultContent: "-"
         },
-        {
-          data: "code_station"
-        },
-        {
-          data: "commune"
-        },
-        {
-          data: "pays"
-        },
+        { data: "code_station" },
+        { data: "commune" },
+        { data: "pays" },
       ],
       drawCallback: function() {
         $('[data-toggle="tooltip"]').tooltip()
@@ -148,31 +153,9 @@ function initDataTable(tableId) {
       if (showGeo) {
         var response = dataTable.ajax.json()
         if (response.geo.length) {
-          $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-            taxname: response.geo[0]['taxname'],
-            code_methode: response.methode.code,
-            date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-          }));
-          gd = motuGeoPlot(response.geo);
-          Plotly.Plots.resize(gd).then(function() {
-            $(".geo-overlay").hide();
-          });
-          $(".nav-tabs li").removeClass("disabled");
-          $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-            scrollTo('#resultats', 500);
-            $(".geo-overlay").hide();
-          });
-          $("#geolocation-tab a ").on('shown.bs.tab', function(e) {
-            scrollTo('#resultats', 500);
-            $(".geo-overlay").show();
-            Plotly.Plots.resize(gd).then(function() {
-              $(".geo-overlay").hide();
-            });
-          });
+          updateMap(response)
         } else {
-          $("#geolocation-tab a").removeAttr("data-toggle");
-          $("#geolocation-tab").addClass("disabled");
-          $("#result-tab a").tab("show");
+          toggleMap(false)
         }
       }
       uiReceivedResponse()
@@ -188,4 +171,32 @@ function initDataTable(tableId) {
       results.ajax.reload()
     });
   }
+}
+
+function updateMap(response) {
+  // Update title
+  $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
+    taxname: response.geo[0]['taxname'],
+    code_methode: response.methode.code,
+    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+  }));
+  // Plot data
+  gd = motuGeoPlot(response.geo)
+    // Show overlay on resize
+  Plotly.Plots.resize(gd).then(function() {
+    $(".geo-overlay").hide()
+  })
+  $(".nav-tabs li").removeClass("disabled");
+  // Auto scroll
+  $('#result-tab a ').on('shown.bs.tab', function(e) {
+    scrollTo('#resultats', 500)
+    $(".geo-overlay").hide()
+  })
+  $("#geolocation-tab a ").on('shown.bs.tab', function(e) {
+    scrollTo('#resultats', 500)
+    $(".geo-overlay").show()
+    Plotly.Plots.resize(gd).then(function() {
+      $(".geo-overlay").hide()
+    })
+  })
 }
