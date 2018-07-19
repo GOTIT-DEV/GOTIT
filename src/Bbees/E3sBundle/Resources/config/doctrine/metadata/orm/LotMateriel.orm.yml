@@ -2,21 +2,21 @@ LotMateriel:
     type: entity
     table: lot_materiel
     indexes:
-        IDX_BA1841A5A30C442F:
+        ce_cle_etrangere69:
             columns:
                 - date_precision_voc_fk
-        IDX_BA1841A5B0B56B73:
-            columns:
-                - pigmentation_voc_fk
-        IDX_BA1841A5A897CC9E:
+        ce_cle_etrangere71:
             columns:
                 - yeux_voc_fk
-        IDX_BA1841A5662D9B98:
+        ce_cle_etrangere72:
             columns:
                 - collecte_fk
-        IDX_BA1841A52B644673:
+        ce_cle_etrangere73:
             columns:
                 - boite_fk
+        ce_cle_etrangere70:
+            columns:
+                - pigmentation_voc_fk
     uniqueConstraints:
         cu_lot_materiel_cle_primaire:
             columns:
@@ -56,6 +56,12 @@ LotMateriel:
             options:
                 fixed: false
             column: commentaire_lot_materiel
+        aFaire:
+            type: smallint
+            nullable: true
+            options:
+                unsigned: false
+            column: a_faire
         dateCre:
             type: datetime
             nullable: true

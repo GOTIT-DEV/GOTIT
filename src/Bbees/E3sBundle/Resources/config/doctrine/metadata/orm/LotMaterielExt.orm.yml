@@ -2,21 +2,21 @@ LotMaterielExt:
     type: entity
     table: lot_materiel_ext
     indexes:
-        IDX_EEFA43F3662D9B98:
+        ce_cle_etrangere46:
             columns:
                 - collecte_fk
-        IDX_EEFA43F3A30C442F:
-            columns:
-                - date_precision_voc_fk
-        IDX_EEFA43F382ACDC4:
-            columns:
-                - nb_individus_voc_fk
-        IDX_EEFA43F3B0B56B73:
+        ce_cle_etrangere49:
             columns:
                 - pigmentation_voc_fk
-        IDX_EEFA43F3A897CC9E:
+        ce_cle_etrangere50:
             columns:
                 - yeux_voc_fk
+        ce_cle_etrangere47:
+            columns:
+                - date_precision_voc_fk
+        ce_cle_etrangere48:
+            columns:
+                - nb_individus_voc_fk
     id:
         id:
             type: bigint

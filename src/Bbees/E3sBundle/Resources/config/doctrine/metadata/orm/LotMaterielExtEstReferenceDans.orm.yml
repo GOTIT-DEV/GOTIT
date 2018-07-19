@@ -2,10 +2,10 @@ LotMaterielExtEstReferenceDans:
     type: entity
     table: lot_materiel_ext_est_reference_dans
     indexes:
-        IDX_D2338BB240D80ECD:
+        ce_cle_etrangere53:
             columns:
                 - lot_materiel_ext_fk
-        IDX_D2338BB2821B1D3F:
+        ce_cle_etrangere54:
             columns:
                 - source_fk
     id:

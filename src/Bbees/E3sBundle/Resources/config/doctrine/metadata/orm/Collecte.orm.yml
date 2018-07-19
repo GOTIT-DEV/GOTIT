@@ -2,13 +2,13 @@ Collecte:
     type: entity
     table: collecte
     indexes:
-        IDX_55AE4A3DA30C442F:
+        ce_cle_etrangere60:
             columns:
                 - date_precision_voc_fk
-        IDX_55AE4A3D50BB334E:
+        ce_cle_etrangere61:
             columns:
                 - leg_voc_fk
-        IDX_55AE4A3D369AB36B:
+        ce_cle_etrangere62:
             columns:
                 - station_fk
     uniqueConstraints:

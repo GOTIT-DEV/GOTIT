@@ -2,10 +2,10 @@ EstFinancePar:
     type: entity
     table: est_finance_par
     indexes:
-        IDX_18FCBB8F759C7BB0:
+        ce_cle_etrangere100:
             columns:
                 - programme_fk
-        IDX_18FCBB8F662D9B98:
+        ce_cle_etrangere101:
             columns:
                 - collecte_fk
     id:

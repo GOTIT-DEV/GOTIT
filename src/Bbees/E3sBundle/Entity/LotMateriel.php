@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="lot_materiel", uniqueConstraints={@ORM\UniqueConstraint(name="cu_lot_materiel_cle_primaire", columns={"code_lot_materiel"})}, indexes={@ORM\Index(name="IDX_BA1841A5A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_BA1841A5B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_BA1841A5A897CC9E", columns={"yeux_voc_fk"}), @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_BA1841A52B644673", columns={"boite_fk"})})
  * @ORM\Entity
- */
+ */ 
 class LotMateriel
 {
     /**
@@ -50,6 +50,13 @@ class LotMateriel
      * @ORM\Column(name="commentaire_lot_materiel", type="text", nullable=true)
      */
     private $commentaireLotMateriel;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="a_faire", type="smallint", nullable=false)
+     */
+    private $aFaire;
 
     /**
      * @var \DateTime
@@ -647,5 +654,29 @@ class LotMateriel
     public function removeLotEstPublieDanss(\Bbees\E3sBundle\Entity\LotEstPublieDans $lotEstPublieDanss)
     {
         $this->lotEstPublieDanss->removeElement($lotEstPublieDanss);
+    }
+
+    /**
+     * Set aFaire
+     *
+     * @param integer $aFaire
+     *
+     * @return LotMateriel
+     */
+    public function setAFaire($aFaire)
+    {
+        $this->aFaire = $aFaire;
+
+        return $this;
+    }
+
+    /**
+     * Get aFaire
+     *
+     * @return integer
+     */
+    public function getAFaire()
+    {
+        return $this->aFaire;
     }
 }

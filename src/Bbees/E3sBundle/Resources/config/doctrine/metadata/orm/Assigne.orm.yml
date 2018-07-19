@@ -2,18 +2,18 @@ Assigne:
     type: entity
     table: assigne
     indexes:
-        IDX_4E79CB8DCDD1F756:
-            columns:
-                - sequence_assemblee_ext_fk
-        IDX_4E79CB8D40E7E0B3:
+        ce_cle_etrangere12:
             columns:
                 - methode_motu_voc_fk
-        IDX_4E79CB8D5BE90E48:
+        ce_cle_etrangere13:
             columns:
                 - sequence_assemblee_fk
-        IDX_4E79CB8D503B4409:
+        ce_cle_etrangere14:
             columns:
                 - motu_fk
+        ce_cle_etrangere11:
+            columns:
+                - sequence_assemblee_ext_fk
     id:
         id:
             type: bigint

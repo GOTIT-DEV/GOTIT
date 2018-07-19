@@ -2,12 +2,12 @@ SqcExtEstRealisePar:
     type: entity
     table: sqc_ext_est_realise_par
     indexes:
-        IDX_DC41E25ACDD1F756:
-            columns:
-                - sequence_assemblee_ext_fk
-        IDX_DC41E25AB53CD04C:
+        ce_cle_etrangere32:
             columns:
                 - personne_fk
+        ce_cle_etrangere31:
+            columns:
+                - sequence_assemblee_ext_fk
     id:
         id:
             type: bigint

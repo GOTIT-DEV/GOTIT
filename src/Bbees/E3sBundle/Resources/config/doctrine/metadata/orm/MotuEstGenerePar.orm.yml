@@ -2,10 +2,10 @@ MotuEstGenerePar:
     type: entity
     table: motu_est_genere_par
     indexes:
-        IDX_17A90EA3503B4409:
+        ce_cle_etrangere33:
             columns:
                 - motu_fk
-        IDX_17A90EA3B53CD04C:
+        ce_cle_etrangere34:
             columns:
                 - personne_fk
     id:

@@ -2,10 +2,10 @@ SourceAEteIntegrePar:
     type: entity
     table: source_a_ete_integre_par
     indexes:
-        IDX_16DC6005821B1D3F:
+        ce_cle_etrangere29:
             columns:
                 - source_fk
-        IDX_16DC6005B53CD04C:
+        ce_cle_etrangere30:
             columns:
                 - personne_fk
     id:

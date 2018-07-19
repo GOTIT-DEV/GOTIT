@@ -2,10 +2,10 @@ ACibler:
     type: entity
     table: a_cibler
     indexes:
-        IDX_C0DF0CE4662D9B98:
+        ce_cle_etrangere17:
             columns:
                 - collecte_fk
-        IDX_C0DF0CE47B09E3BC:
+        ce_cle_etrangere18:
             columns:
                 - referentiel_taxon_fk
     id:

@@ -2,10 +2,10 @@ SqcExtEstReferenceDans:
     type: entity
     table: sqc_ext_est_reference_dans
     indexes:
-        IDX_8D0E8D6A821B1D3F:
+        ce_cle_etrangere7:
             columns:
                 - source_fk
-        IDX_8D0E8D6ACDD1F756:
+        ce_cle_etrangere8:
             columns:
                 - sequence_assemblee_ext_fk
     id:

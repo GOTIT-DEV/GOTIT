@@ -2,10 +2,10 @@ APourSamplingMethod:
     type: entity
     table: a_pour_sampling_method
     indexes:
-        IDX_5A6BD88A29B38195:
+        ce_cle_etrangere40:
             columns:
                 - sampling_method_voc_fk
-        IDX_5A6BD88A662D9B98:
+        ce_cle_etrangere41:
             columns:
                 - collecte_fk
     id:

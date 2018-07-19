@@ -2,10 +2,10 @@ SequenceAssembleeEstRealisePar:
     type: entity
     table: sequence_assemblee_est_realise_par
     indexes:
-        IDX_F6971BA85BE90E48:
+        ce_cle_etrangere19:
             columns:
                 - sequence_assemblee_fk
-        IDX_F6971BA8B53CD04C:
+        ce_cle_etrangere20:
             columns:
                 - personne_fk
     id:

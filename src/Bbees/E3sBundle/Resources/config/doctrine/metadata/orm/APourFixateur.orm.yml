@@ -2,12 +2,12 @@ APourFixateur:
     type: entity
     table: a_pour_fixateur
     indexes:
-        IDX_60129A315FD841AC:
-            columns:
-                - fixateur_voc_fk
-        IDX_60129A31662D9B98:
+        ce_cle_etrangere43:
             columns:
                 - collecte_fk
+        ce_cle_etrangere42:
+            columns:
+                - fixateur_voc_fk
     id:
         id:
             type: bigint

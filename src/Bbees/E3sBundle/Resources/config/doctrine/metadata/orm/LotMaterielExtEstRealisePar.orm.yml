@@ -2,10 +2,10 @@ LotMaterielExtEstRealisePar:
     type: entity
     table: lot_materiel_ext_est_realise_par
     indexes:
-        IDX_7D78636FB53CD04C:
+        ce_cle_etrangere51:
             columns:
                 - personne_fk
-        IDX_7D78636F40D80ECD:
+        ce_cle_etrangere52:
             columns:
                 - lot_materiel_ext_fk
     id:

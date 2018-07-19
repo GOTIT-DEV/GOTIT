@@ -2,10 +2,10 @@ CompositionLotMateriel:
     type: entity
     table: composition_lot_materiel
     indexes:
-        IDX_10A697444236D33E:
+        ce_cle_etrangere15:
             columns:
                 - type_individu_voc_fk
-        IDX_10A6974454DBBD4D:
+        ce_cle_etrangere16:
             columns:
                 - lot_materiel_fk
     id:

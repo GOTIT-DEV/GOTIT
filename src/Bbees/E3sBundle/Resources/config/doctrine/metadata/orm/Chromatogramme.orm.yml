@@ -2,18 +2,18 @@ Chromatogramme:
     type: entity
     table: chromatogramme
     indexes:
-        IDX_FCB2DAB7286BBCA9:
+        ce_cle_etrangere96:
             columns:
                 - primer_chromato_voc_fk
-        IDX_FCB2DAB7206FE5C0:
-            columns:
-                - qualite_chromato_voc_fk
-        IDX_FCB2DAB7E8441376:
+        ce_cle_etrangere98:
             columns:
                 - etablissement_fk
-        IDX_FCB2DAB72B63D494:
+        ce_cle_etrangere99:
             columns:
                 - pcr_fk
+        ce_cle_etrangere97:
+            columns:
+                - qualite_chromato_voc_fk
     uniqueConstraints:
         cu_chromatogramme_cle_primaire:
             columns:

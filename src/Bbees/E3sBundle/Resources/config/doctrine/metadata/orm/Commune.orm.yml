@@ -2,7 +2,7 @@ Commune:
     type: entity
     table: commune
     indexes:
-        IDX_E2E2D1EEB1C3431A:
+        ce_cle_etrangere39:
             columns:
                 - pays_fk
     uniqueConstraints:

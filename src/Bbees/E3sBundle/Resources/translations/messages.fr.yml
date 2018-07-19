@@ -1,0 +1,380 @@
+# Intitulés des champs de la base de données E3S Version Anglaise
+# boutons ajouter > 16/07/2018
+title.Personne: Personne
+buton.See Stations Around: Afficher les Stations autour du point GPS
+modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
+buton.Close: Fermer
+# Intitulés des champs de la base de données E3S Version Française
+A faire: A faire
+Accession number: Accession number
+Accession number sqc ass ext: Accession number
+Adn fk: Adn 
+Altitude m: Altitude m
+Annee debut: Annee debut
+Annee fin: Annee fin
+Annee source: Annee source
+Boite fk: Boite 
+Chromatogramme fk: Chromatogramme 
+Clade: Clade
+Code: Code
+Code adn: Code adn
+Code boite: Code boite
+Code chromato: Code chromato
+Code collecte: Code collecte
+Code collection voc fk: Code collection
+Code commune: Code commune
+Code ind biomol: Code ind biomol
+Code ind tri morpho: Code ind tri morpho
+Code lame coll: Code lame coll
+Code lot materiel: Code lot materiel
+Code lot materiel ext: Code lot materiel ext
+Code pays: Code pays
+Code pcr: Code pcr
+Code programme: Code programme
+Code source: Code source
+Code sqc alignement: Code sqc alignement
+Code sqc ass: Code sqc ass
+Code sqc ass ext: Code sqc ass ext
+Code sqc ass ext alignement: Code sqc ass ext alignement
+Code station: Code station
+Code taxon: Code taxon
+Code tube: Code tube
+Collecte fk: Collecte 
+Commentaire: Commentaire
+Commentaire adn: Commentaire adn
+Commentaire boite: Commentaire boite
+Commentaire chromato: Commentaire chromato
+Commentaire collecte: Commentaire collecte
+Commentaire compo lot materiel: Commentaire compo lot materiel
+Commentaire conseil sqc: Commentaire conseil sqc
+Commentaire esp id: Commentaire espèce identifiée
+Commentaire etablissement: Commentaire etablissement
+Commentaire ind: Commentaire ind
+Commentaire lame: Commentaire lame
+Commentaire lot materiel: Commentaire lot materiel
+Commentaire lot materiel ext: Commentaire lot materiel ext
+Commentaire motu: Commentaire motu
+Commentaire nb individus: Commentaire nb individus
+Commentaire personne: Commentaire personne
+Commentaire programme: Commentaire programme
+Commentaire ref: Commentaire ref
+Commentaire source: Commentaire source
+Commentaire sqc ass: Commentaire sqc ass
+Commentaire sqc ass ext: Commentaire sqc ass ext
+Commentaire station: Commentaire station
+Commune fk: Commune 
+Concentration ng microlitre: Concentration ng microlitre
+Conductivite micro sie cm: Conductivite micro sie cm
+Critere identification voc fk: Critere identification
+Date adn: Date adn
+Date collecte: Date collecte
+Date cre: Date cre
+Date creation lot materiel ext: Date creation lot materiel ext
+Date creation sqc ass: Date creation sqc ass
+Date creation sqc ass ext: Date creation sqc ass ext
+Date identification: Date identification
+Date lame: Date lame
+Date lot materiel: Date lot materiel
+Date maj: Date maj
+Date motu: Date motu
+Date pcr: Date pcr
+Date precision voc fk: Date precision
+Detail pcr: Detail pcr
+Duree echantillonnage mn: Duree echantillonnage mn
+Espece identifiee fk: Espece identifiee
+Etablissement fk: Etablissement
+Family: Family
+Fixateur voc fk: Fixateur
+Gene voc fk: Gene
+Gene voc fk: Gene
+Genus: Genus
+Habitat type voc fk: Habitat type
+Id: Id
+Individu fk: Individu
+Individu lame fk: Individu lame
+Info description: Info description
+Info localisation: Info localisation
+Lat deg dec: Lat deg dec
+Leg voc fk: Leg
+Libelle: Libelle
+Libelle boite: Libelle boite
+Libelle collection: Libelle collection
+Libelle lame: Libelle lame
+Libelle source: Libelle source
+Long deg dec: Long deg dec
+Lot materiel ext fk: Lot materiel ext
+Lot materiel fk: Lot materiel
+Methode extraction adn voc fk: Methode extraction adn
+Methode motu voc fk: Methode motu
+Motu fk: Motu
+Nb individus: Nb individus
+Nom commune: Nom commune
+Nom complet: Nom complet
+Nom dossier photos: Nom dossier photos
+Nom etablissement: Nom etablissement
+Nom fichier csv: Nom fichier csv
+Nom pays: Nom pays
+Nom personne: Nom personne
+Nom personne ref: Nom personne ref
+Nom programme: Nom programme
+Nom region: Nom region
+Nom station: Nom station
+Noms responsables: Noms responsables
+Num ind biomol: Num ind biomol
+Num individu sqc ass ext: Num individu sqc ass ext
+Num motu: Num motu
+Num pcr: Num pcr
+Num yas: Num yas
+Objectif: Objectif
+Ordre: Ordre
+Origine sqc ass ext voc fk: Origine sqc ass ext
+Parent: Parent
+Pays fk: Pays
+Pcr fk: Pcr
+Personne fk: Personne
+Pigmentation voc fk: Pigmentation
+Pigmentation voc fk: Pigmentation
+Point acces voc fk: Point acces
+Precision lat long voc fk: Precision lat long
+Primer chromato voc fk: Primer chromato
+Primer pcr end voc fk: Primer pcr end
+Primer pcr start voc fk: Primer pcr start
+Programme fk: Programme
+Qualite adn voc fk: Qualite adn
+Qualite chromato voc fk: Qualite chromato
+Qualite pcr voc fk: Qualite pcr
+Rank: Rank
+Referentiel taxon fk: Referentiel taxon
+Remarque pcr: Remarque pcr
+Sampling method voc fk: Sampling method
+Sequence assemblee ext fk: Sequence assemblee ext
+Sequence assemblee fk: Sequence assemblee
+Source fk: Source
+Species: Species
+Specificite voc fk: Specificite
+Station fk: Station fk
+Statut sqc ass voc fk: Statut sqc ass
+Statut sqc ass voc fk: Statut sqc ass
+Subclass: Subclass
+Subspecies: Subspecies
+Taxname: Taxname
+Taxname ref: Taxname ref
+Taxon origine sqc ass ext: Taxon origine sqc ass ext
+Temperature c: Temperature c
+Type boite voc fk: Type boite
+Type collection voc fk: Type collection
+Type financeur: Type financeur
+Type individu voc fk: Type individu
+User cre: User cre
+User maj: User maj
+Validity: Validité
+Yeux voc fk: Yeux
+# Intitulés des listes de selection
+Choose a typeCollection: Selectionner un type de Collection
+Choose a codeCollection: Selectionner un code  Collection
+Choose a typeBoite: Selectionner un type de boite
+Choose an option : Selectionner une option
+Choose a Motu File: Selectionner le fichier de MOTU à importer
+Choose a origineSqcAssExt: Selectionner une origine
+Choose a chromatogramme: Selectionner un  chromatogramme
+Choose a statut: Selectionner un status
+Choose a status: Selectionner un status
+Choose a Person: Selectionner une personne
+Choose a Etablissement: Selectionner un etablissement
+Choose a DNA:  Selectionner un ADN
+Choose a gene: Selectionner un gène
+Choose a quality: Selectionner une qualité
+Choose a specificity: Selectionner une specificité
+Choose a primer start: Selectionner un primer start
+Choose a primer end: Selectionner un primer end
+Choose a Country: Selectionner un Pays
+Choose a Commune: Selectionner une Commune
+Choose an Habitat Type: Selectionner un type d'Habitat
+Choose an Access Point: Selectionner un Point d'Access 
+Choose a GPS Distance Quality: Selectionner une qualié de GPS
+Choose a Station: Selectionner une Station
+Choose a Sampling method: Selectionner une Méthode d'échantillonage
+Choose a Fixateur: Selectionner un Fixateur
+Choose a Program: Selectionner un Programme
+Choose a Taxon: Selectionner a Taxon
+Choose a Collecte: Selectionner une Collecte
+Choose a Pigmentation: Selectionner une Pigmentation
+Choose a Eye: Selectionner un Oiel
+Choose a Box: Selectionner une Boite
+Choose a Type: Selectionner un Type
+Choose a Lot Materiel: Selectionner un Lot Materiel
+Choose a Source: Selectionner une Source
+Choose an individu: Selectionner un individu
+Choose a method: Selectionner une methode
+Choose a PCR: Selectionner une PCR
+Choose a primer: Selectionner un primer
+Choose a socitety: Selectionner une société
+# intitulés des collections ou tableaux relatifs aux tables relationnelles de type N-N
+Source a ete integre pars: Est réalisé par
+Adns: DNAs
+Lot materiels: Biological materials
+Individu lames: Lames
+Motu est genere pars: Est réalisé par
+Auto generated code: Code Auto généré
+Code Chromato | Specificite : Code Chromato | Specificité
+Sqc ext est reference danss: Est publié dans
+Sqc ext est realise pars: Est réalisé par
+Sqc est publie danss: Est publié dans
+Sequence assemblee est realise pars: Est réalisé par
+Est aligne et traites: Est aligne et traites
+Lot materiel ext est realise pars: Est réalisé par
+Lot materiel ext est reference danss: Est publié dans
+Adn est realise pars: Est réalisé par
+Individu lame est realise pars: Est réalisé par
+Lot materiel est realise pars: Est réalisé par
+Espece identifiees: Espèce identifiées
+Composition lot materiels: Composition du lot
+Est identifie pars: Est identifié pars
+Lot est publie danss: Est publié dans
+Pcr est realise pars: Est réalisé par
+A pour sampling methods: Méthode(s) d'échantillonage
+A pour fixateurs: Fixateurs(s)
+Est finance pars:  Programme(s)
+Est effectue pars: Est réalisé par
+A ciblers: Cible(s)
+No: Non
+Yes: Oui
+Personne: Personne
+# Intitulés des boutons de l'interface
+buton.Add a Chromatogramme: Ajouter un Chromatogramme
+buton.Add a Source: Ajouter une Source
+buton.Add a CompositionLotMateriel: Ajouter une Composition de Materiel
+buton.Add a EspeceIdentifiee: Ajouter une espèce Identifiée
+buton.Add a new Commune: Ajouter une nouvelle Commune
+buton.Add a SamplingMethod: Ajouter une Methode d'échantillonage
+buton.Add a Fixateur: Ajouter un Fixateur
+buton.Add a Programme: Ajouter un Program
+buton.Add a new Programme: Ajouter un nouveau Programme
+buton.Add a Personne: Ajouter une Personne
+buton.Add a new Personne: Ajouter une nouvelle Personne
+buton.Add a ACibler: Ajouter une cible (Taxon)
+buton.Import adn deplace: DEPLACER SUPPRIMER DES BOITES d'ADN
+buton.Import adn range: STOCKER DES Boites  d'ADN 
+buton.Import individu lame deplace: DEPLACER SUPPRIMER DES LAMES
+buton.Import individu lame range: STOCKER DES Boites de LAMES
+buton.Import lot materiel deplace: DEPLACER SUPPRIMER DES LOTS
+buton.Import lot materiel range: STOCKER DES LOTS
+buton.NewBoite: Créer une nouvelle Boite
+buton.Import sqc assemblee publie: Importer des sqc assemblees publiees
+buton.Import lot materiel publie: Importer des lots materiels publiés
+buton.ImportSource: Importerc des sources
+buton.NewSource: Créer une nouvelle source
+buton.NewVoc: Créer un nouveau vocabulaire
+buton.NewReferentieltaxon: Créer un nouveau Taxon
+buton.NewPersonne: Créer une nouvelle Personne
+buton.NewEtablissement: Créer un nouvel Etablissement
+buton.NewProgramme: Créer un nouveau programme
+buton.NewPays: Créer un nouveau Pays
+buton.NewMotu: Créer un nouveau MOTU
+buton.ImportMotu: Importer des MOTUs
+buton.NewSequenceassembleeext: Créer une nouvelle Séquence assemblée externe
+buton.ImportSequenceassembleeext: Importer un nouveau jeu de Séquence assemblée externe
+buton.NewSequenceassemblee: Créer  une nouvelle Séquence assemblée
+buton.ImportSequenceassemblee: Importer un nouveau jeu de Séquence assemblée
+buton.NewCommune: Créer une nouvelle Commune
+buton.NewLotmaterielext: Créer a new Source material
+buton.ImportLotmaterielext: Importer un nouveau jeu de Séquence lot materiel externe
+buton.NewStation: Créer une nouvelle Station
+buton.ImportStation: Importer un jeu de stations
+buton.NewCollecte: Créer une nouvelle Collecte
+buton.ImportCollecte: Importer un jeu de collectes
+buton.NewLotmateriel: Créer un nouveau lot materiel
+buton.ImportLotmateriel: Importer un jeu delots materiel
+buton.NewIndividu: Créer un nouvel Individu
+buton.ImportIndividu: Importer un jeu d'individus
+buton.NewIndividulame: Créer une nouvelle Lame
+buton.ImportIndividulame: Importer un jeu de Lames
+buton.NewAdn: Créer un nouel ADN
+buton.ImportAdn: Importer un jeu d'ADNs
+buton.NewPcr: Créer une nouvelle PCR
+buton.ImportPcr: Import un jeu de PCRs 
+buton.NewChromatogramme: Créer un nouveau Chromatogramme
+buton.ImportChromatogramme: Importer un jeu de Chromatogrammes
+buton.Valid: Valider
+buton.BackToTheSelection: Retour Selection
+buton.BackToTheList: Retour Liste
+buton.showAllRecord: Liste de Tous les enregistrements
+Envoyer: Importer le fichier CSV 
+# intitulés des colonnes des listes d'enregistrements
+list.Date creation sqc ass ext: Date creation
+list.Accession number sqc ass ext: Ext. Acc. Number
+list.Accession number: Acc. Number
+list.List source: Source(s)
+list.List code adn: Liste d'ADN code(s)
+list.Date creation lot materiel: Date creation
+list.lastCodeSeqAss: Dernier code sequence
+list.lastStatutSeqAss: Dernier statut 
+list.lastCodeSeqAlignement: Dernier code alignement
+list.lastDateSeqAss: Dernier date sequence
+list.Date maj: Date Up
+list.Date cre: Date Cre
+list.Lat deg dec: Latitude
+list.Long deg dec: Longitude
+list.Liste taxons: List of taxname(s)
+list.Liste personnes: List of person(s)
+list.Last taxname: Dernier taxname
+list.Last identification date: Dernier id. date
+list.Last identification critere: Dernier id. criterium
+# Titres des pages
+title.Référentiels: Referentiels
+title.boite: Boite
+title.Dashboard: Dashboard
+title.Terrain: Terrain
+title.station: Station
+title.collecte: Collecte
+title.Analyse morphologique: Analyse morphologique
+title.lotmateriel: Lot materiel
+title.individu: Individu
+title.individulame: Lame
+title.lotmaterielext: Lot materiel ext
+title.Analyses génétiques: Analyses génétiques
+title.adn: ADN
+title.pcr: PCR
+title.chromatogramme: Chromatogramme
+title.Etude séquençage: Etude séquençage
+title.sequenceassemblee: E3S sequences
+title.sequenceassembleeext: Sequences externes
+title.motu: MOTU
+title.Stock: Stock
+title.source: Sources Bibliographique
+title.Source bibliographique: Sources Bibliographique
+title.Référentiels: Referentiels
+title.voc: Vocabulaire
+title.referentieltaxon: Taxon
+title.personne: Personne
+title.pays: Pays
+title.commune: Commune
+title.etablissement: Etablissement
+title.programme: Programme
+title.Recherche bdd: Recherche bdd
+# messages d'alerte relatif à la gestion des dates
+alert.datePrecisionINCONNU:  les champs date doivent être vide
+alert.datePrecisionANNEE:  les champs date doivent avoir le format 01-01-YYYY
+alert.datePrecisionMOIS:  les champs date doivent avoir le format 01-MM-YYYY
+alert.datePrecisionJOUR:  les champs date doivent avoir le format JJ-MM-YYYY
+alert.BadFormatDate:  mauvai format de date (JJ-MM-YYYY) ou mauvaise valeure (JJ=[1,31] MM=[1,12] YYYY=[1000,2999]
+# menus de la liste déroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
+import.liste: Importer d'autres jeux de données 
+import.boite.lotmaterielrange: Ranger des lots dans des boites
+import.boite.individulamerange: Ranger des lames  dans des boites
+import.boite.adnrange: Ranger des ADNs  dans des boites
+import.station: Importer des Stations
+import.collecte: Importer des Collectes
+import.lotmateriel: Importer des Lots
+import.individu: Importer des Individus
+import.individulame: Importer des Lames
+import.lotmaterielext: Importer des lot publiés
+import.adn: Importer des ADNs
+import.pcr: Importer des PCRs
+import.chromatogramme: Importer des Chromatogrammes
+import.pcrchromato: Importer des PCRs & Chromatogrammes
+import.sequenceassemblee: Importer des sequences E3S
+import.sequenceassembleeext: Importer des sequences publiées
+import.motu: Importer des Motu
+import.source: Importer des sources bibliographiques
+

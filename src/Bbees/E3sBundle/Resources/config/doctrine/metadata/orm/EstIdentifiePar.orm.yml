@@ -2,10 +2,10 @@ EstIdentifiePar:
     type: entity
     table: est_identifie_par
     indexes:
-        IDX_F8FCCF63B53CD04C:
+        ce_cle_etrangere10:
             columns:
                 - personne_fk
-        IDX_F8FCCF63B4AB6BA0:
+        ce_cle_etrangere9:
             columns:
                 - espece_identifiee_fk
     id:

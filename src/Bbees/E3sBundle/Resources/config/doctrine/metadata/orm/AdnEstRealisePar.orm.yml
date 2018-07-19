@@ -2,10 +2,10 @@ AdnEstRealisePar:
     type: entity
     table: adn_est_realise_par
     indexes:
-        IDX_B786C5214B06319D:
+        ce_cle_etrangere23:
             columns:
                 - adn_fk
-        IDX_B786C521B53CD04C:
+        ce_cle_etrangere24:
             columns:
                 - personne_fk
     id:

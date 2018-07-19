@@ -2,21 +2,21 @@ SequenceAssembleeExt:
     type: entity
     table: sequence_assemblee_ext
     indexes:
-        IDX_9E9F85CF9D3CDB05:
-            columns:
-                - gene_voc_fk
-        IDX_9E9F85CFA30C442F:
-            columns:
-                - date_precision_voc_fk
-        IDX_9E9F85CF514D78E0:
+        ce_cle_etrangere4:
             columns:
                 - origine_sqc_ass_ext_voc_fk
-        IDX_9E9F85CF662D9B98:
-            columns:
-                - collecte_fk
-        IDX_9E9F85CF88085E0F:
+        ce_cle_etrangere6:
             columns:
                 - statut_sqc_ass_voc_fk
+        ce_cle_etrangere2:
+            columns:
+                - gene_voc_fk
+        ce_cle_etrangere3:
+            columns:
+                - date_precision_voc_fk
+        ce_cle_etrangere5:
+            columns:
+                - collecte_fk
     uniqueConstraints:
         cu_sequence_assemblee_ext_cle_primaire:
             columns:

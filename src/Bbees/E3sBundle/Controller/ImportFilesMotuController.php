@@ -42,7 +42,7 @@ class ImportFilesMotuController extends Controller
                                ->where('assigne.id IS NULL') 
                                ;
                         }, 
-                    'placeholder' => 'Choose a Motu File', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false))  
+                    'placeholder' => 'import.motu-assigne', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false))  
 /*                ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(

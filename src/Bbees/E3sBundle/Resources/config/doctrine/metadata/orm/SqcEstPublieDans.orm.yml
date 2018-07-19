@@ -2,10 +2,10 @@ SqcEstPublieDans:
     type: entity
     table: sqc_est_publie_dans
     indexes:
-        IDX_BA97B9C4821B1D3F:
+        ce_cle_etrangere:
             columns:
                 - source_fk
-        IDX_BA97B9C45BE90E48:
+        ce_cle_etrangere1:
             columns:
                 - sequence_assemblee_fk
     id:

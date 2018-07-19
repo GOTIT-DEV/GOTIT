@@ -2,10 +2,10 @@ PcrEstRealisePar:
     type: entity
     table: pcr_est_realise_par
     indexes:
-        IDX_1041853B2B63D494:
+        ce_cle_etrangere21:
             columns:
                 - pcr_fk
-        IDX_1041853BB53CD04C:
+        ce_cle_etrangere22:
             columns:
                 - personne_fk
     id:

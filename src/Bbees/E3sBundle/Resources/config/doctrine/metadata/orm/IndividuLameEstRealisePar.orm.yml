@@ -2,12 +2,12 @@ IndividuLameEstRealisePar:
     type: entity
     table: individu_lame_est_realise_par
     indexes:
-        IDX_88295540D9C85992:
-            columns:
-                - individu_lame_fk
-        IDX_88295540B53CD04C:
+        ce_cle_etrangere26:
             columns:
                 - personne_fk
+        ce_cle_etrangere25:
+            columns:
+                - individu_lame_fk
     id:
         id:
             type: bigint

@@ -2,12 +2,12 @@ Individu:
     type: entity
     table: individu
     indexes:
-        IDX_5EE42FCE4236D33E:
-            columns:
-                - type_individu_voc_fk
-        IDX_5EE42FCE54DBBD4D:
+        ce_cle_etrangere83:
             columns:
                 - lot_materiel_fk
+        ce_cle_etrangere82:
+            columns:
+                - type_individu_voc_fk
     id:
         id:
             type: bigint

@@ -2,10 +2,10 @@ SequenceAssemblee:
     type: entity
     table: sequence_assemblee
     indexes:
-        IDX_353CF669A30C442F:
+        ce_cle_etrangere35:
             columns:
                 - date_precision_voc_fk
-        IDX_353CF66988085E0F:
+        ce_cle_etrangere36:
             columns:
                 - statut_sqc_ass_voc_fk
     uniqueConstraints:

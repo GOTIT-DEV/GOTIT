@@ -2,15 +2,15 @@ Boite:
     type: entity
     table: boite
     indexes:
-        IDX_7718EDEF9E7B0E1F:
-            columns:
-                - type_collection_voc_fk
-        IDX_7718EDEF41A72D48:
+        ce_cle_etrangere67:
             columns:
                 - code_collection_voc_fk
-        IDX_7718EDEF57552D30:
+        ce_cle_etrangere68:
             columns:
                 - type_boite_voc_fk
+        ce_cle_etrangere66:
+            columns:
+                - type_collection_voc_fk
     uniqueConstraints:
         cu_boite_cle_primaire:
             columns:

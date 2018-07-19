@@ -616,8 +616,8 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"adn", "adn.code_adn")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template adn </b>");             
+        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
+            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template source </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();

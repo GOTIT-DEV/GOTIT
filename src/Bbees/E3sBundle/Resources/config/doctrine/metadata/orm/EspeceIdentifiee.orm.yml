@@ -2,28 +2,28 @@ EspeceIdentifiee:
     type: entity
     table: espece_identifiee
     indexes:
-        IDX_49D19C8DFB5F790:
-            columns:
-                - critere_identification_voc_fk
-        IDX_49D19C8DA30C442F:
-            columns:
-                - date_precision_voc_fk
-        IDX_49D19C8DCDD1F756:
-            columns:
-                - sequence_assemblee_ext_fk
-        IDX_49D19C8D40D80ECD:
-            columns:
-                - lot_materiel_ext_fk
-        IDX_49D19C8D54DBBD4D:
-            columns:
-                - lot_materiel_fk
-        IDX_49D19C8D7B09E3BC:
+        ce_cle_etrangere79:
             columns:
                 - referentiel_taxon_fk
-        IDX_49D19C8D5F2C6176:
+        ce_cle_etrangere75:
+            columns:
+                - date_precision_voc_fk
+        ce_cle_etrangere77:
+            columns:
+                - lot_materiel_ext_fk
+        ce_cle_etrangere78:
+            columns:
+                - lot_materiel_fk
+        ce_cle_etrangere76:
+            columns:
+                - sequence_assemblee_ext_fk
+        ce_cle_etrangere74:
+            columns:
+                - critere_identification_voc_fk
+        ce_cle_etrangere80:
             columns:
                 - individu_fk
-        IDX_49D19C8D5BE90E48:
+        ce_cle_etrangere81:
             columns:
                 - sequence_assemblee_fk
     id:

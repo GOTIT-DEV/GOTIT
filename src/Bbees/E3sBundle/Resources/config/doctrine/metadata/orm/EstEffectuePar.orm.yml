@@ -2,12 +2,12 @@ EstEffectuePar:
     type: entity
     table: est_effectue_par
     indexes:
-        IDX_EE2A88C9B53CD04C:
-            columns:
-                - personne_fk
-        IDX_EE2A88C9662D9B98:
+        ce_cle_etrangere65:
             columns:
                 - collecte_fk
+        ce_cle_etrangere64:
+            columns:
+                - personne_fk
     id:
         id:
             type: bigint

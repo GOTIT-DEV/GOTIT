@@ -2,15 +2,15 @@ IndividuLame:
     type: entity
     table: individu_lame
     indexes:
-        IDX_8DA827E2A30C442F:
-            columns:
-                - date_precision_voc_fk
-        IDX_8DA827E22B644673:
+        ce_cle_etrangere103:
             columns:
                 - boite_fk
-        IDX_8DA827E25F2C6176:
+        ce_cle_etrangere104:
             columns:
                 - individu_fk
+        ce_cle_etrangere102:
+            columns:
+                - date_precision_voc_fk
     uniqueConstraints:
         cu_individu_lame_cle_primaire:
             columns:

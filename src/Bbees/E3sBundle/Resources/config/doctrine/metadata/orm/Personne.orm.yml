@@ -2,7 +2,7 @@ Personne:
     type: entity
     table: personne
     indexes:
-        IDX_FCEC9EFE8441376:
+        ce_cle_etrangere63:
             columns:
                 - etablissement_fk
     uniqueConstraints:
