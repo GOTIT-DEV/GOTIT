@@ -10,7 +10,7 @@
 
     <title>
         {% block title %}
-            BDD GDSTI-E3S 
+            GDSTI-E3S 
         {% endblock %}
     </title>
     
@@ -41,7 +41,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>BDD E3S</span></a>
+              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>GDSTI - E3S</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -163,12 +163,16 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
+                    <li><a href="javascript:;">Profile</a></li>
                     <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
+                    {% set pathRoute = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
+                    {% set pathRouteFrInArray = pathRoute|split('/fr/') %}
+                      {% if pathRouteFrInArray|length == 2 %} 
+                        <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
+                      {% else %}
+                          {% set pathRouteEnInArray = pathRoute|split('/en/') %}
+                         <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
+                      {% endif %}
                     </li>
                     <li><a href="javascript:;">Help</a></li>
                     <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
