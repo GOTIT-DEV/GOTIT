@@ -4,7 +4,7 @@
  * @param {any} key clé à cibler
  */
 function unpack(json, key) {
-  return json.map(function(row) { return row[key] })
+  return json.map(function (row) { return row[key] })
 }
 
 /**
@@ -89,196 +89,13 @@ function barPlot(target, json) {
 
   // Responsive
   Plotly.Plots.resize(gd);
-  window.onresize = function() {
+  window.onresize = function () {
     Plotly.Plots.resize(gd);
   }
   return gd;
 }
 
 
-/**
- * Fonction d'affichage des graphiques d'échantillonnage COI
- * 
- * @param {Object} json_no_co1 
- * @param {Object} json_co1 
- * @param {number} lmp 
- * @param {number} lmp_co1 
- */
-function geoPlot(json_no_co1, json_co1, lmp = undefined, lmp_co1 = undefined) {
-
-  /**
-   * Fonction pour extraire les données JSON et construire un objet de données 
-   * pour plotly
-   * 
-   * @param {Object} json données json
-   * @param {Object} update données à ajouter
-   */
-  function build_station_data(json, update = {}) {
-    const taxon = unpack(json, 'taxon_id'),
-      taxname = unpack(json, 'taxname'),
-      code_station = unpack(json, 'code_station'),
-      latitude = unpack(json, 'latitude'),
-      longitude = unpack(json, 'longitude'),
-      altitude = unpack(json, 'altitude'),
-      commune = unpack(json, 'commune'),
-      pays = unpack(json, 'pays')
-
-    // Initialisation des hover text
-    var hoverText = []
-    for (var i = 0; i < taxname.length; i++) {
-      var stationText = [
-        code_station[i],
-        "Coords:" + latitude[i] + ";" + longitude[i],
-        "Alt:" + altitude[i] + "m",
-        commune[i],
-        pays[i]
-      ].join("<br>")
-      hoverText.push(stationText)
-    }
-
-    const data = {
-      type: 'scattergeo',
-      lat: latitude,
-      lon: longitude,
-      hoverinfo: 'text',
-      text: hoverText,
-      marker: {
-        size: 8,
-        line: {
-          width: 1,
-          color: 'grey'
-        }
-      },
-      name: "Stations",
-    }
-
-    // Ajout données supplémentaires à l'objet data
-    $.extend(true, data, update)
-    return data
-  }
-
-  // Init plotly
-  var d3 = Plotly.d3
-  $("#station-geo-map").html('')
-  var gd3 = d3.select('#station-geo-map')
-  var gd = gd3.node()
-
-  // Données de COI
-  const data_co1 = build_station_data(json_co1, {
-    name: "Stations COI",
-    marker: {
-      symbol: "triangle-up",
-      color: "red"
-    }
-  })
-
-  // Données non COI
-  const data_no_co1 = build_station_data(json_no_co1, {
-    name: "Stations Lot Mat.",
-    marker: {
-      symbol: "circle-open",
-      size: 10,
-      color: "orange",
-      opacity: 0.8,
-      line: {
-        width: 2,
-        color: "green",
-      }
-    }
-  })
-
-  // Objet data : contient les scatterplots
-  var data = [
-    data_co1,
-    data_no_co1,
-  ]
-
-  // Coordonnées de la ligne LMP
-  if (lmp) {
-    data.push({
-      type: 'scattergeo',
-      lon: Array.from(new Array(360), (_, i) => -180 + i),
-      lat: Array(360).fill(lmp),
-      hoverinfo: "none",
-      mode: 'lines',
-      line: {
-        width: 1.5,
-        color: 'orange',
-        dash: 'dash'
-      },
-      name: "Lat. Mid-Point (LM)"
-    })
-  }
-
-  // Coordonnées de la ligne LMP COI
-  if (lmp_co1) {
-    data.push({
-      type: 'scattergeo',
-      lon: Array.from(new Array(360), (_, i) => -180 + i),
-      lat: Array(360).fill(lmp_co1),
-      hoverinfo: "none",
-      mode: 'lines',
-      line: {
-        width: 1.5,
-        color: 'red',
-        dash: 'dash'
-      },
-      name: "Lat. Mid-Point (COI)"
-    })
-  }
-
-  // Objet data complet : scatterplots + LMP + LMP COI
-
-  // Paramètres d'affichage du graphique
-  const layout = {
-    font: {
-      family: 'Droid Serif, serif',
-      size: 14
-    },
-    titlefont: {
-      size: 16
-    },
-    height: 600,
-    margin: {
-      l: 0,
-      r: 0,
-      t: 15,
-      b: 0
-    },
-    showlegend: true,
-    geo: { // carte geographique
-      scope: 'world',
-      resolution: 50,
-      projection: {
-        type: 'miller'
-      },
-      showrivers: true,
-      rivercolor: '#fff',
-      showlakes: true,
-      lakecolor: '#fff',
-      showland: true,
-      landcolor: '#2bc',
-      countrycolor: 'grey',
-      countrywidth: 1,
-      subunitcolor: '#d3d3d3',
-      showocean: true,
-      oceancolor: 'lightblue',
-      showframe: true,
-      framecolor: '#000',
-      framewidth: 2,
-      bgcolor: 'lightgrey'
-    }
-  }
-
-  Plotly.newPlot(gd, data, layout, {
-    displaylogo: false, // pas de logo, enlever boutons de controle inutiles
-    modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d']
-  })
-
-  Plotly.Plots.resize(gd) // Remplir l'espace dans le DOM
-
-  return gd // Renvoi objet plotly
-}
 
 
 /**
@@ -417,12 +234,54 @@ function motuGeoPlot(json) {
 
   // Responsive mode
   Plotly.Plots.resize(gd)
-  window.onresize = function() {
+  window.onresize = function () {
     $(".geo-overlay").show()
-    Plotly.Plots.resize(gd).then(function() {
+    Plotly.Plots.resize(gd).then(function () {
       $(".geo-overlay").hide()
     })
   }
 
   return gd // renvoi objet plotly
+}
+
+const plotlyConfig = {
+  plotlyDefaultMapLayout: {
+    font: {
+      family: 'Droid Serif, serif',
+      size: 14
+    },
+    titlefont: {
+      size: 16
+    },
+    height: 600,
+    margin: {
+      l: 0,
+      r: 0,
+      t: 15,
+      b: 0
+    },
+    showlegend: true,
+    geo: { // carte geographique
+      scope: 'world',
+      resolution: 50,
+      projection: {
+        type: 'miller'
+      },
+      showrivers: true,
+      rivercolor: '#fff',
+      showlakes: true,
+      lakecolor: '#fff',
+      showland: true,
+      landcolor: '#2bc',
+      countrycolor: 'grey',
+      countrywidth: 1,
+      subunitcolor: '#d3d3d3',
+      showocean: true,
+      oceancolor: 'lightblue',
+      showframe: true,
+      framecolor: '#000',
+      framewidth: 2,
+      bgcolor: 'lightgrey'
+    }
+  }
 }

@@ -1,3 +1,5 @@
+{% trans_default_domain 'requetes' %}
+
 {% extends "requetes/base.modal.html.twig" %}
 {% block modal_title %}
   {{ taxname }}
@@ -5,7 +7,11 @@
 
 {% block modal_body %}
   <div class="geo-container">
-    <div id="station-geo-map" style="width:100%"></div>
+    <div
+      id="station-geo-map"
+      data-vocab-station-lotmateriel="{{'geo.station.lotmateriel' | trans}}"
+      data-vocab-station-co1="{{'geo.station.co1' | trans}}"
+      style="width:100%"></div>
 
     <div class="geo-overlay">
       <i class="fa fa-spinner fa-spin fa-4x"></i>

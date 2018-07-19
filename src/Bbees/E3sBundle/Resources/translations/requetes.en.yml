@@ -48,6 +48,11 @@ entity:
     species : Seq. taxon
     code : Seq. code
 
+geo:
+  station:
+    lotmateriel: Biological Mat. Sites
+    co1: COI Sites
+
 queries:
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
