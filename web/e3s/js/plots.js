@@ -38,7 +38,7 @@ class BarPlot extends BasePlot {
     this.layout = {
       // Axe des X
       xaxis: {
-        title: "Méthode",
+        title: this.container.data('vocabXlabel'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -48,7 +48,7 @@ class BarPlot extends BasePlot {
       },
       // Axe des Y
       yaxis: {
-        title: "Réarrangements",
+        title: this.container.data('vocabYlabel'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -83,17 +83,6 @@ class BarPlot extends BasePlot {
       currentData.label.push(row.label)
       return currentData
     }, data)
-
-
-    // const methode = unpack(json, 'methode'),
-    //   date_motu = unpack(json, 'date_motu'),
-    //   labels = unpack(json, 'label')
-    // const counters = {
-    //   match: unpack(json, 'match'),
-    //   split: unpack(json, 'split'),
-    //   lump: unpack(json, 'lump'),
-    //   reshuffling: unpack(json, 'reshuffling'),
-    // }
 
     let traces = []
     // Constitution des données à afficher
@@ -196,13 +185,6 @@ class MotuGeoPlot extends BaseGeoPlot {
       }
       return currentData
     }, motu_map)
-    // for (var i = 0; i < json.length; i++) {
-    //   $.extend(true, motu_map, {
-    //     [json[i].motu]: {
-    //       [json[i].id_sta]: json[i]
-    //     }
-    //   })
-    // }
 
     let traces = []
     let i = 0

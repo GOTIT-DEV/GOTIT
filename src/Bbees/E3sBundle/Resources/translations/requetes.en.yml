@@ -62,6 +62,7 @@ queries:
   rearrangement:
     title: Correspondance among species hypotheses
     nav: Species hypotheses
+    short: Correspondances
   richesse:
     title: MOTU distribution data
     nav: Distribution data
