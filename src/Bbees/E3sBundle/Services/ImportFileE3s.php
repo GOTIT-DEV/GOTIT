@@ -3906,6 +3906,8 @@ class ImportFileE3s
                                        $list_field_commune = explode("|", $dataColCsv);
                                        $commune->setNomCommune(str_replace("_"," ",$list_field_commune[0]));
                                        $commune->setNomRegion(str_replace("_"," ",$list_field_commune[1]));
+                                       $commune->setDateCre($DateImport);
+                                       $commune->setDateMaj($DateImport);
                                        $pays_fk = $em->getRepository("BbeesE3sBundle:Pays")->findOneBy(array("codePays" => $list_field_commune[2])); 
                                        if($pays_fk === NULL){ 
                                             $message .= "ERROR : le code_pays <b>" .$list_field_commune[2]. '</b> n existe pas dans la table Pays <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";

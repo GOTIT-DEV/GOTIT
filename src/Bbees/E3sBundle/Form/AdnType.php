@@ -46,7 +46,7 @@ class AdnType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a method'))
-                ->add('concentrationNgMicrolitre', NumberType::class,array( 'scale' => 4 ))
+                ->add('concentrationNgMicrolitre', NumberType::class,array( 'scale' => 4, 'required' => false ))
                 ->add('commentaireAdn')
                 ->add('qualiteAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {

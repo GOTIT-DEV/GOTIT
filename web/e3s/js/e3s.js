@@ -473,14 +473,15 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
  * @param {Object} update données à ajouter
  */
 
-var longmin = Number(longGPS) - 0.1;
-var longmax = Number(longGPS) + 0.1;
-var latmin = Number(latGPS) - 0.1;
-var latmax = Number(latGPS) + 0.1;
-var latGPS = parseFloat(latGPS);
-var longGPS = parseFloat(longGPS);
+var longmin = (parseFloat(longGPS.replace(",", ".")) - 0.1).toFixed(6);
+var longmax = (parseFloat(longGPS.replace(",", ".")) + 0.1).toFixed(6);
+var latmin = (parseFloat(latGPS.replace(",", ".")) - 0.1).toFixed(6);
+var latmax = (parseFloat(latGPS.replace(",", ".")) + 0.1).toFixed(6);
+var latGPS = parseFloat(latGPS.replace(",", ".")).toFixed(6);
+var longGPS = parseFloat(longGPS.replace(",", ".")).toFixed(6);
 var latArray = [latGPS];
 var longArray = [longGPS];
+//alert(longmin.toString()+'-'+longmax+'-'+latmin+'-'+latmax+'-'+longGPS.toString()+'-'+latGPS.toString());
 
   function build_station_data(json, update = {}) {
     const  latitude = unpack(json, 'station.latDegDec'),

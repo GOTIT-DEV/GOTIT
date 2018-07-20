@@ -119,8 +119,8 @@ class StationController extends Controller
         foreach($entities_toshow as $entity)
         {
             $id = $entity->getId();
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            //$DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $tab_toshow[] = array("id" => $id, "station.id" => $id, 
             "station.codeStation" => $entity->getCodeStation(),
              "station.nomStation" => $entity->getNomStation(),

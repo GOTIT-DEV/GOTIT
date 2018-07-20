@@ -9,6 +9,7 @@
 
 {% block scripts %}
 {{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
 

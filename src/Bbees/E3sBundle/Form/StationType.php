@@ -55,7 +55,7 @@ class StationType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
                 ->add('altitudeM')
                 ->add('commentaireStation')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'disabled' => true ))
+                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
                 ->add('userCre', HiddenType::class, array())
                 ->add('userMaj', HiddenType::class, array());

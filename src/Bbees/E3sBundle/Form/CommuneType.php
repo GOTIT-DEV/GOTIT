@@ -20,7 +20,7 @@ class CommuneType extends AbstractType
                 ->add('nomCommune')
                 ->add('nomRegion')
                 ->add('paysFk', EntityType::class, array('class' => 'BbeesE3sBundle:Pays',  'choice_label' => 'nom_pays', 'multiple' => false, 'expanded' => false, )) 
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
+                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
                 ->add('userCre', HiddenType::class, array())
                 ->add('userMaj', HiddenType::class, array())
