@@ -1,0 +1,4 @@
+.vscode/
+app/config/parameters.yml
+var/
+vendor/
