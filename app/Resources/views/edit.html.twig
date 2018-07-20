@@ -49,7 +49,7 @@
             {{ form_errors(edit_form) }}
             {% if edit_form.dateMaj %}{{ form_widget(edit_form.dateMaj, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %}
             {% if edit_form.dateCre and edit_form.dateCre is empty  %} 
-                {{ form_widget(edit_form.dateCre, {'value' : dateNow  }) }}
+                {{ form_widget(edit_form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
                 {% else %}
                 {{ form_widget(edit_form.dateCre, {'attr': {'style': 'display:none '} }) }}
             {% endif %} 

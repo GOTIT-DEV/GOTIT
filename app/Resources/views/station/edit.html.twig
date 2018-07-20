@@ -5,7 +5,11 @@
 {# ! A METTRE ULTERIEUREMENT danns un nouveau block créé par Louis {% block headincl %} #}
 {% block stylesheets %}
     {{ parent() }}
-    <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script> 
+{% endblock %}
+
+{% block headincl %}
+  <!-- Plotly -->
+  <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -60,8 +64,6 @@
 
 {% block scripts %}
 {{ parent() }}
-
-<script src="{{ asset('e3s/js/plots.js') }}"></script>
 
 <script type="text/javascript">  
 
