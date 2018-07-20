@@ -55,7 +55,7 @@ class MotuController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('motu.id' => 'desc');  
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
         // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk

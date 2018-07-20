@@ -52,7 +52,7 @@ class CollecteController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('collecte.id' => 'desc');  
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('collecte.dateMaj' => 'desc', 'collecte.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
                

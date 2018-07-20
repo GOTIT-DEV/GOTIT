@@ -48,7 +48,7 @@ class StationController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('station.id' => 'desc');  
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('station.dateMaj' => 'desc', 'station.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount;      
         $tab_toshow =[];
