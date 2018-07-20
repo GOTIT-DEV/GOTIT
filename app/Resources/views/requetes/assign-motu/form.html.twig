@@ -1,0 +1,146 @@
+{#
+  echantillonnage 
+  Requiert variables : 
+    - criteres
+#}
+<form id="main-form" action="#" class="row" data-url="{{path('requete1')}}">
+  <fieldset>
+    <legend>
+      <h2>
+        {% trans from 'requetes' %}
+        label.search.param
+        {% endtrans %}
+      </h2>
+    </legend>
+    <div class="col-xs-12 col-md-7 col-lg-6 col-lg-offset-1">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="form-check">
+
+                <strong>
+                  {% trans from 'requetes' %}
+                  label.search.espece
+                  {% endtrans %}
+                </strong>
+                <span class="pull-right">
+                  <input
+                    class="switchbox pull-right"
+                    type="checkbox"
+                    name="taxaFilter"
+                    id="taxaFilter"
+                    autocomplete="off"
+                    checked="checked">
+                </span>
+                <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
+
+              </div>
+            </div>
+            <div class="panel-body" id="taxa-select">
+              {% include 'requetes/species.selector.html.twig' %}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>
+                {% trans from 'requetes' %}
+                methode.label
+                {% endtrans %}
+              </strong>
+            </div>
+            <div class="panel-body">
+
+              {% include 'requetes/method.selector.html.twig' with {
+                method_check_array : true
+              } %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>
+            {% trans from 'requetes' %}
+            identification.label
+            {% endtrans %}
+          </strong>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="control-label" for="niveau">
+              {% trans from 'requetes' %}
+              identification.niveau
+              {% endtrans %}
+            </label>
+            <br/>
+            <select name="niveau" id="id-level" class="form-control" width='100%'>
+              <option value="1">
+                {% trans from 'requetes' %}
+                entity.lotmateriel.label
+                {% endtrans %}
+              </option>
+              <option value="2">
+                {% trans from 'requetes' %}
+                entity.individu.label
+                {% endtrans %}
+              </option>
+              <option value="3">
+                {% trans from 'requetes' %}
+                entity.seq.label
+                {% endtrans %}
+              </option>
+            </select>
+          </div>
+          <hr>
+          <div class="form-horizontal">
+            <label>
+              {% trans from 'requetes' %}
+              identification.criteres
+              {% endtrans %}
+            </label>
+
+            {% for critere in criteres %}
+              <div class="form-group">
+                <div class="checkbox checkbox-inline">
+                  <label>
+                    <input type="checkbox" name="criteres[]" value="{{critere.id}}" checked="checked">
+                    {{critere.libelle | trans}}
+                  </div>
+                </div>
+              {% endfor %}
+
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="row help-block">
+              <span class="fa fa-info-circle fa-lg col-xs-1" style='min-height:100%'></span>
+              <span id="help-criteres" class="col-xs-11">
+                Ne sélectionner aucun critère d'identification revient à tous les sélectionner
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="center-block">
+      <center>
+        <button
+          type="submit"
+          value="Rechercher"
+          class="btn btn-primary btn-lg"
+          id="submit-button"
+          style="min-width:10em"
+          data-loading-text="<i class='fa fa-spinner fa-spin'>">
+          {% trans from 'requetes' %}
+          label.search.bouton
+          {% endtrans %}
+        </button>
+      </center>
+    </div>
+  </form>

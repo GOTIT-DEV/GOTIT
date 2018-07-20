@@ -1,0 +1,106 @@
+{# Formulaire 2 #}
+
+{% trans_default_domain 'requetes' %}
+
+<form id="main-form" action="#" data-url="{{ path('requete2') }}">
+  <fieldset>
+    <legend>
+      <h3>
+        {% trans %}
+        label.reference
+        {% endtrans %}
+      </h3>
+    </legend>
+    <div class="panel-group" id="form-accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="radio">
+            <label class="control-label">
+              <input
+                type='radio'
+                name='reference'
+                value="0"
+                checked="checked"
+                data-toggle="collapse"
+                data-target="#morpho"
+                data-parent="#form-accordion">
+              <strong>
+                {% trans %}
+                label.morphologie
+                {% endtrans %}
+              </strong>
+            </label>
+          </div>
+        </div>
+        <div class="collapse panel-collapse in" id="morpho"></div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="radio">
+            <label class="control-label">
+              <input
+                type='radio'
+                name='reference'
+                value="1"
+                data-toggle="collapse"
+                data-target="#taxon-collapse"
+                data-parent="#form-accordion">
+              <strong>
+                {% trans %}
+                label.morphotaxon
+                {% endtrans %}
+              </strong>
+            </label>
+          </div>
+        </div>
+
+        <div class="collapse panel-collapse" id="taxon-collapse">
+          <div class="panel-body">
+            {% include 'requetes/species.selector.html.twig' %}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="radio">
+            <label class="control-label">
+              <input
+                type='radio'
+                name='reference'
+                value="2"
+                data-toggle="collapse"
+                data-target="#method-panel"
+                data-parent="#form-accordion">
+              <strong>
+							{% trans %}
+							methode.label
+							{% endtrans %}
+							</strong>
+              <i class="fa fa-spinner fa-spin pull-right hidden " id="method-spinner" style="font-size:16px"></i>
+            </label>
+          </div>
+        </div>
+
+        <div class="collapse panel-collapse" id="method-panel">
+          <div class="panel-body">
+            {% include 'requetes/method.selector.html.twig' %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="well well-sm">
+      <button
+        type="submit"
+        value="Rechercher"
+        class="btn btn-block btn-primary"
+        data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+        {% trans %}
+        label.search.bouton
+        {% endtrans %}
+      </button>
+    </div>
+
+  </fieldset>
+
+</form>

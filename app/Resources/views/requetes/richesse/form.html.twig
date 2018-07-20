@@ -1,0 +1,78 @@
+{# Formulaire 4 #}
+{% trans_default_domain 'requetes' %}
+
+<form id="main-form" action="#" data-url="{{ path('requete4') }}">
+  <fieldset>
+    <legend>
+      <h2>
+        {% trans %}
+        label.search.param
+        {% endtrans %}
+      </h2>
+    </legend>
+    <div class="row">
+      <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="form-check">
+              <strong>
+                {% trans %}
+                label.search.espece
+                {% endtrans %}
+              </strong>
+              <span class="pull-right">
+                <input
+                  class="switchbox"
+                  type="checkbox"
+                  name="taxaFilter"
+                  id="taxaFilter"
+                  autocomplete="off"
+                  checked="checked">
+              </span>
+              <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
+            </div>
+          </div>
+          <div class="panel-body" id="taxa-select">
+            {% include 'requetes/species.selector.html.twig' %}
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-5 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>
+              {% trans %}
+              methode.selectprompt
+              {% endtrans %}
+            </strong>
+            <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
+          </div>
+          <div class="panel-body">
+            {% include 'requetes/method.selector.html.twig' %}
+          </div>
+          <div class="panel-footer">
+            La visualisation superpose la répartition géographique des MOTUs de la
+            <strong>méthode</strong>
+            sélectionnée à celle du
+            <strong>taxon</strong>
+            sélectionné
+          </div>
+        </div>
+      </div>
+    </div>
+    <center>
+      <button
+        type="submit"
+        href="#resultats"
+        value="Rechercher"
+        class="btn btn-primary btn-lg"
+        id="submit-button"
+        style="min-width: 10em"
+        data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+        {% trans %}
+        label.search.bouton
+        {% endtrans %}
+      </button>
+    </center>
+  </fieldset>
+</form>

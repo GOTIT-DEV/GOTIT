@@ -1,0 +1,31 @@
+{% extends 'base.requetes.html.twig' %}
+
+{% trans_default_domain 'requetes' %}
+
+{% block body %}
+  <h1>
+    {{"queries.concordance.title" | trans }}
+  </h1>
+  <hr>
+  <div class='row' style='padding:10px'>
+    {# Formulaire #}
+    {% include 'requetes/concordance/form.html.twig' %}
+  </div>
+
+  <div class="row">
+    <fieldset>
+      <legend>
+        <h2 style='margin-bottom:18px'>
+          {{"label.resultats" | trans }}
+        </h2>
+      </legend>
+      {% include 'requetes/concordance/results.html.twig' %}
+    </fieldset>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="{{asset('e3s/js/requetes/concordance.js')}}"></script>
+{% endblock %}

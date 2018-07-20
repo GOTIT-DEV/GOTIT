@@ -1,0 +1,29 @@
+{% extends 'base.requetes.html.twig' %}
+
+{% trans_default_domain 'requetes' %}
+
+{% block body %}
+  <h2>
+    {% trans %}
+    queries.rearrangement.title
+    {% endtrans %}
+  </h2>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      {# Formulaire #}
+      {% include 'requetes/rearrangements/form.html.twig' %}
+    </div>
+    <div class="col-xs-12 col-sm-8">
+      {% include 'requetes/rearrangements/results.html.twig' %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ parent() }}
+  <script src="{{asset('e3s/js/requetes/plots.js')}}"></script>
+  <script src="{{asset('e3s/js/requetes/rearrangements.js')}}"></script>
+
+{% endblock %}

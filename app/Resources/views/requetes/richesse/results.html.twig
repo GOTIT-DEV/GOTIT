@@ -1,0 +1,122 @@
+{# Formulaire 4 : résultats 
+  
+  Requiert variables :
+  - methods_list
+#}
+
+{% trans_default_domain 'requetes' %}
+
+{# Onglets #}
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active" id="result-tab">
+    <a href="#result-pane" aria-controls="result-pane" role="tab">
+      <strong>
+        <i class="fa fa-th-list"></i>
+        {% trans %}
+        tabs.distribution.data
+        {% endtrans %}
+      </strong>
+    </a>
+  </li>
+  <li
+    role="presentation"
+    class="disabled"
+    id="geolocation-tab"
+    title="Nécessite de choisir un taxon et une méthode">
+    <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab">
+      <strong>
+        <i class="fa fa-map-marker"></i>
+        {% trans %}
+        tabs.distribution.geo
+        {% endtrans %}
+      </strong>
+    </a>
+  </li>
+</ul>
+
+{# Contenu des onglets #}
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
+    <div class="well well-sm">
+      <div class="table-responsive">
+        <table id="result-table" class="table table-condensed table-hover table-striped">
+          <thead>
+            <tr>
+							<th></th>
+              <th id="col-taxname"
+                data-link-url="{{path('referentieltaxon_show', {id:0}) | trim(0)}}">
+								{% trans %}
+                columns.taxon
+                {% endtrans %}</th>
+              <th
+                id="col-code-seq"
+                data-url-int="{{path('sequenceassemblee_show', {id:0}) | trim(0)}}"
+                data-url-ext="{{path('sequenceassembleeext_show', {id:0}) | trim(0)}}">
+                {% trans %}
+                columns.seqcode
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.type
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.accession
+                {% endtrans %}</th>
+              {% for method in methods_list %}
+                <th
+                  data-column-id="{{method.code|lower}}_{{method.date_motu|date('Y')}}"
+                  data-converter="numeric"
+                  data-searchable="false">{{method.code|upper}}
+                  {{method.date_motu|date('Y')}}</th>
+              {% endfor %}
+              <th>{% trans %}
+                columns.lat
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.long
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.station
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.commune
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.pays
+                {% endtrans %}</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" class="tab-pane fade in out" id="geolocation-pane">
+    <div class="well well-sm">
+      <h4 id="geo-title"></h4>
+      <template id="geo-title-template">
+        <center>
+          <strong>{% trans %}
+            tabs.distribution.geotitle
+            {% endtrans %}
+            :
+          </strong>
+          {% verbatim %}
+            {{taxname}}
+            <span class='label label-info'>
+              {{code_methode}}
+              {{date_methode}}
+            </span>
+          {% endverbatim %}
+        </center>
+      </template>
+      <hr>
+      <div class="geo-container">
+        <div id="motu-geo-map" style="width:100%;height:700px"></div>
+        <div class="geo-overlay">
+          <i class="fa fa-spinner fa-spin fa-4x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

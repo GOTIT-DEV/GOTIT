@@ -1,22 +1,23 @@
-<div id="detailsModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-
-    <!-- Modal content-->
+{% trans_default_domain 'requetes' %}
+<div id="detailsModal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">
-            {% block modal_title %}
-            {% endblock %}
+          {% block modal_title %}{% endblock %}
+        </h4>
       </div>
       <div class="modal-body">
-        {% block modal_body %}
-        {% endblock %}
+        {% block modal_body %}{% endblock %}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          {% trans %}
+          ui.fermer
+          {% endtrans %}
+        </button>
       </div>
     </div>
-
   </div>
 </div>

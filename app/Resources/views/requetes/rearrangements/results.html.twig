@@ -1,0 +1,122 @@
+{# Résultats formulaire 2 #}
+
+{% trans_default_domain 'requetes' %}
+
+<fieldset id="results">
+  <legend>
+    <h3>
+      {% trans %}
+      label.resultats
+      {% endtrans %}
+    </h3>
+  </legend>
+
+  <ul class="nav nav-tabs" role="tablist" id="result-tabs">
+    <li role="presentation" class="active disabled" id="recto-tab">
+      <a
+        href="#result-pane-recto"
+        aria-controls="result-pane"
+        role="tab"
+        data-side='recto'
+        data-toggle="tab">
+        <strong>
+          {% trans %}
+          tabs.reference
+          {% endtrans %}
+          <i class="fa fa-arrow-circle-right "></i>
+          {% trans %}
+          tabs.methodes
+          {% endtrans %}
+        </strong>
+      </a>
+    </li>
+    <li role="presentation" class="disabled" id="verso-tab">
+      <a
+        href="#result-pane-verso"
+        aria-controls="result-pane"
+        role="tab"
+        data-side='verso'
+        data-toggle="tab">
+        <strong>
+          {% trans %}
+          tabs.methodes
+          {% endtrans %}
+          <i class="fa fa-arrow-circle-right "></i>
+          {% trans %}
+          tabs.reference
+          {% endtrans %}
+        </strong>
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="result-pane-recto">
+      <div class="well well-sm">
+        <div
+          id="barplot-recto"
+          data-vocab-xlabel="{{'methode.label' | trans }}"
+          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}">
+          <center>
+            <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
+          </center>
+        </div>
+        <hr>
+        <div class="table-responsive" style='width:100%'>
+          <table
+            id="result-table-recto"
+            class="table table-condensed table-hover table-striped"
+            data-barplot="#barplot-recto"
+            data-target="recto">
+            <thead>
+              <tr>
+                <th>{{"columns.methode" | trans}}</th>
+                <th>{{"columns.dataset" | trans}}</th>
+                <th>{{"columns.match" | trans}}</th>
+                <th>{{"columns.split" | trans}}</th>
+                <th>{{"columns.lump" | trans}}</th>
+                <th>{{"columns.reshuffling" | trans}}</th>
+                <th>{{"columns.nbseq" | trans}}</th>
+                <th>{{"columns.nbsta" | trans}}</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="result-pane-verso">
+      <div class="well well-sm">
+        <div
+          id="barplot-verso"
+          data-vocab-xlabel="{{'methode.label' | trans }}"
+          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}">
+          <center>
+            <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
+          </center>
+        </div>
+        <hr>
+        <div class="table-responsive" style='width:100%'>
+          <table
+            id="result-table-verso"
+            class="table table-condensed table-hover table-striped"
+            data-barplot="#barplot-verso"
+            data-target="verso">
+            <thead>
+              <tr>
+                <th>{{"columns.methode" | trans}}</th>
+                <th>{{"columns.dataset" | trans}}</th>
+                <th>{{"columns.match" | trans}}</th>
+                <th>{{"columns.split" | trans}}</th>
+                <th>{{"columns.lump" | trans}}</th>
+                <th>{{"columns.reshuffling" | trans}}</th>
+                <th>{{"columns.nbseq" | trans}}</th>
+                <th>{{"columns.nbsta" | trans}}</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
