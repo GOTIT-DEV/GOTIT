@@ -11,17 +11,12 @@ $(document).ready(function () {
 
   let speciesSelector = new SpeciesSelector("#main-form", false)
 
+  geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
   speciesSelector.promise.then(function () {
-    initDataTable("#result-table")
+    initDataTable("#result-table", geoPlot)
   })
-
-  window.onresize = function () {
-    $(".geo-overlay").show()
-    Plotly.Plots
-      .resize(gd)
-      .then($(".geo-overlay").hide)
-  }
 })
+
 
 
 /**
@@ -43,7 +38,7 @@ function uiReceivedResponse(response) {
  *  Initialize datatable
  **************************** */
 
-function initDataTable(tableId) {
+function initDataTable(tableId, geoPlotObject) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
     const urls = {
@@ -109,29 +104,7 @@ function initDataTable(tableId) {
         $('[data-toggle="tooltip"]').tooltip()
         $(".details-form").submit(function (event) {
           event.preventDefault()
-          var taxid = $(this).find("input[name='taxon']").val()
-          var lmp = $(this).find("input[name='lmp_lm']").val()
-          var lmp_co1 = $(this).find("input[name='lmp_co1']").val()
-          var data = $(this).serialize()
-          $(".geo-overlay").show()
-          $.ajax({
-            type: 'POST',
-            data: data,
-            url: urls.geocoords,
-            success: function (response) {
-              gd = geoPlot(response.no_co1, response.with_co1, lmp, lmp_co1)
-              $("#detailsModal .modal-title").html(
-                Mustache.render($("template#details-modal-title").html(), {
-                  taxname: response.taxname
-                }))
-              $('#detailsModal').on('shown.bs.modal', function (e) {
-                Plotly.Plots.resize(gd).then(function () {
-                  $(".geo-overlay").hide();
-                })
-              })
-              $("#detailsModal").modal('show')
-            } // success callback
-          }) // ajax
+          geoPlotObject.reload(event.target)
         }) // .details-form.submit
       } // drawCallback
     }) // datatables
@@ -148,147 +121,4 @@ function initDataTable(tableId) {
   }
 }
 
-/**
- * Fonction d'affichage des graphiques d'échantillonnage COI
- * 
- * @param {Object} json_no_co1 
- * @param {Object} json_co1 
- * @param {number} lmp 
- * @param {number} lmp_co1 
- */
-function geoPlot(json_no_co1, json_co1, lmp = undefined, lmp_co1 = undefined) {
 
-  /**
-   * Fonction pour extraire les données JSON et construire un objet de données 
-   * pour plotly
-   * 
-   * @param {Object} json données json
-   * @param {Object} update données à ajouter
-   */
-  function build_station_data(json, update = {}) {
-    let coords = {
-      latitude: [],
-      longitude: [],
-      hover: []
-    }
-    json.reduce( (currentCoords, row) => {
-        currentCoords.latitude.push(row['latitude']),
-        currentCoords.longitude.push(row['longitude']),
-        currentCoords.hover.push([
-          row['code_station'],
-          "Coords:" + row['latitude'] + ";" + row['longitude'],
-          "Alt:" + row['altitude'] + "m",
-          row['commune'],
-          row['pays']
-        ].join("<br>"))
-        return currentCoords
-    }, coords)
-    
-    let data = {
-      type: 'scattergeo',
-      lat: coords.latitude,
-      lon: coords.longitude,
-      hoverinfo: 'text',
-      text: coords.hover,
-      // Doivent être remplacé par l'argument update
-      marker: {
-        size: 8,
-        line: {
-          width: 1,
-          color: 'grey'
-        }
-      },
-      name: "Stations",
-    }
-
-    // changement options par l'argument update
-    $.extend(true, data, update)
-    console.log(data)
-    return data
-  }
-
-  // Init plotly
-  let d3 = Plotly.d3
-  $("#station-geo-map").html('')
-  let gd3 = d3.select('#station-geo-map')
-  let gd = gd3.node()
-
-  console.log($("#station-geo-map").data('vocabStationCo1'))
-  // Données de COI
-  const data_co1 = build_station_data(json_co1, {
-    name: $("#station-geo-map").data('vocabStationCo1'),
-    marker: {
-      symbol: "triangle-up",
-      color: "red"
-    }
-  })
-
-  // Données non COI
-  const data_no_co1 = build_station_data(json_no_co1, {
-    name: $("#station-geo-map").data('vocabStationLotmateriel'),
-    marker: {
-      symbol: "circle-open",
-      size: 10,
-      color: "orange",
-      opacity: 0.8,
-      line: {
-        width: 2,
-        color: "green",
-      }
-    }
-  })
-
-  // Objet data : contient les scatterplots
-  let data = [
-    data_co1,
-    data_no_co1,
-  ]
-
-  // Coordonnées de la ligne LMP
-  if (lmp) {
-    data.push({
-      type: 'scattergeo',
-      lon: Array.from(new Array(360), (_, i) => -180 + i),
-      lat: Array(360).fill(lmp),
-      hoverinfo: "none",
-      mode: 'lines',
-      line: {
-        width: 1.5,
-        color: 'orange',
-        dash: 'dash'
-      },
-      name: "LMP"
-    })
-  }
-
-  // Coordonnées de la ligne LMP COI
-  if (lmp_co1) {
-    data.push({
-      type: 'scattergeo',
-      lon: Array.from(new Array(360), (_, i) => -180 + i),
-      lat: Array(360).fill(lmp_co1),
-      hoverinfo: "none",
-      mode: 'lines',
-      line: {
-        width: 1.5,
-        color: 'red',
-        dash: 'dash'
-      },
-      name: "LMP (COI)"
-    })
-  }
-
-  // Objet data complet : scatterplots + LMP + LMP COI
-
-  // Paramètres d'affichage du graphique
-  const layout = plotlyConfig.plotlyDefaultMapLayout
-
-  Plotly.newPlot(gd, data, layout, {
-    displaylogo: false, // pas de logo, enlever boutons de controle inutiles
-    modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d']
-  })
-
-  Plotly.Plots.resize(gd) // Remplir l'espace dans le DOM
-
-  return gd // Renvoi objet plotly
-}

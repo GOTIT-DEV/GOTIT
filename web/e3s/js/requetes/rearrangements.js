@@ -8,7 +8,8 @@ $(document).ready(function() {
     .trigger('click')
 
   uiWaitResponse()
-
+  
+  
   let speciesSelector = new SpeciesSelector("#main-form", true)
   let methodSelector = new MethodSelector("#main-form")
 
@@ -79,6 +80,7 @@ function initDataTable(tableId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
     const side = table.data('target')
+    let barplot = new BarPlot(table.data('barplot'))
     var dataTable = table.DataTable({
       responsive: true,
       autoWidth: false,
@@ -119,11 +121,10 @@ function initDataTable(tableId) {
 
     dataTable.on('xhr', function() {
       var response = dataTable.ajax.json()
-      var barplot = table.data('barplot')
-      var gd = barPlot(barplot, response[side])
+      barplot.plot(response[side])
       uiReceivedResponse()
       $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        Plotly.Plots.resize(gd)
+        barplot.resize()
       });
     });
 

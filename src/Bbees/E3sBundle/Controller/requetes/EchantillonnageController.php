@@ -71,7 +71,7 @@ class EchantillonnageController extends Controller {
   }
 
   /**
-   * @Route("/geocoords/", name="geocoords")
+   * @Route("/geocoords/", name="co1-geocoords")
    */
   public function geoCoords(Request $request) {
     # Données POST

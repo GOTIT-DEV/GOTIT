@@ -13,6 +13,8 @@ $(document).ready(function () {
   // Passer l'UI en statut attente/loading
   uiWaitResponse()
 
+  var motuGeoPlot = new MotuGeoPlot("#motu-geo-map")
+  console.log(motuGeoPlot)
   // Initialiser les deux selecteurs du formulaire
   let speciesSelector = new SpeciesSelector("#main-form", true)
   let methodSelector = new MethodSelector("#main-form")
@@ -20,38 +22,11 @@ $(document).ready(function () {
   // Formulaires prêts : initialiser datatables
   $.when(speciesSelector.promise, methodSelector.promise)
     .done(function () {
-      initDataTable("#result-table")
+      initDataTable("#result-table", motuGeoPlot)
     })
 
 });
 
-
-/**
- * Active le mode attente / loading
- */
-function uiWaitResponse() {
-  $("#main-form").find("button[type='submit']").button('loading')
-  taxaFilterActive = $('#taxaFilter').is(':checked')
-  toggleMap(taxaFilterActive)
-  toggleResults(false)
-
-}
-
-/**
- * Désactive le mode attente ; mettre à jour les onglets
- * @param {Object} response réponse JSON
- */
-function uiReceivedResponse(response) {
-  $("#main-form").find("button[type='submit']").button('reset')
-  let showGeo = (taxaFilterActive && response.geo.length)
-  if (showGeo) {
-    updateMap(response)
-  }
-  toggleMap(showGeo)
-  toggleResults(true)
-  $(".geo-overlay").show();
-
-}
 
 /**
  * Active/désactive l'onglet résultats
@@ -66,6 +41,7 @@ function toggleResults(activate) {
     $("#result-tab a").removeAttr("data-toggle")
   }
 }
+
 
 /**
  * Active/désactive l'onglet map
@@ -85,31 +61,32 @@ function toggleMap(activate) {
 }
 
 /**
- * Met à jour la carte avec les données JSON
+ * Active le mode attente / loading
+ */
+function uiWaitResponse() {
+  $("#main-form").find("button[type='submit']").button('loading')
+  taxaFilterActive = $('#taxaFilter').is(':checked')
+  toggleMap(taxaFilterActive)
+  toggleResults(false)
+
+}
+
+/**
+ * Désactive le mode attente ; mettre à jour les onglets
  * @param {Object} response réponse JSON
  */
-function updateMap(response) {
-  // Update title
-  $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-    taxname: response.geo[0]['taxname'],
-    code_methode: response.methode.code,
-    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
-  }));
-  // Plot data
-  let gd = motuGeoPlot(response.geo)
-  // Overlay et événements changement d'onglet
-  $('#result-tab a ').on('shown.bs.tab', function (e) {
-    scrollTo('#resultats', 500)
-    $(".geo-overlay").hide()
-  })
-  $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
-    scrollTo('#resultats', 500)
-    $(".geo-overlay").show()
-    Plotly.Plots.resize(gd).then($(".geo-overlay").hide)
-  })
-  // Show overlay on resize
-  Plotly.Plots.resize(gd).then($(".geo-overlay").hide)
+function uiReceivedResponse(response, geoPlotObject) {
+  $("#main-form").find("button[type='submit']").button('reset')
+  let showGeo = (taxaFilterActive && response.geo.length)
+  if (showGeo) {
+    updateMap(response, geoPlotObject)
+  }
+  toggleMap(showGeo)
+  toggleResults(true)
+  $(".geo-overlay").show();
+
 }
+
 
 /**
  * Initialise datatables pour remplir la table *
@@ -117,7 +94,7 @@ function updateMap(response) {
  * @param {string} tableId identifiant de la table dans le DOM
  * @param {string} formId identifiant du formulaire dans le DOM
  */
-function initDataTable(tableId, formId = "#main-form") {
+function initDataTable(tableId, geoPlotObject, formId = "#main-form") {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     const table = $(tableId)
     const form = $(formId)
@@ -207,7 +184,7 @@ function initDataTable(tableId, formId = "#main-form") {
 
     dataTable.on('xhr', function () {
       let response = dataTable.ajax.json()
-      uiReceivedResponse(response)
+      uiReceivedResponse(response, geoPlotObject)
     });
 
     /*******************************
@@ -219,4 +196,35 @@ function initDataTable(tableId, formId = "#main-form") {
       dataTable.ajax.reload()
     });
   }
+
+
+
+
+
+}
+/**
+ * Met à jour la carte avec les données JSON
+ * @param {Object} response réponse JSON
+ */
+function updateMap(response, geoPlotObject) {
+  // Update title
+  $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
+    taxname: response.geo[0]['taxname'],
+    code_methode: response.methode.code,
+    date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+  }));
+  // Plot data
+  console.log(geoPlotObject)
+  geoPlotObject.plot(response.geo)
+  // Overlay et événements changement d'onglet
+  $('#result-tab a ').on('shown.bs.tab', function (e) {
+    scrollTo('#resultats', 500)
+    $(".geo-overlay").hide()
+  })
+  $("#geolocation-tab a ").on('shown.bs.tab', function (e) {
+    scrollTo('#resultats', 500)
+    geoPlotObject.resize()
+  })
+  // Show overlay on resize
+  geoPlotObject.resize()
 }
