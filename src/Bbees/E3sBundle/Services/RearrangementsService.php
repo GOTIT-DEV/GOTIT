@@ -64,7 +64,6 @@ class RearrangementsService {
       }
     }
     $this->revCounter = $this->fwdCounter;
-    //dump($this->fwdCounter);
     $this->simplify();
   }
 
@@ -73,8 +72,6 @@ class RearrangementsService {
       array_unique(array_map(function ($row) {
         return $row['num_motu'] . ":" . $row['taxid'] . ":" . $row['id_date_methode'] . ":" . $row['id_methode'];
       }, $this->rawResults)));
-    dump(count($this->rawResults));
-    dump($this->rawResults[0]);
   }
 
 
@@ -92,8 +89,6 @@ class RearrangementsService {
         );
       }
     }
-    dump($this->fwdCounter);
-    dump($this->revCounter);
   }
 
   public function getResults() {
@@ -124,9 +119,7 @@ class RearrangementsService {
   public function compareSets($refSet, $targetSet) {
     $fwd = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     $rev = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
-    //dump($methodSet2);
     foreach ($refSet as $ref_id => $reference) {
-      //dump($reference);
       if (count($reference) == 1) {
         // ref has 1 motu
         $motu = $reference[0]; // count taxons in the single motu
@@ -285,7 +278,6 @@ class RearrangementsService {
     }
     // Données brutes des séquences et assignations par méthode
     $this->rawResults = $stmt->fetchAll();
-    dump(count($this->rawResults));
   }
 
   public function indexResults() {

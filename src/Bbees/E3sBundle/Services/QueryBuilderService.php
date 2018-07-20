@@ -201,8 +201,6 @@ class QueryBuilderService {
         $typeConstraints[$value][] = $columnsMap[$key];
       }
     }
-    dump($typeConstraints);
-    dump($undefinedSeq);
 
     $qb    = $this->entityManager->createQueryBuilder();
     $query = $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm') // lot matériel
@@ -244,11 +242,9 @@ class QueryBuilderService {
           $current[] = $tableAlias;
           if ($tableAlias != $refTable) {
             $query = $query->andWhere("$refTable.id = $tableAlias.id");
-            dump("$refTable = $tableAlias");
           }
           foreach($visited as $different){
             $query = $query->andWhere("$tableAlias.id != $different.id"); 
-            dump("$tableAlias != $different");
           }
         }
         $visited = array_merge($current, $visited);
@@ -484,7 +480,6 @@ class QueryBuilderService {
       $methodFields = "motu.motu as motu";
     } else {
       $methods = $this->listMethodsByDate();
-      //dump($methods);
       $methodFields = [];
       foreach ($methods as $idm => $method) {
         $methods[$idm]['tName'] = $method['code'] . "_" . $method['id_date_motu'];

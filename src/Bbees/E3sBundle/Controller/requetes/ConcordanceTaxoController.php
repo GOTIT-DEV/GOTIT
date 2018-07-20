@@ -38,11 +38,8 @@ class ConcordanceTaxoController extends Controller {
   public function searchQuery(Request $request, QueryBuilderService $service) {
     # Raccourci requête POST
     $data = $request->request;
-    dump($data);
-
     # Obtention des données géographiques
     $res = $service->getSpeciesAssignment($data);
-    dump($res);
     # Renvoi réponse JSON
     return new JsonResponse(array('rows' => $res));
   }
