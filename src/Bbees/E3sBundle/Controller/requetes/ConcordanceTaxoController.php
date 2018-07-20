@@ -2,6 +2,7 @@
 
 namespace Bbees\E3sBundle\Controller\requetes;
 
+use Bbees\E3sBundle\Services\QueryBuilderService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,9 +21,8 @@ class ConcordanceTaxoController extends Controller {
    *
    * Rendu du template de la page principale
    */
-  public function index() {
+  public function index(QueryBuilderService $service) {
     # obtention de la liste des genres
-    $service   = $this->get('bbees_e3s.query_builder_e3s');
     $genus_set = $service->getGenusSet();
     # Rendu du template
     return $this->render('requetes/concordance/index.html.twig', array(
@@ -35,13 +35,12 @@ class ConcordanceTaxoController extends Controller {
    *
    * Données JSON pour remplir la table de résultats
    */
-  public function searchQuery(Request $request) {
+  public function searchQuery(Request $request, QueryBuilderService $service) {
     # Raccourci requête POST
     $data = $request->request;
     dump($data);
 
     # Obtention des données géographiques
-    $service = $this->get('bbees_e3s.query_builder_e3s');
     $res = $service->getSpeciesAssignment($data);
     dump($res);
     # Renvoi réponse JSON

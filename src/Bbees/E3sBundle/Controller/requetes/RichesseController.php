@@ -3,12 +3,11 @@
 namespace Bbees\E3sBundle\Controller\requetes;
 
 use Bbees\E3sBundle\Entity\Motu;
-use Bbees\E3sBundle\Entity\ReferentielTaxon;
+use Bbees\E3sBundle\Services\QueryBuilderService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
 
 /**
  * Controller pour l'affichage de la carte de richesse
@@ -22,10 +21,9 @@ class RichesseController extends Controller {
    *
    * Rendu du template de la page principale
    */
-  public function index() {
+  public function index(QueryBuilderService $service) {
     # Services
     $doctrine = $this->getDoctrine();
-    $service  = $this->get('bbees_e3s.query_builder_e3s');
     // obtention de la liste des datasets,
     // utilisée pour adaptation des colonnes de la table
     $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
@@ -43,16 +41,15 @@ class RichesseController extends Controller {
 
   /**
    * @Route("/requete4", name="requete4")
-   * 
+   *
    * Renvoie le JSON utilisé pour remplir la table de résultats (rows),
    * et afficher la carte de richesse (geo)
    */
-  public function searchQuery(Request $request) {
+  public function searchQuery(Request $request, QueryBuilderService $service) {
     # Raccourci requete POST
     $data = $request->request;
     # Obtention de la localisation géographique
-    $service = $this->get('bbees_e3s.query_builder_e3s');
-    $res     = $service->getMotuGeoLocation($data);
+    $res = $service->getMotuGeoLocation($data);
     # Renvoyer résultats vides si aucun filtrage sur taxon/methode
     $geo_res = [];
     $methode = [];

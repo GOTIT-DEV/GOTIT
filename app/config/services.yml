@@ -16,19 +16,20 @@ services:
 
     ## makes classes in src/BbeesE3sBundle available to be used as services
     ## this creates a service per class whose id is the fully-qualified class name
-    #BbeesE3sBundle\:
-        #resource: '../../src/BbeesE3sBundle/*'
+    Bbees\E3sBundle\Services\:
+        resource: '../../src/Bbees/E3sBundle/Services'
         ## you can exclude directories or files
         ## but if a service is unused, it's removed anyway
-        # exclude: '../../src/BbeesE3sBundle/{Entity,Form,Tests}'
+        ## exclude: '../../src/Bbees/E3sBundle/{Entity,Form,Tests}'
 
     ## controllers are imported separately to make sure they're public
     ## and have a tag that allows actions to type-hint services
-    #BbeesE3sBundle\Controller\:
-        #resource: '../../src/BbeesE3sBundle/Controller'
-        #public: true
-        #tags: ['controller.service_arguments']
+    Bbees\E3sBundle\Controller\:
+        resource: '../../src/Bbees/E3sBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
 
+    Doctrine\ORM\EntityManagerInterface: '@doctrine.orm.entity_manager'
     ## add more services, or override services that need manual wiring
     ## AppBundle\Service\ExampleService:
     ##     arguments:

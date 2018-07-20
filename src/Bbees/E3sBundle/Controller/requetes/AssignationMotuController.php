@@ -4,6 +4,7 @@ namespace Bbees\E3sBundle\Controller\requetes;
 
 use Bbees\E3sBundle\Entity\Motu;
 use Bbees\E3sBundle\Entity\Voc;
+use Bbees\E3sBundle\Services\QueryBuilderService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,9 +22,8 @@ class AssignationMotuController extends Controller {
    *
    * Rendu du template de la page
    */
-  public function index() {
+  public function index(QueryBuilderService $service) {
     // Get services
-    $service  = $this->get('bbees_e3s.query_builder_e3s');
     $doctrine = $this->getDoctrine();
 
     # obtention de la liste des genres
@@ -47,11 +47,9 @@ class AssignationMotuController extends Controller {
    * Liste les méthodes présentes dans un dataset
    * Utilisé pour remplir les select du formulaire
    */
-  public function methodsByDate(Request $request) {
+  public function methodsByDate(Request $request, QueryBuilderService $service) {
     # Dataset sélectionné par l'utilisateur
     $id_date_motu = $request->request->get('date_methode');
-    # Service
-    $service = $this->get('bbees_e3s.query_builder_e3s');
     # Obtention des méthodes incluses dans le dataset
     $methodes = $service->getMethodsByDate($id_date_motu);
     # Renvoi de la réponse JSON
@@ -65,16 +63,14 @@ class AssignationMotuController extends Controller {
    * et des informations supplémentaires indiquant les paramètres de la
    * requêtes initiale (methodes, niveau, criteres)
    */
-  public function searchQuery(Request $request) {
+  public function searchQuery(Request $request, QueryBuilderService $service) {
     # Raccourci requete POST
     $data = $request->request;
     # Obtention des paramètres
     $niveau   = $data->get('niveau');
     $methodes = $data->get('methodes');
     $criteres = $data->get('criteres');
-    # Service
-    $service = $this->get('bbees_e3s.query_builder_e3s');
-    $res     = $service->getMotuCountList($data);
+    $res      = $service->getMotuCountList($data);
     # Renvoi de la réponse JSON
     return new JsonResponse(array(
       'rows'     => $res,
@@ -90,12 +86,11 @@ class AssignationMotuController extends Controller {
    * Controle le rendu de la pop-in modale affichable depuis
    * la colonne Détails de la table de résultats
    */
-  public function detailsModal(Request $request) {
+  public function detailsModal(Request $request, QueryBuilderService $service) {
     # Raccourci requete POST
     $data = $request->request;
     # Obtention de la liste
-    $service = $this->get('bbees_e3s.query_builder_e3s');
-    $res     = $service->getMotuSeqList($data);
+    $res = $service->getMotuSeqList($data);
     # Processing template de la modal
     return new JsonResponse(array(
       'rows' => $res,
