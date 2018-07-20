@@ -75,10 +75,7 @@ class BarPlot extends BasePlot {
       reshuffling: [],
       label: []
     }
-    console.log(data)
-    console.log(json)
     json.reduce((currentData, row) => {
-      console.log(currentData)
       currentData.match.push(row.match)
       currentData.split.push(row.split)
       currentData.lump.push(row.lump)
@@ -272,50 +269,6 @@ class MotuGeoPlot extends BaseGeoPlot {
     $.extend(true, data, update)
     return data
   }
-
-
-
-  // build_station_data(json, update = {}) {
-  //   const taxname = unpack(json, 'taxname'),
-  //     code_station = unpack(json, 'code_station'),
-  //     latitude = unpack(json, 'latitude'),
-  //     longitude = unpack(json, 'longitude'),
-  //     altitude = unpack(json, 'altitude'),
-  //     commune = unpack(json, 'commune'),
-  //     pays = unpack(json, 'pays'),
-  //     motus = unpack(json, 'motu')
-
-  //   var hoverText = []
-  //   for (var i = 0; i < taxname.length; i++) {
-  //     var stationText = [
-  //       "MOTU " + motus[i],
-  //       code_station[i],
-  //       "Coords:" + latitude[i] + ";" + longitude[i],
-  //       "Alt:" + altitude[i] + "m",
-  //       commune[i],
-  //       pays[i]
-  //     ].join("<br>")
-  //     hoverText.push(stationText)
-  //   }
-
-  //   var data = {
-  //     type: 'scattergeo',
-  //     lat: latitude,
-  //     lon: longitude,
-  //     hoverinfo: 'text',
-  //     text: hoverText,
-  //     marker: {
-  //       size: 9,
-  //       line: {
-  //         width: 1,
-  //       }
-  //     },
-  //     name: "MOTU " + json[0].motu,
-  //   }
-
-  //   $.extend(true, data, update)
-  //   return data
-  // }
 }
 
 
@@ -348,11 +301,9 @@ class SamplingGeoPlot extends BaseGeoPlot {
   }
 
   reload(detailsForm) {
-
     this.lmp.lotmateriel = $(detailsForm).find("input[name='lmp_lm']").val()
     this.lmp.co1 = $(detailsForm).find("input[name='lmp_co1']").val()
     this.formData = $(detailsForm).serialize()
-    //$(".geo-overlay").show()
     $.ajax(this.ajaxOptions()) // ajax
   }
 
@@ -370,17 +321,43 @@ class SamplingGeoPlot extends BaseGeoPlot {
       })
     )
     // Données non COI
+    let lotsMat = {
+      interne: [],
+      externe: []
+    } 
+    lotsMat = response.no_co1.reduce( (current, row ) => {
+      if (row.lm_id != null){
+        current.interne.push(row)
+      } else {
+        current.externe.push(row)
+      }
+      return current
+    }, lotsMat)
+
     data.push(
-      self.build_station_data(response.no_co1, {
-        name: self.container.data('vocabStationLotmateriel'),
+      self.build_station_data(lotsMat.interne, {
+        name: self.container.data('vocabStationLotmaterielInt'),
         marker: {
           symbol: "circle-open",
           size: 10,
           color: "orange",
-          opacity: 0.8,
+          opacity: 1,
           line: {
-            width: 2,
-            color: "green",
+            width: 1.5,
+          }
+        }
+      })
+    )
+    data.push(
+      self.build_station_data(lotsMat.externe, {
+        name: self.container.data('vocabStationLotmaterielExt'),
+        marker: {
+          symbol: "circle-open",
+          size: 8,
+          color: "limegreen",
+          opacity: 1,
+          line: {
+            width: 1.8,
           }
         }
       })
@@ -407,7 +384,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
       data.push({
         type: 'scattergeo',
         lon: Array.from(new Array(360), (_, i) => -180 + i),
-        lat: Array(360).fill(self.lmp.lotmateriel),
+        lat: Array(360).fill(self.lmp.co1),
         hoverinfo: "none",
         mode: 'lines',
         line: {

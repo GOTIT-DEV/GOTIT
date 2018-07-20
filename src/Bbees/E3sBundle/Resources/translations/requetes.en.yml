@@ -50,7 +50,9 @@ entity:
 
 geo:
   station:
-    lotmateriel: Biological Mat. Sites
+    lotmateriel: 
+      interne: Bio. Mat. Sites (Internal)
+      externe: Bio. Mat. Sites (External)
     co1: COI Sites
 
 queries:

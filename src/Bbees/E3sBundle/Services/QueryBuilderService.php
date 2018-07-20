@@ -239,7 +239,6 @@ class QueryBuilderService {
     foreach ($typeConstraints as $type => $identicals) {
       if ($identicals) {
         $current  = [];
-        //dump($visited);
         $refTable = $identicals[0];
         foreach ($identicals as $tableAlias) {
           $current[] = $tableAlias;
@@ -252,7 +251,6 @@ class QueryBuilderService {
             dump("$tableAlias != $different");
           }
         }
-        //dump($current);
         $visited = array_merge($current, $visited);
       }
     }
@@ -337,7 +335,7 @@ class QueryBuilderService {
 
     if ($co1) {
       $station_subquery = "SELECT DISTINCT
-            eid.referentiel_taxon_fk,
+            eid.referentiel_taxon_fk, lm.id as lm_id,
             sta.id as id_sta, sta.long_deg_dec as longitude, sta.lat_deg_dec as latitude
             FROM ESPECE_IDENTIFIEE eid
             LEFT JOIN sequence_assemblee_ext sext ON eid.sequence_assemblee_ext_fk=sext.id
@@ -357,7 +355,7 @@ class QueryBuilderService {
             AND statut.code IN ('SHORT', 'VALIDEE')";
     } else {
       $station_subquery = "SELECT DISTINCT
-             eid.referentiel_taxon_fk,
+             eid.referentiel_taxon_fk, lm.id as lm_id,
              sta.id as id_sta, sta.long_deg_dec as longitude, sta.lat_deg_dec as latitude
             FROM ESPECE_IDENTIFIEE eid
             LEFT JOIN lot_materiel lm ON eid.lot_materiel_fk=lm.id
@@ -370,6 +368,7 @@ class QueryBuilderService {
     $rawSql .= "SELECT DISTINCT
                 rt.id as taxon_id,
                 rt.taxname,
+                esta.lm_id as lm_id,
                 s.id,
                 s.code_station,
                 s.lat_deg_dec as latitude,
