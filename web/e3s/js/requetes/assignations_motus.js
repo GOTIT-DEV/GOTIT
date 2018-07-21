@@ -2,168 +2,176 @@
  *  Document ready
  **************************** */
 $(document).ready(function () {
-  initSwitchery('.switchbox')
-  uiWaitResponse()
-  let speciesSelector = new SpeciesSelector("#main-form", false)
-  let methodSelector = new MethodSelector("#main-form", 'checkbox')
-  // Wait for both selectors to be ready
-  $.when(speciesSelector.promise, methodSelector.promise).done(function () {
-    initDataTable("#result-table", "#details-table", "#main-form")
-  })
-
-  var niveau = 0
-  var criteres = {}
-
-  $('#taxaFilter')
-    .change(toggleTaxonForm('.taxa-select'))
-    .trigger('change')
+  let pageHandler = new AssignMotu("#main-form", "#result-table", "#details-table")
 })
 
 
-/**
+
+class AssignMotu {
+  constructor(formId, tableId, detailsTableId) {
+    this.form = $(formId)
+    this.table = $(tableId)
+    this.details = $(detailsTableId)
+    this.niveau = undefined
+    this.criteres = {}
+    this.detailsFormData = []
+
+    initSwitchery('.switchbox')
+    $('#taxa-filter')
+      .change(toggleTaxonForm('.taxa-select'))
+      .trigger('change')
+
+    this.uiWaitResponse()
+    this.speciesSelector = new SpeciesSelector(formId, false)
+    this.methodSelector = new MethodSelector(formId, 'checkbox')
+
+    $.when(this.speciesSelector.promise, this.methodSelector.promise)
+      .done(_ => {
+        this.initDataTable()
+      })
+  }
+
+  /**
  * Initialise datatable en lien avec le formulaire et les éléments du DOM
  * 
- * @param {string} tableId ID de la table principale
- * @param {string} detailsId ID de la table dans la modal
- * @param {string} formId ID du formulaire
  */
-function initDataTable(tableId, detailsId, formId) {
-  if (!$.fn.DataTable.isDataTable(tableId)) {
-    const table = $(tableId)
-    const form = $(formId)
-    const urls = {
-      refTaxon: table.find("th#col-taxname").data('linkUrl'),
+  initDataTable() {
+    let self = this
+    if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {
+      const urls = {
+        refTaxon: self.table.find("th#col-taxname").data('linkUrl'),
+      }
+      self.dataTable = self.table.DataTable({
+        autoWidth: false,
+        responsive: true,
+        ajax: {
+          "url": self.form.data("url"),
+          "dataSrc": "rows",
+          "type": "POST",
+          "data": _ => { return self.form.serialize() }
+        },
+        dom: "lfrtipB",
+        buttons: dtconfig.buttons,
+        columns: [{
+          data: "taxname",
+          render: linkify(urls.refTaxon, 'id', true)
+        },
+        { data: "methode" },
+        {
+          data: "date_methode",
+          render: function (data, type, row) {
+            return Date.parse(row.date_motu.date).toString('MMM yyyy');
+          }
+        },
+        { data: "nb_seq" },
+        { data: "nb_motus" },
+        {
+          data: "id",
+          render: function (data, type, row) {
+            var template = $("#details-form-template").html();
+            return Mustache.render(template, row);
+          }
+        }],
+        drawCallback: _ => {
+          self.uiReceivedResponse()
+          $('[data-toggle="tooltip"]').tooltip()
+          $(".details-form").on('submit', event => {
+            event.preventDefault();
+            self.detailsFormData = $(event.target).serializeArray()
+            self.detailsDataTable.ajax.reload()
+            $("#modal-container .modal").modal('show');
+          });
+        }
+      }).on('xhr', _ => {
+        let response = self.dataTable.ajax.json()
+        self.niveau = response.niveau;
+        self.criteres = response.criteres;
+        if (!$.fn.DataTable.isDataTable("#" + self.details.attr('id'))) {
+          self.initModalTable()
+        }
+      })
+
+      self.form.submit(event => {
+        event.preventDefault()
+        self.uiWaitResponse()
+        self.dataTable.ajax.reload()
+      });
     }
-    let details = undefined
-    var dataTable = table.DataTable({
-      autoWidth: false,
-      responsive: true,
-      ajax: {
-        "url": form.data("url"),
-        "dataSrc": "rows",
-        "type": "POST",
-        "data": _ => { return form.serialize() }
-      },
-      dom: "lfrtipB",
-      buttons: dtconfig.buttons,
-      columns: [{
-        data: "taxname",
-        render: linkify(urls.refTaxon, 'id', true)
-      },
-      { data: "methode" },
-      {
-        data: "date_methode",
-        render: function (data, type, row) {
-          return Date.parse(row.date_motu.date).toString('MMM yyyy');
-        }
-      },
-      { data: "nb_seq" },
-      { data: "nb_motus" },
-      {
-        data: "id",
-        render: function (data, type, row) {
-          var template = $("#details-form-template").html();
-          return Mustache.render(template, row);
-        }
-      }],
-      drawCallback: function (settings) {
-        uiReceivedResponse()
-        $('[data-toggle="tooltip"]').tooltip()
-        $(".details-form").on('submit', function (event) {
-          event.preventDefault();
-          $(this).addClass('submitted')
-          details.ajax.reload()
-          $("#modal-container .modal").modal('show');
-          $(this).removeClass('submitted')
-        });
-      }
-    }).on('xhr', function () {
-      var response = table.DataTable().ajax.json()
-      niveau = response.niveau;
-      criteres = response.criteres;
-      if (!$.fn.DataTable.isDataTable(detailsId)) {
-        details = initModalTable(detailsId)
-      }
-    });
-
-    form.submit(function (event) {
-      event.preventDefault();
-      uiWaitResponse()
-      dataTable.ajax.reload()
-    });
   }
-}
 
-/**
+
+  get ajaxData() {
+    let data = Array()
+    data.push.apply(data, this.detailsFormData)
+    this.criteres.forEach(crit => {
+      data.push({
+        name: 'criteres[]',
+        value: crit
+      })
+    })
+    data.push({
+      name: 'niveau',
+      value: this.niveau
+    });
+    return $.param(data)
+  }
+
+  /**
  * Initialize datatable on modal table
  * 
  * @param {string} tableId ID for table element in DOM
  */
-function initModalTable(tableId) {
-  let detailsTable = $(tableId)
-  let detailsDataTable = detailsTable.DataTable({
-    autoWidth: false,
-    responsive: true,
-    ajax: {
-      type: 'POST',
-      url: detailsTable.data('url'),
-      dataSrc: 'rows',
-      data: _ => {
-        let form = $('.details-form.submitted')
-        let formData = form.serializeArray()
-        criteres.forEach(crit => {
-          formData.push({
-            name: 'criteres[]',
-            value: crit
-          })
-        })
-        formData.push({
-          name: 'niveau',
-          value: niveau
-        });
-        return $.param(formData)
-      }
-    },
-    columns: [{
-      data: 'code',
-      render: function (data, type, row) {
-        let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-        let baseUrl = detailsTable.find("#col-code-seq").data(lookUpAttr)
-        return linkify(baseUrl, 'id', true)(data, type, row)
-      }
-    }, {
-      data: 'acc',
-      render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
-    },
-    { data: 'gene' },
-    {
-      data: 'type',
-      render: function (data, type, row) {
-        return data ? "Externe" : "Interne"
-      }
-    },
-    { data: 'motu' },
-    { data: 'critere' }
-    ],
-    dom: "lfrtipB",
-    buttons: dtconfig.buttons,
-    drawCallback: _ => {
-      $('[data-toggle="tooltip"]').tooltip()
-    }
-  });
-  return detailsDataTable
-}
+  initModalTable() {
+    let self = this
+    self.detailsDataTable = self.details.DataTable({
+      autoWidth: false,
+      responsive: true,
+      ajax: {
+        type: 'POST',
+        url: self.details.data('url'),
+        dataSrc: 'rows',
+        data: _ => {
+          return self.ajaxData
+        }
+      },
+      columns: [{
+        data: 'code',
+        render: function (data, type, row) {
+          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
+          return linkify(baseUrl, 'id', true)(data, type, row)
+        }
+      }, {
+        data: 'acc',
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
+      },
+      { data: 'gene' },
+      {
+        data: 'type',
+        render: data => { return data ? "Externe" : "Interne" }
+      },
+      { data: 'motu' },
+      { data: 'critere' }
+      ],
+      dom: "lfrtipB",
+      buttons: dtconfig.buttons,
+      drawCallback: _ => { $('[data-toggle="tooltip"]').tooltip() }
+    })
+  }
 
-/**
+
+  /**
  * Active le mode attente / loading
  */
-function uiWaitResponse() {
-  $("button[type='submit']").button('loading')
-}
+  uiWaitResponse() {
+    this.form.find("button[type='submit']").button('loading')
+  }
 
-/**
- * Désactive le mode attente 
- */
-function uiReceivedResponse() {
-  $("button[type='submit']").button('reset')
-}
+  /**
+   * Désactive le mode attente 
+   */
+  uiReceivedResponse() {
+    this.form.find("button[type='submit']").button('reset')
+  }
+
+} // class AssignMotu

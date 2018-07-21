@@ -97,7 +97,7 @@ class CarteRichesse {
  */
   initDataTable() {
     let self = this
-    if (!$.fn.DataTable.isDataTable(self.table.attr('id'))) {
+    if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {
       const urls = {
         refTaxon: self.table.find("th#col-taxname").data('linkUrl')
       }

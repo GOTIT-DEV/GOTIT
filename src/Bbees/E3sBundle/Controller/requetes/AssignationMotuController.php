@@ -81,7 +81,7 @@ class AssignationMotuController extends Controller {
   }
 
   /**
-   * @Route("/detailsModal", name="detailsModal")
+   * @Route("/detailsModal", name="motu-modal")
    *
    * Controle le rendu de la pop-in modale affichable depuis
    * la colonne Détails de la table de résultats

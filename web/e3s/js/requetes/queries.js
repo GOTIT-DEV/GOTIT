@@ -237,7 +237,7 @@ function linkify(url, col, ellipsis = true) {
  */
 function toggleTaxonForm() {
   args = Array.from(arguments)
-  return function (event) {
+  return event => {
     let disable = !event.target.checked
     args.forEach(element => {
       $(element).prop('disabled', disable)
