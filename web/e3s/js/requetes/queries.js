@@ -3,7 +3,7 @@
  * dans les <select> des formulaires
  */
 class SpeciesSelector {
-  constructor(formId, withTaxname = false, callback = function () {}) {
+  constructor(formId, withTaxname = false, callback = function () { }) {
     this.form = $(formId)
     this.selector = this.form.find(".species-selector")
     this.genus = this.selector.find('.genus-select')
@@ -61,9 +61,9 @@ class SpeciesSelector {
     var spSel = this
     var taxnameSel = spSel.selector.find('.taxname-select')
     $.post(taxnameSel.data('url'), {
-        species: spSel.species.val(),
-        genus: spSel.genus.val()
-      },
+      species: spSel.species.val(),
+      genus: spSel.genus.val()
+    },
       function (response) {
         var data = response.data.map(makeOption)
         taxnameSel.html($.makeArray(data))
@@ -162,14 +162,12 @@ function scrollTo(elt_id, time = 1000) {
  * @param {string} size taille du switch
  */
 function initSwitchery(selector, size = 'small') {
-
-  var elems = Array.prototype.slice.call(document.querySelectorAll(selector));
-  elems.forEach(function (html) {
+  let elems = Array.prototype.slice.call(document.querySelectorAll(selector))
+  elems.forEach(html => {
     return new Switchery(html, {
       size: size
-    });
-  });
-
+    })
+  })
 }
 
 /**

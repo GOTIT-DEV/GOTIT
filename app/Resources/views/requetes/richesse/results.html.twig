@@ -7,8 +7,8 @@
 {% trans_default_domain 'requetes' %}
 
 {# Onglets #}
-<ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active" id="result-tab">
+<ul id="result-tabs" class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active" id="table-tab">
     <a href="#result-pane" aria-controls="result-pane" role="tab">
       <strong>
         <i class="fa fa-th-list"></i>
@@ -40,13 +40,16 @@
   <div role="tabpanel" class="tab-pane fade in out active" id="result-pane">
     <div class="well well-sm">
       <div class="table-responsive">
-        <table id="result-table" class="table table-condensed table-hover table-striped">
+        <table
+          id="result-table"
+          class="table table-condensed table-hover table-striped">
           <thead>
             <tr>
-							<th></th>
-              <th id="col-taxname"
+              <th></th>
+              <th
+                id="col-taxname"
                 data-link-url="{{path('referentieltaxon_show', {id:0}) | trim(0)}}">
-								{% trans %}
+                {% trans %}
                 columns.taxon
                 {% endtrans %}</th>
               <th
