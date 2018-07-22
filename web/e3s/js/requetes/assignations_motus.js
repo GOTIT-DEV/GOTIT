@@ -15,7 +15,10 @@ class AssignMotu {
     this.niveau = undefined
     this.criteres = {}
     this.detailsFormData = []
-
+    this.seqTypes = {
+      interne: this.details.data('vocabSeqInt'),
+      externe: this.details.data('vocabSeqExt'),
+    }
     initSwitchery('.switchbox')
     $('#taxa-filter')
       .change(toggleTaxonForm('.taxa-select'))
@@ -139,7 +142,7 @@ class AssignMotu {
         render: function (data, type, row) {
           let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
           let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
-          return linkify(baseUrl, 'id', true)(data, type, row)
+          return linkify(baseUrl, 'id', true, 'right')(data, type, row)
         }
       }, {
         data: 'acc',
@@ -148,7 +151,7 @@ class AssignMotu {
       { data: 'gene' },
       {
         data: 'type',
-        render: data => { return data ? "Externe" : "Interne" }
+        render: data => { return data ? self.seqTypes.externe : self.seqTypes.interne }
       },
       { data: 'motu' },
       { data: 'critere' }

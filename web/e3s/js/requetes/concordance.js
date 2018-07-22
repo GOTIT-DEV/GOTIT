@@ -75,7 +75,7 @@ function initDataTable(tableId) {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
         "type": "POST",
-        "data": function (d) {
+        "data": _ => {
           return $("#main-form").serialize()
         }
       },

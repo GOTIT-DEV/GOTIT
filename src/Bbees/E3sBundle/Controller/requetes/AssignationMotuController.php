@@ -41,20 +41,7 @@ class AssignationMotuController extends Controller {
     ));
   }
 
-  /**
-   * @Route("/methods-in-date", name="methodsindate")
-   *
-   * Liste les méthodes présentes dans un dataset
-   * Utilisé pour remplir les select du formulaire
-   */
-  public function methodsByDate(Request $request, QueryBuilderService $service) {
-    # Dataset sélectionné par l'utilisateur
-    $id_date_motu = $request->request->get('date_methode');
-    # Obtention des méthodes incluses dans le dataset
-    $methodes = $service->getMethodsByDate($id_date_motu);
-    # Renvoi de la réponse JSON
-    return new JsonResponse(array('data' => $methodes));
-  }
+
 
   /**
    * @Route("/requete", name="requete1")

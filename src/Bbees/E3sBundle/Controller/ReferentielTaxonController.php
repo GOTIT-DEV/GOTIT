@@ -226,7 +226,7 @@ class ReferentielTaxonController extends Controller
     }
 
     /**
-     * @Route("/species-in-genus", name="speciesingenus")
+     * @Route("/species-in-genus", name="species-in-genus")
      */
     public function speciesInGenus(Request $request)
     {
