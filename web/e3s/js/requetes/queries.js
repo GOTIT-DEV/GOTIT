@@ -90,7 +90,6 @@ class MethodSelector {
     if (this.mode == 'checkbox') {
       this.container = this.selector.find('#method-container')
       this.checkboxTemplate = this.selector.find('#method-form-checkbox')
-      console.log('checkbox')
     }
     this.datasets = this.selector.find('.date-motu-select')
     this.methods = this.selector.find('.method-select')
@@ -176,7 +175,7 @@ function initSwitchery(selector, size = 'small') {
  * @param {boolean} wordbreak coupure de mot autorisée
  * @param {boolean} escapeHtml échappement de caractères
  */
-jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
+jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = true, placement = 'top') {
   var esc = function (t) {
     return t
       .replace(/&/g, '&amp;')
@@ -206,7 +205,13 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
     if (escapeHtml) {
       shortened = esc(shortened);
     }
-    return '<span class="ellipsis" data-toggle="tooltip" data-placement="top" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
+    return Mustache.render(
+      '<span class="ellipsis" data-toggle="tooltip" data-placement="{{placement}}" title="{{title}}">{{shortText}}&#8230;</span>',
+      {
+        placement: placement,
+        title: esc(d),
+        shortText: shortened
+      })
   };
 };
 
@@ -216,14 +221,17 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
  * @param {string} col nom de la colonne JSON à utiliser
  * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
  */
-function linkify(url, col, ellipsis = true) {
+function linkify(url, col, ellipsis = true, placement='top') {
   return function (data, type, row) {
+    if (data === null) {
+      return data
+    }
     let res = Mustache.render(
       "<a href='{{baseUrl}}{{id}}'>", {
         baseUrl: url,
         id: row[col],
       });
-    if (ellipsis) res += $.fn.dataTable.render.ellipsis(20, true)(data, type, row)
+    if (ellipsis) res += $.fn.dataTable.render.ellipsis(20, true, true, placement)(data, type, row)
     else res += data
     res += "</a>"
     return res
