@@ -6,48 +6,55 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
- * Service QueryBuilderService
+ * Service comptage des réarrangements de taxonomie
  */
 class RearrangementsService {
+  private $entityManager; // database manager
+  private $request; // parametres POST
+  private $rawResults; // raw result table
+  private $fwdCounter; // compteur référence -> méthodes
+  private $revCounter; // compteur méthodes -> référence
+  private $refIndex; // index des données brutes sur la référence
+  private $compareIndex; // index des données brutes par méthodes
 
-  private $entityManager;
-  private $request;
-  private $qbservice;
-  private $rawResults;
-  private $fwdCounter;
-  private $revCounter;
-  private $refIndex;
-  private $compareIndex;
-
+  /**
+   * Constructeur
+   */
   public function __construct(EntityManagerInterface $manager, QueryBuilderService $qbservice) {
     $this->entityManager = $manager;
-    $this->qbservice = $qbservice;
-    $this->fwdCounter = [];
-    $this->revCounter = [];
-    $this->initCounter($this->fwdCounter);
-    $this->revCounter = $this->fwdCounter;
+    $this->fwdCounter    = [];
+    $this->revCounter    = [];
+    $this->initCounter($this->fwdCounter, $qbservice);
+    $this->initCounter($this->revCounter, $qbservice);
   }
 
-  public function initCounter(&$counter) {
-    $methodes = $this->qbservice->listMethodsByDate();
-    $keys = ['match', 'split', 'lump', 'reshuffling'];
+  /**
+   * Initialize les compteurs de réarrangement par méthode
+   */
+  public function initCounter(&$counter, QueryBuilderService $qbservice) {
+    $methodes = $qbservice->listMethodsByDate(); // liste des méthodes
+    $keys     = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
     foreach ($methodes as $m) {
       $counter[$m['id_date_motu']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
       // Ajout d'infos sur la méthode
-      $counter[$m['id_date_motu']][$m['id']]['methode'] = $m['code'];
+      $counter[$m['id_date_motu']][$m['id']]['methode']   = $m['code'];
       $counter[$m['id_date_motu']][$m['id']]['date_motu'] = $m['date_motu'];
-      $counter[$m['id_date_motu']][$m['id']]['label'] = $m['code'] . ' ' . $m['date_motu']->format('Y');
-      $counter[$m['id_date_motu']][$m['id']]['seq'] = [];
+      $counter[$m['id_date_motu']][$m['id']]['label']     = $m['code'] . ' ' . $m['date_motu']->format('Y');
+      // Liste des séquences et stations à compter
+      $counter[$m['id_date_motu']][$m['id']]['seq']     = [];
       $counter[$m['id_date_motu']][$m['id']]['seq_ext'] = [];
-      $counter[$m['id_date_motu']][$m['id']]['sta'] = [];
+      $counter[$m['id_date_motu']][$m['id']]['sta']     = [];
     }
   }
 
+  /**
+   * Compte les séquences et les stations par méthode sur la base des listes
+   */
   public function countSeqSta() {
     foreach ($this->rawResults as &$row) {
-      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['seq'][] = $row['seq'];
+      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['seq'][]     = $row['seq'];
       $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['seq_ext'][] = $row['seq_ext'];
-      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['sta'][] = $row['id_sta'];
+      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['sta'][]     = $row['id_sta'];
       unset($row['seq']);
       unset($row['seq_ext']);
       unset($row['sta']);
@@ -67,18 +74,25 @@ class RearrangementsService {
     $this->simplify();
   }
 
+  /**
+   * Supprime les lignes en double générées par les stations/séquences
+   */
   public function simplify() {
     $this->rawResults = array_intersect_key($this->rawResults,
       array_unique(array_map(function ($row) {
-        return $row['num_motu'] . ":" . $row['taxid'] . ":" . $row['id_date_methode'] . ":" . $row['id_methode'];
+        return $row['num_motu'] . ":" . $row['id_ref'] . ":" . $row['id_date_methode'] . ":" . $row['id_methode'];
       }, $this->rawResults)));
   }
 
-
+  /**
+   * Comparer les références par méthode à toutes les autres méthodes
+   */
   public function compare() {
     foreach ($this->refIndex as $date => $methodes) {
       foreach ($methodes as $methode => $motus) {
+        // Comptage
         $counters = $this->compareSets($motus, $this->compareIndex[$date][$methode]);
+        // Merge des comptages dans les compteurs globaux
         $this->fwdCounter[$date][$methode] = array_merge(
           $this->fwdCounter[$date][$methode],
           $counters[0]
@@ -91,92 +105,95 @@ class RearrangementsService {
     }
   }
 
-  public function getResults() {
-    //Restructuration des résultats de comptage
-    $recto = [];
-    foreach ($this->fwdCounter as $date => $methodes) {
-      foreach ($methodes as $methode => $counts) {
-        if ($this->request->get('reference') < 2 || ($date == $this->request->get('date_methode') && $methode != $this->request->get('methode'))) {
-          $recto[] = $counts;
-        }
-      }
-    }
-
-    $verso = [];
-    foreach ($this->fwdCounter as $date => $methodes) {
-      foreach ($methodes as $methode => $counts) {
-        if ($this->request->get('reference') < 2 || ($date == $this->request->get('date_methode') && $methode != $this->request->get('methode'))) {
-          $verso[] = $counts;
-        }
-      }
-    }
-    return array(
-      'recto' => $recto,
-      'verso' => $verso,
-    );
-  }
-
+  /**
+   * Comptage des réarrangements entre l'ensemble de référence pour une méthode
+   * et l'ensemble à comparer, pour une méthode
+   */
   public function compareSets($refSet, $targetSet) {
     $fwd = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     $rev = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
-    foreach ($refSet as $ref_id => $reference) {
-      if (count($reference) == 1) {
-        // ref has 1 motu
-        $motu = $reference[0]; // count taxons in the single motu
-        $targetCnt = count($targetSet[$motu['num_motu']]);
+    foreach ($refSet as $ref_id => $ref_rows) {
+      if (count($ref_rows) == 1) {
+        // référence a un seul row
+        $reference = $ref_rows[0];
+        // nombre de rows dans l'ensemble à comparer qui matchent la référence
+        $targetCnt = count($targetSet[$reference['num_motu']]);
         if ($targetCnt == 1) {
-          // motu has 1 taxon : match
+          // target a un seul row : match
           $fwd['match'] += 1;
           $rev['match'] += 1;
         } elseif ($targetCnt > 1) {
-          // ref has many motu : lump or reshuffle
-          $reverseMotus = $targetSet[$motu['num_motu']];
-          $lump = true; // lump if all taxon have only current motu, else reshuffle
-          foreach ($reverseMotus as $revMotu) {
-            $nb_motus = count($refSet[$revMotu['taxid']]);
-            if ($nb_motus > 1) // at least one target has many motu
-            {
+          // target a plusieurs row : lump ou reshuffling
+          $lump = true;
+          dump($targetSet[$reference['num_motu']]);
+          // référence a plusieurs rows qui matchent avec target ?
+          foreach ($targetSet[$reference['num_motu']] as $rev_row) {
+            $nb_motus = count($refSet[$rev_row['id_ref']]);
+            if ($nb_motus > 1) {
               $lump = false;
             }
           }
-          if ($lump) {
-            // many targets, one ref
-            $fwd['lump'] += 1;
-          } else {
-            // many targets, many refs
-            $fwd['reshuffling'] += 1;
-          }
-          $rev['split'] += 1; // target is a split of reference anyway
+          $type = $lump ? 'lump' : 'reshuffling';
+          $fwd[$type] += 1;
+          $rev['split'] += 1; // target est un split de la référence
         }
-      } elseif (count($reference) > 1) {
-        // taxon has many motus
+      } elseif (count($ref_rows) > 1) {
+        // référence a plusieurs rows
         $lump = true;
-        foreach ($reference as $motu) {
-          // each motu is split or reshuffling
-          $targetCnt = count($targetSet[$motu['num_motu']]);
+        foreach ($ref_rows as $ref_row) {
+          // chaque réf est un split ou un reshuffling
+          $targetCnt = count($targetSet[$ref_row['num_motu']]);
           if ($targetCnt == 1) {
-            // motu has only current taxon : split
+            // un seul row dans target : split
             $fwd['split'] += 1;
           } elseif ($targetCnt > 1) {
-            // many taxons, many motus : reshuffling
+            // many réf, many target : reshuffling
             $fwd['reshuffling'] += 1;
             $lump = false;
           }
         }
-        if ($lump) {
-          $rev['lump'] += 1;
-        } else {
-          $rev['reshuffling'] += 1;
-        }
+        $type = $lump ? 'lump' : 'reshuffling';
+        $rev[$type] += 1;
       }
     }
-
     return [$fwd, $rev];
   }
 
+  /**
+   * Filtre les résultats de comptage en fonction de la référence
+   */
+  public function filterCounts($counter) {
+    $filtered = [];
+    foreach ($this->fwdCounter as $date => $methodes) {
+      foreach ($methodes as $methode => $counts) {
+        // Retenir les résultats du même dataset et méthode différente de la référence
+        if ($this->request->get('reference') < 2 || // pas de filtre si ref morpho
+          ($date == $this->request->get('date_methode') &&
+            $methode != $this->request->get('methode'))) {
+          $filtered[] = $counts;
+        }
+      }
+    }
+    return $filtered;
+  }
+
+  /**
+   * Construit le contenu de la référence JSON
+   */
+  public function getResults() {
+    // Filtrage des comptages
+    return array(
+      'recto' => $this->filterCounts($this->fwdCounter),
+      'verso' => $this->filterCounts($this->revCounter),
+    );
+  }
+
+  /**
+   * Execute la requête pour obtenir les résultats bruts sur les séquences et leur MOTU
+   */
   public function fetch(ParameterBag $request) {
     $this->request = $request;
-    $pdo = $this->entityManager->getConnection();
+    $pdo           = $this->entityManager->getConnection();
     // Référence : radio button coché (morpho, morpho filtré ou méthode)
     $reference = $request->get('reference'); // 0 : morpho, 1 : molecular
 
@@ -187,7 +204,7 @@ class RearrangementsService {
                 voc.id AS id_methode,
                 motu.id AS id_date_methode,
                 motu.date_motu,
-                R.id AS taxid,
+                R.id AS id_ref,
                 R.genus,
                 R.species,
                 R.taxname,
@@ -229,9 +246,9 @@ class RearrangementsService {
     } else {
       //molecular
       $id_date_motu = $request->get('date_methode');
-      $id_methode = $request->get('methode');
-      $rawSql = "SELECT distinct
-                a1.num_motu as taxid,
+      $id_methode   = $request->get('methode');
+      $rawSql       = "SELECT distinct
+                a1.num_motu as id_ref,
                 a2.num_motu as num_motu,
                 v2.code AS methode,
                 v2.id AS id_methode,
@@ -272,7 +289,7 @@ class RearrangementsService {
 
       $stmt = $pdo->prepare($rawSql);
       $stmt->execute(array(
-        'id_methode' => $id_methode,
+        'id_methode'   => $id_methode,
         'id_date_motu' => $id_date_motu,
       ));
     }
@@ -280,9 +297,12 @@ class RearrangementsService {
     $this->rawResults = $stmt->fetchAll();
   }
 
+  /**
+   * Indexation des résultats bruts selon la référence et selon chaque méthode
+   */
   public function indexResults() {
     foreach ($this->rawResults as $row) {
-      $this->refIndex[$row['id_date_methode']][$row['id_methode']][$row['taxid']][] = $row;
+      $this->refIndex[$row['id_date_methode']][$row['id_methode']][$row['id_ref']][]       = $row;
       $this->compareIndex[$row['id_date_methode']][$row['id_methode']][$row['num_motu']][] = $row;
     }
   }
