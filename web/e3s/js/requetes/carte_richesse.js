@@ -9,16 +9,37 @@ class CarteRichesse {
       .change(toggleTaxonForm('select'))
       .trigger('change')
 
+    this.urls = {
+      refTaxon: this.table.find("th#col-taxname").data('linkUrl')
+    }
+    this.seqTypes = {
+      interne : this.table.data('vocabSeqInt'),
+      externe : this.table.data('vocabSeqExt'),
+    }
+
     this.uiWaitResponse()
     this.geoPlot = new MotuGeoPlot(mapContainerId)
     this.speciesSelector = new SpeciesSelector(formId, true)
     this.methodSelector = new MethodSelector(formId)
-
+    this.getAvailableMethods()
     // Formulaires prêts : initialiser datatables
     $.when(this.speciesSelector.promise, this.methodSelector.promise)
       .done(_ => {
         this.initDataTable()
       })
+
+  }
+
+  getAvailableMethods() {
+    let self = this
+    $.ajax({
+      type: "GET",
+      url: self.table.data('urlMethodes'),
+      data: {},
+      success: response => {
+        self.methodes = response
+      }
+    })
   }
 
   get formActive() {
@@ -91,6 +112,53 @@ class CarteRichesse {
     self.geoPlot.resize()
   }
 
+
+  get datatableColumns() {
+    let self = this
+    const renderNumber = $.fn.dataTable.render.number('', '.', 3)
+    let columns = [
+      dtconfig.expandColumn, {
+        data: "taxname",
+        render: linkify(self.urls.refTaxon, 'id', true)
+      }, {
+        data: 'code',
+        render: (data, type, row) => {
+          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let baseUrl = self.table.find("#col-code-seq").data(lookUpAttr)
+          return linkify(baseUrl, 'id', true)(data, type, row)
+        }
+      }, {
+        data: "type_seq",
+        render: data => {
+          return data ? self.seqTypes.externe : self.seqTypes.interne
+        }
+      },
+      {
+        data: "accession_number",
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
+      }]
+    this.methodes.forEach(element => {
+      columns.push({
+        data: element.code.toLowerCase() + "_" + Date.parse(element.date_motu.date).toString('yyyy'),
+        defaultContent: "-"
+      })
+    })
+    columns.push.apply(columns, [{
+      data: "latitude",
+      render: renderNumber,
+    },
+    {
+      data: "longitude",
+      render: renderNumber,
+      defaultContent: "-"
+    },
+    { data: "code_station" },
+    { data: "commune" },
+    { data: "pays" }]
+    )
+    return columns
+  }
+
   /**
  * Initialise datatables pour remplir la table *
  * en utilisant les données du formulaire
@@ -98,11 +166,6 @@ class CarteRichesse {
   initDataTable() {
     let self = this
     if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {
-      const urls = {
-        refTaxon: self.table.find("th#col-taxname").data('linkUrl')
-      }
-      const renderNumber = $.fn.dataTable.render.number('', '.', 3)
-
       self.dataTable = self.table.DataTable({
         autoWidth: false,
         responsive: true,
@@ -117,60 +180,7 @@ class CarteRichesse {
         dom: "lfrtipB",
         buttons: dtconfig.buttons,
         order: [1, 'asc'],
-        columns: [
-          dtconfig.expandColumn, {
-            data: "taxname",
-            render: linkify(urls.refTaxon, 'id', true)
-          }, {
-            data: 'code',
-            render: function (data, type, row) {
-              let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-              let baseUrl = self.table.find("#col-code-seq").data(lookUpAttr)
-              return linkify(baseUrl, 'id', true)(data, type, row)
-            }
-          }, {
-            data: "type_seq",
-            render: data => {
-              return data ? "Externe" : "Interne"
-            }
-          },
-          {
-            data: "accession_number",
-            render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
-          },
-          {
-            data: "th_2013",
-            defaultContent: "-"
-          },
-          {
-            data: "gmyc_2013",
-            defaultContent: "-"
-          },
-          {
-            data: "bptp_2017",
-            defaultContent: "-"
-          },
-          {
-            data: "ptp_2017",
-            defaultContent: "-"
-          },
-          {
-            data: "th_2017",
-            defaultContent: "-"
-          },
-          {
-            data: "latitude",
-            render: renderNumber,
-          },
-          {
-            data: "longitude",
-            render: renderNumber,
-            defaultContent: "-"
-          },
-          { data: "code_station" },
-          { data: "commune" },
-          { data: "pays" },
-        ],
+        columns: self.datatableColumns,
         drawCallback: _ => {
           $('[data-toggle="tooltip"]').tooltip()
         }

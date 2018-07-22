@@ -47,6 +47,9 @@ entity:
     id: Seq. ID
     species : Seq. taxon
     code : Seq. code
+    type:
+      interne: 'Internal'
+      externe: 'External'
 
 geo:
   station:

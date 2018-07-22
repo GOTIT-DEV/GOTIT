@@ -40,6 +40,14 @@ class RichesseController extends Controller {
   }
 
   /**
+   * @Route("/methodes", name="richesse-methodes")
+   */
+  public function listMethods(Request $request, QueryBuilderService $service) {
+    $methodes = $service->listMethodsByDate();
+    return new JsonResponse($methodes);
+  }
+
+  /**
    * @Route("/requete4", name="requete4")
    *
    * Renvoie le JSON utilisé pour remplir la table de résultats (rows),
