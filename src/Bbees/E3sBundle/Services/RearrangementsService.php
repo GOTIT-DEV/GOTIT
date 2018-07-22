@@ -125,7 +125,6 @@ class RearrangementsService {
         } elseif ($targetCnt > 1) {
           // target a plusieurs row : lump ou reshuffling
           $lump = true;
-          dump($targetSet[$reference['num_motu']]);
           // référence a plusieurs rows qui matchent avec target ?
           foreach ($targetSet[$reference['num_motu']] as $rev_row) {
             $nb_motus = count($refSet[$rev_row['id_ref']]);
