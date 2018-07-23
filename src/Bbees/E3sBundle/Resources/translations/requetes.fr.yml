@@ -1,6 +1,6 @@
 label:
   genre: Genre
-  espece: Espece
+  espece: Espèce
   taxon: Taxon
   dataset: Jeu de données
   search:
@@ -16,7 +16,7 @@ tabs:
   reference: Référence
   methodes: Méthodes moléculaires
   distribution:
-    data: Donnée de distribution
+    data: Données de distribution
     geo: Carte des MOTUs
     geotitle: Distribution des MOTUs
 identification:
@@ -85,7 +85,7 @@ columns:
   stations: Stations
   station: Station
   accession: Accession
-  critere: Critere
+  critere: Critère
   motu: MOTU
   motus: MOTUs
   type: Type
