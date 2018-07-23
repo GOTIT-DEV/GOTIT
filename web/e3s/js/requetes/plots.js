@@ -254,8 +254,11 @@ class MotuGeoPlot extends BaseGeoPlot {
 }
 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 class SamplingGeoPlot extends BaseGeoPlot {
   constructor(containerId, tableId, modalId, queryUrl = null) {
     super(containerId)
@@ -269,7 +272,6 @@ class SamplingGeoPlot extends BaseGeoPlot {
     this.url = queryUrl ? queryUrl : this.container.data('url')
 
     this.modal.on('shown.bs.modal', this.resize)
-
   }
 
   ajaxOptions() {
