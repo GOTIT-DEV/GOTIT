@@ -10,7 +10,8 @@ class CarteRichesse {
       .trigger('change')
 
     this.urls = {
-      refTaxon: this.table.find("th#col-taxname").data('linkUrl')
+      refTaxon: this.table.find("th#col-taxname").data('linkUrl'),
+      station: this.table.find("th#col-station").data('linkUrl')
     }
     this.seqTypes = {
       interne : this.table.data('vocabSeqInt'),
@@ -152,7 +153,10 @@ class CarteRichesse {
       render: renderNumber,
       defaultContent: "-"
     },
-    { data: "code_station" },
+    { 
+      data: "code_station",
+      render: linkify(self.urls.station, 'id', true) 
+    },
     { data: "commune" },
     { data: "pays" }]
     )

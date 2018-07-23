@@ -69,10 +69,7 @@
                 columns.accession
                 {% endtrans %}</th>
               {% for method in methods_list %}
-                <th
-                  data-column-id="{{method.code|lower}}_{{method.date_motu|date('Y')}}"
-                  data-converter="numeric"
-                  data-searchable="false">{{method.code|upper}}
+                <th>{{method.code|upper}}
                   {{method.date_motu|date('Y')}}</th>
               {% endfor %}
               <th>{% trans %}
@@ -81,7 +78,7 @@
               <th>{% trans %}
                 columns.long
                 {% endtrans %}</th>
-              <th>{% trans %}
+              <th id="col-station" data-link-url="{{path('station_show', {id:0}) | trim(0)}}">{% trans %}
                 columns.station
                 {% endtrans %}</th>
               <th>{% trans %}
