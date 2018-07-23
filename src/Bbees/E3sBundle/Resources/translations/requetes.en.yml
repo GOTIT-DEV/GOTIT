@@ -48,8 +48,8 @@ entity:
     species : Seq. taxon
     code : Seq. code
     type:
-      interne: 'Internal'
-      externe: 'External'
+      interne: Internal
+      externe: External
 
 geo:
   station:
@@ -69,6 +69,8 @@ queries:
   richesse:
     title: MOTU distribution data
     nav: Distribution data
+    param:
+      echantillonnage: Superpose COI sampling data
   echantillonnage:
     title: COI sampling sites
     nav: COI data set
