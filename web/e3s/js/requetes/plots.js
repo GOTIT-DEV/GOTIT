@@ -254,11 +254,8 @@ class MotuGeoPlot extends BaseGeoPlot {
 }
 
 
-<<<<<<< Updated upstream
 
 
-=======
->>>>>>> Stashed changes
 class SamplingGeoPlot extends BaseGeoPlot {
   constructor(containerId, tableId, modalId, queryUrl = null) {
     super(containerId)
