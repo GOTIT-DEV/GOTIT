@@ -40,7 +40,7 @@ class SequenceAssembleeExt
     /**
      * @var string
      *
-     * @ORM\Column(name="accession_number_sqc_ass_ext", type="string", length=255, nullable=true)
+     * @ORM\Column(name="accession_number_sqc_ass_ext", type="string", length=255, nullable=false)
      */
     private $accessionNumberSqcAssExt;
 
