@@ -55,11 +55,11 @@ function initDataTable(tableId) {
       geocoords: table.find("th#col-details").data('linkUrl')
     }
 
-    function renderLinkify(fieldName) {
+    function renderLinkify(fieldName, url) {
       return {
-        responsive: linkify(urls.refTaxon, fieldName, false),
+        responsive: linkify(url, fieldName, false),
         _: null,
-        display: linkify(urls.refTaxon, fieldName)
+        display: linkify(url, fieldName)
       }
     }
 
@@ -85,25 +85,25 @@ function initDataTable(tableId) {
       columns: [
         dtconfig.expandColumn, {
           data: "code_lm",
-          render: renderLinkify('id_lm')
+          render: renderLinkify('id_lm', urls.lotMateriel)
         }, {
           data: "taxname_lm",
-          render: renderLinkify('idtax_lm')
+          render: renderLinkify('idtax_lm', urls.refTaxon)
         },
         {
           data: "critere_lm"
         },
         {
           data: "code_biomol",
-          render: renderLinkify('id_indiv')
+          render: renderLinkify('id_indiv', urls.individu)
         },
         {
           data: "code_tri_morpho",
-          render: renderLinkify('id_indiv')
+          render: renderLinkify('id_indiv', urls.individu)
         },
         {
           data: "taxname_indiv",
-          render: renderLinkify('idtax_lm')
+          render: renderLinkify('idtax_lm', urls.refTaxon)
         },
         {
           data: "critere_indiv"
@@ -111,11 +111,11 @@ function initDataTable(tableId) {
         {
           data: "code_seq",
           defaultContent: "-",
-          render: renderLinkify('id_seq')
+          render: renderLinkify('id_seq', urls.sequence)
         },
         {
           data: "taxname_seq",
-          render: renderLinkify('idtax_lm'),
+          render: renderLinkify('idtax_lm', urls.refTaxon),
           defaultContent: "-"
         },
         {
