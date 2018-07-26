@@ -4,7 +4,7 @@
  * @param {any} key clé à cibler
  */
 function unpack(json, key) {
-  return json.map(function (row) { return row[key] })
+  return json.map(function(row) { return row[key] })
 }
 
 class BasePlot {
@@ -12,9 +12,9 @@ class BasePlot {
     // Construction objet plotly
     this.container = $(containerId)
     this.container.html('')
-    //this.container.html('') // vidage du container
+      //this.container.html('') // vidage du container
     this.d3 = Plotly.d3
-    
+
     this.gd3 = this.d3.select(containerId) // assignation du d3 au container
     this.gd = this.gd3.node(); // gd : objet graphique
 
@@ -29,7 +29,7 @@ class BasePlot {
     Plotly.Plots.resize(self.gd)
   }
 
-  plot() { }
+  plot() {}
 }
 
 class BarPlot extends BasePlot {
@@ -85,7 +85,7 @@ class BarPlot extends BasePlot {
     }, data)
 
     let traces = []
-    // Constitution des données à afficher
+      // Constitution des données à afficher
     for (var key in data) { // iteration
       if (data.hasOwnProperty(key) && key != 'label')
         traces.push({
@@ -163,50 +163,66 @@ class BaseGeoPlot extends BasePlot {
     $(".geo-overlay").show()
     Plotly.Plots
       .resize(self.gd)
-      .then(function () {
+      .then(function() {
         self.container.css("visibility", "visible")
         $(".geo-overlay").hide()
-      }
-      )
+      })
   }
 }
 
+/**
+ * Classe pour l'affichage de la carte de richesse génétique
+ */
 class MotuGeoPlot extends BaseGeoPlot {
+
+  /**
+   * Constructeur MotuGeoPLot
+   * @param {string} containerId identifiant de la <div> qui contiendra la carte
+   */
   constructor(containerId) {
     super(containerId)
   }
 
+  /**
+   * Affiche la carte de richesse à partir des données géographiques
+   * @param {JSON} json données géographiques
+   */
   plot(json) {
     let self = this
     let motu_map = {}
+
+    // Trier les données par MOTU
     json.reduce((currentData, row) => {
-      currentData[row.motu] = {
-        [row.id_sta]: row
+      if (row.motu in currentData) {
+        currentData[row.motu].push(row)
+      } else {
+        currentData[row.motu] = [row]
       }
       return currentData
     }, motu_map)
 
-    let traces = []
+    // Créer une trace par MOTU
     let i = 0
-    for (var motu in motu_map) {
-      i += 1
-      if (motu_map.hasOwnProperty(motu)) {
-        traces.push(self.build_station_data(
-          Object.values(motu_map[motu]), {
+    let traces = Object.keys(motu_map)
+      .map(motu => {
+        i++
+        return self.build_station_data(
+          motu_map[motu], {
             marker: {
               symbol: 5 * Math.floor(i / 10),
               size: 8
             },
             opacity: 0.7
-          }))
-      }
-    }
+          }
+        )
+      })
 
-    Plotly.newPlot(this.gd, traces, this.layout, {
+    // Afficher les données
+    Plotly.newPlot(self.gd, traces, self.layout, {
       displaylogo: false,
       modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d']
     })
-    this.resize()
+    self.resize()
   }
 
 
@@ -293,21 +309,21 @@ class SamplingGeoPlot extends BaseGeoPlot {
     let self = this
     let data = []
     data.push( // Données COI
-      self.build_station_data(response.with_co1, {
-        name: self.container.data('vocabStationCo1'),
-        marker: {
-          symbol: "triangle-up",
-          color: "red"
-        }
-      })
-    )
-    // Données non COI
+        self.build_station_data(response.with_co1, {
+          name: self.container.data('vocabStationCo1'),
+          marker: {
+            symbol: "triangle-up",
+            color: "red"
+          }
+        })
+      )
+      // Données non COI
     let lotsMat = {
       interne: [],
       externe: []
-    } 
-    lotsMat = response.no_co1.reduce( (current, row ) => {
-      if (row.lm_id != null){
+    }
+    lotsMat = response.no_co1.reduce((current, row) => {
+      if (row.lm_id != null) {
         current.interne.push(row)
       } else {
         current.externe.push(row)
