@@ -163,7 +163,7 @@ class RearrangementsService {
    */
   public function filterCounts($counter) {
     $filtered = [];
-    foreach ($this->fwdCounter as $date => $methodes) {
+    foreach ($counter as $date => $methodes) {
       foreach ($methodes as $methode => $counts) {
         // Retenir les résultats du même dataset et méthode différente de la référence
         if ($this->request->get('reference') < 2 || // pas de filtre si ref morpho
