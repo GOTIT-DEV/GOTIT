@@ -39,6 +39,8 @@ class DefaultController extends Controller
         $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:SequenceAssemblee u')->getSingleScalarResult();
         $nbSequenceAssembleeExt = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:SequenceAssembleeExt u')->getSingleScalarResult();
         $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Assigne u')->getSingleScalarResult();
+        $nbMotuSqcAss = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Assigne u JOIN u.sequenceAssembleeFk')->getSingleScalarResult();
+        $nbMotuSqcAssExt = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Assigne u JOIN u.sequenceAssembleeExtFk')->getSingleScalarResult();
         $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Boite u')->getSingleScalarResult();
         $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Source u')->getSingleScalarResult();
         return $this->render('default/index.html.twig', array( 
@@ -54,6 +56,8 @@ class DefaultController extends Controller
             'nbSequenceAssemblee' => $nbSequenceAssemblee,
             'nbSequenceAssembleeExt' => $nbSequenceAssembleeExt,
             'nbMotu' => $nbMotu,
+            'nbMotuSqcAss' => $nbMotuSqcAss,
+            'nbMotuSqcAssExt' => $nbMotuSqcAssExt,
             'nbBoite' => $nbBoite,
             'nbSource' => $nbSource,
             ));

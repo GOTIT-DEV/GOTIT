@@ -1,6 +1,7 @@
 # Intitules des champs de la base de donnees E3S Version Anglaise
+# champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
 A faire: Status
-Libelle motu: Motu label
+Libelle motu: MOTU title
 # boutons ajouter > 16/07/2018
 import.motu-assigne: Motu assigne
 title.Personne: Person
@@ -195,7 +196,7 @@ Nombre inconnu: NUMBER NOT KNOWN
 INCONNU: NOT KNOWN
 ? INCONNU: ? NOT KNOWN
 ################################# VALIDE  par Florian le 19/07/2018
-# Intitulés des champs de la base de données E3S Version Anglaise
+# Intitules des champs de la base de donnes E3S Version Anglaise
 A faire: Sample status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
@@ -371,7 +372,7 @@ User maj: Updating user name
 Validity: Taxon validity
 Yeux voc fk: Vision
 
-# Intitulés des listes de selection
+# Intitules des listes de selection
 Choose a typeCollection: Select collection type
 Choose a codeCollection: Select collection code
 Choose a typeBoite: Select box type
