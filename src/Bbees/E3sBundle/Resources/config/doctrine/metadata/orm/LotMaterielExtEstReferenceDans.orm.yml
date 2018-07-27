@@ -39,16 +39,6 @@ LotMaterielExtEstReferenceDans:
                 unsigned: false
             column: user_maj
     manyToOne:
-        lotMaterielExtFk:
-            targetEntity: LotMaterielExt
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                lot_materiel_ext_fk:
-                    referencedColumnName: id
-            orphanRemoval: false
         sourceFk:
             targetEntity: Source
             cascade: {  }
@@ -57,6 +47,16 @@ LotMaterielExtEstReferenceDans:
             inversedBy: null
             joinColumns:
                 source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielExtFk:
+            targetEntity: LotMaterielExt
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_ext_fk:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

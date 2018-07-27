@@ -2,12 +2,12 @@ LotEstPublieDans:
     type: entity
     table: lot_est_publie_dans
     indexes:
-        IDX_EA07BFA754DBBD4D:
-            columns:
-                - lot_materiel_fk
         IDX_EA07BFA7821B1D3F:
             columns:
                 - source_fk
+        IDX_EA07BFA754DBBD4D:
+            columns:
+                - lot_materiel_fk
     id:
         id:
             type: bigint
@@ -39,16 +39,6 @@ LotEstPublieDans:
                 unsigned: false
             column: user_maj
     manyToOne:
-        lotMaterielFk:
-            targetEntity: LotMateriel
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                lot_materiel_fk:
-                    referencedColumnName: id
-            orphanRemoval: false
         sourceFk:
             targetEntity: Source
             cascade: {  }
@@ -57,6 +47,16 @@ LotEstPublieDans:
             inversedBy: null
             joinColumns:
                 source_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

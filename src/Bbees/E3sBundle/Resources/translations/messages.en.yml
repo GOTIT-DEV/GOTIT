@@ -1,4 +1,6 @@
-# Intitulés des champs de la base de données E3S Version Anglaise
+# Intitules des champs de la base de donnees E3S Version Anglaise
+A faire: Status
+Libelle motu: Motu label
 # boutons ajouter > 16/07/2018
 import.motu-assigne: Motu assigne
 title.Personne: Person
@@ -410,7 +412,7 @@ Choose a PCR: Select PCR code
 Choose a primer: Select primer
 Choose a socitety: Select institution
 
-# intitulés des collections ou tableaux relatifs aux tables relationnelles de type N-N
+# intitules des collections ou tableaux relatifs aux tables relationnelles de type N-N
 Source a ete integre pars: is integrated by
 Adns: DNA
 Lot materiels: Biological material
@@ -442,7 +444,7 @@ No: No
 Yes: Yes
 Personne: Person
 
-# Intitulés des boutons de l'interface
+# Intitules des boutons de l'interface
 buton.Add a Chromatogramme: Add chromatogram
 buton.Add a Source: Add source
 buton.Add a CompositionLotMateriel: Add composition of biological material
@@ -503,7 +505,7 @@ buton.BackToTheList: Back to list
 buton.showAllRecord: Show all records
 Envoyer: Import CSV file
 
-# intitulés des colonnes des listes d'enregistrements
+# intitules des colonnes des listes d'enregistrements
 list.Date creation sqc ass ext: Date creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
@@ -557,14 +559,14 @@ title.etablissement: Institution
 title.programme: Program
 title.Recherche bdd: Search in database
 
-# messages d'alerte relatif à la gestion des dates
+# messages d'alerte relatif a la gestion des dates
 alert.datePrecisionINCONNU:  date fields must be left blank 
 alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
 alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
 alert.datePrecisionJOUR:  All date fields have to be filled with the format DD-MM-YYYY
 alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,12] YYYY=[1000,2999]
 
-# menus de la liste déroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
+# menus de la liste deroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
 import.liste: Upload other set of files 
 import.boite.lotmaterielrange: Store biological material as file
 import.boite.individulamerange: Store slide as file

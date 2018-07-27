@@ -49,4 +49,11 @@ Motu:
             options:
                 unsigned: false
             column: user_maj
+        libelleMotu:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: libelle_motu
     lifecycleCallbacks: {  }

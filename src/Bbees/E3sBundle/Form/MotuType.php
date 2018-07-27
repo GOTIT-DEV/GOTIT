@@ -21,6 +21,7 @@ class MotuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nomFichierCsv')
+                ->add('libelleMotu')
                 ->add('dateMotu', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
                 ->add('commentaireMotu')
                 ->add('motuEstGenerePars', CollectionType::class , array(

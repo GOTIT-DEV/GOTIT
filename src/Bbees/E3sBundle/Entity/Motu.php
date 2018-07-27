@@ -22,6 +22,13 @@ class Motu
      * @ORM\SequenceGenerator(sequenceName="motu_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="libelle_motu", type="string", length=255, nullable=true)
+     */
+    private $libelleMotu;
 
     /**
      * @var string
@@ -295,5 +302,29 @@ class Motu
     public function getMotuEstGenerePars()
     {
         return $this->motuEstGenerePars;
+    }
+
+    /**
+     * Set libelleMotu
+     *
+     * @param string $libelleMotu
+     *
+     * @return Motu
+     */
+    public function setLibelleMotu($libelleMotu)
+    {
+        $this->libelleMotu = $libelleMotu;
+
+        return $this;
+    }
+
+    /**
+     * Get libelleMotu
+     *
+     * @return string
+     */
+    public function getLibelleMotu()
+    {
+        return $this->libelleMotu;
     }
 }

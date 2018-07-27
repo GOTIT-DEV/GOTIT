@@ -89,6 +89,7 @@ class MotuController extends Controller
             $listePersonne= implode(", ", $arrayListePersonne);
             //
             $tab_toshow[] = array("id" => $id, "motu.id" => $id, 
+             "motu.libelleMotu" => $entity->getLibelleMotu(),
              "motu.nomFichierCsv" => $entity->getNomFichierCsv(),
              "listePersonne" => $listePersonne, 
              "motu.commentaireMotu" => $entity->getCommentaireMotu(),

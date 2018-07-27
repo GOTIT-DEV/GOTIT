@@ -44,8 +44,8 @@ SequenceAssembleeExt:
             column: date_creation_sqc_ass_ext
         accessionNumberSqcAssExt:
             type: string
-            nullable: true
-            length: 255
+            nullable: false
+            length: null
             options:
                 fixed: false
             column: accession_number_sqc_ass_ext

@@ -1,11 +1,12 @@
-# Intitulés des champs de la base de données E3S Version Anglaise
-# boutons ajouter > 16/07/2018
+# 
+A faire: Etat
+Libelle motu: Libelle Motu
+#
 title.Personne: Personne
 buton.See Stations Around: Afficher les Stations autour du point GPS
 modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
 buton.Close: Fermer
-################################# VALIDE  par Florian le 23/07/2018
-# Intitulés des champs de la base de données E3S Version Française
+#################################
 A faire: A faire
 Accession number: Numero d ordre
 Accession number sqc ass ext: Numero d ordre
@@ -171,7 +172,7 @@ User maj: Utilisateur mise a jour
 Validity: Validite
 Yeux voc fk: Vision
 
-# Intitulés des listes de selection
+#
 Choose a typeCollection: Selectionner un type de collection
 Choose a codeCollection: Selectionner un code  collection
 Choose a typeBoite: Selectionner un type de boite
@@ -212,7 +213,7 @@ Choose a PCR: Selectionner une PCR
 Choose a primer: Selectionner une amorce
 Choose a socitety: Selectionner un etablissement
 
-# intitulés des collections ou tableaux relatifs aux tables relationnelles de type N-N
+#
 Source a ete integre pars: Est integree par
 Adns: ADN
 Lot materiels: Lot materiel
@@ -243,7 +244,7 @@ A ciblers: Taxa cibles par collecte
 No: Non
 Yes: Oui
 Personne: Personne
-# Intitulés des boutons de l'interface
+# 
 buton.Add a Chromatogramme: Ajouter un chromatogramme
 buton.Add a Source: Ajouter une source
 buton.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
@@ -304,7 +305,7 @@ buton.BackToTheList: Retour a la Liste
 buton.showAllRecord: Liste de tous les enregistrements
 Envoyer: Importer le fichier CSV
 
-# intitulés des colonnes des listes d'enregistrements
+# 
 list.Date creation sqc ass ext: Date de creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
@@ -325,7 +326,7 @@ list.Last taxname: Dernier nom de taxon
 list.Last identification date: Derniere date identification
 list.Last identification critere: Dernier critere identification
 
-# Titres des pages
+# 
 title.Référentiels: Referentiels
 title.boite: Boite
 title.Dashboard: Tableau de bord
@@ -358,14 +359,14 @@ title.etablissement: Etablissement
 title.programme: Programme
 title.Recherche bdd: Recherche dans BDD
 
-# messages d'alerte relatif à la gestion des dates
+# 
 alert.datePrecisionINCONNU:  les champs date doivent être vides
 alert.datePrecisionANNEE:  les champs date doivent avoir le format 01-01-AAAA
 alert.datePrecisionMOIS:  les champs date doivent avoir le format 01-MM-AAAA
 alert.datePrecisionJOUR:  les champs date doivent avoir le format JJ-MM-AAAA
 alert.BadFormatDate:  mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=[1,31] MM=[1,12] AAAA=[1000,2999]
 
-# menus de la liste déroulante "Go to Import other set of files " des formulaires d'import des fichiers  csv
+# 
 import.liste: Importer des fichiers 
 import.boite.lotmaterielrange: Stocker des lots materiels par fichier
 import.boite.individulamerange: Stocker des lames par fichier

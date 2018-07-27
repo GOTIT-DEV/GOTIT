@@ -46,7 +46,7 @@ Pcr:
             column: code_pcr
         numPcr:
             type: string
-            nullable: true
+            nullable: false
             length: 255
             options:
                 fixed: false

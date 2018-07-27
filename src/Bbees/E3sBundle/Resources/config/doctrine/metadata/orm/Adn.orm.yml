@@ -8,18 +8,22 @@ Adn:
         cle_etrangere1:
             columns:
                 - date_precision_voc_fk
+        adn_code_adn:
+            columns:
+                - code_adn
         cle_etrangere2:
             columns:
                 - boite_fk
         cle_etrangere3:
             columns:
                 - individu_fk
-        adn_code_adn:
-            columns:
-                - code_adn
         IDX_1DCF9AF9C53B46B:
             columns:
                 - qualite_adn_voc_fk
+    uniqueConstraints:
+        cu_adn_cle_primaire:
+            columns:
+                - code_adn
     id:
         id:
             type: bigint

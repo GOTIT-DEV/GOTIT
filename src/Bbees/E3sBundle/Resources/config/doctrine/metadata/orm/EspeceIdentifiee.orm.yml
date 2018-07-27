@@ -88,6 +88,16 @@ EspeceIdentifiee:
                 date_precision_voc_fk:
                     referencedColumnName: id
             orphanRemoval: false
+        referentielTaxonFk:
+            targetEntity: ReferentielTaxon
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                referentiel_taxon_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
         sequenceAssembleeExtFk:
             targetEntity: SequenceAssembleeExt
             cascade: {  }
@@ -116,16 +126,6 @@ EspeceIdentifiee:
             inversedBy: null
             joinColumns:
                 lot_materiel_fk:
-                    referencedColumnName: id
-            orphanRemoval: false
-        referentielTaxonFk:
-            targetEntity: ReferentielTaxon
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                referentiel_taxon_fk:
                     referencedColumnName: id
             orphanRemoval: false
         individuFk:

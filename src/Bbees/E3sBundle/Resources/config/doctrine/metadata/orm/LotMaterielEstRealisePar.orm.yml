@@ -39,16 +39,6 @@ LotMaterielEstRealisePar:
                 unsigned: false
             column: user_maj
     manyToOne:
-        lotMaterielFk:
-            targetEntity: LotMateriel
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                lot_materiel_fk:
-                    referencedColumnName: id
-            orphanRemoval: false
         personneFk:
             targetEntity: Personne
             cascade: {  }
@@ -57,6 +47,16 @@ LotMaterielEstRealisePar:
             inversedBy: null
             joinColumns:
                 personne_fk:
+                    referencedColumnName: id
+            orphanRemoval: false
+        lotMaterielFk:
+            targetEntity: LotMateriel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                lot_materiel_fk:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
