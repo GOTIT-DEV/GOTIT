@@ -124,16 +124,7 @@
 <script type="text/javascript">  
 //  interface Formulaire
     $(document).ready(function(){
-        // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-        $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", true); 
-        $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
-            // deverouillage des champ descativé pour permettre l enregistrement
-            $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", false); 
-         });         
-        // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
-        $('#bbees_e3sbundle_collecte_stationFk').change(function (e) {              
-            setCodeCollecte();
-        })
+        // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
         // fonctionalités des champ date(s) & date_precision 
         var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
         $('#bbees_e3sbundle_collecte_dateCollecte').change(function (e) { 
@@ -143,25 +134,44 @@
             if (dateDateprecision('bbees_e3sbundle_collecte','dateCollecte', message)) {setCodeCollecte();}
         })                
         {% if action == 'edit'  %} 
-        // L'ajout d'un bouton Back to  the station
-            addBackToRelatedRecord('collecte', 'station', "{{'title.station'|trans}}" );
+            // L'ajout d'un bouton Back to  the station
+                addBackToRelatedRecord('collecte', 'station', "{{'title.station'|trans}}" );
+            // verouillage du champ Station
+            $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", false); 
+             }); 
         {% endif %}
-        // La fonction qui genere automatiquement le codeCollecte
-        function setCodeCollecte() {
-            var codeCollecte = '';
-            var nomStation = $('#bbees_e3sbundle_collecte_stationFk option:selected').text();
-            codeCollecte = nomStation + '_';
-            var valueDatePrecision = $('input:checked').val();
-            var datePrecision = $('label[for=bbees_e3sbundle_collecte_datePrecisionVocFk_'+valueDatePrecision+']').text().trim();
-            var dateCollecteMonth = $('#bbees_e3sbundle_collecte_dateCollecte_month').val();
-            dateCollecteMonth =  (dateCollecteMonth < 10) ? '0'+dateCollecteMonth.toString() : dateCollecteMonth.toString();
-            var dateCollecteYear = $('#bbees_e3sbundle_collecte_dateCollecte_year').val();
-            if (datePrecision == 'INCONNU') {codeCollecte = codeCollecte + '000000';}
-            if (datePrecision == 'ANNEE' ) {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
-            if (datePrecision == 'MOIS' || datePrecision == 'JOUR') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
-            //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
-            $('#bbees_e3sbundle_collecte_codeCollecte').val(codeCollecte);
-        }
+        {% if action == 'new'  %} 
+            // Action en mode CREATE
+            $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", false); 
+             });
+            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+            $('#bbees_e3sbundle_collecte_stationFk').change(function (e) {              
+                setCodeCollecte();
+            })
+            // La fonction qui genere automatiquement le codeCollecte
+            function setCodeCollecte() {
+                var codeCollecte = '';
+                var nomStation = $('#bbees_e3sbundle_collecte_stationFk option:selected').text();
+                codeCollecte = nomStation + '_';
+                var valueDatePrecision = $('input:checked').val();
+                var datePrecision = $('label[for=bbees_e3sbundle_collecte_datePrecisionVocFk_'+valueDatePrecision+']').text().trim();
+                var dateCollecteMonth = $('#bbees_e3sbundle_collecte_dateCollecte_month').val();
+                dateCollecteMonth =  (dateCollecteMonth < 10) ? '0'+dateCollecteMonth.toString() : dateCollecteMonth.toString();
+                var dateCollecteYear = $('#bbees_e3sbundle_collecte_dateCollecte_year').val();
+                if (datePrecision == 'INCONNU') {codeCollecte = codeCollecte + '000000';}
+                if (datePrecision == 'ANNEE' ) {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
+                if (datePrecision == 'MOIS' || datePrecision == 'JOUR') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
+                //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
+                $('#bbees_e3sbundle_collecte_codeCollecte').val(codeCollecte);
+            }
+        {% endif %}   
+
     });
 </script>
 

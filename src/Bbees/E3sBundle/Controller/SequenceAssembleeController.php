@@ -32,7 +32,7 @@ class SequenceAssembleeController extends Controller
     /**
      * constante 
      */
-    const DATEINF_SQCALIGNEMENT_AUTO = '2017-09-01';
+    const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
     
     /**
      * Lists all sequenceAssemblee entities.
@@ -274,9 +274,9 @@ class SequenceAssembleeController extends Controller
             $service->DelArrayCollection('SequenceAssembleeEstRealisePars',$sequenceAssemblee, $sequenceAssembleeEstRealisePars);
             $em->persist($sequenceAssemblee); 
             // on initialise le code sqcAlignement : setCodeSqcAlignement($codeSqcAlignement)
-            $CodeSqcAlignement = $this->createCodeSqcAlignement($sequenceAssemblee);
-            $sequenceAssemblee->setCodeSqcAlignement($CodeSqcAlignement);
-            $em->persist($sequenceAssemblee);
+            //$CodeSqcAlignement = $this->createCodeSqcAlignement($sequenceAssemblee);
+            //$sequenceAssemblee->setCodeSqcAlignement($CodeSqcAlignement);
+            //$em->persist($sequenceAssemblee);
             // flush
             try {
                 $em->flush();
