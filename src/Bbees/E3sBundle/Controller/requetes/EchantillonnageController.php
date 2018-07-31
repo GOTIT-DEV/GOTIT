@@ -38,8 +38,7 @@ class EchantillonnageController extends Controller {
    */
   public function searchQuery(Request $request, QueryBuilderService $service) {
     # Raccourci requête POST
-    $data   = $request->request;
-    $niveau = $data->get('niveau');
+    $data = $request->request;
 
     # Obtention des données géographiques
     $all_sta = $service->getSpeciesGeoSummary($data);
@@ -74,9 +73,8 @@ class EchantillonnageController extends Controller {
    */
   public function geoCoords(Request $request, QueryBuilderService $service) {
     # Données POST
-    $data   = $request->request;
-    $id     = $data->get('taxon');
-    $niveau = $data->get('niveau');
+    $data = $request->request;
+    $id   = $data->get('taxon');
     # Obtention des données de localisation
     $no_co1   = $service->getSpeciesGeoDetails($id, 0);
     $with_co1 = $service->getSpeciesGeoDetails($id, 1);
@@ -85,7 +83,6 @@ class EchantillonnageController extends Controller {
     # Renvoi des données de localisation pour affichage sur la carte
     return new JsonResponse(array(
       'taxname'  => $taxon->getTaxname(),
-      'all'      => $service->getSpeciesGeoDetails($id, -1),
       'with_co1' => $with_co1,
       'no_co1'   => $no_co1,
     ));
