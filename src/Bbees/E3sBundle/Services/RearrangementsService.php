@@ -253,7 +253,7 @@ class RearrangementsService {
                 v2.code AS methode,
                 v2.id AS id_methode,
                 m2.id AS id_date_methode,
-                m2.libelle_motu AS libelle_motu
+                m2.libelle_motu AS libelle_motu,
                 m2.date_motu AS date_motu,
 
                 a1.sequence_assemblee_fk as seq,
