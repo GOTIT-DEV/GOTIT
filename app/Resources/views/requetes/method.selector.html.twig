@@ -1,4 +1,8 @@
-{# Composant de formulaire pour sélectionner un jeu de données et une méthode #}
+{# Composant de formulaire pour sélectionner un jeu de données et une méthode 
+Variables : 
+   - datasets : liste des objets de la table "motu".
+#}
+
 {% trans_default_domain 'requetes' %}
 <div
   id="method-form"
@@ -12,9 +16,9 @@
       {% endtrans %}
     </label>
     <select name="date_methode" id="date_methode" class="form-control date-motu-select">
-      {% for date_motu in dates_methode %}
-        <option value="{{date_motu.id}}">
-          {{date_motu.dateMotu|date('d M Y')}}
+      {% for dataset in datasets %}
+        <option value="{{dataset.id}}">
+          {{dataset.libelleMotu}}
         </option>
       {% endfor %}
     </select>

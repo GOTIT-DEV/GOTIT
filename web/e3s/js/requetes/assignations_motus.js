@@ -35,9 +35,9 @@ class AssignMotu {
   }
 
   /**
- * Initialise datatable en lien avec le formulaire et les éléments du DOM
- * 
- */
+   * Initialise datatable en lien avec le formulaire et les éléments du DOM
+   * 
+   */
   initDataTable() {
     let self = this
     if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {
@@ -51,30 +51,36 @@ class AssignMotu {
           "url": self.form.data("url"),
           "dataSrc": "rows",
           "type": "POST",
-          "data": _ => { return self.form.serialize() }
+          "data": _ => {
+            return self.form.serialize()
+          }
         },
         dom: "lfrtipB",
         buttons: dtconfig.buttons,
         columns: [{
-          data: "taxname",
-          render: linkify(urls.refTaxon, 'id', true)
-        },
-        { data: "methode" },
-        {
-          data: "date_methode",
-          render: function (data, type, row) {
-            return Date.parse(row.date_motu.date).toString('MMM yyyy');
+            data: "taxname",
+            render: linkify(urls.refTaxon, 'id', true)
+          },
+          {
+            data: "methode"
+          },
+          {
+            data: "libelle_motu",
+          },
+          {
+            data: "nb_seq"
+          },
+          {
+            data: "nb_motus"
+          },
+          {
+            data: "id",
+            render: function (data, type, row) {
+              var template = $("#details-form-template").html();
+              return Mustache.render(template, row);
+            }
           }
-        },
-        { data: "nb_seq" },
-        { data: "nb_motus" },
-        {
-          data: "id",
-          render: function (data, type, row) {
-            var template = $("#details-form-template").html();
-            return Mustache.render(template, row);
-          }
-        }],
+        ],
         drawCallback: _ => {
           self.uiReceivedResponse()
           $('[data-toggle="tooltip"]').tooltip()
@@ -120,10 +126,10 @@ class AssignMotu {
   }
 
   /**
- * Initialize datatable on modal table
- * 
- * @param {string} tableId ID for table element in DOM
- */
+   * Initialize datatable on modal table
+   * 
+   * @param {string} tableId ID for table element in DOM
+   */
   initModalTable() {
     let self = this
     self.detailsDataTable = self.details.DataTable({
@@ -138,34 +144,44 @@ class AssignMotu {
         }
       },
       columns: [{
-        data: 'code',
-        render: function (data, type, row) {
-          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-          let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
-          return linkify(baseUrl, 'id', true, 'right')(data, type, row)
+          data: 'code',
+          render: function (data, type, row) {
+            let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+            let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
+            return linkify(baseUrl, 'id', true, 'right')(data, type, row)
+          }
+        }, {
+          data: 'acc',
+          render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
+        },
+        {
+          data: 'gene'
+        },
+        {
+          data: 'type',
+          render: data => {
+            return data ? self.seqTypes.externe : self.seqTypes.interne
+          }
+        },
+        {
+          data: 'motu'
+        },
+        {
+          data: 'critere'
         }
-      }, {
-        data: 'acc',
-        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
-      },
-      { data: 'gene' },
-      {
-        data: 'type',
-        render: data => { return data ? self.seqTypes.externe : self.seqTypes.interne }
-      },
-      { data: 'motu' },
-      { data: 'critere' }
       ],
       dom: "lfrtipB",
       buttons: dtconfig.buttons,
-      drawCallback: _ => { $('[data-toggle="tooltip"]').tooltip() }
+      drawCallback: _ => {
+        $('[data-toggle="tooltip"]').tooltip()
+      }
     })
   }
 
 
   /**
- * Active le mode attente / loading
- */
+   * Active le mode attente / loading
+   */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
   }

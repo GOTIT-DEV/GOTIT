@@ -26,16 +26,15 @@ class RichesseController extends Controller {
     $doctrine = $this->getDoctrine();
     // obtention de la liste des datasets,
     // utilisée pour adaptation des colonnes de la table
-    $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # obtention de la liste des genres
     $genus_set    = $service->getGenusSet();
     $methods_list = $service->listMethodsByDate();
     # Rendu du template
     return $this->render('requetes/richesse/index.html.twig', array(
-      'genus_set'     => $genus_set,
-      'dates_methode' => $dates_methode,
-      'methods_list'  => $methods_list,
-      "with_taxname"  => true,
+      'genus_set'    => $genus_set,
+      'datasets'     => $datasets,
+      'methods_list' => $methods_list,
     ));
   }
 

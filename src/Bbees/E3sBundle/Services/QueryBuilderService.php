@@ -45,7 +45,8 @@ class QueryBuilderService {
 
   public function getMethod($id_methode, $id_date_methode) {
     $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id as id_methode, v.code, m.id as id_date_methode, m.dateMotu as date_methode')
+    $query = $qb->select('v.id as id_methode, v.code')
+      ->addSelect('m.id as id_date_methode, m.dateMotu as date_methode, m.libelleMotu as libelle_motu')
       ->from('BbeesE3sBundle:Motu', 'm')
       ->join('BbeesE3sBundle:Assigne', 'a', 'WITH', 'a.motuFk=m')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -62,7 +63,7 @@ class QueryBuilderService {
 
   public function listMethodsByDate() {
     $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id, v.code, m.id as id_date_motu, m.dateMotu as date_motu')
+    $query = $qb->select('v.id, v.code, m.id as id_date_motu, m.dateMotu as date_motu, m.libelleMotu as libelle_motu')
       ->from('BbeesE3sBundle:Motu', 'm')
       ->join('BbeesE3sBundle:Assigne', 'a', 'WITH', 'a.motuFk=m')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -130,7 +131,7 @@ class QueryBuilderService {
     $qb    = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.taxname, rt.id')
       ->addSelect('voc.id as id_methode, voc.code as methode')
-      ->addSelect('motu.id as id_date_motu, motu.dateMotu as date_motu')
+      ->addSelect('motu.id as id_date_motu, motu.dateMotu as date_motu, motu.libelleMotu as libelle_motu')
       ->addSelect('COUNT(DISTINCT ass.numMotu ) as nb_motus')
       ->from('BbeesE3sBundle:ReferentielTaxon', 'rt')
       ->join('BbeesE3sBundle:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
@@ -230,7 +231,7 @@ class QueryBuilderService {
       ->leftJoin('BbeesE3sBundle:Voc', 'seqvoc', 'WITH', 'eidseq.critereIdentificationVocFk=seqvoc.id')
     ;
     if ($undefinedSeq) {
-      $query=$query->andWhere('seq.id IS NULL');
+      $query = $query->andWhere('seq.id IS NULL');
     }
     // FILTER based on user defined constraints
     $visited = [];
@@ -243,8 +244,8 @@ class QueryBuilderService {
           if ($tableAlias != $refTable) {
             $query = $query->andWhere("$refTable.id = $tableAlias.id");
           }
-          foreach($visited as $different){
-            $query = $query->andWhere("$tableAlias.id != $different.id"); 
+          foreach ($visited as $different) {
+            $query = $query->andWhere("$tableAlias.id != $different.id");
           }
         }
         $visited = array_merge($current, $visited);
@@ -479,7 +480,7 @@ class QueryBuilderService {
     if ($data->get('methode') && $single_method) {
       $methodFields = "motu.motu as motu";
     } else {
-      $methods = $this->listMethodsByDate();
+      $methods      = $this->listMethodsByDate();
       $methodFields = [];
       foreach ($methods as $idm => $method) {
         $methods[$idm]['tName'] = $method['code'] . "_" . $method['id_date_motu'];

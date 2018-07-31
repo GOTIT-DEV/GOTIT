@@ -34,7 +34,9 @@
             </div>
           </div>
           <div class="panel-body" id="taxa-select">
-            {% include 'requetes/species.selector.html.twig' %}
+            {% include 'requetes/species.selector.html.twig' with {
+              taxname : true
+            } %}
           </div>
         </div>
       </div>

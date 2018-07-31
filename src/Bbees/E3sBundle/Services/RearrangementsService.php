@@ -37,9 +37,9 @@ class RearrangementsService {
     foreach ($methodes as $m) {
       $counter[$m['id_date_motu']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
       // Ajout d'infos sur la méthode
-      $counter[$m['id_date_motu']][$m['id']]['methode']   = $m['code'];
-      $counter[$m['id_date_motu']][$m['id']]['date_motu'] = $m['date_motu'];
-      $counter[$m['id_date_motu']][$m['id']]['label']     = $m['code'] . ' ' . $m['date_motu']->format('Y');
+      $counter[$m['id_date_motu']][$m['id']]['methode']      = $m['code'];
+      $counter[$m['id_date_motu']][$m['id']]['libelle_motu'] = $m['libelle_motu'];
+      $counter[$m['id_date_motu']][$m['id']]['label']        = $m['code'] . ' ' . $m['date_motu']->format('Y');
       // Liste des séquences et stations à compter
       $counter[$m['id_date_motu']][$m['id']]['seq']     = [];
       $counter[$m['id_date_motu']][$m['id']]['seq_ext'] = [];
@@ -203,6 +203,7 @@ class RearrangementsService {
                 voc.id AS id_methode,
                 motu.id AS id_date_methode,
                 motu.date_motu,
+                motu.libelle_motu AS libelle_motu,
                 R.id AS id_ref,
                 R.genus,
                 R.species,
@@ -252,6 +253,7 @@ class RearrangementsService {
                 v2.code AS methode,
                 v2.id AS id_methode,
                 m2.id AS id_date_methode,
+                m2.libelle_motu AS libelle_motu
                 m2.date_motu AS date_motu,
 
                 a1.sequence_assemblee_fk as seq,
