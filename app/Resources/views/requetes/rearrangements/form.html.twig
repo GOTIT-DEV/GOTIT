@@ -89,20 +89,40 @@
           </div>
         </div>
       </div>
-
     </div>
-    <div class="well well-sm">
-      <button
-        type="submit"
-        value="Rechercher"
-        class="btn btn-block btn-primary"
-        data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
-        {% trans %}
-        label.search.bouton
-        {% endtrans %}
-      </button>
+  </fieldset>
+  <fieldset>
+    <legend>
+      <h3>{{'label.target' | trans}}</h3>
+    </legend>
+    <div class="panel panel-default">
+      <div class="form-group panel-body">
+        <label for="dataset">
+          {% trans %}
+          label.dataset
+          {% endtrans %}
+        </label>
+        <select name="target-dataset" id="target-dataset" class="form-control">
+          {% for dataset in datasets %}
+            <option value="{{dataset.id}}">
+              {{dataset.libelleMotu}}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
 
   </fieldset>
+  <div class="well well-sm">
+    <button
+      type="submit"
+      value="Rechercher"
+      class="btn btn-block btn-primary"
+      data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+      {% trans %}
+      label.search.bouton
+      {% endtrans %}
+    </button>
+  </div>
 
 </form>

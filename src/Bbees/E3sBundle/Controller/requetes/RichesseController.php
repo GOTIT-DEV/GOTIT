@@ -62,7 +62,7 @@ class RichesseController extends Controller {
     $methode = [];
     if ($data->get('methode')) {
       $geo_res = $service->getMotuGeoLocation($data, true);
-      $methode = $service->getMethod($data->get('methode'), $data->get('date_methode'));
+      $methode = $service->getMethod($data->get('methode'), $data->get('dataset'));
     }
     # Renvoi réponse JSON
     return new JsonResponse(array(

@@ -12,6 +12,7 @@ label:
   reference: Méthode de référence
   morphologie: Morphologie
   morphotaxon: Taxon
+  target: Jeu de données à comparer
 tabs:
   reference: Référence
   methodes: Méthodes moléculaires

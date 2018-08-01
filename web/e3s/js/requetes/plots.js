@@ -4,7 +4,9 @@
  * @param {any} key clé à cibler
  */
 function unpack(json, key) {
-  return json.map(function(row) { return row[key] })
+  return json.map(function (row) {
+    return row[key]
+  })
 }
 
 class BasePlot {
@@ -12,7 +14,7 @@ class BasePlot {
     // Construction objet plotly
     this.container = $(containerId)
     this.container.html('')
-      //this.container.html('') // vidage du container
+    //this.container.html('') // vidage du container
     this.d3 = Plotly.d3
 
     this.gd3 = this.d3.select(containerId) // assignation du d3 au container
@@ -67,34 +69,35 @@ class BarPlot extends BasePlot {
   }
 
   plot(json) {
-
+    console.log(json)
     let data = {
       match: [],
       split: [],
       lump: [],
       reshuffling: [],
-      label: []
+      methode: []
     }
     json.reduce((currentData, row) => {
       currentData.match.push(row.match)
       currentData.split.push(row.split)
       currentData.lump.push(row.lump)
       currentData.reshuffling.push(row.reshuffling)
-      currentData.label.push(row.label)
+      currentData.methode.push(row.methode)
       return currentData
     }, data)
 
-    let traces = []
-      // Constitution des données à afficher
-    for (var key in data) { // iteration
-      if (data.hasOwnProperty(key) && key != 'label')
-        traces.push({
-          x: data.label, // label de méthode
+    let traces = Object.keys(data)
+      .filter(key => {
+        return key != 'methode'
+      })
+      .map(key => {
+        return {
+          x: data.methode, // label de méthode
           y: data[key], // comptages
           name: key, // counters.key
           type: 'bar',
-        });
-    }
+        }
+      })
 
     // Déclaration du plot
     Plotly.newPlot(
@@ -163,7 +166,7 @@ class BaseGeoPlot extends BasePlot {
     $(".geo-overlay").show()
     Plotly.Plots
       .resize(self.gd)
-      .then(function() {
+      .then(function () {
         self.container.css("visibility", "visible")
         $(".geo-overlay").hide()
       })
@@ -309,15 +312,15 @@ class SamplingGeoPlot extends BaseGeoPlot {
     let self = this
     let data = []
     data.push( // Données COI
-        self.build_station_data(response.with_co1, {
-          name: self.container.data('vocabStationCo1'),
-          marker: {
-            symbol: "triangle-up",
-            color: "red"
-          }
-        })
-      )
-      // Données non COI
+      self.build_station_data(response.with_co1, {
+        name: self.container.data('vocabStationCo1'),
+        marker: {
+          symbol: "triangle-up",
+          color: "red"
+        }
+      })
+    )
+    // Données non COI
     let lotsMat = {
       interne: [],
       externe: []

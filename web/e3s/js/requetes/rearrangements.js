@@ -13,6 +13,10 @@ $(document).ready(function () {
   let speciesSelector = new SpeciesSelector("#main-form", true)
   let methodSelector = new MethodSelector("#main-form")
 
+  $("#main-form select#dataset").change(event => {
+    $("#target-dataset").val(event.target.value)
+  }).trigger('change')
+
   // Wait for active selector  to be ready
   switch ($('input[name="reference"]:checked').val()) {
     case "0":
@@ -56,19 +60,26 @@ function uiReceivedResponse() {
 function toggleFormSelect(event) {
   switch (event.target.value) {
     case "0":
-      $(".method-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', true);
-      break;
+      $(".method-select").prop('disabled', true)
+      $(".taxa-select").prop('disabled', true)
+      $("#target-dataset").prop('disabled', false)
+      break
 
     case "1":
-      $(".method-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', false);
-      break;
+      $(".method-select").prop('disabled', true)
+      $(".taxa-select").prop('disabled', false)
+      $("#target-dataset").prop('disabled', false)
+      break
 
     case "2":
-      $(".method-select").prop('disabled', false);
-      $(".taxa-select").prop('disabled', true);
-      break;
+      $(".method-select").prop('disabled', false)
+      $(".taxa-select").prop('disabled', true)
+      $("#target-dataset")
+        .prop('disabled', true)
+        .val(
+          $("select#dataset").val()
+        )
+      break
   }
 }
 
