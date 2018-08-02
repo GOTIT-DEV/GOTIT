@@ -90,7 +90,7 @@
                 entity.individu.label
                 {% endtrans %}
               </option>
-              <option value="3">
+              <option value="3" selected="selected">
                 {% trans from 'requetes' %}
                 entity.seq.label
                 {% endtrans %}
@@ -117,14 +117,8 @@
 
             </div>
           </div>
-          <div class="panel-footer">
-            <div class="row help-block">
-              <span class="fa fa-info-circle fa-lg col-xs-1" style='min-height:100%'></span>
-              <span id="help-criteres" class="col-xs-11">
-                Ne sélectionner aucun critère d'identification revient à tous les sélectionner
-              </span>
-            </div>
-          </div>
+          {# <div class="panel-footer">
+          </div> #}
         </div>
       </div>
     </fieldset>

@@ -2,11 +2,13 @@
 
 {% trans_default_domain 'requetes' %}
 
-{% block body %}
+{% block titlepage %}
   <h1>
     {{"queries.concordance.title" | trans }}
   </h1>
-  <hr>
+{% endblock %}
+
+{% block body %}
   <div class='row' style='padding:10px'>
     {# Formulaire #}
     {% include 'requetes/concordance/form.html.twig' %}

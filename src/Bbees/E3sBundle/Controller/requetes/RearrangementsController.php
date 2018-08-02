@@ -3,8 +3,8 @@
 namespace Bbees\E3sBundle\Controller\requetes;
 
 use Bbees\E3sBundle\Entity\Motu;
-use Bbees\E3sBundle\Services\RearrangementsService;
 use Bbees\E3sBundle\Services\QueryBuilderService;
+use Bbees\E3sBundle\Services\RearrangementsService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,13 +25,12 @@ class RearrangementsController extends Controller {
     // Obtention de la liste des Genus
     $genus_set = $service->getGenusSet();
     # Obtention de la liste des MOTU Datasets
-    $doctrine      = $this->getDoctrine();
-    $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
+    $doctrine = $this->getDoctrine();
+    $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # Rendu du template
     return $this->render('requetes/rearrangements/index.html.twig', array(
-      'dates_methode' => $dates_methode,
-      'genus_set'     => $genus_set,
-      "with_taxname"  => true,
+      'datasets'  => $datasets,
+      'genus_set' => $genus_set,
     ));
   }
 
@@ -41,8 +40,8 @@ class RearrangementsController extends Controller {
    * Renvoie un objet JSON pour remplir la table de résultats
    */
   public function searchQuery(Request $request, RearrangementsService $service) {
-
-    $service->fetch($request->request);
+    $service->setParameters($request->request);
+    $service->fetch();
     $service->countSeqSta();
     $service->indexResults();
 

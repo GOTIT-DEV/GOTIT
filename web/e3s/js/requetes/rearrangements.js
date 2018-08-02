@@ -1,17 +1,21 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function() {
+$(document).ready(function () {
   $('input[name="reference"]')
     .click(toggleFormSelect)
     .filter(':checked')
     .trigger('click')
 
   uiWaitResponse()
-  
-  
+
+
   let speciesSelector = new SpeciesSelector("#main-form", true)
   let methodSelector = new MethodSelector("#main-form")
+
+  $("#main-form select#dataset").change(event => {
+    $("#target-dataset").val(event.target.value)
+  }).trigger('change')
 
   // Wait for active selector  to be ready
   switch ($('input[name="reference"]:checked').val()) {
@@ -19,13 +23,13 @@ $(document).ready(function() {
       initDataTable("#result-table-recto")
       initDataTable("#result-table-verso")
     case "1":
-      $.when(speciesSelector.promise).done(function() {
+      $.when(speciesSelector.promise).done(function () {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
       break;
     case "2":
-      $.when(methodSelector.promise).done(function() {
+      $.when(methodSelector.promise).done(function () {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
@@ -56,19 +60,26 @@ function uiReceivedResponse() {
 function toggleFormSelect(event) {
   switch (event.target.value) {
     case "0":
-      $(".method-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', true);
-      break;
+      $(".method-select").prop('disabled', true)
+      $(".taxa-select").prop('disabled', true)
+      $("#target-dataset").prop('disabled', false)
+      break
 
     case "1":
-      $(".method-select").prop('disabled', true);
-      $(".taxa-select").prop('disabled', false);
-      break;
+      $(".method-select").prop('disabled', true)
+      $(".taxa-select").prop('disabled', false)
+      $("#target-dataset").prop('disabled', false)
+      break
 
     case "2":
-      $(".method-select").prop('disabled', false);
-      $(".taxa-select").prop('disabled', true);
-      break;
+      $(".method-select").prop('disabled', false)
+      $(".taxa-select").prop('disabled', true)
+      $("#target-dataset")
+        .prop('disabled', true)
+        .val(
+          $("select#dataset").val()
+        )
+      break
   }
 }
 
@@ -88,19 +99,17 @@ function initDataTable(tableId) {
         "url": $("#main-form").data("url"),
         "dataSrc": side,
         "type": "POST",
-        "data": function(d) {
+        "data": _ => {
           return $("#main-form").serialize()
         }
       },
       dom: 'lf<"clear pull-right"B>rtip',
       buttons: dtconfig.buttons,
+      order: [1, 'asc'],
       columns: [{
         data: "methode"
       }, {
-        data: "date_motu",
-        render: function(data, type, row) {
-          return Date.parse(data.date).toString('MMM yyyy');
-        },
+        data: "libelle_motu",
       }, {
         data: "match"
       }, {
@@ -114,16 +123,16 @@ function initDataTable(tableId) {
       }, {
         data: 'nb_sta'
       }],
-      drawCallback: function() {
+      drawCallback: _ => {
         $('[data-toggle="tooltip"]').tooltip()
       }
     })
 
-    dataTable.on('xhr', function() {
+    dataTable.on('xhr', _ => {
       var response = dataTable.ajax.json()
       barplot.plot(response[side])
       uiReceivedResponse()
-      $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+      $('a[data-toggle="tab"]').on('shown.bs.tab', event => {
         barplot.resize()
       });
     });
@@ -131,7 +140,7 @@ function initDataTable(tableId) {
     /****************
      * Submit form handler
      */
-    $("#main-form").submit(function(event) {
+    $("#main-form").submit(event => {
       event.preventDefault();
       uiWaitResponse()
       table.DataTable().ajax.reload()

@@ -2,13 +2,15 @@
 
 {% trans_default_domain 'requetes' %}
 
-{% block body %}
+{% block titlepage %}
   <h2>
     {% trans %}
     queries.rearrangement.title
     {% endtrans %}
   </h2>
-  <hr>
+{% endblock %}
+
+{% block body %}
   <div class="row">
     <div class="col-xs-12 col-sm-4">
       {# Formulaire #}

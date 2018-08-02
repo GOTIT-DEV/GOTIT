@@ -29,30 +29,31 @@ class QueryBuilderService {
     return $query->getResult();
   }
 
-  public function getMethodsByDate($id_date_motu) {
+  public function getMethodsByDate($id_dataset) {
     $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v')
+    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.libelleMotu as libelle_motu')
       ->from('BbeesE3sBundle:Motu', 'm')
       ->join('BbeesE3sBundle:Assigne', 'a', 'WITH', 'a.motuFk=m')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
-      ->andWhere('m.id = :date_methode')
-      ->setParameter('date_methode', $id_date_motu)
+      ->andWhere('m.id = :dataset')
+      ->setParameter('dataset', $id_dataset)
       ->distinct()
       ->getQuery();
 
     return $query->getArrayResult();
   }
 
-  public function getMethod($id_methode, $id_date_methode) {
+  public function getMethod($id_methode, $id_dataset) {
     $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id as id_methode, v.code, m.id as id_date_methode, m.dateMotu as date_methode')
+    $query = $qb->select('v.id as id_methode, v.code')
+      ->addSelect('m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as libelle_motu')
       ->from('BbeesE3sBundle:Motu', 'm')
       ->join('BbeesE3sBundle:Assigne', 'a', 'WITH', 'a.motuFk=m')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
-      ->andWhere('m.id = :id_date_methode AND v.id = :id_methode')
+      ->andWhere('m.id = :id_dataset AND v.id = :id_methode')
       ->setParameters(array(
-        ':id_date_methode' => $id_date_methode,
-        ':id_methode'      => $id_methode,
+        ':id_dataset' => $id_dataset,
+        ':id_methode' => $id_methode,
       ))
       ->distinct()
       ->getQuery();
@@ -62,7 +63,7 @@ class QueryBuilderService {
 
   public function listMethodsByDate() {
     $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id, v.code, m.id as id_date_motu, m.dateMotu as date_motu')
+    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as libelle_motu')
       ->from('BbeesE3sBundle:Motu', 'm')
       ->join('BbeesE3sBundle:Assigne', 'a', 'WITH', 'a.motuFk=m')
       ->join('BbeesE3sBundle:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -122,15 +123,15 @@ class QueryBuilderService {
    *****************************************************************************/
   public function getMotuCountList($data) {
 
-    $niveau       = $data->get('niveau');
-    $methodes     = $data->get('methodes');
-    $date_methode = $data->get('date_methode');
-    $criteres     = $data->get('criteres');
+    $niveau   = $data->get('niveau');
+    $methodes = $data->get('methodes');
+    $dataset  = $data->get('dataset');
+    $criteres = $data->get('criteres');
 
     $qb    = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.taxname, rt.id')
       ->addSelect('voc.id as id_methode, voc.code as methode')
-      ->addSelect('motu.id as id_date_motu, motu.dateMotu as date_motu')
+      ->addSelect('motu.id as id_dataset, motu.dateMotu as date_motu, motu.libelleMotu as libelle_motu')
       ->addSelect('COUNT(DISTINCT ass.numMotu ) as nb_motus')
       ->from('BbeesE3sBundle:ReferentielTaxon', 'rt')
       ->join('BbeesE3sBundle:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
@@ -177,8 +178,8 @@ class QueryBuilderService {
     }
 
     $query = $query->andWHere("voc.code != 'HAPLO'")
-      ->andWhere('motu.id = :id_date_motu')
-      ->setParameter('id_date_motu', $date_methode)
+      ->andWhere('motu.id = :id_dataset')
+      ->setParameter('id_dataset', $dataset)
       ->groupBy('rt.id, rt.taxname, voc.id, voc.code, motu.id')
       ->orderBy('rt.id')
       ->getQuery();
@@ -230,7 +231,7 @@ class QueryBuilderService {
       ->leftJoin('BbeesE3sBundle:Voc', 'seqvoc', 'WITH', 'eidseq.critereIdentificationVocFk=seqvoc.id')
     ;
     if ($undefinedSeq) {
-      $query=$query->andWhere('seq.id IS NULL');
+      $query = $query->andWhere('seq.id IS NULL');
     }
     // FILTER based on user defined constraints
     $visited = [];
@@ -243,8 +244,8 @@ class QueryBuilderService {
           if ($tableAlias != $refTable) {
             $query = $query->andWhere("$refTable.id = $tableAlias.id");
           }
-          foreach($visited as $different){
-            $query = $query->andWhere("$tableAlias.id != $different.id"); 
+          foreach ($visited as $different) {
+            $query = $query->andWhere("$tableAlias.id != $different.id");
           }
         }
         $visited = array_merge($current, $visited);
@@ -256,11 +257,11 @@ class QueryBuilderService {
   }
 
   public function getMotuSeqList($data) {
-    $id_taxon     = $data->get('taxon');
-    $id_methode   = $data->get('methode');
-    $date_methode = $data->get('date_motu');
-    $niveau       = $data->get('niveau');
-    $criteres     = $data->get('criteres');
+    $id_taxon   = $data->get('taxon');
+    $id_methode = $data->get('methode');
+    $dataset    = $data->get('date_motu');
+    $niveau     = $data->get('niveau');
+    $criteres   = $data->get('criteres');
 
     $qb    = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.id as idesp, rt.taxname')
@@ -305,7 +306,7 @@ class QueryBuilderService {
       ->setParameters([
         'id_taxon'  => $id_taxon,
         'methode'   => $id_methode,
-        'date_motu' => $date_methode,
+        'date_motu' => $dataset,
       ]);
 
     if ($criteres) {
@@ -479,11 +480,11 @@ class QueryBuilderService {
     if ($data->get('methode') && $single_method) {
       $methodFields = "motu.motu as motu";
     } else {
-      $methods = $this->listMethodsByDate();
+      $methods      = $this->listMethodsByDate();
       $methodFields = [];
       foreach ($methods as $idm => $method) {
-        $methods[$idm]['tName'] = $method['code'] . "_" . $method['id_date_motu'];
-        $methodFields[]         = $methods[$idm]['tName'] . ".motu as " . $method['code'] . "_" . $method['date_motu']->format('Y');
+        $methods[$idm]['tName'] = $method['code'] . "_" . $method['id_dataset'];
+        $methodFields[]         = $methods[$idm]['tName'] . ".motu as " . $method['code'] . "_" . $method['date_dataset']->format('Y');
       }
       $methodFields = join(',', $methodFields);
     }
@@ -491,7 +492,7 @@ class QueryBuilderService {
     $subquery = "SELECT
             seq.id, type_seq,
             voc.id as id_methode, voc.code as methode,
-            motu.id as id_date_motu, motu.date_motu, num_motu as motu
+            motu.id as id_dataset, motu.date_motu, num_motu as motu
         FROM (
             SELECT sequence_assemblee.id as id,
                     0 as type_seq,
@@ -562,12 +563,12 @@ class QueryBuilderService {
 
     if ($single_method) {
       $rawSql .= " JOIN (SELECT * FROM liste_motus
-                    WHERE id_date_motu = :id_date_motu AND id_methode=:id_methode ) motu
+                    WHERE id_dataset = :id_dataset AND id_methode=:id_methode ) motu
                     ON seq.id=motu.id and motu.type_seq = seq.type_seq";
     } else {
       foreach ($methods as $idm => $method) {
         $rawSql .= " LEFT JOIN (	SELECT * FROM liste_motus
-                        WHERE id_date_motu=" . $method['id_date_motu'] . " AND id_methode='" . $method['id'] . "') " . $method['tName'] .
+                        WHERE id_dataset=" . $method['id_dataset'] . " AND id_methode='" . $method['id'] . "') " . $method['tName'] .
           " ON seq.id=" . $method['tName'] . ".id AND " . $method['tName'] . ".type_seq = seq.type_seq";
       }
     }
@@ -583,7 +584,7 @@ class QueryBuilderService {
     };
 
     if ($single_method) {
-      $stmt->bindValue('id_date_motu', $data->get('date_methode'));
+      $stmt->bindValue('id_dataset', $data->get('dataset'));
       $stmt->bindValue('id_methode', $data->get('methode'));
     }
 

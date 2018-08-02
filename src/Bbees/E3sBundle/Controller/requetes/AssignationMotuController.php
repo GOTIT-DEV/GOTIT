@@ -30,18 +30,16 @@ class AssignationMotuController extends Controller {
     $genus_set = $service->getGenusSet();
     # obtention de la liste des critères d'identification
     $criteres = $doctrine->getRepository(Voc::class)->findByParent('critereIdentification');
-    # liste des dates des méthodes de délimitation
-    $dates_methode = $doctrine->getRepository(Motu::class)->findAll();
+    # liste des jeux de données
+    $datasets = $doctrine->getRepository(Motu::class)->findAll();
 
     # Renvoyer le template et les paramètres
     return $this->render('requetes/assign-motu/index.html.twig', array(
-      'genus_set'     => $genus_set,
-      'criteres'      => $criteres,
-      'dates_methode' => $dates_methode,
+      'genus_set' => $genus_set,
+      'criteres'  => $criteres,
+      'datasets'  => $datasets,
     ));
   }
-
-
 
   /**
    * @Route("/requete", name="requete1")

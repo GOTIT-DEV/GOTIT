@@ -10,7 +10,13 @@ use Symfony\Component\HttpFoundation\ParameterBag;
  */
 class RearrangementsService {
   private $entityManager; // database manager
-  private $request; // parametres POST
+
+  // Parameters
+  private $parameters; // parametres POST
+  private $reference;
+  private $target;
+
+  // Counting and indexing
   private $rawResults; // raw result table
   private $fwdCounter; // compteur référence -> méthodes
   private $revCounter; // compteur méthodes -> référence
@@ -22,28 +28,38 @@ class RearrangementsService {
    */
   public function __construct(EntityManagerInterface $manager, QueryBuilderService $qbservice) {
     $this->entityManager = $manager;
+    $this->qbservice     = $qbservice;
     $this->fwdCounter    = [];
     $this->revCounter    = [];
-    $this->initCounter($this->fwdCounter, $qbservice);
-    $this->initCounter($this->revCounter, $qbservice);
+  }
+
+  public function setParameters(ParameterBag $parameters) {
+    $this->parameters = $parameters;
+    $this->reference  = $parameters->get('reference');
+    if ($this->reference < 2) {
+      $this->target = $parameters->get('target-dataset');
+    } else {
+      $this->target = $parameters->get('dataset');
+    }
+    $this->initCounter($this->fwdCounter);
+    $this->initCounter($this->revCounter);
   }
 
   /**
    * Initialize les compteurs de réarrangement par méthode
    */
-  public function initCounter(&$counter, QueryBuilderService $qbservice) {
-    $methodes = $qbservice->listMethodsByDate(); // liste des méthodes
+  public function initCounter(&$counter) {
+    $methodes = $this->qbservice->getMethodsByDate($this->target); // liste des méthodes
     $keys     = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
     foreach ($methodes as $m) {
-      $counter[$m['id_date_motu']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
+      $counter[$m['id_dataset']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
       // Ajout d'infos sur la méthode
-      $counter[$m['id_date_motu']][$m['id']]['methode']   = $m['code'];
-      $counter[$m['id_date_motu']][$m['id']]['date_motu'] = $m['date_motu'];
-      $counter[$m['id_date_motu']][$m['id']]['label']     = $m['code'] . ' ' . $m['date_motu']->format('Y');
+      $counter[$m['id_dataset']][$m['id']]['methode']      = $m['code'];
+      $counter[$m['id_dataset']][$m['id']]['libelle_motu'] = $m['libelle_motu'];
       // Liste des séquences et stations à compter
-      $counter[$m['id_date_motu']][$m['id']]['seq']     = [];
-      $counter[$m['id_date_motu']][$m['id']]['seq_ext'] = [];
-      $counter[$m['id_date_motu']][$m['id']]['sta']     = [];
+      $counter[$m['id_dataset']][$m['id']]['seq']     = [];
+      $counter[$m['id_dataset']][$m['id']]['seq_ext'] = [];
+      $counter[$m['id_dataset']][$m['id']]['sta']     = [];
     }
   }
 
@@ -52,9 +68,9 @@ class RearrangementsService {
    */
   public function countSeqSta() {
     foreach ($this->rawResults as &$row) {
-      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['seq'][]     = $row['seq'];
-      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['seq_ext'][] = $row['seq_ext'];
-      $this->fwdCounter[$row['id_date_methode']][$row['id_methode']]['sta'][]     = $row['id_sta'];
+      $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq'][]     = $row['seq'];
+      $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq_ext'][] = $row['seq_ext'];
+      $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['sta'][]     = $row['id_sta'];
       unset($row['seq']);
       unset($row['seq_ext']);
       unset($row['sta']);
@@ -80,7 +96,7 @@ class RearrangementsService {
   public function simplify() {
     $this->rawResults = array_intersect_key($this->rawResults,
       array_unique(array_map(function ($row) {
-        return $row['num_motu'] . ":" . $row['id_ref'] . ":" . $row['id_date_methode'] . ":" . $row['id_methode'];
+        return $row['num_motu'] . ":" . $row['id_ref'] . ":" . $row['id_dataset'] . ":" . $row['id_methode'];
       }, $this->rawResults)));
   }
 
@@ -166,9 +182,9 @@ class RearrangementsService {
     foreach ($counter as $date => $methodes) {
       foreach ($methodes as $methode => $counts) {
         // Retenir les résultats du même dataset et méthode différente de la référence
-        if ($this->request->get('reference') < 2 || // pas de filtre si ref morpho
-          ($date == $this->request->get('date_methode') &&
-            $methode != $this->request->get('methode'))) {
+        if ($this->parameters->get('reference') < 2 || // pas de filtre si ref morpho
+          ($date == $this->parameters->get('dataset') &&
+            $methode != $this->parameters->get('methode'))) {
           $filtered[] = $counts;
         }
       }
@@ -190,19 +206,17 @@ class RearrangementsService {
   /**
    * Execute la requête pour obtenir les résultats bruts sur les séquences et leur MOTU
    */
-  public function fetch(ParameterBag $request) {
-    $this->request = $request;
-    $pdo           = $this->entityManager->getConnection();
-    // Référence : radio button coché (morpho, morpho filtré ou méthode)
-    $reference = $request->get('reference'); // 0 : morpho, 1 : molecular
+  public function fetch() {
+    $pdo = $this->entityManager->getConnection();
 
-    if ($reference < 2) {
+    if ($this->reference < 2) {
       // morpho
       $rawSql = "SELECT distinct Ass.num_motu,
                 voc.code AS methode,
                 voc.id AS id_methode,
-                motu.id AS id_date_methode,
+                motu.id AS id_dataset,
                 motu.date_motu,
+                motu.libelle_motu AS libelle_motu,
                 R.id AS id_ref,
                 R.genus,
                 R.species,
@@ -231,27 +245,34 @@ class RearrangementsService {
                 LEFT JOIN collecte co ON co.id = sext.collecte_fk OR co.id=lm.collecte_fk
                 LEFT JOIN station sta ON co.station_fk = sta.id
 
-                WHERE voc.code != 'HAPLO'";
-      if ($reference == 1) {
+                WHERE voc.code != 'HAPLO'
+                AND motu.id = :target_dataset";
+      if ($this->reference == 1) {
         // taxa filter
         $rawSql .= " AND R.id = :tax_id";
         $stmt = $pdo->prepare($rawSql);
-        $stmt->bindValue('tax_id', $request->get('taxname'));
+        $stmt->execute(array(
+          'tax_id'         => $this->parameters->get('taxname'),
+          'target_dataset' => $this->target,
+        ));
       } else {
         $stmt = $pdo->prepare($rawSql);
+        $stmt->execute(array(
+          'target_dataset' => $this->target,
+        ));
       }
 
-      $stmt->execute();
     } else {
       //molecular
-      $id_date_motu = $request->get('date_methode');
-      $id_methode   = $request->get('methode');
-      $rawSql       = "SELECT distinct
+      $id_dataset = $this->parameters->get('dataset');
+      $id_methode = $this->parameters->get('methode');
+      $rawSql     = "SELECT distinct
                 a1.num_motu as id_ref,
                 a2.num_motu as num_motu,
                 v2.code AS methode,
                 v2.id AS id_methode,
-                m2.id AS id_date_methode,
+                m2.id AS id_dataset,
+                m2.libelle_motu AS libelle_motu,
                 m2.date_motu AS date_motu,
 
                 a1.sequence_assemblee_fk as seq,
@@ -281,15 +302,16 @@ class RearrangementsService {
                 WHERE v1.code != 'HAPLO'
                 AND v2.code !='HAPLO'
                 AND v2.id != :id_methode
-                AND m2.id = :id_date_motu
+                AND m2.id = :target_dataset
                 AND m1.id = m2.id
                 AND v1.id = :id_methode
-                AND m1.id = :id_date_motu";
+                AND m1.id = :id_dataset";
 
       $stmt = $pdo->prepare($rawSql);
       $stmt->execute(array(
-        'id_methode'   => $id_methode,
-        'id_date_motu' => $id_date_motu,
+        'id_methode'     => $id_methode,
+        'id_dataset'     => $id_dataset,
+        'target_dataset' => $this->target,
       ));
     }
     // Données brutes des séquences et assignations par méthode
@@ -301,8 +323,8 @@ class RearrangementsService {
    */
   public function indexResults() {
     foreach ($this->rawResults as $row) {
-      $this->refIndex[$row['id_date_methode']][$row['id_methode']][$row['id_ref']][]       = $row;
-      $this->compareIndex[$row['id_date_methode']][$row['id_methode']][$row['num_motu']][] = $row;
+      $this->refIndex[$row['id_dataset']][$row['id_methode']][$row['id_ref']][]       = $row;
+      $this->compareIndex[$row['id_dataset']][$row['id_methode']][$row['num_motu']][] = $row;
     }
   }
 }

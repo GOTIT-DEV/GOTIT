@@ -24,9 +24,9 @@ class CommonController extends Controller {
    */
   public function methodsByDate(Request $request, QueryBuilderService $service) {
     # Dataset sélectionné par l'utilisateur
-    $id_date_motu = $request->request->get('date_methode');
+    $id_dataset = $request->request->get('dataset');
     # Obtention des méthodes incluses dans le dataset
-    $methodes = $service->getMethodsByDate($id_date_motu);
+    $methodes = $service->getMethodsByDate($id_dataset);
     # Renvoi de la réponse JSON
     return new JsonResponse(array('data' => $methodes));
   }

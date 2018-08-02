@@ -6,7 +6,7 @@ class CarteRichesse {
 
     initSwitchery(".switchbox")
     $('.switchbox')
-      .change(toggleTaxonForm('select'))
+      .change(toggleTaxonForm('.taxa-select'))
       .trigger('change')
 
     this.urls = {
@@ -14,8 +14,8 @@ class CarteRichesse {
       station: this.table.find("th#col-station").data('linkUrl')
     }
     this.seqTypes = {
-      interne : this.table.data('vocabSeqInt'),
-      externe : this.table.data('vocabSeqExt'),
+      interne: this.table.data('vocabSeqInt'),
+      externe: this.table.data('vocabSeqExt'),
     }
 
     this.uiWaitResponse()
@@ -48,8 +48,8 @@ class CarteRichesse {
   }
 
   /**
- * Active le mode attente / loading
- */
+   * Active le mode attente / loading
+   */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
     this.disableTabs()
@@ -88,16 +88,16 @@ class CarteRichesse {
   }
 
   /**
- * Met à jour la carte avec les données JSON
- * @param {Object} response réponse JSON
- */
+   * Met à jour la carte avec les données JSON
+   * @param {Object} response réponse JSON
+   */
   updateMap(response) {
     let self = this
     // Update title
     $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
       taxname: response.geo[0]['taxname'],
       code_methode: response.methode.code,
-      date_methode: Date.parse(response.methode.date_methode.date).toString('yyyy')
+      dataset: Date.parse(response.methode.date_dataset.date).toString('yyyy')
     }));
     // Plot data
     self.geoPlot.plot(response.geo)
@@ -137,36 +137,41 @@ class CarteRichesse {
       {
         data: "accession_number",
         render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
-      }]
+      }
+    ]
     this.methodes.forEach(element => {
       columns.push({
-        data: element.code.toLowerCase() + "_" + Date.parse(element.date_motu.date).toString('yyyy'),
+        data: element.code.toLowerCase() + "_" + Date.parse(element.date_dataset.date).toString('yyyy'),
         defaultContent: "-"
       })
     })
     columns.push.apply(columns, [{
-      data: "latitude",
-      render: renderNumber,
-    },
-    {
-      data: "longitude",
-      render: renderNumber,
-      defaultContent: "-"
-    },
-    { 
-      data: "code_station",
-      render: linkify(self.urls.station, 'id', true) 
-    },
-    { data: "commune" },
-    { data: "pays" }]
-    )
+        data: "latitude",
+        render: renderNumber,
+      },
+      {
+        data: "longitude",
+        render: renderNumber,
+        defaultContent: "-"
+      },
+      {
+        data: "code_station",
+        render: linkify(self.urls.station, 'id', true)
+      },
+      {
+        data: "commune"
+      },
+      {
+        data: "pays"
+      }
+    ])
     return columns
   }
 
   /**
- * Initialise datatables pour remplir la table *
- * en utilisant les données du formulaire
- */
+   * Initialise datatables pour remplir la table *
+   * en utilisant les données du formulaire
+   */
   initDataTable() {
     let self = this
     if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {

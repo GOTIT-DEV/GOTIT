@@ -213,8 +213,20 @@
         <div class="right_col" role="main">
         <div class="">
             
+        {# help button #}
+        {% block helpbutton %}
+        <button
+              class="btn btn-info pull-right"
+              type="button"
+              data-toggle="collapse"
+              data-target="#page-help"
+              aria-expanded="false"
+              aria-controls="page-help">
+              <i class="fa fa-question"></i>
+            </button>
+        {% endblock %}
+
         {% block titlepage %}
-           <div class="clearfix"></div>
         {% endblock %}
         
         <ul>
@@ -222,6 +234,14 @@
         {% endblock %} 
         </ul>
         
+        <div class="collapse" id="page-help">
+        <div class="well">
+        {% block pagehelp %}
+          Undefined
+        {% endblock %}
+        </div>
+        </div>
+
         {% block body %}
            <div class="clearfix"></div>
         {% endblock %}

@@ -3,7 +3,7 @@
  * dans les <select> des formulaires
  */
 class SpeciesSelector {
-  constructor(formId, withTaxname = false, callback = function () { }) {
+  constructor(formId, withTaxname = false, callback = function () {}) {
     this.form = $(formId)
     this.selector = this.form.find(".species-selector")
     this.genus = this.selector.find('.genus-select')
@@ -61,9 +61,9 @@ class SpeciesSelector {
     var spSel = this
     var taxnameSel = spSel.selector.find('.taxname-select')
     $.post(taxnameSel.data('url'), {
-      species: spSel.species.val(),
-      genus: spSel.genus.val()
-    },
+        species: spSel.species.val(),
+        genus: spSel.genus.val()
+      },
       function (response) {
         var data = response.data.map(makeOption)
         taxnameSel.html($.makeArray(data))
@@ -91,8 +91,8 @@ class MethodSelector {
       this.container = this.selector.find('#method-container')
       this.checkboxTemplate = this.selector.find('#method-form-checkbox')
     }
-    this.datasets = this.selector.find('.date-motu-select')
-    this.methods = this.selector.find('.method-select')
+    this.datasets = this.selector.find('select[name="dataset"]')
+    this.methods = this.selector.find('select[name="methode"]')
 
     // Promise resolved when ready
     this.promise = new $.Deferred()
@@ -119,9 +119,9 @@ class MethodSelector {
     var methSel = this
     $.post(
       this.selector.data('url'), {
-        date_methode: this.datasets.val()
+        dataset: this.datasets.val()
       },
-      function (response) {
+      response => {
         if (methSel.mode == 'select') {
           var data = response.data.map(makeOption)
           methSel.methods.html($.makeArray(data));
@@ -206,8 +206,7 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
       shortened = esc(shortened);
     }
     return Mustache.render(
-      '<span class="ellipsis" data-toggle="tooltip" data-placement="{{placement}}" title="{{title}}">{{shortText}}&#8230;</span>',
-      {
+      '<span class="ellipsis" data-toggle="tooltip" data-placement="{{placement}}" title="{{title}}">{{shortText}}&#8230;</span>', {
         placement: placement,
         title: esc(d),
         shortText: shortened
@@ -221,7 +220,7 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
  * @param {string} col nom de la colonne JSON à utiliser
  * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
  */
-function linkify(url, col, ellipsis = true, placement='top') {
+function linkify(url, col, ellipsis = true, placement = 'top') {
   return function (data, type, row) {
     if (data === null) {
       return data
