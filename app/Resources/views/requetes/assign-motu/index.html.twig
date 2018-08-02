@@ -1,12 +1,15 @@
 {% extends 'base.requetes.html.twig' %}
-{% block body %}
-  <h1>
-		{% trans from 'requetes' %}
-		queries.motu.title
-		{% endtrans %}
-	</h1>
-  <hr>
 
+{% block titlepage %}
+  <h1>
+    {% trans from 'requetes' %}
+    queries.motu.title
+    {% endtrans %}
+  </h1>
+  <hr>
+{% endblock %}
+
+{% block body %}
   {# Formulaire #}
   {% include 'requetes/assign-motu/form.html.twig' with criteres %}
 
@@ -15,8 +18,8 @@
 
   {# Modal et templates HTML #}
   <div id="modal-container">
-	{% include 'requetes/assign-motu/details.modal.html.twig' %}
-	</div>
+    {% include 'requetes/assign-motu/details.modal.html.twig' %}
+  </div>
 
   {% include 'requetes/assign-motu/extra_templates.html.twig' %}
 

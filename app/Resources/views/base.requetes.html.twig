@@ -4,11 +4,11 @@
   {{ parent() }}
   <!-- Switchery -->
   <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
-	<!-- Datatables -->
+  <!-- Datatables -->
   <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
   <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
-	<!-- Custom Theme Style -->
+  <!-- Custom Theme Style -->
   <link href="{{ asset('e3s/css/datatables.fa.css') }}" rel="stylesheet">
 {% endblock %}
 
@@ -24,7 +24,6 @@
 {% block action %}{% endblock %}
 
 {% block body %}
-	{% trans_default_domain 'requetes' %}
   <div class="clearfix"></div>
 {% endblock %}
 
@@ -34,7 +33,7 @@
 
 {% block scripts %}
   {{ parent() }}
-	<!-- Datatables -->
+  <!-- Datatables -->
   <script src="{{ asset('e3s/vendors/datatables/datatables.min.js') }}"></script>
   <!-- Switchery -->
   <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>

@@ -1,11 +1,15 @@
 {% extends 'base.requetes.html.twig' %}
-{% block body %}
+{% block titlepage %}
   <h1>
     {% trans from 'requetes' %}
     queries.richesse.title
     {% endtrans %}
   </h1>
   <hr>
+{% endblock %}
+
+{% block body %}
+
   <div class='row'>
     <div class="col-xs-12">
       {# Formulaire #}

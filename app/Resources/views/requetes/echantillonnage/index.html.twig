@@ -2,13 +2,15 @@
 
 {% trans_default_domain 'requetes' %}
 
-{% block body %}
+{% block titlepage %}
   <h1>
-	{{"queries.echantillonnage.title" | trans }}
-	</h1>
+    {{"queries.echantillonnage.title" | trans }}
+  </h1>
   <hr>
-  <div class='row' style='padding:10px'>
+{% endblock %}
 
+{% block body %}
+  <div class='row' style='padding:10px'>
     <div class="col-xs-12 col-lg-3 col-lg-offset-0">
       {# Formulaire #}
       {% include 'requetes/echantillonnage/form.html.twig' %}
@@ -18,8 +20,8 @@
       <fieldset>
         <legend>
           <h2 style='margin-bottom:18px'>
-					{{"label.resultats" | trans }}
-					</h2>
+            {{"label.resultats" | trans }}
+          </h2>
         </legend>
         {% include 'requetes/echantillonnage/results.html.twig' %}
       </div>
