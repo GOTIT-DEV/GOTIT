@@ -12,7 +12,7 @@ class RearrangementsService {
   private $entityManager; // database manager
 
   // Parameters
-  private $request; // parametres POST
+  private $parameters; // parametres POST
   private $reference;
   private $target;
 
@@ -50,8 +50,7 @@ class RearrangementsService {
    */
   public function initCounter(&$counter) {
     $methodes = $this->qbservice->getMethodsByDate($this->target); // liste des méthodes
-    dump($methodes);
-    $keys = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
+    $keys     = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
     foreach ($methodes as $m) {
       $counter[$m['id_dataset']][$m['id']] = array_fill_keys($keys, 0); // stocke les comptages
       // Ajout d'infos sur la méthode
@@ -183,9 +182,9 @@ class RearrangementsService {
     foreach ($counter as $date => $methodes) {
       foreach ($methodes as $methode => $counts) {
         // Retenir les résultats du même dataset et méthode différente de la référence
-        if ($this->request->get('reference') < 2 || // pas de filtre si ref morpho
-          ($date == $this->request->get('dataset') &&
-            $methode != $this->request->get('methode'))) {
+        if ($this->parameters->get('reference') < 2 || // pas de filtre si ref morpho
+          ($date == $this->parameters->get('dataset') &&
+            $methode != $this->parameters->get('methode'))) {
           $filtered[] = $counts;
         }
       }
@@ -207,13 +206,10 @@ class RearrangementsService {
   /**
    * Execute la requête pour obtenir les résultats bruts sur les séquences et leur MOTU
    */
-  public function fetch(ParameterBag $request) {
-    $this->request = $request;
-    $pdo           = $this->entityManager->getConnection();
-    // Référence : radio button coché (morpho, morpho filtré ou méthode)
-    $reference = $request->get('reference'); // 0 : morpho, 1 : molecular
+  public function fetch() {
+    $pdo = $this->entityManager->getConnection();
 
-    if ($reference < 2) {
+    if ($this->reference < 2) {
       // morpho
       $rawSql = "SELECT distinct Ass.num_motu,
                 voc.code AS methode,
@@ -251,12 +247,12 @@ class RearrangementsService {
 
                 WHERE voc.code != 'HAPLO'
                 AND motu.id = :target_dataset";
-      if ($reference == 1) {
+      if ($this->reference == 1) {
         // taxa filter
         $rawSql .= " AND R.id = :tax_id";
         $stmt = $pdo->prepare($rawSql);
         $stmt->execute(array(
-          'tax_id'         => $this->request->get('taxname'),
+          'tax_id'         => $this->parameters->get('taxname'),
           'target_dataset' => $this->target,
         ));
       } else {
@@ -268,8 +264,8 @@ class RearrangementsService {
 
     } else {
       //molecular
-      $id_dataset = $request->get('dataset');
-      $id_methode = $request->get('methode');
+      $id_dataset = $this->parameters->get('dataset');
+      $id_methode = $this->parameters->get('methode');
       $rawSql     = "SELECT distinct
                 a1.num_motu as id_ref,
                 a2.num_motu as num_motu,
