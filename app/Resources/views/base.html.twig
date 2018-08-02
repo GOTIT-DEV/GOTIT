@@ -213,6 +213,7 @@
         <div class="">
             
         {# help button #}
+        {% block helpbutton %}
         <button
               class="btn btn-info pull-right"
               type="button"
@@ -222,6 +223,7 @@
               aria-controls="page-help">
               <i class="fa fa-question"></i>
             </button>
+        {% endblock %}
 
         {% block titlepage %}
         {% endblock %}
