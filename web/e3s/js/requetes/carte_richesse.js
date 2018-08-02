@@ -6,7 +6,7 @@ class CarteRichesse {
 
     initSwitchery(".switchbox")
     $('.switchbox')
-      .change(toggleTaxonForm('select'))
+      .change(toggleTaxonForm('.taxa-select'))
       .trigger('change')
 
     this.urls = {
