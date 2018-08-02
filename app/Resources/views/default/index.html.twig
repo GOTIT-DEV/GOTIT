@@ -1,6 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% block headincl %}
+  <!-- Plotly -->
+  <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
+{% endblock %}
+
+{% block titlepage %}  
+    <div class="page-title">
+        
+      <div class="title_right" >
+        <h1>
+            <!-- <img rel="icon" src="{{ asset('e3s/images/logo-BBEES.png') }}" type="image" width="50" height="50" alt="Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés (BBEES), Muséum national d'Histoire naturelle, CNRS " />  -->
+           <i>  {{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}} </i>
+        </h1>
+      </div>
+        
+    </div>            
+    <div class="clearfix"></div>
+{% endblock %} 
+
 {% block body %}
+ 
+     <div class="row">
+         <img rel="icon" src="{{ asset('e3s/images/logo-BBEES.png') }}" type="image" width="75" height="75" alt="Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés (BBEES), Muséum national d'Histoire naturelle, CNRS " />
+         <span class="img-thumbnail">BBEES : Unité Bases de données sur la<br>Biodiversité, Écologie, Environnement et Sociétés</span>          
+     </div>
+    
   <!-- top tiles --> 
   <div class="row tile_count">
     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -62,7 +87,71 @@
     
   </div>
   <!-- /top tiles -->
+   
+    
+    
+    
+  <div class="row">
 
+    <div class="col-md-5 col-sm-5 col-xs-15">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>{{'Dashboard.Distribution des stations'|trans}}</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+                <div class="geo-container">
+                <div id="station-geo-map" style="width:100%">
+                </div>
+                <div class="geo-overlay">
+                <i class="fa fa-spinner fa-spin fa-4x"></i>
+                </div>
+                </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2 col-sm-2 col-xs-6">
+      <div class="x_panel  overflow_hidden">
+        <div class="x_title">
+          <h2>Adn sequence</h2>
+          <ul class="nav navbar-right panel_toolbox">
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-5 col-sm-5 col-xs-15">
+      <div class="x_panel ">
+        <div class="x_title">
+          <h2>Proaselus valdensis</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            
+        </div>
+      </div>
+    </div>
+
+  </div>  
+    
 {% set NbTot = nbSequenceAssemblee+nbChromatogramme+nbPcr+nbIndividu+nbLotMateriel %}
 
   <div class="row">
@@ -425,3 +514,37 @@
 {% endblock %}
 
 
+{% block scripts %}
+{{ parent() }}
+
+<script type="text/javascript">  
+ 
+    $(document).ready(function(){
+        
+            var latitude = '45,0';
+            var longitude = '5,0';
+            //var data = $(this).serialize();
+            var  data = {'latitude': latitude, 'longitude':longitude };            
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: "{{ path('mapstations') }}",
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('error ajax request : '+errorThrown);
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                beforeSend: function(htmlResponse) {  
+                    $(".geo-overlay").show();
+                                },
+                success: function (response) {
+                    $(".geo-overlay").hide();
+                    gd = stationsMap(response.stations, latitude, longitude);
+                }
+            });
+
+               
+    });
+ </script>
+{% endblock %}

@@ -1,4 +1,7 @@
 # Intitules des champs de la base de donnees E3S Version Anglaise
+#  dashboard
+Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy ( GOTIT )
+Dashboard.Distribution des stations: Distribution of sites
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
 A faire: Status
 Libelle motu: MOTU title

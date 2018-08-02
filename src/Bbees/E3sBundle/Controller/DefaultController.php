@@ -3,7 +3,11 @@
 namespace Bbees\E3sBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Bbees\E3sBundle\Entity\Collecte;
 use Bbees\E3sBundle\Entity\Station;
 use Bbees\E3sBundle\Entity\LotMateriel;
@@ -62,4 +66,45 @@ class DefaultController extends Controller
             'nbSource' => $nbSource,
             ));
     }
+    
+    /**
+     * @Route("/mapstations/", name="mapstations")
+     * @Method("POST")
+     */
+    public function geoCoords(Request $request){
+        $data = $request->request;
+        $latitude = $data->get('latitude');
+        $longitude = $data->get('longitude');
+        $diffLatitudeLongitude = 1;
+        //
+        $em = $this->getDoctrine()->getManager();
+              
+        $tab_toshow =[];
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+            ->getQuery()
+            ->getResult();
+        $nb_entities = count($entities_toshow);
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            //$DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id, "station.id" => $id, 
+            "station.codeStation" => $entity->getCodeStation(),
+             "station.nomStation" => $entity->getNomStation(),
+             "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
+             "pays.codePays" => $entity->getPaysFk()->getCodePays(),
+             "station.latDegDec" => $entity->getLatDegDec(), 
+             "station.longDegDec" => $entity->getLongDegDec()
+             );
+        } 
+        
+        return new JsonResponse(array(
+            'stations' => $tab_toshow,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ));
+    }
+
+    
 }

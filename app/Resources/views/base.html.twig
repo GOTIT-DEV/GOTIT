@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico" />
+	<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico" />
 
     <title>
         {% block title %}
-            GDSTI-E3S 
+            GOTIT-E3S 
         {% endblock %}
     </title>
     
@@ -42,7 +42,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>GDSTI - E3S</span></a>
+              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>GOTIT - E3S</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -115,30 +115,30 @@
                   <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     <li><a href="{{ path('echantillonnage') }}">
-										{% trans from 'requetes' %}
-										queries.echantillonnage.nav
-										{% endtrans %}
-										</a></li>
+                        {% trans from 'requetes' %}
+                        queries.echantillonnage.nav
+                        {% endtrans %}
+                        </a></li>
                     <li><a href="{{ path('assign-motu') }}">
-										{% trans from 'requetes' %}
-										queries.motu.nav
-										{% endtrans %}
-										</a></li>
+                        {% trans from 'requetes' %}
+                        queries.motu.nav
+                        {% endtrans %}
+                        </a></li>
                     <li><a href="{{ path('rearrangements') }}">
-										{% trans from 'requetes' %}
-										queries.rearrangement.nav
-										{% endtrans %}
-										</a></li>                   
+                        {% trans from 'requetes' %}
+                        queries.rearrangement.nav
+                        {% endtrans %}
+                        </a></li>                   
                     <li><a href="{{ path('richesse') }}">
-										{% trans from 'requetes' %}
-										queries.richesse.nav
-										{% endtrans %}
-										</a></li>
-										<li><a href="{{ path('concordance') }}">
-										{% trans from 'requetes' %}
-										queries.concordance.nav
-										{% endtrans %}
-										</a></li>
+                        {% trans from 'requetes' %}
+                        queries.richesse.nav
+                        {% endtrans %}
+                        </a></li>
+                        <li><a href="{{ path('concordance') }}">
+                        {% trans from 'requetes' %}
+                        queries.concordance.nav
+                        {% endtrans %}
+                        </a></li>
                     </ul>
                   </li>
                 </ul>
@@ -171,17 +171,18 @@
 
         <!-- top navigation -->
         {% block topnav %}	
-        <div class="top_nav">
+        <div class="top_nav"> 
+            
           <div class="nav_menu">
-            <nav>
+            <nav>                
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
-
-              <ul class="nav navbar-nav navbar-right">
+               <ul class="nav navbar-nav navbar-right">  
+                   
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Florian MALLARD
+                    F MALLARD
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
