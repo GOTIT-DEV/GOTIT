@@ -2,6 +2,29 @@
 #  dashboard
 Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy ( GOTIT )
 Dashboard.Distribution des stations: Distribution of sites
+Dashboard.Hypothese espece: Species hypotheses
+Dashboard.nbMotuSqcAss: Séquence assigned to MOTU
+Dashboard.nbMotuSqcAssExt: Séquence assigned to  MOTU
+Dashboard.nbTaxon: Taxa
+Dashboard.Données de la litérature: Literature data
+Dashboard.LotMaterielExt: Lot
+Dashboard.nbSequenceAssembleeExt: DNA sequence
+Dashboard.nbSource: Refeérence
+Dashboard.nbLotMateriel: Lot
+Dashboard.Materiel biologique: Biological material
+Dashboard.nbIndividu: Specimen
+Dashboard.nbIndividuLame: Slide
+Dashboard.nbAdn: DNA
+Dashboard.nbBoite: Box
+Dashboard.nbStation: Site
+Dashboard.nbCollecte: Sample
+Dashboard.nbPcr : PCR
+Dashboard.nbChromatogramme: Chromatogram
+Dashboard.nbSequenceAssemblee: DNA Sequence
+Dashboard.Données de terrain: Field data
+Dashboard.Données moléculaire: Molecular data
+Dashboard.LastUpdate: Last updates
+Dashboard.Tools: Tools
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
 A faire: Status
 Libelle motu: MOTU title

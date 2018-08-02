@@ -753,7 +753,7 @@ var longArray = [longGPS];
     titlefont: {
       size: 16
     },
-    height: 600,
+    height: 500,
     margin: {
       l: 0,
       r: 0,
