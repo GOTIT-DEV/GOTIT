@@ -76,21 +76,21 @@ function initDataTable(tableId, geoPlotObject) {
         }, {
           data: "lmp",
           render: renderNumber,
-          defaultContent: "-"
+          defaultContent: ""
         }, {
           data: "mle",
           render: renderNumber,
-          defaultContent: "-"
+          defaultContent: ""
         }, {
           data: "nb_sta_co1"
         }, {
           data: "lmp_co1",
           render: renderNumber,
-          defaultContent: "-"
+          defaultContent: ""
         }, {
           data: "mle_co1",
           render: renderNumber,
-          defaultContent: "-"
+          defaultContent: ""
         }, {
           data: "id",
           render: function (data, type, row) {

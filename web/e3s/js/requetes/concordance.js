@@ -110,17 +110,17 @@ function initDataTable(tableId) {
         },
         {
           data: "code_seq",
-          defaultContent: "-",
+          defaultContent: "",
           render: renderLinkify('id_seq', urls.sequence)
         },
         {
           data: "taxname_seq",
           render: renderLinkify('idtax_lm', urls.refTaxon),
-          defaultContent: "-"
+          defaultContent: ""
         },
         {
           data: "critere_seq",
-          defaultContent: "-"
+          defaultContent: ""
         }
       ],
       drawCallback: function (settings) {
