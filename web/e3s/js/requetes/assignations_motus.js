@@ -19,7 +19,6 @@ class AssignMotu {
       interne: this.details.data('vocabSeqInt'),
       externe: this.details.data('vocabSeqExt'),
     }
-    initSwitchery('.switchbox')
     $('#taxa-filter')
       .change(toggleTaxonForm('.taxa-select'))
       .trigger('change')
@@ -75,7 +74,7 @@ class AssignMotu {
           },
           {
             data: "id",
-            render: function (data, type, row) {
+            render: (data, type, row) => {
               var template = $("#details-form-template").html();
               return Mustache.render(template, row);
             }

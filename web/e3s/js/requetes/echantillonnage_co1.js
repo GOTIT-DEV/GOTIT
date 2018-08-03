@@ -2,7 +2,6 @@
  *  Document ready
  **************************** */
 $(document).ready(function () {
-  initSwitchery('.switchbox')
   $('#taxaFilter')
     .change(toggleTaxonForm('.taxa-select'))
     .trigger('change')

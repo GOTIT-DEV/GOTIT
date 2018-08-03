@@ -4,8 +4,7 @@ class CarteRichesse {
     this.table = $(tableId)
     this.mapContainer = $(mapContainerId)
 
-    initSwitchery(".switchbox")
-    $('.switchbox')
+    $('#taxa-filter')
       .change(toggleTaxonForm('.taxa-select'))
       .trigger('change')
 
