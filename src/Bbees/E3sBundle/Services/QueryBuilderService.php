@@ -473,26 +473,13 @@ class QueryBuilderService {
     return $stmt->fetchAll(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
   }
 
-  public function getMotuGeoLocation($data, $single_method = false) {
+  public function getMotuGeoLocation($data) {
 
-    $taxid = $data->get('taxname');
-
-    if ($data->get('methode') && $single_method) {
-      $methodFields = "motu.motu as motu";
-    } else {
-      $methods      = $this->listMethodsByDate();
-      $methodFields = [];
-      foreach ($methods as $idm => $method) {
-        $methods[$idm]['tName'] = $method['code'] . "_" . $method['id_dataset'];
-        $methodFields[]         = $methods[$idm]['tName'] . ".motu as " . $method['code'] . "_" . $method['date_dataset']->format('Y');
-      }
-      $methodFields = join(',', $methodFields);
-    }
-
+    $taxid    = $data->get('taxname');
     $subquery = "SELECT
             seq.id, type_seq,
             voc.id as id_methode, voc.code as methode,
-            motu.id as id_dataset, motu.date_motu, num_motu as motu
+            motu.id as id_dataset, motu.date_motu, motu.libelle_motu, num_motu as motu
         FROM (
             SELECT sequence_assemblee.id as id,
                     0 as type_seq,
@@ -509,13 +496,18 @@ class QueryBuilderService {
             FROM assigne JOIN sequence_assemblee_ext ON assigne.sequence_assemblee_ext_fk=sequence_assemblee_ext.id
             ) as seq
             JOIN voc ON voc.id=seq.methode_voc
-            JOIN motu ON motu.id=seq.motu_fk";
+            JOIN motu ON motu.id=seq.motu_fk
+            WHERE motu.id = :id_dataset AND voc.id=:id_methode ";
 
     $rawSql = "WITH liste_motus AS ($subquery)";
     $rawSql .= "SELECT DISTINCT seq.id, seq.code, seq.accession_number,
             seq.delimitation,
             seq.type_seq,
-            $methodFields,
+            liste_motus.id_methode,
+            liste_motus.methode,
+            liste_motus.id_dataset,
+            liste_motus.libelle_motu,
+            liste_motus.motu,
             tax.id as taxon_id,
             tax.taxname,
             station.id as id_sta,
@@ -559,34 +551,21 @@ class QueryBuilderService {
             JOIN collecte ON seq.collecte_fk=collecte.id
             JOIN station ON collecte.station_fk=station.id
             JOIN commune ON station.commune_fk=commune.id
-            JOIN pays ON station.pays_fk=pays.id";
-
-    if ($single_method) {
-      $rawSql .= " JOIN (SELECT * FROM liste_motus
-                    WHERE id_dataset = :id_dataset AND id_methode=:id_methode ) motu
-                    ON seq.id=motu.id and motu.type_seq = seq.type_seq";
-    } else {
-      foreach ($methods as $idm => $method) {
-        $rawSql .= " LEFT JOIN (	SELECT * FROM liste_motus
-                        WHERE id_dataset=" . $method['id_dataset'] . " AND id_methode='" . $method['id'] . "') " . $method['tName'] .
-          " ON seq.id=" . $method['tName'] . ".id AND " . $method['tName'] . ".type_seq = seq.type_seq";
-      }
-    }
+            JOIN pays ON station.pays_fk=pays.id
+            JOIN liste_motus ON seq.id=liste_motus.id AND liste_motus.type_seq = seq.type_seq";
     if ($taxid) {
       $rawSql .= " WHERE tax.id = :taxid";
     }
 
-    $rawSql .= " ORDER BY taxname";
+    $rawSql .= " ORDER BY taxname, seq.code";
 
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     if ($taxid) {
       $stmt->bindParam('taxid', $taxid);
     };
 
-    if ($single_method) {
-      $stmt->bindValue('id_dataset', $data->get('dataset'));
-      $stmt->bindValue('id_methode', $data->get('methode'));
-    }
+    $stmt->bindValue('id_dataset', $data->get('dataset'));
+    $stmt->bindValue('id_methode', $data->get('methode'));
 
     $stmt->execute();
     return $stmt->fetchAll();

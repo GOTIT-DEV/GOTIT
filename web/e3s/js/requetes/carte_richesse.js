@@ -52,7 +52,7 @@ class CarteRichesse {
    */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
-    this.disableTabs()
+    // this.disableTabs()
   }
 
   /**
@@ -61,30 +61,29 @@ class CarteRichesse {
    */
   uiReceivedResponse(response) {
     this.form.find("button[type='submit']").button('reset')
-    let showGeo = (this.formActive && response.geo.length)
+    let showGeo = ('taxname' in response.query && response.rows.length)
     if (showGeo) {
       this.updateMap(response)
     }
-    this.enableTabs(showGeo)
+    this.toggleTabs(showGeo)
   }
 
 
-  disableTabs() {
-    $("#table-tab a").tab('show')
-    $("#result-tabs>li")
-      .addClass('disabled')
-      .find("a")
-      .removeAttr('data-toggle')
-      .addClass('disabled')
-  }
-
-  enableTabs(both = false) {
-    let target = both ? "#result-tabs>li" : "#table-tab"
-    $(target)
-      .removeClass('disabled')
-      .find('a')
-      .attr('data-toggle', 'tab')
-      .removeClass('disabled')
+  toggleTabs(activeMap) {
+    if (activeMap) {
+      $("#geolocation-tab")
+        .removeClass('disabled')
+        .find("a")
+        .attr('data-toggle', 'tab')
+        .removeClass('disabled')
+    } else {
+      $("#table-tab a").tab('show')
+      $("#geolocation-tab")
+        .addClass('disabled')
+        .find('a')
+        .removeAttr('data-toggle')
+        .addClass('disabled')
+    }
   }
 
   /**
@@ -95,12 +94,12 @@ class CarteRichesse {
     let self = this
     // Update title
     $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-      taxname: response.geo[0]['taxname'],
+      taxname: response.rows[0]['taxname'],
       code_methode: response.methode.code,
       dataset: Date.parse(response.methode.date_dataset.date).toString('yyyy')
     }));
     // Plot data
-    self.geoPlot.plot(response.geo)
+    self.geoPlot.plot(response.rows)
     // Overlay et événements changement d'onglet
     $('#table-tab a ').on('shown.bs.tab', _ => {
       scrollTo('#resultats', 500)
@@ -137,22 +136,17 @@ class CarteRichesse {
       {
         data: "accession_number",
         render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
-      }
-    ]
-    this.methodes.forEach(element => {
-      columns.push({
-        data: element.code.toLowerCase() + "_" + Date.parse(element.date_dataset.date).toString('yyyy'),
-        defaultContent: "-"
-      })
-    })
-    columns.push.apply(columns, [{
+      },
+      {
+        data: 'motu'
+      }, {
         data: "latitude",
         render: renderNumber,
       },
       {
         data: "longitude",
         render: renderNumber,
-        defaultContent: "-"
+        defaultContent: ""
       },
       {
         data: "code_station",
@@ -164,7 +158,7 @@ class CarteRichesse {
       {
         data: "pays"
       }
-    ])
+    ]
     return columns
   }
 
