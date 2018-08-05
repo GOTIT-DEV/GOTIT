@@ -3,7 +3,11 @@
 {% trans_default_domain 'requetes' %}
 
 <div class="table-responsive-md">
-  <table id="result-table" class="table table-condensed table-hover table-striped" style="width:100%">
+  <table
+    id="result-table"
+    class="table table-condensed table-hover table-striped"
+    style="width:100%"
+    data-locale="{{app.request.getLocale()}}">
     <thead>
       <tr>
         <th colspan="2"></th>
@@ -16,7 +20,7 @@
         <th></th>
       </tr>
       <tr>
-			<th></th>
+        <th></th>
         <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0}) | trim('0')}}">
           {{"columns.taxon" | trans}}
         </th>

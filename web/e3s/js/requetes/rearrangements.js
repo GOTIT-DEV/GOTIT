@@ -9,7 +9,6 @@ $(document).ready(function () {
 
   uiWaitResponse()
 
-
   let speciesSelector = new SpeciesSelector("#main-form")
   let methodSelector = new MethodSelector("#main-form")
 
@@ -103,6 +102,7 @@ function initDataTable(tableId) {
           return $("#main-form").serialize()
         }
       },
+      language: dtconfig.language[table.data('locale')],
       dom: 'lf<"clear pull-right"B>rtip',
       buttons: dtconfig.buttons,
       order: [1, 'asc'],

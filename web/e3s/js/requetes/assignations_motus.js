@@ -51,6 +51,7 @@ class AssignMotu {
             return self.form.serialize()
           }
         },
+        language: dtconfig.language[self.table.data('locale')],
         dom: "lfrtipB",
         buttons: dtconfig.buttons,
         columns: [{
@@ -139,6 +140,7 @@ class AssignMotu {
           return self.ajaxData
         }
       },
+      language: dtconfig.language[self.details.data('locale')],
       columns: [{
           data: 'code',
           render: function (data, type, row) {

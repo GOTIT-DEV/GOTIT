@@ -59,6 +59,7 @@ function initDataTable(tableId, geoPlotObject) {
           return $("#main-form").serialize()
         }
       },
+      language: dtconfig.language[table.data('locale')],
       dom: "lfrtipB",
       buttons: dtconfig.buttons,
       order: [1, 'asc'],

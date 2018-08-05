@@ -71,6 +71,7 @@ function initDataTable(tableId) {
           type: 'column'
         }
       },
+      language: dtconfig.language[table.data('locale')],
       ajax: {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
