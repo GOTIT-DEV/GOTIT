@@ -1,17 +1,14 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function () {
-  $('#taxaFilter')
-    .change(toggleTaxonForm('.taxa-select'))
-    .trigger('change')
+$(document).ready(_ => {
 
   uiWaitResponse()
 
-  let speciesSelector = new SpeciesSelector("#main-form", false)
+  let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
 
   geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
-  speciesSelector.promise.then(function () {
+  speciesSelector.promise.then(_ => {
     initDataTable("#result-table", geoPlot)
   })
 })
@@ -119,5 +116,3 @@ function initDataTable(tableId, geoPlotObject) {
     })
   }
 }
-
-

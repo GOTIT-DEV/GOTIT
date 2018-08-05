@@ -76,6 +76,11 @@ select.concordance option {
   max-width: unset;
 }
 
+.taxon-spinner {
+  font-size:18px;
+  padding: 0 20px;
+}
+
 @media (min-width: 1300px) {
 .modal .modal-lg {
   width: 1200px !important;

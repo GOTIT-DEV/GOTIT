@@ -10,7 +10,7 @@ $(document).ready(function () {
   uiWaitResponse()
 
 
-  let speciesSelector = new SpeciesSelector("#main-form", true)
+  let speciesSelector = new SpeciesSelector("#main-form")
   let methodSelector = new MethodSelector("#main-form")
 
   $("#main-form select#dataset").change(event => {
@@ -23,13 +23,13 @@ $(document).ready(function () {
       initDataTable("#result-table-recto")
       initDataTable("#result-table-verso")
     case "1":
-      $.when(speciesSelector.promise).done(function () {
+      $.when(speciesSelector.promise).done(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
       break;
     case "2":
-      $.when(methodSelector.promise).done(function () {
+      $.when(methodSelector.promise).done(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })

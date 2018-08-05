@@ -69,7 +69,6 @@ class BarPlot extends BasePlot {
   }
 
   plot(json) {
-    console.log(json)
     let data = {
       match: [],
       split: [],

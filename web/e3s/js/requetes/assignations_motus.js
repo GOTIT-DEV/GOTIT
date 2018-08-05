@@ -1,7 +1,7 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function () {
+$(document).ready(_ => {
   let pageHandler = new AssignMotu("#main-form", "#result-table", "#details-table")
 })
 
@@ -19,12 +19,9 @@ class AssignMotu {
       interne: this.details.data('vocabSeqInt'),
       externe: this.details.data('vocabSeqExt'),
     }
-    $('#taxa-filter')
-      .change(toggleTaxonForm('.taxa-select'))
-      .trigger('change')
 
     this.uiWaitResponse()
-    this.speciesSelector = new SpeciesSelector(formId, false)
+    this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId, 'checkbox')
 
     $.when(this.speciesSelector.promise, this.methodSelector.promise)
