@@ -9,10 +9,10 @@ $(document).ready(function () {
 
   uiWaitResponse()
 
-
   let speciesSelector = new SpeciesSelector("#main-form")
   let methodSelector = new MethodSelector("#main-form")
 
+  // Synchronisation des select dataset reference vs target
   $("#main-form select#dataset").change(event => {
     $("#target-dataset").val(event.target.value)
   }).trigger('change')
