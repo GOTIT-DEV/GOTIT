@@ -7,7 +7,7 @@
       label.genre
       {% endtrans %}
     </label><br/>
-    <select name="genus" id="genus" class="form-control taxa-select genus-select">
+    <select name="genus" id="genus" class="form-control taxa-select genus-select selectpicker" data-live-search="true">
       {% for genus in genus_set %}
         <option value="{{genus.genus}}">
           {{genus.genus}}
@@ -21,7 +21,11 @@
       label.espece
       {% endtrans %}
     </label><br/>
-    <select name="species" id="species" class="form-control taxa-select species-select"></select>
+    <select
+      name="species"
+      id="species"
+      class="form-control taxa-select species-select selectpicker"
+      data-live-search="true"></select>
   </div>
   {% if taxname is defined and taxname %}
     <div class="form-group">
@@ -33,7 +37,8 @@
       <select
         name="taxname"
         id="taxname"
-        class="form-control taxa-select taxname-select"
+        class="form-control taxa-select taxname-select selectpicker"$
+        data-live-search="true"
         data-url="{{path('taxname-search')}}"></select>
     </div>
   {% endif %}
