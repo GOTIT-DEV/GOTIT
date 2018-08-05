@@ -1,7 +1,10 @@
 {# Résultats form 1 #}
 {% trans_default_domain 'requetes' %}
 <div class="table-responsive">
-  <table id="result-table" class="table table-condensed table-hover table-striped">
+  <table
+    id="result-table"
+    class="table table-condensed table-hover table-striped"
+    data-locale="{{app.request.getLocale()}}">
     <thead>
       <tr>
         <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0})|trim(0)}}">

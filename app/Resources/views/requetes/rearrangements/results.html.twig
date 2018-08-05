@@ -56,7 +56,8 @@
             id="result-table-recto"
             class="table table-condensed table-hover table-striped"
             data-barplot="#barplot-recto"
-            data-target="recto">
+            data-target="recto"
+            data-locale="{{app.request.getLocale()}}">
             <thead>
               <tr>
                 <th>{{"columns.methode" | trans}}</th>
@@ -90,7 +91,8 @@
             id="result-table-verso"
             class="table table-condensed table-hover table-striped"
             data-barplot="#barplot-verso"
-            data-target="verso">
+            data-target="verso"
+            data-locale="{{app.request.getLocale()}}">
             <thead>
               <tr>
                 <th>{{"columns.methode" | trans}}</th>
