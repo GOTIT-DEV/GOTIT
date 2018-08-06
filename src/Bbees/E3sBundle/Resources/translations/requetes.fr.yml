@@ -28,6 +28,8 @@ methode:
   delimitation: Méthode moléculaire de délimitation
   label: Méthode moléculaire
   selectprompt: Choisir une méthode moléculaire de délimitation
+plots:
+  noresult: Aucun résultat à afficher
 ui:
   fermer: Fermer
 entity:

@@ -27,8 +27,9 @@ class BasePlot {
   }
 
   resize() {
-    let self = this
-    Plotly.Plots.resize(self.gd)
+    if (this.container.hasClass('collapse in') ||
+      !this.container.hasClass('collapse'))
+      Plotly.Plots.resize(this.gd)
   }
 
   plot() {}
@@ -66,6 +67,31 @@ class BarPlot extends BasePlot {
       showlegend: true,
       barmode: 'group', // affichage des barres côte à côte
     }
+  }
+
+  refresh(json) {
+    if (json.length) {
+      if (this.container.hasClass('collapse in')) {
+        this.plot(json)
+      } else {
+        this.container.on('shown.bs.collapse', event => {
+          this.plot(json)
+        })
+        this.show()
+      }
+    } else {
+      this.hide()
+    }
+  }
+
+  show() {
+    $(".plot-overlay").collapse('hide')
+    this.container.collapse('show')
+  }
+
+  hide() {
+    $(".plot-overlay").collapse('show')
+    this.container.collapse('hide')
   }
 
   plot(json) {

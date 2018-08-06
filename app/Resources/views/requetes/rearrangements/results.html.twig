@@ -44,10 +44,17 @@
       <div class="well well-sm">
         <div
           id="barplot-recto"
+          class="collapse barplot"
           data-vocab-xlabel="{{'methode.label' | trans }}"
-          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}">
+          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}"></div>
+        <div class="collapse plot-overlay">
           <center>
             <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
+            <strong>
+              {% trans %}
+              plots.noresult
+              {% endtrans %}
+            </strong>
           </center>
         </div>
         <hr>
@@ -79,10 +86,17 @@
       <div class="well well-sm">
         <div
           id="barplot-verso"
+          class="collapse barplot"
           data-vocab-xlabel="{{'methode.label' | trans }}"
-          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}">
+          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}"></div>
+        <div class="collapse plot-overlay">
           <center>
             <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
+            <strong>
+              {% trans %}
+              plots.noresult
+              {% endtrans %}
+            </strong>
           </center>
         </div>
         <hr>

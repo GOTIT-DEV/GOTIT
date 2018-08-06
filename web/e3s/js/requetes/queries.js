@@ -57,10 +57,11 @@ class SpeciesSelector {
   toggleWaitingResponse(waiting) {
     if (waiting) { // Attente réponse AJAX : nouvelle promise
       this.promise = new $.Deferred()
-      this.form.find(".taxon-spinner").removeClass("hidden");
+      this.form.find(".taxon-spinner").removeClass("hidden")
     } else { // Réponse reçue : résolution promise
       this.promise.resolve()
-      this.form.find(".taxon-spinner").addClass("hidden");
+      this.selector.find("select").selectpicker('refresh')
+      this.form.find(".taxon-spinner").addClass("hidden")
       this.callback()
     }
   }
@@ -163,6 +164,7 @@ class MethodSelector {
     } else {
       this.promise.resolve()
       $(".method-spinner").addClass("hidden");
+      this.selector.find("select").selectpicker('refresh')
     }
   }
 

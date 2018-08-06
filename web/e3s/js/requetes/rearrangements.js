@@ -2,6 +2,10 @@
  *  Document ready
  **************************** */
 $(document).ready(function () {
+
+  let speciesSelector = new SpeciesSelector("#main-form")
+  let methodSelector = new MethodSelector("#main-form")
+
   $('input[name="reference"]')
     .click(toggleFormSelect)
     .filter(':checked')
@@ -9,12 +13,10 @@ $(document).ready(function () {
 
   uiWaitResponse()
 
-  let speciesSelector = new SpeciesSelector("#main-form")
-  let methodSelector = new MethodSelector("#main-form")
 
   // Synchronisation des select dataset reference vs target
   $("#main-form select#dataset").change(event => {
-    $("#target-dataset").val(event.target.value)
+    $("#target-dataset").val(event.target.value).selectpicker('refresh')
   }).trigger('change')
 
   // Wait for active selector  to be ready
@@ -81,6 +83,7 @@ function toggleFormSelect(event) {
         )
       break
   }
+  $(".selectpicker").selectpicker('refresh')
 }
 
 /* **************************
@@ -92,6 +95,9 @@ function initDataTable(tableId) {
     const table = $(tableId)
     const side = table.data('target')
     let barplot = new BarPlot(table.data('barplot'))
+    $('a[data-toggle="tab"]').on('shown.bs.tab', event => {
+      barplot.resize()
+    })
     var dataTable = table.DataTable({
       responsive: true,
       autoWidth: false,
@@ -130,13 +136,10 @@ function initDataTable(tableId) {
     })
 
     dataTable.on('xhr', _ => {
-      var response = dataTable.ajax.json()
-      barplot.plot(response[side])
+      let response = dataTable.ajax.json()
+      barplot.refresh(response[side])
       uiReceivedResponse()
-      $('a[data-toggle="tab"]').on('shown.bs.tab', event => {
-        barplot.resize()
-      });
-    });
+    })
 
     /****************
      * Submit form handler

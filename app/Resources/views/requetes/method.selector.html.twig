@@ -15,7 +15,7 @@ Variables :
       label.dataset
       {% endtrans %}
     </label>
-    <select name="dataset" id="dataset" class="form-control method-select">
+    <select name="dataset" id="dataset" class="form-control method-select selectpicker">
       {% for dataset in datasets %}
         <option value="{{dataset.id}}">
           {{dataset.libelleMotu}}
@@ -36,7 +36,7 @@ Variables :
         </center>
 
       {% else %}
-        <select name="methode" id="methode" class="form-control method-select"></select>
+        <select name="methode" id="methode" class="form-control method-select selectpicker"></select>
       {% endif %}
     </div>
   </div>

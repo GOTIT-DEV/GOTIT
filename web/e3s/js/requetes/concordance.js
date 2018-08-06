@@ -16,24 +16,29 @@ $(document).ready(function () {
  */
 function updateChoiceColor(event) {
   const target = $(event.target)
+  console.log(target)
   target.removeClass("typeA typeB typeC unassigned no-constraints")
   switch (target.val()) {
     case "A":
-      target.addClass("typeA")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-info')
       break
     case "B":
-      target.addClass("typeB")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-success')
       break
     case "C":
-      target.addClass("typeC")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-danger')
       break
     case "0":
-      target.addClass("no-constraints")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
       break
     case "1":
-      target.addClass("unassigned")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
       break
   }
+
 }
 
 

@@ -102,7 +102,7 @@
           label.dataset
           {% endtrans %}
         </label>
-        <select name="target-dataset" id="target-dataset" class="form-control">
+        <select name="target-dataset" id="target-dataset" class="form-control selectpicker">
           {% for dataset in datasets %}
             <option value="{{dataset.id}}">
               {{dataset.libelleMotu}}

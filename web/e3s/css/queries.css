@@ -39,31 +39,6 @@ div.geo-container {
   }
 }
 
-select.concordance.typeA {
-  background: rgba(0, 253, 0, 0.289);
-}
-
-select.concordance.typeB {
-  background: rgba(255, 145, 0, 0.556);
-}
-
-select.concordance.typeC {
-  background: rgba(249, 0, 75, 0.446);
-}
-
-select.concordance.unassigned {
-  background: rgba(9, 60, 94, 0.303);
-}
-
-select.concordance.no-constraints {
-  color: rgb(160, 160, 160);
-  background: white;
-}
-
-select.concordance option {
-  background: white;
-}
-
 .tooltip {
   max-width: unset;
 }
@@ -77,12 +52,12 @@ select.concordance option {
 }
 
 .taxon-spinner {
-  font-size:18px;
+  font-size: 18px;
   padding: 0 20px;
 }
 
 @media (min-width: 1300px) {
-.modal .modal-lg {
-  width: 1200px !important;
-}
+  .modal .modal-lg {
+    width: 1200px !important;
+  }
 }
