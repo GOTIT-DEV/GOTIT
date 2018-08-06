@@ -112,8 +112,7 @@ function initDataTable(tableId, geoPlotObject) {
     $("#main-form").submit(function (event) {
       event.preventDefault()
       $(this).find("button[type='submit']").button('loading')
-      var results = table.DataTable()
-      results.ajax.reload()
+      table.DataTable().ajax.reload()
     })
   }
 }

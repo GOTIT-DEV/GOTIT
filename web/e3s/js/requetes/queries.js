@@ -125,7 +125,9 @@ class SpeciesSelector {
    * @param {Object} event événement lancé par this.toggle
    */
   toggleActive(event) {
-    this.selector.find('select').prop('disabled', !event.target.checked)
+    this.selector.find('select')
+      .prop('disabled', !event.target.checked)
+      .selectpicker('refresh')
   }
 }
 
@@ -308,7 +310,7 @@ const dtconfig = {
     }
   }],
   language: {
-    'en' : {},
+    'en': {},
     'fr': {
       "sProcessing": "Traitement en cours...",
       "sSearch": "Rechercher&nbsp;:",
