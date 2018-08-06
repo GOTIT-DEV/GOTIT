@@ -16,7 +16,6 @@ $(document).ready(function () {
  */
 function updateChoiceColor(event) {
   const target = $(event.target)
-  console.log(target)
   target.removeClass("typeA typeB typeC unassigned no-constraints")
   switch (target.val()) {
     case "A":

@@ -95,7 +95,7 @@ function initDataTable(tableId) {
     const table = $(tableId)
     const side = table.data('target')
     let barplot = new BarPlot(table.data('barplot'))
-    $('a[data-toggle="tab"]').on('shown.bs.tab', event => {
+    $('.nav-tabs li a').on('shown.bs.tab', event => {
       barplot.resize()
     })
     var dataTable = table.DataTable({
