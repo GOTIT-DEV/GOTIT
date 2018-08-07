@@ -572,25 +572,8 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
   // Objet data complet : scatterplots 
 
   // Paramètres d'affichage du graphique
-  const layout = {
-    font: {
-      family: 'Droid Serif, serif',
-      size: 14
-    },
-    titlefont: {
-      size: 16
-    },
-    height: 600,
-    margin: {
-      l: 0,
-      r: 0,
-      t: 15,
-      b: 0
-    },
-    showlegend: true,
-    geo: { // carte geographique
-      scope: 'world',
-      resolution: 50,
+  const layout = $.extend(plotlyconfig.geo.layout, {
+    geo: $.extend(plotlyconfig.geo.layout.geo, {
       lonaxis: {
         'range': [longmin, longmax]
       },
@@ -601,26 +584,8 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
         'lon': longGPS,
         'lat': latGPS
       },
-      projection: {
-        type: 'miller'
-      },
-      showrivers: true,
-      rivercolor: '#fff',
-      showlakes: true,
-      lakecolor: '#fff',
-      showland: true,
-      landcolor: 'lightgrey',
-      countrycolor: 'grey',
-      countrywidth: 1,
-      subunitcolor: '#d3d3d3',
-      showocean: true,
-      oceancolor: 'lightblue',
-      showframe: true,
-      framecolor: '#000',
-      framewidth: 2,
-      bgcolor: 'lightgrey'
-    }
-  }
+    })
+  })
 
   Plotly.newPlot(gd, data, layout, {
     displaylogo: false, // pas de logo, enlever boutons de controle inutiles
@@ -714,6 +679,12 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
   // Paramètres d'affichage du graphique
   const layout = $.extend(plotlyconfig.geo.layout, {
     showlegend: false,
+    margin: {
+      t: 0,
+      b: 0,
+      l: 0,
+      r: 0
+    },
     geo: $.extend(plotlyconfig.geo.layout.geo, {
       lonaxis: {
         'range': [longmin, longmax]
