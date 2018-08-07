@@ -6,8 +6,7 @@ $(document).ready(_ => {
   uiWaitResponse()
 
   let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
-
-  geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
+  let geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
   speciesSelector.promise.then(_ => {
     initDataTable("#result-table", geoPlot)
   })
@@ -55,7 +54,7 @@ function initDataTable(tableId, geoPlotObject) {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
         "type": "POST",
-        "data": function (d) {
+        "data": _ => {
           return $("#main-form").serialize()
         }
       },
@@ -96,10 +95,10 @@ function initDataTable(tableId, geoPlotObject) {
           }
         }
       ],
-      drawCallback: function (settings) {
+      drawCallback: _ => {
         uiReceivedResponse()
         $('[data-toggle="tooltip"]').tooltip()
-        $(".details-form").submit(function (event) {
+        $(".details-form").submit(event => {
           event.preventDefault()
           geoPlotObject.reload(event.target)
         }) // .details-form.submit
@@ -109,7 +108,7 @@ function initDataTable(tableId, geoPlotObject) {
     /****************************
      * Submit form handler
      ************************** */
-    $("#main-form").submit(function (event) {
+    $("#main-form").submit(event => {
       event.preventDefault()
       $(this).find("button[type='submit']").button('loading')
       table.DataTable().ajax.reload()

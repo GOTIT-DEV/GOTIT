@@ -31,7 +31,6 @@ class CarteRichesse {
     $.ajax({
       type: "GET",
       url: self.table.data('urlMethodes'),
-      data: {},
       success: response => {
         self.methodes = response
       }
@@ -43,7 +42,6 @@ class CarteRichesse {
    */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
-    // this.disableTabs()
   }
 
   /**
@@ -87,8 +85,8 @@ class CarteRichesse {
     $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
       taxname: response.rows[0]['taxname'],
       code_methode: response.methode.code,
-      dataset: Date.parse(response.methode.date_dataset.date).toString('yyyy')
-    }));
+      dataset: response.methode.libelle_motu
+    }))
     // Plot data
     self.geoPlot.plot(response.rows)
     // Overlay et événements changement d'onglet
@@ -123,30 +121,24 @@ class CarteRichesse {
         render: data => {
           return data ? self.seqTypes.externe : self.seqTypes.interne
         }
-      },
-      {
+      }, {
         data: "accession_number",
         render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
-      },
-      {
+      }, {
         data: 'motu'
       }, {
         data: "latitude",
         render: renderNumber,
-      },
-      {
+      }, {
         data: "longitude",
         render: renderNumber,
         defaultContent: ""
-      },
-      {
+      }, {
         data: "code_station",
         render: linkify(self.urls.station, 'id', true)
-      },
-      {
+      }, {
         data: "commune"
-      },
-      {
+      }, {
         data: "pays"
       }
     ]

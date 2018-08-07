@@ -4,7 +4,7 @@
  * @param {any} key clé à cibler
  */
 function unpack(json, key) {
-  return json.map(function (row) {
+  return json.map(row => {
     return row[key]
   })
 }

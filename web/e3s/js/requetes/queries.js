@@ -27,9 +27,9 @@ class SpeciesSelector {
     this.toggleActive = this.toggleActive.bind(this)
 
     // Toggle checkbox pour activer/désactiver les champs
-    this.toggle = toggleId ? $(toggleId) : null
-    if (this.toggle) {
-      this.toggle
+    this.toggleBtn = toggleId ? $(toggleId) : null
+    if (this.toggleBtn) {
+      this.toggleBtn
         .change(this.toggleActive)
         .trigger('change')
     }
@@ -158,7 +158,6 @@ class MethodSelector {
   }
 
   toggleWaitingResponse(waiting) {
-
     this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
       this.promise = new $.Deferred()
@@ -280,7 +279,9 @@ function linkify(url, col, ellipsis = true, placement = 'top') {
 }
 
 
-
+/**
+ * Elements de configs utilisés pour les datatables
+ */
 const dtconfig = {
   expandColumn: {
     data: null,
