@@ -29,3 +29,14 @@
     </table>
   </div>
 {% endblock %}
+
+{% block extra_templates %}
+  {# Mustache.js template for modal title #}
+  {% verbatim %}
+    <template id="modal-title">
+      {{taxname}}
+      <span class="label label-default">{{methode}}</span>
+      <span class="label label-info">{{dataset}}</span>
+    </template>
+  {% endverbatim %}
+{% endblock %}
