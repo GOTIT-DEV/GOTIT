@@ -23,6 +23,13 @@ class AssignMotu {
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId, 'checkbox')
 
+    this.form.find("select#id-level").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
+
     $.when(this.speciesSelector.promise, this.methodSelector.promise)
       .done(_ => {
         this.initDataTable()

@@ -39,12 +39,9 @@
                 {% endtrans %}
               </label>
               <select name="sequence" id="sequence-select" class="form-control concordance selectpicker">
-                {% include 'requetes/concordance/select.options.html.twig' %}
-                <option value=1 class="unassigned">
-								{% trans %}
-								columns.undefined
-								{% endtrans %}
-								</option>
+                {% include 'requetes/concordance/select.options.html.twig' with {
+                  unassigned : true
+                } %}
               </select>
             </div>
           </div>

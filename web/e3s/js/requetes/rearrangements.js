@@ -11,6 +11,13 @@ $(document).ready(function () {
     .filter(':checked')
     .trigger('click')
 
+  $("#target-dataset").on('loaded.bs.select', event => {
+    $(event.target).parent().tooltip({
+      title : $(event.target).data('originalTitle'),
+      placement: 'auto top'
+    })
+  })
+
   uiWaitResponse()
 
 
@@ -60,6 +67,7 @@ function uiReceivedResponse() {
 }
 
 function toggleFormSelect(event) {
+  $(event.target).tooltip('hide')
   switch (event.target.value) {
     case "0":
       $(".method-select").prop('disabled', true)

@@ -15,7 +15,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="radio">
-            <label class="control-label">
+            <label
+              class="control-label"
+              title="{% trans from 'tooltips' %}rearrangements.reference.morpho {% endtrans %}"
+              data-toggle="tooltip"
+              data-placement="right">
               <input
                 type='radio'
                 name='reference'
@@ -37,7 +41,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="radio">
-            <label class="control-label">
+            <label
+              class="control-label"
+              title="{% trans from 'tooltips' %}rearrangements.reference.taxon {% endtrans %}"
+              data-toggle="tooltip"
+              data-placement="right">
               <input
                 type='radio'
                 name='reference'
@@ -56,7 +64,7 @@
 
         <div class="collapse panel-collapse" id="taxon-collapse">
           <div class="panel-body">
-            {% include 'requetes/species.selector.html.twig' with {
+            {% include 'requetes/forms/species.selector.html.twig' with {
               taxname : true
             } %}
           </div>
@@ -65,7 +73,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="radio">
-            <label class="control-label">
+            <label
+              class="control-label"
+              title="{% trans from 'tooltips' %}rearrangements.reference.dataset {% endtrans %}"
+              data-toggle="tooltip"
+              data-placement="right">
               <input
                 type='radio'
                 name='reference'
@@ -85,7 +97,7 @@
 
         <div class="collapse panel-collapse" id="method-panel">
           <div class="panel-body">
-            {% include 'requetes/method.selector.html.twig' %}
+            {% include 'requetes/forms/method.selector.html.twig' %}
           </div>
         </div>
       </div>
@@ -102,7 +114,13 @@
           label.dataset
           {% endtrans %}
         </label>
-        <select name="target-dataset" id="target-dataset" class="form-control selectpicker">
+        <select
+          name="target-dataset"
+          id="target-dataset"
+          class="form-control selectpicker"
+          title="{% trans from 'tooltips' %}rearrangements.target {% endtrans %}"
+          data-toggle="tooltip"
+          data-placement="right">
           {% for dataset in datasets %}
             <option value="{{dataset.id}}">
               {{dataset.libelleMotu}}

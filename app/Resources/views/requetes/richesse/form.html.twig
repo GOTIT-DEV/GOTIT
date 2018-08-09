@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="panel-body" id="taxa-select">
-            {% include 'requetes/species.selector.html.twig' with {
+            {% include 'requetes/forms/species.selector.html.twig' with {
               taxname : true
             } %}
           </div>
@@ -54,7 +54,7 @@
             <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
           </div>
           <div class="panel-body">
-            {% include 'requetes/method.selector.html.twig' %}
+            {% include 'requetes/forms/method.selector.html.twig' %}
           </div>
           {# <div class="panel-footer">
           </div> #}

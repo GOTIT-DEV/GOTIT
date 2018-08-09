@@ -20,7 +20,12 @@ class SpeciesSelector {
     this.genus = this.selector.find('.genus-select')
     this.species = this.selector.find('.species-select')
     this.taxname = this.selector.find('.taxname-select')
-
+    this.selector.find("select").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
     // Bind 'this' object on event handlers
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
@@ -32,6 +37,10 @@ class SpeciesSelector {
       this.toggleBtn
         .change(this.toggleActive)
         .trigger('change')
+      this.toggleBtn.parent().tooltip({
+          title : this.toggleBtn.attr('title'),
+          placement: 'auto'
+        })
     }
     // Paramètres
     this.withTaxname = (this.taxname.length) ? true : false
@@ -149,6 +158,12 @@ class MethodSelector {
     this.datasets = this.selector.find('select[name="dataset"]')
     this.methods = this.selector.find('select[name="methode"]')
 
+    this.selector.find("select").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
     // Promise resolved when ready
     this.promise = new $.Deferred()
 

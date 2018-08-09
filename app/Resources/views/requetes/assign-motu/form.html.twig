@@ -34,14 +34,15 @@
                     data-onstyle="success"
                     data-size="mini"
                     autocomplete="off"
-                    checked="checked">
+                    checked="checked"
+                    title="{% trans from 'tooltips' %}speciesselector.toggle{% endtrans %}">
                 </span>
                 <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner"></i>
 
               </div>
             </div>
             <div class="panel-body" id="taxa-select">
-              {% include 'requetes/species.selector.html.twig' %}
+              {% include 'requetes/forms/species.selector.html.twig' %}
             </div>
           </div>
         </div>
@@ -56,7 +57,7 @@
             </div>
             <div class="panel-body">
 
-              {% include 'requetes/method.selector.html.twig' with {
+              {% include 'requetes/forms/method.selector.html.twig' with {
                 method_check_array : true
               } %}
 
@@ -81,7 +82,13 @@
               identification.niveau
               {% endtrans %}
             </label>
-            <select name="niveau" id="id-level" class="form-control selectpicker" width='100%'>
+            <select
+              name="niveau"
+              id="id-level"
+              class="form-control selectpicker"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{% trans from 'tooltips' %}assignation.niveau{% endtrans %}">
               <option value="1">
                 {% trans from 'requetes' %}
                 entity.lotmateriel.label

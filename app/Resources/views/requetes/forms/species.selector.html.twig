@@ -7,7 +7,14 @@
       label.genre
       {% endtrans %}
     </label><br/>
-    <select name="genus" id="genus" class="form-control taxa-select genus-select selectpicker" data-live-search="true">
+    <select
+      name="genus"
+      id="genus"
+      class="form-control taxa-select genus-select selectpicker"
+      data-live-search="true"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{% trans from 'tooltips' %}speciesselector.genus{% endtrans %}">
       {% for genus in genus_set %}
         <option value="{{genus.genus}}">
           {{genus.genus}}
@@ -25,7 +32,10 @@
       name="species"
       id="species"
       class="form-control taxa-select species-select selectpicker"
-      data-live-search="true"></select>
+      data-live-search="true"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{% trans from 'tooltips' %}speciesselector.species{% endtrans %}"></select>
   </div>
   {% if taxname is defined and taxname %}
     <div class="form-group">
@@ -38,7 +48,10 @@
         name="taxname"
         id="taxname"
         class="form-control taxa-select taxname-select selectpicker"
-        data-url="{{path('taxname-search')}}"></select>
+        data-url="{{path('taxname-search')}}"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="{% trans from 'tooltips' %}speciesselector.taxname{% endtrans %}"></select>
     </div>
   {% endif %}
 </div>
