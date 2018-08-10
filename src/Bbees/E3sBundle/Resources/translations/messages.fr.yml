@@ -1,6 +1,44 @@
+#
+list.MotuAssigne: MOTU
+title.Import Files CSV: Import des fichiers CSV
+title.boiteLOT: Boite lot materiel
+title.boiteLAME: Boite lame
+title.boiteADN: Boite ADN
+# Intitules des boutons "Retour à l'Entité"
+buton.Back to station: Retour à la Station
+buton.Back to collecte: Retour à la Collecte
+buton.Back to lotmateriel: Retour au Lot matériel
+buton.Back to individu: Retour à l'Individu
+buton.Back to individulame: Retour à la Lame
+buton.Back to lotmaterielext: Retour au Lot matériel externe
+buton.Back to adn: Retour à l'ADN
+buton.Back to pcr: Retour à la PCR
+buton.Back to chromatogramme: Retour au Chromatogramme
+buton.Back to pcrchromato: Retour à la PCR
+buton.Back to sequenceassemblee: Retour à la Sequences internes
+buton.Back to sequenceassembleeext: Retour à la Sequences externes
+buton.Back to motu: Retour au MOTU
+buton.Back to boite: Retour à la Boite
+buton.Back to source: Retour à la Source
+# Intitules des boutons des formulaires d'import de fichiers csv
+buton.Back to the list of station: Retour à la liste des Stations
+buton.Back to the list of collecte: Retour à la liste des Collectes
+buton.Back to the list of lotmateriel: Retour à la liste des Lots matériels
+buton.Back to the list of individu: Retour à la liste des Individus
+buton.Back to the list of individulame: Retour à la liste des Lames
+buton.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
+buton.Back to the list of adn: Retour à la liste des ADN
+buton.Back to the list of pcr: Retour à la liste des PCR
+buton.Back to the list of chromatogramme: Retour à la liste des Chromatogramme
+buton.Back to the list of pcrchromato: Retour à la liste des PCR
+buton.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
+buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
+buton.Back to the list of motu: Retour à la liste des MOTU
+buton.Back to the list of boite: Retour à la liste des Boites
+buton.Back to the list of source: Retour à la liste des Sources
 # Intitules des champs de la base de donnees E3S Version Anglaise
 #  dashboard
-Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence et Taxa en Taxonomie Integrative  ( GOTIT )
+Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence et Taxa en Taxonomie Integrative
 Dashboard.Distribution des stations: Distribution des stations
 Dashboard.Hypothese espece: Hypothèse d'espèce
 Dashboard.nbMotuSqcAss: Séquence vers MOTU
@@ -23,10 +61,9 @@ Dashboard.nbChromatogramme: Chromatogramme
 Dashboard.nbSequenceAssemblee: Séquence ADN
 Dashboard.Données de terrain: Données de terrain
 Dashboard.Données moléculaire: Données moléculaire
-Dashboard.LastUpdate: Dernière mise à jour
+Dashboard.LastUpdate: Dernières mise à jour
 Dashboard.Tools: Outils métiers
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
-A faire: Etat
 Libelle motu: libelle MOTU
 # boutons ajouter > 16/07/2018
 title.Personne: Personne
@@ -35,7 +72,7 @@ modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg 
 buton.Close: Fermer
 ################################# VALIDE  par Florian le 19/07/2018
 # Intitules des champs de la base de donnes E3S Version Anglaise
-A faire: A faire
+A faire: Etat
 Accession number: Numero d ordre
 Accession number sqc ass ext: Numero d ordre
 Adn fk: ADN 
@@ -116,7 +153,6 @@ Etablissement fk: Etablissement
 Family: Famille
 Fixateur voc fk: Fixateur
 Gene voc fk: Gene
-Gene voc fk: Gene
 Genus: Genre
 Habitat type voc fk: Type habitat
 Id: Numero identification
@@ -137,7 +173,8 @@ Lot materiel fk: Lot materiel
 Methode extraction adn voc fk: Methode extraction ADN
 Methode motu voc fk: Methode MOTU
 Motu fk: MOTU
-Nb individus: nombre d individus
+Nb individus: Nombre d individus
+Nb individus voc fk: Nombre d individus
 Nom commune: Nom commune
 Nom complet: Nom complet
 Nom dossier photos: Nom dossier photos
@@ -163,7 +200,6 @@ Pays fk: Pays
 Pcr fk: PCR
 Personne fk: Personne
 Pigmentation voc fk: Pigmentation
-Pigmentation voc fk: Pigmentation
 Point acces voc fk: Point acces
 Precision lat long voc fk: Precision latitude longitude
 Primer chromato voc fk: Amorce chromatogramme
@@ -183,7 +219,6 @@ Source fk: Source
 Species: Espece
 Specificite voc fk: Specificite
 Station fk: Station
-Statut sqc ass voc fk: Statut sequence assemblee
 Statut sqc ass voc fk: Statut sequence assemblee
 Subclass: Sous classe
 Subspecies: Sous espece
@@ -326,8 +361,8 @@ buton.ImportPcr: Importer des PCR
 buton.NewChromatogramme: Creer un chromatogramme
 buton.ImportChromatogramme: Importer des chromatogrammes
 buton.Valid: Valider
-buton.BackToTheSelection: Retour a la selection
-buton.BackToTheList: Retour a la Liste
+buton.BackToTheSelection: Retour à la selection
+buton.BackToTheList: Retour à la Liste
 buton.showAllRecord: Liste de tous les enregistrements
 Envoyer: Importer le fichier CSV
 
@@ -347,13 +382,12 @@ list.Date cre: Date de creation
 list.Lat deg dec: Latitude
 list.Long deg dec: Longitude
 list.Liste taxons: Liste de taxons
-list.Liste personnes: Liste de person(s)
+list.Liste personnes: Liste de personne(s)
 list.Last taxname: Dernier nom de taxon
 list.Last identification date: Derniere date identification
 list.Last identification critere: Dernier critere identification
 
 # Titres des pages
-title.Référentiels: Referentiels
 title.boite: Boite
 title.Dashboard: Tableau de bord
 title.Terrain: Donnees de terrain
@@ -373,8 +407,8 @@ title.sequenceassemblee: Sequences internes
 title.sequenceassembleeext: Sequences externes
 title.motu: MOTU
 title.Stock: Stock
-title.source: Sources
-title.Source bibliographique: Sources
+title.source: Source
+title.Source bibliographique: Source
 title.Référentiels: Referentiels
 title.voc: Vocabulaire
 title.referentieltaxon: Taxon

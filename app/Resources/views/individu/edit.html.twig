@@ -3,7 +3,7 @@
 {# EDIT : INDIVIDU #}
 
 {% block body %}
-    
+
     {{ parent() }}   
     
     <!-- Modal : myModalPersonne -->
@@ -94,9 +94,11 @@
                 if (codeLot.split("|").length >1) codeCollecte = codeLot.split("|")[1];
                 var numIndBiomol = $('#bbees_e3sbundle_individu_numIndBiomol').val();
                 if (RefTaxonSelected == '') RefTaxonSelected = "{{'Choose a Taxon'|trans}}" ;
-                if (numIndBiomol == '') numIndBiomol = "{{'Num ind biomol'|trans}}";
-                //alert(RefTaxonSelected);
-                code = RefTaxonSelected + '_' + codeCollecte + '_' + numIndBiomol;
+                if (numIndBiomol != '') {
+                    //numIndBiomol = "{{'Num ind biomol'|trans}}";
+                    //alert(RefTaxonSelected);
+                    code = RefTaxonSelected + '_' + codeCollecte + '_' + numIndBiomol;
+                }
                 //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
                 $('#bbees_e3sbundle_individu_codeIndBiomol').val(code);
             }
@@ -107,7 +109,7 @@
             //  b) verouillage du contenu du code_ind_biomol si il a déjà été  renseigné
 
             // L'ajout d'un bouton Back to the lotMateriel
-            addBackToRelatedRecord('individu', 'lotMateriel', "{{'title.lotmateriel'|trans}}");
+            addBackToRelatedRecord('individu', 'lotMateriel', "{{'buton.Back to lotmateriel'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_individu_lotMaterielFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_individu"]',function(ev){
@@ -121,9 +123,12 @@
                 $('#bbees_e3sbundle_individu_codeIndBiomol').attr("disabled", false); 
              });*/
             //if ($('#bbees_e3sbundle_individu_codeIndBiomol').val() == '') {setCodeIndBiomol();}
-            $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { setCodeIndBiomol();})
-            $('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndBiomol();})
-            $('#bbees_e3sbundle_individu_numIndBiomol').keyup(function (e) { setCodeIndBiomol();})  
+
+            {% if  flag_indbiomol == 1 %}  
+                $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { setCodeIndBiomol();})
+                $('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndBiomol();})
+                $('#bbees_e3sbundle_individu_numIndBiomol').keyup(function (e) { setCodeIndBiomol();})  
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %}  
             $('#bbees_e3sbundle_individu_numIndBiomol').hide();

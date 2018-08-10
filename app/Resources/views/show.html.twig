@@ -5,16 +5,44 @@
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
 {% set route_index =  [entityname, '_index']|join  %}
-{% if (app.request.query.get('nameFk') is defined) and (app.request.query.get('nameFk') is not null) and  (app.request.query.get('nameFk') !='')%}
-   {% set nameFk =  app.request.query.get('nameFk')  %} 
-   {% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %} 
-   {% set idFk = app.request.query.get('idFk') %} 
+
+{# initialise l url de redirection du bouton BackToTheList  #}
+{% set path_route_index =  path(route_index)  %} 
+{% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
+    {% set idFk = app.request.query.get('idFk') %} 
+    {% if app.request.query.get('nameFk') is defined %}
+        {% set nameFk =  app.request.query.get('nameFk')  %} 
+        {% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %} 
+        {% set path_route_index =  path(route_index,{'nameFk':nameFk, 'idFk': idFk}) %}                
+    {% else %}
+        {% set path_route_index =  path(route_index,{'idFk': idFk}) %}               
+    {% endif %}
 {% endif %}
+{% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
+    {% set path_route_index =  path(route_index,{'searchPatern': app.request.query.get('searchPatern')}) %}                
+{% endif %}
+{% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
+    {% set path_route_index =  path(route_index,{'typeBoite': app.request.query.get('typeBoite')}) %}                 
+{% endif %}
+{# initialise et gere les variables realtives à la validation et au bouton BackToTheList #}
+{% set backbutton = 1 %}
+{% set flagvalid = 0 %} 
+{% set comptvalid = 1 %}  
+{#  cas d un changement delangage  : langage passé en paramètre d'url ?langage=fr/en #}
+{% if (app.request.query.get('langage') is defined and app.request.query.get('langage') != '' )%}
+    {% set backbutton = 0 %} 
+{% endif %} 
 
 {% block body %}
     <div class="page-title">
       <div class="title_left">
-        <h1>{{entityname|capitalize}}</h1>
+        <h1>
+            {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
+                    {{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
+                {% else %} 
+                    {{['title.',entityname ]|join|trans}}
+            {% endif %} 
+        </h1>
       </div>
       <div class="title_right">
       </div>
@@ -34,17 +62,10 @@
                 <div class="form-group">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-10">
-                 <a href="{{ path(route_index) }}" class="btn btn-round btn-primary">Back to the list</a>
-                 {% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
-                     <a href="{{ path(route_index) }}?searchPatern={{ app.request.query.get('searchPatern') }}" class="btn btn-round btn-primary  ">Back to the selection</a>
-                 {% else %}                 
-                 {% endif %}
-                 {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
-                 {% if nameFk is defined %}
-                    <a href="{{ path(route_index) }}?nameFk={{nameFk}}&idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                    {% else %}
-                    <a href="{{ path(route_index) }}?idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                     {% endif %}
+                 {% if ( backbutton == 0 )%} {# cas d une validation en mode CREATE #}
+                     <a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a> 
+                 {% else %} {# cas du mode Edit /edit  #}
+                    <a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'buton.BackToTheList'|trans}}</a>
                  {% endif %}
                 </div>
             </div>
@@ -58,7 +79,7 @@
 {% endblock %}
 
 {% block scripts %}
-// On récupère le block parent définit dans base.html.twig qui fait un appel à la librairie jquery dont on a besoin
+
 {{ parent() }}
 
 <script type="text/javascript">  

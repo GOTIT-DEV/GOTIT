@@ -3,7 +3,7 @@
 {# initialise le tableau des entitées liées ([entity1,entity2 ... ])  vers lesquelles on souhaite faire un lien-racourcis  
 1) le tableau des resulatats devra comprendre un collonne du type : <th data-column-id="linkEntity" data-formatter="linkEntity" data-sortable="false">Col.</th>
 2) le controller devra renvoyer dans le tableau rows les collones du type :  "linkEntity1" => "patern1" ,  "linkeEntity2" => "patern2" ... #}
-{% set links =  ['lotmateriel', 'lotmaterielext'] %}
+{% set links =  ['lotmateriel', 'lotmaterielext','sequenceassembleeext'] %} 
 
 {% block action %}
     {{ parent() }}
@@ -33,6 +33,7 @@
                 <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">Del</th>
                 <th data-column-id="linkLotmateriel" data-formatter="linkLotmateriel" data-sortable="false" data-width="20">Lot</th>
                 <th data-column-id="linkLotmaterielext" data-formatter="linkLotmaterielext" data-sortable="false" data-width="20">LotExt</th>
+                <th data-column-id="linkSequenceassembleeext" data-formatter="linkSequenceassembleeext" data-sortable="false" data-width="20">SqcExt</th>
             </tr>
         </thead>
     </table>

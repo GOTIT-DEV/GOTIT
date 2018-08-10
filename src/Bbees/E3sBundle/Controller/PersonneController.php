@@ -63,6 +63,7 @@ class PersonneController extends Controller
         $toshow = $em->getRepository("BbeesE3sBundle:Personne")->createQueryBuilder('personne')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->leftJoin('BbeesE3sBundle:Etablissement', 'etablissement', 'WITH', 'personne.etablissementFk = etablissement.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -73,10 +74,12 @@ class PersonneController extends Controller
             $id = $entity->getId();
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $NomEtablissement = ($entity->getEtablissementFk() !== null) ?  $entity->getEtablissementFk()->getNomEtablissement() : null;
             //
             $tab_toshow[] = array("id" => $id, "personne.id" => $id, 
              "personne.nomPersonne" => $entity->getNomPersonne(),
              "personne.nomComplet" => $entity->getNomComplet(),
+             "etablissement.nomEtablissement" => $NomEtablissement,
              "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,);
         }     
         // Reponse Ajax

@@ -188,8 +188,16 @@ class IndividuController extends Controller
         $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$individu);
         
         $deleteForm = $this->createDeleteForm($individu);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\IndividuType', $individu, ['refTaxonLabel' => 'codeTaxon']);
-        $editForm->handleRequest($request);       
+        //var_dump($individu->getCodeIndBiomol());
+        if ($individu->getCodeIndBiomol()  === NULL || $individu->getCodeIndBiomol() == '' ) {
+            $flag_indbiomol = 1;
+            $editForm = $this->createForm('Bbees\E3sBundle\Form\IndividuType', $individu, ['refTaxonLabel' => 'codeTaxon']);
+        } else {
+            $flag_indbiomol = 0;
+            $editForm = $this->createForm('Bbees\E3sBundle\Form\IndividuType', $individu);
+        }
+        $editForm->handleRequest($request);
+
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // suppression des ArrayCollection 
@@ -198,6 +206,11 @@ class IndividuController extends Controller
             $this->getDoctrine()->getManager()->persist($individu);                       
             try {
                 $this->getDoctrine()->getManager()->flush();
+                if ($individu->getCodeIndBiomol()  === NULL || $individu->getCodeIndBiomol() == '' ){
+                    $flag_indbiomol = 1;
+                } else {
+                    $flag_indbiomol = 0;
+                }
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
@@ -206,13 +219,16 @@ class IndividuController extends Controller
             return $this->render('individu/edit.html.twig', array(
                 'individu' => $individu,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));
+                'valid' => 1,
+                'flag_indbiomol' => $flag_indbiomol,
+                ));
         }
         
         return $this->render('individu/edit.html.twig', array(
             'individu' => $individu,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'flag_indbiomol' => $flag_indbiomol,
         ));
 
     }

@@ -20,7 +20,12 @@ class IndividuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lotMaterielFk',EntityType::class, array('class' => 'BbeesE3sBundle:LotMateriel','placeholder' => 'Choose a Lot Materiel', 'choice_label' => 'code_lot_materiel', 'multiple' => false, 'expanded' => false))
+        $builder->add('lotMaterielFk',EntityType::class, array('class' => 'BbeesE3sBundle:LotMateriel',
+                      'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('lot')
+                                    ->orderBy('lot.codeLotMateriel', 'ASC');
+                        },
+                     'placeholder' => 'Choose a Lot Materiel', 'choice_label' => 'code_lot_materiel', 'multiple' => false, 'expanded' => false))
                 ->add('codeTube')
                 ->add('codeIndTriMorpho')
                 ->add('typeIndividuVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 

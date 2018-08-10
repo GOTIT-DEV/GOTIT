@@ -37,8 +37,7 @@ class ImportFilesSqcAssembleePublieController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Séquence assemblee publie' => 'sqc_assemblee_publie',),
-                         '  ' => array('Personne' => 'personne', 'Source' => 'source',),)
+                         ' ' => array('Séquence assemblee publie' => 'sqc_assemblee_publie',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

@@ -190,7 +190,7 @@ function  addArrayCollectionButton($container, nameCollection, addnew = false, f
         // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
         $addLink.click(function(e) {
           index++;
-          addCategoryForExistingRecord(index, $container);
+          addCategoryForExistingRecord(index, $container, true, nameCollection);
           e.preventDefault(); // évite qu'un # apparaisse dans l'URL
           return false;
         });
@@ -200,7 +200,7 @@ function  addArrayCollectionButton($container, nameCollection, addnew = false, f
 
         if (index == 0 && fieldRequired) {
           // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
-          addCategoryForExistingRecord(index, $container, false);
+          addCategoryForExistingRecord(index, $container, false, nameCollection);
           //index++;
           //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
         }  
@@ -220,17 +220,18 @@ function  addArrayCollectionButton($container, nameCollection, addnew = false, f
 // La fonction qui ajoute un lien de suppression d'une catégorie
 function addDeleteLink($prototype, visible = true, nameCollection = '') {
   // Création du lien
-  if (visible) {
-    var id_delete = (nameCollection != '') ? 'id="delete_'+nameCollection+'"' : '';
+  var id_delete = (nameCollection != '') ? 'id="delete_'+nameCollection+'"' : 'id="delete_Collection"';
+  if (visible) {    
     $deleteLink = $('<div '+id_delete+' class="col-sm-2 pull-right"><a href="#" class="btn btn-danger btn-sm " type="button">Delete</a></div>');
   } else {
-     $deleteLink = $('<div class="col-sm-2 pull-right">&nbsp;</div>');
+     $deleteLink = $('<div '+id_delete+' class="col-sm-2 pull-right">&nbsp;</div>');
   }
   // Ajout du lien
   $prototype.prepend($deleteLink);
   // Ajout du listener sur le clic du lien
   $deleteLink.click(function(e) {
     $prototype.remove();
+    //if(nameCollection == "Chromatogramme") {setCodeSqcAss();}
     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     return false;
   });
@@ -257,14 +258,14 @@ function addDeleteLink($prototype, visible = true, nameCollection = '') {
  }
    
 // La fonction qui ajoute un formulaire 
- function addCategoryForExistingRecord(index,$container, deleteBouton = true) {
+ function addCategoryForExistingRecord(index,$container, deleteBouton = true, nameCollection = '') {
    //alert("addCategoryForExistingRecord  : index ="+index);
    // Dans le contenu de l'attribut « data-prototype », on remplace :
    // - le texte "__name__label__" qu'il contient par le label du champ
    // - le texte "__name__" qu'il contient par le numéro du champ
    var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index));    
    // On ajoute au prototype un lien pour pouvoir supprimer 
-   if (deleteBouton) addDeleteLink($prototype);
+   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
    // On ajoute le prototype modifié à la fin de la balise <div>
    //$container.append($prototype);
    $container.append($prototype);
@@ -340,13 +341,13 @@ function maj($container) {
 }
 
 // L'ajout d'un bouton Back to the collect
-function addBackToRelatedRecord(entityform, entityRel, nameEntityRel = false) {
+function addBackToRelatedRecord(entityform, entityRel, nameButonBack) {
         var entityrel_lowercase = entityRel.toLowerCase();
         var entityRelSelected = $('#bbees_e3sbundle_'+entityform+'_'+entityRel+'Fk option:selected').val();
-        if(!nameEntityRel) nameEntityRel = entityRel.toUpperCase();
+        //if(!nameEntityRel) nameEntityRel = entityRel.toUpperCase();
         //alert(CollecteSelected);
         if (typeof entityRelSelected !== 'undefined' && entityRelSelected != null && entityRelSelected != '') {
-            var $addBouton= $('<span>&nbsp;<a href="../../'+entityrel_lowercase+'/'+entityRelSelected+'/edit" class="btn btn-round btn-primary">Back to '+nameEntityRel+'</a><span> ');
+            var $addBouton= $('<span>&nbsp;<a href="../../'+entityrel_lowercase+'/'+entityRelSelected+'/edit" class="btn btn-round btn-primary"> '+nameButonBack+'</a><span> ');
             $('.title_left h1').append($addBouton); 
         }
 }
@@ -651,8 +652,8 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
 
 var longmin = (parseFloat(longGPS.replace(",", ".")) - 15).toFixed(6);
 var longmax = (parseFloat(longGPS.replace(",", ".")) + 15).toFixed(6);
-var latmin = (parseFloat(latGPS.replace(",", ".")) - 15).toFixed(6);
-var latmax = (parseFloat(latGPS.replace(",", ".")) + 15).toFixed(6);
+var latmin = (parseFloat(latGPS.replace(",", ".")) - 11).toFixed(6);
+var latmax = (parseFloat(latGPS.replace(",", ".")) + 11).toFixed(6);
 var latGPS = parseFloat(latGPS.replace(",", ".")).toFixed(6);
 var longGPS = parseFloat(longGPS.replace(",", ".")).toFixed(6);
 var latArray = [latGPS];
@@ -671,10 +672,7 @@ var longArray = [longGPS];
       var difLat = parseFloat(latitude[i]-latGPS).toFixed(6);
       var difLong = parseFloat(longitude[i]-longGPS).toFixed(6);
       var stationText = [
-        "Code: " + code_station[i],
-        "Nom: " + nom_station[i] ,
-        "Coords: " + latitude[i] + "  /  " + longitude[i],     
-        "Commune: " + code_commune[i]        
+        "Code: " + code_station[i]        
       ].join("<br>")
       hoverText.push(stationText)
     }
@@ -706,7 +704,7 @@ var longArray = [longGPS];
 
     // Données
     const data_stations = build_station_data(json_stations, {
-      name: "Stations BDD",
+      name: "Station",
       marker: {
         symbol: "triangle-up",
         size: 3,

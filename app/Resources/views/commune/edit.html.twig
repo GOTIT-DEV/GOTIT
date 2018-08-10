@@ -21,18 +21,25 @@
         
         $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
         $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
-            var nomCommune = $(this).val().toUpperCase();        
+            var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
+            $(this).val(nomCommune);
             var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
             var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
             $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
         })
         $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
-            var nomRegion = $(this).val().toUpperCase();
+            var nomRegion = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
+            $(this).val(nomRegion);
             var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
             var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
             $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
         })
-        
+        $('#bbees_e3sbundle_commune_paysFk').change(function (e) {  
+            var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+            var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
+            var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
+            $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+        })
         // 3) Actions après la création d'une nouvelle Commune 
         $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
             $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             

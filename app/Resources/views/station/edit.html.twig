@@ -120,7 +120,8 @@
             $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
             $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
                 var modal = $(this);
-                var nomCommune = modal.val().toUpperCase();        
+                var nomCommune = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');   
+                $(this).val(nomCommune);
                 var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
                 var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
                 modal.val(nomCommune);
@@ -128,7 +129,8 @@
             })
             $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
                 var modal = $(this);
-                var nomRegion = modal.val().toUpperCase();
+                var nomRegion = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
+                $(this).val(nomRegion);
                 var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
                 var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
                 modal.val(nomRegion);

@@ -20,7 +20,12 @@ class IndividuLameType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('individuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Individu','placeholder' => 'Choose an individu', 'choice_label' => 'code_ind_tri_morpho', 'multiple' => false, 'expanded' => false))
+        $builder->add('individuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Individu',
+                       'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('individu')
+                                    ->orderBy('individu.codeIndTriMorpho', 'ASC');
+                        },
+                    'placeholder' => 'Choose an individu', 'choice_label' => 'code_ind_tri_morpho', 'multiple' => false, 'expanded' => false))
                 ->add('codeLameColl')
                 ->add('libelleLame')
                 ->add('dateLame', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))

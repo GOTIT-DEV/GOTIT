@@ -15,6 +15,7 @@
 <script type="text/javascript">  
 //  interface Formulaire
 $(document).ready(function(){
+        var NewCodePays = '';
         // L'ajout d'un bouton Back to the collecte
         // MAJ du codeStation, nomStation
         maj($('#bbees_e3sbundle_pays_codePays'));
@@ -24,7 +25,16 @@ $(document).ready(function(){
         {% endif %}
         {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
-            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+            // gestion auto de la génération contunu du code pays au moment de la création
+            $('#bbees_e3sbundle_pays_codePays').attr("disabled", true);
+            $('#bbees_e3sbundle_pays_nomPays').keyup(function (e) {
+                var codePays = $(this).val().replace(/ /g, '_');
+                $('#bbees_e3sbundle_pays_codePays').val(codePays);
+            })
+            //  Actions après summision / validation du formmulaire
+            $(document).on('submit','form[name="bbees_e3sbundle_pays"]',function(ev){
+                $('#bbees_e3sbundle_pays_codePays').attr("disabled", false);             
+            });
         {% endif %}
     });
 </script>

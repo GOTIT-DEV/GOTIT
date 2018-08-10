@@ -37,8 +37,7 @@ class ImportFilesLotMaterielPublieController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Lot Materiel publie' => 'lot_materiel_publie',),
-                         '  ' => array('Personne' => 'personne', 'Source' => 'source',),)
+                         ' ' => array('Lot Materiel publie' => 'lot_materiel_publie',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

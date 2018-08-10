@@ -1,0 +1,198 @@
+#requetes
+echantillonnage: |
+    INFO : 
+assign-motu : |
+    INFO : 
+rearrangements: |
+    INFO : 
+richesse: |
+    INFO : 
+concordance: |
+    INFO : 
+# liste 
+station_index: |
+    INFO : 
+collecte_index: |
+    INFO :
+lotmateriel_index: |
+    INFO : 
+lotmaterielext_index: |
+    INFO :
+individu_index: |
+    INFO : 
+individulame_index: |
+    INFO :
+lotmateriel_index: |
+    INFO : 
+adn_index: |
+    INFO :        
+pcr_index: |
+    INFO : 
+chromatogramme_index: |
+    INFO :
+sequenceassemblee_index: |
+    INFO : 
+sequenceassembleeext_index: |
+    INFO :
+motu_index: |
+    INFO : 
+boite_index: |
+    INFO :
+source_index: |
+    INFO : 
+voc_index: |
+    INFO :
+referentieltaxon_index: |
+    INFO : 
+personne_index: |
+    INFO :
+programme_index: |
+    INFO : 
+etablissement_index: |
+    INFO :
+pays_index: |
+    INFO : 
+commune_index: |
+    INFO :
+# formulaire edit
+station_edit: |
+    INFO : 
+collecte_edit: |
+    INFO :
+lotmateriel_edit: |
+    INFO : 
+lotmaterielext_edit: |
+    INFO :
+individu_edit: |
+    INFO : 
+individulame_edit: |
+    INFO :
+lotmateriel_edit: |
+    INFO : 
+adn_edit: |
+    INFO :        
+pcr_edit: |
+    INFO : 
+chromatogramme_edit: |
+    INFO :
+sequenceassemblee_edit: |
+    INFO : 
+sequenceassembleeext_edit: |
+    INFO :
+motu_edit: |
+    INFO : 
+boite_edit: |
+    INFO :
+source_edit: |
+    INFO : 
+voc_edit: |
+    INFO :
+referentieltaxon_edit: |
+    INFO : 
+personne_edit: |
+    INFO :
+programme_edit: |
+    INFO : 
+etablissement_edit: |
+    INFO :
+pays_edit: |
+    INFO : 
+commune_edit: |
+    INFO :
+# procédure d'import csv  
+importfilesstation_index: |
+    INFO : Formulaire d'importation des données relatives à la table Station. Procédez par étapes : 
+    - intégrez les nouvelles données de références nécessaires aux données Station (templates Voc & Pays)
+    - intégrez les données des Stations (template Station)
+importfilescollecte_index: |
+    INFO : Formulaire d'importation des données relatives à la table Collecte. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données relatives aux tables  Programme & Personne (templates Programme & Personne)
+    - intégrez (si nécessaire) les nouvelles données relatives aux tables  Voc & Référentiel Taxon (templates Voc & Référentiel Taxon) *
+    - intégrez les données des Collectes (template Collecte)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilessource_index: |
+    INFO : Formulaire d'importation des données relatives à la table Source. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : personne) *
+    - intégrez les données de la table Source (templates : source)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données         
+importfilesadndeplace _index: |
+    INFO : Procédez par étapes :  
+    - process the  data (template import.adn-range) 
+importfilesadnrange_index: |
+    INFO : Procédez par étapes :  
+    - intégrez les données ADN-range (template import.adn-range)  
+importfilesindividulamedeplace _index: |
+    INFO : Procédez par étapes :  
+    - intégrez les données Individu_lame-deplace  (template import.individu_lame-range) 
+importfilesindividulamerange_index: |
+    INFO : Procédez par étapes :  
+    - intégrez les données Individu_lame-range(template import.individu_lame-range)   
+importfileslotmaterieldeplace_index: |
+    INFO : Procédez par étapes :  
+    - process the  data (template import.lot_materiel-range) 
+importfileslotmaterielrange_index: |
+    INFO : Procédez par étapes :  
+    - intégrez les données lot_materiel-range (template import.lot_materiel-range)       
+importfileslotmaterielpublie_index: |
+    INFO : Procédez par étapes : 
+    - Intégrer les données Lot_Materiel-publie (template import.lot_materiel-publie)
+importfilessqcassembleepublie_index: |
+    INFO : Procédez par étapes : 
+    - Intégrer les données Sequences Assemble publiées (template import.sqc_assemblee-publie)
+importfilessequenceassemblee_index: | 
+    INFO : Formulaire d'importation des données relatives à la table Sequence Assemblee. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , referentiel_taxon , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (templates : source) 
+    - intégrez les données de la table   SequenceAssemblee (template sqc_assemblee)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilessequenceassembleeext_index: | 
+    INFO : Formulaire d'importation des données relatives à la table Sequence Assemblée. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , referentiel_taxon , personne , pays) *
+    - intégrez (si nécessaire) les nouvelles données liées (templates : station, collecte, source) 
+    - intégrez les données de la table SequenceAssembleeExt (template sqc_assemblee_ext)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilesmotu_index: |
+    INFO : Formulaire d'importation des données relatives à la table MOTU . Procédez par étapes : 
+    - (if necessary) create the metadata of the MOTU file from the menu MOTU and the button "create a new motu"
+    - intégrez les données de MOTU assignées aux séquences (template import.motu-assigne)
+importfileslotmateriel_index: |
+    INFO : Formulaire d'importation des données relatives à la table Lot Materiel. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , referentiel_taxon , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (template : boite) 
+    - intégrez les données de la table LotMateriel (template lot_materiel)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilesindividu_index: |
+    INFO : Formulaire d'importation des données relatives à la table Individu. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , referentiel_taxon , personne) *
+    - intégrez les données de la table Individu (template : individu)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilesindividulame_index: |
+    INFO : Form to import Lame data and relative. Procédez par étapes :      
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (template : boite) 
+    - intégrez les données de la table IndividuLame (template : individu_lame)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilesadn_index: |
+    INFO :Formulaire d'importation des données relatives à la table Adn. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (template : boite) 
+    - intégrez les données de la table Adn (template : adn)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilespcr_index: |
+    INFO : Formulaire d'importation des données relatives à la table PCR. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , personne) *
+    - intégrez les données de la table Pcr (template : pcr)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfileschromatogramme_index: |
+    INFO : Formulaire d'importation des données relatives à la table Chromatogramme. Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (template : etablissement) 
+    - intégrez les données de la table Chromatogramme (template : chromatogramme)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+importfilespcrchromato_index: |
+    INFO : Formulaire d'importation des données relatives aux tables Pcr et Chromatogramme . Procédez par étapes : 
+    - intégrez (si nécessaire) les nouvelles données référentielles(templates : VOC , personne) *
+    - intégrez (si nécessaire) les nouvelles données liées (template : etablissement) 
+    - intégrez les données des tables PCR & Chromatogram data (template : pcr_chromato)
+    (*) cette étape est reservée aux administrateurs. En cas de nécéssité contactez un administrateur de la base de données
+

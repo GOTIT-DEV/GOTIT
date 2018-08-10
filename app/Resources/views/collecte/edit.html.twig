@@ -135,7 +135,7 @@
         })                
         {% if action == 'edit'  %} 
             // L'ajout d'un bouton Back to  the station
-                addBackToRelatedRecord('collecte', 'station', "{{'title.station'|trans}}" );
+            addBackToRelatedRecord('collecte', 'station', "{{'buton.Back to station'|trans}}" );
             // verouillage du champ Station
             $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
@@ -166,7 +166,7 @@
                 var dateCollecteYear = $('#bbees_e3sbundle_collecte_dateCollecte_year').val();
                 if (datePrecision == '{{'INCONNU'|trans}}') {codeCollecte = codeCollecte + '000000';}
                 if (datePrecision == '{{'ANNEE'|trans}}' ) {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
-                if (datePrecision == '{{'MOIS'|trans}}' || datePrecision == 'JOUR') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
+                if (datePrecision == '{{'MOIS'|trans}}' || datePrecision == '{{'JOUR'|trans}}') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
                 //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
                 $('#bbees_e3sbundle_collecte_codeCollecte').val(codeCollecte);
             }

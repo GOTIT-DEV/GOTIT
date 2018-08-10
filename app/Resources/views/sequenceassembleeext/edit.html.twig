@@ -118,12 +118,6 @@
         $('[for^=bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2_datePrecisionVocFk]').click(function (e) { 
             dateDateprecision('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees_2', 'dateIdentification', message);
         })
-        $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees').change(function (e) { setCodeSqcAssExt();})
-        $('#bbees_e3sbundle_sequenceassembleeext_collecteFk').change(function (e) {  setCodeSqcAssExt();})
-        $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk').change(function (e) {  setCodeSqcAssExt();})
-        $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk').change(function (e) {  setCodeSqcAssExt();})
-        $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
-        $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
         // La fonction qui genere automatiquement le code Sqc Ass Ext
         function setCodeSqcAssExt() {
             var code = '';
@@ -151,18 +145,24 @@
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
         {% endif %}
         {% if action == 'new'  %}  
+            $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees').change(function (e) { setCodeSqcAssExt();})
+            $('#bbees_e3sbundle_sequenceassembleeext_collecteFk').change(function (e) {  setCodeSqcAssExt();})
+            $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk').change(function (e) {  setCodeSqcAssExt();})
+            $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk').change(function (e) {  setCodeSqcAssExt();})
+            $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
+            $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').keyup(function (e) { setCodeSqcAssExt();})
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             {% if valid is not defined  %}  setCodeSqcAssExt(); {% endif %}
             $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
                 // deverouillage des champ descativé pour permettre l enregistrement
-                $('bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", false); 
+                $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", false); 
              }); 
             {% if valid is not defined  %} setCodeSqcAssExt(); {% endif %}
             $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
                 // deverouillage des champ descativé pour permettre l enregistrement
-                $('bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", false); 
+                $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", false); 
             }); 
         {% endif %}   
     });

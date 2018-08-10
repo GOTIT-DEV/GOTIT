@@ -111,6 +111,9 @@ class SequenceAssembleeController extends Controller
             $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
+            // recherche du nombre de motu assigne (cf. table Assigne)
+            $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
+            $motuAssigne = (count($query) > 0) ? 1 : 0;
             // récuparation du premier taxon identifié            
             $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
@@ -136,6 +139,7 @@ class SequenceAssembleeController extends Controller
              "listSource" => $listSource, 
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
+             "motuAssigne" => $motuAssigne ,   
              "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj,  );
         }    
  

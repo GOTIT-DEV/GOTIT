@@ -20,7 +20,12 @@ class SequenceAssembleeExtType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('collecteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Collecte','placeholder' => 'Choose a Collecte', 'choice_label' => 'code_collecte', 'multiple' => false, 'expanded' => false))
+        $builder->add('collecteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Collecte',
+                      'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('collecte')
+                                    ->orderBy('collecte.codeCollecte', 'ASC');
+                        },
+                    'placeholder' => 'Choose a Collecte', 'choice_label' => 'code_collecte', 'multiple' => false, 'expanded' => false))
                 ->add('codeSqcAssExt')
                 ->add('codeSqcAssExtAlignement')
                 ->add('accessionNumberSqcAssExt')
@@ -76,7 +81,7 @@ class SequenceAssembleeExtType extends AbstractType
                         'prototype' => true,
                         'prototype_name' => '__name__',
                         'by_reference' => false,
-                        'entry_options' => array('label' => false, 'refTaxonLabel' => 'codeTaxon')
+                        'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel'])
                 )) 
                 ->add('sqcExtEstReferenceDanss', CollectionType::class , array(
                         'entry_type' => SqcExtEstReferenceDansEmbedType::class,
@@ -100,7 +105,8 @@ class SequenceAssembleeExtType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Bbees\E3sBundle\Entity\SequenceAssembleeExt'
+            'data_class' => 'Bbees\E3sBundle\Entity\SequenceAssembleeExt',
+            'refTaxonLabel' => 'taxname',
         ));
     }
 

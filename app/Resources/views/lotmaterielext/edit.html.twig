@@ -108,7 +108,7 @@ $(document).ready(function(){
         })
         {% if action == 'edit'  %} 
             // L'ajout d'un bouton Back to the collecte
-            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'title.collecte'|trans}}" );
+            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'buton.Back to collecte'|trans}}" );
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_lotmaterielext_collecteFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){

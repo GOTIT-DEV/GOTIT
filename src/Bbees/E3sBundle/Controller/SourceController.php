@@ -54,7 +54,7 @@ class SourceController extends Controller
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
         // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
-        $where = 'LOWER(source.libelleSource) LIKE :criteriaLower';
+        $where = 'LOWER(source.codeSource) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
@@ -77,6 +77,7 @@ class SourceController extends Controller
             //
             $tab_toshow[] = array("id" => $id, "source.id" => $id, 
              "source.codeSource" => $entity->getCodeSource(),
+             "source.anneeSource" => $entity->getAnneeSource(),
              "source.libelleSource" => $entity->getLibelleSource(),
              "source.dateCre" => $DateCre, "source.dateMaj" => $DateMaj,);
         }     

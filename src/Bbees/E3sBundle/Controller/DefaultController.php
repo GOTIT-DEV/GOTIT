@@ -48,6 +48,225 @@ class DefaultController extends Controller
         $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Boite u')->getSingleScalarResult();
         $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Source u')->getSingleScalarResult();
         $nbTaxon = $em->createQuery('SELECT COUNT(rt.id) FROM BbeesE3sBundle:EspeceIdentifiee u JOIN u.referentielTaxonFk rt')->getSingleScalarResult();
+        //
+        $tab_toshow =[];
+        // retourne les derniers enregistrements des adn
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+            ->addOrderBy('adn.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'adn',
+            "code" => $entity->getCodeAdn(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+        // retourne les derniers enregistrements des chromatogramme
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Chromatogramme")->createQueryBuilder('chromatogramme')
+            ->addOrderBy('chromatogramme.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'chromatogramme',
+            "code" => $entity->getCodeChromato(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }
+        // retourne les derniers enregistrements des collectes
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Collecte")->createQueryBuilder('collecte')
+            ->addOrderBy('collecte.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'collecte',
+            "code" => $entity->getCodeCollecte(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }  
+        // retourne les derniers enregistrements des individu
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Individu")->createQueryBuilder('individu')
+            ->addOrderBy('individu.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'individu',
+            "code" => $entity->getCodeIndTriMorpho(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+        // retourne les derniers enregistrements des lame
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('individulame')
+            ->addOrderBy('individulame.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'individulame',
+            "code" => $entity->getCodeLameColl(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+        // retourne les derniers enregistrements des lots
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lotMateriel')
+            ->addOrderBy('lotMateriel.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'lotmateriel',
+            "code" => $entity->getCodeLotMateriel(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+        // retourne les derniers enregistrements des lots ext
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMaterielExt")->createQueryBuilder('lotmaterielext')
+            ->addOrderBy('lotmaterielext.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'lotmaterielext',
+            "code" => $entity->getCodeLotMaterielExt(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }
+        // retourne les derniers enregistrements des motu
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Motu")->createQueryBuilder('motu')
+            ->addOrderBy('motu.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'motu',
+            "code" => $entity->getLibelleMotu(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }
+        // retourne les derniers enregistrements des pcr
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:Pcr")->createQueryBuilder('pcr')
+            ->addOrderBy('pcr.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'pcr',
+            "code" => $entity->getCodePcr(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }
+        // retourne les derniers enregistrements des sequence
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceassemblee')
+            ->addOrderBy('sequenceassemblee.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'sequenceassemblee',
+            "code" => $entity->getCodeSqcAss(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+                // retourne les derniers enregistrements des sequenceext
+        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceassembleeext')
+            ->addOrderBy('sequenceassembleeext.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'sequenceassembleeext',
+            "code" => $entity->getCodeSqcAssExt(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        } 
+        // retourne les derniers enregistrements des stations
+        $entities_toshow  = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+            ->addOrderBy('station.dateMaj', 'DESC')
+            ->setMaxResults( 25 )
+            ->getQuery()
+            ->getResult();             
+        foreach($entities_toshow as $entity)
+        {
+            $id = $entity->getId();
+            //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array("id" => $id,
+            "name" => 'station',
+            "code" => $entity->getCodeStation(),
+            "dateMaj" => $DateMaj,
+            "userMaj" => $entity->getUserMaj(),
+             );
+        }
+
         return $this->render('default/index.html.twig', array( 
             'nbCollecte' => $nbcollectes,
             'nbStation' => $nbstations,
@@ -66,6 +285,7 @@ class DefaultController extends Controller
             'nbBoite' => $nbBoite,
             'nbSource' => $nbSource,
             'nbTaxon' => $nbTaxon,
+            'entities' => $tab_toshow, 
             ));
     }
     

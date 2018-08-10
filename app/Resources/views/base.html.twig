@@ -1,3 +1,11 @@
+{# retourne le nom de la route dans l'url #}
+{% set base_route_index = app.request.attributes.get('_route') %}
+{% set base_route_url = base_route_index|split('_')[0] %}
+{% set help_message = base_route_index|trans({},'help')|nl2br %}
+{% if help_message ==  base_route_index %} 
+        {% set help_message =  base_route_index %} 
+ {% endif %} 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,7 +50,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-database"></i> <span>GOTIT - E3S</span></a>
+              <a href="{{path('default_index') }}" class="site_title"><i class="fa fa-database"></i> <span>GOTIT - E3S</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -191,10 +199,10 @@
                     {% set pathRoute = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
                     {% set pathRouteFrInArray = pathRoute|split('/fr/') %}
                       {% if pathRouteFrInArray|length == 2 %} 
-                        <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
+                        <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}?langage=en"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
                       {% else %}
                           {% set pathRouteEnInArray = pathRoute|split('/en/') %}
-                         <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
+                         <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}?langage=fr"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
                       {% endif %}
                     </li>
                     <li><a href="javascript:;">Help</a></li>
@@ -237,7 +245,11 @@
         <div class="collapse" id="page-help">
         <div class="well">
         {% block pagehelp %}
-          Undefined
+            {% if help_message is defined and help_message is not empty %} 
+                    {{help_message|raw}} 
+                     {% else %}
+                    Undefined    
+             {% endif %}         
         {% endblock %}
         </div>
         </div>

@@ -1,16 +1,18 @@
 <?php
 
 /*
- * This file is part of the Bundle E3s package.
- * 
+ * This file is part of the E3sBundle from the GOTIT project (Gene, Occurence and Taxa in Integrative Taxonomy)
  *
- * (c) Philippe Grison <philippe.grison@mnhn.fr>
- * 
- * Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés (BBEES), 
- * Muséum national d'Histoire naturelle, CNRS, Sorbonne Université ; CP55, 57 rue Cuvier 75005 Paris, France
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
  */
 
 namespace Bbees\E3sBundle\Entity;

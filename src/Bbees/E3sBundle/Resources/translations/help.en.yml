@@ -1,0 +1,198 @@
+#requetes
+echantillonnage: |
+    INFO : 
+assign-motu : |
+    INFO : 
+rearrangements: |
+    INFO : 
+richesse: |
+    INFO : 
+concordance: |
+    INFO : 
+# liste 
+station_index: |
+    INFO : 
+collecte_index: |
+    INFO :
+lotmateriel_index: |
+    INFO : 
+lotmaterielext_index: |
+    INFO :
+individu_index: |
+    INFO : 
+individulame_index: |
+    INFO :
+lotmateriel_index: |
+    INFO : 
+adn_index: |
+    INFO :        
+pcr_index: |
+    INFO : 
+chromatogramme_index: |
+    INFO :
+sequenceassemblee_index: |
+    INFO : 
+sequenceassembleeext_index: |
+    INFO :
+motu_index: |
+    INFO : 
+boite_index: |
+    INFO :
+source_index: |
+    INFO : 
+voc_index: |
+    INFO :
+referentieltaxon_index: |
+    INFO : 
+personne_index: |
+    INFO :
+programme_index: |
+    INFO : 
+etablissement_index: |
+    INFO :
+pays_index: |
+    INFO : 
+commune_index: |
+    INFO :
+# formulaire edit
+station_edit: |
+    INFO : 
+collecte_edit: |
+    INFO :
+lotmateriel_edit: |
+    INFO : 
+lotmaterielext_edit: |
+    INFO :
+individu_edit: |
+    INFO : 
+individulame_edit: |
+    INFO :
+lotmateriel_edit: |
+    INFO : 
+adn_edit: |
+    INFO :        
+pcr_edit: |
+    INFO : 
+chromatogramme_edit: |
+    INFO :
+sequenceassemblee_edit: |
+    INFO : 
+sequenceassembleeext_edit: |
+    INFO :
+motu_edit: |
+    INFO : 
+boite_edit: |
+    INFO :
+source_edit: |
+    INFO : 
+voc_edit: |
+    INFO :
+referentieltaxon_edit: |
+    INFO : 
+personne_edit: |
+    INFO :
+programme_edit: |
+    INFO : 
+etablissement_edit: |
+    INFO :
+pays_edit: |
+    INFO : 
+commune_edit: |
+    INFO :
+# procédure d'import csv      
+importfilessource_index: |
+    INFO : Form to import Source data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : personne) *
+    - process the Source data (templates : source)
+    (*) only for administrator. if necessary please contact e3s database administrator         
+importfilesadndeplace _index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.adn-range) 
+importfilesadnrange_index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.adn-range)  
+importfilesindividulamedeplace _index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.individu_lame-range) 
+importfilesindividulamerange_index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.individu_lame-range)   
+importfileslotmaterieldeplace_index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.lot_materiel-range) 
+importfileslotmaterielrange_index: |
+    INFO : Proceed by step :  
+    - process the  data (template import.lot_materiel-range)       
+importfileslotmaterielpublie_index: |
+    INFO : Form to link sources to biological materials as file. Proceed by step : 
+    - process the  data (template import.lot_materiel-publie)
+importfilessqcassembleepublie_index: |
+    INFO : Form to link sources to biological materials as file. Proceed by step : 
+    - process the data (template import.sqc_assemblee-publie)
+importfilessequenceassemblee_index: | 
+    INFO : Form to import E3S Sequences data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne) *
+    - (if necessary) process the linked data (templates : source) 
+    - process the Sequences data (template sqc_assemblee)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilessequenceassembleeext_index: | 
+    INFO : Form to import Source sequences data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne , pays) *
+    - (if necessary) process the linked data (templates : station, collecte, source) 
+    - process the Source sequences data (template sqc_assemblee_ext)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilesmotu_index: |
+    INFO : Form to import MOTU data. Proceed by step : 
+    - (if necessary) create the metadata of the MOTU file from the menu MOTU and the button "create a new motu"
+    - process the motu data (template import.motu-assigne)
+importfilesstation_index: |
+    INFO : Form to import Station data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , pays) *
+    - process the Station data (template : station)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilescollecte_index: |
+    INFO : Form to import Collecte data and relative. Proceed by step : 
+    - (if necessary) process the linked data (template : Programme) 
+    - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne) *
+    - process the Collecte data (template Collecte)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfileslotmateriel_index: |
+    INFO : Form to import Lot material data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne) *
+    - (if necessary) process the linked data (template : boite) 
+    - process the Source material data (template lot_materiel)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilesindividu_index: |
+    INFO : Form to import Specimen data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , referentiel_taxon , personne) *
+    - process the Individu data (template : individu)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilesindividulame_index: |
+    INFO : Form to import Lame data and relative. Proceed by step :      
+    - (if necessary) process the referential data (templates : VOC , personne) *
+    - (if necessary) process the linked data (template : boite) 
+    - process the Slide data (template : individu_lame)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilesadn_index: |
+    INFO : Form to import DNA data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , personne) *
+    - (if necessary) process the linked data (template : boite) 
+    - process the DNA data (template : adn)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilespcr_index: |
+    INFO : Form to import PCR data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , personne) *
+    - process the PCR data (template : pcr)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfileschromatogramme_index: |
+    INFO : Form to import Chromatogram data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , personne) *
+    - (if necessary) process the linked data (template : etablissement) 
+    - process the Chromatogram data (template : chromatogramme)
+    (*) only for administrator. if necessary please contact e3s database administrator
+importfilespcrchromato_index: |
+    INFO : Form to import Pcr & Chromatogram data and relative. Proceed by step : 
+    - (if necessary) process the referential data (templates : VOC , personne) *
+    - (if necessary) process the linked data (template : etablissement) 
+    - process the PCR & Chromatogram data (template : pcr_chromato)
+    (*) only for administrator. if necessary please contact e3s database administrator

@@ -82,6 +82,7 @@ class IndividuLameController extends Controller
         {
             $id = $entity->getId();
             $idIndividu = $entity->getIndividuFk()->getId();
+            $codeBoite = ($entity->getBoiteFk() !== null) ?  $entity->getBoiteFk()->getCodeBoite() : null;
             $DateLame = ($entity->getDateLame() !== null) ?  $entity->getDateLame()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
@@ -100,8 +101,10 @@ class IndividuLameController extends Controller
              "individu.codeTube" => $entity->getIndividuFk()->getCodeTube(),   
              "vocTypeIndividu.code" => $entity->getIndividuFk()->getTypeIndividuVocFk()->getCode(),  
              "lastTaxname" => $lastTaxname,
-             "lastdateIdentification" => $lastdateIdentification ,
-             "codeIdentification" => $codeIdentification ,
+             "lastdateIdentification" => $lastdateIdentification,
+             "codeIdentification" => $codeIdentification,
+             "boite.codeBoite" => $codeBoite,
+             "individuLame.nomDossierPhotos" => $entity->getNomDossierPhotos(),
              "individuLame.dateCre" => $DateCre, "individuLame.dateMaj" => $DateMaj
              );
         }     

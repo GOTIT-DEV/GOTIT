@@ -104,6 +104,7 @@ class LotMaterielController extends Controller
              "lotMateriel.dateLotMateriel" => $DateLot ,"lotMateriel.dateCre" => $DateCre, "lotMateriel.dateMaj" => $DateMaj,
              "lastTaxname" => $lastTaxname, "lastdateIdentification" => $lastdateIdentification , "codeIdentification" => $codeIdentification ,
              "pays.nomPays" => $entity->getCollecteFk()->getStationFk()->getpaysFk()->getNomPays(),
+             "lotMateriel.aFaire" => $entity->getAfaire(),   
              "commune.codeCommune" => $entity->getCollecteFk()->getStationFk()->getCommuneFk()->getCodeCommune(),
              "linkIndividu" => $linkIndividu, "linkIndividu_codestation" => "%|".$codeStation."_%",);
         }     

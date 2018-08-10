@@ -136,17 +136,18 @@
             $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}');
             $("form[name=form] :input").prop("disabled", true);
         {% endif %}      
-        // fonctionnalités spécifiques : generation automatiquement du  codeChromato
-        if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
-        $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
-        $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();}) 
-        $('#delete_Chromatogramme').click(function (e) { setCodeSqcAss();}) 
+        // fonctionnalités spécifiques : generation automatiquement du  codeChromato  
+        //$('[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"][id$="chromatogrammeFk"]').change(function (e) { setCodeSqcAss();}) 
+
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             // on desactive le formulaire sequence assemblee
             $("form[name=form] :input").prop("disabled", true);
         {% endif %}
-        {% if action == 'new'  %} 
+        {% if action == 'new'  %}
+            if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
+            $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
+            $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();})
             {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
             {% else %} 
                 $('form[name="bbees_e3sbundle_sequenceassemblee"] :input').prop("disabled", true);
@@ -163,10 +164,11 @@
             $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
                 // deverouillage des champ descativé pour permettre l enregistrement
+                setCodeSqcAss();
                 $('bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", false); 
             });
-            // La fonction qui genere automatiquement le codeCollecte
         {% endif %}   
+        // La fonction qui genere automatiquement le code Sequence
         function setCodeSqcAss() {
             //alert('setCodeSqcAss');
             var code = '';

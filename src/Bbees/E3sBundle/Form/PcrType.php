@@ -20,7 +20,12 @@ class PcrType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('adnFk',EntityType::class, array('class' => 'BbeesE3sBundle:Adn','placeholder' => 'Choose a DNA', 'choice_label' => 'code_adn', 'multiple' => false, 'expanded' => false))           
+        $builder->add('adnFk',EntityType::class, array('class' => 'BbeesE3sBundle:Adn',
+                       'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('adn')
+                                    ->orderBy('adn.codeAdn', 'ASC');
+                        },
+                        'placeholder' => 'Choose a DNA', 'choice_label' => 'code_adn', 'multiple' => false, 'expanded' => false))           
                 ->add('codePcr')
                 ->add('numPcr')
                 ->add('geneVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 

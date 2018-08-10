@@ -21,7 +21,12 @@ class ChromatogrammeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pcrFk',EntityType::class, array('class' => 'BbeesE3sBundle:Pcr','placeholder' => 'Choose a PCR', 'choice_label' => 'code_pcr', 'multiple' => false, 'expanded' => false))    
+        $builder->add('pcrFk',EntityType::class, array('class' => 'BbeesE3sBundle:Pcr',
+                       'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('pcr')
+                                    ->orderBy('pcr.codePcr', 'ASC');
+                        },
+                        'placeholder' => 'Choose a PCR', 'choice_label' => 'code_pcr', 'multiple' => false, 'expanded' => false))    
                 ->add('codeChromato')
                 ->add('numYas',  TextType::class, array( 'required' => true,))
                 ->add('primerChromatoVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 

@@ -93,7 +93,7 @@
         }) 
         {% if action == 'edit'  %}  
             // L'ajout d'un bouton Back to the individu
-            addBackToRelatedRecord('adn', 'individu',  "{{'title.individu'|trans}}");
+            addBackToRelatedRecord('adn', 'individu',  "{{'buton.Back to individu'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_adn_individuFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_adn"]',function(ev){

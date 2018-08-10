@@ -1,6 +1,44 @@
+# 
+list.MotuAssigne: MOTU
+title.Import Files CSV: Import Files CSV
+title.boiteLOT: Box biological material
+title.boiteLAME: Box specimen slide
+title.boiteADN: Box DNA
+# Intitules des boutons "Back to Entity"
+buton.Back to station: Back to Station
+buton.Back to collecte: Back to Sampling
+buton.Back to lotmateriel: Back to Biological material
+buton.Back to individu: Back to Specimen
+buton.Back to individulame: Back to Specimen slide
+buton.Back to lotmaterielext: Back to External biological material
+buton.Back to adn: Back to DNA
+buton.Back to pcr: Back to PCR
+buton.Back to chromatogramme: Back to Chromatogram
+buton.Back to pcrchromato: Back to PCR
+buton.Back to sequenceassemblee: Back to Internal sequence
+buton.Back to sequenceassembleeext: Back to External sequence
+buton.Back to motu: Back to MOTU
+buton.Back to boite: Back to Boxes
+buton.Back to source: Back to Sources
+# Intitules des boutons des formulaires d'import de fichiers csv
+buton.Back to the list of station: Back to the list of Station
+buton.Back to the list of collecte: Back to the list of Sampling
+buton.Back to the list of lotmateriel: Back to the list of Biological material
+buton.Back to the list of individu: Back to the list of Specimen
+buton.Back to the list of individulame: Back to the list of Specimen slide
+buton.Back to the list of lotmaterielext: Back to the list of External biological material
+buton.Back to the list of adn: Back to the list of DNA
+buton.Back to the list of pcr: Back to the list of PCR
+buton.Back to the list of chromatogramme: Back to the list of Chromatogram
+buton.Back to the list of pcrchromato: Back to the list of PCR
+buton.Back to the list of sequenceassemblee: Back to the list of Internal sequence
+buton.Back to the list of sequenceassembleeext: Back to the list of External sequence
+buton.Back to the list of motu: Back to the list of MOTU
+buton.Back to the list of boite: Back to the list of Boxes
+buton.Back to the list of source: Back to the list of Sources
 # Intitules des champs de la base de donnees E3S Version Anglaise
 #  dashboard
-Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy ( GOTIT )
+Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy
 Dashboard.Distribution des stations: Distribution of sites
 Dashboard.Hypothese espece: Species hypotheses
 Dashboard.nbMotuSqcAss: Séquence assigned to MOTU
@@ -9,7 +47,7 @@ Dashboard.nbTaxon: Taxa
 Dashboard.Données de la litérature: Literature data
 Dashboard.LotMaterielExt: Lot
 Dashboard.nbSequenceAssembleeExt: DNA sequence
-Dashboard.nbSource: Refeérence
+Dashboard.nbSource: Reference
 Dashboard.nbLotMateriel: Lot
 Dashboard.Materiel biologique: Biological material
 Dashboard.nbIndividu: Specimen
@@ -26,13 +64,12 @@ Dashboard.Données moléculaire: Molecular data
 Dashboard.LastUpdate: Last updates
 Dashboard.Tools: Tools
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
-A faire: Status
 Libelle motu: MOTU title
 # boutons ajouter > 16/07/2018
 import.motu-assigne: Motu assigne
 title.Personne: Person
-buton.See Stations Around: See Stations Around GPS Point
-modal-title.Station - Localisation: Map of the Nearest Stations (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
+buton.See Stations Around: See nearby sites
+modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
 buton.Close: Close
 # Vocabulaire (table VOC)
 EAU DOUCE SOUTERRAINE: FRESH GROUNDWATER
@@ -50,7 +87,6 @@ ZONE NON SATUREE KARSTIQUE: KARST UNSATURATED ZONE
 ZONE SATUREE KARSTIQUE: KARST SATURATED ZONE
 SYSTEME LENTIQUE: LENTIC SYSTEM
 SYSTEME LOTIQUE: LOTIC SYSTEM
-INCONNU: NOT KNOWN
 AQUEDUC: AQUEDUCT
 CANAL: CANAL
 CAPTAGE EAU: WATER ABSTRACTION SITE
@@ -70,15 +106,12 @@ RUISSEAU: STREAM
 SOURCE: SPRING
 TORRENT: TORRENT
 TUNNEL: TUNNEL
-ZONE HYPORHEIQUE: HYPORHEIC ZONE
 PLAGE: BEACH
 AUTRE: OTHERS
-INCONNU: NOT KNOWN
 INFERIEUR A 100M: LESS THAN 100 M
 INFERIEUR A 1KM: LESS THAN 1 KM
 INFERIEUR A 10KM: LESS THAN 10 KM
 DE 10 A 100KM: FROM 10 TO 100 KM
-INCONNU: NOT KNOWN
 A VUE: BY SIGHT
 BOUTEILLON PRELEVEUR: BAILER
 DRAGAGE: DREDGING
@@ -92,19 +125,14 @@ POMPAGE: PUMPING
 SONDAGE BOU ROUCH: BOU ROUCH PUMPING
 SONDAGE KARAMAN CHAPPUIS: KARAMAN CHAPPUIS METHOD
 SURBER: SURBER
-INCONNU: NOT KNOWN
 ALCOOL: ALCOHOL
-AUTRE: OTHERS
 CRYOCONSERVATION: CRYOCONSERVATION
-FORMOL: FORMALDEHYDE
-INCONNU: NOT KNOWN
 RNA LATER: RNA LATER
 SILICE: SILICA GEL
 PAS DE MATERIEL FIXE: NO MATERIAL PRESERVED
 JOUR: DAY
 MOIS: MONTH
 ANNEE: YEAR
-INCONNU: NOT KNOWN
 OUI: YES
 NON: NO
 NA: NOT APPLICABLE
@@ -122,11 +150,8 @@ MUES: EXUVIA
 PULLI: PULLI
 LEGS: LEGS
 INDIVIDUS CRYOCONSERVES: CRYOCONSERVED SPECIMENS
-RNA LATER: RNA LATER
-SILICE: SILICA GEL
 FORMOL: FORMALDEHYDE
 ISOPROPANOL: ISOPROPANOL
-INCONNU: NOT KNOWN
 PAS DE MATERIEL DANS LE LOT: NO SPECIMEN IN THE MATERIAL
 ANOPHTALME: ANOPHTHALMUS
 MICROPHTALME: MICROPHTHALMUS
@@ -147,25 +172,21 @@ Assignation moleculaire temporaire: TEMPORARY MOLECULAR ASSIGNMENT
 Delimitation moleculaire: MOLECULAR DELIMITATION
 Lot collection: MATERIAL COLLECTION
 Lot collection: MATERIAL BOX
-Code collection ASEL: ASELLOIDEA MATERIAL COLLECTION
+Code collection ASEL: ASELLOIDEA COLLECTION
 Lot collection: SLIDE COLLECTION
 Lot collection: SLIDE BOX
-Code collection ASEL: ASELLOIDEA SLIDE COLLECTION
 NON DESTRUCTIVE: NON DESTRUCTIVE
 DESTRUCTIVE: DESTRUCTIVE
 CHELEX: CHELEX
 ARN: RNA
 KIT: KIT
-INCONNU: NOT KNOWN
 AUTRE VOIR COMMENTAIRES: OTHERS SEE COMMENTS
 Lot collection: DNA COLLECTION
 Lot collection: DNA BOX
-Code collection ASEL: ASELLOIDEA DNA COLLECTION
 OK: OK
 MAUVAISE: POOR
 CONTAMINE: CONTAMINATED
 VIDE: EMPTY
-INCONNU: NOT KNOWN
 COI: COI
 16S: 16S
 28S: 28S
@@ -176,7 +197,6 @@ TRES BIEN: VERY GOOD
 ASSEZ BIEN: RATHER GOOD
 MOYEN: MEDIUM
 ECHEC: FAILURE
-INCONNU: NOT KNOWN
 BASIQUE: BASIC
 DILUTION ADN: DNA DILUTION
 NICHEE/SEMI-NICHEE: NESTED SEMI NESTED
@@ -192,16 +212,11 @@ GEL-CUT et DILUTION ADN et REAMPLIFICATION: GEL-CUT AND DNA DILUTION AND REAMPLI
 GEL-CUT et NICHEE/SEMI-NICHEE: GEL-CUT AND NESTED SEMI NESTED
 GEL-CUT et REAMPLIFICATION: GEL-CUT AND REAMPLIFICATION
 TRANSCRIPTOME: TRANSCRIPTOME
-INCONNU: NOT KNOWN
-OK: OK
-ECHEC: FAILURE
 NUMT: NUMT
 CONTAMINATION: CONTAMINATION
 NON DISPONIBLE: NOT AVAILABLE
 SEQUENCE VALIDEE: VALIDATED  SEQUENCE
 SEQUENCE EN ATTENTE: PENDING SEQUENCE
-NUMT: NUMT
-CONTAMINATION: CONTAMINATION
 SEQUENCE POLYMORPHE: POLYMORPHIC SEQUENCE
 SEQUENCE COURTE: SHORT SEQUENCE
 SEQUENCE PROBLEMATIQUE: PROBLEMATICAL SEQUENCE
@@ -219,11 +234,10 @@ Une dizaine d'individus (6-10): TEN SPECIMENS (6-10)
 Plusierus dizaines d'individus (11-100): SEVERAL TENS OF SPECIMENS (11-100)
 Centaine d'individus (>100): HUNDRED SPECIMENS (>100)
 Nombre inconnu: NUMBER NOT KNOWN
-INCONNU: NOT KNOWN
 ? INCONNU: ? NOT KNOWN
 ################################# VALIDE  par Florian le 19/07/2018
 # Intitules des champs de la base de donnes E3S Version Anglaise
-A faire: Sample status
+A faire: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
 Adn fk: DNA table
@@ -304,12 +318,9 @@ Etablissement fk: Institution table
 Family: Family
 Fixateur voc fk: Fixative
 Gene voc fk: Gene
-Gene voc fk: Gene
 Genus: Genus
 Habitat type voc fk: Habitat type
 Id: Identification number
-Individu fk: Specimen table
-Individu fk: Specimen table
 Individu fk: Specimen table
 Individu lame fk: Specimen slide table
 Info description: Site description
@@ -323,12 +334,6 @@ Libelle lame: Slide title
 Libelle source: Source title
 Long deg dec: Longitude Dec Deg
 Lot materiel ext fk: External biological material table
-Lot materiel ext fk: External biological material table
-Lot materiel ext fk: External biological material table
-Lot materiel fk: Biological material table
-Lot materiel fk: Biological material table
-Lot materiel fk: Biological material table
-Lot materiel fk: Biological material table
 Lot materiel fk: Biological material table
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
@@ -360,7 +365,6 @@ Pays fk: Country table
 Pcr fk: PCR table
 Personne fk: Person table
 Pigmentation voc fk: Pigmentation
-Pigmentation voc fk: Pigmentation
 Point acces voc fk: Access type
 Precision lat long voc fk: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
@@ -372,7 +376,6 @@ Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
 Referentiel taxon fk: Taxa table
-Referentiel taxon fk: Taxa table
 Remarque pcr: PCR comments
 Sampling method voc fk: Sampling method
 Sequence assemblee ext fk: External sequence table
@@ -382,7 +385,6 @@ Species: Species
 Specificite voc fk: PCR specificity
 Station fk: Site table
 Statut sqc ass voc fk: Sequence status
-Statut sqc ass voc fk: External sequence status
 Subclass: Subclass
 Subspecies: Subspecies
 Taxname: Taxon name
@@ -554,7 +556,6 @@ list.Last identification date: Last id. date
 list.Last identification critere: Last id. criterion
 
 # Titres des pages
-title.Référentiels: Repositories
 title.boite: Box
 title.Dashboard: Dashboard
 title.Terrain: Field data
@@ -574,8 +575,8 @@ title.sequenceassemblee: Internal sequence
 title.sequenceassembleeext: External sequence
 title.motu: MOTU
 title.Stock: Stock
-title.source: Sources
-title.Source bibliographique: Sources
+title.source: Source
+title.Source bibliographique: Source
 title.Référentiels: Repositories
 title.voc: Vocabulary
 title.referentieltaxon: Taxon

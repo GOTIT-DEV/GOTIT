@@ -77,6 +77,8 @@ class ProgrammeController extends Controller
             $tab_toshow[] = array("id" => $id, "programme.id" => $id, 
              "programme.codeProgramme" => $entity->getCodeProgramme(),
              "programme.typeFinanceur" => $entity->getTypeFinanceur(),
+             "programme.nomProgramme" => $entity->getNomProgramme(),
+             "programme.nomsResponsables" => $entity->getNomsResponsables(),
              "programme.anneeDebut" => $entity->getAnneeDebut(),
              "programme.anneeFin" => $entity->getAnneeFin(),
              "programme.dateCre" => $DateCre, "programme.dateMaj" => $DateMaj,);

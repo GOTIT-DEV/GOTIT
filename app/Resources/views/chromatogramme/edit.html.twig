@@ -39,7 +39,7 @@
     $(document).ready(function(){
          {% if action == 'edit'  %}  
            // L'ajout d'un bouton Back to the pcr
-            addBackToRelatedRecord('chromatogramme', 'pcr', "{{'title.pcr'|trans}}");
+            addBackToRelatedRecord('chromatogramme', 'pcr', "{{'buton.Back to pcr'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){

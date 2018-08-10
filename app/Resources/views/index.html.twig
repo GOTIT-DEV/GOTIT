@@ -108,8 +108,12 @@ $(document).ready(function(){
             {% endfor %}
 
             "show": function(column, row, value)
-            {              
-                return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+            {   
+                 if ( '{{varUrl_typeBoite}}' != '' ) {
+                    return "<a href=\""  + row.id + "?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                 } else {
+                    return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                }
             },
             "edit": function(column, row, value)
             {

@@ -94,7 +94,7 @@
         }) 
         {% if action == 'edit'  %}  
             // L'ajout d'un bouton Back to the adn
-            addBackToRelatedRecord('pcr', 'adn', "{{'title.adn'|trans}}"); 
+            addBackToRelatedRecord('pcr', 'adn', "{{'buton.Back to adn'|trans}}"); 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_pcr_adnFk').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){

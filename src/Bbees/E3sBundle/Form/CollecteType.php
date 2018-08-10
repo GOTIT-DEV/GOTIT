@@ -23,7 +23,12 @@ class CollecteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('stationFk',EntityType::class, array('class' => 'BbeesE3sBundle:Station','placeholder' => 'Choose a Station', 'choice_label' => 'code_station', 'multiple' => false, 'expanded' => false))
+        $builder->add('stationFk',EntityType::class, array('class' => 'BbeesE3sBundle:Station',
+                      'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('station')
+                                    ->orderBy('station.codeStation', 'ASC');
+                        },
+                        'placeholder' => 'Choose a Station', 'choice_label' => 'code_station', 'multiple' => false, 'expanded' => false))
                 ->add('codeCollecte')
                 ->add('dateCollecte', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
                 ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 

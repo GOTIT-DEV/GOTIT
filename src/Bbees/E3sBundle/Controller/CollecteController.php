@@ -91,6 +91,9 @@ class CollecteController extends Controller
             // recherche du nombre de lot ext pour la collecte id 
             $query = $em->createQuery('SELECT lotext.id FROM BbeesE3sBundle:LotMaterielExt lotext WHERE lotext.collecteFk = '.$id.'')->getResult();
             $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
+             // recherche du nombre de sqc ext pour la collecte id 
+            $query = $em->createQuery('SELECT sqcext.id FROM BbeesE3sBundle:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = '.$id.'')->getResult();
+            $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
             // récuparation de la liste concaténée des taxons ciblés
             //$query = $em->createQuery('SELECT partial ac.{id, referentielTaxonFk} FROM BbeesE3sBundle:ACibler ac WHERE ac.collecteFk = '.$id.'')->getResult();
             $query = $em->createQuery('SELECT rt.taxname as taxname FROM BbeesE3sBundle:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = '.$id.'')->getResult();            
@@ -106,7 +109,8 @@ class CollecteController extends Controller
              "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
              "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
              "collecte.dateCollecte" => $DateCollecte,  "collecte.aFaire" => $entity->getAfaire(),"collecte.dateCre" => $DateCre, "collecte.dateMaj" => $DateMaj,
-             "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "listeTaxonsCibler" => $listeTaxonsCibler );
+             "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "linkSequenceassembleeext" => $linkSequenceassembleeextFk, 
+             "listeTaxonsCibler" => $listeTaxonsCibler );
         }     
         // Reponse Ajax
         $response = new Response ();

@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+
 {% block helpbutton %}
 {% endblock %}
 
@@ -23,19 +24,13 @@
 
 {% block body %}
 
-  
   <div class="row">
 
     <div class="col-md-5 col-sm-5 col-xs-15">
       <div class="x_panel">
         <div class="x_title">
           <h2>{{'Dashboard.Distribution des stations'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-            </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a>
-            </li>
-          </ul>
+
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -58,27 +53,21 @@
           </ul>
           <div class="clearfix"></div>
         </div>
-        <div class="x_content">
-            <img rel="icon" src="{{ asset('e3s/images/sequence_adn.jpg') }}" type="image" height="500" alt="sequence adn" align="middle" />    
+        <div class="x_content media-middle">
+            <img  src="{{ asset('e3s/images/sequence_adn.jpg') }}" type="image" height="487" alt="sequence adn" align="middle" />    
         </div>
       </div>
     </div>
 
 
     <div class="col-md-5 col-sm-5 col-xs-15">
-      <div class="x_panel ">
+      <div class="x_panel">
         <div class="x_title">
           <h2>Proaselus Valdensis</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-            </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a>
-            </li>
-          </ul>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-            <img rel="icon" src="{{ asset('e3s/images/prosaelus_valdensis.jpg') }}" type="image" height="500" alt="prosaelus valdensis" align="middle" />
+            <img rel="icon" src="{{ asset('e3s/images/prosaelus_valdensis.jpg') }}" type="image" height="487" alt="prosaelus valdensis" align="middle" />
         </div>
       </div>
     </div>
@@ -425,6 +414,7 @@
 
 
   <div class="row">
+      
     <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
@@ -482,88 +472,49 @@
 
     <div class="col-md-8 col-sm-8 col-xs-12">
 
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-           
-             <div class="x_panel">
+         
+      <div class="x_panel">
+            
         <div class="x_title">
-          <h2>{{'Dashboard.LastUpdate'|trans}}<small></small></h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Toute</a>
-                </li>
-                <li><a href="#">Station</a>
-                </li>
-                <li><a href="#">Collecte</a>
-                </li>
-                <li><a href="#">Lot materiel</a>
-                </li>
-                <li><a href="#">...</a>
-                </li>
-              </ul>
-            </li>
-            <li><a class="close-link"><i class="fa fa-close"></i></a>
-            </li>
-          </ul>
-          <div class="clearfix"></div>
+          <div class="clearfix"></div> 
+          <h2>{{'Dashboard.LastUpdate'|trans}}  
+          </h2>
+          
         </div>
-        <div class="x_content">
-          <div class="dashboard-widget-content">
+          
+        <div id="stations" class="collapse in">
+            <div  class="table-responsive">
+                <table id="grid-basic" class="table table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th data-column-id="id" data-type="numeric" data-visible="false">Id</th>
+                            <th data-column-id="dbName" data-visible="false">DB Table</th>
+                            <th data-column-id="name">Table</th>
+                            <th data-column-id="code">Code</th>
+                            <th data-column-id="dateMaj" data-type="date" data-sortable="true">{{'list.Date maj'|trans}}</th>
+                            <th data-column-id="userMaj">{{'User maj'|trans}}</th>
+                            <th data-column-id="showEntity" data-formatter="showEntity" data-sortable="false" data-visible="true">Show</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entity in entities %}
+                        <tr>
+                            <td>{{entity.id }}</td>
+                            <td>{{entity.name}}</td>
+                            <td>{{['title.',entity.name]|join|trans|capitalize}}</td>
+                            <td>{{entity.code }}</th>
+                            <td>{{entity.dateMaj}}</td>
+                            <td>{{entity.userMaj }}</td>
+                            <td>  </td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>  
+        </div>
+      </div>
+    
 
-            <ul class="list-unstyled timeline widget">
-              <li>
-                <div class="block">
-                  <div class="block_content">
-                    <h2 class="title">
-                                      <a>Collecte</a>
-                                  </h2>
-                   
-                    <div class="byline">
-                      <span>13 hours ago</span> by <a>F Malard</a>
-                    </div>
-                      <p class="excerpt"><b>code collecte</b>  ABOIM_201504  - <b>Code station</b> ABOIM  : <a href="/edit" class="btn btn-sm" ><span class="fa fa-eye fa-fw"></span></a>
-                    </p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="block">
-                  <div class="block_content">
-                    <h2 class="title">
-                                      <a>Lot Materiel</a>
-                                  </h2>
-                    <div class="byline">
-                      <span>13 hours ago</span> by <a>F Malard</a>
-                    </div>
-                      <p class="excerpt"><b>code collecte</b>  ABOIM_201504  - <b>Code lot materiel</b> PROASELLUS_SP|102K_201107  : <a href="/edit" class="btn btn-sm" ><span class="fa fa-eye fa-fw"></span></a>
-                    </p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="block">
-                  <div class="block_content">
-                    <h2 class="title">
-                                      <a>Adn</a>
-                                  </h2>
-                    <div class="byline">
-                      <span>15 hours ago</span> by <a>L Konecky</a>
-                    </div>
-                      <p class="excerpt"><b>code adn</b>  AlexaPcavSauve4  - <b>Code ind biomol</b> 	Pcavaticus|SAUVEGAR_000000_AS4  : <a href="/edit" class="btn btn-sm" ><span class="fa fa-eye fa-fw"></span></a>
-                    </p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-        </div>
-      </div>
         
       <div class="row">
 
@@ -590,11 +541,30 @@
 {% block scripts %}
 {{ parent() }}
 
-<script type="text/javascript">  
+
+
+    <script type="text/javascript">     
+
+        $("#grid-basic").bootgrid({
+            caseSensitive : false,
+            padding: 2,
+            rowCount: [5, 10, 25, 50, -1],
+            formatters: {                
+                "showEntity": function(column, entities, value)
+                {
+                   return "<a href=\""+entities.dbName+"/"+entities.id+" \" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                },
+                }
+            }); 
+    </script>
+
+
+
+<script type="text/javascript">     
  
     $(document).ready(function(){
         
-            var latitude = '45,0';
+            var latitude = '47,5';
             var longitude = '5,0';
             //var data = $(this).serialize();
             var  data = {'latitude': latitude, 'longitude':longitude };            

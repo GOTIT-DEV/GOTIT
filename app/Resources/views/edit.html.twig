@@ -7,28 +7,56 @@
 {% set action = route|split('_')[1] %}
 {% set actioncontroller = route|split('_')[1] %}
 {% set route_new =  [entityname, '_new']|join  %} 
-{% set route_index =  [entityname, '_index']|join  %}
-{% if (app.request.query.get('nameFk') is defined) and (app.request.query.get('nameFk') is not null) and  (app.request.query.get('nameFk') !='')%}
-   {% set nameFk =  app.request.query.get('nameFk')  %} 
-   {% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %} 
-   {% set idFk = app.request.query.get('idFk') %} 
-{% endif %}
-{% if (app.request.query.get('valid') is defined and app.request.query.get('valid')!='' )%} 
-    {% set flagvalid = app.request.query.get('valid') %}  
+{% set route_index =  [entityname, '_index']|join  %} 
+
+{# initialise l url de redirection du bouton BackToTheList  #}
+{% set path_route_index =  path(route_index)  %} 
+{% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
+    {% set idFk = app.request.query.get('idFk') %} 
+    {% if app.request.query.get('nameFk') is defined %}
+        {% set nameFk =  app.request.query.get('nameFk')  %} 
+        {% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %} 
+        {% set path_route_index =  path(route_index,{'nameFk':nameFk, 'idFk': idFk}) %}                
     {% else %}
-        {% if (valid is defined and valid == 1 )%} 
-            {% set flagvalid = valid %}  
-        {% else %}
-            {% set flagvalid = 0 %} 
-        {% endif %}
+        {% set path_route_index =  path(route_index,{'idFk': idFk}) %}               
+    {% endif %}
 {% endif %}
+{% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
+    {% set path_route_index =  path(route_index,{'searchPatern': app.request.query.get('searchPatern')}) %}                
+{% endif %}
+{% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
+    {% set path_route_index =  path(route_index,{'typeBoite': app.request.query.get('typeBoite')}) %}                 
+{% endif %}
+{# initialise et gere les variables realtives à la validation et au bouton BackToTheList #}
+{% set backbutton = 1 %}
+{% set flagvalid = 0 %} 
+{% set comptvalid = 1 %} 
+{# cas du mode UPDATE /edit : valid  est passé en paramètre du formulaire form_edit aprés validation #}
+{% if (valid is defined and valid == 1 )%} 
+    {% set flagvalid = 1 %}
+    {% set backbutton = 1 %}
+    {% set comptvalid = app.request.get('comptvalid')+1 %}   
+{% endif %} 
+{#  cas du mode CREATE /new  : valid passé en paramètre d'url ?valid=1 #}
+{% if (app.request.query.get('valid') is defined and app.request.query.get('valid') == '1' )%}
+    {% set flagvalid = 1 %} 
+    {% set backbutton = 0 %}
+    {% set comptvalid = 1 %}
+{% endif %}  
+{#  cas d un changement delangage  : langage passé en paramètre d'url ?langage=fr/en #}
+{% if (app.request.query.get('langage') is defined and app.request.query.get('langage') != '' )%}
+    {% set backbutton = 0 %} 
+    {% set comptvalid = 1 %}
+{% endif %} 
+
+
 
 
 {% block titlepage %}  
     <div class="page-title">
       <div class="title_left">
         <h1>
-            {% if  flagvalid == 1 and actioncontroller != 'new'%} <i class="glyphicon glyphicon-ok"></i>  {% endif %}
+            {% if  flagvalid != 0  %} <i class="glyphicon glyphicon-ok"></i>  {% endif %}
             {{['title.',entityname ]|join|trans}}
         </h1>
       </div>
@@ -42,11 +70,15 @@
     <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">           
-        <div class="x_content">                      
+        <div class="x_content">   
+            {# {{dump(flagvalid)}} {{dump(backbutton)}} {{dump(comptvalid)}} 
+             {% if ( idFk is defined and  nameFk is defined)%}  {{dump(idFk)}} {{dump(nameFk)}}  {% endif %}
+            #}
           <br />
             {% set dateNow = "now"|date('Y-m-d H:i:s',timezone="Europe/Paris")  %}
             {{ form_start(edit_form) }}
             {{ form_errors(edit_form) }}
+            <input id="comptvalid" name="comptvalid" type="hidden" value="{{comptvalid}}">
             {% if edit_form.dateMaj %}{{ form_widget(edit_form.dateMaj, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %}
             {% if edit_form.dateCre and edit_form.dateCre.vars.value is empty  %} 
                 {{ form_widget(edit_form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
@@ -59,21 +91,12 @@
             <div class="clearfix"></div>
             <div class="form-group">
                 <div class="col-sm-2"></div>
-                <div class="col-sm-10">
+                <div class="col-sm-10">                 
                  <button type="submit" class="btn btn-round btn-success " value="Create" >{{'buton.Valid'|trans}}</button> 
-                 <a href="{{ path(route_index) }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a>
-                 {% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
-                    <a href="{{ path(route_index) }}?searchPatern={{ app.request.query.get('searchPatern') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                 {% endif %}
-                 {% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
-                    <a href="{{ path(route_index) }}?typeBoite={{ app.request.query.get('typeBoite') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                 {% endif %}
-                 {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
-                     {% if nameFk is defined %}
-                    <a href="{{ path(route_index) }}?nameFk={{nameFk}}&idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                    {% else %}
-                    <a href="{{ path(route_index) }}?idFk={{ app.request.query.get('idFk') }}" class="btn btn-round btn-primary  ">{{'buton.BackToTheSelection'|trans}}</a>                
-                     {% endif %}
+                 {% if ( backbutton == 0 )%} {# cas d une validation en mode CREATE #}
+                     <a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a> 
+                 {% else %} {# cas du mode Edit /edit  #}
+                    <a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'buton.BackToTheList'|trans}}</a>
                  {% endif %}
                 </div>
             </div>               

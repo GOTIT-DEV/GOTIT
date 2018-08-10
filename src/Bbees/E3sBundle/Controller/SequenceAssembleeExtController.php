@@ -63,6 +63,9 @@ class SequenceAssembleeExtController extends Controller
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
         }
+        if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
+            $where .= ' AND sequenceAssembleeExt.collecteFk = '.$request->get('idFk');
+        }
         // Recherche de la liste des lots à montrer EstAligneEtTraite
         $tab_toshow =[];
         $toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceAssembleeExt')
@@ -88,6 +91,9 @@ class SequenceAssembleeExtController extends Controller
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
+            // recherche du nombre de motu assigne (cf. table Assigne)
+            $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeExtFk sqc  WHERE a.sequenceAssembleeExtFk = '.$id.' ')->getResult();
+            $motuAssigne = (count($query) > 0) ? 1 : 0;
             // récuparation de la liste concaténée des sources associés à la sqc
             $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcExtEstReferenceDans seerd JOIN seerd.sourceFk s WHERE seerd.sequenceAssembleeExtFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
@@ -112,6 +118,7 @@ class SequenceAssembleeExtController extends Controller
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
              "listSource" => $listSource, 
+             "motuAssigne" => $motuAssigne ,
              "sequenceAssembleeExt.dateCre" => $DateCre, "sequenceAssembleeExt.dateMaj" => $DateMaj,  );
         }    
  
@@ -140,7 +147,7 @@ class SequenceAssembleeExtController extends Controller
     public function newAction(Request $request)
     {
         $sequenceAssembleeExt = new Sequenceassembleeext();
-        $form = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeExtType', $sequenceAssembleeExt);
+        $form = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeExtType', $sequenceAssembleeExt, ['refTaxonLabel' => 'codeTaxon']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

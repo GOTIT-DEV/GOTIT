@@ -9,22 +9,27 @@
     
     
 {% block titlepage %}
-    <h1>
-        {{['title.',entityname ]|join|trans}} 
+    <h1>        
         {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
-            ( {{ ['type = ',app.request.query.get('typeBoite')]|join}} )
+                {{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
+            {% else %} 
+                {{['title.',entityname ]|join|trans}}
         {% endif %} 
     </h1>
 {% endblock %}  
 
 {% block action %}
-    {# gestion des parametres d'url #}
-        <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
-        {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
-            <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
-         {% else %}
-             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
-        {% endif %}
+    {# gestion des parametres d'url #}       
+    {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
+        <a href="{{ path(route_index) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a> 
+     {% else %}
+         <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
+    {% endif %}
+    {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
+        <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
+     {% else %}
+         <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
+    {% endif %}
     {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>#}
     {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LOT' %} 
         <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel range'|trans}}</a>

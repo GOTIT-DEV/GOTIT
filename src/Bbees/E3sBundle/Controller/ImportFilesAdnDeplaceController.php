@@ -37,7 +37,7 @@ class ImportFilesAdnDeplaceController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Lot Materiel Deplace' => 'adn_range',),)
+                         ' ' => array('Adn Range' => 'adn_range',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

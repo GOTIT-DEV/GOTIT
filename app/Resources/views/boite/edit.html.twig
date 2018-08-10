@@ -7,10 +7,11 @@
       <div class="title_left">
         <h1>
             {% if  flagvalid == 1 and actioncontroller != 'new'%} <i class="glyphicon glyphicon-ok"></i>  {% endif %}
-            {{['title.',entityname ]|join|trans}} 
             {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
-                ( {{ ['type = ',app.request.query.get('typeBoite')]|join}} )
-            {% endif %}
+                    {{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
+                {% else %} 
+                    {{['title.',entityname ]|join|trans}}
+            {% endif %} 
         </h1>
       </div>
       <div class="title_right">
@@ -63,7 +64,10 @@
 //  interface Formulaire
     $(document).ready(function(){
         // fonctionalités des champ date(s) & date_precision 
-
+        $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
+                var codeBoite = $(this).val().replace(/ /g, '_');
+                $('#bbees_e3sbundle_boite_codeBoite').val(codeBoite);
+        })
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
         {% endif %}
