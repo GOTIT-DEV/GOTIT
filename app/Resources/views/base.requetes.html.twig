@@ -2,14 +2,17 @@
 
 {% block stylesheets %}
   {{ parent() }}
-  <!-- Switchery -->
-  <link href="{{ asset('e3s/vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+  <!-- Bootstrap toggle -->
+  <link href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+  <!-- Bootstrap select -->
+  <link href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
   <!-- Datatables -->
   <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
   <link href="{{ asset('e3s/css/queries.min.css') }}" rel="stylesheet">
-  <!-- Custom Theme Style -->
+  <!-- Datatables Style -->
   <link href="{{ asset('e3s/css/datatables.fa.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block headincl %}
@@ -23,7 +26,6 @@
 
 {% block action %}
 {{ parent() }}
-<hr style="clear:both">
 {% endblock %}
 
 {% block body %}
@@ -38,8 +40,10 @@
   {{ parent() }}
   <!-- Datatables -->
   <script src="{{ asset('e3s/vendors/datatables/datatables.min.js') }}"></script>
-  <!-- Switchery -->
-  <script src="{{ asset('e3s/vendors/switchery/dist/switchery.min.js') }}"></script>
+  <!-- Bootstrap Toggle -->
+  <script src="{{ asset('e3s/vendors/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
+  <!-- Bootstrap select -->
+  <script src="{{ asset('e3s/vendors/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
   <!-- Mustache templating engine -->
   <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
   <!-- Custom Scripts -->

@@ -2,19 +2,28 @@
  *  Document ready
  **************************** */
 $(document).ready(function () {
+
+  let speciesSelector = new SpeciesSelector("#main-form")
+  let methodSelector = new MethodSelector("#main-form")
+
   $('input[name="reference"]')
     .click(toggleFormSelect)
     .filter(':checked')
     .trigger('click')
 
+  $("#target-dataset").on('loaded.bs.select', event => {
+    $(event.target).parent().tooltip({
+      title : $(event.target).data('originalTitle'),
+      placement: 'auto top'
+    })
+  })
+
   uiWaitResponse()
 
 
-  let speciesSelector = new SpeciesSelector("#main-form", true)
-  let methodSelector = new MethodSelector("#main-form")
-
+  // Synchronisation des select dataset reference vs target
   $("#main-form select#dataset").change(event => {
-    $("#target-dataset").val(event.target.value)
+    $("#target-dataset").val(event.target.value).selectpicker('refresh')
   }).trigger('change')
 
   // Wait for active selector  to be ready
@@ -23,13 +32,13 @@ $(document).ready(function () {
       initDataTable("#result-table-recto")
       initDataTable("#result-table-verso")
     case "1":
-      $.when(speciesSelector.promise).done(function () {
+      $.when(speciesSelector.promise).done(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
       break;
     case "2":
-      $.when(methodSelector.promise).done(function () {
+      $.when(methodSelector.promise).done(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
@@ -58,6 +67,7 @@ function uiReceivedResponse() {
 }
 
 function toggleFormSelect(event) {
+  $(event.target).tooltip('hide')
   switch (event.target.value) {
     case "0":
       $(".method-select").prop('disabled', true)
@@ -81,6 +91,7 @@ function toggleFormSelect(event) {
         )
       break
   }
+  $(".selectpicker").selectpicker('refresh')
 }
 
 /* **************************
@@ -92,6 +103,9 @@ function initDataTable(tableId) {
     const table = $(tableId)
     const side = table.data('target')
     let barplot = new BarPlot(table.data('barplot'))
+    $('.nav-tabs li a').on('shown.bs.tab', event => {
+      barplot.resize()
+    })
     var dataTable = table.DataTable({
       responsive: true,
       autoWidth: false,
@@ -103,6 +117,7 @@ function initDataTable(tableId) {
           return $("#main-form").serialize()
         }
       },
+      language: dtconfig.language[table.data('locale')],
       dom: 'lf<"clear pull-right"B>rtip',
       buttons: dtconfig.buttons,
       order: [1, 'asc'],
@@ -129,13 +144,10 @@ function initDataTable(tableId) {
     })
 
     dataTable.on('xhr', _ => {
-      var response = dataTable.ajax.json()
-      barplot.plot(response[side])
+      let response = dataTable.ajax.json()
+      barplot.refresh(response[side])
       uiReceivedResponse()
-      $('a[data-toggle="tab"]').on('shown.bs.tab', event => {
-        barplot.resize()
-      });
-    });
+    })
 
     /****************
      * Submit form handler

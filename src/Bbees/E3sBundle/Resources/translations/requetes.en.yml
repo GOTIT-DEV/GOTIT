@@ -28,6 +28,8 @@ methode:
   delimitation: Molecular delimitation methods
   label: Molecular method
   selectprompt: Select molecular delimitation method
+plots:
+  noresult: No results to plot
 ui:
   fermer: Close
 entity:

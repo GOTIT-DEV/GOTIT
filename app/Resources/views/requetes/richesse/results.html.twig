@@ -9,7 +9,7 @@
 {# Onglets #}
 <ul id="result-tabs" class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active" id="table-tab">
-    <a href="#result-pane" aria-controls="result-pane" role="tab">
+    <a href="#result-pane" aria-controls="result-pane" role="tab" data-toggle='tab'>
       <strong>
         <i class="fa fa-th-list"></i>
         {% trans %}
@@ -19,7 +19,7 @@
     </a>
   </li>
   <li role="presentation" class="disabled" id="geolocation-tab" title="Nécessite de choisir un taxon et une méthode">
-    <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab">
+    <a href="#geolocation-pane" aria-controls="geolocation-pane" role="tab" data-toggle='tab'>
       <strong>
         <i class="fa fa-map-marker"></i>
         {% trans %}
@@ -41,7 +41,8 @@
           class="table table-condensed table-hover table-striped"
           data-url-methodes="{{path('richesse-methodes')}}"
           data-vocab-seq-int="{{'entity.seq.type.interne' | trans}}"
-          data-vocab-seq-ext="{{'entity.seq.type.externe' | trans}}">
+          data-vocab-seq-ext="{{'entity.seq.type.externe' | trans}}"
+          data-locale="{{app.request.getLocale()}}">
           <thead>
             <tr>
               <th></th>
@@ -62,10 +63,9 @@
               <th>{% trans %}
                 columns.accession
                 {% endtrans %}</th>
-              {% for method in methods_list %}
-                <th>{{method.code|upper}}
-                  {{method.date_dataset|date('Y')}}</th>
-              {% endfor %}
+              <th>{% trans %}
+                columns.motu
+                {% endtrans %}</th>
               <th>{% trans %}
                 columns.lat
                 {% endtrans %}</th>

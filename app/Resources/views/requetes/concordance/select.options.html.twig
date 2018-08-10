@@ -1,8 +1,19 @@
-<option value="A" class="typeA"> A</option>
-<option value="B" class="typeB"> B</option>
-<option value="C" class="typeC"> C</option>
-<option value="0" class="no-constraints">
-{% trans from 'requetes' %}
-columns.any
-{% endtrans %}
+<option value="A">
+  A</option>
+<option value="B">
+  B</option>
+<option value="C">
+  C</option>
+<option value="0">
+  {% trans from 'requetes' %}
+  columns.any
+  {% endtrans %}
 </option>
+
+{% if unassigned is defined %}
+  <option value="1">
+    {% trans from 'requetes' %}
+    columns.undefined
+    {% endtrans %}
+  </option>
+{% endif %}

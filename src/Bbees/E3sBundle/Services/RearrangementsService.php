@@ -33,6 +33,18 @@ class RearrangementsService {
     $this->revCounter    = [];
   }
 
+  public function processQuery(ParameterBag $parameters) {
+    $this->setParameters($parameters);
+    $this->fetch();
+    if (!$this->rawResults) {
+      return ['recto' => [], 'verso' => []];
+    }
+    $this->countSeqSta();
+    $this->indexResults();
+    $this->compare();
+    return $this->getResults();
+  }
+
   public function setParameters(ParameterBag $parameters) {
     $this->parameters = $parameters;
     $this->reference  = $parameters->get('reference');

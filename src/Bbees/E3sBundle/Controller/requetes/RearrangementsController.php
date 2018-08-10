@@ -40,13 +40,8 @@ class RearrangementsController extends Controller {
    * Renvoie un objet JSON pour remplir la table de résultats
    */
   public function searchQuery(Request $request, RearrangementsService $service) {
-    $service->setParameters($request->request);
-    $service->fetch();
-    $service->countSeqSta();
-    $service->indexResults();
+    $result = $service->processQuery($request->request);
 
-    $service->compare();
-
-    return new JsonResponse($service->getResults());
+    return new JsonResponse($result);
   }
 }

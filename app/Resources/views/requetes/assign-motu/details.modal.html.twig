@@ -6,6 +6,7 @@
     <table
       id="details-table"
       data-url="{{ path('motu-modal') }}"
+      data-locale="{{app.request.getLocale()}}"
       data-vocab-seq-int="{{ 'entity.seq.type.interne' | trans }}"
       data-vocab-seq-ext="{{ 'entity.seq.type.externe' | trans }}"
       class="table table-condensed table-hover table-striped">
@@ -27,4 +28,15 @@
       <tbody></tbody>
     </table>
   </div>
+{% endblock %}
+
+{% block extra_templates %}
+  {# Mustache.js template for modal title #}
+  {% verbatim %}
+    <template id="modal-title">
+      {{taxname}}
+      <span class="label label-default">{{methode}}</span>
+      <span class="label label-info">{{dataset}}</span>
+    </template>
+  {% endverbatim %}
 {% endblock %}

@@ -27,14 +27,17 @@
                   name="taxaFilter"
                   id="taxa-filter"
                   data-target="select"
+                  data-toggle="toggle"
+                  data-size="mini"
+                  data-onstyle="success"
                   autocomplete="off"
                   checked="checked">
               </span>
-              <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner" style="font-size:16px"></i>
+              <i class="fa fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner"></i>
             </div>
           </div>
           <div class="panel-body" id="taxa-select">
-            {% include 'requetes/species.selector.html.twig' with {
+            {% include 'requetes/forms/species.selector.html.twig' with {
               taxname : true
             } %}
           </div>
@@ -51,15 +54,10 @@
             <i class="fa fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
           </div>
           <div class="panel-body">
-            {% include 'requetes/method.selector.html.twig' %}
+            {% include 'requetes/forms/method.selector.html.twig' %}
           </div>
-          <div class="panel-footer">
-            La visualisation superpose la répartition géographique des MOTUs de la
-            <strong>méthode</strong>
-            sélectionnée à celle du
-            <strong>taxon</strong>
-            sélectionné
-          </div>
+          {# <div class="panel-footer">
+          </div> #}
         </div>
       </div>
     </div>

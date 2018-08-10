@@ -3,20 +3,55 @@
  * dans les <select> des formulaires
  */
 class SpeciesSelector {
-  constructor(formId, withTaxname = false, callback = function () {}) {
+
+  /**
+   * Constructeur
+   * @param {string} formId Identifiant du formulaire dans le DOM
+   * @param {string} toggleId Identifiant de l'élément checkbox pour activer les champs
+   * @param {Function} callback Callback à éxecuter après la réponse AJAX
+   */
+  constructor(formId, toggleId = null, callback = function () {}) {
     this.form = $(formId)
+
+    // Conteneur des inputs
     this.selector = this.form.find(".species-selector")
+
+    // Select inputs
     this.genus = this.selector.find('.genus-select')
     this.species = this.selector.find('.species-select')
-    this.withTaxname = withTaxname
-    this.callback = callback
-
+    this.taxname = this.selector.find('.taxname-select')
+    this.selector.find("select").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
+    // Bind 'this' object on event handlers
     this.onGenusSelected = this.onGenusSelected.bind(this)
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
-    this.toggleWaitingResponse = this.toggleWaitingResponse.bind(this)
-    // Promise resolved when ready
+    this.toggleActive = this.toggleActive.bind(this)
+
+    // Toggle checkbox pour activer/désactiver les champs
+    this.toggleBtn = toggleId ? $(toggleId) : null
+    if (this.toggleBtn) {
+      this.toggleBtn
+        .change(this.toggleActive)
+        .trigger('change')
+      this.toggleBtn.parent().tooltip({
+          title : this.toggleBtn.attr('title'),
+          placement: 'auto'
+        })
+    }
+    // Paramètres
+    this.withTaxname = (this.taxname.length) ? true : false
+    this.callback = callback
+
+
+
+    // Promise : résolue quand r&ponse AJAX reçue
     this.promise = new $.Deferred()
-    // Init event handlers
+
+    // Déclencher les requêtes AJAX quand changement de champ dans le formulaire
     this.genus
       .change(this.onGenusSelected)
       .trigger('change');
@@ -24,31 +59,40 @@ class SpeciesSelector {
       .change(this.onSpeciesSelected);
   }
 
+  /**
+   * Gère la promise et l'affichage des spinners pendant les requêtes AJAX
+   * @param {boolean} waiting True pendant qu'une requête AJAX est en cours
+   */
   toggleWaitingResponse(waiting) {
-    if (waiting) {
+    if (waiting) { // Attente réponse AJAX : nouvelle promise
       this.promise = new $.Deferred()
-      $(".taxon-spinner").removeClass("hidden");
-    } else {
+      this.form.find(".taxon-spinner").removeClass("hidden")
+    } else { // Réponse reçue : résolution promise
       this.promise.resolve()
-      $(".taxon-spinner").addClass("hidden");
+      this.selector.find("select").selectpicker('refresh')
+      this.form.find(".taxon-spinner").addClass("hidden")
       this.callback()
     }
   }
 
+  /**
+   * Evénement : changement du genre sélectionné
+   */
   onGenusSelected() {
-    var spSel = this
-    spSel.toggleWaitingResponse(true)
-    $.post(spSel.selector.data('url'), {
-      genus: spSel.genus.val()
-    }, function (response) {
-      var data = response.data.map(makeOption)
-      spSel.species.html($.makeArray(data))
-      if (spSel.withTaxname === true) {
-        spSel.onSpeciesSelected();
-      } else {
-        spSel.toggleWaitingResponse(false)
-      }
-    });
+    let self = this
+
+    // Nouvelle requête AJAX
+    self.toggleWaitingResponse(true)
+    $.post(self.selector.data('url'), {
+      genus: self.genus.val()
+    }, response => {
+      // Format options
+      let data = response.data.map(makeOption)
+      // Insert options in select
+      self.species.html($.makeArray(data))
+      // Trigger species change
+      self.species.trigger('change')
+    })
 
     function makeOption(data) {
       return Mustache.render(
@@ -57,22 +101,42 @@ class SpeciesSelector {
     }
   }
 
+  /**
+   * Evénement : changement d'espèce sélectionnée
+   */
   onSpeciesSelected() {
-    var spSel = this
-    var taxnameSel = spSel.selector.find('.taxname-select')
-    $.post(taxnameSel.data('url'), {
-        species: spSel.species.val(),
-        genus: spSel.genus.val()
-      },
-      function (response) {
-        var data = response.data.map(makeOption)
-        taxnameSel.html($.makeArray(data))
-        spSel.toggleWaitingResponse(false)
-      });
+    let self = this
+    // Formulaire inclut taxname : nouvelle requête
+    if (self.withTaxname === true) {
+      $.post(self.taxname.data('url'), {
+          species: self.species.val(),
+          genus: self.genus.val()
+        },
+        response => {
+          let data = response.data.map(makeOption)
+          self.taxname.html($.makeArray(data))
+          self.toggleWaitingResponse(false)
+        })
+    } else { // Requêtes terminées
+      self.toggleWaitingResponse(false)
+    }
 
     function makeOption(data) {
-      return '<option value=' + data.id + '>' + data.taxname + '</option>'
+      return Mustache.render(
+        '<option value={{id}}>{{taxname}}</option>',
+        data)
     }
+  }
+
+  /**
+   * Active/désactive le formulaire en écoutant un événement
+   * 
+   * @param {Object} event événement lancé par this.toggle
+   */
+  toggleActive(event) {
+    this.selector.find('select')
+      .prop('disabled', !event.target.checked)
+      .selectpicker('refresh')
   }
 }
 
@@ -94,6 +158,12 @@ class MethodSelector {
     this.datasets = this.selector.find('select[name="dataset"]')
     this.methods = this.selector.find('select[name="methode"]')
 
+    this.selector.find("select").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
     // Promise resolved when ready
     this.promise = new $.Deferred()
 
@@ -103,7 +173,6 @@ class MethodSelector {
   }
 
   toggleWaitingResponse(waiting) {
-
     this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
       this.promise = new $.Deferred()
@@ -111,25 +180,26 @@ class MethodSelector {
     } else {
       this.promise.resolve()
       $(".method-spinner").addClass("hidden");
+      this.selector.find("select").selectpicker('refresh')
     }
   }
 
   onDateMotuSelected() {
     this.toggleWaitingResponse(true)
-    var methSel = this
+    var self = this
     $.post(
       this.selector.data('url'), {
         dataset: this.datasets.val()
       },
       response => {
-        if (methSel.mode == 'select') {
+        if (self.mode == 'select') {
           var data = response.data.map(makeOption)
-          methSel.methods.html($.makeArray(data));
-        } else if (methSel.mode == 'checkbox') {
+          self.methods.html($.makeArray(data));
+        } else if (self.mode == 'checkbox') {
           var data = response.data.map(makeCheckboxes)
-          methSel.container.html($.makeArray(data));
+          self.container.html($.makeArray(data));
         }
-        methSel.toggleWaitingResponse(false)
+        self.toggleWaitingResponse(false)
       })
 
     function makeOption(data) {
@@ -137,7 +207,7 @@ class MethodSelector {
     }
 
     function makeCheckboxes(data) {
-      return Mustache.render(methSel.checkboxTemplate.html(), data);
+      return Mustache.render(self.checkboxTemplate.html(), data);
     }
   }
 }
@@ -154,20 +224,6 @@ function scrollTo(elt_id, time = 1000) {
   }, time);
 }
 
-/**
- * Raccourci d'initialisation des éléments switchery
- * 
- * @param {string} selector element.s à initialiser
- * @param {string} size taille du switch
- */
-function initSwitchery(selector, size = 'small') {
-  let elems = Array.prototype.slice.call(document.querySelectorAll(selector))
-  elems.forEach(html => {
-    return new Switchery(html, {
-      size: size
-    })
-  })
-}
 
 /**
  * Renderer pour tronquer les données trop longues dans datatables
@@ -237,21 +293,10 @@ function linkify(url, col, ellipsis = true, placement = 'top') {
   }
 }
 
-/**
- * Active/désactive des formulaires en écoutant un événement
- * 
- * @param {Object} event événement lancé par la switchbox taxon
- */
-function toggleTaxonForm() {
-  args = Array.from(arguments)
-  return event => {
-    let disable = !event.target.checked
-    args.forEach(element => {
-      $(element).prop('disabled', disable)
-    });
-  }
-}
 
+/**
+ * Elements de configs utilisés pour les datatables
+ */
 const dtconfig = {
   expandColumn: {
     data: null,
@@ -280,4 +325,39 @@ const dtconfig = {
       orthogonal: null
     }
   }],
+  language: {
+    'en': {
+      "sProcessing": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Processing...",
+      "sLoadingRecords": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Loading...",
+    },
+    'fr': {
+      "sProcessing": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Traitement en cours...",
+      "sSearch": "Rechercher&nbsp;:",
+      "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+      "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+      "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+      "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+      "sInfoPostFix": "",
+      "sLoadingRecords": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Chargement en cours...",
+      "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+      "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+      "oPaginate": {
+        "sFirst": "Premier",
+        "sPrevious": "Pr&eacute;c&eacute;dent",
+        "sNext": "Suivant",
+        "sLast": "Dernier"
+      },
+      "oAria": {
+        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+      },
+      "select": {
+        "rows": {
+          _: "%d lignes séléctionnées",
+          0: "Aucune ligne séléctionnée",
+          1: "1 ligne séléctionnée"
+        }
+      }
+    }
+  }
 }

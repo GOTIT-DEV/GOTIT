@@ -4,11 +4,6 @@ class CarteRichesse {
     this.table = $(tableId)
     this.mapContainer = $(mapContainerId)
 
-    initSwitchery(".switchbox")
-    $('.switchbox')
-      .change(toggleTaxonForm('.taxa-select'))
-      .trigger('change')
-
     this.urls = {
       refTaxon: this.table.find("th#col-taxname").data('linkUrl'),
       station: this.table.find("th#col-station").data('linkUrl')
@@ -20,7 +15,7 @@ class CarteRichesse {
 
     this.uiWaitResponse()
     this.geoPlot = new MotuGeoPlot(mapContainerId)
-    this.speciesSelector = new SpeciesSelector(formId, true)
+    this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId)
     this.getAvailableMethods()
     // Formulaires prêts : initialiser datatables
@@ -36,15 +31,10 @@ class CarteRichesse {
     $.ajax({
       type: "GET",
       url: self.table.data('urlMethodes'),
-      data: {},
       success: response => {
         self.methodes = response
       }
     })
-  }
-
-  get formActive() {
-    return this.form.find('.switchbox').is(':checked')
   }
 
   /**
@@ -52,7 +42,6 @@ class CarteRichesse {
    */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
-    this.disableTabs()
   }
 
   /**
@@ -61,30 +50,29 @@ class CarteRichesse {
    */
   uiReceivedResponse(response) {
     this.form.find("button[type='submit']").button('reset')
-    let showGeo = (this.formActive && response.geo.length)
+    let showGeo = ('taxname' in response.query && response.rows.length)
     if (showGeo) {
       this.updateMap(response)
     }
-    this.enableTabs(showGeo)
+    this.toggleTabs(showGeo)
   }
 
 
-  disableTabs() {
-    $("#table-tab a").tab('show')
-    $("#result-tabs>li")
-      .addClass('disabled')
-      .find("a")
-      .removeAttr('data-toggle')
-      .addClass('disabled')
-  }
-
-  enableTabs(both = false) {
-    let target = both ? "#result-tabs>li" : "#table-tab"
-    $(target)
-      .removeClass('disabled')
-      .find('a')
-      .attr('data-toggle', 'tab')
-      .removeClass('disabled')
+  toggleTabs(activeMap) {
+    if (activeMap) {
+      $("#geolocation-tab")
+        .removeClass('disabled')
+        .find("a")
+        .attr('data-toggle', 'tab')
+        .removeClass('disabled')
+    } else {
+      $("#table-tab a").tab('show')
+      $("#geolocation-tab")
+        .addClass('disabled')
+        .find('a')
+        .removeAttr('data-toggle')
+        .addClass('disabled')
+    }
   }
 
   /**
@@ -95,12 +83,12 @@ class CarteRichesse {
     let self = this
     // Update title
     $("#geo-title").html(Mustache.render($("#geo-title-template").html(), {
-      taxname: response.geo[0]['taxname'],
+      taxname: response.rows[0]['taxname'],
       code_methode: response.methode.code,
-      dataset: Date.parse(response.methode.date_dataset.date).toString('yyyy')
-    }));
+      dataset: response.methode.libelle_motu
+    }))
     // Plot data
-    self.geoPlot.plot(response.geo)
+    self.geoPlot.plot(response.rows)
     // Overlay et événements changement d'onglet
     $('#table-tab a ').on('shown.bs.tab', _ => {
       scrollTo('#resultats', 500)
@@ -133,38 +121,27 @@ class CarteRichesse {
         render: data => {
           return data ? self.seqTypes.externe : self.seqTypes.interne
         }
-      },
-      {
+      }, {
         data: "accession_number",
         render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
-      }
-    ]
-    this.methodes.forEach(element => {
-      columns.push({
-        data: element.code.toLowerCase() + "_" + Date.parse(element.date_dataset.date).toString('yyyy'),
-        defaultContent: "-"
-      })
-    })
-    columns.push.apply(columns, [{
+      }, {
+        data: 'motu'
+      }, {
         data: "latitude",
         render: renderNumber,
-      },
-      {
+      }, {
         data: "longitude",
         render: renderNumber,
-        defaultContent: "-"
-      },
-      {
+        defaultContent: ""
+      }, {
         data: "code_station",
         render: linkify(self.urls.station, 'id', true)
-      },
-      {
+      }, {
         data: "commune"
-      },
-      {
+      }, {
         data: "pays"
       }
-    ])
+    ]
     return columns
   }
 
@@ -186,6 +163,7 @@ class CarteRichesse {
             return self.form.serialize()
           }
         },
+        language: dtconfig.language[self.table.data('locale')],
         dom: "lfrtipB",
         buttons: dtconfig.buttons,
         order: [1, 'asc'],
@@ -217,6 +195,6 @@ class CarteRichesse {
 /**
  * DOCUMENT READY
  */
-$(document).ready(function () {
+$(document).ready(_ => {
   let pageHandler = new CarteRichesse("#main-form", "#result-table", "#motu-geo-map")
 })

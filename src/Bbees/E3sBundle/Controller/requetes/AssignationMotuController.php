@@ -52,16 +52,11 @@ class AssignationMotuController extends Controller {
     # Raccourci requete POST
     $data = $request->request;
     # Obtention des paramètres
-    $niveau   = $data->get('niveau');
-    $methodes = $data->get('methodes');
-    $criteres = $data->get('criteres');
     $res      = $service->getMotuCountList($data);
     # Renvoi de la réponse JSON
     return new JsonResponse(array(
       'rows'     => $res,
-      'methodes' => $methodes,
-      'niveau'   => $niveau,
-      'criteres' => $criteres,
+      'query'    => $data->all(),
     ));
   }
 

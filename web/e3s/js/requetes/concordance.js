@@ -19,21 +19,25 @@ function updateChoiceColor(event) {
   target.removeClass("typeA typeB typeC unassigned no-constraints")
   switch (target.val()) {
     case "A":
-      target.addClass("typeA")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-info')
       break
     case "B":
-      target.addClass("typeB")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-success')
       break
     case "C":
-      target.addClass("typeC")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-danger')
       break
     case "0":
-      target.addClass("no-constraints")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
       break
     case "1":
-      target.addClass("unassigned")
+      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
       break
   }
+
 }
 
 
@@ -71,6 +75,7 @@ function initDataTable(tableId) {
           type: 'column'
         }
       },
+      language: dtconfig.language[table.data('locale')],
       ajax: {
         "url": $("#main-form").data("url"),
         "dataSrc": "rows",
@@ -110,17 +115,17 @@ function initDataTable(tableId) {
         },
         {
           data: "code_seq",
-          defaultContent: "-",
+          defaultContent: "",
           render: renderLinkify('id_seq', urls.sequence)
         },
         {
           data: "taxname_seq",
           render: renderLinkify('idtax_lm', urls.refTaxon),
-          defaultContent: "-"
+          defaultContent: ""
         },
         {
           data: "critere_seq",
-          defaultContent: "-"
+          defaultContent: ""
         }
       ],
       drawCallback: function (settings) {

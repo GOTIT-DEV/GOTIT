@@ -1,7 +1,7 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(function () {
+$(document).ready(_ => {
   let pageHandler = new AssignMotu("#main-form", "#result-table", "#details-table")
 })
 
@@ -12,21 +12,23 @@ class AssignMotu {
     this.form = $(formId)
     this.table = $(tableId)
     this.details = $(detailsTableId)
-    this.niveau = undefined
-    this.criteres = {}
+    this.lastQuery = {}
     this.detailsFormData = []
     this.seqTypes = {
       interne: this.details.data('vocabSeqInt'),
       externe: this.details.data('vocabSeqExt'),
     }
-    initSwitchery('.switchbox')
-    $('#taxa-filter')
-      .change(toggleTaxonForm('.taxa-select'))
-      .trigger('change')
 
     this.uiWaitResponse()
-    this.speciesSelector = new SpeciesSelector(formId, false)
+    this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId, 'checkbox')
+
+    this.form.find("select#id-level").on('loaded.bs.select', event => {
+      $(event.target).parent().tooltip({
+        title : $(event.target).data('originalTitle'),
+        placement: 'auto'
+      })
+    })
 
     $.when(this.speciesSelector.promise, this.methodSelector.promise)
       .done(_ => {
@@ -55,6 +57,7 @@ class AssignMotu {
             return self.form.serialize()
           }
         },
+        language: dtconfig.language[self.table.data('locale')],
         dom: "lfrtipB",
         buttons: dtconfig.buttons,
         columns: [{
@@ -75,7 +78,7 @@ class AssignMotu {
           },
           {
             data: "id",
-            render: function (data, type, row) {
+            render: (data, type, row) => {
               var template = $("#details-form-template").html();
               return Mustache.render(template, row);
             }
@@ -93,8 +96,7 @@ class AssignMotu {
         }
       }).on('xhr', _ => {
         let response = self.dataTable.ajax.json()
-        self.niveau = response.niveau;
-        self.criteres = response.criteres;
+        self.lastQuery = response.query
         if (!$.fn.DataTable.isDataTable("#" + self.details.attr('id'))) {
           self.initModalTable()
         }
@@ -110,9 +112,9 @@ class AssignMotu {
 
 
   get ajaxData() {
-    let data = Array()
-    data.push.apply(data, this.detailsFormData)
-    this.criteres.forEach(crit => {
+    let self = this
+    let data = self.detailsFormData
+    self.lastQuery.criteres.forEach(crit => {
       data.push({
         name: 'criteres[]',
         value: crit
@@ -120,9 +122,9 @@ class AssignMotu {
     })
     data.push({
       name: 'niveau',
-      value: this.niveau
+      value: self.lastQuery.niveau
     });
-    return $.param(data)
+    return data
   }
 
   /**
@@ -143,33 +145,29 @@ class AssignMotu {
           return self.ajaxData
         }
       },
+      language: dtconfig.language[self.details.data('locale')],
       columns: [{
-          data: 'code',
-          render: function (data, type, row) {
-            let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-            let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
-            return linkify(baseUrl, 'id', true, 'right')(data, type, row)
-          }
-        }, {
-          data: 'acc',
-          render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
-        },
-        {
-          data: 'gene'
-        },
-        {
-          data: 'type',
-          render: data => {
-            return data ? self.seqTypes.externe : self.seqTypes.interne
-          }
-        },
-        {
-          data: 'motu'
-        },
-        {
-          data: 'critere'
+        data: 'code',
+        render: (data, type, row) => {
+          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
+          return linkify(baseUrl, 'id', true, 'right')(data, type, row)
         }
-      ],
+      }, {
+        data: 'acc',
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
+      }, {
+        data: 'gene'
+      }, {
+        data: 'type',
+        render: data => {
+          return data ? self.seqTypes.externe : self.seqTypes.interne
+        }
+      }, {
+        data: 'motu'
+      }, {
+        data: 'critere'
+      }],
       dom: "lfrtipB",
       buttons: dtconfig.buttons,
       drawCallback: _ => {

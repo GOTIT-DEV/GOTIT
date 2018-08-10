@@ -4,7 +4,7 @@
  * @param {any} key clé à cibler
  */
 function unpack(json, key) {
-  return json.map(function (row) {
+  return json.map(row => {
     return row[key]
   })
 }
@@ -27,8 +27,9 @@ class BasePlot {
   }
 
   resize() {
-    let self = this
-    Plotly.Plots.resize(self.gd)
+    if (this.container.hasClass('collapse in') ||
+      !this.container.hasClass('collapse'))
+      Plotly.Plots.resize(this.gd)
   }
 
   plot() {}
@@ -68,8 +69,32 @@ class BarPlot extends BasePlot {
     }
   }
 
+  refresh(json) {
+    if (json.length) {
+      if (this.container.hasClass('collapse in')) {
+        this.plot(json)
+      } else {
+        this.container.on('shown.bs.collapse', event => {
+          this.plot(json)
+        })
+        this.show()
+      }
+    } else {
+      this.hide()
+    }
+  }
+
+  show() {
+    $(".plot-overlay").collapse('hide')
+    this.container.collapse('show')
+  }
+
+  hide() {
+    $(".plot-overlay").collapse('show')
+    this.container.collapse('hide')
+  }
+
   plot(json) {
-    console.log(json)
     let data = {
       match: [],
       split: [],
@@ -119,45 +144,7 @@ class BarPlot extends BasePlot {
 class BaseGeoPlot extends BasePlot {
   constructor(containerId) {
     super(containerId)
-    this.layout = {
-      font: {
-        family: 'Droid Serif, serif',
-        size: 14
-      },
-      titlefont: {
-        size: 16
-      },
-      height: 600,
-      margin: {
-        l: 0,
-        r: 0,
-        t: 15,
-        b: 0
-      },
-      showlegend: true,
-      geo: { // carte geographique
-        scope: 'world',
-        resolution: 30,
-        projection: {
-          type: 'miller'
-        },
-        showrivers: true,
-        rivercolor: 'lightblue',
-        showlakes: true,
-        lakecolor: 'lightblue',
-        showland: true,
-        landcolor: '#E0F8F7',
-        countrycolor: 'grey',
-        countrywidth: 1,
-        subunitcolor: '#d3d3d3',
-        showocean: true,
-        oceancolor: 'lightblue',
-        showframe: true,
-        framecolor: '#000',
-        framewidth: 2,
-        bgcolor: 'lightgrey'
-      }
-    }
+    this.layout = plotlyconfig.geo.layout // from options.js
   }
 
   resize() {

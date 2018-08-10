@@ -18,7 +18,7 @@
                 entity.lotmateriel.label
                 {% endtrans %}
               </label>
-              <select name="lot-materiel" id="lot-materiel-select" class="form-control concordance">
+              <select name="lot-materiel" id="lot-materiel-select" class="form-control concordance selectpicker">
                 {% include 'requetes/concordance/select.options.html.twig' %}
               </select>
             </div>
@@ -28,7 +28,7 @@
                 entity.individu.label
                 {% endtrans %}
               </label>
-              <select name="individu" id="individu-select" class="form-control concordance">
+              <select name="individu" id="individu-select" class="form-control concordance selectpicker">
                 {% include 'requetes/concordance/select.options.html.twig' %}
               </select>
             </div>
@@ -38,13 +38,10 @@
                 entity.seq.label
                 {% endtrans %}
               </label>
-              <select name="sequence" id="sequence-select" class="form-control concordance">
-                {% include 'requetes/concordance/select.options.html.twig' %}
-                <option value=1 class="unassigned">
-								{% trans %}
-								columns.undefined
-								{% endtrans %}
-								</option>
+              <select name="sequence" id="sequence-select" class="form-control concordance selectpicker">
+                {% include 'requetes/concordance/select.options.html.twig' with {
+                  unassigned : true
+                } %}
               </select>
             </div>
           </div>
