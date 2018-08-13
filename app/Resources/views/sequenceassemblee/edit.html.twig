@@ -148,6 +148,7 @@
             if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
             $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
             $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();})
+            $('#delete_Chromatogramme').on('change', function(){alert('Test click on delete_Chromatogramme');});
             {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
             {% else %} 
                 $('form[name="bbees_e3sbundle_sequenceassemblee"] :input').prop("disabled", true);
