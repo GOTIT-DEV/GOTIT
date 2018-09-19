@@ -108,11 +108,11 @@ class CarteRichesse {
     let columns = [
       dtconfig.expandColumn, {
         data: "taxname",
-        render: linkify(self.urls.refTaxon, 'id', true)
+        render: linkify(self.urls.refTaxon, 'taxon_id', true)
       }, {
         data: 'code',
         render: (data, type, row) => {
-          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let lookUpAttr = row.type_seq ? 'urlExt' : 'urlInt'
           let baseUrl = self.table.find("#col-code-seq").data(lookUpAttr)
           return linkify(baseUrl, 'id', true)(data, type, row)
         }
@@ -135,7 +135,7 @@ class CarteRichesse {
         defaultContent: ""
       }, {
         data: "code_station",
-        render: linkify(self.urls.station, 'id', true)
+        render: linkify(self.urls.station, 'id_sta', true)
       }, {
         data: "commune"
       }, {
