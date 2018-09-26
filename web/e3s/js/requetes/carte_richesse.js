@@ -18,7 +18,7 @@ class CarteRichesse {
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId)
     this.getAvailableMethods()
-    // Formulaires prêts : initialiser datatables
+    // Formulaires prĂŞts : initialiser datatables
     $.when(this.speciesSelector.promise, this.methodSelector.promise)
       .done(_ => {
         this.initDataTable()
@@ -45,8 +45,8 @@ class CarteRichesse {
   }
 
   /**
-   * Désactive le mode attente ; mettre à jour les onglets
-   * @param {Object} response réponse JSON
+   * DĂŠsactive le mode attente ; mettre Ă  jour les onglets
+   * @param {Object} response rĂŠponse JSON
    */
   uiReceivedResponse(response) {
     this.form.find("button[type='submit']").button('reset')
@@ -76,8 +76,8 @@ class CarteRichesse {
   }
 
   /**
-   * Met à jour la carte avec les données JSON
-   * @param {Object} response réponse JSON
+   * Met Ă  jour la carte avec les donnĂŠes JSON
+   * @param {Object} response rĂŠponse JSON
    */
   updateMap(response) {
     let self = this
@@ -89,7 +89,7 @@ class CarteRichesse {
     }))
     // Plot data
     self.geoPlot.plot(response.rows)
-    // Overlay et événements changement d'onglet
+    // Overlay et ĂŠvĂŠnements changement d'onglet
     $('#table-tab a ').on('shown.bs.tab', _ => {
       scrollTo('#resultats', 500)
       $(".geo-overlay").hide()
@@ -108,11 +108,11 @@ class CarteRichesse {
     let columns = [
       dtconfig.expandColumn, {
         data: "taxname",
-        render: linkify(self.urls.refTaxon, 'id', true)
+        render: linkify(self.urls.refTaxon, 'taxon_id', true)
       }, {
         data: 'code',
         render: (data, type, row) => {
-          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
+          let lookUpAttr = row.type_seq ? 'urlExt' : 'urlInt'
           let baseUrl = self.table.find("#col-code-seq").data(lookUpAttr)
           return linkify(baseUrl, 'id', true)(data, type, row)
         }
@@ -135,7 +135,7 @@ class CarteRichesse {
         defaultContent: ""
       }, {
         data: "code_station",
-        render: linkify(self.urls.station, 'id', true)
+        render: linkify(self.urls.station, 'id_sta', true)
       }, {
         data: "commune"
       }, {
@@ -147,7 +147,7 @@ class CarteRichesse {
 
   /**
    * Initialise datatables pour remplir la table *
-   * en utilisant les données du formulaire
+   * en utilisant les donnĂŠes du formulaire
    */
   initDataTable() {
     let self = this

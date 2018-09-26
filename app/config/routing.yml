@@ -1,3 +1,14 @@
+bbees_user:
+    resource: "@BbeesUserBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+bbees_user_user:
+    resource: "@BbeesUserBundle/Controller/UserController.php"
+    type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|fr
+
 bbees_e3s:
     resource: "@BbeesE3sBundle/Controller/"
     type:     annotation

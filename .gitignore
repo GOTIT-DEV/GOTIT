@@ -17,3 +17,4 @@
 /web/bundles/
 .vscode/
 /app/Resources/views/show.html.twig.backup
+/nbproject/private/

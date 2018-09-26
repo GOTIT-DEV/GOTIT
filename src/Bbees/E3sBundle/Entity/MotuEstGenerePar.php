@@ -17,7 +17,7 @@ class MotuEstGenerePar
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="motu_est_genere_par_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class MotuEstGenerePar
      *
      * @ORM\ManyToOne(targetEntity="Motu", inversedBy="motuEstGenerePars")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $motuFk;
@@ -65,7 +65,7 @@ class MotuEstGenerePar
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $personneFk;

@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Etablissement controller.
  *
  * @Route("etablissement")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class EtablissementController extends Controller
 {
@@ -44,9 +47,10 @@ class EtablissementController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');         
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -75,7 +79,9 @@ class EtablissementController extends Controller
             //
             $tab_toshow[] = array("id" => $id, "etablissement.id" => $id, 
              "etablissement.nomEtablissement" => $entity->getNomEtablissement(),
-             "etablissement.dateCre" => $DateCre, "etablissement.dateMaj" => $DateMaj,);
+             "etablissement.dateCre" => $DateCre, "etablissement.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "etablissement.userCre" => $service->GetUserCreUsername($entity) ,"etablissement.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -98,6 +104,7 @@ class EtablissementController extends Controller
      *
      * @Route("/new", name="etablissement_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function newAction(Request $request)
     {
@@ -147,6 +154,7 @@ class EtablissementController extends Controller
      *
      * @Route("/{id}/edit", name="etablissement_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function editAction(Request $request, Etablissement $etablissement)
     {
@@ -180,6 +188,7 @@ class EtablissementController extends Controller
      *
      * @Route("/{id}", name="etablissement_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function deleteAction(Request $request, Etablissement $etablissement)
     {

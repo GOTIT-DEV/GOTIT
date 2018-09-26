@@ -32,7 +32,7 @@ class ACibler
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="a_cibler_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -70,7 +70,7 @@ class ACibler
      *
      * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="aCiblers")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $collecteFk;
@@ -80,7 +80,7 @@ class ACibler
      *
      * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="referentiel_taxon_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="referentiel_taxon_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $referentielTaxonFk;

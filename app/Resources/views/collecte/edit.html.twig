@@ -136,12 +136,21 @@
         {% if action == 'edit'  %} 
             // L'ajout d'un bouton Back to  the station
             addBackToRelatedRecord('collecte', 'station', "{{'buton.Back to station'|trans}}" );
-            // verouillage du champ Station
-            $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
-                // deverouillage des champ descativé pour permettre l enregistrement
-                $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", false); 
-             }); 
+             {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : Station; Code collecte; Date collecte
+                $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+                    $('#bbees_e3sbundle_collecte_stationFk').attr("disabled", false); 
+                }); 
+                $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+                    $('#bbees_e3sbundle_collecte_codeCollecte').attr("disabled", false); 
+                });                 
+                $('input[id^="bbees_e3sbundle_collecte_dateCollecte"]').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_collecte"]',function(ev){
+                    $('input[id^="bbees_e3sbundle_collecte_dateCollecte"]').attr("disabled", false);                 
+                 });
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
             // Action en mode CREATE

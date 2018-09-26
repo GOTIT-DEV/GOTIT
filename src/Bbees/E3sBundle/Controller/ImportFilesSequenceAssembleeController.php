@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * ImportIndividu controller.
 *
 * @Route("importfilessequenceassemblee")
+* @Security("has_role('ROLE_COLLABORATION')")
 */
 class ImportFilesSequenceAssembleeController extends Controller
 {
@@ -31,21 +32,56 @@ class ImportFilesSequenceAssembleeController extends Controller
         $message = ""; 
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
+        //creation du formulaire / ROLES
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->getRole() == 'ROLE_ADMIN') {
         $form = $this->createFormBuilder()
                 ->setMethod('POST')
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Sequence assemblee' => 'sequence_assemblee'),
+                         ' ' => array('Internal_sequence' => 'sequence_assemblee'),
                          '  ' => array('Source' => 'source',),
-                         '   ' => array('Vocabulaire' => 'vocabulaire','Personne' => 'personne','Referentiel taxon' => 'referentiel_taxon',),)
+                         '   ' => array('Vocabulary' => 'vocabulaire','Person' => 'personne','Taxon' => 'referentiel_taxon',),)
                     ))
                 ->add('fichier', FileType::class)
                 // ->add('fichier','file')
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
                 //->add('envoyer','submit')
-                ->getForm();
+                ->getForm();        
+        }
+        if($user->getRole() == 'ROLE_PROJECT') {
+        $form = $this->createFormBuilder()
+                ->setMethod('POST')
+                ->add('type_csv', ChoiceType::class, array(
+                    'choice_translation_domain' => false,
+                    'choices'  => array(
+                         ' ' => array('Internal_sequence' => 'sequence_assemblee'),
+                         '  ' => array('Source' => 'source',),
+                         '   ' => array('Person' => 'personne',),)
+                    ))
+                ->add('fichier', FileType::class)
+                // ->add('fichier','file')
+                ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                //->add('envoyer','submit')
+                ->getForm();         
+        } 
+        if($user->getRole() == 'ROLE_COLLABORATION') {
+        $form = $this->createFormBuilder()
+                ->setMethod('POST')
+                ->add('type_csv', ChoiceType::class, array(
+                    'choice_translation_domain' => false,
+                    'choices'  => array(
+                         ' ' => array('Internal_sequence' => 'sequence_assemblee'),
+                         '  ' => array('Person' => 'personne',),)
+                    ))
+                ->add('fichier', FileType::class)
+                // ->add('fichier','file')
+                ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                //->add('envoyer','submit')
+                ->getForm();       
+        }
         $form->handleRequest($request);
         
         if ($form->isSubmitted()){ //recuperation des données et traitement 
@@ -55,19 +91,19 @@ class ImportFilesSequenceAssembleeController extends Controller
             $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'sequence_assemblee':
-                    $message .= $importFileE3sService->importCSVDataSequenceAssemblee($fichier);
+                    $message .= $importFileE3sService->importCSVDataSequenceAssemblee($fichier, $user->getId());
                     break;
                 case 'source':
-                    $message .= $importFileE3sService->importCSVDataSource($fichier);
+                    $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
                     break;
                 case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier);
+                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
                     break;
                 case 'referentiel_taxon' :
-                    $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier);
+                    $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
                     break;
                 case 'personne' :
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier);
+                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
                     break;
                 default:
                    $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

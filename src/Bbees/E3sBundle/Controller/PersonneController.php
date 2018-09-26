@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Personne controller.
  *
  * @Route("personne")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class PersonneController extends Controller
 {
@@ -45,9 +48,10 @@ class PersonneController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');         
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -80,7 +84,9 @@ class PersonneController extends Controller
              "personne.nomPersonne" => $entity->getNomPersonne(),
              "personne.nomComplet" => $entity->getNomComplet(),
              "etablissement.nomEtablissement" => $NomEtablissement,
-             "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,);
+             "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "personne.userCre" => $service->GetUserCreUsername($entity) ,"personne.userMaj" => $service->GetUserMajUsername($entity),
+                );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -102,6 +108,7 @@ class PersonneController extends Controller
      *
      * @Route("/new", name="personne_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -221,6 +228,7 @@ class PersonneController extends Controller
      *
      * @Route("/{id}/edit", name="personne_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Personne $personne)
     {
@@ -254,6 +262,7 @@ class PersonneController extends Controller
      *
      * @Route("/{id}", name="personne_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Personne $personne)
     {

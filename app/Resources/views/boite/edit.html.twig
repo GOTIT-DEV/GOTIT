@@ -56,24 +56,39 @@
                     // deverouillage des champ descativé pour permettre l enregistrement
                     $('#bbees_e3sbundle_boite_typeBoiteVocFk').attr("disabled", false); 
             });
+            if (typeBoite == 'LOT') {
+                $('#bbees_e3sbundle_boite_adns').parent().parent().hide();
+                $('#bbees_e3sbundle_boite_individuLames').parent().parent().hide();                
+            }
+            if (typeBoite == 'LAME') {
+                $('#bbees_e3sbundle_boite_adns').parent().parent().hide();
+                $('#bbees_e3sbundle_boite_lotMateriels').parent().parent().hide();              
+            }
+            if (typeBoite == 'ADN') {
+                $('#bbees_e3sbundle_boite_lotMateriels').parent().parent().hide();
+                $('#bbees_e3sbundle_boite_individuLames').parent().parent().hide();                
+            }
         {% endif %}
-    });
- </script>
- 
-<script type="text/javascript">  
-//  interface Formulaire
-    $(document).ready(function(){
-        // fonctionalités des champ date(s) & date_precision 
+        //
         $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
                 var codeBoite = $(this).val().replace(/ /g, '_');
                 $('#bbees_e3sbundle_boite_codeBoite').val(codeBoite);
         })
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : Station; Code collecte; Date collecte
+                $('#bbees_e3sbundle_boite_codeBoite').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
+                    $('#bbees_e3sbundle_boite_codeBoite').attr("disabled", false); 
+                });                 
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
-        {% endif %}   
+
+        {% endif %}
     });
-</script>
+ </script>
+
 
 {% endblock %}

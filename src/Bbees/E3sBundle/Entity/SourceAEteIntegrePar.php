@@ -17,7 +17,7 @@ class SourceAEteIntegrePar
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="source_a_ete_integre_par_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class SourceAEteIntegrePar
      *
      * @ORM\ManyToOne(targetEntity="Source", inversedBy="sourceAEteIntegrePars")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $sourceFk;
@@ -65,7 +65,7 @@ class SourceAEteIntegrePar
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $personneFk;

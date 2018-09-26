@@ -110,17 +110,49 @@
                   </li>
                   <li><a href="{{ path('source_index') }}"><i class="fa fa-newspaper-o"></i>{{'title.Source bibliographique'|trans}}</a></li>   
                   <li><a><i class="fa fa-lock"></i> {{'title.Référentiels'|trans}} <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                    <li><a href="{{ path('voc_index') }}">{{'title.voc'|trans}} </a></li>
-                    <li><a href="{{ path('referentieltaxon_index') }}">{{'title.referentieltaxon'|trans}} </a></li>
-                    <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
-                    <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
-                    <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
-                    <li><a href="{{ path('pays_index') }}">{{'title.pays'|trans}}</a></li>
-                    <li><a href="{{ path('commune_index') }}">{{'title.commune'|trans}}</a></li>
+                    <ul class="nav child_menu">                    
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('voc_index') }}">{{'title.voc'|trans}} </a></li>
+                        <li><a href="{{ path('referentieltaxon_index') }}">{{'title.referentieltaxon'|trans}} </a></li>
+                        <li><a href="{{ path('pays_index') }}">{{'title.pays'|trans}}</a></li>
+                        <li><a href="{{ path('commune_index') }}">{{'title.commune'|trans}}</a></li>
+                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
+                        <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
+                        <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
+                    {% elseif  is_granted('ROLE_PROJECT')%}
+                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.voc'|trans}}</font></a></li> 
+                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
+                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.pays'|trans}}</font></a></li> 
+                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.commune'|trans}}</font></a></li> 
+                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
+                        <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
+                        <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
+                    {% elseif  is_granted('ROLE_COLLABORATION')%}
+                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
+                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
+                        <li><a href="#" color="grey"><font color="grey">{{'title.programme'|trans}}</font></a></li>
+                        <li><a href="#" color="grey"><font color="grey">{{'title.etablissement'|trans}}</font></a></li>
+                    {% else  %}
+                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.personne'|trans}}</font></a></li>
+                        <li><a href="#" color="grey"><font color="grey">{{'title.programme'|trans}}</font></a></li>
+                        <li><a href="#" color="grey"><font color="grey">{{'title.etablissement'|trans}}</font></a></li>
+                    {% endif %}
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
+                  {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('user_index') }}"><i class="fa fa-lock"></i>{{'title.User'|trans}}</a></li> 
+                    {% else %}
+                    <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.User'|trans}}</font></a></li> 
+                  {% endif %}
+                  {% if is_granted('ROLE_COLLABORATION') %}
+                    <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     <li><a href="{{ path('echantillonnage') }}">
                         {% trans from 'requetes' %}
@@ -147,8 +179,12 @@
                         queries.concordance.nav
                         {% endtrans %}
                         </a></li>
-                    </ul>
+                    </ul>                      
                   </li>
+                    {% else %}
+                    <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.Recherche bdd'|trans}}</font></a></li> 
+                  {% endif %}  
+                  
                 </ul>
               </div>
 
@@ -168,7 +204,7 @@
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ path('logout') }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -189,25 +225,40 @@
                <ul class="nav navbar-nav navbar-right">  
                    
                 <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    F MALARD
-                    <span class=" fa fa-angle-down"></span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;">Profile</a></li>
-                    <li>
-                    {% set pathRoute = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
-                    {% set pathRouteFrInArray = pathRoute|split('/fr/') %}
-                      {% if pathRouteFrInArray|length == 2 %} 
-                        <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}?langage=en"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
-                      {% else %}
-                          {% set pathRouteEnInArray = pathRoute|split('/en/') %}
-                         <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}?langage=fr"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
-                      {% endif %}
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                  </ul>
+                  
+                    {% if app.user.username is defined %}  
+                        <a href="javascript:;"  class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {{app.user.username}} 
+                        {% if is_granted('ROLE_ADMIN') %}  
+                            : ADMIN  
+                        {% else %}
+                            {% if is_granted('ROLE_PROJECT') %}  
+                                : PROJECT MEMBER  
+                            {% else %}                       
+                                {% if is_granted('ROLE_COLLABORATION') %}  
+                                    : COLLABORATION MEMBER  
+                                {% else %}
+                                    {% if is_granted('ROLE_INVITED') %}  : INVITED MEMBER  {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        <span class=" fa fa-angle-down"></span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a></li>
+                        <li>
+                        {% set pathRoute = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
+                        {% set pathRouteFrInArray = pathRoute|split('/fr/') %}
+                          {% if pathRouteFrInArray|length == 2 %} 
+                            <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}?langage=en"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
+                          {% else %}
+                              {% set pathRouteEnInArray = pathRoute|split('/en/') %}
+                             <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}?langage=fr"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
+                          {% endif %}
+                        </li>
+                        <li><a href="{{path('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                      </ul>
+                  {% endif %}
                 </li>
                 
               </ul>
@@ -278,6 +329,7 @@
       </div>
     </div>
 
+    <!--  General Scripts -->
     {% block scripts %}
     <!-- jQuery -->
     <script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
@@ -308,6 +360,11 @@
     
     {% endblock %}
     
+    <!--  Templates Scripts -->
+    {% block templatescripts %}
+        <!--  Templates Scripts : index.html.twig / edit.html.twig ... -->
+    {% endblock %}
+        
   </body>
 
 </html>

@@ -17,7 +17,7 @@ class EstIdentifiePar
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="est_identifie_par_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class EstIdentifiePar
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $personneFk;
@@ -65,7 +65,7 @@ class EstIdentifiePar
      *
      * @ORM\ManyToOne(targetEntity="EspeceIdentifiee", inversedBy="estIdentifiePars")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="espece_identifiee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="espece_identifiee_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $especeIdentifieeFk;

@@ -31,18 +31,35 @@ class ImportFilesIndividuController extends Controller
         $message = ""; 
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
-        $form = $this->createFormBuilder()
-                ->setMethod('POST')
-                ->add('type_csv', ChoiceType::class, array(
-                    'choice_translation_domain' => false,
-                    'choices'  => array(
-                         ' ' => array('Individu' => 'individu',),
-                         '  ' => array('Réferentiel taxon' => 'referentiel_taxon','Vocabulaire' => 'vocabulaire','Personne' => 'personne',),)
-                    ))
-                ->add('fichier', FileType::class)
-                ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-                ->getForm();
+        //creation du formulaire / ROLES
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->getRole() == 'ROLE_ADMIN') {
+            $form = $this->createFormBuilder()
+                    ->setMethod('POST')
+                    ->add('type_csv', ChoiceType::class, array(
+                        'choice_translation_domain' => false,
+                        'choices'  => array(
+                             ' ' => array('Specimen' => 'individu',),
+                             '  ' => array('Taxon' => 'referentiel_taxon','Vocabulary' => 'vocabulaire','Person' => 'personne',),)
+                        ))
+                    ->add('fichier', FileType::class)
+                    ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                    ->getForm();          
+        }
+        if($user->getRole() == 'ROLE_PROJECT') {
+            $form = $this->createFormBuilder()
+                    ->setMethod('POST')
+                    ->add('type_csv', ChoiceType::class, array(
+                        'choice_translation_domain' => false,
+                        'choices'  => array(
+                             ' ' => array('Specimen' => 'individu',),
+                             '  ' => array('Person' => 'personne',),)
+                        ))
+                    ->add('fichier', FileType::class)
+                    ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                    ->getForm();           
+        }
         $form->handleRequest($request);
         
         if ($form->isSubmitted()){ //recuperation des données et traitement 
@@ -52,16 +69,16 @@ class ImportFilesIndividuController extends Controller
             $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'individu':
-                    $message .= $importFileE3sService->importCSVDataIndividu($fichier);
+                    $message .= $importFileE3sService->importCSVDataIndividu($fichier, $user->getId());
                     break;
                 case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier);
+                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
                     break;
                 case 'referentiel_taxon':
-                    $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier);
+                    $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
                     break;
                 case 'personne' :
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier);
+                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
                     break;
                 default:
                    $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

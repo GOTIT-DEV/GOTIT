@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Adn controller.
  *
  * @Route("adn")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class AdnController extends Controller
 {
@@ -47,9 +48,10 @@ class AdnController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('adn.dateMaj' => 'desc', 'adn.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -101,6 +103,7 @@ class AdnController extends Controller
              "adn.dateAdn" => $DateAdn ,
              "boite.codeBoite" => $codeBoite,
              "adn.dateCre" => $DateCre, "adn.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "adn.userCre" => $service->GetUserCreUsername($entity) ,"adn.userMaj" => $service->GetUserMajUsername($entity),
              "linkPcr" => $linkPcr,);
         }    
  
@@ -125,6 +128,7 @@ class AdnController extends Controller
      *
      * @Route("/new", name="adn_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -174,6 +178,7 @@ class AdnController extends Controller
      *
      * @Route("/{id}/edit", name="adn_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Adn $adn)
     {
@@ -218,6 +223,7 @@ class AdnController extends Controller
      *
      * @Route("/{id}", name="adn_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Adn $adn)
     {

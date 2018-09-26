@@ -17,7 +17,7 @@ class EstAligneEtTraite
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="est_aligne_et_traite_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class EstAligneEtTraite
      *
      * @ORM\ManyToOne(targetEntity="Chromatogramme")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="chromatogramme_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="chromatogramme_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $chromatogrammeFk;
@@ -65,7 +65,7 @@ class EstAligneEtTraite
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="estAligneEtTraites")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $sequenceAssembleeFk;

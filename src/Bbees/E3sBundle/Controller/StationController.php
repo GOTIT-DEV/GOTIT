@@ -9,11 +9,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Bbees\E3sBundle\Services\GenericFunctionService;
 
 /**
  * Station controller.
  *
  * @Route("station")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class StationController extends Controller
 {
@@ -34,7 +37,7 @@ class StationController extends Controller
         ));
     }
 
-     /**
+      /**
      * Retourne au format json un ensemble de champs à afficher tab_station_toshow avec les critères suivant :  
      * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
      * b) le nombre de lignes à afficher ($request->get('rowCount'))
@@ -45,8 +48,10 @@ class StationController extends Controller
      */
     public function indexjsonAction(Request $request)
     {   
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('station.dateMaj' => 'desc', 'station.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -70,12 +75,13 @@ class StationController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $query = $em->createQuery('SELECT collecte.id FROM BbeesE3sBundle:Collecte collecte WHERE collecte.stationFk = '.$id.'')->getResult();
             $stationFk = (count($query) > 0) ? $id : '';
-            $tab_toshow[] = array("id" => $id, "station.id" => $id, "station.codeStation" => $entity->getCodeStation(),
+            $tab_toshow[] = array( "id" => $id, "station.id" => $id, "station.codeStation" => $entity->getCodeStation(),
              "station.nomStation" => $entity->getNomStation(),
              "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
              "pays.codePays" => $entity->getPaysFk()->getCodePays(),
              "station.latDegDec" => $entity->getLatDegDec(), "station.longDegDec" => $entity->getLongDegDec(),
-             "station.dateCre" => $DateCre, "station.dateMaj" => $DateMaj,
+             "station.dateCre" => $DateCre, "station.dateMaj" => $DateMaj, 
+             "userCreId" => $service->GetUserCreId($entity), "station.userCre" => $service->GetUserCreUsername($entity) ,"station.userMaj" => $service->GetUserMajUsername($entity),
              "linkCollecte" => $stationFk);
         }                
         $response = new Response ();
@@ -143,6 +149,7 @@ class StationController extends Controller
      *
      * @Route("/new", name="station_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -192,9 +199,17 @@ class StationController extends Controller
      *
      * @Route("/{id}/edit", name="station_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Station $station)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
+        
         $deleteForm = $this->createDeleteForm($station);
         $editForm = $this->createForm('Bbees\E3sBundle\Form\StationType', $station);
         $editForm->handleRequest($request);
@@ -229,6 +244,7 @@ class StationController extends Controller
      *
      * @Route("/{id}", name="station_delete")
      * @Method({"DELETE","POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Station $station)
     {

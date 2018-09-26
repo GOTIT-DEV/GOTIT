@@ -17,7 +17,7 @@ class LotMaterielEstRealisePar
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="lot_materiel_est_realise_par_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class LotMaterielEstRealisePar
      *
      * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="lotMaterielEstRealisePars")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $lotMaterielFk;
@@ -65,7 +65,7 @@ class LotMaterielEstRealisePar
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $personneFk;

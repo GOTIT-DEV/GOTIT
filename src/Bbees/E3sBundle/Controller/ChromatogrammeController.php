@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Chromatogramme controller.
  *
  * @Route("chromatogramme")
+ * @Security("has_role('ROLE_INVITED')")
+ * 
  */
 class ChromatogrammeController extends Controller
 {
@@ -46,9 +49,10 @@ class ChromatogrammeController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');      
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('chromatogramme.dateMaj' => 'desc', 'chromatogramme.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -100,6 +104,7 @@ class ChromatogrammeController extends Controller
              "pcr.numPcr" => $entity->getPcrFk()->getNumPcr(), 
              "vocQualiteChromato.code" => $entity->getQualiteChromatoVocFk()->getLibelle(),   
              "chromatogramme.dateCre" => $DateCre, "chromatogramme.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "chromatogramme.userCre" => $service->GetUserCreUsername($entity) ,"chromatogramme.userMaj" => $service->GetUserMajUsername($entity),
              "lastCodeSeqAss" => $lastCodeSeqAss,"lastStatutSeqAss" => $lastStatutSeqAss,"lastCodeSeqAlignement" => $lastCodeSeqAlignement,"lastDateSeqAss" => $lastDateSeqAss,
              "linkSequenceassemblee" => $linkSqcAss,);
         }    
@@ -125,6 +130,7 @@ class ChromatogrammeController extends Controller
      *
      * @Route("/new", name="chromatogramme_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -174,6 +180,7 @@ class ChromatogrammeController extends Controller
      *
      * @Route("/{id}/edit", name="chromatogramme_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Chromatogramme $chromatogramme)
     {
@@ -211,6 +218,7 @@ class ChromatogrammeController extends Controller
      *
      * @Route("/{id}", name="chromatogramme_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Chromatogramme $chromatogramme)
     {

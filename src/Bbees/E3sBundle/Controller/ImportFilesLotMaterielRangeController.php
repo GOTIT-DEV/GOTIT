@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * ImportIndividu controller.
 *
 * @Route("importfileslotmaterielrange")
+* @Security("has_role('ROLE_COLLABORATION')")
 */
 class ImportFilesLotMaterielRangeController extends Controller
 {
@@ -32,12 +33,14 @@ class ImportFilesLotMaterielRangeController extends Controller
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
         //creation du formulaire
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
         $form = $this->createFormBuilder()
                 ->setMethod('POST')
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Lot Materiel Range' => 'lot_materiel_range',),)
+                         ' ' => array('Biological_material_store' => 'lot_materiel_range',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -51,7 +54,7 @@ class ImportFilesLotMaterielRangeController extends Controller
             $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'lot_materiel_range':
-                    $message .= $importFileE3sService->importCSVDataLotMaterielRange($fichier);
+                    $message .= $importFileE3sService->importCSVDataLotMaterielRange($fichier, $user->getId());
                     break;
                 default:
                    $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

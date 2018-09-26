@@ -17,7 +17,7 @@ class Assigne
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="assigne_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -62,7 +62,7 @@ class Assigne
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_ext_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_ext_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $sequenceAssembleeExtFk;
@@ -72,7 +72,7 @@ class Assigne
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="methode_motu_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="methode_motu_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $methodeMotuVocFk;
@@ -82,7 +82,7 @@ class Assigne
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssemblee")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $sequenceAssembleeFk;
@@ -92,7 +92,7 @@ class Assigne
      *
      * @ORM\ManyToOne(targetEntity="Motu")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $motuFk;

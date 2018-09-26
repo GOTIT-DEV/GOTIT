@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ReferentielTaxon
  *
- * @ORM\Table(name="referentiel_taxon", uniqueConstraints={@ORM\UniqueConstraint(name="cu_referentiel_taxon_cle_primaire", columns={"taxname"})})
+ * @ORM\Table(name="referentiel_taxon", uniqueConstraints={ @ORM\UniqueConstraint(name="cu_referentiel_taxon_cle_primaire", columns={"taxname"}), @ORM\UniqueConstraint(name="cu_referentiel_taxon_code_taxon", columns={"code_taxon"}) } )
  * @ORM\Entity
  */
 class ReferentielTaxon
@@ -17,7 +17,7 @@ class ReferentielTaxon
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="referentiel_taxon_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;

@@ -1,7 +1,3 @@
-# ajouter  26/09/2018
-title.User: User
-list.User cre: User Create
-list.User maj: User Update
 # 
 list.MotuAssigne: MOTU
 title.Import Files CSV: Import Files CSV
@@ -9,7 +5,7 @@ title.boiteLOT: Box biological material
 title.boiteLAME: Box specimen slide
 title.boiteADN: Box DNA
 # Intitules des boutons "Back to Entity"
-buton.Back to station: Back to Site
+buton.Back to station: Back to Station
 buton.Back to collecte: Back to Sampling
 buton.Back to lotmateriel: Back to Biological material
 buton.Back to individu: Back to Specimen
@@ -25,7 +21,7 @@ buton.Back to motu: Back to MOTU
 buton.Back to boite: Back to Boxes
 buton.Back to source: Back to Sources
 # Intitules des boutons des formulaires d'import de fichiers csv
-buton.Back to the list of station: Back to the list of Sites
+buton.Back to the list of station: Back to the list of Station
 buton.Back to the list of collecte: Back to the list of Sampling
 buton.Back to the list of lotmateriel: Back to the list of Biological material
 buton.Back to the list of individu: Back to the list of Specimen
@@ -45,8 +41,8 @@ buton.Back to the list of source: Back to the list of Sources
 Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy
 Dashboard.Distribution des stations: Distribution of sites
 Dashboard.Hypothese espece: Species hypotheses
-Dashboard.nbMotuSqcAss: Sequence assigned to MOTU
-Dashboard.nbMotuSqcAssExt: Sequence assigned to  MOTU
+Dashboard.nbMotuSqcAss: Séquence assigned to MOTU
+Dashboard.nbMotuSqcAssExt: Séquence assigned to  MOTU
 Dashboard.nbTaxon: Taxa
 Dashboard.Données de la litérature: Literature data
 Dashboard.LotMaterielExt: Lot
@@ -70,7 +66,7 @@ Dashboard.Tools: Tools
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
 Libelle motu: MOTU title
 # boutons ajouter > 16/07/2018
-import.motu-assigne: MOTU
+import.motu-assigne: Motu assigne
 title.Personne: Person
 buton.See Stations Around: See nearby sites
 modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
@@ -244,12 +240,12 @@ Nombre inconnu: NUMBER NOT KNOWN
 A faire: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
-Adn fk: DNA
+Adn fk: DNA table
 Altitude m: Elevation m asl
 Annee debut: Starting year
 Annee fin: Ending year
 Annee source: Source year
-Boite fk: Box
+Boite fk: Box table
 Chromatogramme fk: Chromatogram table
 Clade: Clade
 Code: Code
@@ -275,7 +271,7 @@ Code sqc ass ext alignement: External sequence alignment code
 Code station: Site code
 Code taxon: Taxon code
 Code tube: Tube code
-Collecte fk: Sampling
+Collecte fk: Sampling table
 Commentaire: Comments
 Commentaire adn: DNA comments
 Commentaire boite: Box comments
@@ -298,7 +294,7 @@ Commentaire source: Source comments
 Commentaire sqc ass: Sequence comments
 Commentaire sqc ass ext: External sequence comments
 Commentaire station: Site comments
-Commune fk: Municipality
+Commune fk: Municipality table
 Concentration ng microlitre: Concentration ng per micro litre
 Conductivite micro sie cm: Specific conductance (micro_sie_cm)
 Critere identification voc fk: Identification criterion
@@ -318,15 +314,15 @@ Date precision voc fk: Date precision
 Detail pcr: PCR details
 Duree echantillonnage mn: Sampling duration
 Espece identifiee fk: Identified species table
-Etablissement fk: Institution
+Etablissement fk: Institution table
 Family: Family
 Fixateur voc fk: Fixative
 Gene voc fk: Gene
 Genus: Genus
 Habitat type voc fk: Habitat type
 Id: Identification number
-Individu fk: Specimen
-Individu lame fk: Specimen slide
+Individu fk: Specimen table
+Individu lame fk: Specimen slide table
 Info description: Site description
 Info localisation: Site location
 Lat deg dec: Latitude Dec Deg
@@ -337,11 +333,11 @@ Libelle collection: Collection title
 Libelle lame: Slide title
 Libelle source: Source title
 Long deg dec: Longitude Dec Deg
-Lot materiel ext fk: External biological material
-Lot materiel fk: Internal Biological material
+Lot materiel ext fk: External biological material table
+Lot materiel fk: Biological material table
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
-Motu fk: MOTU
+Motu fk: MOTU table
 Nb individus: Number of specimens
 Nb individus voc fk: Number of specimens
 Nom commune: Municipality name
@@ -365,29 +361,29 @@ Objectif: Targeted taxa
 Ordre: Order
 Origine sqc ass ext voc fk: External sequence origin
 Parent: Parent
-Pays fk: Country
-Pcr fk: PCR
-Personne fk: Person
+Pays fk: Country table
+Pcr fk: PCR table
+Personne fk: Person table
 Pigmentation voc fk: Pigmentation
 Point acces voc fk: Access type
 Precision lat long voc fk: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
 Primer pcr end voc fk: PCR reverse primer
 Primer pcr start voc fk: PCR forward primer
-Programme fk: Program
+Programme fk: Program table
 Qualite adn voc fk: DNA quality
 Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
-Referentiel taxon fk: Taxa
+Referentiel taxon fk: Taxa table
 Remarque pcr: PCR comments
 Sampling method voc fk: Sampling method
-Sequence assemblee ext fk: External sequence
-Sequence assemblee fk: Inernal Sequence
-Source fk: Source
+Sequence assemblee ext fk: External sequence table
+Sequence assemblee fk: Sequence table
+Source fk: Source table
 Species: Species
 Specificite voc fk: PCR specificity
-Station fk: Site
+Station fk: Site table
 Statut sqc ass voc fk: Sequence status
 Subclass: Subclass
 Subspecies: Subspecies
@@ -457,7 +453,7 @@ Sqc ext est reference danss: is published in
 Sqc ext est realise pars: is integrated by
 Sqc est publie danss: is published in
 Sequence assemblee est realise pars: is generated by
-Est aligne et traites: is assembled from
+Est aligne et traites: is assembled
 Lot materiel ext est realise pars: is done by
 Lot materiel ext est reference danss: is published in
 Adn est realise pars: is extracted by

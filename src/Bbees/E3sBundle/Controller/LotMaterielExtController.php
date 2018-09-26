@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Lotmaterielext controller.
  *
  * @Route("lotmaterielext")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class LotMaterielExtController extends Controller
 {
@@ -46,9 +48,10 @@ class LotMaterielExtController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('lotMaterielExt.dateMaj' => 'desc', 'lotMaterielExt.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -99,6 +102,7 @@ class LotMaterielExtController extends Controller
             $tab_toshow[] = array("id" => $id, "lotMaterielExt.id" => $id, "lotMaterielExt.codeLotMaterielExt" => $entity->getCodeLotMaterielExt(),
              "listePersonne" => $listePersonne, "collecte.codeCollecte" => $entity->getCollecteFk()->getCodeCollecte(),
              "lotMaterielExt.dateCreationLotMaterielExt" => $DateLot ,"lotMaterielExt.dateCre" => $DateCre, "lotMaterielExt.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "lotMaterielExt.userCre" => $service->GetUserCreUsername($entity) ,"lotMaterielExt.userMaj" => $service->GetUserMajUsername($entity),
              "lastTaxname" => $lastTaxname, "lastdateIdentification" => $lastdateIdentification , "codeIdentification" => $codeIdentification ,
              "pays.nomPays" => $entity->getCollecteFk()->getStationFk()->getpaysFk()->getNomPays(),
              "commune.codeCommune" => $entity->getCollecteFk()->getStationFk()->getCommuneFk()->getCodeCommune(),);
@@ -125,6 +129,7 @@ class LotMaterielExtController extends Controller
      *
      * @Route("/new", name="lotmaterielext_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -175,6 +180,7 @@ class LotMaterielExtController extends Controller
      *
      * @Route("/{id}/edit", name="lotmaterielext_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, LotMaterielExt $lotMaterielExt)
     {
@@ -223,6 +229,7 @@ class LotMaterielExtController extends Controller
      *
      * @Route("/{id}", name="lotmaterielext_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, LotMaterielExt $lotMaterielExt)
     {

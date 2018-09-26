@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Bbees\E3sBundle\Entity\Collecte;
 use Bbees\E3sBundle\Entity\Station;
 use Bbees\E3sBundle\Entity\LotMateriel;
@@ -27,6 +28,7 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="default_index")
+     * @Security("has_role('ROLE_INVITED')")
      */
     public function indexAction()
     {

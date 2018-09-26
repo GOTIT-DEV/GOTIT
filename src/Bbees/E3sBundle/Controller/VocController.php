@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Voc controller.
  *
  * @Route("voc")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class VocController extends Controller
 {
@@ -45,9 +48,10 @@ class VocController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('voc.dateMaj' => 'desc', 'voc.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -78,7 +82,9 @@ class VocController extends Controller
              "voc.code" => $entity->getCode(),
              "voc.libelle" => $entity->getLibelle(),
              "voc.parent" => $entity->getParent(),
-             "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,);
+             "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "voc.userCre" => $service->GetUserCreUsername($entity) ,"voc.userMaj" => $service->GetUserMajUsername($entity),
+             );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -101,6 +107,7 @@ class VocController extends Controller
      *
      * @Route("/new", name="voc_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -150,6 +157,7 @@ class VocController extends Controller
      *
      * @Route("/{id}/edit", name="voc_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Voc $voc)
     {
@@ -183,6 +191,7 @@ class VocController extends Controller
      *
      * @Route("/{id}", name="voc_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Voc $voc)
     {

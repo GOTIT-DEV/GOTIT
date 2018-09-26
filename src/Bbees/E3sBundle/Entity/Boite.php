@@ -18,7 +18,7 @@ class Boite
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="boite_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -84,7 +84,7 @@ class Boite
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type_collection_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="type_collection_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $typeCollectionVocFk;
@@ -94,7 +94,7 @@ class Boite
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="code_collection_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="code_collection_voc_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $codeCollectionVocFk;
@@ -104,7 +104,7 @@ class Boite
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type_boite_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="type_boite_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $typeBoiteVocFk;

@@ -14,11 +14,13 @@ use Bbees\E3sBundle\Entity\Voc;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Boite controller.
  *
  * @Route("boite")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class BoiteController extends Controller
 {
@@ -50,9 +52,10 @@ class BoiteController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('boite.dateMaj' => 'desc', 'boite.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -90,7 +93,9 @@ class BoiteController extends Controller
              "vocCodeCollection.code" => $entity->getCodeCollectionVocFk()->getCode(),   
              "boite.libelleBoite" => $entity->getLibelleBoite(),
              "boite.libelleCollection" => $entity->getLibelleCollection(),
-             "boite.dateCre" => $DateCre, "boite.dateMaj" => $DateMaj,  );
+             "boite.dateCre" => $DateCre, "boite.dateMaj" => $DateMaj, 
+             "userCreId" => $service->GetUserCreId($entity), "boite.userCre" => $service->GetUserCreUsername($entity) ,"boite.userMaj" => $service->GetUserMajUsername($entity),
+              );
         }    
  
         // Reponse Ajax
@@ -114,6 +119,7 @@ class BoiteController extends Controller
      *
      * @Route("/new", name="boite_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -164,6 +170,7 @@ class BoiteController extends Controller
      *
      * @Route("/{id}/edit", name="boite_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Boite $boite)
     {
@@ -205,6 +212,7 @@ class BoiteController extends Controller
      *
      * @Route("/{id}", name="boite_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Boite $boite)
     {

@@ -18,7 +18,7 @@ class Collecte
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="collecte_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -105,7 +105,7 @@ class Collecte
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -115,7 +115,7 @@ class Collecte
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="leg_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="leg_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $legVocFk;
@@ -125,7 +125,7 @@ class Collecte
      *
      * @ORM\ManyToOne(targetEntity="Station")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="station_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="station_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $stationFk;

@@ -14,11 +14,13 @@ use Bbees\E3sBundle\Entity\Voc;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Motu controller.
  *
  * @Route("motu")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class MotuController extends Controller
 {
@@ -51,9 +53,10 @@ class MotuController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -95,6 +98,7 @@ class MotuController extends Controller
              "motu.commentaireMotu" => $entity->getCommentaireMotu(),
              "motu.dateMotu" => $DateMotu ,
              "motu.dateCre" => $DateCre, "motu.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "motu.userCre" => $service->GetUserCreUsername($entity) ,"motu.userMaj" => $service->GetUserMajUsername($entity),
              );
         }     
         // Reponse Ajax
@@ -118,6 +122,7 @@ class MotuController extends Controller
      *
      * @Route("/new", name="motu_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -167,6 +172,7 @@ class MotuController extends Controller
      *
      * @Route("/{id}/edit", name="motu_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function editAction(Request $request, Motu $motu)
     {        
@@ -209,6 +215,7 @@ class MotuController extends Controller
      *
      * @Route("/{id}", name="motu_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Motu $motu)
     {

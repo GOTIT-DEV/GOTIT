@@ -143,11 +143,47 @@
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             // on desactive le formulaire sequence assemblee
             $("form[name=form] :input").prop("disabled", true);
+            {% if not is_granted('ROLE_ADMIN') %}                   
+                {% if is_granted('ROLE_PROJECT') %} 
+                    // ROLE PROJECT : verouillage des champs : Gene; Individu;  Bouton "Ajouter un chromatogramme" et le champs "Code chromatogramme | specificite"
+                    $('#add_Chromatogramme').attr("style", "display:none");
+                    $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites div').children('a').each(function() {
+                        $(this).attr("style", "display:none"); 
+                    });                       
+                    $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
+                        $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", false); 
+                    });
+                {% else %} 
+                    // ROLE COLLABORATION :verouillage des champs :Gene; Individu; Code sequence assemblee; Statut sequence assemblee; Bouton "Ajouter un chromatogramme" et le champs "Code chromatogramme | specificite"; Code sequence alignee
+                    $('#add_Chromatogramme').attr("style", "display:none");
+                    $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites div').children('a').each(function() {
+                        $(this).attr("style", "display:none"); 
+                    });                       
+                    $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
+                        $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", false); 
+                    });
+                    $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
+                        $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", false); 
+                    }); 
+                    $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
+                        $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').attr("disabled", false); 
+                    });
+                    $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
+                        $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", false); 
+                    });
+                {% endif %}                     
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %}
             if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
             $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
             $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();})
+            $('#delete_Chromatogramme').on('change', function(){alert('Test click on delete_Chromatogramme');});
             {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
             {% else %} 
                 $('form[name="bbees_e3sbundle_sequenceassemblee"] :input').prop("disabled", true);

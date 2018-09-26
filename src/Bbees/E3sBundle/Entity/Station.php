@@ -17,7 +17,7 @@ class Station
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="station_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -111,7 +111,7 @@ class Station
      *
      * @ORM\ManyToOne(targetEntity="Commune")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="commune_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="commune_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $communeFk;
@@ -121,7 +121,7 @@ class Station
      *
      * @ORM\ManyToOne(targetEntity="Pays")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pays_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pays_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $paysFk;
@@ -131,7 +131,7 @@ class Station
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="point_acces_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="point_acces_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $pointAccesVocFk;
@@ -141,7 +141,7 @@ class Station
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $habitatTypeVocFk;
@@ -151,7 +151,7 @@ class Station
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="precision_lat_long_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="precision_lat_long_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $precisionLatLongVocFk;

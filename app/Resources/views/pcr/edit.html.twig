@@ -96,11 +96,29 @@
             // L'ajout d'un bouton Back to the adn
             addBackToRelatedRecord('pcr', 'adn', "{{'buton.Back to adn'|trans}}"); 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-            $('#bbees_e3sbundle_pcr_adnFk').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                // deverouillage des champ descativé pour permettre l enregistrement
-                $('#bbees_e3sbundle_pcr_adnFk').attr("disabled", false); 
-             }); 
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : ADN; Code PCR; Numero PCR; Amorce PCR sens; Amorce PCR antisens
+                $('#bbees_e3sbundle_pcr_adnFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
+                    $('#bbees_e3sbundle_pcr_adnFk').attr("disabled", false); 
+                 });  
+                $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
+                    $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", false); 
+                });   
+                $('#bbees_e3sbundle_pcr_numPcr').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
+                    $('#bbees_e3sbundle_pcr_numPcr').attr("disabled", false); 
+                }); 
+                $('#bbees_e3sbundle_pcr_primerPcrStartVocFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
+                    $('#bbees_e3sbundle_pcr_primerPcrStartVocFk').attr("disabled", false); 
+                }); 
+                $('#bbees_e3sbundle_pcr_primerPcrEndVocFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
+                    $('#bbees_e3sbundle_pcr_primerPcrEndVocFk').attr("disabled", false); 
+                }); 
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...

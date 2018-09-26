@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Individu
  *
- * @ORM\Table(name="individu", indexes={@ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"type_individu_voc_fk"}), @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"lot_materiel_fk"})})
+ * @ORM\Table(name="individu", uniqueConstraints={@ORM\UniqueConstraint(name="cu_individu_code_ind_tri_morpho", columns={"code_ind_tri_morpho"}), @ORM\UniqueConstraint(name="cu_individu_code_ind_biomol", columns={"code_ind_biomol"})}, indexes={@ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"type_individu_voc_fk"}), @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"lot_materiel_fk"})})
  * @ORM\Entity
  */
 class Individu
@@ -18,7 +18,7 @@ class Individu
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="individu_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -91,7 +91,7 @@ class Individu
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type_individu_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="type_individu_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $typeIndividuVocFk;
@@ -101,7 +101,7 @@ class Individu
      *
      * @ORM\ManyToOne(targetEntity="LotMateriel")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $lotMaterielFk;

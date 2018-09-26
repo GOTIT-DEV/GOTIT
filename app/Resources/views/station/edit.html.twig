@@ -75,6 +75,20 @@
     
     var nbSelectPays = 0;  
     $(document).ready(function(){
+        {% if action == 'new'  %} 
+            //  
+        {% endif %}
+        {% if action == 'edit'  %}   
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // verouillage du champ Roles
+            {% if not is_granted('ROLE_ADMIN') %}  
+                $('#bbees_e3sbundle_station_codeStation').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_station"]',function(ev){
+                $('#bbees_e3sbundle_station_codeStation').attr("disabled", false); 
+             });
+            {% endif %}
+        {% endif %}
+            
         // MAJ du codeStation, nomStation
         maj($('#bbees_e3sbundle_station_codeStation'));
         maj($('#bbees_e3sbundle_station_nomStation'));          
@@ -88,6 +102,7 @@
                 $listeOptionCommune =  $('select#bbees_e3sbundle_station_communeFk').find('option');
             }
             var paysCode = $('#bbees_e3sbundle_station_paysFk option:selected').text();
+            paysCode = paysCode.split(' ').join('_');
             var paysId = $('#bbees_e3sbundle_station_paysFk option:selected').val();           
             $('#myModalCommune').find('#bbees_e3sbundle_commune_paysFk').val(paysId);
             // modification de la liste déroulante des communes

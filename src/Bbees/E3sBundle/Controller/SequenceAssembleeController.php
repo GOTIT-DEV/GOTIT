@@ -16,11 +16,13 @@ use Bbees\E3sBundle\Entity\Individu;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Sequenceassemblee controller.
  *
  * @Route("sequenceassemblee")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class SequenceAssembleeController extends Controller
 {
@@ -62,9 +64,10 @@ class SequenceAssembleeController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -140,7 +143,9 @@ class SequenceAssembleeController extends Controller
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
              "motuAssigne" => $motuAssigne ,   
-             "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj,  );
+             "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj, 
+             "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
+             );
         }    
  
         // Reponse Ajax
@@ -164,6 +169,7 @@ class SequenceAssembleeController extends Controller
      *
      * @Route("/new", name="sequenceassemblee_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -244,6 +250,7 @@ class SequenceAssembleeController extends Controller
      *
      * @Route("/{id}/edit", name="sequenceassemblee_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, SequenceAssemblee $sequenceAssemblee)
     {
@@ -311,6 +318,7 @@ class SequenceAssembleeController extends Controller
      *
      * @Route("/{id}", name="sequenceassemblee_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee)
     {
@@ -420,38 +428,39 @@ class SequenceAssembleeController extends Controller
         $EspeceIdentifiees =  $sequenceAssemblee->getEspeceIdentifiees();
         $nbEspeceIdentifiees = count($EspeceIdentifiees);
         $eaetId = $sequenceAssemblee->getEstAligneEtTraites()[0]->getId();
+        $nbChromato = count($sequenceAssemblee->getEstAligneEtTraites());
 
-        //var_dump(self::DATEINF_SQCALIGNEMENT_AUTO); var_dump($DateMAJ); var_dump(date("Y-m-d"));
-        if(date("Y-m-d") > self::DATEINF_SQCALIGNEMENT_AUTO) {
-            // 
-            if($eaetId != null && $nbEspeceIdentifiees>0) {
-                // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
-                $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
-                $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees-1]->getReferentielTaxonFk()->getCodeTaxon();
-                $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;          
-                // Le code de la collecte, le num_ind_biomol 
-                $Chromatogramme1 = $sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk();
-                $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getNumIndBiomol();
-                $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
-                $codeSqcAlignement = $codeSqcAlignement.'_'.$codeCollecte.'_'.$numIndBiomol;
-                //  la concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
-                $arrayCodeChromato = array();
-                foreach ($sequenceAssemblee->getEstAligneEtTraites() as $entityEstAligneEtTraites) {
-                     $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
-                     $specificite = $entityEstAligneEtTraites->getChromatogrammeFk()->getPcrFk()->getSpecificiteVocFk()->getCode();
-                     $arrayCodeChromato[] = $codeChromato.'|'.$specificite;
-                }
-                sort($arrayCodeChromato);
-                $listeCodeChromato = implode("-", $arrayCodeChromato);
-                $codeSqcAlignement = $codeSqcAlignement.'_'.$listeCodeChromato;
-                //var_dump($lastCodeTaxon); var_dump($eaetId); var_dump($numIndBiomol);var_dump($codeCollecte);var_dump($listeCodeChromato);var_dump($codeSqcAlignement); exit; 
-            } 
-            return $codeSqcAlignement;
-        } else {
-            // PAS de changement de CodeSqcAlignement SI la date de MAJ < DATEINF_SQCALIGNEMENT_AUTO
-            return $sequenceAssemblee->getCodeSqcAlignement();
-        }
+        //var_dump(self::DATEINF_SQCALIGNEMENT_AUTO); var_dump(date("Y-m-d")); var_dump($eaetId); var_dump($nbEspeceIdentifiees); 
+        //var_dump(count($sequenceAssemblee->getEstAligneEtTraites()));    
+        //var_dump($sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk()->getCodeChromato());
+        //var_dump($sequenceAssemblee->getEstAligneEtTraites()[0]->getId());
+        //exit();
         
+        if( $nbChromato > 0 && $nbEspeceIdentifiees>0 ) {
+            // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
+            $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
+            $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees-1]->getReferentielTaxonFk()->getCodeTaxon();
+            $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;          
+            // Le code de la collecte, le num_ind_biomol 
+            $Chromatogramme1 = $sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk();
+            $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getNumIndBiomol();
+            $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
+            $codeSqcAlignement = $codeSqcAlignement.'_'.$codeCollecte.'_'.$numIndBiomol;
+            //  la concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
+            $arrayCodeChromato = array();
+            foreach ($sequenceAssemblee->getEstAligneEtTraites() as $entityEstAligneEtTraites) {
+                 $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
+                 $specificite = $entityEstAligneEtTraites->getChromatogrammeFk()->getPcrFk()->getSpecificiteVocFk()->getCode();
+                 $arrayCodeChromato[] = $codeChromato.'|'.$specificite;
+            }
+            sort($arrayCodeChromato);
+            $listeCodeChromato = implode("-", $arrayCodeChromato);
+            $codeSqcAlignement = $codeSqcAlignement.'_'.$listeCodeChromato;
+            //var_dump($lastCodeTaxon); var_dump($eaetId); var_dump($numIndBiomol);var_dump($codeCollecte);var_dump($listeCodeChromato);var_dump($codeSqcAlignement); exit; 
+        } else {
+            $codeSqcAlignement = null;
+        }
+        return $codeSqcAlignement;        
         
     }
 }

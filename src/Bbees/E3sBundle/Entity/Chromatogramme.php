@@ -17,7 +17,7 @@ class Chromatogramme
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="chromatogramme_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -76,7 +76,7 @@ class Chromatogramme
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primer_chromato_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="primer_chromato_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $primerChromatoVocFk;
@@ -86,7 +86,7 @@ class Chromatogramme
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="qualite_chromato_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="qualite_chromato_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $qualiteChromatoVocFk;
@@ -96,7 +96,7 @@ class Chromatogramme
      *
      * @ORM\ManyToOne(targetEntity="Etablissement")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="etablissement_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="etablissement_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $etablissementFk;
@@ -106,7 +106,7 @@ class Chromatogramme
      *
      * @ORM\ManyToOne(targetEntity="Pcr")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $pcrFk;

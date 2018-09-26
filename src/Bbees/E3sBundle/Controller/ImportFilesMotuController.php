@@ -10,11 +10,13 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * ImportIndividu controller.
 *
 * @Route("importfilesmotu")
+* @Security("has_role('ROLE_PROJECT')")
 */
 class ImportFilesMotuController extends Controller
 {
@@ -32,27 +34,24 @@ class ImportFilesMotuController extends Controller
         $message = ""; 
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
-        $form = $this->createFormBuilder()
-                ->setMethod('POST')
-                ->add('motuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Motu',
-                     'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('motu')
-                               ->leftJoin('BbeesE3sBundle:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
-                               ->where('assigne.id IS NULL') 
-                               ;
-                        }, 
-                    'placeholder' => 'import.motu-assigne', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false))  
-/*                ->add('type_csv', ChoiceType::class, array(
-                    'choice_translation_domain' => false,
-                    'choices'  => array(
-                         ' ' => array('Motu' => 'motu',),
-                         '   ' => array('Vocabulaire' => 'vocabulaire','Personne' => 'personne',),)
-                    ))
-*/
-                ->add('fichier', FileType::class)
-                ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-                ->getForm();
+        //creation du formulaire / ROLES
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->getRole() == 'ROLE_ADMIN') {
+            $form = $this->createFormBuilder()
+                    ->setMethod('POST')
+                    ->add('motuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Motu',
+                         'query_builder' => function (EntityRepository $er) {
+                                return $er->createQueryBuilder('motu')
+                                   ->leftJoin('BbeesE3sBundle:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
+                                   ->where('assigne.id IS NULL') 
+                                   ;
+                            }, 
+                        'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false))  
+                    ->add('fichier', FileType::class)
+                    ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                    ->getForm();         
+        }
         $form->handleRequest($request);
         
         if ($form->isSubmitted()){ //recuperation des données et traitement 
@@ -67,16 +66,16 @@ class ImportFilesMotuController extends Controller
                     if ($form->get('fichier')->getData() !== NULL) {
                         // suppression des donnéee assignées 
                         //var_dump($form->get('motuFk')->getData()); exit;
-                        $message .= $importFileE3sService->importCSVDataMotuFile($fichier,$form->get('motuFk')->getData() );
+                        $message .= $importFileE3sService->importCSVDataMotuFile($fichier,$form->get('motuFk')->getData(), $user->getId() );
                     } else {
                         $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
                     }
                     break;
                 case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier);
+                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
                     break;
                 case 'personne':
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier);
+                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
                     break;
                 default:
                    $message .=  "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

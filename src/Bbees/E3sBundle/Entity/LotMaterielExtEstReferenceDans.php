@@ -17,7 +17,7 @@ class LotMaterielExtEstReferenceDans
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="lot_materiel_ext_est_reference_dans_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class LotMaterielExtEstReferenceDans
      *
      * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="lotMaterielExtEstReferenceDanss")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lot_materiel_ext_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="lot_materiel_ext_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $lotMaterielExtFk;
@@ -65,7 +65,7 @@ class LotMaterielExtEstReferenceDans
      *
      * @ORM\ManyToOne(targetEntity="Source")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $sourceFk;

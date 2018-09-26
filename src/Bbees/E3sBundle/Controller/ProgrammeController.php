@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Programme controller.
  *
  * @Route("programme")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class ProgrammeController extends Controller
 {
@@ -45,9 +48,10 @@ class ProgrammeController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');         
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('programme.dateMaj' => 'desc', 'programme.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -81,7 +85,9 @@ class ProgrammeController extends Controller
              "programme.nomsResponsables" => $entity->getNomsResponsables(),
              "programme.anneeDebut" => $entity->getAnneeDebut(),
              "programme.anneeFin" => $entity->getAnneeFin(),
-             "programme.dateCre" => $DateCre, "programme.dateMaj" => $DateMaj,);
+             "programme.dateCre" => $DateCre, "programme.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "programme.userCre" => $service->GetUserCreUsername($entity) ,"programme.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -104,6 +110,7 @@ class ProgrammeController extends Controller
      *
      * @Route("/new", name="programme_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function newAction(Request $request)
     {
@@ -223,6 +230,7 @@ class ProgrammeController extends Controller
      *
      * @Route("/{id}/edit", name="programme_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function editAction(Request $request, Programme $programme)
     {
@@ -256,6 +264,7 @@ class ProgrammeController extends Controller
      *
      * @Route("/{id}", name="programme_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_PROJECT')")
      */
     public function deleteAction(Request $request, Programme $programme)
     {

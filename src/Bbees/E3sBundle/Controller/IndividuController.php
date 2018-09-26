@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Individu controller.
  *
  * @Route("individu")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class IndividuController extends Controller
 {
@@ -47,9 +49,10 @@ class IndividuController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('individu.dateMaj' => 'desc', 'individu.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -105,6 +108,7 @@ class IndividuController extends Controller
              "lastdateIdentification" => $lastdateIdentification ,
              "codeIdentification" => $codeIdentification ,
              "individu.dateCre" => $DateCre, "individu.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "individu.userCre" => $service->GetUserCreUsername($entity) ,"individu.userMaj" => $service->GetUserMajUsername($entity),
              "linkAdn" => $linkAdn, "linkIndividulame" => $linkIndividulame );
         }     
         // Reponse Ajax
@@ -128,6 +132,7 @@ class IndividuController extends Controller
      *
      * @Route("/new", name="individu_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -179,9 +184,17 @@ class IndividuController extends Controller
      *
      * @Route("/{id}/edit", name="individu_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Individu $individu)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $individu->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
+        
         // recuperation du service generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');    
         // memorisation des ArrayCollection        
@@ -238,6 +251,7 @@ class IndividuController extends Controller
      *
      * @Route("/{id}", name="individu_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Individu $individu)
     {

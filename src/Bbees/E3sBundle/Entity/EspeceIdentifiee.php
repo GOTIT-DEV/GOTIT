@@ -18,7 +18,7 @@ class EspeceIdentifiee
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="espece_identifiee_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -70,7 +70,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="critere_identification_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="critere_identification_voc_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $critereIdentificationVocFk;
@@ -80,7 +80,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -90,7 +90,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="especeIdentifiees")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_ext_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_ext_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $sequenceAssembleeExtFk;
@@ -100,7 +100,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="especeIdentifiees")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lot_materiel_ext_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="lot_materiel_ext_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $lotMaterielExtFk;
@@ -110,7 +110,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="especeIdentifiees")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="lot_materiel_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $lotMaterielFk;
@@ -120,7 +120,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="referentiel_taxon_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="referentiel_taxon_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $referentielTaxonFk;
@@ -130,7 +130,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="Individu", inversedBy="especeIdentifiees")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $individuFk;
@@ -140,7 +140,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="especeIdentifiees")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $sequenceAssembleeFk;

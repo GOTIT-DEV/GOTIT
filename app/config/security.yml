@@ -1,24 +1,47 @@
-# To get started with security, check out the documentation:
+  # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
-
+    
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Bbees\UserBundle\Entity\User: plaintext
+        
+    role_hierarchy:
+        ROLE_COLLABORATION: ROLE_INVITED
+        ROLE_PROJECT: ROLE_COLLABORATION
+        ROLE_ADMIN: ROLE_PROJECT
+        
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        our_db_provider:
+            entity:
+                class: BbeesUserBundle:User
+                property: username
+                # if you're using multiple entity managers
+                # manager_name: customer
+
+    
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
+            security: false          
         main:
+            pattern: ^/
             anonymous: ~
+            provider: our_db_provider
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
             #http_basic: ~
 
             # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
+                target: login

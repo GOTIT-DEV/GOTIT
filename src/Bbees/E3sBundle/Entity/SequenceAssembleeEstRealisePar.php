@@ -17,7 +17,7 @@ class SequenceAssembleeEstRealisePar
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="sequence_assemblee_est_realise_par_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class SequenceAssembleeEstRealisePar
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sequenceAssembleeEstRealisePars")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $sequenceAssembleeFk;
@@ -65,7 +65,7 @@ class SequenceAssembleeEstRealisePar
      *
      * @ORM\ManyToOne(targetEntity="Personne")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="personne_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $personneFk;

@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Collecte controller.
  *
  * @Route("collecte")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class CollecteController extends Controller
 {
@@ -48,9 +50,10 @@ class CollecteController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('collecte.dateMaj' => 'desc', 'collecte.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -82,6 +85,8 @@ class CollecteController extends Controller
         foreach($entities_toshow as $entity)
         {
             $id = $entity->getId();
+            // initialisation des variables user : userCreId, userMajId , userCre, userMaj
+            //
             $DateCollecte = ($entity->getDateCollecte() !== null) ?  $entity->getDateCollecte()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
@@ -108,7 +113,9 @@ class CollecteController extends Controller
              "pays.nomPays" => $entity->getStationFk()->getPaysFk()->getNomPays(),
              "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
              "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
-             "collecte.dateCollecte" => $DateCollecte,  "collecte.aFaire" => $entity->getAfaire(),"collecte.dateCre" => $DateCre, "collecte.dateMaj" => $DateMaj,
+             "collecte.dateCollecte" => $DateCollecte,  "collecte.aFaire" => $entity->getAfaire(),
+             "collecte.dateCre" => $DateCre, "collecte.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "collecte.userCre" => $service->GetUserCreUsername($entity) ,"collecte.userMaj" => $service->GetUserMajUsername($entity),
              "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "linkSequenceassembleeext" => $linkSequenceassembleeextFk, 
              "listeTaxonsCibler" => $listeTaxonsCibler );
         }     
@@ -132,6 +139,7 @@ class CollecteController extends Controller
      *
      * @Route("/new", name="collecte_new")
      * @Method({"GET", "POST"}) 
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -181,12 +189,20 @@ class CollecteController extends Controller
      *
      * @Route("/{id}/edit", name="collecte_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Collecte $collecte)
     {
-        // recueration du service generic_function_e3s
-        $service = $this->get('bbees_e3s.generic_function_e3s');
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
         
+        // recuperation du service generic_function_e3s
+        $service = $this->get('bbees_e3s.generic_function_e3s');
+
         // memorisation des ArrayCollection EstFinancePar       
         $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods',$collecte);
         $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs',$collecte);
@@ -235,6 +251,7 @@ class CollecteController extends Controller
      *
      * @Route("/{id}", name="collecte_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Collecte $collecte)
     {

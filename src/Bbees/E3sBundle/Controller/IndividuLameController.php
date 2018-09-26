@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Individulame controller.
@@ -23,6 +24,7 @@ class IndividuLameController extends Controller
      *
      * @Route("/", name="individulame_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_INVITED')")
      */
     public function indexAction()
     {
@@ -47,9 +49,10 @@ class IndividuLameController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('individuLame.dateMaj' => 'desc', 'individuLame.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -81,6 +84,14 @@ class IndividuLameController extends Controller
         foreach($toshow as $entity)
         {
             $id = $entity->getId();
+            // initialisation des variables user : userCreId, userMajId , userCre, userMaj
+            $userCreId = ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
+            $query = $em->createQuery('SELECT user.username FROM BbeesUserBundle:User user WHERE user.id = '.$userCreId.'')->getResult();
+            $userCre = (count($query) > 0) ? $query[0]['username'] : 'NA';
+            $userMajId = ($entity->getUserMaj() !== null) ? $entity->getUserMaj() : 0;
+            $query = $em->createQuery('SELECT user.username FROM BbeesUserBundle:User user WHERE user.id = '.$userMajId.'')->getResult();
+            $userMaj = (count($query) > 0) ? $query[0]['username'] : 'NA';
+            //
             $idIndividu = $entity->getIndividuFk()->getId();
             $codeBoite = ($entity->getBoiteFk() !== null) ?  $entity->getBoiteFk()->getCodeBoite() : null;
             $DateLame = ($entity->getDateLame() !== null) ?  $entity->getDateLame()->format('Y-m-d') : null;
@@ -105,7 +116,8 @@ class IndividuLameController extends Controller
              "codeIdentification" => $codeIdentification,
              "boite.codeBoite" => $codeBoite,
              "individuLame.nomDossierPhotos" => $entity->getNomDossierPhotos(),
-             "individuLame.dateCre" => $DateCre, "individuLame.dateMaj" => $DateMaj
+             "individuLame.dateCre" => $DateCre, "individuLame.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "individuLame.userCre" => $service->GetUserCreUsername($entity) ,"individuLame.userMaj" => $service->GetUserMajUsername($entity)
              );
         }     
         // Reponse Ajax
@@ -129,6 +141,7 @@ class IndividuLameController extends Controller
      *
      * @Route("/new", name="individulame_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -179,6 +192,7 @@ class IndividuLameController extends Controller
      *
      * @Route("/{id}/edit", name="individulame_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, IndividuLame $individuLame)
     {
@@ -221,6 +235,7 @@ class IndividuLameController extends Controller
      *
      * @Route("/{id}", name="individulame_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, IndividuLame $individuLame)
     {

@@ -18,7 +18,7 @@ class IndividuLame
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="individu_lame_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -91,7 +91,7 @@ class IndividuLame
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -101,7 +101,7 @@ class IndividuLame
      *
      * @ORM\ManyToOne(targetEntity="Boite", inversedBy="individuLames")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $boiteFk;
@@ -111,7 +111,7 @@ class IndividuLame
      *
      * @ORM\ManyToOne(targetEntity="Individu")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $individuFk;

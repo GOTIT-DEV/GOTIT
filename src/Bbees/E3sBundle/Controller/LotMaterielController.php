@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Lotmateriel controller.
  *
  * @Route("lotmateriel")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class LotMaterielController extends Controller
 {
@@ -46,9 +48,10 @@ class LotMaterielController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('lotMateriel.dateMaj' => 'desc', 'lotMateriel.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -106,6 +109,7 @@ class LotMaterielController extends Controller
              "pays.nomPays" => $entity->getCollecteFk()->getStationFk()->getpaysFk()->getNomPays(),
              "lotMateriel.aFaire" => $entity->getAfaire(),   
              "commune.codeCommune" => $entity->getCollecteFk()->getStationFk()->getCommuneFk()->getCodeCommune(),
+             "userCreId" => $service->GetUserCreId($entity), "lotMateriel.userCre" => $service->GetUserCreUsername($entity) ,"lotMateriel.userMaj" => $service->GetUserMajUsername($entity),
              "linkIndividu" => $linkIndividu, "linkIndividu_codestation" => "%|".$codeStation."_%",);
         }     
         // Reponse Ajax
@@ -129,6 +133,7 @@ class LotMaterielController extends Controller
      *
      * @Route("/new", name="lotmateriel_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -179,9 +184,16 @@ class LotMaterielController extends Controller
      *
      * @Route("/{id}/edit", name="lotmateriel_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, LotMateriel $lotMateriel)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $lotMateriel->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
         // recuperation du service generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');
         
@@ -231,6 +243,7 @@ class LotMaterielController extends Controller
      *
      * @Route("/{id}", name="lotmateriel_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, LotMateriel $lotMateriel)
     {

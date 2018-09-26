@@ -14,11 +14,13 @@ use Bbees\E3sBundle\Entity\Voc;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Sequenceassembleeext controller.
  *
  * @Route("sequenceassembleeext")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class SequenceAssembleeExtController extends Controller
 {
@@ -50,9 +52,10 @@ class SequenceAssembleeExtController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');            
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssembleeExt.dateMaj' => 'desc', 'sequenceAssembleeExt.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -119,7 +122,9 @@ class SequenceAssembleeExtController extends Controller
              "codeIdentification" => $codeIdentification ,
              "listSource" => $listSource, 
              "motuAssigne" => $motuAssigne ,
-             "sequenceAssembleeExt.dateCre" => $DateCre, "sequenceAssembleeExt.dateMaj" => $DateMaj,  );
+             "sequenceAssembleeExt.dateCre" => $DateCre, "sequenceAssembleeExt.dateMaj" => $DateMaj,  
+             "userCreId" => $service->GetUserCreId($entity), "sequenceAssembleeExt.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssembleeExt.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }    
  
         // Reponse Ajax
@@ -143,6 +148,7 @@ class SequenceAssembleeExtController extends Controller
      *
      * @Route("/new", name="sequenceassembleeext_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -192,6 +198,7 @@ class SequenceAssembleeExtController extends Controller
      *
      * @Route("/{id}/edit", name="sequenceassembleeext_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt)
     {
@@ -244,6 +251,7 @@ class SequenceAssembleeExtController extends Controller
      *
      * @Route("/{id}", name="sequenceassembleeext_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt)
     {

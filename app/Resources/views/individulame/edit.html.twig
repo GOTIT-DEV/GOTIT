@@ -94,12 +94,19 @@
         {% if action == 'edit'  %} 
             // L'ajout d'un bouton Back to the individu
             addBackToRelatedRecord('individulame', 'individu', "{{'buton.Back to individu'|trans}}");
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-            $('#bbees_e3sbundle_individulame_individuFk').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_individulame"]',function(ev){
-                // deverouillage des champ descativé pour permettre l enregistrement
-                $('#bbees_e3sbundle_individulame_individuFk').attr("disabled", false); 
-             }); 
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : Station; Code collecte; Date collecte
+                $('#bbees_e3sbundle_individulame_individuFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_individulame"]',function(ev){
+                    // deverouillage des champ descativé pour permettre l enregistrement
+                    $('#bbees_e3sbundle_individulame_individuFk').attr("disabled", false); 
+                 });
+                $('#bbees_e3sbundle_individulame_codeLameColl').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_individulame"]',function(ev){
+                    $('#bbees_e3sbundle_individulame_codeLameColl').attr("disabled", false); 
+                });                 
+            {% endif %}
         {% endif %}
          {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...

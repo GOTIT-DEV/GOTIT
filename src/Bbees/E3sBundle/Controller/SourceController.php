@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Source controller.
  *
  * @Route("source")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class SourceController extends Controller
 {
@@ -46,9 +48,10 @@ class SourceController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('source.dateMaj' => 'desc', 'source.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -79,7 +82,9 @@ class SourceController extends Controller
              "source.codeSource" => $entity->getCodeSource(),
              "source.anneeSource" => $entity->getAnneeSource(),
              "source.libelleSource" => $entity->getLibelleSource(),
-             "source.dateCre" => $DateCre, "source.dateMaj" => $DateMaj,);
+             "source.dateCre" => $DateCre, "source.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "source.userCre" => $service->GetUserCreUsername($entity) ,"source.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -102,6 +107,7 @@ class SourceController extends Controller
      *
      * @Route("/new", name="source_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -152,6 +158,7 @@ class SourceController extends Controller
      *
      * @Route("/{id}/edit", name="source_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, Source $source)
     {
@@ -193,6 +200,7 @@ class SourceController extends Controller
      *
      * @Route("/{id}", name="source_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function deleteAction(Request $request, Source $source)
     {

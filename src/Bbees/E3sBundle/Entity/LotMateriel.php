@@ -18,7 +18,7 @@ class LotMateriel
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="lot_materiel_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -91,7 +91,7 @@ class LotMateriel
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -101,7 +101,7 @@ class LotMateriel
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $pigmentationVocFk;
@@ -111,7 +111,7 @@ class LotMateriel
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="yeux_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="yeux_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $yeuxVocFk;
@@ -121,7 +121,7 @@ class LotMateriel
      *
      * @ORM\ManyToOne(targetEntity="Collecte")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $collecteFk;
@@ -131,7 +131,7 @@ class LotMateriel
      *
      * @ORM\ManyToOne(targetEntity="Boite", inversedBy="lotMateriels")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $boiteFk;

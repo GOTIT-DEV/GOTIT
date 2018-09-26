@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Pcr controller.
  *
  * @Route("pcr")
+ * @Security("has_role('ROLE_INVITED')")
+ * 
  */
 class PcrController extends Controller
 {
@@ -47,9 +50,10 @@ class PcrController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('pcr.dateMaj' => 'desc', 'pcr.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -107,6 +111,7 @@ class PcrController extends Controller
              "vocQualitePcr.code" => $entity->getQualitePcrVocFk()->getCode(), 
              "vocSpecificite.code" => $entity->getSpecificiteVocFk()->getCode(), 
              "pcr.dateCre" => $DateCre, "pcr.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "pcr.userCre" => $service->GetUserCreUsername($entity) ,"pcr.userMaj" => $service->GetUserMajUsername($entity),
              "linkChromatogramme" => $linkChromatogramme,);
         }     
         // Reponse Ajax
@@ -130,6 +135,7 @@ class PcrController extends Controller
      *
      * @Route("/new", name="pcr_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function newAction(Request $request)
     {
@@ -179,6 +185,8 @@ class PcrController extends Controller
      *
      * @Route("/{id}/edit", name="pcr_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_COLLABORATION')")
+     * 
      */
     public function editAction(Request $request, Pcr $pcr)
     {
@@ -223,6 +231,8 @@ class PcrController extends Controller
      *
      * @Route("/{id}", name="pcr_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_COLLABORATION')")
+     * 
      */
     public function deleteAction(Request $request, Pcr $pcr)
     {

@@ -18,7 +18,7 @@ class LotMaterielExt
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="lot_materiel_ext_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -84,7 +84,7 @@ class LotMaterielExt
      *
      * @ORM\ManyToOne(targetEntity="Collecte")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $collecteFk;
@@ -94,7 +94,7 @@ class LotMaterielExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -104,7 +104,7 @@ class LotMaterielExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="nb_individus_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="nb_individus_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $nbIndividusVocFk;
@@ -114,7 +114,7 @@ class LotMaterielExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $pigmentationVocFk;
@@ -124,7 +124,7 @@ class LotMaterielExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="yeux_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="yeux_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $yeuxVocFk;

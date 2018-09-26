@@ -18,7 +18,7 @@ class SequenceAssemblee
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="sequence_assemblee_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -102,7 +102,7 @@ class SequenceAssemblee
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -112,7 +112,7 @@ class SequenceAssemblee
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="statut_sqc_ass_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="statut_sqc_ass_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $statutSqcAssVocFk;

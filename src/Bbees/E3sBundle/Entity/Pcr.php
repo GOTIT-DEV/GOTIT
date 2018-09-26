@@ -18,7 +18,7 @@ class Pcr
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="pcr_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -91,7 +91,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $geneVocFk;
@@ -101,7 +101,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="qualite_pcr_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="qualite_pcr_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $qualitePcrVocFk;
@@ -111,7 +111,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="specificite_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="specificite_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $specificiteVocFk;
@@ -121,7 +121,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primer_pcr_start_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="primer_pcr_start_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $primerPcrStartVocFk;
@@ -131,7 +131,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primer_pcr_end_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="primer_pcr_end_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $primerPcrEndVocFk;
@@ -141,7 +141,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -151,7 +151,7 @@ class Pcr
      *
      * @ORM\ManyToOne(targetEntity="Adn")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="adn_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="adn_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $adnFk;

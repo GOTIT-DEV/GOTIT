@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Pay controller.
  *
  * @Route("pays")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class PaysController extends Controller
 {
@@ -44,9 +47,10 @@ class PaysController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');           
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -76,7 +80,9 @@ class PaysController extends Controller
             $tab_toshow[] = array("id" => $id, "pays.id" => $id, 
              "pays.codePays" => $entity->getCodePays(),
              "pays.nomPays" => $entity->getNomPays(),
-             "pays.dateCre" => $DateCre, "pays.dateMaj" => $DateMaj,);
+             "pays.dateCre" => $DateCre, "pays.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "pays.userCre" => $service->GetUserCreUsername($entity) ,"pays.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -99,6 +105,7 @@ class PaysController extends Controller
      *
      * @Route("/new", name="pays_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -148,6 +155,7 @@ class PaysController extends Controller
      *
      * @Route("/{id}/edit", name="pays_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Pays $pays)
     {
@@ -181,6 +189,7 @@ class PaysController extends Controller
      *
      * @Route("/{id}", name="pays_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Pays $pays)
     {

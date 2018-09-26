@@ -1,7 +1,3 @@
-# ajouter  26/09/2018
-title.User: Utilisateur
-list.User cre: User Create
-list.User maj: User Update
 #
 list.MotuAssigne: MOTU
 title.Import Files CSV: Import des fichiers CSV
@@ -19,8 +15,8 @@ buton.Back to adn: Retour à l'ADN
 buton.Back to pcr: Retour à la PCR
 buton.Back to chromatogramme: Retour au Chromatogramme
 buton.Back to pcrchromato: Retour à la PCR
-buton.Back to sequenceassemblee: Retour à la Sequence interne
-buton.Back to sequenceassembleeext: Retour à la Sequence externe
+buton.Back to sequenceassemblee: Retour à la Sequences internes
+buton.Back to sequenceassembleeext: Retour à la Sequences externes
 buton.Back to motu: Retour au MOTU
 buton.Back to boite: Retour à la Boite
 buton.Back to source: Retour à la Source
@@ -33,7 +29,7 @@ buton.Back to the list of individulame: Retour à la liste des Lames
 buton.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
 buton.Back to the list of adn: Retour à la liste des ADN
 buton.Back to the list of pcr: Retour à la liste des PCR
-buton.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
+buton.Back to the list of chromatogramme: Retour à la liste des Chromatogramme
 buton.Back to the list of pcrchromato: Retour à la liste des PCR
 buton.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
 buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
@@ -64,8 +60,8 @@ Dashboard.nbPcr : PCR
 Dashboard.nbChromatogramme: Chromatogramme
 Dashboard.nbSequenceAssemblee: Séquence ADN
 Dashboard.Données de terrain: Données de terrain
-Dashboard.Données moléculaire: Données moléculaires
-Dashboard.LastUpdate: Dernières mises à jour
+Dashboard.Données moléculaire: Données moléculaire
+Dashboard.LastUpdate: Dernières mise à jour
 Dashboard.Tools: Outils métiers
 # champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
 Libelle motu: libelle MOTU
@@ -290,7 +286,7 @@ Sqc ext est reference danss: Est publiee dans
 Sqc ext est realise pars: Est realisee par
 Sqc est publie danss: Est publiee dans
 Sequence assemblee est realise pars: Est assemblee par
-Est aligne et traites: Provient de
+Est aligne et traites: Est traite par
 Lot materiel ext est realise pars: Est realise par
 Lot materiel ext est reference danss: Est publie dans
 Adn est realise pars: Est extrait par
@@ -329,8 +325,8 @@ buton.Import individu lame range: Stocker des lames
 buton.Import lot materiel deplace: Deplacer supprimer des lots materiels
 buton.Import lot materiel range: Stocker des lots materiels
 buton.NewBoite: Creer une nouvelle boite
-buton.Import sqc assemblee publie: Referencer des sequences assemblees
-buton.Import lot materiel publie: Referencer des lots materiels
+buton.Import sqc assemblee publie: Importer des sequences assemblees publiees
+buton.Import lot materiel publie: Importer des lots materiels publies
 buton.ImportSource: Importer des sources
 buton.NewSource: Creer une source
 buton.NewVoc: Creer un vocabulaire

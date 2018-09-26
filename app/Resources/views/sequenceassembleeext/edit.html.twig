@@ -143,6 +143,38 @@
         // fonctionnalités spécifiques : generation automatiquement du  codeChromato
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : Collecte; Code sequence externe assemblee; Code sequence externe alignee; Numero d ordre; 
+                // verouillage des champs : Numero moleculaire individu sequence externe assemblee; Origine sequence externe assemblee; Statut sequence assemblee
+                $('#bbees_e3sbundle_sequenceassembleeext_collecteFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_collecteFk').attr("disabled", false); 
+                }); 
+                $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt').attr("disabled", false); 
+                }); 
+                                $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement').attr("disabled", false); 
+                }); 
+                                $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt').attr("disabled", false); 
+                }); 
+                                $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt').attr("disabled", false); 
+                }); 
+                                $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk').attr("disabled", false); 
+                }); 
+                                $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassembleeext"]',function(ev){
+                    $('#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk').attr("disabled", false); 
+                }); 
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %}  
             $('#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees').change(function (e) { setCodeSqcAssExt();})

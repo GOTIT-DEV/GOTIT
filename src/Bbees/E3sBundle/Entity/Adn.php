@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Adn
  *
- * @ORM\Table(name="adn", indexes={@ORM\Index(name="adn_code_adn", columns={"code_adn"}), @ORM\Index(name="cle_etrangere1", columns={"date_precision_voc_fk"}), @ORM\Index(name="cle_etrangere3", columns={"individu_fk"}), @ORM\Index(name="cle_etrangere", columns={"methode_extraction_adn_voc_fk"}), @ORM\Index(name="cle_etrangere2", columns={"boite_fk"}), @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"qualite_adn_voc_fk"})})
+ * @ORM\Table(name="adn", uniqueConstraints={@ORM\UniqueConstraint(name="cu_adn_cle_primaire", columns={"code_adn"})}, indexes={@ORM\Index(name="adn_code_adn", columns={"code_adn"}), @ORM\Index(name="cle_etrangere1", columns={"date_precision_voc_fk"}), @ORM\Index(name="cle_etrangere3", columns={"individu_fk"}), @ORM\Index(name="cle_etrangere", columns={"methode_extraction_adn_voc_fk"}), @ORM\Index(name="cle_etrangere2", columns={"boite_fk"}), @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"qualite_adn_voc_fk"})})
  * @ORM\Entity
  */
 class Adn
@@ -18,7 +18,7 @@ class Adn
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="adn_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -84,7 +84,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -94,7 +94,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="methode_extraction_adn_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="methode_extraction_adn_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $methodeExtractionAdnVocFk;
@@ -104,7 +104,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Individu")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="individu_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $individuFk;
@@ -114,7 +114,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="qualite_adn_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="qualite_adn_voc_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $qualiteAdnVocFk;
@@ -124,7 +124,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Boite", inversedBy="adns")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="boite_fk", referencedColumnName="id", nullable=true)
      * })
      */
     private $boiteFk;

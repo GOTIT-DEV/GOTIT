@@ -18,7 +18,7 @@ class SequenceAssembleeExt
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="sequence_assemblee_ext_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -105,7 +105,7 @@ class SequenceAssembleeExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $geneVocFk;
@@ -115,7 +115,7 @@ class SequenceAssembleeExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $datePrecisionVocFk;
@@ -125,7 +125,7 @@ class SequenceAssembleeExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="origine_sqc_ass_ext_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="origine_sqc_ass_ext_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $origineSqcAssExtVocFk;
@@ -135,7 +135,7 @@ class SequenceAssembleeExt
      *
      * @ORM\ManyToOne(targetEntity="Collecte")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $collecteFk;
@@ -145,7 +145,7 @@ class SequenceAssembleeExt
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="statut_sqc_ass_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="statut_sqc_ass_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $statutSqcAssVocFk;

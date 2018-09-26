@@ -59,7 +59,7 @@ class LotMaterielExtType extends AbstractType
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
                                ->setParameter('parent', 'datePrecision')
-                               ->orderBy('voc.libelle', 'ASC');
+                               ->orderBy('voc.id', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('lotMaterielExtEstRealisePars', CollectionType::class , array(

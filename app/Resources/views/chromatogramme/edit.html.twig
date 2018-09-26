@@ -41,11 +41,25 @@
            // L'ajout d'un bouton Back to the pcr
             addBackToRelatedRecord('chromatogramme', 'pcr', "{{'buton.Back to pcr'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
-            $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                // deverouillage des champ descativé pour permettre l enregistrement
-                $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", false); 
-             }); 
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : PCR; Code chromatogramme; numero YAS; Amorce chromatogramme
+                $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                    $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", false); 
+                 }); 
+                $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                    $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
+                });                 
+                $('#bbees_e3sbundle_chromatogramme_numYas').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                    $('#bbees_e3sbundle_chromatogramme_numYas').attr("disabled", false); 
+                }); 
+                $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
+                    $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').attr("disabled", false); 
+                 });
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...

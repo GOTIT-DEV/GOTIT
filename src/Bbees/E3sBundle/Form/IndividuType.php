@@ -33,7 +33,7 @@ class IndividuType extends AbstractType
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
                                     ->setParameter('parent', 'typeIndividu')
-                                    ->orderBy('voc.libelle', 'ASC');
+                                    ->orderBy('voc.id', 'ASC');
                         },
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Type'))
                 ->add('numIndBiomol')

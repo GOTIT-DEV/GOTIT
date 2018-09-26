@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * ImportIndividu controller.
 *
 * @Route("importfilessource")
+* @Security("has_role('ROLE_PROJECT')")
 */
 class ImportFilesSourceController extends Controller
 {
@@ -31,18 +32,22 @@ class ImportFilesSourceController extends Controller
         $message = ""; 
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
+        //creation du formulaire / ROLES
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
         $form = $this->createFormBuilder()
                 ->setMethod('POST')
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
                          ' ' => array('Source' => 'source',),
-                         '  ' => array('Personne' => 'personne',),)
+                         '  ' => array('Person' => 'personne',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-                ->getForm();
+                ->getForm();          
+        }
         $form->handleRequest($request);
         
         if ($form->isSubmitted()){ //recuperation des données et traitement 
@@ -52,10 +57,10 @@ class ImportFilesSourceController extends Controller
             $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'source':
-                    $message .= $importFileE3sService->importCSVDataSource($fichier);
+                    $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
                     break;
                 case 'personne' :
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier);
+                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
                     break;
                 default:
                    $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

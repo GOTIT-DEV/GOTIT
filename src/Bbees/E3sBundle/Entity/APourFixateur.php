@@ -17,7 +17,7 @@ class APourFixateur
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="a_pour_fixateur_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class APourFixateur
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="fixateur_voc_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="fixateur_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $fixateurVocFk;
@@ -65,7 +65,7 @@ class APourFixateur
      *
      * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="aPourFixateurs")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="collecte_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $collecteFk;

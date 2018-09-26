@@ -8,11 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Commune controller.
  *
  * @Route("commune")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class CommuneController extends Controller
 {
@@ -44,8 +47,10 @@ class CommuneController extends Controller
      */
     public function indexjsonAction(Request $request)
     {   
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');    
         $em = $this->getDoctrine()->getManager();
-
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -78,6 +83,7 @@ class CommuneController extends Controller
                 "commune.nomRegion" => $entity->getNomRegion(),
                 "pays.codePays" => $entity->getPaysFk()->getCodePays(),
                 "commune.dateCre" => $DateCre, "commune.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "commune.userCre" => $service->GetUserCreUsername($entity) ,"commune.userMaj" => $service->GetUserMajUsername($entity),
              );
         }                
         $response = new Response ();
@@ -98,6 +104,7 @@ class CommuneController extends Controller
      *
      * @Route("/new", name="commune_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -215,6 +222,7 @@ class CommuneController extends Controller
      *
      * @Route("/{id}/edit", name="commune_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Commune $commune)
     {
@@ -250,6 +258,7 @@ class CommuneController extends Controller
      *
      * @Route("/{id}", name="commune_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, Commune $commune)
     {

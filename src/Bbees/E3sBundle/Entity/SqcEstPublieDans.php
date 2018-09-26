@@ -17,7 +17,7 @@ class SqcEstPublieDans
      *
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\SequenceGenerator(sequenceName="sqc_est_publie_dans_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
@@ -55,7 +55,7 @@ class SqcEstPublieDans
      *
      * @ORM\ManyToOne(targetEntity="Source")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $sourceFk;
@@ -65,7 +65,7 @@ class SqcEstPublieDans
      *
      * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sqcEstPublieDanss")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="sequence_assemblee_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $sequenceAssembleeFk;

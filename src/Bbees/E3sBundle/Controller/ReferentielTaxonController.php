@@ -9,11 +9,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Bbees\E3sBundle\Services\GenericFunctionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Referentieltaxon controller.
  *
  * @Route("referentieltaxon")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class ReferentielTaxonController extends Controller
 {
@@ -45,9 +48,10 @@ class ReferentielTaxonController extends Controller
      */
     public function indexjsonAction(Request $request)
     {
-       
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s');            
         $em = $this->getDoctrine()->getManager();
-        
+        //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('referentielTaxon.dateMaj' => 'desc', 'referentielTaxon.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
@@ -81,7 +85,9 @@ class ReferentielTaxonController extends Controller
              "referentielTaxon.validity" => $entity->getValidity(),
              "referentielTaxon.codeTaxon" => $entity->getCodeTaxon(),
              "referentielTaxon.clade" => $entity->getClade(),
-             "referentielTaxon.dateCre" => $DateCre, "referentielTaxon.dateMaj" => $DateMaj,);
+             "referentielTaxon.dateCre" => $DateCre, "referentielTaxon.dateMaj" => $DateMaj,
+             "userCreId" => $service->GetUserCreId($entity), "referentielTaxon.userCre" => $service->GetUserCreUsername($entity) ,"referentielTaxon.userMaj" => $service->GetUserMajUsername($entity),
+            );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -104,6 +110,7 @@ class ReferentielTaxonController extends Controller
      *
      * @Route("/new", name="referentieltaxon_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function newAction(Request $request)
     {
@@ -154,6 +161,7 @@ class ReferentielTaxonController extends Controller
      *
      * @Route("/{id}/edit", name="referentieltaxon_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, ReferentielTaxon $referentielTaxon)
     {
@@ -187,6 +195,7 @@ class ReferentielTaxonController extends Controller
      *
      * @Route("/{id}", name="referentieltaxon_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon)
     {

@@ -22,7 +22,6 @@ class BoiteType extends AbstractType
     {
         $builder->add('codeBoite')
                 ->add('libelleBoite')
-                ->add('libelleCollection')
                 ->add('commentaireBoite')
                 ->add('typeCollectionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {

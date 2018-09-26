@@ -27,12 +27,12 @@ class ImportFileE3s
     }
 
     /**
-    *  importCSVDataAdnDeplace($fichier)
+    *  importCSVDataAdnDeplace($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.adn-range
     */ 
-    public function importCSVDataAdnDeplace($fichier)
+    public function importCSVDataAdnDeplace($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
@@ -74,11 +74,19 @@ class ImportFileE3s
                 if ( $flagBoiteAffecte ) { 
                     $query_adn[0]->setBoiteFk($query_boite[0]);
                     $query_adn[0]->setDateMaj($DateImport); 
+                    $query_adn[0]->setUserMaj($userId); 
                     $em->persist($query_adn[0]); 
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 } else {                
                     $query_adn[0]->setBoiteFk(null);
                     $query_adn[0]->setDateMaj($DateImport); 
-                    $em->persist($query_adn[0]);   
+                    $query_adn[0]->setUserMaj($userId); 
+                    $em->persist($query_adn[0]);  
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -98,12 +106,12 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataIndividuLameRange($fichier)
+    *  importCSVDataAdnRange($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.adn-range
     */ 
-    public function importCSVDataAdnRange($fichier)
+    public function importCSVDataAdnRange($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
@@ -148,7 +156,11 @@ class ImportFileE3s
                 } else {
                     $query_adn[0]->setBoiteFk($query_boite[0]);
                     $query_adn[0]->setDateMaj($DateImport); 
+                    $query_adn[0]->setUserMaj($userId); 
                     $em->persist($query_adn[0]); 
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -169,12 +181,12 @@ class ImportFileE3s
   
     
     /**
-    *  importCSVDataIndividuLameDeplace($fichier)
+    *  importCSVDataIndividuLameDeplace($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.individu_lame-range
     */ 
-    public function importCSVDataIndividuLameDeplace($fichier)
+    public function importCSVDataIndividuLameDeplace($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
@@ -216,11 +228,19 @@ class ImportFileE3s
                 if ( $flagBoiteAffecte ) { 
                     $query_lame[0]->setBoiteFk($query_boite[0]);
                     $query_lame[0]->setDateMaj($DateImport); 
+                    $query_lame[0]->setUserMaj($userId); 
                     $em->persist($query_lame[0]); 
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 } else {                
                     $query_lame[0]->setBoiteFk(null);
                     $query_lame[0]->setDateMaj($DateImport); 
-                    $em->persist($query_lame[0]);   
+                    $query_lame[0]->setUserMaj($userId);
+                    $em->persist($query_lame[0]);  
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -240,12 +260,12 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataIndividuLameRange($fichier)
+    *  importCSVDataIndividuLameRange($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.individu_lame-range
     */ 
-    public function importCSVDataIndividuLameRange($fichier)
+    public function importCSVDataIndividuLameRange($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
@@ -290,7 +310,11 @@ class ImportFileE3s
                 } else {
                     $query_lame[0]->setBoiteFk($query_boite[0]);
                     $query_lame[0]->setDateMaj($DateImport); 
-                    $em->persist($query_lame[0]); 
+                    $query_lame[0]->setUserMaj($userId);
+                    $em->persist($query_lame[0]);
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -311,12 +335,12 @@ class ImportFileE3s
   
     
     /**
-    *  importCSVDataLotMaterielDeplace($fichier)
+    *  importCSVDataLotMaterielDeplace($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.lot_materiel-range
     */ 
-    public function importCSVDataLotMaterielDeplace($fichier)
+    public function importCSVDataLotMaterielDeplace($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
@@ -358,11 +382,19 @@ class ImportFileE3s
                 if ( $flagBoiteAffecte ) { 
                     $query_lot[0]->setBoiteFk($query_boite[0]);
                     $query_lot[0]->setDateMaj($DateImport); 
+                    $query_lot[0]->setUserMaj($userId);
                     $em->persist($query_lot[0]); 
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]); 
                 } else {                
                     $query_lot[0]->setBoiteFk(null);
                     $query_lot[0]->setDateMaj($DateImport); 
-                    $em->persist($query_lot[0]);   
+                    $query_lot[0]->setUserMaj($userId);
+                    $em->persist($query_lot[0]);  
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]); 
                 }
             }
         }
@@ -382,12 +414,12 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataLotMaterielRange($fichier)
+    *  importCSVDataLotMaterielRange($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.lot_materiel-range
     */ 
-    public function importCSVDataLotMaterielRange($fichier)
+    public function importCSVDataLotMaterielRange($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
@@ -432,7 +464,11 @@ class ImportFileE3s
                 } else {
                     $query_lot[0]->setBoiteFk($query_boite[0]);
                     $query_lot[0]->setDateMaj($DateImport); 
+                    $query_lot[0]->setUserMaj($userId);
                     $em->persist($query_lot[0]); 
+                    $query_boite[0]->setDateMaj($DateImport); 
+                    $query_boite[0]->setUserMaj($userId);
+                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -452,12 +488,12 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataLotMaterielPublie($fichier)
+    *  importCSVDataLotMaterielPublie($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.lot_materiel-publie
     */ 
-    public function importCSVDataLotMaterielPublie($fichier)
+    public function importCSVDataLotMaterielPublie($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataLotMaterielPublie = $importFileCsvService->readCSV($fichier);      
@@ -509,7 +545,13 @@ class ImportFileE3s
                     $entityRel->$method($query_lot[0]);
                     $entityRel->setDateCre($DateImport);
                     $entityRel->setDateMaj($DateImport); 
+                    $entityRel->setUserCre($userId);
+                    $entityRel->setUserMaj($userId);
                     $em->persist($entityRel);
+                    // maj du lot
+                    $query_lot[0]->setDateMaj($DateImport); 
+                    $query_lot[0]->setUserMaj($userId);
+                    $em->persist($query_lot[0]);
                 }                             
             }
         }
@@ -529,12 +571,12 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataSqcAssembleePublie($fichier)
+    *  importCSVDataSqcAssembleePublie($fichier, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.sqc_assemblee-publie
     */ 
-    public function importCSVDataSqcAssembleePublie($fichier)
+    public function importCSVDataSqcAssembleePublie($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataSqcAssembleePublie = $importFileCsvService->readCSV($fichier);      
@@ -580,6 +622,8 @@ class ImportFileE3s
                     $method = "setAccessionNumber";
                     $query_sa[0]->$method($data["accession_number"]);
                     $query_sa[0]->setDateMaj($DateImport); 
+                    $query_sa[0]->setUserMaj($userId); 
+                    $em->persist($query_sa[0]);
                     $entityRel = new \Bbees\E3sBundle\Entity\SqcEstPublieDans();
                     $method = "setSourceFk";
                     $entityRel->$method($query_source[0]);
@@ -587,6 +631,8 @@ class ImportFileE3s
                     $entityRel->$method($query_sa[0]);
                     $entityRel->setDateCre($DateImport);
                     $entityRel->setDateMaj($DateImport); 
+                    $entityRel->setUserCre($userId);
+                    $entityRel->setUserMaj($userId);
                     $em->persist($entityRel);
                 }                             
             }
@@ -607,11 +653,11 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataSource($fichier)
+    *  importCSVDataSource($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template source
     */ 
-    public function importCSVDataSource($fichier)
+    public function importCSVDataSource($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -689,6 +735,9 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
+
             $em->persist($entity);
             
             # Enregistrement du  SourceAEteIntegrePar                    
@@ -735,6 +784,8 @@ class ImportFileE3s
                         }  
                         $entityRel->setDateCre($DateImport);
                         $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -755,11 +806,11 @@ class ImportFileE3s
 
     
     /**
-    *  importCSVDataPcrChromato($fichier)
+    *  importCSVDataPcrChromato($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template adn
     */ 
-    public function importCSVDataPcrChromato($fichier)
+    public function importCSVDataPcrChromato($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -863,6 +914,8 @@ class ImportFileE3s
             } else {
                $entity->setDateCre($DateImport);
                $entity->setDateMaj($DateImport);
+               $entity->setUserCre($userId);
+               $entity->setUserMaj($userId);
                $em->persist($entity);
                $list_new_pcr[$data['pcr.code_pcr']] = $entity ;
             }
@@ -907,7 +960,9 @@ class ImportFileE3s
                                $entityRel->$method($foreign_record);                               
                            } 
                            $entityRel->setDateCre($DateImport);                           
-                           $entityRel->setDateMaj($DateImport);     
+                           $entityRel->setDateMaj($DateImport);
+                           $entityRel->setUserCre($userId);
+                           $entityRel->setUserMaj($userId);
                            $em->persist($entityRel);
                        }
                    } 
@@ -967,7 +1022,9 @@ class ImportFileE3s
                        $entityRel->$method($foreign_record);
                    }
                    $entityRel->setDateCre($DateImport);
-                   $entityRel->setDateMaj($DateImport); 
+                   $entityRel->setDateMaj($DateImport);
+                   $entityRel->setUserCre($userId);
+                   $entityRel->setUserMaj($userId);
                    $em->persist($entityRel);
                 }   
              }                         
@@ -987,11 +1044,11 @@ class ImportFileE3s
 
  
     /**
-    *  importCSVDataPcr($fichier)
+    *  importCSVDataPcr($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template adn
     */ 
-    public function importCSVDataPcr($fichier)
+    public function importCSVDataPcr($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1088,6 +1145,8 @@ class ImportFileE3s
             // persist de la pcr (1 pcr /ligne)
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
 
             # Enregistrement du PcrEstRealisePar 
@@ -1129,7 +1188,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -1154,7 +1215,7 @@ class ImportFileE3s
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template pcr_chromato
     */ 
-    public function importCSVDataChromato($fichier)
+    public function importCSVDataChromato($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1223,6 +1284,8 @@ class ImportFileE3s
                    }
                    $entity->setDateCre($DateImport);
                    $entity->setDateMaj($DateImport);
+                   $entity->setUserCre($userId);
+                   $entity->setUserMaj($userId);
                    $em->persist($entity);
                 }   
 
@@ -1242,11 +1305,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataAdn($fichier)
+    *  importCSVDataAdn($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template adn
     */ 
-    public function importCSVDataAdn($fichier)
+    public function importCSVDataAdn($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1346,6 +1409,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du AdnEstRealisePar                     
@@ -1392,6 +1457,8 @@ class ImportFileE3s
                         }  
                         $entityRel->setDateCre($DateImport);
                         $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -1411,11 +1478,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataProgramme($fichier)
+    *  importCSVDataProgramme($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template programme
     */ 
-    public function importCSVDataProgramme($fichier)
+    public function importCSVDataProgramme($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1453,6 +1520,8 @@ class ImportFileE3s
                }
                $entity->setDateCre($DateImport);
                $entity->setDateMaj($DateImport);
+               $entity->setUserCre($userId);
+               $entity->setUserMaj($userId);
                $em->persist($entity);  
            } else {
               return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -1473,11 +1542,11 @@ class ImportFileE3s
     }
       
     /**
-    *  importCSVDataCollecte($fichier)
+    *  importCSVDataCollecte($fichier, $userId = null)
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template collecte
     */ 
-    public function importCSVDataCollecte($fichier)
+    public function importCSVDataCollecte($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1600,6 +1669,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du ACibler                      
@@ -1645,7 +1716,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -1687,7 +1760,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -1729,7 +1804,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 }
@@ -1771,7 +1848,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         } 
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -1814,6 +1893,8 @@ class ImportFileE3s
                         }  
                         $entityRel->setDateCre($DateImport);
                         $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -1834,11 +1915,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataLame($fichier)
+    *  importCSVDataLame($fichier, $userId = null)
      * $fichier : le path vers le fichiers csv downloader
      * importation des données csv : template individu_lame
     */ 
-    public function importCSVDataLame($fichier)
+    public function importCSVDataLame($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -1936,6 +2017,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du IndividuLameEstRealisePar                     
@@ -1983,7 +2066,9 @@ class ImportFileE3s
                             } 
                        }
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                }
@@ -2004,11 +2089,11 @@ class ImportFileE3s
     }
    
    /**
-    *  importCSVDataIndividu($fichier)
+    *  importCSVDataIndividu($fichier, $userId = null)
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template individu
     */ 
-    public function importCSVDataIndividu($fichier)
+    public function importCSVDataIndividu($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -2089,6 +2174,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du EspeceIdentifiee 
@@ -2170,7 +2257,9 @@ class ImportFileE3s
                    }    
                 }
                 $entityRel->setDateCre($DateImport);
-                $entityRel->setDateMaj($DateImport); 
+                $entityRel->setDateMaj($DateImport);
+                $entityRel->setUserCre($userId);
+                $entityRel->setUserMaj($userId);
                 $em->persist($entityRel);
             }
             
@@ -2221,7 +2310,9 @@ class ImportFileE3s
                                } 
                            }
                            $entityRel->setDateCre($DateImport);
-                           $entityRel->setDateMaj($DateImport); 
+                           $entityRel->setDateMaj($DateImport);
+                           $entityRel->setUserCre($userId);
+                           $entityRel->setUserMaj($userId);
                            $em->persist($entityRel);
                        }
                    } 
@@ -2244,11 +2335,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataBoite($fichier)
+    *  importCSVDataBoite($fichier, $userId = null)
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template boite
     */ 
-    public function importCSVDataBoite($fichier)
+    public function importCSVDataBoite($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -2310,6 +2401,8 @@ class ImportFileE3s
                }
                $entity->setDateCre($DateImport);
                $entity->setDateMaj($DateImport);
+               $entity->setUserCre($userId);
+               $entity->setUserMaj($userId);
                $em->persist($entity);    
            } else {
               return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -2330,11 +2423,11 @@ class ImportFileE3s
     }   
     
     /**
-    *  importCSVDataLotMateriel($fichier)
+    *  importCSVDataLotMateriel($fichier, $userId = null)
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template lot_materiel
     */ 
-    public function importCSVDataLotMateriel($fichier)
+    public function importCSVDataLotMateriel($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -2436,6 +2529,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du LotMaterielEstRealisePar                     
@@ -2481,7 +2576,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -2530,7 +2627,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -2555,8 +2654,8 @@ class ImportFileE3s
                         $entityRel->$method($entity);
                         $entityRel->setCommentaireCompoLotMateriel($commentaireCompoLotMateriel);
                         // On décompose l'information en deux variable $nb_individus & $type_individu
-                        $nb_individu = (int) ereg_replace("[^0-9]","",$val_foreign_field); 
-                        $type_individu =  ereg_replace("[0-9]","",$val_foreign_field); 
+                        $nb_individu = (int) preg_replace('/[^0-9]/','',$val_foreign_field); 
+                        $type_individu =  preg_replace('/[0-9]/','',$val_foreign_field); 
                         $type_individu = trim($type_individu);
                         // var_dump($val_foreign_field); var_dump($type_individu); var_dump($nb_individu);
                         if ($nb_individu == 0)  $nb_individu = NULL;
@@ -2572,6 +2671,8 @@ class ImportFileE3s
                         }
                         $entityRel->setDateCre($DateImport);
                         $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 }
@@ -2653,7 +2754,9 @@ class ImportFileE3s
                 }    
              }
              $entityRel->setDateCre($DateImport);
-             $entityRel->setDateMaj($DateImport); 
+             $entityRel->setDateMaj($DateImport);
+             $entityRel->setUserCre($userId);
+             $entityRel->setUserMaj($userId);
              $em->persist($entityRel);
             
             # Enregistrement du EstIdentifiePar                     
@@ -2699,7 +2802,9 @@ class ImportFileE3s
                             $entityRel->$method($foreign_record);                               
                         }  
                         $entityRel->setDateCre($DateImport);
-                        $entityRel->setDateMaj($DateImport); 
+                        $entityRel->setDateMaj($DateImport);
+                        $entityRel->setUserCre($userId);
+                        $entityRel->setUserMaj($userId);
                         $em->persist($entityRel);
                     }
                 } 
@@ -2720,12 +2825,12 @@ class ImportFileE3s
     }    
 
     /**
-    *  importCSVDataMotuFile($fichier)
+    *  importCSVDataMotuFile($fichier, ,\Bbees\E3sBundle\Entity\Motu $motu, $userId = null)
     *    $fichier : le path vers le fichiers csv de metadata  downloader
     *  $fichier : le path vers le fichiers csv des  données  downloader
      * importation des données csv : template import.motu-assigne
     */ 
-    public function importCSVDataMotuFile($fichier,\Bbees\E3sBundle\Entity\Motu $motu)
+    public function importCSVDataMotuFile($fichier,\Bbees\E3sBundle\Entity\Motu $motu, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvDataMotu = $importFileCsvService->readCSV($fichier);      
@@ -2782,7 +2887,9 @@ class ImportFileE3s
                 }  
                 //var_dump($l2); var_dump($flagSeqExt); var_dump($flagSeq);  var_dump($data2);
                 $entityRel->setDateCre($DateImport);
-                $entityRel->setDateMaj($DateImport); 
+                $entityRel->setDateMaj($DateImport);
+                $entityRel->setUserCre($userId);
+                $entityRel->setUserMaj($userId);
                 $em->persist($entityRel);
                 if (!$flagSeq && !$flagSeqExt ) $message .= "ERROR : le code sequence assemblee <b>".$data2["code_seq_ass"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data2)."<br>"; 
                 if ($flagSeq && $flagSeqExt) $message .= "ERROR : le code sequence assemblee existe en interne et externe !? <b>".$data2["code_seq_ass"].'</b> n existe déjà dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data2)."<br>"; 
@@ -2902,6 +3009,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du MotuEstGenerePar                     
@@ -2947,7 +3056,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -2990,7 +3101,9 @@ class ImportFileE3s
                     }  
                     //var_dump($l2); var_dump($flagSeqExt); var_dump($flagSeq);  var_dump($data2);
                     $entityRel->setDateCre($DateImport);
-                    $entityRel->setDateMaj($DateImport); 
+                    $entityRel->setDateMaj($DateImport);
+                    $entityRel->setUserCre($userId);
+                    $entityRel->setUserMaj($userId);
                     $em->persist($entityRel);
                     if (!$flagSeq && !$flagSeqExt ) $message .= "ERROR : le code sequence assemblee <b>".$data2["code_seq_ass"].'</b> n existe pas dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data2)."<br>"; 
                     if ($flagSeq && $flagSeqExt) $message .= "ERROR : le code sequence assemblee existe en interne et externe !? <b>".$data2["code_seq_ass"].'</b> n existe déjà dans la bdd. <br>ligne '.(string)($l+2).": ".join(';', $data2)."<br>"; 
@@ -3014,11 +3127,11 @@ class ImportFileE3s
     }
 
     /**
-    *  importCSVDataEtablissement($fichier)
+    *  importCSVDataEtablissement($fichier, $userId = null)
     * $fichier : le path vers le fichiers csv downloader
     * importation des données csv : template etablissement
     */ 
-    public function importCSVDataEtablissement($fichier)
+    public function importCSVDataEtablissement($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -3062,6 +3175,8 @@ class ImportFileE3s
                 }
                 $entity->setDateCre($DateImport);
                 $entity->setDateMaj($DateImport);
+                $entity->setUserCre($userId);
+                $entity->setUserMaj($userId);
                 $em->persist($entity);
             } else {
                return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -3088,7 +3203,7 @@ class ImportFileE3s
     * importation des données csv : template
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataPays($fichier)
+    public function importCSVDataPays($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -3125,6 +3240,8 @@ class ImportFileE3s
                 }
                 $entity->setDateCre($DateImport);
                 $entity->setDateMaj($DateImport);
+                $entity->setUserCre($userId);
+                $entity->setUserMaj($userId);
                 $em->persist($entity);  
             } else {
                return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -3146,11 +3263,11 @@ class ImportFileE3s
 
     
    /**
-    *  importCSVDataSequenceAssemblee($fichier)
+    *  importCSVDataSequenceAssemblee($fichier, $userId = null)
     * importation des données csv : template
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataSequenceAssembleeExt($fichier)
+    public function importCSVDataSequenceAssembleeExt($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -3248,6 +3365,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du seq_ass_ext_est_realise_par                    
@@ -3293,7 +3412,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3342,7 +3463,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3423,7 +3546,9 @@ class ImportFileE3s
                 }    
              }
              $entityRel->setDateCre($DateImport);
-             $entityRel->setDateMaj($DateImport); 
+             $entityRel->setDateMaj($DateImport);
+             $entityRel->setUserCre($userId);
+             $entityRel->setUserMaj($userId);
              $em->persist($entityRel);
             
             # Enregistrement du EstIdentifiePar                     
@@ -3469,7 +3594,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3489,11 +3616,11 @@ class ImportFileE3s
     }
 
    /**
-    *  importCSVDataLotMaterielExt($fichier)
+    *  importCSVDataLotMaterielExt($fichier, $userId = null)
     * importation des données csv : template
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataLotMaterielExt($fichier)
+    public function importCSVDataLotMaterielExt($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -3591,6 +3718,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du lot_materiel_ext_est_realise_par                    
@@ -3636,7 +3765,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3685,7 +3816,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        } 
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3766,7 +3899,9 @@ class ImportFileE3s
                 }    
              }
              $entityRel->setDateCre($DateImport);
-             $entityRel->setDateMaj($DateImport); 
+             $entityRel->setDateMaj($DateImport);
+             $entityRel->setUserCre($userId);
+             $entityRel->setUserMaj($userId);
              $em->persist($entityRel);
             
             # Enregistrement du EstIdentifiePar                     
@@ -3812,7 +3947,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -3834,11 +3971,11 @@ class ImportFileE3s
     
     
    /**
-    *  importCSVDataStation($fichier)
+    *  importCSVDataStation($fichier, $userId = null)
     *  importation des données csv : template station
     *  $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataStation($fichier)
+    public function importCSVDataStation($fichier, $userId = null)
     { 
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -3851,7 +3988,7 @@ class ImportFileE3s
         $em = $this->entityManager;    // appel du manager de Doctrine   
         $compt = 0;
         $message = '';
-        $info = 'Date d import : '.$DateImport->format('Y-m-d H:i:s');
+        $info = 'Date import : '.$DateImport->format('Y-m-d H:i:s');;
         $list_new_commune = array();      
         foreach($csvData as $l => $data){ // 1- Traitement des données ligne à ligne ($l)
             $compt++;
@@ -3908,6 +4045,8 @@ class ImportFileE3s
                                        $commune->setNomRegion(str_replace("_"," ",$list_field_commune[1]));
                                        $commune->setDateCre($DateImport);
                                        $commune->setDateMaj($DateImport);
+                                       $commune->setUserCre($userId);
+                                       $commune->setUserMaj($userId);
                                        $pays_fk = $em->getRepository("BbeesE3sBundle:Pays")->findOneBy(array("codePays" => $list_field_commune[2])); 
                                        if($pays_fk === NULL){ 
                                             $message .= "ERROR : le code_pays <b>" .$list_field_commune[2]. '</b> n existe pas dans la table Pays <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
@@ -3944,6 +4083,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);                
        }      
        // A FAIRE : ajouter les champ commune.nom_commune +commune.nom_region
@@ -3962,11 +4103,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataSequenceAssemblee($fichier)
+    *  importCSVDataSequenceAssemblee($fichier, $userId = null)
     * importation des données csv : template 
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataSequenceAssemblee($fichier)
+    public function importCSVDataSequenceAssemblee($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -4063,6 +4204,8 @@ class ImportFileE3s
             }
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
+            $entity->setUserCre($userId);
+            $entity->setUserMaj($userId);
             $em->persist($entity);
             
             # Enregistrement du sequence_assemblee_est_realise_par                     
@@ -4108,7 +4251,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        } 
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);                       
                        $em->persist($entityRel);
                    }
                } 
@@ -4157,7 +4302,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -4206,7 +4353,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -4287,7 +4436,9 @@ class ImportFileE3s
                 }    
              }
              $entityRel->setDateCre($DateImport);
-             $entityRel->setDateMaj($DateImport); 
+             $entityRel->setDateMaj($DateImport);
+             $entityRel->setUserCre($userId);
+             $entityRel->setUserMaj($userId);
              $em->persist($entityRel);
             
             # Enregistrement du EstIdentifiePar                     
@@ -4333,7 +4484,9 @@ class ImportFileE3s
                            $entityRel->$method($foreign_record);                               
                        }  
                        $entityRel->setDateCre($DateImport);
-                       $entityRel->setDateMaj($DateImport); 
+                       $entityRel->setDateMaj($DateImport);
+                       $entityRel->setUserCre($userId);
+                       $entityRel->setUserMaj($userId);
                        $em->persist($entityRel);
                    }
                } 
@@ -4354,11 +4507,11 @@ class ImportFileE3s
     }
     
     /**
-    *  importCSVDataReferentielTaxon($fichier)
+    *  importCSVDataReferentielTaxon($fichier, $userId = null)
     * importation des données csv : template 
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataReferentielTaxon($fichier)
+    public function importCSVDataReferentielTaxon($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -4405,6 +4558,8 @@ class ImportFileE3s
                }
                $entity->setDateCre($DateImport);
                $entity->setDateMaj($DateImport);
+               $entity->setUserCre($userId);
+               $entity->setUserMaj($userId);
                $em->persist($entity);     
             } else {
                 return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -4425,11 +4580,11 @@ class ImportFileE3s
     }
      
     /**
-    *  importCSVDataVoc($fichier)
+    *  importCSVDataVoc($fichier, $userId = null)
     * importation des données csv : template voc
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataVoc($fichier)
+    public function importCSVDataVoc($fichier, $userId = null)
     {
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -4468,6 +4623,8 @@ class ImportFileE3s
                }
                $entity->setDateCre($DateImport);
                $entity->setDateMaj($DateImport);
+               $entity->setUserCre($userId);
+               $entity->setUserMaj($userId);
                $em->persist($entity);     
             } else {
                 return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
@@ -4488,11 +4645,11 @@ class ImportFileE3s
     }
   
     /**
-    *  importCSVDataPersonne($fichier)
+    *  importCSVDataPersonne($fichier, $userId = null)
     * importation des données csv : template personne
     * $fichier : le path vers le fichiers csv downloader
     */ 
-    public function importCSVDataPersonne($fichier)
+    public function importCSVDataPersonne($fichier, $userId = null)
     {     
         $importFileCsvService = $this->importFileCsv; // récuperation du service ImportFileCsv
         $csvData = $importFileCsvService->readCSV($fichier);
@@ -4569,6 +4726,8 @@ class ImportFileE3s
                 }
                 $entity->setDateCre($DateImport);
                 $entity->setDateMaj($DateImport);
+                $entity->setUserCre($userId);
+                $entity->setUserMaj($userId);
                 $em->persist($entity);
             } else {
                return("ERROR : <b> le fichier ne contient pas les bonnes collonnes  </b>");
