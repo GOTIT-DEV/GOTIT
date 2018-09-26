@@ -1,0 +1,11 @@
+bbees_user_homepage:
+    path:     /
+    defaults: { _controller: BbeesUserBundle:Default:index }
+login:
+    path:     /login
+    defaults: { _controller: BbeesUserBundle:Security:login }
+login_check:
+    path:     /login_check
+logout:
+    path:     /logout
+    
