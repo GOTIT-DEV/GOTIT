@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block topnav %}
+{% endblock %}
+
+{% block titlepage %}
+  <div class="page-title">
+    <div class="title_right">
+      <h1>
+        <i>
+          {{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}
+        </i>
+      </h1>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <div class="row">
+
+    <div class="col-md-5 col-sm-5 col-xs-15">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Distribution of sites</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content media-middle">
+          <img
+            src="{{ asset('e3s/images/carte_stations_e3s.jpg') }}"
+            type="image"
+            height="487"
+            alt="sequence adn"
+            align="middle"/>
+        </div>         
+      </div>
+    </div>
+
+    <div class="col-md-2 col-sm-2 col-xs-6">
+      <div class="x_panel  overflow_hidden">
+        <div class="x_title">
+          <h2>Adn sequence</h2>
+          <ul class="nav navbar-right panel_toolbox"></ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content media-middle">
+          <img
+            src="{{ asset('e3s/images/sequence_adn.jpg') }}"
+            type="image"
+            height="487"
+            alt="sequence adn"
+            align="middle"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 col-sm-5 col-xs-15">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Proaselus Valdensis</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <img
+            rel="icon"
+            src="{{ asset('e3s/images/prosaelus_valdensis.jpg') }}"
+            type="image"
+            height="487"
+            alt="prosaelus valdensis"
+            align="middle"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+            
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+{#
+                  <div class="x_title">
+                    <h2>Login Form</h2>
+                    <div class="clearfix"></div>
+                  </div>
+#}
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" action="{{ path('login') }}" method="post">
+
+                      <p>    {% if error %}
+                            <div>{{ error.messageKey}} /  {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                                <b> Please enter your login / password </b>
+                      </p>
+                      <span class="section"></span>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" lass="form-control col-md-7 col-xs-12" placeholder="fmallard2018" required="required"/>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label for="password" class="control-label col-md-3">Password</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="password" id="password" name="_password" class="form-control col-md-7 col-xs-12" required="required"  />
+                        </div>
+                      </div>
+                      <div class="ln_solid">        
+                                {#
+                                If you want to control the URL the user
+                                is redirected to on success (more details below)
+                                  #}
+                                <input type="hidden" name="_target_path" value="/fr" /></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          <button id="send" type="submit" class="btn btn-success">Login</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            
+    
+ 
+
+{% endblock %}

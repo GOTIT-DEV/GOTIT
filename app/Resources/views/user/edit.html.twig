@@ -1,0 +1,39 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : USER #}
+
+{% block body %}
+    
+    {{ parent() }}   
+
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+//  interface Formulaire
+$(document).ready(function(){
+        // L'ajout d'un bouton Back to the collecte
+        // MAJ du codeStation, nomStation
+        // maj($('#bbees_e3sbundle_programme_codeProgramme'));
+        {% if action == 'edit'  %}   
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // verouillage du champ Roles
+            {% if not is_granted('ROLE_ADMIN') %}  
+                $('input[id^="bbees_userbundle_user_role"]').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_userbundle_user"]',function(ev){
+                // deverouillage des champ descativé pour permettre l enregistrement
+                $('input[id^="bbees_userbundle_user_role"]').attr("disabled", false); 
+             });
+            {% endif %}
+        {% endif %}
+        {% if action == 'new'  %} 
+            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
+            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+        {% endif %}
+    });
+</script>
+
+{% endblock %}
