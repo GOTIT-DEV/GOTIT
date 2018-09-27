@@ -23,6 +23,7 @@ use Bbees\E3sBundle\Entity\SequenceAssembleeExt;
 use Bbees\E3sBundle\Entity\Motu;
 use Bbees\E3sBundle\Entity\Boite;
 use Bbees\E3sBundle\Entity\Source;
+use Bbees\E3sBundle\Services\GenericFunctionService;
 
 class DefaultController extends Controller
 {
@@ -32,6 +33,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        // recuperation des services
+        $service = $this->get('bbees_e3s.generic_function_e3s'); 
+        //
         $em = $this->getDoctrine()->getManager();
         $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Collecte u')->getSingleScalarResult();
         $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Station u')->getSingleScalarResult();
@@ -67,7 +71,7 @@ class DefaultController extends Controller
             "name" => 'adn',
             "code" => $entity->getCodeAdn(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
         // retourne les derniers enregistrements des chromatogramme

@@ -18,3 +18,4 @@
 .vscode/
 /app/Resources/views/show.html.twig.backup
 /nbproject/private/
+/app/Resources/views/security/login.html.twig.backup
