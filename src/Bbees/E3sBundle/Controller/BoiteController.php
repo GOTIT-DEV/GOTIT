@@ -92,7 +92,7 @@ class BoiteController extends Controller
              "boite.codeBoite" => $entity->getCodeBoite(),
              "vocCodeCollection.code" => $entity->getCodeCollectionVocFk()->getCode(),   
              "boite.libelleBoite" => $entity->getLibelleBoite(),
-             "boite.libelleCollection" => $entity->getLibelleCollection(),
+             "vocCodeCollection.libelle" => $entity->getCodeCollectionVocFk()->getLibelle(),
              "boite.dateCre" => $DateCre, "boite.dateMaj" => $DateMaj, 
              "userCreId" => $service->GetUserCreId($entity), "boite.userCre" => $service->GetUserCreUsername($entity) ,"boite.userMaj" => $service->GetUserMajUsername($entity),
               );

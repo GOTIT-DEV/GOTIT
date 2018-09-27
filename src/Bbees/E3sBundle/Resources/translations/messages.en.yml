@@ -1,7 +1,20 @@
 # ajouter  26/09/2018
-title.User: User
+Username: Username
+Password: Password
+Email: Email
+Role: Role
+Name: User name
+Institution: Institution
+Commentaire User: User comment
+buton.NewUser: Create a new User
+title.user: User
 list.User cre: User Create
 list.User maj: User Update
+import.boite.lotmaterieldeplace: Move or delete biological material as file
+import.boite.individulamedeplace: Move or delete slides as file
+import.boite.adndeplace: Move or delete DNA boxes as file
+import.source.lotmaterielpublie:  Source to biological material as file
+import.source.sequencepublie: Source to sequence as file
 # 
 list.MotuAssigne: MOTU
 title.Import Files CSV: Import Files CSV
@@ -257,7 +270,7 @@ Code adn: DNA code
 Code boite: Box code
 Code chromato: Chromatogram code
 Code collecte: Sample code
-Code collection voc fk: Collection code
+Code collection voc fk: Collection
 Code commune: Municipality code
 Code ind biomol: Specimen molecular code
 Code ind tri morpho: Specimen morphological code

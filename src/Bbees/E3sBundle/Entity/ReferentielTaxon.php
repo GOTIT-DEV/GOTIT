@@ -102,13 +102,6 @@ class ReferentielTaxon
     /**
      * @var string
      *
-     * @ORM\Column(name="objectif", type="string", length=255, nullable=true)
-     */
-    private $objectif;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="clade", type="string", length=255, nullable=true)
      */
     private $clade;
@@ -422,30 +415,6 @@ class ReferentielTaxon
     public function getCommentaireRef()
     {
         return $this->commentaireRef;
-    }
-
-    /**
-     * Set objectif
-     *
-     * @param string $objectif
-     *
-     * @return ReferentielTaxon
-     */
-    public function setObjectif($objectif)
-    {
-        $this->objectif = $objectif;
-
-        return $this;
-    }
-
-    /**
-     * Get objectif
-     *
-     * @return string
-     */
-    public function getObjectif()
-    {
-        return $this->objectif;
     }
 
     /**

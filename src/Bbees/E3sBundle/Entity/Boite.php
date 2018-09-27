@@ -40,13 +40,6 @@ class Boite
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle_collection", type="string", length=1024, nullable=true)
-     */
-    private $libelleCollection;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="commentaire_boite", type="text", nullable=true)
      */
     private $commentaireBoite;
@@ -191,30 +184,6 @@ class Boite
     public function getLibelleBoite()
     {
         return $this->libelleBoite;
-    }
-
-    /**
-     * Set libelleCollection
-     *
-     * @param string $libelleCollection
-     *
-     * @return Boite
-     */
-    public function setLibelleCollection($libelleCollection)
-    {
-        $this->libelleCollection = $libelleCollection;
-
-        return $this;
-    }
-
-    /**
-     * Get libelleCollection
-     *
-     * @return string
-     */
-    public function getLibelleCollection()
-    {
-        return $this->libelleCollection;
     }
 
     /**

@@ -70,10 +70,6 @@
             }
         {% endif %}
         //
-        $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
-                var codeBoite = $(this).val().replace(/ /g, '_');
-                $('#bbees_e3sbundle_boite_codeBoite').val(codeBoite);
-        })
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             {% if not is_granted('ROLE_ADMIN') %}  
@@ -85,7 +81,10 @@
             {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
-
+            $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
+                    var codeBoite = $(this).val().replace(/ /g, '_');
+                    $('#bbees_e3sbundle_boite_codeBoite').val(codeBoite);
+            })
         {% endif %}
     });
  </script>
