@@ -86,7 +86,7 @@ class PersonneController extends Controller
              "etablissement.nomEtablissement" => $NomEtablissement,
              "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,
              "userCreId" => $service->GetUserCreId($entity), "personne.userCre" => $service->GetUserCreUsername($entity) ,"personne.userMaj" => $service->GetUserMajUsername($entity),
-                );
+             );
         }     
         // Reponse Ajax
         $response = new Response ();
@@ -232,6 +232,12 @@ class PersonneController extends Controller
      */
     public function editAction(Request $request, Personne $personne)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $personne->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
         $deleteForm = $this->createDeleteForm($personne);
         $editForm = $this->createForm('Bbees\E3sBundle\Form\PersonneType', $personne);
         $editForm->handleRequest($request);

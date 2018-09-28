@@ -201,7 +201,13 @@ class SequenceAssembleeExtController extends Controller
      * @Security("has_role('ROLE_COLLABORATION')")
      */
     public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt)
-    {
+    {      
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $sequenceAssembleeExt->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
         // recuperation du service generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s'); 
         // recuperation  de l'Entity Mananger

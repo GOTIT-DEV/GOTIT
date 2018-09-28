@@ -120,10 +120,10 @@
                         <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
                         <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
                     {% elseif  is_granted('ROLE_PROJECT')%}
-                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.voc'|trans}}</font></a></li> 
-                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
-                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.pays'|trans}}</font></a></li> 
-                        <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.commune'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
+                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
                         <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
                         <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
                         <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
@@ -245,7 +245,9 @@
                         <span class=" fa fa-angle-down"></span>
                       </a>
                       <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a></li>
+                        {% if is_granted('ROLE_COLLABORATION') %}  
+                            <li><a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a></li>
+                        {% endif %}
                         <li>
                         {% set requestUri = app.request.requestUri %}
                         {% set pathRouteFrInArray = requestUri|split('/fr/') %}

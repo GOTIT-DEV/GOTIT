@@ -184,6 +184,13 @@ class ChromatogrammeController extends Controller
      */
     public function editAction(Request $request, Chromatogramme $chromatogramme)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $chromatogramme->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
+        //
         $deleteForm = $this->createDeleteForm($chromatogramme);
         $editForm = $this->createForm('Bbees\E3sBundle\Form\ChromatogrammeType', $chromatogramme);
         $editForm->handleRequest($request);

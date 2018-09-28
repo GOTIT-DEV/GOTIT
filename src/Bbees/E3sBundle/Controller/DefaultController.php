@@ -89,7 +89,7 @@ class DefaultController extends Controller
             "name" => 'chromatogramme',
             "code" => $entity->getCodeChromato(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
         // retourne les derniers enregistrements des collectes
@@ -107,7 +107,7 @@ class DefaultController extends Controller
             "name" => 'collecte',
             "code" => $entity->getCodeCollecte(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }  
         // retourne les derniers enregistrements des individu
@@ -125,7 +125,7 @@ class DefaultController extends Controller
             "name" => 'individu',
             "code" => $entity->getCodeIndTriMorpho(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
         // retourne les derniers enregistrements des lame
@@ -143,7 +143,7 @@ class DefaultController extends Controller
             "name" => 'individulame',
             "code" => $entity->getCodeLameColl(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
         // retourne les derniers enregistrements des lots
@@ -161,7 +161,7 @@ class DefaultController extends Controller
             "name" => 'lotmateriel',
             "code" => $entity->getCodeLotMateriel(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
         // retourne les derniers enregistrements des lots ext
@@ -179,7 +179,7 @@ class DefaultController extends Controller
             "name" => 'lotmaterielext',
             "code" => $entity->getCodeLotMaterielExt(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
         // retourne les derniers enregistrements des motu
@@ -197,7 +197,7 @@ class DefaultController extends Controller
             "name" => 'motu',
             "code" => $entity->getLibelleMotu(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
         // retourne les derniers enregistrements des pcr
@@ -215,7 +215,7 @@ class DefaultController extends Controller
             "name" => 'pcr',
             "code" => $entity->getCodePcr(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
         // retourne les derniers enregistrements des sequence
@@ -233,7 +233,7 @@ class DefaultController extends Controller
             "name" => 'sequenceassemblee',
             "code" => $entity->getCodeSqcAss(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
                 // retourne les derniers enregistrements des sequenceext
@@ -251,7 +251,7 @@ class DefaultController extends Controller
             "name" => 'sequenceassembleeext',
             "code" => $entity->getCodeSqcAssExt(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
         // retourne les derniers enregistrements des stations
@@ -269,7 +269,7 @@ class DefaultController extends Controller
             "name" => 'station',
             "code" => $entity->getCodeStation(),
             "dateMaj" => $DateMaj,
-            "userMaj" => $entity->getUserMaj(),
+            "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
 

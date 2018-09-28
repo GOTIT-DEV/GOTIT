@@ -162,6 +162,12 @@ class SourceController extends Controller
      */
     public function editAction(Request $request, Source $source)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $source->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
         // recuperation du service generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');       
         // memorisation des ArrayCollection        

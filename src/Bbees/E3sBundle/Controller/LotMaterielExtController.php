@@ -184,14 +184,18 @@ class LotMaterielExtController extends Controller
      */
     public function editAction(Request $request, LotMaterielExt $lotMaterielExt)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $lotMaterielExt->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }      
         // recuperation du service generic_function_e3s
-        $service = $this->get('bbees_e3s.generic_function_e3s');
-        
+        $service = $this->get('bbees_e3s.generic_function_e3s');        
         // memorisation des ArrayCollection        
         $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$lotMaterielExt);
         $lotMaterielExtEstReferenceDanss = $service->setArrayCollection('LotMaterielExtEstReferenceDanss',$lotMaterielExt);
-        $lotMaterielExtEstRealisePars = $service->setArrayCollection('LotMaterielExtEstRealisePars',$lotMaterielExt);
-        
+        $lotMaterielExtEstRealisePars = $service->setArrayCollection('LotMaterielExtEstRealisePars',$lotMaterielExt);        
         //
         $deleteForm = $this->createDeleteForm($lotMaterielExt);
         $editForm = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);

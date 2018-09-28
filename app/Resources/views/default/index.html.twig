@@ -8,9 +8,10 @@
 {% endblock %}
 
 {% block titlepage %}
-  <div class="page-title">
 
-    <div class="title_right">
+  <div class="page-header">
+
+    <!-- <div class="title"> -->
       <h1>
         <!-- <img rel="icon" src="{{ asset('e3s/images/logo-BBEES.png') }}" type="image" width="50"
         height="50" alt="Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés
@@ -19,9 +20,11 @@
           {{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}
         </i>
       </h1>
-    </div>
+        
+    <!-- </div> -->
 
   </div>
+
   <div class="clearfix"></div>
 {% endblock %}
 
@@ -540,49 +543,109 @@
         </div>
         <div class="x_content">
           <div class="dashboard-widget-content">
+          {% if is_granted('ROLE_ADMIN') %}
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulame_index') }}">{{'import.individulame'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielext_index') }}">{{'import.lotmaterielext'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesmotu_index') }}">{{'import.motu'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterieldeplace_index') }}">{{'import.boite.lotmaterieldeplace'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulamedeplace_index') }}">{{'import.boite.individulamedeplace'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadndeplace_index') }}">{{'import.boite.adndeplace'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+            {% elseif  is_granted('ROLE_PROJECT')%}
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulame_index') }}">{{'import.individulame'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielext_index') }}">{{'import.lotmaterielext'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+            {% elseif  is_granted('ROLE_COLLABORATION')%}
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+            {% else  %}
 
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesindividulame_index') }}">{{'import.individulame'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileslotmaterielext_index') }}">{{'import.lotmaterielext'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesmotu_index') }}">{{'import.motu'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileslotmaterieldeplace_index') }}">{{'import.boite.lotmaterieldeplace'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesindividulamedeplace_index') }}">{{'import.boite.individulamedeplace'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilesadndeplace_index') }}">{{'import.boite.adndeplace'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
-            <i class="fa fa-arrow-circle-o-right"></i>
-            <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+            {% endif %}
+
           </div>
         </div>
       </div>
@@ -704,10 +767,9 @@
     });
   </script>
 
+ <!-- 
   <script type="text/javascript">
-
     $(document).ready(function () {
-
       var latitude = '47,5';
       var longitude = '5,0';
       //var data = $(this).serialize();
@@ -733,7 +795,8 @@
           gd = stationsMap(response.stations, latitude, longitude);
         }
       });
-
     });
   </script>
+ --> 
+  
 {% endblock %}

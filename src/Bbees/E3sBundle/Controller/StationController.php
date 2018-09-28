@@ -206,7 +206,7 @@ class StationController extends Controller
         // control d'acces sur les  user de type ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId() ) {
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $station->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         

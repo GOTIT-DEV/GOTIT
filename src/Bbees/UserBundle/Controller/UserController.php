@@ -154,6 +154,13 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
+        // control d'acces sur les  user de type ROLE_COLLABORATION
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $user->getUserCre() != $user->getId() ) {
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        }
+        //
         $deleteForm = $this->createDeleteForm($user);
         $editForm = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
         $editForm->handleRequest($request);

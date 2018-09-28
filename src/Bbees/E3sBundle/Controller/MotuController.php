@@ -172,7 +172,7 @@ class MotuController extends Controller
      *
      * @Route("/{id}/edit", name="motu_edit")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_PROJECT')")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Motu $motu)
     {        
