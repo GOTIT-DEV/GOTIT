@@ -45,7 +45,7 @@ class ImportFilesLotMaterielController extends Controller
                         'choice_translation_domain' => false,
                         'choices'  => array(
                              ' ' => array('Internal_biological_material' => 'lot_materiel',),
-                             '  ' => array('Box' => 'boite',),
+                             '  ' => array('Box' => 'boite', 'Source' => 'source',),
                              '   ' => array('Taxon' => 'referentiel_taxon','Vocabulary' => 'vocabulaire','Person' => 'personne',),)
                         ))
                     ->add('fichier', FileType::class)
@@ -59,7 +59,7 @@ class ImportFilesLotMaterielController extends Controller
                         'choice_translation_domain' => false,
                         'choices'  => array(
                              ' ' => array('Internal_biological_material' => 'lot_materiel',),
-                             '  ' => array('Box' => 'boite',),
+                             '  ' => array('Box' => 'boite', 'Source' => 'source',),
                              '   ' => array('Person' => 'personne',),)
                         ))
                     ->add('fichier', FileType::class)
@@ -79,6 +79,9 @@ class ImportFilesLotMaterielController extends Controller
                     break;
                 case 'vocabulaire':
                     $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+                    break;
+                case 'source':
+                    $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId() );
                     break;
                 case 'boite' :
                     $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());

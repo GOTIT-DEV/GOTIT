@@ -138,6 +138,7 @@
                 var nomCommune = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');   
                 $(this).val(nomCommune);
                 var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                nomPays = nomPays.split(' ').join('_');
                 var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
                 modal.val(nomCommune);
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
@@ -147,6 +148,7 @@
                 var nomRegion = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
                 $(this).val(nomRegion);
                 var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                nomPays = nomPays.split(' ').join('_');
                 var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
                 modal.val(nomRegion);
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);

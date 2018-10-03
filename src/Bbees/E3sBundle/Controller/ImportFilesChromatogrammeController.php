@@ -43,7 +43,7 @@ class ImportFilesChromatogrammeController extends Controller
                     'choices'  => array(
                          ' ' => array('Chromatogram' => 'chromato'),
                          '  ' => array('Institution' => 'etablissement',),
-                         '   ' => array('Vocabulary' => 'vocabulaire','Person' => 'personne',),)
+                         '   ' => array('Vocabulary' => 'vocabulaire',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -56,8 +56,7 @@ class ImportFilesChromatogrammeController extends Controller
                     'choice_translation_domain' => false,
                     'choices'  => array(
                          ' ' => array('Chromatogram' => 'chromato'),
-                         '  ' => array('Institution' => 'etablissement',),
-                         '   ' => array('Person' => 'personne',),)
+                         '  ' => array('Institution' => 'etablissement',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -69,8 +68,7 @@ class ImportFilesChromatogrammeController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Chromatogram' => 'chromato'),
-                         '  ' => array('Person' => 'personne',),)
+                         ' ' => array('Chromatogram' => 'chromato',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

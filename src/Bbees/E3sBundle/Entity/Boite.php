@@ -33,7 +33,7 @@ class Boite
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle_boite", type="string", length=1024, nullable=true)
+     * @ORM\Column(name="libelle_boite", type="string", length=1024, nullable=false)
      */
     private $libelleBoite;
 
@@ -87,7 +87,7 @@ class Boite
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="code_collection_voc_fk", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="code_collection_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $codeCollectionVocFk;

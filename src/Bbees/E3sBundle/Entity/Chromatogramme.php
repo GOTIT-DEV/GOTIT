@@ -32,7 +32,7 @@ class Chromatogramme
     /**
      * @var string
      *
-     * @ORM\Column(name="num_yas", type="string", length=255, nullable=true)
+     * @ORM\Column(name="num_yas", type="string", length=255, nullable=false)
      */
     private $numYas;
 

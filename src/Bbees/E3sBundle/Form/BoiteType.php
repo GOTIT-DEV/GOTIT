@@ -30,7 +30,7 @@ class BoiteType extends AbstractType
                                     ->setParameter('parent', 'typeCollection')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                    'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a typeCollection')) 
+                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a typeCollection')) 
                 ->add('codeCollectionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')

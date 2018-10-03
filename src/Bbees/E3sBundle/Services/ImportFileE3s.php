@@ -39,7 +39,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.adn-range</b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.adn-range</b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -118,7 +118,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.adn-range </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.adn-range </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -193,7 +193,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -272,7 +272,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.individu_lame-range </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -347,7 +347,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -426,7 +426,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.lot_materiel-range </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -500,7 +500,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielPublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template import.lot_materiel-publie </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -583,7 +583,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataSqcAssembleePublie); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_sqc_ass", "code_sqc_ass") || !$importFileCsvService->testNameColumnCSV($columnByTable,"accession_number", "accession_number") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template  import.sqc_assemblee-publie </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template  import.sqc_assemblee-publie </b>");             
             exit;
         }     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -663,7 +663,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template source </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template source </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -816,7 +816,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pcr", "pcr.code_pcr") || !$importFileCsvService->testNameColumnCSV($columnByTable,"chromatogramme", "chromatogramme.code_chromato")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template pcr_chromato </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template pcr_chromato </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1054,7 +1054,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pcr", "pcr.code_pcr")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template pcr </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template pcr </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1221,7 +1221,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"chromatogramme", "chromatogramme.code_chromato")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template chromatogramme </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template chromatogramme </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1315,7 +1315,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"adn", "adn.code_adn")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template adn </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template adn </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1488,7 +1488,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"programme", "programme.code_programme")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template programme </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template programme </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1552,7 +1552,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"collecte", "collecte.code_collecte")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template collecte </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template collecte </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -1925,7 +1925,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"individu_lame", "individu_lame.code_lame_coll")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template individu_lame </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template individu_lame </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -2099,7 +2099,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"individu", "individu.code_ind_biomol")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template individu </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template individu </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -2345,7 +2345,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"boite", "boite.code_boite")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template boite </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template boite </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -2433,7 +2433,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"lot_materiel", "lot_materiel.code_lot_materiel")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template lot_materiel </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template lot_materiel </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -2837,7 +2837,7 @@ class ImportFileE3s
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataMotu); // Recupération des champs du CSv sous la forme d'un tableau / Table
         //var_dump($columnByTable); exit;
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_seq_ass", "code_seq_ass")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template motu </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template motu </b>");             
             exit;
         }  
     
@@ -2922,7 +2922,7 @@ class ImportFileE3s
         $csvDataMotu = $importFileCsvService->readCSV($fichier_motu);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"motu", "motu.nom_fichier_csv")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template motu </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template motu </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -3137,7 +3137,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"etablissement", "etablissement.nom_etablissement")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template etablissement </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template etablissement </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -3209,7 +3209,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pays", "pays.code_pays")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template pays </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template pays </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -3273,7 +3273,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"sequence_assemblee_ext", "sequence_assemblee_ext.code_sqc_ass_ext")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template sequence_assemblee_ext </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template sequence_assemblee_ext </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -3626,7 +3626,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"lot_materiel_ext", "lot_materiel_ext.code_lot_materiel_ext")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template lot_materiel_ext </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template lot_materiel_ext </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -3981,7 +3981,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"station", "station.code_station")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template station </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template station </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -4113,7 +4113,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"sequence_assemblee", "sequence_assemblee.code_sqc_ass")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template sequence_assemblee </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template sequence_assemblee </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -4517,7 +4517,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"referentiel_taxon", "referentiel_taxon.taxname")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template referentiel_taxon </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template referentiel_taxon </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -4590,7 +4590,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"voc", "voc.code")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template voc </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template voc </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
@@ -4655,7 +4655,7 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Recupération des champs du CSv sous la forme d'un tableau / Table
         if(!$importFileCsvService->testNameColumnCSV($columnByTable,"personne", "personne.nom_personne")) { 
-            return("ERROR : <b> le fichier downloader ne contient pas les bonnes collonnes du template personne </b>");             
+            return("ERROR : <b> le fichier CSV  ne contient pas les bonnes collonnes du template personne </b>");             
             exit;
         }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();

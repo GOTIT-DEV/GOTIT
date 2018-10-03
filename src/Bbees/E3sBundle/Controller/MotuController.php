@@ -62,7 +62,7 @@ class MotuController extends Controller
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
         // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
-        $where = 'LOWER(motu.nomFichierCsv) LIKE :criteriaLower';
+        $where = 'LOWER(motu.libelleMotu) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');

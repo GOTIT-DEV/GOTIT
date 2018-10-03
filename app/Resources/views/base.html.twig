@@ -245,7 +245,7 @@
                         <span class=" fa fa-angle-down"></span>
                       </a>
                       <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        {% if is_granted('ROLE_COLLABORATION') %}  
+                        {% if is_granted('ROLE_PROJECT') %}  
                             <li><a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a></li>
                         {% endif %}
                         <li>
@@ -332,7 +332,7 @@
         {% block footer %}
         <footer>
           <div class="pull-right">
-            Base de données e3s - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            Base de données gotit1.0 - Interface 1.0 by  <a href="http://bbees.mnhn.fr">BBEES</a> -  Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
           <div class="clearfix"></div>
         </footer>

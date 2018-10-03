@@ -83,7 +83,10 @@
 {{ parent() }}
 
 <script type="text/javascript">  
-    $(" :input").prop("disabled", true);
+    $(document).ready(function(){
+        $(" :input").prop("disabled", true);
+        $('button[class="btn btn-info pull-right"]').prop("disabled", false);
+     }); 
 </script>
 
 {% endblock %}

@@ -65,7 +65,7 @@ class LotMaterielExtEstReferenceDans
      *
      * @ORM\ManyToOne(targetEntity="Source")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * })
      */
     private $sourceFk;

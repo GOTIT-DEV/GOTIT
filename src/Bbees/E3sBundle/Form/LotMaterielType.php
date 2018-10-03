@@ -81,7 +81,7 @@ class LotMaterielType extends AbstractType
                                ->leftJoin('BbeesE3sBundle:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
                                ->where('voc.code LIKE :codetype')
                                ->setParameter('codetype', 'LOT')
-                               ->orderBy('boite.libelleBoite', 'ASC');
+                               ->orderBy('LOWER(boite.codeBoite)', 'ASC');
                         }, 
                     'placeholder' => 'Choose a Box', 'choice_label' => 'code_boite', 'multiple' => false, 'expanded' => false, 'required' => false,))
                 ->add('compositionLotMateriels', CollectionType::class , array(

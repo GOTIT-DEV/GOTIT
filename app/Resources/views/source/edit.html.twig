@@ -76,6 +76,13 @@ $(document).ready(function(){
 
         {% if action == 'edit'  %}  
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // verouillage des champs : code source
+                $('#bbees_e3sbundle_source_codeSource').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_source"]',function(ev){
+                    $('#bbees_e3sbundle_source_codeSource').attr("disabled", false); 
+                });                 
+            {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        

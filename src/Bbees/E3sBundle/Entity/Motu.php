@@ -26,7 +26,7 @@ class Motu
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle_motu", type="string", length=255, nullable=true)
+     * @ORM\Column(name="libelle_motu", type="string", length=255, nullable=false)
      */
     private $libelleMotu;
 

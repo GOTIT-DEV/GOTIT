@@ -114,7 +114,7 @@ class Adn
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="qualite_adn_voc_fk", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="qualite_adn_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $qualiteAdnVocFk;

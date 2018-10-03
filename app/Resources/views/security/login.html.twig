@@ -8,7 +8,7 @@
     <div class="title">
       <h1>
         <i>
-          {{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}
+          Gene, Occurence and Taxa in Integrative Taxonomy
         </i>
       </h1>
     </div>
@@ -16,7 +16,8 @@
   <div class="clearfix"></div>
 {% endblock %}
 
-
+{% block sidebar %}
+{% endblock %}
 
 {% block body %}
 
@@ -29,7 +30,7 @@
           <img
             src="{{ asset('e3s/images/carte_stations_e3s.jpg') }}"
             type="image"
-            height="400"
+            height="300"
             alt="sequence adn"
             align="right"/>
         </div>         
@@ -42,7 +43,7 @@
           <img
             src="{{ asset('e3s/images/sequence_adn.jpg') }}"
             type="image"
-            height="400"
+            height="300"
             alt="sequence adn"
             align="middle"/>
         </div>
@@ -56,7 +57,7 @@
             rel="icon"
             src="{{ asset('e3s/images/prosaelus_valdensis.jpg') }}"
             type="image"
-            height="400"
+            height="300"
             alt="prosaelus valdensis"
             align="middle"/>
         </div>
@@ -65,55 +66,95 @@
 
   </div>
             
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-{#
-                  <div class="x_title">
-                    <h2>Login Form</h2>
-                    <div class="clearfix"></div>
-                  </div>
-#}
-                  <div class="x_content">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+    {#
+        <div class="x_title">
+          <h2>Login Form</h2>
+          <div class="clearfix"></div>
+        </div>
+    #}
+        <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" action="{{ path('login') }}" method="post">
+          <form class="form-horizontal form-label-left" action="{{ path('login') }}" method="post">
 
-                      <p>    {% if error %}
-                            <div>{{ error.messageKey}} /  {{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            {% endif %}
-                                <b> Please enter your login / password </b>
-                      </p>
-                      <span class="section"></span>
+            <p>    {% if error %}
+                  <div>{{ error.messageKey}} /  {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                  {% endif %}
+                      <b> Please enter your login / password </b>
+            </p>
+            <span class="section"></span>
 
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="username" name="_username" value="{{ last_username }}" lass="form-control col-md-7 col-xs-12" placeholder="fmallard2018" required="required"/>
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label for="password" class="control-label col-md-3">Password</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="password" name="_password" class="form-control col-md-7 col-xs-12" required="required"  />
-                        </div>
-                      </div>
-                      <div class="ln_solid">        
-                                {#
-                                If you want to control the URL the user
-                                is redirected to on success (more details below)
-                                  #}
-                                <input type="hidden" name="_target_path" value="/fr" /></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-md-offset-3">
-                          <button id="send" type="submit" class="btn btn-success">Login</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" id="username" name="_username" value="{{ last_username }}" lass="form-control col-md-7 col-xs-12" placeholder="fmallard2018" required="required"/>
               </div>
+            </div>
+            <div class="item form-group">
+              <label for="password" class="control-label col-md-3">Password</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="password" id="password" name="_password" class="form-control col-md-7 col-xs-12" required="required"  />
+              </div>
+            </div>
+            <div class="ln_solid">        
+                      {#
+                      If you want to control the URL the user
+                      is redirected to on success (more details below)
+                        #}
+                      <input type="hidden" name="_target_path" value="/fr" /></div>
+            <div class="form-group">
+              <div class="col-md-6 col-md-offset-3">
+                <button id="send" type="submit" class="btn btn-success">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
             
     
- 
+  <div class="row">
+    <img
+      rel="icon"
+      src="{{ asset('e3s/images/logo-LEHNA.png') }}"
+      type="image"
+      width="75"
+      height="75"
+      alt="LEHNA"/>
+    <span class="img-thumbnail">LEHNA : UMR CNRS 5023 Ecologie des Hydrosystèmes Naturels et Anthropisés,<br>
+      Université Lyon 1 , ENTPE, CNRS, Université Lyon</span>
+    <img
+      rel="icon"
+      src="{{ asset('e3s/images/logo-BBEES.png') }}"
+      type="image"
+      width="75"
+      height="75"
+      alt="Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés (BBEES), Muséum national d'Histoire naturelle, CNRS "/>
+    <span class="img-thumbnail">BBEES : Unité Bases de données sur laBiodiversité, Écologie, Environnement et Sociétés<br>
+      Muséum national d'Histoire naturelle, CNRS ; CP55, 57 rue Cuvier 75005 Paris, France</span>
+    <img
+      rel="icon"
+      src="{{ asset('e3s/images/logo-CNRS.png') }}"
+      type="image"
+      width="75"
+      height="75"
+      alt="LEHNA"/>
+    <img
+      rel="icon"
+      src="{{ asset('e3s/images/logo-LYON1.png') }}"
+      type="image"
+      width="75"
+      height="75"
+      alt="LEHNA"/>
+    <img
+      rel="icon"
+      src="{{ asset('e3s/images/logo-MNHN.png') }}"
+      type="image"
+      width="75"
+      height="75"
+      alt="LEHNA"/>
+  </div> 
 
 {% endblock %}

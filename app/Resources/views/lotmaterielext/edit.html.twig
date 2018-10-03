@@ -106,22 +106,24 @@ $(document).ready(function(){
         $('[for^=bbees_e3sbundle_lotmaterielext_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
             dateDateprecision('bbees_e3sbundle_lotmaterielext_especeIdentifiees_0', 'dateIdentification', message);
         })
-        {% if action == 'edit'  %} 
+  
+        {% if action == 'edit'  %}  
             // L'ajout d'un bouton Back to the collecte
-            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'buton.Back to collecte'|trans}}" );
+            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'buton.Back to collecte'|trans}}");
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             {% if not is_granted('ROLE_ADMIN') %}  
                 // verouillage des champs : Station; Code collecte; Date collecte
                 $('#bbees_e3sbundle_lotmaterielext_collecteFk').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){
+                    // deverouillage des champ descativé pour permettre l enregistrement
                     $('#bbees_e3sbundle_lotmaterielext_collecteFk').attr("disabled", false); 
                  }); 
                 $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){
-                    $('bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", false); 
+                    $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", false); 
                 });                 
             {% endif %}
-        {% endif %}
+        {% endif %}            
         {% if action == 'new'  %} 
             // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
             $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", true); 

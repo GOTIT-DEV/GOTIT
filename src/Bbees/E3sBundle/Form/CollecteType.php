@@ -85,7 +85,7 @@ class CollecteType extends AbstractType
                         'entry_options' => array('label' => false)
         	))
                 ->add('dureeEchantillonnageMn')->add('temperatureC')->add('conductiviteMicroSieCm')
-                ->add('aFaire', ChoiceType::class, array('choices'  => array('No' => 0, 'Yes' => 1,), 'required' => true,
+                ->add('aFaire', ChoiceType::class, array('choices'  => array( 'OUI' => 1, 'NON' => 0,), 'required' => true,
                                'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
                     ))
                 ->add('commentaireCollecte')
@@ -94,7 +94,7 @@ class CollecteType extends AbstractType
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
                                ->setParameter('parent', 'leg')
-                               ->orderBy('voc.libelle', 'ASC');
+                               ->orderBy('voc.libelle', 'DESC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))

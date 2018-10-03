@@ -1,11 +1,19 @@
-# ajouter  26/09/2018
+##### ajouter  26/09/2018
+# Vocabulaire (table VOC)
+LOT: LOT
+ADN: DNA
+LAME: SLIDE
+INCONNU: NOT KNOWN
+? INCONNU: ? NOT KNOWN
+# table User_db
 Username: Username
 Password: Password
-Email: Email
+Email: Email address
 Role: Role
-Name: User name
+Name: User full name
 Institution: Institution
 Commentaire User: User comment
+Locale: Version
 buton.NewUser: Create a new User
 title.user: User
 list.User cre: User Create
@@ -15,7 +23,7 @@ import.boite.individulamedeplace: Move or delete slides as file
 import.boite.adndeplace: Move or delete DNA boxes as file
 import.source.lotmaterielpublie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
-# 
+####### 
 list.MotuAssigne: MOTU
 title.Import Files CSV: Import Files CSV
 title.boiteLOT: Box biological material

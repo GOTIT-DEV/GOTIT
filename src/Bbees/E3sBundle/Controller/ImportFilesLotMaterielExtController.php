@@ -42,6 +42,7 @@ class ImportFilesLotMaterielExtController extends Controller
                         'choice_translation_domain' => false,
                         'choices'  => array(
                              ' ' => array('External_biological_material' => 'lot_materiel_ext',),
+                             '  ' => array('Source' => 'source',),
                              '   ' => array('Taxon' => 'referentiel_taxon','Vocabulary' => 'vocabulaire','Person' => 'personne',),)
                         ))
                     ->add('fichier', FileType::class)
@@ -55,7 +56,8 @@ class ImportFilesLotMaterielExtController extends Controller
                         'choice_translation_domain' => false,
                         'choices'  => array(
                              ' ' => array('External_biological_material' => 'lot_materiel_ext',),
-                             '  ' => array('Person' => 'personne',),)
+                             '  ' => array('Source' => 'source',),
+                             '   ' => array('Person' => 'personne',),)
                         ))
                     ->add('fichier', FileType::class)
                     ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

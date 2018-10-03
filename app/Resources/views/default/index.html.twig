@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block helpbutton %}{% endblock %}
 
 {% block headincl %}
   <!-- Plotly -->
@@ -103,18 +102,7 @@
       <div class="x_panel tile fixed_height_200">
         <div class="x_title">
           <h2>{{'Dashboard.Données de terrain'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -123,14 +111,6 @@
               <span>{{'Dashboard.nbStation'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbStation }}</span>
@@ -142,14 +122,6 @@
               <span>{{'Dashboard.nbCollecte'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbCollecte }}</span>
@@ -163,18 +135,7 @@
       <div class="x_panel tile fixed_height_200">
         <div class="x_title">
           <h2>{{'Dashboard.Données moléculaire'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -183,14 +144,6 @@
               <span>{{'Dashboard.nbPcr'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbPcr }}</span>
@@ -202,14 +155,6 @@
               <span>{{'Dashboard.nbChromatogramme'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbChromatogramme }}</span>
@@ -221,14 +166,6 @@
               <span>{{'Dashboard.nbSequenceAssemblee'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbSequenceAssemblee }}</span>
@@ -245,18 +182,7 @@
 
         <div class="x_title">
           <h2>{{'Dashboard.Materiel biologique'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -265,14 +191,6 @@
               <span>{{'Dashboard.nbLotMateriel'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbLotMateriel }}</span>
@@ -284,14 +202,6 @@
               <span>{{'Dashboard.nbIndividu'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbIndividu }}</span>
@@ -303,14 +213,6 @@
               <span>{{'Dashboard.nbIndividuLame'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbIndividuLame }}</span>
@@ -322,14 +224,6 @@
               <span>{{'Dashboard.nbAdn'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbAdn }}</span>
@@ -341,14 +235,6 @@
               <span>{{'Dashboard.nbBoite'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbBoite }}</span>
@@ -364,18 +250,7 @@
       <div class="x_panel tile fixed_height_200">
         <div class="x_title">
           <h2>{{'Dashboard.Hypothese espece'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+          
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -384,14 +259,6 @@
               <span>{{'Dashboard.nbTaxon'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbTaxon }}</span>
@@ -403,14 +270,6 @@
               <span>{{'Dashboard.nbMotuSqcAss'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbMotuSqcAss }}</span>
@@ -422,14 +281,6 @@
               <span>{{'Dashboard.nbMotuSqcAssExt'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbMotuSqcAssExt }}</span>
@@ -442,18 +293,7 @@
       <div class="x_panel tile fixed_height_200">
         <div class="x_title">
           <h2>{{'Dashboard.Données de la litérature'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+          
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -462,14 +302,6 @@
               <span>{{'Dashboard.LotMaterielExt'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbLotMaterielExt }}</span>
@@ -481,14 +313,6 @@
               <span>{{'Dashboard.nbSequenceAssembleeExt'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbSequenceAssembleeExt }}</span>
@@ -500,14 +324,6 @@
               <span>{{'Dashboard.nbSource'|trans}}</span>
             </div>
             <div class="w_center w_25">
-              <div class="progress">
-                <div
-                  class="progress-bar bg-grey"
-                  role="progressbar"
-                  aria-valuenow="60"
-                  aria-valuemin="0"
-                  aria-valuemax="100"></div>
-              </div>
             </div>
             <div class="w_right w_20">
               <span>{{ nbSource }}</span>
@@ -527,22 +343,12 @@
       <div class="x_panel">
         <div class="x_title">
           <h2>{{'Dashboard.Tools'|trans}}</h2>
-          <ul class="nav navbar-right panel_toolbox">
-            <li>
-              <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-              </a>
-            </li>
-            <li>
-              <a class="close-link">
-                <i class="fa fa-close"></i>
-              </a>
-            </li>
-          </ul>
+
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
           <div class="dashboard-widget-content">
+              
           {% if is_granted('ROLE_ADMIN') %}
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
@@ -610,19 +416,39 @@
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.motu'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
-                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>                
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.individulamedeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.adndeplace'|trans}}</font></a><br/>                
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
             {% elseif  is_granted('ROLE_COLLABORATION')%}
                 <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.station'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.collecte'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.lotmateriel'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.individu'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.individulame'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.lotmaterielext'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>                
                 <a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
@@ -631,7 +457,11 @@
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
-                <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+                <a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>                
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.motu'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.source'|trans}}</font></a><br/>                
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
@@ -639,9 +469,58 @@
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.individulamedeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.adndeplace'|trans}}</font></a><br/>                                
+                <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
                 <i class="fa fa-arrow-circle-o-right"></i>
                 <a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+            {% elseif  is_granted('ROLE_INVITED')%}
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.station'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.collecte'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.lotmateriel'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.individu'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.individulame'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.lotmaterielext'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>                
+                <a href="#"><font color="grey">{{'import.adn'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.pcr'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.chromatogramme'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.sequenceassemblee'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.sequenceassembleeext'|trans}}</font></a><br/>                
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.motu'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.source'|trans}}</font></a><br/>                
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.lotmaterielrange'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.individulamerange'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.individulamedeplace'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.boite.adndeplace'|trans}}</font></a><br/>                                
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.source.lotmaterielpublie'|trans}}</font></a><br/>
+                <i class="fa fa-arrow-circle-o-right"></i>
+                <a href="#"><font color="grey">{{'import.source.sequencepublie'|trans}}</font></a><br/>
             {% else  %}
 
             {% endif %}
