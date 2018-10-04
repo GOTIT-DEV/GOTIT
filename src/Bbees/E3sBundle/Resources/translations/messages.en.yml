@@ -7,12 +7,13 @@ INCONNU: NOT KNOWN
 ? INCONNU: ? NOT KNOWN
 # table User_db
 Username: Username
-Password: Password
+Password: Password (8 char min)
+Repeat Password: Repeat Password
 Email: Email address
 Role: Role
 Name: User full name
 Institution: Institution
-Commentaire User: User comment
+Commentaire user: User comment
 Locale: Version
 buton.NewUser: Create a new User
 title.user: User

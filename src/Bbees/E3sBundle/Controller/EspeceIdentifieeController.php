@@ -5,12 +5,15 @@ namespace Bbees\E3sBundle\Controller;
 use Bbees\E3sBundle\Entity\EspeceIdentifiee;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Especeidentifiee controller.
  *
  * @Route("especeidentifiee")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class EspeceIdentifieeController extends Controller
 {

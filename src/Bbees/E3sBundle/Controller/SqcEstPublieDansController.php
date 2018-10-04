@@ -5,12 +5,15 @@ namespace Bbees\E3sBundle\Controller;
 use Bbees\E3sBundle\Entity\SqcEstPublieDans;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Sqcestpubliedan controller.
  *
  * @Route("sqcestpubliedans")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class SqcEstPublieDansController extends Controller
 {

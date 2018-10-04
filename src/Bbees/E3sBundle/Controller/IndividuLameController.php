@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Individulame controller.
  *
  * @Route("individulame")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class IndividuLameController extends Controller
 {
@@ -24,7 +25,6 @@ class IndividuLameController extends Controller
      *
      * @Route("/", name="individulame_index")
      * @Method("GET")
-     * @Security("has_role('ROLE_INVITED')")
      */
     public function indexAction()
     {

@@ -8,11 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Controller pour l'affichage de la carte de richesse
  *
  * @Route("/requetes/richesse")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class RichesseController extends Controller {
 

@@ -9,11 +9,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Controller pour les requêtes sur l'assignation des MOTUs et leur comptage
  *
  * @Route("/requetes/assign-motu")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class AssignationMotuController extends Controller {
 

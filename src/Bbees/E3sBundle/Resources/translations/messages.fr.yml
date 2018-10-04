@@ -1,11 +1,12 @@
 # ajouter  26/09/2018
 Username: Nom d'utilisateur 
-Password: Mot de passe
+Password: Mot de passe (8 char min)
+Repeat Password: Confirmez le Mot de passe 
 Email: Adresse electronique
 Role: Role
 Name: Nom complet de l'utilisateur
 Institution: Etablissement
-Commentaire User: Commentaire utilisateur
+Commentaire user: Commentaire utilisateur
 Locale: Version
 buton.NewUser: Créer un nouvel utilisateur
 title.user: Utilisateur

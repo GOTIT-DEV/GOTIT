@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * User controller.
@@ -100,13 +101,19 @@ class UserController extends Controller
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encodage du password
+            $plainPassword = $user->getPlainPassword();
+            $encoded = $encoder->encodePassword($user, $plainPassword);
+            //var_dump($plainPassword); var_dump($encoded);exit;
+            $user->setPassword($encoded);
+            //
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             try {
@@ -152,7 +159,7 @@ class UserController extends Controller
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_COLLABORATION')")
      */
-    public function editAction(Request $request, User $user)
+    public function editAction(Request $request, User $user, UserPasswordEncoderInterface $encoder)
     {
         // control d'acces sur les  user de type ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -164,7 +171,12 @@ class UserController extends Controller
         $editForm = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {            
+        if ($editForm->isSubmitted() && $editForm->isValid()) { 
+            // encodage du password
+            $plainPassword = $user->getPlainPassword();
+            $encoded = $encoder->encodePassword($user, $plainPassword);
+            //var_dump($plainPassword); var_dump($encoded);exit;
+            $user->setPassword($encoded);
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->flush();

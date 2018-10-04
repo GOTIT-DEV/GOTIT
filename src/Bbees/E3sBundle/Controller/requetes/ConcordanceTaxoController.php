@@ -7,12 +7,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Controller pour les requêtes sur la couverture d'échantillonnage
  * par espèce, sur le gène COI
  *
  * @Route("/requetes/concordance")
+ * @Security("has_role('ROLE_INVITED')")
  */
 class ConcordanceTaxoController extends Controller {
 

@@ -4,6 +4,7 @@ namespace Bbees\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -30,6 +31,17 @@ class User implements UserInterface
      */
     private $username;
 
+    /**
+    * @Assert\NotBlank()
+    * @Assert\Length(
+    *      min = 8,
+    *      max = 50,
+    *      minMessage = "Your password  must be at least {{ limit }} characters long",
+    *      maxMessage = "Your password  cannot be longer than {{ limit }} characters"
+    * )
+    */
+    private $plainPassword;
+    
     /**
      * @var string
      *
@@ -170,6 +182,30 @@ class User implements UserInterface
         return $this->username;
     }
 
+    /**
+     * Set set PlainPassword
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
+    /**
+     * Get PlainPassword
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+
+    
     /**
      * Set password
      *
