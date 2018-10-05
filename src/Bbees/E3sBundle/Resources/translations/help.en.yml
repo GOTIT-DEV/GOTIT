@@ -1,3 +1,11 @@
+user_index: |
+    INFO : Use this page to browse, create, show, edit and delete user accounts. WARNING: Deleting a user account would erase contents of technical fields (e.g. user creation). Rather, lock a user account using the option “LOCKED” in the edit session (see appendix 14.3.1 in GOTIT HELP for further details). Additional fields can be listed using the top right button. The search button applies to the field "Username"
+user_new: |
+    INFO : Use this form to fill in data of a new user. See appendix 14.3.1 in GOTIT HELP for content of fields.
+user_show: |
+    INFO : Use this form to consult data of a user. See appendix 14.3.1 in GOTIT HELP for content of fields.
+user_edit: |
+    INFO : Use this form to edit data of a user. See appendix 14.3.1 in GOTIT HELP for content of fields.
 default_index: |
     INFO : Use menu (let panel) of the dashboard to browse the functionalities of GOTIT web user interface. See section 4 in GOTIT HELP for a detailed description of sections and sub-sections of the menu. The dashboard provides summary of data stored in the relational data base as well as recent updates made in the data base. Direct links to a number of data uploading tools are also provided
 login: Use this page to login and access to GOTIT web user interface

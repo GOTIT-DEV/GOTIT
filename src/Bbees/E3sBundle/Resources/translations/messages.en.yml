@@ -67,8 +67,8 @@ buton.Back to the list of source: Back to the list of Sources
 Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy
 Dashboard.Distribution des stations: Distribution of sites
 Dashboard.Hypothese espece: Species hypotheses
-Dashboard.nbMotuSqcAss: Sequence assigned to MOTU
-Dashboard.nbMotuSqcAssExt: Sequence assigned to  MOTU
+Dashboard.nbMotuSqcAss: Internal sequence assigned to MOTU
+Dashboard.nbMotuSqcAssExt: External sequence assigned to  MOTU
 Dashboard.nbTaxon: Taxa
 Dashboard.Données de la litérature: Literature data
 Dashboard.LotMaterielExt: Lot

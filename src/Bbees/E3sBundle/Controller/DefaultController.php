@@ -53,7 +53,7 @@ class DefaultController extends Controller
         $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM BbeesE3sBundle:Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
         $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Boite u')->getSingleScalarResult();
         $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Source u')->getSingleScalarResult();
-        $nbTaxon = $em->createQuery('SELECT COUNT(rt.id) FROM BbeesE3sBundle:EspeceIdentifiee u JOIN u.referentielTaxonFk rt')->getSingleScalarResult();
+        $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM BbeesE3sBundle:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
         //
         $tab_toshow =[];
         // retourne les derniers enregistrements des adn
