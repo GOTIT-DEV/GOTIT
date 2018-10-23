@@ -5,6 +5,7 @@ ADN: DNA
 LAME: SLIDE
 INCONNU: NOT KNOWN
 ? INCONNU: ? NOT KNOWN
+0 - INCONNU: 0 - NOT KNOWN
 # table User_db
 Username: Username
 Password: Password (8 char min)
