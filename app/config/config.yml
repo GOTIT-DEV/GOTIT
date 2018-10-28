@@ -71,3 +71,12 @@ swiftmailer:
 # FOSJsRouting Configuration
 fos_js_routing:
     routes_to_expose: [^.*$]
+
+bazinga_js_translation:
+    active_domains:
+        - messages
+        - requetes
+    active_locales:
+        - en
+        - fr
+    locale_fallback: en
