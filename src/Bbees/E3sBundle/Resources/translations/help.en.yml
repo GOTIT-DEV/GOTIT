@@ -28,7 +28,7 @@ rearrangements: |
     INFO : Use this request to find out the nature of molecular operational taxonomic units (MOTU), in particular, whether a MOTU is a match, a split, a lump, or a reshuffling of species taxa delimited using morphological criteria. See section 12.3 in GOTIT HELP for more details about the functionalities of this request.
 distribution: |
     INFO : Use this request to explore the spatial distribution of molecular operational taxonomic units (MOTU) within a species taxon. See section 12.4 in GOTIT HELP for more details about the functionalities of this request.
-concordance: |
+consistency: |
     INFO : Use this request to select among different correspondence cases among species names attributed to biological materials, specimens, and DNA sequences. See section 12.5 in GOTIT HELP for more details about the functionalities of this request.
 # liste 
 station_index: |
