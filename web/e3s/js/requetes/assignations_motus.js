@@ -21,12 +21,6 @@ class AssignMotu {
     this.table = $(tableId)
     this.details = $(detailsTableId)
 
-    // Sequence types translations from twig template
-    this.seqTypes = {
-      internal: this.details.data('vocabSeqInt'),
-      external: this.details.data('vocabSeqExt'),
-    }
-
     // Toggle UI loading state
     this.uiWaitResponse()
 
@@ -177,7 +171,7 @@ class AssignMotu {
           return self.ajaxData
         }
       },
-      language: dtconfig.language[self.details.data('locale')],
+      language: dtconfig.language[$("html").attr("lang")],
       columns: [{
         data: 'code',
         render: (data, type, row) => {
@@ -194,7 +188,9 @@ class AssignMotu {
       }, {
         data: 'type',
         render: seqType => {
-          return seqType ? self.seqTypes.external : self.seqTypes.internal
+          return seqType ?
+            Translator.trans("entity.seq.type.externe") :
+            Translator.trans("entity.seq.type.interne")
         }
       }, {
         data: 'motu'

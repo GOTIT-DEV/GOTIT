@@ -71,7 +71,8 @@ swiftmailer:
 # FOSJsRouting Configuration
 fos_js_routing:
     routes_to_expose: [^.*$]
-
+    
+# Bazinga : JS side symfony translations
 bazinga_js_translation:
     active_domains:
         - messages
