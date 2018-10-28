@@ -67,3 +67,7 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+# FOSJsRouting Configuration
+fos_js_routing:
+    routes_to_expose: [^.*$]
