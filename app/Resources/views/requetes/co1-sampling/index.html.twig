@@ -13,7 +13,7 @@
   <div class='row' style='padding:10px'>
     <div class="col-xs-12 col-lg-3 col-lg-offset-0">
       {# Formulaire #}
-      {% include 'requetes/echantillonnage/form.html.twig' %}
+      {% include 'requetes/co1-sampling/form.html.twig' %}
     </div>
 
     <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
@@ -23,17 +23,17 @@
             {{"label.resultats" | trans }}
           </h2>
         </legend>
-        {% include 'requetes/echantillonnage/results.html.twig' %}
+        {% include 'requetes/co1-sampling/results.html.twig' %}
       </div>
     </fieldset>
 
   </div>
 
-  {% include 'requetes/echantillonnage/details.form.html.twig' %}
+  {% include 'requetes/co1-sampling/details.form.html.twig' %}
 
   {# Modal #}
   <div id="modal-container">
-    {% include 'requetes/echantillonnage/details.modal.html.twig' with {
+    {% include 'requetes/co1-sampling/details.modal.html.twig' with {
       'taxname' : ''
     } %}
   </div>
@@ -42,5 +42,5 @@
 {% block scripts %}
   {{ parent() }}
   <script src="{{asset('e3s/js/requetes/plots.js')}}"></script>
-  <script src="{{asset('e3s/js/requetes/echantillonnage_co1.js')}}"></script>
+  <script src="{{asset('e3s/js/requetes/co1_sampling.js')}}"></script>
 {% endblock %}

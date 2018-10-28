@@ -6,8 +6,7 @@
   <table
     id="result-table"
     class="table table-condensed table-hover table-striped"
-    style="width:100%"
-    data-locale="{{app.request.getLocale()}}">
+    style="width:100%">
     <thead>
       <tr>
         <th colspan="2"></th>
@@ -21,7 +20,7 @@
       </tr>
       <tr>
         <th></th>
-        <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0}) | trim('0')}}">
+        <th id="col-taxname">
           {{"columns.taxon" | trans}}
         </th>
         <th>{{"columns.stations" | trans}}</th>
@@ -30,7 +29,7 @@
         <th>{{"columns.stations" | trans}}</th>
         <th>{{"columns.lmp" | trans}}</th>
         <th>{{"columns.mle" | trans}}</th>
-        <th id="col-details" data-link-url="{{ path('co1-geocoords') }}">
+        <th id="col-details">
           {{"columns.loc" | trans}}
         </th>
       </tr>

@@ -154,7 +154,7 @@
                   {% if is_granted('ROLE_INVITED') %}
                     <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a href="{{ path('echantillonnage') }}">
+                    <li><a href="{{ path('co1-sampling') }}">
                         {% trans from 'requetes' %}
                         queries.echantillonnage.nav
                         {% endtrans %}
@@ -169,7 +169,7 @@
                         queries.rearrangement.nav
                         {% endtrans %}
                         </a></li>                   
-                    <li><a href="{{ path('richesse') }}">
+                    <li><a href="{{ path('distribution') }}">
                         {% trans from 'requetes' %}
                         queries.richesse.nav
                         {% endtrans %}
