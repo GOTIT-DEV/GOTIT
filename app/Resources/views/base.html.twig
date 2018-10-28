@@ -151,7 +151,7 @@
                     {% else %}
                     <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.user'|trans}}</font></a></li> 
                   {% endif %}
-                  {% if is_granted('ROLE_COLLABORATION') %}
+                  {% if is_granted('ROLE_INVITED') %}
                     <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     <li><a href="{{ path('echantillonnage') }}">
