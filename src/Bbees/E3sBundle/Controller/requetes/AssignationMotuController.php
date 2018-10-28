@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Controller pour les requêtes sur l'assignation des MOTUs et leur comptage
  *
- * @Route("/requetes/assign-motu")
+ * @Route("/queries/assign-motu")
  * @Security("has_role('ROLE_INVITED')")
  */
 class AssignationMotuController extends Controller {
@@ -44,7 +44,7 @@ class AssignationMotuController extends Controller {
   }
 
   /**
-   * @Route("/requete", name="requete1")
+   * @Route("/query", name="motu-query")
    *
    * Renvoie un objet JSON utilisé pour remplir la table de résultats (rows),
    * et des informations supplémentaires indiquant les paramètres de la

@@ -6,51 +6,75 @@ $(document).ready(_ => {
 })
 
 
-
+/**
+ * AssignMotu class
+ * Controls the form interaction and the results display
+ */
 class AssignMotu {
   constructor(formId, tableId, detailsTableId) {
+    // Used to keep details queries consistent with main query
+    this.lastQuery = {}
+    this.detailsFormData = []
+
+    // Page elements 
     this.form = $(formId)
     this.table = $(tableId)
     this.details = $(detailsTableId)
-    this.lastQuery = {}
-    this.detailsFormData = []
+
+    // Sequence types translations from twig template
     this.seqTypes = {
-      interne: this.details.data('vocabSeqInt'),
-      externe: this.details.data('vocabSeqExt'),
+      internal: this.details.data('vocabSeqInt'),
+      external: this.details.data('vocabSeqExt'),
     }
 
+    // Toggle UI loading state
     this.uiWaitResponse()
+
+    // Init form selector components
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId, 'checkbox')
 
+    // Setup tooltip for "Table" select menu
     this.form.find("select#id-level").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
-        title : $(event.target).data('originalTitle'),
+        title: $(event.target).data('originalTitle'),
         placement: 'auto'
       })
     })
 
-    $.when(this.speciesSelector.promise, this.methodSelector.promise)
-      .done(_ => {
+
+    // Get current user pulbic infos
+    let userAjaxCall = $.ajax({
+      url: Routing.generate("user_current"),
+      type: "GET"
+    })
+
+    /** When selectors are initialized and user info are retrieved : 
+     *  init result table
+     * */
+    $.when(this.speciesSelector.promise, this.methodSelector.promise, userAjaxCall)
+      .done((sp, meth, user) => {
+        // Disable result export for invited users
+        this.dtbuttons = user[0].role === "ROLE_INVITED" ? [] : dtconfig.buttons
         this.initDataTable()
       })
   }
 
   /**
-   * Initialise datatable en lien avec le formulaire et les éléments du DOM
+   * Init result table as DataTable
    * 
    */
   initDataTable() {
     let self = this
+    // Don't try to initialize if already init
     if (!$.fn.DataTable.isDataTable("#" + self.table.attr('id'))) {
-      const urls = {
-        refTaxon: self.table.find("th#col-taxname").data('linkUrl'),
-      }
+
+      // Init DataTable
       self.dataTable = self.table.DataTable({
         autoWidth: false,
         responsive: true,
         ajax: {
-          "url": self.form.data("url"),
+          "url": Routing.generate("motu-query"),
           "dataSrc": "rows",
           "type": "POST",
           "data": _ => {
@@ -59,34 +83,37 @@ class AssignMotu {
         },
         language: dtconfig.language[self.table.data('locale')],
         dom: "lfrtipB",
-        buttons: dtconfig.buttons,
+        buttons: self.dtbuttons,
         columns: [{
-            data: "taxname",
-            render: linkify(urls.refTaxon, 'id', true)
-          },
-          {
-            data: "methode"
-          },
-          {
-            data: "libelle_motu",
-          },
-          {
-            data: "nb_seq"
-          },
-          {
-            data: "nb_motus"
-          },
-          {
-            data: "id",
-            render: (data, type, row) => {
-              var template = $("#details-form-template").html();
-              return Mustache.render(template, row);
-            }
+          data: "taxname",
+          render: linkify("referentieltaxon_show", { col: 'id' })
+        },
+        {
+          data: "methode"
+        },
+        {
+          data: "libelle_motu",
+        },
+        {
+          data: "nb_seq"
+        },
+        {
+          data: "nb_motus"
+        },
+        {
+          data: "id",
+          render: (data, type, row) => {
+            var template = $("#details-form-template").html();
+            return Mustache.render(template, row);
           }
+        }
         ],
         drawCallback: _ => {
+          // Toggle UI loading done
           self.uiReceivedResponse()
+          // Init tooltips
           $('[data-toggle="tooltip"]').tooltip()
+          // Init detail forms
           $(".details-form").on('submit', event => {
             event.preventDefault();
             self.detailsFormData = $(event.target).serializeArray()
@@ -96,12 +123,15 @@ class AssignMotu {
         }
       }).on('xhr', _ => {
         let response = self.dataTable.ajax.json()
+        // Keep track of last query parameters
         self.lastQuery = response.query
+        // Init details table if it is not already done
         if (!$.fn.DataTable.isDataTable("#" + self.details.attr('id'))) {
           self.initModalTable()
         }
       })
 
+      // Init form submit event
       self.form.submit(event => {
         event.preventDefault()
         self.uiWaitResponse()
@@ -110,7 +140,9 @@ class AssignMotu {
     }
   }
 
-
+  /**
+   * Shortcut to build the ajax query parameters for details table
+   */
   get ajaxData() {
     let self = this
     let data = self.detailsFormData
@@ -139,7 +171,7 @@ class AssignMotu {
       responsive: true,
       ajax: {
         type: 'POST',
-        url: self.details.data('url'),
+        url: Routing.generate("motu-modal"),
         dataSrc: 'rows',
         data: _ => {
           return self.ajaxData
@@ -149,19 +181,20 @@ class AssignMotu {
       columns: [{
         data: 'code',
         render: (data, type, row) => {
-          let lookUpAttr = row.type ? 'urlExt' : 'urlInt'
-          let baseUrl = self.details.find("#col-code-seq").data(lookUpAttr)
-          return linkify(baseUrl, 'id', true, 'right')(data, type, row)
+          let route = row.type ? 'sequenceassembleeext_show' : 'sequenceassemblee_show'
+          return linkify(route,
+            { col: 'id', placement: 'right' })(data, type, row)
         }
       }, {
         data: 'acc',
-        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'acc', false)
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/',
+          { col: 'acc', ellipsis: false, generateRoute: false })
       }, {
         data: 'gene'
       }, {
         data: 'type',
-        render: data => {
-          return data ? self.seqTypes.externe : self.seqTypes.interne
+        render: seqType => {
+          return seqType ? self.seqTypes.external : self.seqTypes.internal
         }
       }, {
         data: 'motu'
@@ -169,7 +202,7 @@ class AssignMotu {
         data: 'critere'
       }],
       dom: "lfrtipB",
-      buttons: dtconfig.buttons,
+      buttons: self.dtbuttons,
       drawCallback: _ => {
         $('[data-toggle="tooltip"]').tooltip()
       }
@@ -178,14 +211,14 @@ class AssignMotu {
 
 
   /**
-   * Active le mode attente / loading
+   * Toggle UI loading mode
    */
   uiWaitResponse() {
     this.form.find("button[type='submit']").button('loading')
   }
 
   /**
-   * Désactive le mode attente 
+   * Toggle UI loading done
    */
   uiReceivedResponse() {
     this.form.find("button[type='submit']").button('reset')

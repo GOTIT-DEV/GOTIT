@@ -5,17 +5,13 @@
   <div class="table-responsive" style='width:100%'>
     <table
       id="details-table"
-      data-url="{{ path('motu-modal') }}"
       data-locale="{{app.request.getLocale()}}"
       data-vocab-seq-int="{{ 'entity.seq.type.interne' | trans }}"
       data-vocab-seq-ext="{{ 'entity.seq.type.externe' | trans }}"
       class="table table-condensed table-hover table-striped">
       <thead>
         <tr>
-          <th
-            id="col-code-seq"
-            data-url-int="{{path('sequenceassemblee_show', {id:0}) | trim(0)}}"
-            data-url-ext="{{path('sequenceassembleeext_show', {id:0}) | trim(0)}}">
+          <th id="col-code-seq">
             {{"columns.seqcode" | trans}}
           </th>
           <th>{{"columns.accession" | trans}}</th>

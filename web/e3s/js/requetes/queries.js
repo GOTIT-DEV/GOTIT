@@ -10,7 +10,7 @@ class SpeciesSelector {
    * @param {string} toggleId Identifiant de l'élément checkbox pour activer les champs
    * @param {Function} callback Callback à éxecuter après la réponse AJAX
    */
-  constructor(formId, toggleId = null, callback = function () {}) {
+  constructor(formId, toggleId = null, callback = function () { }) {
     this.form = $(formId)
 
     // Conteneur des inputs
@@ -22,7 +22,7 @@ class SpeciesSelector {
     this.taxname = this.selector.find('.taxname-select')
     this.selector.find("select").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
-        title : $(event.target).data('originalTitle'),
+        title: $(event.target).data('originalTitle'),
         placement: 'auto'
       })
     })
@@ -38,9 +38,9 @@ class SpeciesSelector {
         .change(this.toggleActive)
         .trigger('change')
       this.toggleBtn.parent().tooltip({
-          title : this.toggleBtn.attr('title'),
-          placement: 'auto'
-        })
+        title: this.toggleBtn.attr('title'),
+        placement: 'auto'
+      })
     }
     // Paramètres
     this.withTaxname = (this.taxname.length) ? true : false
@@ -109,9 +109,9 @@ class SpeciesSelector {
     // Formulaire inclut taxname : nouvelle requête
     if (self.withTaxname === true) {
       $.post(self.taxname.data('url'), {
-          species: self.species.val(),
-          genus: self.genus.val()
-        },
+        species: self.species.val(),
+        genus: self.genus.val()
+      },
         response => {
           let data = response.data.map(makeOption)
           self.taxname.html($.makeArray(data))
@@ -160,7 +160,7 @@ class MethodSelector {
 
     this.selector.find("select").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
-        title : $(event.target).data('originalTitle'),
+        title: $(event.target).data('originalTitle'),
         placement: 'auto'
       })
     })
@@ -230,6 +230,7 @@ function scrollTo(elt_id, time = 1000) {
  * @param {int} cutoff nombre de caractères max
  * @param {boolean} wordbreak coupure de mot autorisée
  * @param {boolean} escapeHtml échappement de caractères
+ * @param {string} placement tooltip position
  */
 jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = true, placement = 'top') {
   var esc = function (t) {
@@ -262,7 +263,9 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
       shortened = esc(shortened);
     }
     return Mustache.render(
-      '<span class="ellipsis" data-toggle="tooltip" data-placement="{{placement}}" title="{{title}}">{{shortText}}&#8230;</span>', {
+      '<span class="ellipsis" data-toggle="tooltip" \
+      data-placement="{{placement}}" \
+      title="{{title}}">{{shortText}}&#8230;</span>', {
         placement: placement,
         title: esc(d),
         shortText: shortened
@@ -276,20 +279,32 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
  * @param {string} col nom de la colonne JSON à utiliser
  * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
  */
-function linkify(url, col, ellipsis = true, placement = 'top') {
+function linkify(url,
+  { col = null, ellipsis = true, placement = "top", generateRoute = true } =
+    { col: null, ellipsis: true, placement: "top", generateRoute: true }) {
   return function (data, type, row) {
     if (data === null) {
       return data
     }
-    let res = Mustache.render(
-      "<a href='{{baseUrl}}{{id}}'>", {
-        baseUrl: url,
-        id: row[col],
-      });
-    if (ellipsis) res += $.fn.dataTable.render.ellipsis(20, true, true, placement)(data, type, row)
-    else res += data
-    res += "</a>"
-    return res
+    let path = url
+    if (generateRoute === true) {
+      path = col === null ?
+        Routing.generate(url) :
+        Routing.generate(url, { id: row[col] })
+    } else {
+      if (col != null) {
+        path += row[col]
+      }
+    }
+
+    let linkText = ellipsis === true ?
+      $.fn.dataTable.render.ellipsis(20, true, true, placement)(data, type, row)
+      : data
+
+    return Mustache.render("<a href='{{path}}'>{{{text}}}</a>", {
+      path: path,
+      text: linkText
+    })
   }
 }
 
