@@ -1,6 +1,6 @@
 {% trans_default_domain 'requetes' %}
 
-<div data-url="{{path('species-in-genus')}}" id="species-selector" class="species-selector">
+<div id="species-selector" class="species-selector">
   <div class="form-group">
     <label class="control-label" for="genus">
       {% trans %}
@@ -48,7 +48,6 @@
         name="taxname"
         id="taxname"
         class="form-control taxa-select taxname-select selectpicker"
-        data-url="{{path('taxname-search')}}"
         data-toggle="tooltip"
         data-placement="top"
         title="{% trans from 'tooltips' %}speciesselector.taxname{% endtrans %}"></select>
