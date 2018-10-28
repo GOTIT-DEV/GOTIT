@@ -13,10 +13,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Controller pour l'affichage de la carte de richesse
  *
- * @Route("/requetes/richesse")
+ * @Route("/queries/distribution")
  * @Security("has_role('ROLE_INVITED')")
  */
-class RichesseController extends Controller {
+class MotuDistributionController extends Controller {
 
   /**
    * @Route("/", name="richesse")
@@ -33,7 +33,7 @@ class RichesseController extends Controller {
     $genus_set    = $service->getGenusSet();
     $methods_list = $service->listMethodsByDate();
     # Rendu du template
-    return $this->render('requetes/richesse/index.html.twig', array(
+    return $this->render('requetes/motu-distribution/index.html.twig', array(
       'genus_set'    => $genus_set,
       'datasets'     => $datasets,
       'methods_list' => $methods_list,
@@ -41,15 +41,7 @@ class RichesseController extends Controller {
   }
 
   /**
-   * @Route("/methodes", name="richesse-methodes")
-   */
-  public function listMethods(Request $request, QueryBuilderService $service) {
-    $methodes = $service->listMethodsByDate();
-    return new JsonResponse($methodes);
-  }
-
-  /**
-   * @Route("/requete4", name="requete4")
+   * @Route("/query", name="distribution-query")
    *
    * Renvoie le JSON utilisé pour remplir la table de résultats (rows),
    * et afficher la carte de richesse (geo)

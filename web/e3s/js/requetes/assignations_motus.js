@@ -8,7 +8,7 @@ $(document).ready(_ => {
 
 /**
  * AssignMotu class
- * Controls the form interaction and the results display
+ * Controls form interactions and results display
  */
 class AssignMotu {
   constructor(formId, tableId, detailsTableId) {
