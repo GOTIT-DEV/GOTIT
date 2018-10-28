@@ -1,0 +1,22 @@
+{# Formulaire 3 : templates supplémentaires #}
+
+{# verbatim mode escapes {{braces}} for mustache.js#}
+{% verbatim %}
+  <template id="details-form-template">
+    <form class='details-form'>
+      <input type='hidden' name='taxon' value="{{ id }}"/>
+      <input type='hidden' name='lmp_lm' value="{{ lmp }}"/>
+      <input type='hidden' name='lmp_co1' value="{{ lmp_co1 }}"/>
+      <button
+        type='submit'
+        class='btn btn-xs btn-default command-details'
+        data-row-id="{{ id }}"
+        style="width:25px">
+        <span class='fa fa-map-marker'></span>
+      </button>
+    </form>
+  </template>
+{% endverbatim %}
+
+
+
