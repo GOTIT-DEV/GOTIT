@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class MotuDistributionController extends Controller {
 
   /**
-   * @Route("/", name="richesse")
+   * @Route("/", name="distribution")
    *
    * Rendu du template de la page principale
    */

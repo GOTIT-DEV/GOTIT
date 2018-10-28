@@ -14,13 +14,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Controller pour les requêtes sur la couverture d'échantillonnage
  * par espèce, sur le gène COI
  *
- * @Route("/requetes/echantillonnage")
+ * @Route("/requetes/co1-sampling")
  * @Security("has_role('ROLE_INVITED')")
  */
-class EchantillonnageController extends Controller {
+class CO1SamplingController extends Controller {
 
   /**
-   * @Route("/", name="echantillonnage")
+   * @Route("/", name="co1-sampling")
    *
    * Rendu du template de la page principale
    */
@@ -28,13 +28,13 @@ class EchantillonnageController extends Controller {
     # obtention de la liste des genres
     $genus_set = $service->getGenusSet();
     # Rendu du template
-    return $this->render('requetes/echantillonnage/index.html.twig', array(
+    return $this->render('requetes/co1-sampling/index.html.twig', array(
       'genus_set' => $genus_set,
     ));
   }
 
   /**
-   * @Route("/requete3", name="requete3")
+   * @Route("/query", name="co1-sampling-query")
    *
    * Données JSON pour remplir la table de résultats
    */
