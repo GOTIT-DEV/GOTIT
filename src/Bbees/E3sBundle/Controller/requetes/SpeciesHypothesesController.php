@@ -14,12 +14,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * Controller pour requête sur le réarrangements des MOTUs
  *
- * @Route("requetes/rearrangements")
+ * @Route("requetes/species-hypotheses")
  * @Security("has_role('ROLE_INVITED')")
  */
-class RearrangementsController extends Controller {
+class SpeciesHypothesesController extends Controller {
   /**
-   * @Route("/", name="rearrangements")
+   * @Route("/", name="species-hypotheses")
    *
    * Rendu du template de la page principale
    */
@@ -30,14 +30,14 @@ class RearrangementsController extends Controller {
     $doctrine = $this->getDoctrine();
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # Rendu du template
-    return $this->render('requetes/rearrangements/index.html.twig', array(
+    return $this->render('requetes/species-hypotheses/index.html.twig', array(
       'datasets'  => $datasets,
       'genus_set' => $genus_set,
     ));
   }
 
   /**
-   * @Route("/requete", name="requete2")
+   * @Route("/query", name="species-hypotheses-query")
    *
    * Renvoie un objet JSON pour remplir la table de résultats
    */

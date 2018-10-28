@@ -40,7 +40,7 @@ class BarPlot extends BasePlot {
     this.layout = {
       // Axe des X
       xaxis: {
-        title: this.container.data('vocabXlabel'),
+        title: Translator.trans("methode.label", {}, 'requetes'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -50,7 +50,7 @@ class BarPlot extends BasePlot {
       },
       // Axe des Y
       yaxis: {
-        title: this.container.data('vocabYlabel'),
+        title: Translator.trans('queries.rearrangement.short', {}, 'requetes'),
         titlefont: {
           family: 'sans serif',
           size: 18,
