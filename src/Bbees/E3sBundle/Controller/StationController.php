@@ -104,7 +104,9 @@ class StationController extends Controller
     public function geoCoords(Request $request){
         $data = $request->request;
         $latitude = $data->get('latitude');
+        $latitude = floatval(str_replace(",", ".", $latitude));
         $longitude = $data->get('longitude');
+        $longitude = floatval(str_replace(",", ".", $longitude));
         $diffLatitudeLongitude = 1;
         //
         $em = $this->getDoctrine()->getManager();
