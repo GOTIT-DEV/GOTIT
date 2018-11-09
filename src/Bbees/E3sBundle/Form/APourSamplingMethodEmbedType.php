@@ -5,9 +5,10 @@ namespace Bbees\E3sBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Bbees\E3sBundle\Form\APourSamplingMethodType as BaseType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
-class APourSamplingMethodEmbedType extends BaseType
+class APourSamplingMethodEmbedType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,8 +16,16 @@ class APourSamplingMethodEmbedType extends BaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        $builder->remove('collecteFk');
+        $builder->add('samplingMethodVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                       'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('voc')
+                                    ->where('voc.parent LIKE :parent')
+                                    ->setParameter('parent', 'samplingMethod')
+                                    ->orderBy('voc.libelle', 'ASC');
+                            }, 
+                        'choice_translation_domain' => true,'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
+                        'placeholder' => 'Choose a Sampling method',)
+                    );
     }
     
     /**

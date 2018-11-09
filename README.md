@@ -1,6 +1,5 @@
-GOTIT1-0
+GOTIT1-1
 =======
-Version creer le 23/10/2018 : AJout de la gestion des Utilisateurs (table user_db)
+A Symfony project created on 30/10/2018 : Publish Version 1.1
 
 
-A Symfony project created on July 04, 2018
