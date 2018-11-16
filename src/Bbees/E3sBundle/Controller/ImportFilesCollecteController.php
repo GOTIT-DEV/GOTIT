@@ -71,7 +71,7 @@ class ImportFilesCollecteController extends Controller
             $fichier = $form->get('fichier')->getData()->getRealPath(); // La fonction getRealPath donne le chemin vers le fichier temporaire créé
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
+            $message = "Import : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'collecte':
                     $message .= $importFileE3sService->importCSVDataCollecte($fichier, $user->getId() );

@@ -1,3 +1,28 @@
+# ajouter le 13/11/2018 
+# Erreurs de la procédure d'importation des données 
+importfileService.ERROR bad columns in CSV: Le fichier CSV ne contient pas les bonnes collonnes 
+importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  ( # OUI/NON )
+importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( # YES/NO )
+importfileService.ERROR duplicate code sqc sqcext: ERREUR - DOUBLON du code séquence qui existe en interne et en externe
+importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE 
+importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( # d/m/Y )
+importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
+importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
+importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affectée à la séquence assemblée
+importfileService.ERROR lot already publish: ERREUR - Lot materiel  déjà affectée à une source
+importfileService.ERROR lot already store: ERREUR - Lot materiel  déjà affectée à une boite
+importfileService.ERROR slide already store: ERREUR - Lame  déjà affectée à une boite
+importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à une boite
+importfileService.ERROR no box code for material: ERREUR - le code boite  n a pas été renseigné pour le code lot materiel
+importfileService.ERROR no box code: ERREUR - le code boite  n a pas été renseigné pour le code lamme coll 
+importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la bdd
+importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la bdd
+importfileService.ERROR bad code: ERREUR - Code INCONNU
+importfileService.ERROR bad column in CSV file: ERREUR - le fichier CSV ne contient pas les bonnes colonnes du modèle de migration - cf. Aide GOTIT
+importfileService.Date of data set import: Date import
+importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
+importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés
+Switch version: Changer de version
 # ajouter  26/09/2018
 Username: Nom d'utilisateur 
 Password: Mot de passe (8 char min)
@@ -211,7 +236,6 @@ Num individu sqc ass ext: Numero moleculaire individu sequence externe assemblee
 Num motu: Numero MOTU
 Num pcr: Numero PCR
 Num yas: Numero YAS
-Objectif: Taxon cible
 Ordre: Ordre
 Origine sqc ass ext voc fk: Origine sequence externe assemblee
 Parent: Parent

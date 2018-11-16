@@ -1,3 +1,29 @@
+# ajouter le 13/11/2018
+importfileService.ERROR bad columns in CSV: Bad columns in the CSV file
+importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( # OUI/NON )
+importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( # YES/NO )
+importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code that exists internally and externally
+importfileService.ERROR bad float format: ERROR - Bad FLOAT format
+importfileService.ERROR bad date format: ERROR - Bad date format ( # d/m/Y )
+importfileService.ERROR unknown record: ERROR - UNKNOWN record 
+importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
+importfileService.ERROR assession number already assign: ERROR - an accession number is already assigned to the sequence
+importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
+importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
+importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
+importfileService.ERROR lot already store: ERROR - The material is already assigned to a box
+importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
+importfileService.ERROR adn already store: ERROR - DNA is already assigned to a box
+importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
+importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lamme coll 
+importfileService.ERROR duplicate record: ERREUR - DUPLICATE record
+importfileService.ERROR duplicate code: ERROR - DUPLICATE code number
+importfileService.ERROR bad code: ERROR - UNKNOWN code
+importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain the correct columns of the migration template - cf. GOTIT Help
+importfileService.Date of data set import: Date of data set import
+importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, you must modify your CSV file. Error message is
+importfileService.Import OK: Import process is successful. Number of records Imported
+Switch version: Switch version
 ##### ajouter  26/09/2018
 # Vocabulaire (table VOC)
 LOT: LOT

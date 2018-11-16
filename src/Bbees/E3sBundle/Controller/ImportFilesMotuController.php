@@ -60,7 +60,7 @@ class ImportFilesMotuController extends Controller
             //$this->type_csv = $form->get('type_csv')->getData();
             $this->type_csv = "motu";
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
+            $message = "Import : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'motu':
                     if ($form->get('fichier')->getData() !== NULL) {

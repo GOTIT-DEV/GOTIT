@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 * ImportIndividu controller.
 *
 * @Route("importfilesadn")
- * @Security("has_role('ROLE_COLLABORATION')")
+* @Security("has_role('ROLE_COLLABORATION')")
 */
 class ImportFilesAdnController extends Controller
 {
@@ -82,7 +82,7 @@ class ImportFilesAdnController extends Controller
             $fichier = $form->get('fichier')->getData()->getRealPath(); // La fonction getRealPath donne le chemin vers le fichier temporaire créé
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Traitement du fichier : ".$nom_fichier_download."<br />";
+            $message = "Import : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
                 case 'adn':
                     $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());

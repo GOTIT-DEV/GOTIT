@@ -1,10 +1,13 @@
-{# retourne le nom de la route dans l'url #}
+{# configuration parameter for second language. put the 'code-ISO-second-language' or '' if there is not #}
+{% set second_language = 'en' %}
+
+{# set variables #}
 {% set base_route_index = app.request.attributes.get('_route') %}
 {% set base_route_url = base_route_index|split('_')[0] %}
 {% set help_message = base_route_index|trans({},'help')|nl2br %}
 {% if help_message ==  base_route_index %} 
         {% set help_message =  base_route_index %} 
- {% endif %} 
+{% endif %} 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +21,7 @@
 
     <title>
         {% block title %}
-            GOTIT-E3S 
+            GOTIT 
         {% endblock %}
     </title>
     
@@ -50,7 +53,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{path('default_index') }}" class="site_title"><i class="fa fa-database"></i> <span>GOTIT - E3S</span></a>
+              <a href="{{path('default_index') }}" class="site_title"><i class="fa fa-database"></i> <span>GOTIT</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -250,22 +253,37 @@
                         {% endif %}
                         <li>
                         {% set requestUri = app.request.requestUri %}
-                        {% set pathRouteFrInArray = requestUri|split('/fr/') %}
+                        {% set locale = app.request.getLocale() %}
+                        {% set defaultLocale = app.request.getDefaultLocale() %}
+                        {% set pathRouteInArray = requestUri|split(['/', locale, '/']|join) %}
+                        {% set FlagUrilangageParameter = requestUri|split('langage=switch') %}
                         {% set FlagUriParameter = requestUri|split('?') %}
-                          {% if pathRouteFrInArray|length == 2 %} 
-                                {% if FlagUriParameter|length == 1 %} 
-                                <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}?langage=en"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
-                                {% else %}
-                                <a href="{{ [pathRouteFrInArray[0], '/en/', pathRouteFrInArray[1]]|join }}&langage=en"><i class="fa fa-flag-checkered pull-right"></i> Switch version fr / en</a>
+                        {% set UrilangageParameter = '' %} 
+                        {% if second_language != '' %}
+                            {% if FlagUriParameter|length == 1 %} 
+                                {% if FlagUrilangageParameter|length == 1 %} 
+                                    {% set UrilangageParameter = '?langage=switch' %}
                                 {% endif %}
                             {% else %}
-                            {% set pathRouteEnInArray = requestUri|split('/en/') %}
-                                {% if FlagUriParameter|length == 1 %} 
-                                <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}?langage=fr"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
-                                 {% else %}
-                                <a href="{{ [pathRouteEnInArray[0], '/fr/', pathRouteEnInArray[1]]|join }}&langage=fr"><i class="fa fa-flag-checkered pull-right"></i>  Switch version en / fr</a>
-                                {% endif %}
-                              {% endif %}
+                                {% if FlagUrilangageParameter|length == 1 %} 
+                                    {% set UrilangageParameter = '&langage=switch' %}
+                                {% endif %}                        
+                            {% endif %}
+                            {% if locale == defaultLocale %} 
+                                  {% if FlagUriParameter|length == 1 %} 
+                                      <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fa fa-flag-checkered pull-right"></i> {{'Switch version'|trans}}  {{locale}} / {{second_language}}</a>
+                                  {% else %}
+                                      <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fa fa-flag-checkered pull-right"></i> {{'Switch version'|trans}}  {{locale}} / {{second_language}}</a>
+                                  {% endif %}
+                            {% else %}
+                                  {% set pathRouteEnInArray = requestUri|split(['/', second_language, '/']|join) %}
+                                  {% if FlagUriParameter|length == 1 %} 
+                                      <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fa fa-flag-checkered pull-right"></i>  {{'Switch version'|trans}}  {{locale}} / {{defaultLocale}}</a>
+                                   {% else %}
+                                      <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fa fa-flag-checkered pull-right"></i>  {{'Switch version'|trans}}  {{locale}} / {{defaultLocale}}</a>
+                                  {% endif %}
+                            {% endif %}
+                        {% endif %}
                         </li>
                         <li><a href="{{path('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                       </ul>
@@ -332,7 +350,7 @@
         {% block footer %}
         <footer>
           <div class="pull-right">
-            Base de données gotit1.0 - Interface 1.0 by  <a href="http://bbees.mnhn.fr">BBEES</a> -  Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+             GOTIT1.1 by  <a href="http://bbees.mnhn.fr">BBEES</a> -  Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
           </div>
           <div class="clearfix"></div>
         </footer>
