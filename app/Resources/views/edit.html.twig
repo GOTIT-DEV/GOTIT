@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% form_theme edit_form 'form-theme.html.twig'   %}
 
-{# initialise la variable entityname à partir du nom de la route : 'entityname_index'  #}
+{# initialization of TWIG general variables#}
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
 {% set action = route|split('_')[1] %}
@@ -9,7 +9,7 @@
 {% set route_new =  [entityname, '_new']|join  %} 
 {% set route_index =  [entityname, '_index']|join  %} 
 
-{# initialise l url de redirection du bouton BackToTheList  #}
+{# initialize the url attached to the BackToTheList button  #}
 {% set path_route_index =  path(route_index)  %} 
 {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
     {% set idFk = app.request.query.get('idFk') %} 
@@ -27,29 +27,28 @@
 {% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
     {% set path_route_index =  path(route_index,{'typeBoite': app.request.query.get('typeBoite')}) %}                 
 {% endif %}
-{# initialise et gere les variables realtives à la validation et au bouton BackToTheList #}
+
+{# initializes and manages the variables that are valid for validation and the BackToTheList button #}
 {% set backbutton = 1 %}
 {% set flagvalid = 0 %} 
 {% set comptvalid = 1 %} 
-{# cas du mode UPDATE /edit : valid  est passé en paramètre du formulaire form_edit aprés validation #}
+{# case of the UPDATE / edit mode: valid is passed in form_edit form parameter after validation #}
 {% if (valid is defined and valid == 1 )%} 
     {% set flagvalid = 1 %}
     {% set backbutton = 1 %}
     {% set comptvalid = app.request.get('comptvalid')+1 %}   
 {% endif %} 
-{#  cas du mode CREATE /new  : valid passé en paramètre d'url ?valid=1 #}
+{#  case of CREATE / new: valid mode passed in url parameter? valid = 1 #}
 {% if (app.request.query.get('valid') is defined and app.request.query.get('valid') == '1' )%}
     {% set flagvalid = 1 %} 
     {% set backbutton = 0 %}
     {% set comptvalid = 1 %}
 {% endif %}  
-{#  cas d un changement delangage  : langage passé en paramètre d'url ?langage=fr/en #}
+{#  case of a change of language: language passed in parameter of url? language = switch #}
 {% if (app.request.query.get('langage') is defined and app.request.query.get('langage') != '' )%}
     {% set backbutton = 0 %} 
     {% set comptvalid = 1 %}
 {% endif %} 
-
-
 
 
 {% block titlepage %}  
@@ -97,7 +96,7 @@
                  <button type="submit" class="btn btn-round btn-success " value="Create" >{{'buton.Valid'|trans}}</button> 
                  {% if ( backbutton == 0 )%} {# cas d une validation en mode CREATE #}
                      <a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a> 
-                 {% else %} {# cas du mode Edit /edit  #}
+                 {% else %} {# case of mode Edit /edit  #}
                     <a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'buton.BackToTheList'|trans}}</a>
                  {% endif %}
                 </div>
@@ -110,7 +109,6 @@
     </div>                     
 {% endblock %}
 
- 
 
 {% block scripts %}
 <script type="text/javascript">     

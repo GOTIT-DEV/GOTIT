@@ -1,6 +1,6 @@
 {% extends 'edit.html.twig' %}
 
-{# EDIT : REFERENTIEL TAXON #}
+{# EDIT : TAXON #}
 
 {% block body %}
     
@@ -13,10 +13,9 @@
 {% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
-//  interface Formulaire
+// Form actions
 $(document).ready(function(){
-        // L'ajout d'un bouton Back to the collecte
-        // MAJ du codeStation, nomStation
+        // MAJ 
         maj($('#bbees_e3sbundle_referentieltaxon_taxname'));
         maj($('#bbees_e3sbundle_referentieltaxon_rank')); 
         maj($('#bbees_e3sbundle_referentieltaxon_subclass'));
@@ -28,11 +27,10 @@ $(document).ready(function(){
         maj($('#bbees_e3sbundle_referentieltaxon_clade'));
         maj($('#bbees_e3sbundle_referentieltaxon_taxnameRef')); 
         {% if action == 'edit'  %}  
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // General action on form: form lock (default) / user role: app.user ... 
         {% endif %}
         {% if action == 'new'  %} 
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
-            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+            // General action on form: form lock (default) / user role: app.user ...        
         {% endif %}
     });
 </script>

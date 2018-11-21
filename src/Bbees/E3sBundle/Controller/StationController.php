@@ -263,7 +263,6 @@ class StationController extends Controller
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
                 return $this->render('station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-                //return $this->render('error.delete.html.twig', array('error' => explode("#", $exception_message)[0], 'route' => 'station_index'));
             } 
         }
         return $this->redirectToRoute('station_index');

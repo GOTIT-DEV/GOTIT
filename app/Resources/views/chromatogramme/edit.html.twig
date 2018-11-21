@@ -1,6 +1,6 @@
 {% extends 'edit.html.twig' %}
 
-{# EDIT : CHROMATOGRAMME #}
+{# EDIT : CHROMATOGRAM #}
 
 {% block body %}
     
@@ -35,14 +35,14 @@
  </script>
  
 <script type="text/javascript">  
-//  interface Formulaire
+// Form actions
     $(document).ready(function(){
          {% if action == 'edit'  %}  
-           // L'ajout d'un bouton Back to the pcr
+           // Adding a Back to Button to pcr
             addBackToRelatedRecord('chromatogramme', 'pcr', "{{'buton.Back to pcr'|trans}}");
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            // General action on form: form lock (default) / user role: app.user ...
             {% if not is_granted('ROLE_ADMIN') %}  
-                // verouillage des champs : PCR; Code chromatogramme; numero YAS; Amorce chromatogramme
+                // Locking fields: PCR; Code chromatogramme; numero YAS; Amorce chromatogramme
                 $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
                     $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", false); 
@@ -62,17 +62,17 @@
             {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...
+            // General action on form: form lock (default) / user role: app.user ...
             $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                // deverouillage des champ descativé pour permettre l enregistrement
+                // Unlocking fields to allow registration
                 $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
              }); 
-            // fonctionnalités spécifiques : generation automatiquement du  codeChromato
+            // specific features: automatically generating codeChromato
             setCodeChromato();
             $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').change(function (e) { setCodeChromato();}) 
             $('#bbees_e3sbundle_chromatogramme_numYas').keyup(function (e) { setCodeChromato();}) 
-            // La fonction qui genere automatiquement le codeCollecte
+            // function that automatically generates the codeCollection
             function setCodeChromato() {
                 var code = '';
                 var primerSelected = $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk option:selected').text();

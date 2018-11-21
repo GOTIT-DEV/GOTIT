@@ -5,50 +5,61 @@ namespace Bbees\E3sBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
 * Import Voc controller.
 *
-* @Route("importfilevoc")
+* @Route("importfilesvoc")
+* @Security("has_role('ROLE_ADMIN')")
 */
 class ImportFileVocController extends Controller 
 {     
     /**
-     * @Route("/", name="importfilevoc_index")
+     * @Route("/", name="importfilesvoc_index")
      *    
      */
      public function indexAction(Request $request)
-    {            
-        $message = "";
-        return $this->render('importfilecsv/voc.html.twig', array("message" => $message)); 
-        
-    }   
-    
-     /**
-     * Finds and displays le formulaire dimport d'une voc .
-     *
-     * @Route("/show", name="importfilevoc_show")
-     * 
-     */
-    public function showAction(Request $request)
-    {
-        $message = "";
-        $type_template_csv = "Voc";
+    {     
+        $message = ""; 
         // récuperation du service ImportFileE3s
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire : checkbox
-        $form = $this->createFormBuilder()
+        //creation du formulaire : liste deroulante
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        if($user->getRole() == 'ROLE_ADMIN') {
+            $form = $this->createFormBuilder()
+                ->setMethod('POST')
+                ->add('type_csv', ChoiceType::class, array(
+                     'choice_translation_domain' => false,
+                     'choices'  => array(
+                         ' ' => array('Vocabulary' => 'vocabulaire'),)
+                    ))
                 ->add('fichier', FileType::class)
-                ->add('submitVoc', SubmitType::class, array('label' => 'Envoyer'))
-                ->getForm();
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->get('submitVoc')->isClicked()){ //recuperation des données et traitement 
-            $fichier = $form->get('fichier')->getData()->getRealPath(); // La fonction getRealPath donne le chemin vers le fichier temporaire créé
-            $message = $importFileE3sService->importCSVDataVoc($fichier);
-            return $this->render('importfilecsv/form.html.twig', array("message" => $message, "type_template_csv" => $type_template_csv,'form' => $form->createView()));
+                ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+                ->getForm();            
         }
-        return $this->render('importfilecsv/form.html.twig', array("message" => $message,  "type_template_csv" => $type_template_csv,'form' => $form->createView())); 
-    }
+        $form->handleRequest($request); 
+        
+        if ($form->isSubmitted()){ //recuperation des données et traitement 
+            $fichier = $form->get('fichier')->getData()->getRealPath(); // La fonction getRealPath donne le chemin vers le fichier temporaire créé
+            $this->type_csv = $form->get('type_csv')->getData();
+            $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
+            $message = "Import : ".$nom_fichier_download."<br />";
+            switch ($this->type_csv) {
+                case 'vocabulaire':
+                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId() );
+                    break;
+                default:
+                   $message .=  "! Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+            }
+            return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
+        }
+        return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message,'form' => $form->createView()));  
+    } 
+    
 }

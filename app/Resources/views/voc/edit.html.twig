@@ -13,18 +13,15 @@
 {% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
-//  interface Formulaire
+// Form actions
 $(document).ready(function(){
-        // L'ajout d'un bouton Back to the collecte
-        // MAJ du codeStation, nomStation
         maj($('#bbees_e3sbundle_voc_code'));
         maj($('#bbees_e3sbundle_voc_libelle')); 
         {% if action == 'edit'  %}  
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // General action on form: form lock (default) / user role: app.user ... 
         {% endif %}
         {% if action == 'new'  %} 
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
-            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+            // General action on form: form lock (default) / user role: app.user ...        
         {% endif %}
     });
 </script>

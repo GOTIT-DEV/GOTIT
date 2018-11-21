@@ -44,7 +44,7 @@ class ImportFilesStationController extends Controller
                      'choice_translation_domain' => false,
                      'choices'  => array(
                          ' ' => array('Site' => 'station',),
-                         '  ' => array('Country' => 'pays','Vocabulary' => 'vocabulaire',),)
+                         '  ' => array('Country' => 'pays', 'Municipality' => 'commune', 'Vocabulary' => 'vocabulaire',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -72,6 +72,9 @@ class ImportFilesStationController extends Controller
             switch ($this->type_csv) {
                 case 'pays':
                     $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId() );
+                    break;
+                case 'commune':
+                    $message .= $importFileE3sService->importCSVDataCommune($fichier, $user->getId() );
                     break;
                 case 'vocabulaire':
                     $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId() );

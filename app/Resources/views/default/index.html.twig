@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{# DASHBOARD #}
 
 {% block headincl %}
   <!-- Plotly -->
@@ -12,9 +13,6 @@
 
     <!-- <div class="title"> -->
       <h1>
-        <!-- <img rel="icon" src="{{ asset('e3s/images/logo-BBEES.png') }}" type="image" width="50"
-        height="50" alt="Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés
-        (BBEES), Muséum national d'Histoire naturelle, CNRS " /> -->
         <i>
           {{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}
         </i>
@@ -28,70 +26,6 @@
 {% endblock %}
 
 {% block body %}
-
-  <!--
-  <div class="row">
-
-    <div class="col-md-5 col-sm-5 col-xs-15">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>{{'Dashboard.Distribution des stations'|trans}}</h2>
-
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <div class="geo-container">
-            <div id="station-geo-map" style="width:100%"></div>
-            <div class="geo-overlay">
-              <center>
-                <i class="fa fa-spinner fa-spin fa-4x"></i>
-              </center>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-2 col-sm-2 col-xs-6">
-      <div class="x_panel  overflow_hidden">
-        <div class="x_title">
-          <h2>Adn sequence</h2>
-          <ul class="nav navbar-right panel_toolbox"></ul>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content media-middle">
-          <img
-            src="{{ asset('e3s/images/sequence_adn.jpg') }}"
-            type="image"
-            height="487"
-            alt="sequence adn"
-            align="middle"/>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-5 col-sm-5 col-xs-15">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>Proaselus Valdensis</h2>
-          <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-          <img
-            rel="icon"
-            src="{{ asset('e3s/images/prosaelus_valdensis.jpg') }}"
-            type="image"
-            height="487"
-            alt="prosaelus valdensis"
-            align="middle"/>
-        </div>
-      </div>
-    </div>
-
-  </div>
-<<<<<<< HEAD
-  -->
-
 
   {% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbIndividu + nbLotMateriel %}
 
@@ -603,37 +537,6 @@
       }
     });
   </script>
-
- <!-- 
-  <script type="text/javascript">
-    $(document).ready(function () {
-      var latitude = '47,5';
-      var longitude = '5,0';
-      //var data = $(this).serialize();
-      var data = {
-        'latitude': latitude,
-        'longitude': longitude
-      };
-      $.ajax({
-        type: 'POST',
-        data: data,
-        url: "{{ path('mapstations') }}",
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert('error ajax request : ' + errorThrown);
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
-        },
-        beforeSend: function (htmlResponse) {
-          $(".geo-overlay").show();
-        },
-        success: function (response) {
-          $(".geo-overlay").hide();
-          gd = stationsMap(response.stations, latitude, longitude);
-        }
-      });
-    });
-  </script>
- --> 
+  
   
 {% endblock %}

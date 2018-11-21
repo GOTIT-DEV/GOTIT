@@ -1,7 +1,7 @@
 {# configuration parameter for second language. put the 'code-ISO-second-language' or '' if there is not #}
 {% set second_language = 'en' %}
 
-{# set variables #}
+{# setup TWIG variables ; base_route_index, base_route_url, help_message #}
 {% set base_route_index = app.request.attributes.get('_route') %}
 {% set base_route_url = base_route_index|split('_')[0] %}
 {% set help_message = base_route_index|trans({},'help')|nl2br %}
@@ -9,7 +9,10 @@
         {% set help_message =  base_route_index %} 
 {% endif %} 
 
+{# Main TWIG template of GOTIT application : BASE.HTML.TWIG #}
+
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -26,22 +29,16 @@
     </title>
     
     {% block stylesheets %}
-    <!-- Bootstrap -->
-    <link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ asset('e3s/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="{{ asset('e3s/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="{{ asset('e3s/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">	
-    <!-- Custom Theme Style -->
-    <link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">
-    <!-- Bootgrid -->
-    <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.css') }}" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="{{ asset('e3s/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">   	
+        <!-- Custom Theme Style -->
+        <link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">   
+        <!-- Bootgrid  -->
+        <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">   
     {% endblock %}
     
-
     {% block headincl %}
     {% endblock %}
 
@@ -66,10 +63,7 @@
               </div>
             </div>
             <!-- /menu profile quick info -->
-
-            <br />
-            
-            
+            <br />   
             <!-- sidebar menu -->
             {% block sidebar %}
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -190,7 +184,6 @@
                   
                 </ul>
               </div>
-
             </div>
             {% endblock %}
             <!-- /sidebar menu -->
@@ -218,17 +211,14 @@
 
         <!-- top navigation -->
         {% block topnav %}	
-        <div class="top_nav"> 
-            
+        <div class="top_nav">            
           <div class="nav_menu">
             <nav>                
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
-               <ul class="nav navbar-nav navbar-right">  
-                   
-                <li class="">
-                  
+               <ul class="nav navbar-nav navbar-right">                     
+                <li class="">                  
                     {% if app.user.username is defined %}  
                         <a href="javascript:;"  class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         {{app.user.username}} 
@@ -289,8 +279,7 @@
                       </ul>
 
                   {% endif %}
-                </li>
-                
+                </li>               
               </ul>
             </nav>
           </div>
@@ -361,33 +350,16 @@
 
     <!--  General Scripts -->
     {% block scripts %}
-    <!-- jQuery -->
-    <script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
-    <!-- Bootstrap -->
-    <script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <!-- FastClick -->
-    <script src="{{ asset('e3s/vendors/fastclick/lib/fastclick.js') }}"></script>
-    <!-- NProgress -->
-    <script src="{{ asset('e3s/vendors/nprogress/nprogress.js') }}"></script>
-    <!-- Chart.js -->
-    <script src="{{ asset('e3s/vendors/Chart.js/dist/Chart.min.js') }}"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="{{ asset('e3s/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
-    <!-- iCheck -->
-    <script src="{{ asset('e3s/vendors/iCheck/icheck.min.js') }}"></script>
-    <!-- Skycons -->
-    <script src="{{ asset('e3s/vendors/skycons/skycons.js') }}"></script>
-    <!-- DateJS -->
-    <script src="{{ asset('e3s/vendors/DateJS/build/date.js') }}"></script>
-    
-    <!-- Custom Theme Scripts -->
-    <script src="{{ asset('e3s/js/options.min.js') }}"></script>
-    <script src="{{ asset('e3s/js/e3s.js') }}"></script>
-    <script src="{{ asset('e3s/js/custom.min.js') }}"></script>
-    <!-- Bootgrid -->
-    <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
-    <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.js') }}"></script>
-    
+        <!-- jQuery -->
+        <script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
+        <!-- Bootstrap -->
+        <script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>    
+        <!-- Custom Theme Scripts -->
+        <script src="{{ asset('e3s/js/options.min.js') }}"></script>
+        <script src="{{ asset('e3s/js/e3s.js') }}"></script>
+        <script src="{{ asset('e3s/js/custom.min.js') }}"></script>
+        <!-- Bootgrid  -->
+        <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
     {% endblock %}
     
     <!--  Templates Scripts -->

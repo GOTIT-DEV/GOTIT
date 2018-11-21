@@ -14,13 +14,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
 * Import Pays controller.
 *
-* @Route("importfilespays")
+* @Route("importfilesprogramme")
 */
-class ImportFilePaysController extends Controller 
+class ImportFileProgrammeController extends Controller 
 {     
     /**
-     * @Route("/", name="importfilespays_index")
-     *    
+     * @Route("/", name="importfilesprogramme_index")
+     * @Security("has_role('ROLE_PROJECT')")   
      */
      public function indexAction(Request $request)
     {     
@@ -30,13 +30,13 @@ class ImportFilePaysController extends Controller
         //creation du formulaire : liste deroulante
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        if($user->getRole() == 'ROLE_ADMIN') {
+        if($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT' ) {
             $form = $this->createFormBuilder()
                 ->setMethod('POST')
                 ->add('type_csv', ChoiceType::class, array(
                      'choice_translation_domain' => false,
                      'choices'  => array(
-                         ' ' => array('Country' => 'pays'),)
+                         ' ' => array('Program' => 'programme'),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -50,8 +50,8 @@ class ImportFilePaysController extends Controller
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
             $message = "Import : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
-                case 'pays':
-                    $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId() );
+                case 'programme' :
+                    $message .= $importFileE3sService->importCSVDataProgramme($fichier, $user->getId() );
                     break;
                 default:
                    $message .=  "! Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

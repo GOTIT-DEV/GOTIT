@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-    {# initialise la variable nameOfEntity à partir de la variable gloable _controller: '~/Controller/NameOfEntityController::indexAction' #}
+    {# initialize the nameOfEntity variable from the gloable variable _controller: '~ / Controller / NameOfEntityController :: indexAction' #}
     {% set Urlcontroller = app.request.attributes.get('_controller') %}
     {% set controllerInArray = Urlcontroller|split('Controller') %}
     {% set controllerName = controllerInArray[1][1:] %}
@@ -38,7 +38,7 @@
 
 
 {% block action %}
-{# gestion des parametres d'url #}
+{# url parameter management #}
     {{ parent() }}
     <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
     {% if is_granted('ROLE_COLLABORATION') %}
@@ -54,7 +54,7 @@
 
 {% block templatescripts %}  
   
-{# affichage du message d'erreur sur Delete si il existe des enregistrements liés #}
+{# display of the error message on Delete if there are related records #}
 {% if exception_message is defined %} 
                 {% if  varUrl_typeBoite != ''  %} 
                     <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";</script> 
@@ -62,7 +62,8 @@
                     <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index)}}";</script> 
                 {% endif %}
 {% endif %}
-{# gestion de la liste bootgrid #} 
+
+{#  bootgrid list management #} 
 {# style=\"color:steelblue\" , style=\"color:lightgrey\" #}
 <script type="text/javascript">     
 $(document).ready(function(){

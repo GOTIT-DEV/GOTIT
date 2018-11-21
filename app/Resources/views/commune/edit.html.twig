@@ -1,6 +1,6 @@
 {% extends 'edit.html.twig' %}
 
-{# EDIT : COMMUNE #}
+{# EDIT : MUNICIPALITY #}
 
 {% block body %}
     {{ parent() }}                  
@@ -20,10 +20,10 @@
         maj($('#bbees_e3sbundle_commune_nomRegion')); 
 
         {% if action == 'edit'  %}  
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // General action on form: form lock (default) / user role: app.user ... 
         {% endif %}
         {% if action == 'new'  %} 
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
+            // General action on form: form lock (default) / user role: app.user ...        
             $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
             $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
                 var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
@@ -54,7 +54,6 @@
             }); 
         {% endif %}
             
-
           
     });
  </script>

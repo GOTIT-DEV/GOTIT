@@ -1,11 +1,27 @@
 # ajouter le 13/11/2018 
+# Button headings of csv file import forms
+buton.ImportVoc: Importer fichier Vocabulaire
+buton.ImportReferentieltaxon: Importer fichier Taxon
+buton.ImportPays: Importer fichier Pays
+buton.ImportPersonne: Importer fichier Personne
+buton.ImportProgramme: Importer fichier Programme
+buton.ImportEtablissement: Importer fichier Etablissement
+buton.ImportCommune: Importer fichier Commune
+buton.Back to the list of voc: Retour à la liste des Vocabulaires
+buton.Back to the list of referentieltaxon: Retour à la liste des Taxons
+buton.Back to the list of pays: Retour à la liste des Pays
+buton.Back to the list of personne: Retour à la liste des Personnes
+buton.Back to the list of programme: Retour à la liste des Programmes
+buton.Back to the list of etablissement: Retour à la liste des Etablissements
+buton.Back to the list of commune: Retour à la liste des Communes
 # Erreurs de la procédure d'importation des données 
 importfileService.ERROR bad columns in CSV: Le fichier CSV ne contient pas les bonnes collonnes 
-importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  ( # OUI/NON )
-importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( # YES/NO )
+importfileService.ERROR NULL value: ERREUR - Contenu INVALIDE (valeur NULL)
+importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  ( OUI / NON )
+importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERREUR - DOUBLON du code séquence qui existe en interne et en externe
 importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE 
-importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( # d/m/Y )
+importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( d / m / Y )
 importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
 importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
 importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affectée à la séquence assemblée
@@ -474,18 +490,18 @@ import.liste: Importer des fichiers
 import.boite.lotmaterielrange: Stocker des lots materiels par fichier
 import.boite.individulamerange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
-import.station: Importer fichier station
-import.collecte: Importer ficher collecte
-import.lotmateriel: Importer fichier lot materiel
-import.individu: Importer fichier individu
-import.individulame: Importer fichier lame
-import.lotmaterielext: Importer fichier lot materiel externe
-import.adn: Importer fichier ADN
-import.pcr: Importer fichier PCR
-import.chromatogramme: Importer fichier chromatogramme
-import.pcrchromato: Importer fichier PCR et chromatogramme
-import.sequenceassemblee: Importer fichier sequence
-import.sequenceassembleeext: Importer fichier sequence externe
-import.motu: Importer fichier MOTU
-import.source: Importer fichier source
+import.station: Importer fichier(s) station
+import.collecte: Importer fichier(s) collecte
+import.lotmateriel: Importer fichier(s) lot materiel
+import.individu: Importer fichier(s) individu
+import.individulame: Importer fichier(s) lame
+import.lotmaterielext: Importer fichier(s) lot materiel externe
+import.adn: Importer fichier(s) ADN
+import.pcr: Importer fichier(s) PCR
+import.chromatogramme: Importer fichier(s) chromatogramme
+import.pcrchromato: Importer fichier(s) PCR et chromatogramme
+import.sequenceassemblee: Importer fichier(s) sequence
+import.sequenceassembleeext: Importer fichier(s) sequence externe
+import.motu: Importer fichier(s) MOTU
+import.source: Importer fichier(s) source
 

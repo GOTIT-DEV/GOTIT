@@ -1,10 +1,27 @@
 # ajouter le 13/11/2018
+# Button headings of csv file import forms
+buton.ImportVoc: Import new set of Vocabulary
+buton.ImportReferentieltaxon: Import new set of Taxon
+buton.ImportPays: Import new set of Country
+buton.ImportPersonne: Import new set of Person
+buton.ImportProgramme: Import new set of Program
+buton.ImportEtablissement: Import new set of Institution
+buton.ImportCommune: Import new set of Municipality
+buton.Back to the list of voc: Back to the list of Vocabulary
+buton.Back to the list of referentieltaxon: Back to the list of Taxon
+buton.Back to the list of pays: Back to the list of Contry
+buton.Back to the list of personne: Back to the list of Person
+buton.Back to the list of programme: Back to the list of Program
+buton.Back to the list of etablissement: Back to the list of Institution
+buton.Back to the list of commune: Back to the list of Municipality
+# Service ERROR messages
 importfileService.ERROR bad columns in CSV: Bad columns in the CSV file
-importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( # OUI/NON )
-importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( # YES/NO )
+importfileService.ERROR NULL value: ERROR - INVALID value (NULL)
+importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( OUI / NON )
+importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code that exists internally and externally
 importfileService.ERROR bad float format: ERROR - Bad FLOAT format
-importfileService.ERROR bad date format: ERROR - Bad date format ( # d/m/Y )
+importfileService.ERROR bad date format: ERROR - Bad date format ( d / m / Y )
 importfileService.ERROR unknown record: ERROR - UNKNOWN record 
 importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
 importfileService.ERROR assession number already assign: ERROR - an accession number is already assigned to the sequence
@@ -16,8 +33,8 @@ importfileService.ERROR slide already store: ERROR - The slide is already assign
 importfileService.ERROR adn already store: ERROR - DNA is already assigned to a box
 importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
 importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lamme coll 
-importfileService.ERROR duplicate record: ERREUR - DUPLICATE record
-importfileService.ERROR duplicate code: ERROR - DUPLICATE code number
+importfileService.ERROR duplicate record: ERROR - DUPLICATE record
+importfileService.ERROR duplicate code: ERROR - DUPLICATE code 
 importfileService.ERROR bad code: ERROR - UNKNOWN code
 importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain the correct columns of the migration template - cf. GOTIT Help
 importfileService.Date of data set import: Date of data set import
@@ -410,7 +427,6 @@ Num individu sqc ass ext: External sequence specimen number
 Num motu: MOTU number
 Num pcr: PCR number
 Num yas: YAS number
-Objectif: Targeted taxa
 Ordre: Order
 Origine sqc ass ext voc fk: External sequence origin
 Parent: Parent

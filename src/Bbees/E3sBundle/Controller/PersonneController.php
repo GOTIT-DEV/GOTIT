@@ -123,8 +123,8 @@ class PersonneController extends Controller
                 $flush = $em->flush();
                 } 
             catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message = strval($e);
-                return $this->render('error.delete.html.twig', array('error' => $exception_message, 'route' => 'personne_new'));
+                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+                return $this->render('personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('personne_edit', array('id' => $personne->getId(), 'valid' => 1));  
             //return $this->redirectToRoute('personne_show', array('id' => $personne->getId()));

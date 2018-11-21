@@ -43,7 +43,7 @@ class GenericFunctionE3s
     
     public function SetArrayCollection($nameArrayCollection, $entity){
         $method = 'get'.ucfirst($nameArrayCollection);
-        // memorisation des ArrayCollection EstFinancePar
+        // memorize ArrayCollection EstFinancePar
         $originalArrayCollection = new ArrayCollection();
         foreach ($entity->$method() as $entityCollection) {
         	$originalArrayCollection->add($entityCollection);
@@ -54,7 +54,7 @@ class GenericFunctionE3s
     public function DelArrayCollection($nameArrayCollection, $entity, $originalArrayCollection ){
         $method = 'get'.ucfirst($nameArrayCollection);
         $em = $this->entityManager;  
-            // suppression des ArrayCollections
+            // delete ArrayCollections
             foreach ($entity->$method() as $entityCollection) {
                 foreach ($originalArrayCollection as $key => $toDel) {
                     if ($toDel === $entityCollection) {
@@ -73,7 +73,7 @@ class GenericFunctionE3s
         $method = 'get'.ucfirst($nameArrayCollection);
         $methodEmbed = 'get'.ucfirst($nameArrayCollectionEmbed);
         $listOriginalArrayCollection = [];
-        // memorisation des ArrayCollection EstFinancePar
+        // memorize ArrayCollection EstFinancePar
         $originalArrayCollection = new ArrayCollection();
         foreach ($entity->$method() as $entityCollection) {
         	$originalArrayCollection->add($entityCollection);
@@ -97,7 +97,7 @@ class GenericFunctionE3s
         $originalArrayCollection = $listOriginalArrayCollection[$nameArrayCollection];
         $originalArrayCollectionEmbed = $listOriginalArrayCollection[$nameArrayCollectionEmbed];
         $em = $this->entityManager;         
-        // suppression des ArrayCollectionsEmbed
+        // delete ArrayCollectionsEmbed
         foreach ($entity->$method() as $entityCollection) {
             foreach ($entityCollection->$methodEmbed() as $entityCollectionEmbed) {
                 foreach ($originalArrayCollectionEmbed as $key => $toDel) {
@@ -110,7 +110,7 @@ class GenericFunctionE3s
         foreach ($originalArrayCollectionEmbed as $entityCollectionEmbed) {
              $em->remove($entityCollectionEmbed);
         }
-        // on supprime dans un deuxième temps  les ArrayCollections
+        // delete ArrayCollections
         foreach ($entity->$method() as $entityCollection) {
             foreach ($originalArrayCollection as $key => $toDel) {
                 if ($toDel === $entityCollection) {

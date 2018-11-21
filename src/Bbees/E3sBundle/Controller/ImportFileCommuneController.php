@@ -12,14 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
-* Import Pays controller.
+* Import Commune controller.
 *
-* @Route("importfilespays")
+* @Route("importfilescommune")
 */
-class ImportFilePaysController extends Controller 
+class ImportFileCommuneController extends Controller 
 {     
     /**
-     * @Route("/", name="importfilespays_index")
+     * @Route("/", name="importfilescommune_index")
      *    
      */
      public function indexAction(Request $request)
@@ -36,7 +36,7 @@ class ImportFilePaysController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                      'choice_translation_domain' => false,
                      'choices'  => array(
-                         ' ' => array('Country' => 'pays'),)
+                         ' ' => array('Municipality' => 'commune'),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -50,8 +50,8 @@ class ImportFilePaysController extends Controller
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
             $message = "Import : ".$nom_fichier_download."<br />";
             switch ($this->type_csv) {
-                case 'pays':
-                    $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId() );
+                case 'commune':
+                    $message .= $importFileE3sService->importCSVDataCommune($fichier, $user->getId() );
                     break;
                 default:
                    $message .=  "! Le choix de la liste de fichier à importer ne correspond a aucun cas ?";

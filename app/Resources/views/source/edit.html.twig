@@ -33,7 +33,7 @@
 {% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
-// Personne Moadal Action spécifiques
+// Person Modal Actions
     $('#myModalPersonne').on('show.bs.modal', function (e) {
         var modal = $(this);
          $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
@@ -71,13 +71,13 @@
  </script>
  
 <script type="text/javascript">  
-//  interface Formulaire
+// Form actions
 $(document).ready(function(){
 
         {% if action == 'edit'  %}  
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
+            // General action on form: form lock (default) / user role: app.user ... 
             {% if not is_granted('ROLE_ADMIN') %}  
-                // verouillage des champs : code source
+                // Locking fields: code source
                 $('#bbees_e3sbundle_source_codeSource').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_source"]',function(ev){
                     $('#bbees_e3sbundle_source_codeSource').attr("disabled", false); 
@@ -85,8 +85,7 @@ $(document).ready(function(){
             {% endif %}
         {% endif %}
         {% if action == 'new'  %} 
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ...        
-            // fonctionnalités spécifiques : generation automatiquement du  codeCollecte
+            // General action on form: form lock (default) / user role: app.user ...        
         {% endif %}
     });
 </script>

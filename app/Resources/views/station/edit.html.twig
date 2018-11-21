@@ -1,8 +1,7 @@
 {% extends 'edit.html.twig' %}
 
-{# EDIT : STATION #}
+{# EDIT : SITE #}
 
-{# ! A METTRE ULTERIEUREMENT danns un nouveau block créé par Louis {% block headincl %} #}
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
@@ -15,7 +14,7 @@
 {% block body %}
     {{ parent() }}
           
-    <!-- Definition des Modal(s) : myModalCommune : formulaire Commune pour l'ajout dynamique d'une nouvelle commune -->
+    <!-- Definition of Modal (s): myModalCommune: Common form for the dynamic addition of a new  Municipality -->
     <div id="myModalCommune" class="modal" role="dialog">
     <div class="modal-dialog">
     <div class="modal-content">
@@ -34,7 +33,7 @@
        </div>
      </div>
     </div>
-    <!-- Definition des Modal(s) : detailsModal pour l'affichage des station autour du point GPS latitude/longitude -->       
+    <!-- Definition of Modal (s): detailsModal for the display of stations around the latitude / longitude GPS point -->       
     <div id="detailsModal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-lg">
         <!-- Modal content-->
@@ -79,8 +78,7 @@
             //  
         {% endif %}
         {% if action == 'edit'  %}   
-            // Action générale sur le formulaire : verouillage du formulaire (par defaut) / role utilisateur : app.user ... 
-            // verouillage du champ Roles
+            // General action on form: form lock (default) / user role: app.user ... 
             {% if not is_granted('ROLE_ADMIN') %}  
                 $('#bbees_e3sbundle_station_codeStation').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_station"]',function(ev){
@@ -89,14 +87,14 @@
             {% endif %}
         {% endif %}
             
-        // MAJ du codeStation, nomStation
+        // MAJ 
         maj($('#bbees_e3sbundle_station_codeStation'));
         maj($('#bbees_e3sbundle_station_nomStation'));          
 
         // fonctionnalités spécifiques : affecte automatiquement le id du pays slectionné
         var paysId = {{paysId}};
         
-        // Generation automatique de la nouvell liste des communes filtrées par le pays qui a été selectionné           
+        // specific features: automatically assigns the id of the selected country         
         $('#bbees_e3sbundle_station_paysFk').change(function (e) { 
             if (nbSelectPays == 0 ) { //  memorisation  de la liste des communes 
                 $listeOptionCommune =  $('select#bbees_e3sbundle_station_communeFk').find('option');
@@ -114,7 +112,7 @@
                 var communeInTab = $(this).text().split("|");
                 var communeVal = $(this).val();
                 var nbSeparateur = communeInTab.length;
-                if (nbSeparateur == 3 && communeInTab[2] == paysCode) { //  creation de la nouvelle liste des communes
+                if (nbSeparateur == 3 && communeInTab[2] == paysCode) { //  creation of the new list of municipalities
                     newlisteCommune = newlisteCommune+'<option value="'+communeVal+'" >'+$(this).text()+'</option>'; 
                 }
                 compt++;
@@ -123,12 +121,12 @@
             $('select#bbees_e3sbundle_station_communeFk').append(newlisteCommune);
         })
         
-        // Gestion de la modal Commune On ajoute le bouton "Add new Commune"
-        // 1) Ajout du bouton "Add new Commune"
+        // Common Modal Management Add the "Add new Common" button
+        // 1) Addition of the "Add new Commune" button
         var $container = $('select[id="bbees_e3sbundle_station_communeFk"]');
         var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModalCommune">{{'buton.Add a new Commune'|trans}}</button></div></br>');
         $addBoutonAdd.insertBefore($container);
-        // 2) Actions de la modal myModalCommune ; (i) mise en majuscule des champ nomCommune et nomRegion (ii) generation automatique du code commune
+        // 2) Actions of the modal myModalCommune; (i) capitalization of the commonname and regionName fields (ii) automatic generation of the common code
         $('#myModalCommune').on('show.bs.modal', function (e) {
             var modal = $(this);
             $('#bbees_e3sbundle_commune_paysFk').attr("disabled", true); 
@@ -154,7 +152,7 @@
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
             })  
-        // 3) Actions après la création d'une nouvelle Commune 
+        // 3) Actions after the creation of a new municipality 
         $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
             $('#bbees_e3sbundle_commune_paysFk').attr("disabled", false); 
             $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             
@@ -164,8 +162,8 @@
             callAjax(form, $container);
 	}); 
         
-        // Gestion du bouton "Show Station"
-        // 1) Ajout du bouton "See Stations"
+        // Management of the "Show Station" button
+        // 1) Added button "See Stations"
         var $container = $('select[id="bbees_e3sbundle_station_precisionLatLongVocFk"]');
         var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailsModal">{{'buton.See Stations Around'|trans}}</button></div></br>');
         $addBoutonAdd.insertBefore($container);

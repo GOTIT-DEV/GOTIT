@@ -18,8 +18,8 @@ class ImportFileCsv
        
     /**
     *  readCSV($path)
-     * lecture du fichier CSV renseigné par son chemin $path
-     * retourne un tableau / ligne  : ex. array([NomCol1] => ValCol1L1, [NomCol2] => ValCol2L1...) 
+    * read CSV file with path $path
+    * return array : {array / line}  : ex. array([NomCol1] => ValCol1L1, [NomCol2] => ValCol2L1...) 
     */ 
     public function readCSV($path){
         $result = array();
@@ -44,8 +44,8 @@ class ImportFileCsv
  
     /**
     *  explodeCSV($path, $maxLine)
-     * lecture du fichier CSV renseigné par son chemin $path 
-     * retourne un tableau de tableau = tableau / ligne  : ex. array([NomCol1] => ValCol1L1, [NomCol2] => ValCol2L1...) 
+    * read CSV file with path $path
+    * return array : {array / line} : ex. array([NomCol1] => ValCol1L1, [NomCol2] => ValCol2L1...) 
     */ 
     public function explodeCSV($path, $index, $maxLine=100){
         $result = array();
@@ -79,22 +79,22 @@ class ImportFileCsv
     
     /**
     *  readColumnByTableSV($csvData)
-    * retourne un tableau [nomTable1 => array(nomTable1.NomField1, nomTable1.NomField2, ...), nomTable2 => array(nomTable2.NomField1, nomTable2.NomField2, ...), ...]
+    *  return an array [nomTable1 => array(nomTable1.NomField1, nomTable1.NomField2, ...), nomTable2 => array(nomTable2.NomField1, nomTable2.NomField2, ...), ...]
     */ 
     public function readColumnByTableSV($csvData){
-         # Recuperation des noms de colonnes qui doivent etre nommées de la forme : NomTable.NomField
+         # Recovery of the names of columns to be named of the form: TableName.FieldName
          $column_name = [];
          reset($csvData);
          foreach(current($csvData) as $k=>$v){
              $column_name[] = $k;            
          }
-         # Recuperation des noms de colonnes pour chaque table
+         # Recovering column names for each table
          $columnByTable = [];
          foreach($column_name as $v){
-             $ent = explode('.', $v)[0]; // on recupère le NomTable 
-             if(array_key_exists($ent, $columnByTable)){ // on ajoute au tableau l'intitulé de la colonne "NomTable.NomField..."
+             $ent = explode('.', $v)[0]; 
+             if(array_key_exists($ent, $columnByTable)){ // add the name of the column "TableName.FieldName ..." to the table
                  $columnByTable[$ent][] = $v;               
-             } else { // on ajoute un tableau avec l'intitulé de la colonne "NomTable.NomField..." 
+             } else { // add a table with the title of the column "TableName.FieldName ..."
                  $columnByTable[$ent] = [$v]; 
              }
          }
@@ -103,7 +103,7 @@ class ImportFileCsv
     
     /**
     *  testNomColumnCSV($columnByTable)
-    *  test si le fichier commence bien par 
+    *  test the name of CSV field like : NameOfDatabaseTable.FieldName
     */ 
     public function testNameColumnCSV($columnByTable,$nameTable, $nameField = NULL){
         
@@ -121,13 +121,13 @@ class ImportFileCsv
     
     /**
     *  TransformNameForSymfony($field_name_csv, $type='field')
-     * fonction qui transforme les nom_champ_bdd en nomChampBdd utilsé par symfony
-     * retourne pour field_name_csv = fieldNameCsv (cas $type=field)
-     * retourne pour field_name_csv = FieldNameCsv (cas $type=entity)
-     * retourne pour field_name_csv = setFieldNameCsv (cas $type=set)   
+     * function that transforms db_field_name into db_field_name used by symfony
+     * return for field_name_csv = fieldNameCsv (cas $type=field)
+     * return for  field_name_csv = FieldNameCsv (cas $type=entity)
+     * return for  field_name_csv = setFieldNameCsv (cas $type=set)   
     */ 
     public function TransformNameForSymfony($field_name_csv, $type='field'){
-        // le type peut être 'field' ou 'table'
+        // the type can be 'field' or 'table'
        $field_name_csv_in_array = explode('_', $field_name_csv);
        $field_name_symfony = '';
        $compt = 0;
@@ -146,37 +146,34 @@ class ImportFileCsv
     
     /**
     *  suppCharSpeciaux($field, $type='')
-     * suppression des charactère spéciaux  
+     * deleting special characters 
     */ 
     public function suppCharSpeciaux($data, $type='all'){
-        // le type peut être 'field' ou 'table'
-        //$data = mb_convert_encoding($data, "UTF-8","ASCII");
+        // the type can be 'field' or 'table'
         switch ($type) {
             case " ":
-                // espace
+                // space
                 $data_corrected = str_replace(" ","", $data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d un ou plusieurts espaces dans : ".$data;
                 break;
             case "t":
                 // tabulation
                 $data_corrected = str_replace("\t","",$data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d une tabulation dans : ".$data;
                 break;
             case "n":
+                // line break
                 $data_corrected = str_replace("\n","",$data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d une ligne dans : ".$data;
                 break;
             case "r":
+                // carriage return
                 $data_corrected = str_replace("\r","",$data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d un retour chariot dans : ".$data;
                 break;
             case "O":
+                // NULL 
                 $data_corrected = str_replace("\0","",$data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d une caractère NULL dans : ".$data;
                 break;
             case "x":
+                // vertical tabulation
                 $data_corrected = str_replace("\x0B","",$data);
-                //if ($data_corrected !== $data ) echo "</br> suppression d une tabulation verticale dans : ".$data;
                 break;
             case "tnrOx":
                 $data_corrected = str_replace("\t","",$data);
@@ -184,7 +181,6 @@ class ImportFileCsv
                 $data_corrected = str_replace("\r","",$data_corrected);
                 $data_corrected = str_replace("\0","",$data_corrected);
                 $data_corrected = str_replace("\x0B","",$data_corrected);
-                //if ($data_corrected !== $data ) {echo "</br> ! suppression de caracteres speciaux  dans : ".$data;}
                 break;
             case "all":
                 $data_corrected = str_replace(" ","", $data);
@@ -193,7 +189,6 @@ class ImportFileCsv
                 $data_corrected = str_replace("\r","",$data_corrected);
                 $data_corrected = str_replace("\0","",$data_corrected);
                 $data_corrected = str_replace("\x0B","",$data_corrected);
-                //if ($data_corrected !== $data ) {echo "</br> ! suppression de caracteres speciaux  dans : ".$data;}
                 break;
             default:
                 $data_corrected = $data;
@@ -205,8 +200,7 @@ class ImportFileCsv
 
     /**
     *  GetCurrentTimestamp()
-     * fonction qui retourne l'objet timestamp current
-     * retourne $DateImport 
+    * return the objet timestamp current 
     */ 
     public function GetCurrentTimestamp(){
        // on récupére le TIMESTAMP du traitement : renseignera le champ date_import  

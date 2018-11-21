@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block link %}
-    {# initialise la variable entityname à partir du nom de la route : 'importfilesentityname_index'  #}  
+    {# initialize the entityname variable from the name of the route: 'importfilesentityname_index'  #}  
     {% set route = app.request.attributes.get('_route') %}
     {% set route_entity_index = route[11:] %}
     {% set entityname = route_entity_index|split('_')[0] %}    
-    {# cas particulier des autres imports/outils metiers #}  
+    {# special case of other imports / tools #}  
     {% if route_entity_index == 'lotmaterielpublie_index' or route_entity_index == 'sqcassembleepublie_index' %} 
        {% set route_entity_index = 'source_index' %}
        {% set entityname = 'source' %}
@@ -32,7 +32,6 @@
     <div class="clearfix"></div>
     <br />
     <div class="row">
-
         <div class="col-lg-4">
             <div class="input-group" role="group">       
                 <div class="input-group-btn" role="group">  
@@ -215,16 +214,10 @@
                       {% endif %}
                     </ul>         
                 </div>
-
                 <div class="input-group-btn" role="group"> 
- 
-                <a href="{{ href}}" class="btn  btn-primary" type="button" role="button">{{['buton.Back to the list of ',entityname]|join|trans}}</a> 
-                    
+                <a href="{{ href}}" class="btn  btn-primary" type="button" role="button">{{['buton.Back to the list of ',entityname]|join|trans}}</a>                     
                 </div>
             </div> 
-
         </div> 
-
-
     </div>
 {% endblock %}

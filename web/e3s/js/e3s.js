@@ -339,7 +339,7 @@ function maj($container) {
   })
 }
 
-// L'ajout d'un bouton Back to the collect
+// Adding a Back to Button to collect
 function addBackToRelatedRecord(entityform, entityRel, nameButonBack) {
   var entityrel_lowercase = entityRel.toLowerCase();
   var entityRelSelected = $('#bbees_e3sbundle_' + entityform + '_' + entityRel + 'Fk option:selected').val();
