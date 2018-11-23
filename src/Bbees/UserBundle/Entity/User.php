@@ -70,13 +70,6 @@ class User implements UserInterface
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
      */
     private $salt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="locale", type="string", length=5)
-     */
-    private $locale;
     
     /**
      * @var string
@@ -278,30 +271,6 @@ class User implements UserInterface
     {
         return null;
         //return $this->salt;
-    }
-
-    /**
-     * Set locale
-     *
-     * @param string $locale
-     *
-     * @return User
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    /**
-     * Get locale
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
     }
 
     /**

@@ -100,6 +100,7 @@ class LotMaterielType extends AbstractType
                         'prototype' => true,
                         'prototype_name' => '__name__',
         		'by_reference' => false,
+                        'required' => false, 
                         'entry_options' => array('label' => false)
         	))   
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))

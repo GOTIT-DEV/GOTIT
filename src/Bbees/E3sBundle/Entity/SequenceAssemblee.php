@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * SequenceAssemblee
  *
- * @ORM\Table(name="sequence_assemblee", uniqueConstraints={@ORM\UniqueConstraint(name="cu_sequence_assemblee_cle_primaire", columns={"code_sqc_ass"})}, indexes={@ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_353CF66988085E0F", columns={"statut_sqc_ass_voc_fk"})})
+ * @ORM\Table(name="sequence_assemblee", uniqueConstraints={@ORM\UniqueConstraint(name="cu_sequence_assemblee_cle_primaire", columns={"code_sqc_ass"}), @ORM\UniqueConstraint(name="cu_sequence_assemblee_code_sqc_alignement", columns={"code_sqc_alignement"})}, indexes={@ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_353CF66988085E0F", columns={"statut_sqc_ass_voc_fk"})})
  * @ORM\Entity
  */
 class SequenceAssemblee

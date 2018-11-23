@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Bbees\E3sBundle\Entity\LotMaterielExt;
@@ -38,17 +53,17 @@ class LotMaterielExtController extends Controller
     }
 
      /**
-     * Retourne au format json un ensemble de champs à afficher tab_collecte_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="lotmaterielext_indexjson")
      * @Method("POST")
      */
     public function indexjsonAction(Request $request)
     {
-        // recuperation des services
+        // load services
         $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
         //
@@ -56,7 +71,7 @@ class LotMaterielExtController extends Controller
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('lotMaterielExt.dateMaj' => 'desc', 'lotMaterielExt.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
-        // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
+        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(lotMaterielExt.codeLotMaterielExt) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
@@ -65,7 +80,7 @@ class LotMaterielExtController extends Controller
         if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND lotMaterielExt.collecteFk = '.$request->get('idFk');
         }
-        // Recherche de la liste des lots à montrer
+        // Search for the list to show
         $tab_toshow =[];
         $toshow = $em->getRepository("BbeesE3sBundle:LotMaterielExt")->createQueryBuilder('lotMaterielExt')
             ->where($where)
@@ -86,12 +101,12 @@ class LotMaterielExtController extends Controller
             $DateLot = ($entity->getDateCreationLotMaterielExt() !== null) ?  $entity->getDateCreationLotMaterielExt()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-            // récuparation du premier taxon identifié            
+            // load the first identified taxon            
             $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.libelle as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.lotMaterielExtFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL;
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
-            // récuparation de la liste concaténée des personnes  ayant réalisées le lot
+            //  concatenated list of people
             $query = $em->createQuery('SELECT p.nomPersonne as nom FROM BbeesE3sBundle:LotMaterielExtEstRealisePar lmerp JOIN lmerp.personneFk p WHERE lmerp.lotMaterielExtFk = '.$id.'')->getResult();            
             $arrayListePersonne = array();
             foreach($query as $taxon) {
@@ -106,9 +121,8 @@ class LotMaterielExtController extends Controller
              "lastTaxname" => $lastTaxname, "lastdateIdentification" => $lastdateIdentification , "codeIdentification" => $codeIdentification ,
              "pays.nomPays" => $entity->getCollecteFk()->getStationFk()->getpaysFk()->getNomPays(),
              "commune.codeCommune" => $entity->getCollecteFk()->getStationFk()->getCommuneFk()->getCodeCommune(),);
-        }    
- 
-        // Reponse Ajax
+        }     
+        // Ajax answer
         $response = new Response ();
         $response->setContent ( json_encode ( array (
             "current"    => intval( $request->get('current') ), 
@@ -117,7 +131,7 @@ class LotMaterielExtController extends Controller
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -184,15 +198,15 @@ class LotMaterielExtController extends Controller
      */
     public function editAction(Request $request, LotMaterielExt $lotMaterielExt)
     {
-        // control d'acces sur les  user de type ROLE_COLLABORATION
+        //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user->getRole() ==  'ROLE_COLLABORATION' && $lotMaterielExt->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }      
-        // recuperation du service generic_function_e3s
+        // load service  generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');        
-        // memorisation des ArrayCollection        
+        // store ArrayCollection       
         $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$lotMaterielExt);
         $lotMaterielExtEstReferenceDanss = $service->setArrayCollection('LotMaterielExtEstReferenceDanss',$lotMaterielExt);
         $lotMaterielExtEstRealisePars = $service->setArrayCollection('LotMaterielExtEstRealisePars',$lotMaterielExt);        
@@ -202,7 +216,7 @@ class LotMaterielExtController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // suppression des ArrayCollection 
+            // delete ArrayCollection
             $service->DelArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$lotMaterielExt, $especeIdentifiees);
             $service->DelArrayCollection('LotMaterielExtEstReferenceDanss',$lotMaterielExt, $lotMaterielExtEstReferenceDanss);
             $service->DelArrayCollection('LotMaterielExtEstRealisePars',$lotMaterielExt, $lotMaterielExtEstRealisePars);
@@ -215,8 +229,6 @@ class LotMaterielExtController extends Controller
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
                 return $this->render('lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            //return $this->redirectToRoute('lotmateriel_edit', array('id' => $lotMateriel->getId()));
-            // return $this->redirectToRoute('lotmateriel_index');
            return $this->redirectToRoute('lotmaterielext_edit', array('id' => $lotMaterielExt->getId(), 'valid' => 1)); 
 
         }

@@ -22,7 +22,7 @@ class MotuType extends AbstractType
     {
         $builder->add('nomFichierCsv')
                 ->add('libelleMotu')
-                ->add('dateMotu', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
+                ->add('dateMotu', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', ))
                 ->add('commentaireMotu')
                 ->add('motuEstGenerePars', CollectionType::class , array(
         		'entry_type' => MotuEstGenereParEmbedType::class,

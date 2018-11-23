@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Bbees\E3sBundle\Entity\Collecte;
@@ -40,17 +55,17 @@ class CollecteController extends Controller
      }
 
     /**
-     * Retourne au format json un ensemble de champs à afficher tab_collecte_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="collecte_indexjson")
      * @Method("POST")
      */
     public function indexjsonAction(Request $request)
     {
-        // recuperation des services
+        // load services
         $service = $this->get('bbees_e3s.generic_function_e3s');
         $em = $this->getDoctrine()->getManager();
         //
@@ -59,7 +74,7 @@ class CollecteController extends Controller
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
                
-        // initialise la variable searchPhrase suivant les cas
+        // initializes the searchPhrase variable
         $where = 'LOWER(collecte.codeCollecte) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
@@ -68,7 +83,7 @@ class CollecteController extends Controller
         if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND collecte.stationFk  = '.$request->get('idFk');
         }
-        // Recherche de la liste des collecte à montrer
+        // Search the list to show
         $tab_toshow =[];
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Collecte")->createQueryBuilder('collecte')
             ->where($where)
@@ -85,22 +100,19 @@ class CollecteController extends Controller
         foreach($entities_toshow as $entity)
         {
             $id = $entity->getId();
-            // initialisation des variables user : userCreId, userMajId , userCre, userMaj
-            //
             $DateCollecte = ($entity->getDateCollecte() !== null) ?  $entity->getDateCollecte()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-            // recherche du nombre de lot pour la collecte id 
+            // search for material associated with a sampling
             $query = $em->createQuery('SELECT lot.id FROM BbeesE3sBundle:LotMateriel lot WHERE lot.collecteFk = '.$id.'')->getResult();
             $linkLotmaterielFk = (count($query) > 0) ? $id : '';
-            // recherche du nombre de lot ext pour la collecte id 
+            // search for external material associated with a sampling 
             $query = $em->createQuery('SELECT lotext.id FROM BbeesE3sBundle:LotMaterielExt lotext WHERE lotext.collecteFk = '.$id.'')->getResult();
             $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
-             // recherche du nombre de sqc ext pour la collecte id 
+             // search for external sequence associated with a sampling 
             $query = $em->createQuery('SELECT sqcext.id FROM BbeesE3sBundle:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = '.$id.'')->getResult();
             $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
-            // récuparation de la liste concaténée des taxons ciblés
-            //$query = $em->createQuery('SELECT partial ac.{id, referentielTaxonFk} FROM BbeesE3sBundle:ACibler ac WHERE ac.collecteFk = '.$id.'')->getResult();
+            // Search for the concatenated list of targeted taxa
             $query = $em->createQuery('SELECT rt.taxname as taxname FROM BbeesE3sBundle:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = '.$id.'')->getResult();            
             $arrayTaxonsCibler = array();
             foreach($query as $taxon) {
@@ -119,7 +131,7 @@ class CollecteController extends Controller
              "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "linkSequenceassembleeext" => $linkSequenceassembleeextFk, 
              "listeTaxonsCibler" => $listeTaxonsCibler );
         }     
-        // Reponse Ajax
+        // Ajax answer
         $response = new Response ();
         $response->setContent ( json_encode ( array (
             "current"    => intval( $request->get('current') ), 
@@ -128,7 +140,7 @@ class CollecteController extends Controller
             "searchPhrase" => $searchPhrase,
             "total"    => $nb_entities  // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -193,17 +205,17 @@ class CollecteController extends Controller
      */
     public function editAction(Request $request, Collecte $collecte)
     {
-        // control d'acces sur les  user de type ROLE_COLLABORATION
+        //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         
-        // recuperation du service generic_function_e3s
+        // load service  generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');
 
-        // memorisation des ArrayCollection EstFinancePar       
+        // store ArrayCollectionEstFinancePar       
         $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods',$collecte);
         $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs',$collecte);
         $originalEstFinancePars = $service->setArrayCollection('EstFinancePars',$collecte);
@@ -216,7 +228,7 @@ class CollecteController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // suppression des ArrayCollection 
+            // delete ArrayCollection
             $service->DelArrayCollection('APourSamplingMethods',$collecte, $originalAPourSamplingMethods);
             $service->DelArrayCollection('APourFixateurs',$collecte, $originalAPourFixateurs);
             $service->DelArrayCollection('EstFinancePars',$collecte, $originalEstFinancePars);
@@ -231,8 +243,6 @@ class CollecteController extends Controller
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
                 return $this->render('collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            //return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId()));
-            // return $this->redirectToRoute('collecte_index');
             return $this->render('collecte/edit.html.twig', array(
                 'collecte' => $collecte,
                 'edit_form' => $editForm->createView(),

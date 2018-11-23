@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Bbees\E3sBundle\Entity\Commune;
@@ -38,16 +53,16 @@ class CommuneController extends Controller
     
      /**
      * Retourne au format json un ensemble de champs à afficher tab_station_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="commune_indexjson")
      * @Method("POST")
      */
     public function indexjsonAction(Request $request)
     {   
-        // recuperation des services
+        // load services
         $service = $this->get('bbees_e3s.generic_function_e3s');    
         $em = $this->getDoctrine()->getManager();
         //
@@ -55,13 +70,13 @@ class CommuneController extends Controller
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
-        // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
+        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(commune.codeCommune) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
         }
-        // Recherche de la liste des lots à montrer
+        // Search for the list to show
         $tab_toshow =[];
         $toshow = $em->getRepository("BbeesE3sBundle:Commune")->createQueryBuilder('commune')
             ->where($where)
@@ -93,7 +108,7 @@ class CommuneController extends Controller
             "rows"     => $tab_toshow, 
             "total"    => $nb // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -150,13 +165,13 @@ class CommuneController extends Controller
             
             try {
                 $flush = $em->flush();
-                // mémorise le id et le name du Site créé
+                // mémorize the id and the name of Municipality created
                 $select_id = $commune->getId();
                 $select_name = $commune->getCodeCommune();
-                // recree une entité Site vide
+                // load a new empty Municipality entity
                 $commune_new = new Commune();
                 $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));           
-                //renvoie un formulaire vide et les paramètres du nouvel enregistrement créé
+                // returns an empty form and the parameters of the new record created
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
                     'html_form' => $this->render('modal.html.twig', array('entityname' => 'commune', 'form' => $form->createView()))->getContent(),
@@ -168,10 +183,10 @@ class CommuneController extends Controller
                 } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message = strval($e);
-                // recree une entité Site vide
+                // load a new empty Municipality entity
                 $commune_new = new Commune();
                 $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));   
-                //renvoie un formulaire avec le message d'erreur 
+                // returns a form with the error message
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
                     'html_form' => $this->render('modal.html.twig', array('entityname' => 'commune', 'form' => $form->createView()))->getContent(),
@@ -181,10 +196,8 @@ class CommuneController extends Controller
                     'entityname' => 'personne',
                     ) ) );	
                 }   
-            
-            //var_dump($select_id); var_dump($select_name);  var_dump($response); exit;
             If ($request->isXmlHttpRequest()){
-                // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+                // If it is an Ajax request: returns the content in json format
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             } else {

@@ -1,16 +1,21 @@
 {% extends 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block form_label %}
-
-{# 
-    {% if required %}
-        <div class="col-sm-auto text-right" style="color:red;">*</div>
+{% block form_label_class -%}
+    {% if required is defined and required %}
+        col-sm-2 text-primary
+    {% else %}
+        col-sm-2 
     {% endif %}
-#}
+{%- endblock form_label_class %}
 
- 
-{{ parent() }}
-
-
+{% block form_label %}
+    {# 
+        {% if required %}
+            <div class="col-sm-auto text-right" style="color:red;">*</div>
+        {% endif %}
+    #}
+    {{ parent() }}
 {% endblock %}
+
+
 

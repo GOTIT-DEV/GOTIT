@@ -34,9 +34,6 @@ class UserType extends AbstractType
                 ->add('role', ChoiceType::class, array('choices'  => array('ADMIN' => 'ROLE_ADMIN', 'PROJECT' => 'ROLE_PROJECT','COLLABORATION' => 'ROLE_COLLABORATION','INVITED' => 'ROLE_INVITED','LOCKED' => 'ROLE_LOCKED',), 'required' => true,
                               'choice_translation_domain' => false, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
                     ))
-               ->add('locale', ChoiceType::class, array('choices'  => array('Fr' => 'fr' , 'En' => 'en',), 'required' => true,
-                              'choice_translation_domain' => false, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
-                    ))
                 ->add('commentaireUser')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))

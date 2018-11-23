@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,7 +45,7 @@ class ImportFilesAdnRangeController extends Controller
      public function indexAction(Request $request)
     {    
         $message = ""; 
-        // récuperation du service ImportFileE3s
+        // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
         //creation du formulaire
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -47,8 +62,8 @@ class ImportFilesAdnRangeController extends Controller
                 ->getForm();
         $form->handleRequest($request);
         
-        if ($form->isSubmitted()){ //recuperation des données et traitement 
-            $fichier = $form->get('fichier')->getData()->getRealPath(); // La fonction getRealPath donne le chemin vers le fichier temporaire créé
+        if ($form->isSubmitted()){ //processing form request 
+            $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
             $message = "Import : ".$nom_fichier_download."<br />";

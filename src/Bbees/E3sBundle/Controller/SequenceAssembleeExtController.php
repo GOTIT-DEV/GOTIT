@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Bbees\E3sBundle\Entity\SequenceAssembleeExt;
@@ -42,17 +57,17 @@ class SequenceAssembleeExtController extends Controller
     }
 
     /**
-     * Retourne au format json un ensemble de champs à afficher tab_collecte_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="sequenceassembleeext_indexjson")
      * @Method("POST")
      */
     public function indexjsonAction(Request $request)
     {
-        // recuperation des services
+        // load services
         $service = $this->get('bbees_e3s.generic_function_e3s');            
         $em = $this->getDoctrine()->getManager();
         //
@@ -60,7 +75,7 @@ class SequenceAssembleeExtController extends Controller
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssembleeExt.dateMaj' => 'desc', 'sequenceAssembleeExt.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
-        // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
+        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(sequenceAssembleeExt.codeSqcAssExt) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
@@ -69,7 +84,7 @@ class SequenceAssembleeExtController extends Controller
         if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND sequenceAssembleeExt.collecteFk = '.$request->get('idFk');
         }
-        // Recherche de la liste des lots à montrer EstAligneEtTraite
+        // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
         $toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceAssembleeExt')
             ->where($where)
@@ -89,15 +104,15 @@ class SequenceAssembleeExtController extends Controller
             $dateCreationSqcAssExt = ($entity->getdateCreationSqcAssExt() !== null) ?  $entity->getdateCreationSqcAssExt()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
-            // récuparation du premier taxon identifié            
+            // load the first identified taxon            
             $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeExtFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
-            // recherche du nombre de motu assigne (cf. table Assigne)
+            // search for motu associated to a sequence
             $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeExtFk sqc  WHERE a.sequenceAssembleeExtFk = '.$id.' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
-            // récuparation de la liste concaténée des sources associés à la sqc
+            // search for sources associated to a sequence
             $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcExtEstReferenceDans seerd JOIN seerd.sourceFk s WHERE seerd.sequenceAssembleeExtFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
             foreach($query as $taxon) {
@@ -126,8 +141,7 @@ class SequenceAssembleeExtController extends Controller
              "userCreId" => $service->GetUserCreId($entity), "sequenceAssembleeExt.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssembleeExt.userMaj" => $service->GetUserMajUsername($entity),
             );
         }    
- 
-        // Reponse Ajax
+        // Ajax answer
         $response = new Response ();
         $response->setContent ( json_encode ( array (
             "current"    => intval( $request->get('current') ), 
@@ -136,7 +150,7 @@ class SequenceAssembleeExtController extends Controller
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -202,18 +216,18 @@ class SequenceAssembleeExtController extends Controller
      */
     public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt)
     {      
-        // control d'acces sur les  user de type ROLE_COLLABORATION
+        //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user->getRole() ==  'ROLE_COLLABORATION' && $sequenceAssembleeExt->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
-        // recuperation du service generic_function_e3s
+        // load service  generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s'); 
-        // recuperation  de l'Entity Mananger
+        // load the Entity Manager
         $em = $this->getDoctrine()->getManager();
                 
-        // memorisation des ArrayCollection        
+        // store ArrayCollection       
         $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssembleeExt);
         $sqcExtEstReferenceDanss = $service->setArrayCollection('SqcExtEstReferenceDanss',$sequenceAssembleeExt);
         $sqcExtEstRealisePars = $service->setArrayCollection('SqcExtEstRealisePars',$sequenceAssembleeExt);
@@ -223,7 +237,7 @@ class SequenceAssembleeExtController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // suppression des ArrayCollection 
+            // delete ArrayCollection
             $service->DelArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssembleeExt, $especeIdentifiees);
             $service->DelArrayCollection('SqcExtEstReferenceDanss',$sequenceAssembleeExt, $sqcExtEstReferenceDanss);
             $service->DelArrayCollection('SqcExtEstRealisePars',$sequenceAssembleeExt, $sqcExtEstRealisePars);
@@ -309,7 +323,7 @@ class SequenceAssembleeExtController extends Controller
         $EspeceIdentifiees =  $sequenceAssembleeExt->getEspeceIdentifiees();
         $nbEspeceIdentifiees = count($EspeceIdentifiees);
         if($nbEspeceIdentifiees > 0) {
-            // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
+            // The status of the sequence and the referential Taxon = to the last taxname attributed
             $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
             $arrayReferentielTaxon = array();
                 foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
@@ -318,10 +332,7 @@ class SequenceAssembleeExtController extends Controller
             ksort($arrayReferentielTaxon);
             reset($arrayReferentielTaxon);
             $firstTaxname = current($arrayReferentielTaxon);
-            //var_dump($arrayReferentielTaxon); var_dump($firstTaxname);
-            //$firstTaxname = array_slice($arrayReferentielTaxon, 0, 1)[0];
             $codeSqc = ($codeStatutSqcAss == 'VALIDEE') ? $firstTaxname : $codeStatutSqcAss.'_'.$firstTaxname;              
-            // Le code de la collecte, le num_ind_biomol 
             $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
             $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
             $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
@@ -357,7 +368,6 @@ class SequenceAssembleeExtController extends Controller
             end($arrayReferentielTaxon);
             $lastCodeTaxon = current($arrayReferentielTaxon);
             $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;              
-            // Le code de la collecte, le num_ind_biomol 
             $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
             $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
             $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();

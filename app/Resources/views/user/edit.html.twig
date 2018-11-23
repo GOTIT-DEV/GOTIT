@@ -9,21 +9,30 @@
 {% endblock %}
 
 {% block scripts %}
+    
 {{ parent() }}
 {% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
 // Form actions
-$(document).ready(function(){
-
-        {% if action == 'edit'  %}   
+$(document).ready(function(){       
+        {% if action == 'edit'  %}  
             // General action on form: form lock (default) / user role: app.user ... 
-            {% if not is_granted('ROLE_ADMIN') %}  
+            {% if  is_granted('ROLE_ADMIN') %} 
+                {% if  edit_form.vars.value.id is defined and edit_form.vars.value.id == '1' %}
+                    $('input[id^="bbees_userbundle_user_role"]').attr("disabled", true); 
+                    $(document).on('submit','form[name="bbees_userbundle_user"]',function(ev){
+                    // Unlocking fields to allow registration
+                     $('input[id^="bbees_userbundle_user_role"]').attr("disabled", false);
+                    });
+                {% endif %}
+
+            {% else %}
                 $('input[id^="bbees_userbundle_user_role"]').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_userbundle_user"]',function(ev){
                 // Unlocking fields to allow registration
                 $('input[id^="bbees_userbundle_user_role"]').attr("disabled", false); 
-             });
+                });
             {% endif %}
         {% endif %}
         {% if action == 'new'  %} 

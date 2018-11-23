@@ -70,7 +70,7 @@ class EspeceIdentifiee
      *
      * @ORM\ManyToOne(targetEntity="Voc")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="critere_identification_voc_fk", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="critere_identification_voc_fk", referencedColumnName="id", nullable=false)
      * })
      */
     private $critereIdentificationVocFk;

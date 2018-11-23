@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * SequenceAssembleeExt
  *
- * @ORM\Table(name="sequence_assemblee_ext", uniqueConstraints={@ORM\UniqueConstraint(name="cu_sequence_assemblee_ext_cle_primaire", columns={"code_sqc_ass_ext"})}, indexes={@ORM\Index(name="IDX_9E9F85CF9D3CDB05", columns={"gene_voc_fk"}), @ORM\Index(name="IDX_9E9F85CFA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF514D78E0", columns={"origine_sqc_ass_ext_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"statut_sqc_ass_voc_fk"})})
+ * @ORM\Table(name="sequence_assemblee_ext", uniqueConstraints={@ORM\UniqueConstraint(name="cu_sequence_assemblee_ext_cle_primaire", columns={"code_sqc_ass_ext"}), @ORM\UniqueConstraint(name="cu_sequence_assemblee_ext_code_sqc_ass_ext_alignement", columns={"code_sqc_ass_ext_alignement"})}, indexes={@ORM\Index(name="IDX_9E9F85CF9D3CDB05", columns={"gene_voc_fk"}), @ORM\Index(name="IDX_9E9F85CFA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF514D78E0", columns={"origine_sqc_ass_ext_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"statut_sqc_ass_voc_fk"})})
  * @ORM\Entity
  */
 class SequenceAssembleeExt

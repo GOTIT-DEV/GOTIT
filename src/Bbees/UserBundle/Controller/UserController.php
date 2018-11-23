@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * UserBundle & E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * UserBundle & E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\UserBundle\Controller;
 
 use Bbees\UserBundle\Entity\User;
@@ -40,9 +55,9 @@ class UserController extends Controller
     
      /**
      * Retourne au format json un ensemble de champs à afficher tab_station_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="user_indexjson")
      * @Method("POST")
@@ -87,7 +102,7 @@ class UserController extends Controller
             "rows"     => $tab_toshow, 
             "total"    => $nb_entities // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -161,7 +176,7 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user, UserPasswordEncoderInterface $encoder)
     {
-        // control d'acces sur les  user de type ROLE_COLLABORATION
+        //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($user->getRole() ==  'ROLE_COLLABORATION' && $user->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');

@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle.
+ *
+ * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\E3sBundle\Controller;
 
 use Bbees\E3sBundle\Entity\SequenceAssemblee;
@@ -54,17 +69,17 @@ class SequenceAssembleeController extends Controller
     }
 
      /**
-     * Retourne au format json un ensemble de champs à afficher tab_collecte_toshow avec les critères suivant :  
-     * a) 1 critère de recherche ($request->get('searchPhrase')) insensible à la casse appliqué à un champ (ex. codeCollecte)
-     * b) le nombre de lignes à afficher ($request->get('rowCount'))
-     * c) 1 critère de tri sur un collone  ($request->get('sort'))
+     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+     * b) the number of lines to display ($ request-> get ('rowCount'))
+     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
      *
      * @Route("/indexjson", name="sequenceassemblee_indexjson")
      * @Method("POST")
      */
     public function indexjsonAction(Request $request)
     {
-        // recuperation des services
+        // load services
         $service = $this->get('bbees_e3s.generic_function_e3s');       
         $em = $this->getDoctrine()->getManager();
         //
@@ -72,13 +87,13 @@ class SequenceAssembleeController extends Controller
         $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');  
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount; 
-        // initialise la variable searchPhrase suivant les cas et définit la condition du where suivant les conditions sur le parametre d'url idFk
+        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(sequenceAssemblee.codeSqcAss) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
         if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
         }
-        // Recherche de la liste des lots à montrer EstAligneEtTraite
+        // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
         $toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
             ->where($where)
@@ -110,19 +125,19 @@ class SequenceAssembleeController extends Controller
             $DateCreationSqcAss = ($entity->getDateCreationSqcAss() !== null) ?  $entity->getDateCreationSqcAss()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
-            // recherche du nombre de sequence_assemblee associée au chromato  id (cf. table EstAligneEtTraite)
+            // Search for the number of sequence associated to a chromatogram
             $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
-            // recherche du nombre de motu assigne (cf. table Assigne)
+            // search for motu associated to a sequence
             $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
-            // récuparation du premier taxon identifié            
+            // load the first identified taxon            
             $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
-            // récuparation de la liste concaténée des sources associés à la sqc
+            // Search for sousrces associated to a sequence
             $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
             foreach($query as $taxon) {
@@ -146,9 +161,8 @@ class SequenceAssembleeController extends Controller
              "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj, 
              "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
              );
-        }    
- 
-        // Reponse Ajax
+        }     
+        // Ajax answer
         $response = new Response ();
         $response->setContent ( json_encode ( array (
             "current"    => intval( $request->get('current') ), 
@@ -157,7 +171,7 @@ class SequenceAssembleeController extends Controller
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
             ) ) );
-        // Si il s’agit d’un SUBMIT via une requete Ajax : renvoie le contenu au format json
+        // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;          
@@ -176,7 +190,7 @@ class SequenceAssembleeController extends Controller
 
         $sequenceAssemblee = new Sequenceassemblee();  
 
-        // gestion du formulaire GeneIndbiomolForm
+        // management of the form GeneIndbiomolForm
         $this->geneVocFk = ($request->get('geneVocFk')!== null && $request->get('geneVocFk') != '') ? $request->get('geneVocFk') : null ;
         $this->individuFk = ($request->get('individuFk')!== null && $request->get('individuFk') != '') ? $request->get('individuFk') : null ;
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
@@ -188,8 +202,7 @@ class SequenceAssembleeController extends Controller
             $sequenceAssemblee->setIndividuFk($form_gene_indbiomol->get('individuFk')->getData()->getId());
         } 
 
-        // gestion  du formulaire SequenceAssembleeType
-        //var_dump($this->geneVocFk); var_dump($this->individuFk);
+        // management of the form SequenceAssembleeType
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
         $form = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk ]);
         $form->handleRequest($request);        
@@ -254,13 +267,13 @@ class SequenceAssembleeController extends Controller
      */
     public function editAction(Request $request, SequenceAssemblee $sequenceAssemblee)
     {
-        // control d'acces sur les  user de type ROLE_COLLABORATION
+        //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if ($user->getRole() ==  'ROLE_COLLABORATION' && $sequenceAssemblee->getUserCre() != $user->getId() ) {
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
-        // recuperation du service generic_function_e3s
+        // load service  generic_function_e3s
         $service = $this->get('bbees_e3s.generic_function_e3s');
         
         // Recherche du gene et de l'individu pour la sequence
@@ -268,12 +281,10 @@ class SequenceAssembleeController extends Controller
         $id = $sequenceAssemblee->getId();
         $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
         $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
-        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : ''; 
-
-        //var_dump($this->geneVocFk); var_dump($this->individuFk); 
+        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';  
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );        
                 
-        // memorisation des ArrayCollection        
+        // store ArrayCollection       
         $estAligneEtTraites = $service->setArrayCollection('EstAligneEtTraites',$sequenceAssemblee);
         $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssemblee);
         $sqcEstPublieDanss = $service->setArrayCollection('SqcEstPublieDanss',$sequenceAssemblee);
@@ -284,17 +295,12 @@ class SequenceAssembleeController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // suppression des ArrayCollection 
+            // delete ArrayCollection
             $service->DelArrayCollection('EstAligneEtTraites',$sequenceAssemblee, $estAligneEtTraites);
             $service->DelArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssemblee, $especeIdentifiees);
             $service->DelArrayCollection('SqcEstPublieDanss',$sequenceAssemblee, $sqcEstPublieDanss);
             $service->DelArrayCollection('SequenceAssembleeEstRealisePars',$sequenceAssemblee, $sequenceAssembleeEstRealisePars);
             $em->persist($sequenceAssemblee); 
-            // on initialise le code sqcAlignement : setCodeSqcAlignement($codeSqcAlignement)
-            //$CodeSqcAlignement = $this->createCodeSqcAlignement($sequenceAssemblee);
-            //$sequenceAssemblee->setCodeSqcAlignement($CodeSqcAlignement);
-            //$em->persist($sequenceAssemblee);
-            // flush
             try {
                 $em->flush();
             } 
@@ -435,24 +441,17 @@ class SequenceAssembleeController extends Controller
         $nbEspeceIdentifiees = count($EspeceIdentifiees);
         $eaetId = $sequenceAssemblee->getEstAligneEtTraites()[0]->getId();
         $nbChromato = count($sequenceAssemblee->getEstAligneEtTraites());
-
-        //var_dump(self::DATEINF_SQCALIGNEMENT_AUTO); var_dump(date("Y-m-d")); var_dump($eaetId); var_dump($nbEspeceIdentifiees); 
-        //var_dump(count($sequenceAssemblee->getEstAligneEtTraites()));    
-        //var_dump($sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk()->getCodeChromato());
-        //var_dump($sequenceAssemblee->getEstAligneEtTraites()[0]->getId());
-        //exit();
         
         if( $nbChromato > 0 && $nbEspeceIdentifiees>0 ) {
-            // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
+            // The status of the sequence DNA the referential Taxon = to the last taxname attributed
             $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
             $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees-1]->getReferentielTaxonFk()->getCodeTaxon();
-            $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;          
-            // Le code de la collecte, le num_ind_biomol 
+            $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;           
             $Chromatogramme1 = $sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk();
             $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getNumIndBiomol();
             $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
             $codeSqcAlignement = $codeSqcAlignement.'_'.$codeCollecte.'_'.$numIndBiomol;
-            //  la concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
+            //  the concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
             $arrayCodeChromato = array();
             foreach ($sequenceAssemblee->getEstAligneEtTraites() as $entityEstAligneEtTraites) {
                  $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
@@ -462,7 +461,6 @@ class SequenceAssembleeController extends Controller
             sort($arrayCodeChromato);
             $listeCodeChromato = implode("-", $arrayCodeChromato);
             $codeSqcAlignement = $codeSqcAlignement.'_'.$listeCodeChromato;
-            //var_dump($lastCodeTaxon); var_dump($eaetId); var_dump($numIndBiomol);var_dump($codeCollecte);var_dump($listeCodeChromato);var_dump($codeSqcAlignement); exit; 
         } else {
             $codeSqcAlignement = null;
         }
