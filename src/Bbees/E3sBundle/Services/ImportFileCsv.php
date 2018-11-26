@@ -18,6 +18,8 @@
 namespace Bbees\E3sBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\Finder\Finder;
 
 
 /**
@@ -131,6 +133,41 @@ class ImportFileCsv
          } else {
             $output = 0;   
          }
+        return($output);              
+    } 
+    
+    /**
+    *  testNomColumnCSV($columnByTable)
+    *  test the name of CSV field like : NameOfDatabaseTable.FieldName
+    */ 
+    public function testNameColumnCSV2($nameTemplate, $arrayFileImport){
+        $output = '';
+        //$parameters = parent::getKernelParameters();
+        $publicResourcesFolderPath =   __DIR__ . '\..\..\..\..\doc\Template_folder\\';
+        $fileNameTemplate = $nameTemplate.".csv";
+        $templateCsv = new BinaryFileResponse($publicResourcesFolderPath.$fileNameTemplate);
+        //$arrayTemplateCsv = $this->readCSV($publicResourcesFolderPath.$fileNameTemplate);
+        
+        $finder = new Finder();
+        $finder->files()->in($publicResourcesFolderPath);
+        $file = $finder->files()->name($fileNameTemplate);
+        $arrayTemplateCsv = $file->getContents();
+        
+         # Recovery of the names of columns to be named of the form: TableName.FieldName
+         $column_name_template = [];
+         reset($arrayTemplateCsv);
+         foreach(current($arrayTemplateCsv) as $k=>$v){
+             $column_name_template[] = $k;            
+         }         
+         # Recovery of the names of columns to be named of the form: TableName.FieldName
+         $column_name = [];
+         reset($arrayFileImport);
+         foreach(current($arrayFileImport) as $k=>$v){
+             $column_name[] = $k;            
+         }
+                 
+        dump($column_name_template ).' -> '.dump($column_name_template ); 
+         
         return($output);              
     } 
     

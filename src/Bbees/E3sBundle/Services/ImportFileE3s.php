@@ -4781,7 +4781,7 @@ class ImportFileE3s
         }
     }
     
-        /**
+    /**
     *  importCSVDataCommune($fichier, $userId = null)
     *  $fichier : path to the download csv file 
     *  NOTE : the template of csv file to import is municipality
