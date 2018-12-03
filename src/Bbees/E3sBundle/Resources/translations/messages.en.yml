@@ -15,8 +15,10 @@ buton.Back to the list of programme: Back to the list of Program
 buton.Back to the list of etablissement: Back to the list of Institution
 buton.Back to the list of commune: Back to the list of Municipality
 # Service ERROR messages
-importfileService.ERROR bad columns in CSV: Bad columns in the CSV file
-importfileService.ERROR NULL value: ERROR - INVALID value (NULL)
+importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
+importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
+importfileService.ERROR bad number of columns in CSV file: ERROR - Bad number of columns in the CSV file - cf. GOTIT Help 
+importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain the correct columns of the migration template - cf. GOTIT Help 
 importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( OUI / NON )
 importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code that exists internally and externally
@@ -36,7 +38,6 @@ importfileService.ERROR no box code: ERROR -  the box code has not been entered 
 importfileService.ERROR duplicate record: ERROR - DUPLICATE record
 importfileService.ERROR duplicate code: ERROR - DUPLICATE code 
 importfileService.ERROR bad code: ERROR - UNKNOWN code
-importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain the correct columns of the migration template - cf. GOTIT Help
 importfileService.Date of data set import: Date of data set import
 importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, you must modify your CSV file. Error message is
 importfileService.Import OK: Import process is successful. Number of records Imported

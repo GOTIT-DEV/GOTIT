@@ -24,6 +24,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Bbees\E3sBundle\Services\ImportFileCsv;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 /**
 * ImportIndividu controller.
@@ -47,6 +49,7 @@ class ImportFilesIndividuLameController extends Controller
         $message = ""; 
         // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
+        $translator = $this->get('translator.default');
         //creation du formulaire / ROLES
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
@@ -56,9 +59,9 @@ class ImportFilesIndividuLameController extends Controller
                     ->add('type_csv', ChoiceType::class, array(
                         'choice_translation_domain' => false,
                         'choices'  => array(
-                             ' ' => array('Specimen_slide' => 'individu_lame',),
-                             '  ' => array('Box' => 'boite',),
-                             '   ' => array('Vocabulary' => 'vocabulaire','Person' => 'personne',),)
+                             ' ' => array('Specimen_slide' => 'specimen_slide',),
+                             '  ' => array('Box' => 'box',),
+                             '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person',),)
                         ))
                     ->add('fichier', FileType::class)
                     ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -70,9 +73,9 @@ class ImportFilesIndividuLameController extends Controller
                     ->add('type_csv', ChoiceType::class, array(
                         'choice_translation_domain' => false,
                         'choices'  => array(
-                             ' ' => array('Specimen_slide' => 'individu_lame',),
-                             '  ' => array('Box' => 'boite',),
-                             '   ' => array('Person' => 'personne',),)
+                             ' ' => array('Specimen_slide' => 'specimen_slide',),
+                             '  ' => array('Box' => 'box',),
+                             '   ' => array('Person' => 'person',),)
                         ))
                     ->add('fichier', FileType::class)
                     ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -84,22 +87,29 @@ class ImportFilesIndividuLameController extends Controller
             $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Import : ".$nom_fichier_download."<br />";
-            switch ($this->type_csv) {
-                case 'individu_lame':
-                    $message .= $importFileE3sService->importCSVDataLame($fichier, $user->getId());
-                    break;
-                case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-                    break;
-                case 'boite' :
-                    $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
-                    break;
-                case 'personne' :
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
-                    break;
-                default:
-                   $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+            $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
+            // test if the file imported match the good columns name of the template file
+            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/Template_folder/'.$this->type_csv.'.csv';
+            $service = $this->get('bbees_e3s.import_file_csv');
+            $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate , $fichier));
+            $message .= $checkName;
+            if($checkName  == ''){
+                switch ($this->type_csv) {
+                    case 'specimen_slide':
+                        $message .= $importFileE3sService->importCSVDataLame($fichier, $user->getId());
+                        break;
+                    case 'vocabulary':
+                        $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+                        break;
+                    case 'box' :
+                        $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
+                        break;
+                    case 'person' :
+                        $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+                        break;
+                    default:
+                       $message .= "ERROR - Bad SELECTED choice ?";
+                }
             }
             return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }

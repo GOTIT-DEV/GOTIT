@@ -24,6 +24,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Bbees\E3sBundle\Services\ImportFileCsv;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 /**
 * ImportIndividu controller.
@@ -47,9 +49,8 @@ class ImportFilesSequenceAssembleeExtController extends Controller
         $message = ""; 
         // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
-
-        //creation du formulaire / ROLES
+        $translator = $this->get('translator.default');
+        //create form
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if($user->getRole() == 'ROLE_ADMIN') {
@@ -58,9 +59,9 @@ class ImportFilesSequenceAssembleeExtController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('External_sequence' => 'sequence_assemblee_ext'),
+                         ' ' => array('External_sequence' => 'external_sequence'),
                          '  ' => array('Source' => 'source',),
-                         '   ' => array('Vocabulary' => 'vocabulaire','Person' => 'personne','Taxon' => 'referentiel_taxon',),)
+                         '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person', 'Taxon' => 'taxon',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -72,9 +73,9 @@ class ImportFilesSequenceAssembleeExtController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('External_sequence' => 'sequence_assemblee_ext'),
+                         ' ' => array('External_sequence' => 'external_sequence'),
                          '  ' => array('Source' => 'source',),
-                         '   ' => array('Person' => 'personne',),)
+                         '   ' => array('Person' => 'person',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -86,8 +87,8 @@ class ImportFilesSequenceAssembleeExtController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('External_sequence' => 'sequence_assemblee_ext'),
-                         '   ' => array('Person' => 'personne',),)
+                         ' ' => array('External_sequence' => 'external_sequence'),
+                         '   ' => array('Person' => 'person',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -99,34 +100,32 @@ class ImportFilesSequenceAssembleeExtController extends Controller
             $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Import : ".$nom_fichier_download."<br />";
-            switch ($this->type_csv) {
-                case 'sequence_assemblee_ext':
-                    $message .= $importFileE3sService->importCSVDataSequenceAssembleeExt($fichier, $user->getId());
-                    break;
-                case 'source':
-                    $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
-                    break;
-                case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-                    break;
-                case 'referentiel_taxon' :
-                    $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
-                    break;
-                case 'personne' :
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
-                    break;
-                 case 'pays':
-                    $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId());
-                    break;
-                case 'station' :
-                    $message .= $importFileE3sService->importCSVDataStation($fichier, $user->getId());
-                    break;
-                case 'collecte' :
-                    $message .= $importFileE3sService->importCSVDataCollecte($fichier, $user->getId());
-                    break;
-                default:
-                   $message .=  "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+            $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
+            // test if the file imported match the good columns name of the template file
+            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/Template_folder/'.$this->type_csv.'.csv';
+            $service = $this->get('bbees_e3s.import_file_csv');
+            $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate , $fichier));
+            $message .= $checkName;
+            if($checkName  == ''){
+                switch ($this->type_csv) {
+                    case 'external_sequence':
+                        $message .= $importFileE3sService->importCSVDataSequenceAssembleeExt($fichier, $user->getId());
+                        break;
+                    case 'source':
+                        $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+                        break;
+                    case 'vocabulary':
+                        $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+                        break;
+                    case 'taxon' :
+                        $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+                        break;
+                    case 'person' :
+                        $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+                        break;
+                    default:
+                       $message .=  "ERROR - Bad SELECTED choice ?";
+                }
             }
             return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }

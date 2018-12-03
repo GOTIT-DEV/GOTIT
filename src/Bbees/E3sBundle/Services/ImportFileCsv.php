@@ -19,7 +19,6 @@ namespace Bbees\E3sBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\Finder\Finder;
 
 
 /**
@@ -40,22 +39,33 @@ class ImportFileCsv
     */ 
     public function readCSV($path){
         $result = array();
-        $name = array();		
-        $handle = fopen($path, "r");				
-        if(($data = fgetcsv($handle, 0, ";")) !== FALSE){
-            $num = count($data);
-            $row = 0;
-            $name = $data;			
-            while (($data = fgetcsv($handle, 0, ";")) !== FALSE){
-                if($num == count($data)){
-                        for ($c=0; $c < $num; $c++) {
-                                $result[$row][$name[$c]] = $data[$c];
-                        }					
-                        $row++;
+        $name = array();
+        if (file_exists($path)) {
+            $handle = fopen($path, "r");
+            if(($data = fgetcsv($handle, 0, ";")) !== FALSE){
+                $num = count($data);
+                $row = 0;
+                $name = $data;
+                $flag_record = 0;
+                while (($data = fgetcsv($handle, 0, ";")) !== FALSE){
+                    // return one array containing the all {column => value} by record(s) or line 
+                    if($num == count($data)){
+                            $flag_record = 1;
+                            for ($c=0; $c < $num; $c++) {
+                                    $result[$row][$name[$c]] = $data[$c];
+                            }					
+                            $row++;
+                    }
+                }
+                if (!$flag_record) {
+                    // return the column name to NULL if there is no record  
+                    for ($c=0; $c < $num; $c++) {
+                            $result[0][$name[$c]] = $data[$c];
+                    }
                 }
             }
+            fclose($handle);
         }
-        fclose($handle);
         return($result);              
     }   
  
@@ -137,37 +147,56 @@ class ImportFileCsv
     } 
     
     /**
-    *  testNomColumnCSV($columnByTable)
-    *  test the name of CSV field like : NameOfDatabaseTable.FieldName
+    *  checkNameCSVfile2Template($pathToTemplate, $pathToFileImport)
+     * $pathToTemplate : path to template file
+     * $pathToFileImport : path To CSV File Imported (tmp)
+    *  compare the name of CSV field between the file imported and the template 
+    *  return text : ERROR message if exist OR '' if not
+    * 
     */ 
-    public function testNameColumnCSV2($nameTemplate, $arrayFileImport){
-        $output = '';
-        //$parameters = parent::getKernelParameters();
-        $publicResourcesFolderPath =   __DIR__ . '\..\..\..\..\doc\Template_folder\\';
-        $fileNameTemplate = $nameTemplate.".csv";
-        $templateCsv = new BinaryFileResponse($publicResourcesFolderPath.$fileNameTemplate);
-        //$arrayTemplateCsv = $this->readCSV($publicResourcesFolderPath.$fileNameTemplate);
+    public function checkNameCSVfile2Template($pathToTemplate, $pathToFileImport){
+        $output = '';       
+        //
+        $arrayTemplateCsv = $this->readCSV($pathToTemplate);
+        $arrayFileImport = $this->readCSV($pathToFileImport);
         
-        $finder = new Finder();
-        $finder->files()->in($publicResourcesFolderPath);
-        $file = $finder->files()->name($fileNameTemplate);
-        $arrayTemplateCsv = $file->getContents();
+        # Recovery of the names of columns to be named of the form: TableName.FieldName
+        if($arrayTemplateCsv !== array()) {
+            $column_name_template = [];
+            reset($arrayTemplateCsv);
+            foreach(current($arrayTemplateCsv) as $k=>$v){
+                $column_name_template[] = $k;            
+            } 
+        } else {
+            $output = 'importfileService.ERROR Unknown template file';
+        }
+            
+        # Recovery of the names of columns to be named of the form: TableName.FieldName
+        if($arrayFileImport !== array()) {
+            $column_name = [];
+            reset($arrayFileImport);
+            foreach(current($arrayFileImport) as $k=>$v){
+                $column_name[] = $k;            
+            }        
+        } else {
+            $output = 'importfileService.ERROR Unknown file imported';
+        }
         
-         # Recovery of the names of columns to be named of the form: TableName.FieldName
-         $column_name_template = [];
-         reset($arrayTemplateCsv);
-         foreach(current($arrayTemplateCsv) as $k=>$v){
-             $column_name_template[] = $k;            
-         }         
-         # Recovery of the names of columns to be named of the form: TableName.FieldName
-         $column_name = [];
-         reset($arrayFileImport);
-         foreach(current($arrayFileImport) as $k=>$v){
-             $column_name[] = $k;            
-         }
-                 
-        dump($column_name_template ).' -> '.dump($column_name_template ); 
-         
+        # Compare both file name columns
+        $nbColumnTemplate = count($arrayTemplateCsv[0]);
+        $nbColumnFileImport = count($arrayFileImport[0]);       
+        if( $nbColumnFileImport > 0 && $nbColumnTemplate == $nbColumnFileImport) {
+                for ($c=0; $c < $nbColumnTemplate; $c++) {
+                    if ($column_name_template[$c] != $column_name[$c]) {
+                        $output = 'importfileService.ERROR bad column in CSV file';
+                        //var_dump($column_name_template[$c]);var_dump('<->');var_dump($column_name[$c]);
+                    }
+                }					
+        } else {
+            //var_dump($nbColumnTemplate);var_dump('<->');var_dump($nbColumnFileImport);
+            $output = 'importfileService.ERROR bad number of columns in CSV file' ;
+        }
+            
         return($output);              
     } 
     

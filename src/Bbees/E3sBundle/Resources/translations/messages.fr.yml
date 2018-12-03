@@ -15,7 +15,10 @@ buton.Back to the list of programme: Retour à la liste des Programmes
 buton.Back to the list of etablissement: Retour à la liste des Etablissements
 buton.Back to the list of commune: Retour à la liste des Communes
 # Erreurs de la procédure d'importation des données 
-importfileService.ERROR bad columns in CSV: Le fichier CSV ne contient pas les bonnes collonnes 
+importfileService.ERROR Unknown file imported: ERREUR - fichier CSV INCONNU
+importfileService.ERROR Unknown template file: ERREUR - template INCONNU
+importfileService.ERROR bad number of columns in CSV file: ERREUR - Le fichier CSV ne contient pas le bon nombre de collonnes - cf. Aide GOTIT
+importfileService.ERROR bad column in CSV file: ERREUR - le fichier CSV ne contient pas les bonnes colonnes du modèle de migration - cf. Aide GOTIT
 importfileService.ERROR NULL value: ERREUR - Contenu INVALIDE (valeur NULL)
 importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  ( OUI / NON )
 importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( YES / NO )
@@ -34,7 +37,6 @@ importfileService.ERROR no box code: ERREUR - le code boite  n a pas été rense
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la bdd
 importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la bdd
 importfileService.ERROR bad code: ERREUR - Code INCONNU
-importfileService.ERROR bad column in CSV file: ERREUR - le fichier CSV ne contient pas les bonnes colonnes du modèle de migration - cf. Aide GOTIT
 importfileService.Date of data set import: Date import
 importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
 importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés

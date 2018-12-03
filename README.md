@@ -1,6 +1,8 @@
 GOTIT1-1
 =======
-A Symfony project created on 30/10/2018 : Publish Version 1.1
+A Symfony project created on 28/11/2018 : Publish Version 1.1
+
+- upgrade symfony 3.4.1 => 3.4.19 (test security OK) 
 
 - gestion du multilinguisme
 - internationalisation des scripts de migration (messages d'erreur + commentaires Anglais )

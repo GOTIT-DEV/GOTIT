@@ -52,11 +52,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table    
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -131,12 +127,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_adn", "code_adn")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -206,12 +197,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -285,12 +271,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lame_coll", "code_lame_coll")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -360,12 +341,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Retrieve CSV fields as a table     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -439,12 +415,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataLotMaterielRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"code_boite", "code_boite")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielRange); // Retrieve CSV fields as a table    
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -512,12 +483,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataLotMaterielPublie = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielPublie); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_lot_materiel", "code_lot_materiel") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataLotMaterielPublie); // Retrieve CSV fields as a table    
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -593,12 +559,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataSqcAssembleePublie = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataSqcAssembleePublie); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_sqc_ass", "code_sqc_ass") || !$importFileCsvService->testNameColumnCSV($columnByTable,"accession_number", "accession_number") || !$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }     
+        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataSqcAssembleePublie); // Retrieve CSV fields as a table     
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -675,10 +636,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"source", "source.code_source")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );          
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -826,10 +783,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pcr", "pcr.code_pcr") || !$importFileCsvService->testNameColumnCSV($columnByTable,"chromatogramme", "chromatogramme.code_chromato")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -1063,10 +1016,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pcr", "pcr.code_pcr")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -1229,10 +1178,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"chromatogramme", "chromatogramme.code_chromato")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -1325,10 +1270,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"adn", "adn.code_adn")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -1499,10 +1440,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"programme", "programme.code_programme")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -1565,10 +1502,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"collecte", "collecte.code_collecte")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // appel du manager de Doctrine
         $compt = 0;
@@ -1936,10 +1869,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"individu_lame", "individu_lame.code_lame_coll")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager
         $compt = 0;
@@ -2112,10 +2041,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"individu", "individu.code_ind_biomol")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager     
         $compt = 0;
@@ -2360,10 +2285,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"boite", "boite.code_boite")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager    
         $compt = 0;
@@ -2450,10 +2371,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"lot_materiel", "lot_materiel.code_lot_materiel")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager        
         // traitement ligne par ligne du fichier csv
@@ -2854,12 +2771,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataMotu = $importFileCsvService->readCSV($fichier);      
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataMotu); // Retrieve CSV fields as a table
-        //var_dump($columnByTable); exit;
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"code_seq_ass", "code_seq_ass")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );          
-            exit;
-        }  
-    
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -2938,10 +2849,6 @@ class ImportFileE3s
         $csvData = $importFileCsvService->readCSV($fichier);
         $csvDataMotu = $importFileCsvService->readCSV($fichier_motu);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"motu", "motu.nom_fichier_csv")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -3155,10 +3062,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"etablissement", "etablissement.nom_etablissement")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager    
         $compt = 0;
@@ -3228,10 +3131,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"pays", "pays.code_pays")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager    
          $compt = 0;
@@ -3294,10 +3193,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"sequence_assemblee_ext", "sequence_assemblee_ext.code_sqc_ass_ext")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -3649,10 +3544,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"lot_materiel_ext", "lot_materiel_ext.code_lot_materiel_ext")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );           
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -4005,10 +3896,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"station", "station.code_station")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager  
         $compt = 0;
@@ -4136,10 +4023,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"sequence_assemblee", "sequence_assemblee.code_sqc_ass")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager      
         $compt = 0;
@@ -4542,10 +4425,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"referentiel_taxon", "referentiel_taxon.taxname")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager   
         $compt = 0;
@@ -4617,10 +4496,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"voc", "voc.code")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );            
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager   
         $compt = 0;
@@ -4684,10 +4559,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"personne", "personne.nom_personne")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager    
         $compt = 0;
@@ -4791,10 +4662,6 @@ class ImportFileE3s
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvData = $importFileCsvService->readCSV($fichier);
         $columnByTable =  $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
-        if(!$importFileCsvService->testNameColumnCSV($columnByTable,"commune", "commune.code_commune")) { 
-            return( $this->translator->trans('importfileService.ERROR bad column in CSV file') );             
-            exit;
-        }
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager    
         $compt = 0;

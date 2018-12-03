@@ -26,6 +26,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Bbees\E3sBundle\Services\ImportFileCsv;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 /**
 * ImportIndividu controller.
@@ -49,7 +51,8 @@ class ImportFilesMotuController extends Controller
         $message = ""; 
         // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire / ROLES
+        $translator = $this->get('translator.default');
+        //create form
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         if($user->getRole() == 'ROLE_ADMIN') {
@@ -71,29 +74,28 @@ class ImportFilesMotuController extends Controller
         
         if ($form->isSubmitted()){ //processing form request 
             $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-            // var_dump($fichier_motu); exit;
-            //$this->type_csv = $form->get('type_csv')->getData();
             $this->type_csv = "motu";
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Import : ".$nom_fichier_download."<br />";
-            switch ($this->type_csv) {
-                case 'motu':
-                    if ($form->get('fichier')->getData() !== NULL) {
-                        // suppression des donnéee assignées 
-                        //var_dump($form->get('motuFk')->getData()); exit;
-                        $message .= $importFileE3sService->importCSVDataMotuFile($fichier,$form->get('motuFk')->getData(), $user->getId() );
-                    } else {
-                        $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
-                    }
-                    break;
-                case 'vocabulaire':
-                    $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-                    break;
-                case 'personne':
-                    $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
-                    break;
-                default:
-                   $message .=  "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+            $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
+            // test if the file imported match the good columns name of the template file
+            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/Template_folder/'.$this->type_csv.'.csv';
+            $service = $this->get('bbees_e3s.import_file_csv');
+            $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate , $fichier));
+            $message .= $checkName;
+            if($checkName  == ''){
+                switch ($this->type_csv) {
+                    case 'motu':
+                        if ($form->get('fichier')->getData() !== NULL) {
+                            // suppression des donnéee assignées 
+                            //var_dump($form->get('motuFk')->getData()); exit;
+                            $message .= $importFileE3sService->importCSVDataMotuFile($fichier,$form->get('motuFk')->getData(), $user->getId() );
+                        } else {
+                            $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
+                        }
+                        break;
+                    default:
+                       $message .=  "ERROR - Bad SELECTED choice ?";
+                }
             }
             return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }

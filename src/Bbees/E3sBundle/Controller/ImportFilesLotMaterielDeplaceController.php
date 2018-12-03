@@ -24,6 +24,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Bbees\E3sBundle\Services\ImportFileCsv;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 /**
 * ImportIndividu controller.
@@ -47,7 +49,8 @@ class ImportFilesLotMaterielDeplaceController extends Controller
         $message = ""; 
         // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
-        //creation du formulaire
+        $translator = $this->get('translator.default');
+        //create du form
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $form = $this->createFormBuilder()
@@ -55,7 +58,7 @@ class ImportFilesLotMaterielDeplaceController extends Controller
                 ->add('type_csv', ChoiceType::class, array(
                     'choice_translation_domain' => false,
                     'choices'  => array(
-                         ' ' => array('Biological_material_move' => 'lot_materiel_range',),)
+                         ' ' => array('Biological_material_move' => 'biological_material_move',),)
                     ))
                 ->add('fichier', FileType::class)
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
@@ -66,13 +69,20 @@ class ImportFilesLotMaterielDeplaceController extends Controller
             $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
             $this->type_csv = $form->get('type_csv')->getData();
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-            $message = "Import : ".$nom_fichier_download."<br />";
-            switch ($this->type_csv) {
-                case 'lot_materiel_range':
-                    $message .= $importFileE3sService->importCSVDataLotMaterielDeplace($fichier, $user->getId());
-                    break;
-                default:
-                   $message .= "Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+            $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
+            // test if the file imported match the good columns name of the template file
+            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/Template_folder/'.$this->type_csv.'.csv';
+            $service = $this->get('bbees_e3s.import_file_csv');
+            $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate , $fichier));
+            $message .= $checkName;
+            if($checkName  == ''){
+                switch ($this->type_csv) {
+                    case 'biological_material_move':
+                        $message .= $importFileE3sService->importCSVDataLotMaterielDeplace($fichier, $user->getId());
+                        break;
+                    default:
+                       $message .= "ERROR - Bad SELECTED choice ?";
+                }
             }
             return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }
