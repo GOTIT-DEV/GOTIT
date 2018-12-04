@@ -50,7 +50,7 @@ class ImportFilesAdnDeplaceController extends Controller
         // load the ImportFileE3s service
         $importFileE3sService = $this->get('bbees_e3s.import_file_e3s');
         $translator = $this->get('translator.default');
-        //creation du formulaire
+        //creation of the form with a drop-down list
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $form = $this->createFormBuilder()

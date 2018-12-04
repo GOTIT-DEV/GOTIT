@@ -1,6 +1,9 @@
 GOTIT1-1
 =======
-A Symfony project created on 28/11/2018 : Publish Version 1.1
+A Symfony project created on 03/12/2018 : Publish Version 1.1
+
+- mise à jour des dictionnaire help : aide des procédure d'import des données referentielles (NB- version En à traduire en Fr)
+- checkNameCSVfile2Template($pathToTemplate, $pathToFileImport),  test sur les nom de collonnes  des fichier CSV / template pour les  imports par lot
 
 - upgrade symfony 3.4.1 => 3.4.19 (test security OK) 
 

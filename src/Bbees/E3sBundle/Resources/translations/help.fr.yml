@@ -265,7 +265,7 @@ importfilesmotu_index: |
     Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesstation_index: |
     INFO : Use this form to upload data from multiple sites and related data sets. Proceed by step: 
-    - (if necessary) upload the referential files (templates: vocabulary, country);
+    - (if necessary) upload the referential files (templates: vocabulary, country, municipality);
     - use and upload the template file “site” to follow appropriate data format.
     Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilescollecte_index: |
@@ -307,4 +307,33 @@ importfileschromatogramme_index: |
     INFO : Use this form to upload data from multiple chromatograms and related data sets. Proceed by step: 
     - (if necessary) upload the referential files (templates: institution, vocabulary);
     - use and upload the template file “chromatogram” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+# import process for repositories data : add on 04/12/2018
+importfilesvoc_index: |
+    INFO : Use this form to upload data from vocabulary repository data set: 
+    - use and upload the template file “vocabulary” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilesreferentieltaxon_index: |
+    INFO : Use this form to upload data from taxon repository data set: 
+    - use and upload the template file “taxon” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilespays_index: |
+    INFO : Use this form to upload data from country repository data set: 
+    - use and upload the template file “country” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilescommune_index: |
+    INFO : Use this form to upload data from municipality repository data set: 
+    - use and upload the template file “municipality” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilespersonne_index: |
+    INFO : Use this form to upload data from person repository data set: 
+    - use and upload the template file “person” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilesprogramme_index: |
+    INFO : Use this form to upload data from program repository data set: 
+    - use and upload the template file “program” to follow appropriate data format.
+    Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
+importfilesetablissement_index: |
+    INFO : Use this form to upload data from insitution repository data set: 
+    - use and upload the template file “insitution” to follow appropriate data format.
     Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

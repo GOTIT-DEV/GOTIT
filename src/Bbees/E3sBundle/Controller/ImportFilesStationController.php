@@ -64,7 +64,7 @@ class ImportFilesStationController extends Controller
                          ' ' => array('Site' => 'site',),
                          '  ' => array('Country' => 'country', 'Municipality' => 'municipality', 'Vocabulary' => 'vocabulary',),)
                     ))
-                ->add('fichier', FileType::class)
+                ->add('fichier', FileType::class )
                 ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
                 ->getForm();            
         }
