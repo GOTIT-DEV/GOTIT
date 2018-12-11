@@ -38,7 +38,7 @@ class LotMaterielExtEstReferenceDansEmbedType extends AbstractType
                     return $er->createQueryBuilder('source')
                             ->orderBy('source.codeSource', 'ASC');
                     }, 
-                    'placeholder' => 'Choose a Source', 'choice_label' => 'code_source', 'multiple' => false, 'expanded' => false))
+                    'placeholder' => 'Choose a Source', 'choice_label' => 'code_source', 'multiple' => false, 'expanded' => false, 'label' => false))
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
                 ->add('userCre', HiddenType::class, array())

@@ -175,21 +175,83 @@ function addArrayCollectionButton($container, nameCollection, addnew = false, fi
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
     $container.prepend('</br></br>');
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find(':input').length;
+    var index = $container.find('select').length;
+    // alert(nameCollection+' nb input = '+index);
     if (addnew) {
       // ajout du bonton add New
       var nameAddNewButon = "Add a new " + nameCollection;
       var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
       $container.prepend($addBoutonAdd);
+      $addBoutonAdd.click(function(e) {      
+        index++;
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return true;
+      });
     }
     // On ajoute un lien pour ajouter une nouvelle catégorie
     var nameAddButon = "Add a " + nameCollection;
     var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
     $container.prepend($addLink);
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $addLink.click(function(e) {
-      index++;
+    $addLink.click(function(e) {      
       addCategoryForExistingRecord(index, $container, true, nameCollection);
+      index++;
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    //alert(nameCollection+':'+$container.children('div').length);
+    //if($container.children('div').length == 0) alert(nameCollection+':'+index);
+
+    if (index == 0 && fieldRequired) {
+      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
+      addCategoryForExistingRecord(index, $container, false, nameCollection);
+      //index++;
+      //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+    }
+    // Pour chaque collection  on ajoute un lien de suppression
+    var comptChildren = 0;
+    $container.children('div').each(function() {
+      if (fieldRequired == false || comptChildren > 0) {
+        addDeleteLink($(this), true, nameCollection);
+      } else {
+        addDeleteLink($(this), false, nameCollection);
+      }
+      comptChildren++;
+    });
+  }
+}
+
+//
+function addCollectionButtons(formNameOfCollection, nameCollection, addnew = false, fieldRequired = true) {
+    
+  var $container = $('div#'+formNameOfCollection);
+  if ($container.length !== 0) {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
+    $container.prepend('</br></br>');
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    // var index = $container.find('select').length;
+    var index = getLastIndex(formNameOfCollection);
+    // alert(nameCollection+' nb input = '+index);
+    if (addnew) {
+      // ajout du bonton add New
+      var nameAddNewButon = "Add a new " + nameCollection;
+      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
+      $container.prepend($addBoutonAdd);
+      $addBoutonAdd.click(function(e) {      
+        index++;
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return true;
+      });
+    }
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var nameAddButon = "Add a " + nameCollection;
+    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
+    $container.prepend($addLink);
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {      
+      addCategoryForExistingRecord(index, $container, true, nameCollection);
+      index++;
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
       return false;
     });
@@ -221,9 +283,9 @@ function addDeleteLink($prototype, visible = true, nameCollection = '') {
   // Création du lien
   var id_delete = (nameCollection != '') ? 'id="delete_' + nameCollection + '"' : 'id="delete_Collection"';
   if (visible) {
-    $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right"><a href="#" class="btn btn-danger btn-sm " type="button">Delete</a></div>');
+    var $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right"><a href="#" class="btn btn-danger btn-sm " type="button">Delete</a></div>');
   } else {
-    $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right">&nbsp;</div>');
+    var $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right">&nbsp;</div>');
   }
   // Ajout du lien
   $prototype.prepend($deleteLink);
@@ -331,7 +393,30 @@ function callAjax(form, $container, index) {
   });
 }
 
-// Mise en majuscule
+
+// getLastIndex(formNameOfCollection) 
+// get the last index of the form Collection "formNameOfCollection"
+// formNameOfCollection : the name of the Symfony Collection used in the form
+// ex. formNameOfCollection = bbees_e3sbundle_collecte_estFinancePars
+function getLastIndex(formNameOfCollection) {
+    var $container = $('div#'+formNameOfCollection);
+    // search for the last index used and create a new record with  index = lastindex + 1 
+    var posindexinid = formNameOfCollection.length;
+    posindexinid = posindexinid+1;
+    // search for the last created index of one or two digit (max = 99) 
+    var lastindex =  $container.find('select').last().attr('id').charAt(posindexinid);   
+    var nextcharafterlastindex = $container.find('select').last().attr('id').charAt(posindexinid+1);
+    var index = parseInt(lastindex);
+    // alert(nextcharafterlastindex+' : '+index);
+    if (nextcharafterlastindex !== '_') {
+        index = index*10 + ( parseInt(nextcharafterlastindex) );
+    }
+    index = index+1;
+    return index;
+}
+
+
+// MAJ
 function maj($container) {
   $container.keyup(function(e) {
     var field_value = $container.val().toUpperCase();

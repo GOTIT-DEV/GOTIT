@@ -59,8 +59,8 @@
                     ev.preventDefault();		
                     var form = $(this);
                     var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars');
-                    var index = $container.find(':input').length; 
-                    callAjax(form, $container, index);		
+                    var index = getLastIndex('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars');
+                    callAjax(form, $container, index);			
 	}); 
         /* 
         // Modal myModalPersonne : Manage new Personne for est_identifie_pars
@@ -72,18 +72,15 @@
                     var $container = $('div#bbees_e3sbundle_lotmaterielext_especeIdentifiees_0_estIdentifiePars');
                     callAjax(form, $container, index);		
 	});
-        */                      
+        */   
+       
         // Collection lotMaterielExtEstReferenceDanss (Source)
-        var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielExtEstReferenceDanss'); 
-        addArrayCollectionButton($container,"Source",false,true);                
+        addCollectionButtons('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstReferenceDanss',"Source",false,true);           
         // Collection lotMaterielEstRealisePars (Personne)
-        var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars'); 
-        addArrayCollectionButton($container,"Personne",true);       
-
+        addCollectionButtons('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars',"Personne",true); 
+        
         // Collection especeIdentifiees (EspeceIdentifiee)  
-        var $container = $('div#bbees_e3sbundle_lotmaterielext_especeIdentifiees');        
-        //addArrayCollectionButton($container,"EspeceIdentifiee",false,true ); 
-        //addArrayCollectionButton2('bbees_e3sbundle_lotmaterielext_especeIdentifiees','dateIdentification',"EspeceIdentifiee",false,true );        
+        var $container = $('div#bbees_e3sbundle_lotmaterielext_especeIdentifiees');               
         addArrayCollectionButtonEmbed('bbees_e3sbundle_lotmaterielext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
  
     });

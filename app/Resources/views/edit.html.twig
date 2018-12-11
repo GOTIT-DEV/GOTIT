@@ -111,7 +111,7 @@
 
 
 {% block scripts %}
-<script type="text/javascript">     
+<script type="text/javascript">    
     var addButon = {
     "Add a SamplingMethod":"{{'buton.Add a SamplingMethod'|trans}}",
     "Add a Fixateur":"{{'buton.Add a Fixateur'|trans}}",
@@ -125,6 +125,8 @@
     "Add a Source":"{{'buton.Add a Source'|trans}}",
     "Add a Chromatogramme":"{{'buton.Add a Chromatogramme'|trans}}",
     };
+    {% if (valid is defined and valid == 1 )%} 
+    {% endif %}
 </script>
 
 {{ parent() }}

@@ -2,6 +2,9 @@ GOTIT1-1
 =======
 A Symfony project created on 03/12/2018 : Publish Version 1.1
 
+- A FAIRE : nouvelle integration et gestion des formualaire espece_identifiée et des formulaire imbriqué Personne
+- nouvelle gestion de la variable index dans la fn addArrayCollectionButton() et dans les appels après le submit du nouvel enregistrement (via les bouttons add new : modal)
+
 - mise à jour des dictionnaire help : aide des procédure d'import des données referentielles (NB- version En à traduire en Fr)
 - checkNameCSVfile2Template($pathToTemplate, $pathToFileImport),  test sur les nom de collonnes  des fichier CSV / template pour les  imports par lot
 

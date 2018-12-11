@@ -12,27 +12,6 @@
 {{ parent() }}
 {% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
-<script type="text/javascript">  
-// Personne Modal Action spécifiques
-    $('#myModalPersonne').on('show.bs.modal', function (e) {
-        var modal = $(this);
-         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonne = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
-        })
-        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
-            var modal = $(this);
-            var nomComplet = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
-        })
-        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonneRef = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
-        })
-    })
- </script>
  
 <script type="text/javascript">  
 // Form actions

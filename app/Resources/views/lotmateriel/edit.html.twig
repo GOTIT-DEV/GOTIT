@@ -52,6 +52,7 @@
             $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
         })
     })
+    
 // Actions Jquery     
     $(document).ready(function(){         
         // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
@@ -59,8 +60,8 @@
                     ev.preventDefault();		
                     var form = $(this);
                     var $container = $('div#bbees_e3sbundle_lotmateriel_lotMaterielEstRealisePars');
-                    var index = $container.find(':input').length; 
-                    callAjax(form, $container, index);		
+                    var index = getLastIndex('bbees_e3sbundle_lotmateriel_lotMaterielEstRealisePars');
+                    callAjax(form, $container, index);
 	}); 
         /* 
         // Modal myModalPersonne : Manage new Personne for est_identifie_pars
@@ -73,20 +74,16 @@
                     callAjax(form, $container, index);		
 	});
         */
-        // Collection compositionLotMateriels (CompositionLotMateriel) 
-        var $container = $('div#bbees_e3sbundle_lotmateriel_compositionLotMateriels');        
-        addArrayCollectionButton($container,"CompositionLotMateriel",false);                        
+       
+        // Collection compositionLotMateriels (CompositionLotMateriel)        
+        addCollectionButtons('bbees_e3sbundle_lotmateriel_compositionLotMateriels',"CompositionLotMateriel",false);                        
         // Collection lotEstPublieDanss (Source)
-        var $container = $('div#bbees_e3sbundle_lotmateriel_lotEstPublieDanss'); 
-        addArrayCollectionButton($container,"Source",false,false);                
+        addCollectionButtons('bbees_e3sbundle_lotmateriel_lotEstPublieDanss',"Source",false,false);                
         // Collection lotMaterielEstRealisePars (Personne)
-        var $container = $('div#bbees_e3sbundle_lotmateriel_lotMaterielEstRealisePars'); 
-        addArrayCollectionButton($container,"Personne",true);       
+        addCollectionButtons('bbees_e3sbundle_lotmateriel_lotMaterielEstRealisePars',"Personne",true);       
 
         // Collection especeIdentifiees (EspeceIdentifiee)  
-        var $container = $('div#bbees_e3sbundle_lotmateriel_especeIdentifiees');        
-        //addArrayCollectionButton($container,"EspeceIdentifiee",false,true ); 
-        //addArrayCollectionButton2('bbees_e3sbundle_lotmateriel_especeIdentifiees','dateIdentification',"EspeceIdentifiee",false,true );        
+        var $container = $('div#bbees_e3sbundle_lotmateriel_especeIdentifiees');                
         addArrayCollectionButtonEmbed('bbees_e3sbundle_lotmateriel_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
  
     });

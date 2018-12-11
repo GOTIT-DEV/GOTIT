@@ -246,7 +246,8 @@ class CollecteController extends Controller
             return $this->render('collecte/edit.html.twig', array(
                 'collecte' => $collecte,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));
+                'valid' => 1));                        
+            //return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1)); 
         }
 
         return $this->render('collecte/edit.html.twig', array(

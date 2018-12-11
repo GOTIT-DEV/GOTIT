@@ -18,7 +18,6 @@
 namespace Bbees\E3sBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 /**
@@ -284,7 +283,7 @@ class ImportFileCsv
     * return the objet timestamp current 
     */ 
     public function GetCurrentTimestamp(){
-       // on récupére le TIMESTAMP du traitement : renseignera le champ date_import  
+       // get the TIMESTAMP of import 
        $dateImport = date("Y-m-d H:i:s"); 
        $DateImport = new \DateTime($dateImport);
        return $DateImport;

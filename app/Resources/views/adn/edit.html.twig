@@ -59,24 +59,13 @@
                     ev.preventDefault();		
                     var form = $(this);
                     var $container = $('div#bbees_e3sbundle_adn_adnEstRealisePars');
-                    var index = $container.find(':input').length; 
+                    var index = getLastIndex('bbees_e3sbundle_adn_adnEstRealisePars');
                     callAjax(form, $container, index);		
 	}); 
               
         // Collection lotMaterielEstRealisePars (Personne)
-        var $container = $('div#bbees_e3sbundle_adn_adnEstRealisePars'); 
-        addArrayCollectionButton($container,"Personne",true); 
+        addCollectionButtons('bbees_e3sbundle_adn_adnEstRealisePars',"Personne",true); 
 
-        /*
-        // addArrayCollectionButton2($container,"EspeceIdentifiee",false,true, 'estIdentifiePars' , 'Personne' ); 
-            /* var nb_especeIdentifiees = $container.find('[id$=_estIdentifiePars]').length;
-            //alert(nb_especeIdentifiees);
-            for(var i= 0; i < nb_especeIdentifiees+1; i++)
-            {
-                var $container = $('div#bbees_e3sbundle_lotmateriel_especeIdentifiees_'+i.toString()+'_estIdentifiePars'); 
-                if ( $container !== 'undefined' && $container !== null)  addArrayCollectionButton($container,"Personne",false);
-            }
-        */
     });
  </script>
  

@@ -59,13 +59,12 @@
                     ev.preventDefault();		
                     var form = $(this);
                     var $container = $('div#bbees_e3sbundle_source_sourceAEteIntegrePars');
-                    var index = $container.find(':input').length; 
+                    var index = getLastIndex('bbees_e3sbundle_source_sourceAEteIntegrePars');
                     callAjax(form, $container, index);		
 	}); 
               
         // Collection lotMaterielEstRealisePars (Personne)
-        var $container = $('div#bbees_e3sbundle_source_sourceAEteIntegrePars'); 
-        addArrayCollectionButton($container,"Personne",true); 
+        addCollectionButtons('bbees_e3sbundle_source_sourceAEteIntegrePars',"Personne",true); 
 
     });
  </script>

@@ -81,43 +81,33 @@
         })
     })
 // Actions Jquery     
-    $(document).ready(function(){       
+    $(document).ready(function(){   
         // Modal myModalProgramme : manage  new Programme 
         $(document).on('submit','form[name="bbees_e3sbundle_programme"]',function(ev){
-                    ev.preventDefault();
-                    var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_collecte_estFinancePars');
-                    var index = $container.find(':input').length;    
-                    callAjax(form, $container, index);	
+            ev.preventDefault();
+            var form = $(this);
+            var $container = $('div#bbees_e3sbundle_collecte_estFinancePars');
+            var index = getLastIndex('bbees_e3sbundle_collecte_estFinancePars');
+            callAjax(form, $container, index);
 	});   
         // Modal myModalPersonne : Manage new Personne  
         $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
                     ev.preventDefault();		
                     var form = $(this);
                     var $container = $('div#bbees_e3sbundle_collecte_estEffectuePars');
-                    var index = $container.find(':input').length; 
-                    callAjax(form, $container, index);		
+                    var index = getLastIndex('bbees_e3sbundle_collecte_estEffectuePars');
+                    callAjax(form, $container, index);	
 	});            
         // Collection estFinancePars (Programme) 
-        var $container = $('div#bbees_e3sbundle_collecte_estFinancePars'); 
-        $('#bbees_e3sbundle_collecte_estFinancePars label').attr('class','invisible'); 
-        addArrayCollectionButton($container,"Programme",true);       
-        // Collection estEffectuePars (Personne)
-        var $container = $('div#bbees_e3sbundle_collecte_estEffectuePars'); 
-        $('#bbees_e3sbundle_collecte_estEffectuePars label').attr('class','invisible');  
-        addArrayCollectionButton($container,"Personne",true);              
-        // Collection aPourSamplingMethods (Voc)
-        var $container = $('div#bbees_e3sbundle_collecte_aPourSamplingMethods'); 
-        $('#bbees_e3sbundle_collecte_aPourSamplingMethods label').attr('class','invisible'); 
-        addArrayCollectionButton($container,"SamplingMethod");      
+        addCollectionButtons('bbees_e3sbundle_collecte_estFinancePars',"Programme",true);  
+        // Collection estEffectuePars (Personne) 
+        addCollectionButtons('bbees_e3sbundle_collecte_estEffectuePars',"Personne",true);              
+        // Collection aPourSamplingMethods (Voc)  
+        addCollectionButtons('bbees_e3sbundle_collecte_aPourSamplingMethods',"SamplingMethod");      
         // Collection aPourFixateurs (Voc)
-        var $container = $('div#bbees_e3sbundle_collecte_aPourFixateurs'); 
-        $('#bbees_e3sbundle_collecte_aPourFixateurs label').attr('class','invisible'); 
-        addArrayCollectionButton($container,"Fixateur");   
+        addCollectionButtons('bbees_e3sbundle_collecte_aPourFixateurs',"Fixateur");   
         // Collection aPourFixateurs (ACibler)
-        var $container = $('div#bbees_e3sbundle_collecte_aCiblers'); 
-        $('#bbees_e3sbundle_collecte_aCiblers label').attr('class','invisible');
-        addArrayCollectionButton($container,"ACibler");
+        addCollectionButtons('bbees_e3sbundle_collecte_aCiblers',"ACibler");
     });
  </script>
  
