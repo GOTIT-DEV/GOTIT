@@ -52,6 +52,25 @@ class UserController extends Controller
         ));
     }
 
+    /**
+     * Get currently logged in user public informations
+     * 
+     * @Route("/current", name="user_current")
+     * @Method("GET")
+     */
+    public function currentUserAction()
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+        $user = $this->getUser();
+        return new JSONResponse(array(
+            "username" => $user->getUsername(),
+            "role" => $user->getRole(),
+            "name" => $user->getName(),
+            "institution" => $user->getInstitution(),
+            "email" => $user->getEmail(),
+        ));
+    }
+
     
      /**
      * Retourne au format json un ensemble de champs à afficher tab_station_toshow avec les critères suivant :  

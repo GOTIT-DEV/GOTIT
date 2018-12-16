@@ -1,4 +1,4 @@
-{# Résultats formulaire 2 #}
+{# Species hypotheses query results #}
 
 {% trans_default_domain 'requetes' %}
 
@@ -44,9 +44,7 @@
       <div class="well well-sm">
         <div
           id="barplot-recto"
-          class="collapse barplot"
-          data-vocab-xlabel="{{'methode.label' | trans }}"
-          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}"></div>
+          class="collapse barplot"></div>
         <div class="collapse plot-overlay">
           <center>
             <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
@@ -63,8 +61,7 @@
             id="result-table-recto"
             class="table table-condensed table-hover table-striped"
             data-barplot="#barplot-recto"
-            data-target="recto"
-            data-locale="{{app.request.getLocale()}}">
+            data-target="recto">
             <thead>
               <tr>
                 <th>{{"columns.methode" | trans}}</th>
@@ -86,9 +83,7 @@
       <div class="well well-sm">
         <div
           id="barplot-verso"
-          class="collapse barplot"
-          data-vocab-xlabel="{{'methode.label' | trans }}"
-          data-vocab-ylabel="{{'queries.rearrangement.short' | trans }}"></div>
+          class="collapse barplot"></div>
         <div class="collapse plot-overlay">
           <center>
             <i class="fa fa-bar-chart fa-4x" style="margin:5vh"></i><br>
@@ -105,8 +100,7 @@
             id="result-table-verso"
             class="table table-condensed table-hover table-striped"
             data-barplot="#barplot-verso"
-            data-target="verso"
-            data-locale="{{app.request.getLocale()}}">
+            data-target="verso">
             <thead>
               <tr>
                 <th>{{"columns.methode" | trans}}</th>

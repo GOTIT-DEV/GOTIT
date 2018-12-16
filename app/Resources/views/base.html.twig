@@ -13,7 +13,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="{{ app.request.locale|split('_')[0] }}">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -148,10 +148,10 @@
                     {% else %}
                     <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.user'|trans}}</font></a></li> 
                   {% endif %}
-                  {% if is_granted('ROLE_COLLABORATION') %}
+                  {% if is_granted('ROLE_INVITED') %}
                     <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                    <li><a href="{{ path('echantillonnage') }}">
+                    <li><a href="{{ path('co1-sampling') }}">
                         {% trans from 'requetes' %}
                         queries.echantillonnage.nav
                         {% endtrans %}
@@ -161,17 +161,17 @@
                         queries.motu.nav
                         {% endtrans %}
                         </a></li>
-                    <li><a href="{{ path('rearrangements') }}">
+                    <li><a href="{{ path('species-hypotheses') }}">
                         {% trans from 'requetes' %}
                         queries.rearrangement.nav
                         {% endtrans %}
                         </a></li>                   
-                    <li><a href="{{ path('richesse') }}">
+                    <li><a href="{{ path('distribution') }}">
                         {% trans from 'requetes' %}
                         queries.richesse.nav
                         {% endtrans %}
                         </a></li>
-                        <li><a href="{{ path('concordance') }}">
+                        <li><a href="{{ path('consistency') }}">
                         {% trans from 'requetes' %}
                         queries.concordance.nav
                         {% endtrans %}

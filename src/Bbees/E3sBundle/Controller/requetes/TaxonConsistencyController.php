@@ -13,13 +13,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Controller pour les requêtes sur la couverture d'échantillonnage
  * par espèce, sur le gène COI
  *
- * @Route("/requetes/concordance")
+ * @Route("/requetes/consistency")
  * @Security("has_role('ROLE_INVITED')")
  */
-class ConcordanceTaxoController extends Controller {
+class TaxonConsistencyController extends Controller {
 
   /**
-   * @Route("/", name="concordance")
+   * @Route("/", name="consistency")
    *
    * Rendu du template de la page principale
    */
@@ -27,13 +27,13 @@ class ConcordanceTaxoController extends Controller {
     # obtention de la liste des genres
     $genus_set = $service->getGenusSet();
     # Rendu du template
-    return $this->render('requetes/concordance/index.html.twig', array(
+    return $this->render('requetes/taxon-consistency/index.html.twig', array(
       'genus_set' => $genus_set,
     ));
   }
 
   /**
-   * @Route("/search", name="concordance-search")
+   * @Route("/query", name="consistency-query")
    *
    * Données JSON pour remplir la table de résultats
    */

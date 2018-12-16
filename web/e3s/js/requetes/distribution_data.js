@@ -1,83 +1,41 @@
-class CarteRichesse {
+/**
+ * DOCUMENT READY
+ */
+$(document).ready(_ => {
+  let pageHandler = new MotuDistribution("#main-form", "#result-table", "#motu-geo-map")
+})
+
+/**
+ * Motu Distribution class
+ * Controls form interactions and results display
+ */
+class MotuDistribution {
   constructor(formId, tableId, mapContainerId) {
     this.form = $(formId)
     this.table = $(tableId)
     this.mapContainer = $(mapContainerId)
 
-    this.urls = {
-      refTaxon: this.table.find("th#col-taxname").data('linkUrl'),
-      station: this.table.find("th#col-station").data('linkUrl')
-    }
-    this.seqTypes = {
-      interne: this.table.data('vocabSeqInt'),
-      externe: this.table.data('vocabSeqExt'),
-    }
-
     this.uiWaitResponse()
     this.geoPlot = new MotuGeoPlot(mapContainerId)
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId)
-    this.getAvailableMethods()
-    // Formulaires prĂŞts : initialiser datatables
-    $.when(this.speciesSelector.promise, this.methodSelector.promise)
-      .done(_ => {
+    
+    let currentUserCall = $.ajax({
+      type:"GET",
+      url: Routing.generate('user_current')
+    })
+    // Initialize results as datatable when form is ready
+    $.when(this.speciesSelector.promise, this.methodSelector.promise, currentUserCall)
+      .done((sp, meth, user) => {
+        this.dtbuttons = user[0].role === "ROLE_INVITED" ? [] : dtconfig.buttons
         this.initDataTable()
       })
 
   }
 
-  getAvailableMethods() {
-    let self = this
-    $.ajax({
-      type: "GET",
-      url: self.table.data('urlMethodes'),
-      success: response => {
-        self.methodes = response
-      }
-    })
-  }
-
   /**
-   * Active le mode attente / loading
-   */
-  uiWaitResponse() {
-    this.form.find("button[type='submit']").button('loading')
-  }
-
-  /**
-   * DĂŠsactive le mode attente ; mettre Ă  jour les onglets
-   * @param {Object} response rĂŠponse JSON
-   */
-  uiReceivedResponse(response) {
-    this.form.find("button[type='submit']").button('reset')
-    let showGeo = ('taxname' in response.query && response.rows.length)
-    if (showGeo) {
-      this.updateMap(response)
-    }
-    this.toggleTabs(showGeo)
-  }
-
-
-  toggleTabs(activeMap) {
-    if (activeMap) {
-      $("#geolocation-tab")
-        .removeClass('disabled')
-        .find("a")
-        .attr('data-toggle', 'tab')
-        .removeClass('disabled')
-    } else {
-      $("#table-tab a").tab('show')
-      $("#geolocation-tab")
-        .addClass('disabled')
-        .find('a')
-        .removeAttr('data-toggle')
-        .addClass('disabled')
-    }
-  }
-
-  /**
-   * Met Ă  jour la carte avec les donnĂŠes JSON
-   * @param {Object} response rĂŠponse JSON
+   * Update map content with JSON response
+   * @param {Object} response JSON response
    */
   updateMap(response) {
     let self = this
@@ -89,7 +47,7 @@ class CarteRichesse {
     }))
     // Plot data
     self.geoPlot.plot(response.rows)
-    // Overlay et ĂŠvĂŠnements changement d'onglet
+    // Loading overlay and tab switching events
     $('#table-tab a ').on('shown.bs.tab', _ => {
       scrollTo('#resultats', 500)
       $(".geo-overlay").hide()
@@ -102,28 +60,38 @@ class CarteRichesse {
   }
 
 
+  /**
+   * Shortcut to define datatable columns
+   */
   get datatableColumns() {
     let self = this
+    // Rendering float with precision 3
     const renderNumber = $.fn.dataTable.render.number('', '.', 3)
+    // Columns
     let columns = [
       dtconfig.expandColumn, {
         data: "taxname",
-        render: linkify(self.urls.refTaxon, 'taxon_id', true)
+        render: linkify("referentieltaxon_show", { col: 'taxon_id' })
       }, {
         data: 'code',
         render: (data, type, row) => {
-          let lookUpAttr = row.type_seq ? 'urlExt' : 'urlInt'
-          let baseUrl = self.table.find("#col-code-seq").data(lookUpAttr)
-          return linkify(baseUrl, 'id', true)(data, type, row)
+          let route = row.type_seq ?
+            'sequenceassembleeext_show' :
+            'sequenceassemblee_show'
+          return linkify(route, { col: 'id' })(data, type, row)
         }
       }, {
         data: "type_seq",
-        render: data => {
-          return data ? self.seqTypes.externe : self.seqTypes.interne
+        render: isExternal => {
+          return isExternal ?
+            Translator.trans('entity.seq.type.externe') :
+            Translator.trans('entity.seq.type.interne')
         }
       }, {
         data: "accession_number",
-        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', 'accession_number', false)
+        render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/', {
+          col: 'accession_number', ellipsis: false, generateRoute: false
+        })
       }, {
         data: 'motu'
       }, {
@@ -135,7 +103,7 @@ class CarteRichesse {
         defaultContent: ""
       }, {
         data: "code_station",
-        render: linkify(self.urls.station, 'id_sta', true)
+        render: linkify("station_show", {col:'id_sta'})
       }, {
         data: "commune"
       }, {
@@ -146,8 +114,7 @@ class CarteRichesse {
   }
 
   /**
-   * Initialise datatables pour remplir la table *
-   * en utilisant les donnĂŠes du formulaire
+   * Init result table as datatable
    */
   initDataTable() {
     let self = this
@@ -156,16 +123,16 @@ class CarteRichesse {
         autoWidth: false,
         responsive: true,
         ajax: {
-          "url": self.form.data("url"),
+          "url": Routing.generate('distribution-query'),
           "dataSrc": "rows",
           "type": "POST",
           "data": _ => {
             return self.form.serialize()
           }
         },
-        language: dtconfig.language[self.table.data('locale')],
+        language: dtconfig.language[$("html").attr("lang")],
         dom: "lfrtipB",
-        buttons: dtconfig.buttons,
+        buttons: self.dtbuttons,
         order: [1, 'asc'],
         columns: self.datatableColumns,
         drawCallback: _ => {
@@ -188,13 +155,47 @@ class CarteRichesse {
       })
     }
   }
+
+  /**
+   * Toggle result tab containing geographical map
+   * @param {bool} activeMap 
+   */
+  toggleTabs(activeMap) {
+    if (activeMap) {
+      $("#geolocation-tab")
+        .removeClass('disabled')
+        .find("a")
+        .attr('data-toggle', 'tab')
+        .removeClass('disabled')
+    } else {
+      $("#table-tab a").tab('show')
+      $("#geolocation-tab")
+        .addClass('disabled')
+        .find('a')
+        .removeAttr('data-toggle')
+        .addClass('disabled')
+    }
+  }
+
+  /**
+  * Toggle UI loading mode
+  */
+  uiWaitResponse() {
+    this.form.find("button[type='submit']").button('loading')
+  }
+
+  /**
+   * Toggle UI loading done
+   * @param {Object} response JSON response
+   */
+  uiReceivedResponse(response) {
+    this.form.find("button[type='submit']").button('reset')
+    let showGeo = ('taxname' in response.query && response.rows.length)
+    if (showGeo) {
+      this.updateMap(response)
+    }
+    this.toggleTabs(showGeo)
+  }
 }
 
 
-
-/**
- * DOCUMENT READY
- */
-$(document).ready(_ => {
-  let pageHandler = new CarteRichesse("#main-form", "#result-table", "#motu-geo-map")
-})

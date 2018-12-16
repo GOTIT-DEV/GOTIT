@@ -38,22 +38,16 @@
       <div class="table-responsive">
         <table
           id="result-table"
-          class="table table-condensed table-hover table-striped"
-          data-url-methodes="{{path('richesse-methodes')}}"
-          data-vocab-seq-int="{{'entity.seq.type.interne' | trans}}"
-          data-vocab-seq-ext="{{'entity.seq.type.externe' | trans}}"
-          data-locale="{{app.request.getLocale()}}">
+          class="table table-condensed table-hover table-striped">
           <thead>
             <tr>
               <th></th>
-              <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0}) | trim(0)}}">
+              <th id="col-taxname">
                 {% trans %}
                 columns.taxon
                 {% endtrans %}</th>
               <th
-                id="col-code-seq"
-                data-url-int="{{path('sequenceassemblee_show', {id:0}) | trim(0)}}"
-                data-url-ext="{{path('sequenceassembleeext_show', {id:0}) | trim(0)}}">
+                id="col-code-seq">
                 {% trans %}
                 columns.seqcode
                 {% endtrans %}</th>

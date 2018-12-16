@@ -12,7 +12,7 @@
 {% block body %}
   <div class='row' style='padding:10px'>
     {# Formulaire #}
-    {% include 'requetes/concordance/form.html.twig' %}
+    {% include 'requetes/taxon-consistency/form.html.twig' %}
   </div>
 
   <div class="row">
@@ -22,7 +22,7 @@
           {{"label.resultats" | trans }}
         </h2>
       </legend>
-      {% include 'requetes/concordance/results.html.twig' %}
+      {% include 'requetes/taxon-consistency/results.html.twig' %}
     </fieldset>
   </div>
 
@@ -30,5 +30,5 @@
 
 {% block scripts %}
   {{ parent() }}
-  <script src="{{asset('e3s/js/requetes/concordance.js')}}"></script>
+  <script src="{{asset('e3s/js/requetes/taxon_consistency.js')}}"></script>
 {% endblock %}

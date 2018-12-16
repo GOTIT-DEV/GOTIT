@@ -3,11 +3,10 @@
 <div class="table-responsive">
   <table
     id="result-table"
-    class="table table-condensed table-hover table-striped"
-    data-locale="{{app.request.getLocale()}}">
+    class="table table-condensed table-hover table-striped">
     <thead>
       <tr>
-        <th id="col-taxname" data-link-url="{{path('referentieltaxon_show', {id:0})|trim(0)}}">
+        <th id="col-taxname">
           {{ "columns.taxon" | trans}}
         </th>
         <th>{{"columns.methode" | trans}}</th>

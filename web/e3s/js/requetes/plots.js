@@ -14,7 +14,6 @@ class BasePlot {
     // Construction objet plotly
     this.container = $(containerId)
     this.container.html('')
-    //this.container.html('') // vidage du container
     this.d3 = Plotly.d3
 
     this.gd3 = this.d3.select(containerId) // assignation du d3 au container
@@ -41,7 +40,7 @@ class BarPlot extends BasePlot {
     this.layout = {
       // Axe des X
       xaxis: {
-        title: this.container.data('vocabXlabel'),
+        title: Translator.trans("methode.label", {}, 'requetes'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -51,7 +50,7 @@ class BarPlot extends BasePlot {
       },
       // Axe des Y
       yaxis: {
-        title: this.container.data('vocabYlabel'),
+        title: Translator.trans('queries.rearrangement.short', {}, 'requetes'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -272,12 +271,12 @@ class SamplingGeoPlot extends BaseGeoPlot {
       lotmateriel: 0
     }
     this.formData = undefined
-    this.url = queryUrl ? queryUrl : this.container.data('url')
+    this.url = Routing.generate("co1-geocoords")
 
     this.modal.on('shown.bs.modal', this.resize)
   }
 
-  ajaxOptions() {
+  get ajaxOptions() {
     let self = this
     return {
       type: 'POST',
@@ -291,7 +290,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
     this.lmp.lotmateriel = $(detailsForm).find("input[name='lmp_lm']").val()
     this.lmp.co1 = $(detailsForm).find("input[name='lmp_co1']").val()
     this.formData = $(detailsForm).serialize()
-    $.ajax(this.ajaxOptions()) // ajax
+    $.ajax(this.ajaxOptions) // ajax
   }
 
 
@@ -300,7 +299,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
     let data = []
     data.push( // Données COI
       self.build_station_data(response.with_co1, {
-        name: self.container.data('vocabStationCo1'),
+        name: Translator.trans('geo.station.co1', {}, 'requetes'),
         marker: {
           symbol: "triangle-up",
           color: "red"
@@ -323,7 +322,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
 
     data.push(
       self.build_station_data(lotsMat.interne, {
-        name: self.container.data('vocabStationLotmaterielInt'),
+        name: Translator.trans("geo.station.lotmateriel.interne", {}, 'requetes'),
         marker: {
           symbol: "circle-open",
           size: 10,
@@ -337,7 +336,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
     )
     data.push(
       self.build_station_data(lotsMat.externe, {
-        name: self.container.data('vocabStationLotmaterielExt'),
+        name: Translator.trans('geo.station.lotmateriel.externe', {}, 'requetes'),
         marker: {
           symbol: "circle-open",
           size: 8,

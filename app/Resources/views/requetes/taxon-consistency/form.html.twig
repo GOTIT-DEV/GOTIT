@@ -1,5 +1,5 @@
 {% trans_default_domain 'requetes' %}
-<form id="main-form" action="#" data-url="{{path('concordance-search')}}">
+<form id="main-form" action="#">
   <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2">
       <div class="panel panel-default">
@@ -19,7 +19,7 @@
                 {% endtrans %}
               </label>
               <select name="lot-materiel" id="lot-materiel-select" class="form-control concordance selectpicker">
-                {% include 'requetes/concordance/select.options.html.twig' %}
+                {% include 'requetes/taxon-consistency/select.options.html.twig' %}
               </select>
             </div>
             <div class="col-xs-12 col-sm-4">
@@ -29,7 +29,7 @@
                 {% endtrans %}
               </label>
               <select name="individu" id="individu-select" class="form-control concordance selectpicker">
-                {% include 'requetes/concordance/select.options.html.twig' %}
+                {% include 'requetes/taxon-consistency/select.options.html.twig' %}
               </select>
             </div>
             <div class="col-xs-12 col-sm-4">
@@ -39,7 +39,7 @@
                 {% endtrans %}
               </label>
               <select name="sequence" id="sequence-select" class="form-control concordance selectpicker">
-                {% include 'requetes/concordance/select.options.html.twig' with {
+                {% include 'requetes/taxon-consistency/select.options.html.twig' with {
                   unassigned : true
                 } %}
               </select>

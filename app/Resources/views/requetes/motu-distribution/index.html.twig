@@ -13,7 +13,7 @@
   <div class='row'>
     <div class="col-xs-12">
       {# Formulaire #}
-      {% include 'requetes/richesse/form.html.twig' %}
+      {% include 'requetes/motu-distribution/form.html.twig' %}
     </div>
   </div>
   <hr>
@@ -23,7 +23,7 @@
       label.resultats
       {% endtrans %}
     </h2>
-    {% include 'requetes/richesse/results.html.twig' with methods_list %}
+    {% include 'requetes/motu-distribution/results.html.twig' with methods_list %}
   </div>
 </div>
 
@@ -37,6 +37,6 @@
   const methodList = JSON.parse("{{methods_list|json_encode()|raw |e('js')}}")
 </script>
 <script src="{{asset('e3s/js/requetes/plots.js')}}"></script>
-<script src="{{asset('e3s/js/requetes/carte_richesse.js')}}"></script>
+<script src="{{asset('e3s/js/requetes/distribution_data.js')}}"></script>
 
 {% endblock %}

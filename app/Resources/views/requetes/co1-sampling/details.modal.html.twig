@@ -7,14 +7,7 @@
 
 {% block modal_body %}
   <div class="geo-container">
-    <div
-      id="station-geo-map"
-      data-url="{{path('co1-geocoords')}}"
-      data-vocab-station-lotmateriel-int="{{'geo.station.lotmateriel.interne' | trans}}"
-      data-vocab-station-lotmateriel-ext="{{'geo.station.lotmateriel.externe' | trans}}"
-      data-vocab-station-co1="{{'geo.station.co1' | trans}}"
-      style="width:100%"></div>
-
+    <div id="station-geo-map" style="width:100%"></div>
     <div class="geo-overlay">
       <i class="fa fa-spinner fa-spin fa-4x"></i>
     </div>

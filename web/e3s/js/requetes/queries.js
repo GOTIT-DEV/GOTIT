@@ -10,19 +10,23 @@ class SpeciesSelector {
    * @param {string} toggleId Identifiant de l'élément checkbox pour activer les champs
    * @param {Function} callback Callback à éxecuter après la réponse AJAX
    */
-  constructor(formId, toggleId = null, callback = function () {}) {
+  constructor(formId, toggleId = null, callback = function () { }) {
     this.form = $(formId)
 
-    // Conteneur des inputs
-    this.selector = this.form.find(".species-selector")
+    this.urls = {
+      species: Routing.generate('species-in-genus'),
+      taxname: Routing.generate('taxname-search')
+    }
 
+    // Main container
+    this.selector = this.form.find(".species-selector")
     // Select inputs
     this.genus = this.selector.find('.genus-select')
     this.species = this.selector.find('.species-select')
     this.taxname = this.selector.find('.taxname-select')
     this.selector.find("select").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
-        title : $(event.target).data('originalTitle'),
+        title: $(event.target).data('originalTitle'),
         placement: 'auto'
       })
     })
@@ -31,24 +35,24 @@ class SpeciesSelector {
     this.onSpeciesSelected = this.onSpeciesSelected.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
 
-    // Toggle checkbox pour activer/désactiver les champs
+    // Checkbox to toggle active/inactive inputs
     this.toggleBtn = toggleId ? $(toggleId) : null
     if (this.toggleBtn) {
       this.toggleBtn
         .change(this.toggleActive)
         .trigger('change')
       this.toggleBtn.parent().tooltip({
-          title : this.toggleBtn.attr('title'),
-          placement: 'auto'
-        })
+        title: this.toggleBtn.attr('title'),
+        placement: 'auto'
+      })
     }
-    // Paramètres
+    // withTaxname : add input to select taxname (genus + species combination)
     this.withTaxname = (this.taxname.length) ? true : false
     this.callback = callback
 
 
 
-    // Promise : résolue quand r&ponse AJAX reçue
+    // Promise  : resolved on receiving AJAX response
     this.promise = new $.Deferred()
 
     // Déclencher les requêtes AJAX quand changement de champ dans le formulaire
@@ -83,7 +87,7 @@ class SpeciesSelector {
 
     // Nouvelle requête AJAX
     self.toggleWaitingResponse(true)
-    $.post(self.selector.data('url'), {
+    $.post(self.urls.species, {
       genus: self.genus.val()
     }, response => {
       // Format options
@@ -108,10 +112,10 @@ class SpeciesSelector {
     let self = this
     // Formulaire inclut taxname : nouvelle requête
     if (self.withTaxname === true) {
-      $.post(self.taxname.data('url'), {
-          species: self.species.val(),
-          genus: self.genus.val()
-        },
+      $.post(self.urls.taxname, {
+        species: self.species.val(),
+        genus: self.genus.val()
+      },
         response => {
           let data = response.data.map(makeOption)
           self.taxname.html($.makeArray(data))
@@ -149,6 +153,12 @@ class SpeciesSelector {
 class MethodSelector {
   constructor(formId, mode = "select") { // mode : 'select' or 'checkbox'
     this.form = $(formId)
+
+    this.urls = {
+      datasets: Routing.generate("methodsindate"),
+    }
+
+    // Main container
     this.selector = this.form.find('.method-selector')
     this.mode = mode
     if (this.mode == 'checkbox') {
@@ -160,7 +170,7 @@ class MethodSelector {
 
     this.selector.find("select").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
-        title : $(event.target).data('originalTitle'),
+        title: $(event.target).data('originalTitle'),
         placement: 'auto'
       })
     })
@@ -172,6 +182,10 @@ class MethodSelector {
     this.datasets.change(this.onDateMotuSelected).trigger('change')
   }
 
+  /**
+   * 
+   * @param {boolean} waiting 
+   */
   toggleWaitingResponse(waiting) {
     this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
@@ -187,16 +201,15 @@ class MethodSelector {
   onDateMotuSelected() {
     this.toggleWaitingResponse(true)
     var self = this
-    $.post(
-      this.selector.data('url'), {
+    $.post(self.urls.datasets, {
         dataset: this.datasets.val()
       },
       response => {
         if (self.mode == 'select') {
-          var data = response.data.map(makeOption)
+          let data = response.data.map(makeOption)
           self.methods.html($.makeArray(data));
         } else if (self.mode == 'checkbox') {
-          var data = response.data.map(makeCheckboxes)
+          let data = response.data.map(makeCheckboxes)
           self.container.html($.makeArray(data));
         }
         self.toggleWaitingResponse(false)
@@ -230,6 +243,7 @@ function scrollTo(elt_id, time = 1000) {
  * @param {int} cutoff nombre de caractères max
  * @param {boolean} wordbreak coupure de mot autorisée
  * @param {boolean} escapeHtml échappement de caractères
+ * @param {string} placement tooltip position
  */
 jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = true, placement = 'top') {
   var esc = function (t) {
@@ -262,7 +276,9 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
       shortened = esc(shortened);
     }
     return Mustache.render(
-      '<span class="ellipsis" data-toggle="tooltip" data-placement="{{placement}}" title="{{title}}">{{shortText}}&#8230;</span>', {
+      '<span class="ellipsis" data-toggle="tooltip" \
+      data-placement="{{placement}}" \
+      title="{{title}}">{{shortText}}&#8230;</span>', {
         placement: placement,
         title: esc(d),
         shortText: shortened
@@ -276,20 +292,32 @@ jQuery.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml = 
  * @param {string} col nom de la colonne JSON à utiliser
  * @param {boolean} ellipsis rendu tronqué (donnée de grande taille)
  */
-function linkify(url, col, ellipsis = true, placement = 'top') {
+function linkify(url,
+  { col = null, ellipsis = true, placement = "top", generateRoute = true } =
+    { col: null, ellipsis: true, placement: "top", generateRoute: true }) {
   return function (data, type, row) {
     if (data === null) {
       return data
     }
-    let res = Mustache.render(
-      "<a href='{{baseUrl}}{{id}}'>", {
-        baseUrl: url,
-        id: row[col],
-      });
-    if (ellipsis) res += $.fn.dataTable.render.ellipsis(20, true, true, placement)(data, type, row)
-    else res += data
-    res += "</a>"
-    return res
+    let path = url
+    if (generateRoute === true) {
+      path = col === null ?
+        Routing.generate(url) :
+        Routing.generate(url, { id: row[col] })
+    } else {
+      if (col != null) {
+        path += row[col]
+      }
+    }
+
+    let linkText = ellipsis === true ?
+      $.fn.dataTable.render.ellipsis(20, true, true, placement)(data, type, row)
+      : data
+
+    return Mustache.render("<a href='{{path}}'>{{{text}}}</a>", {
+      path: path,
+      text: linkText
+    })
   }
 }
 
