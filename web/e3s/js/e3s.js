@@ -1,4 +1,6 @@
-//
+/**
+ * manage the add and add new button for ArrayCollectionEmbed
+ */
 function addArrayCollectionButtonEmbed(container, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
 
   $containerCollectionEmbed = $('div#' + container);
@@ -404,14 +406,20 @@ function getLastIndex(formNameOfCollection) {
     var posindexinid = formNameOfCollection.length;
     posindexinid = posindexinid+1;
     // search for the last created index of one or two digit (max = 99) 
-    var lastindex =  $container.find('select').last().attr('id').charAt(posindexinid);   
-    var nextcharafterlastindex = $container.find('select').last().attr('id').charAt(posindexinid+1);
-    var index = parseInt(lastindex);
-    // alert(nextcharafterlastindex+' : '+index);
-    if (nextcharafterlastindex !== '_') {
-        index = index*10 + ( parseInt(nextcharafterlastindex) );
+    // alert(' formNameOfCollection : '+formNameOfCollection);
+    if (typeof $container.find('select').last().attr('id') !== 'undefined') {
+        var lastindex =  $container.find('select').last().attr('id').charAt(posindexinid);   
+        var nextcharafterlastindex = $container.find('select').last().attr('id').charAt(posindexinid+1);
+        var index = parseInt(lastindex);
+        // alert(nextcharafterlastindex+' : '+index);
+        if (nextcharafterlastindex !== '_') {
+            index = index*10 + ( parseInt(nextcharafterlastindex) );
+        }
+        index = index+1;
+    } else {
+        index = 0;
     }
-    index = index+1;
+    
     return index;
 }
 
