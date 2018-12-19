@@ -1,5 +1,5 @@
 /**
- * manage the add and add new button for ArrayCollectionEmbed
+ * manage     the add and add new button for ArrayCollectionEmbed
  */
 function addArrayCollectionButtonEmbed(container, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
 
