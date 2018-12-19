@@ -12,8 +12,12 @@
 {# Main TWIG template of GOTIT application : BASE.HTML.TWIG #}
 
 <!DOCTYPE html>
+<<<<<<< HEAD
 
+<html lang="en">
+=======
 <html lang="{{ app.request.locale|split('_')[0] }}">
+>>>>>>> dev
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->

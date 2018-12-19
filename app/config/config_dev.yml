@@ -39,3 +39,7 @@ monolog:
 
 #swiftmailer:
 #    delivery_addresses: ['me@example.com']
+
+# FOSJsRouting Configuration
+fos_js_routing:
+    routes_to_expose: [(.*)]

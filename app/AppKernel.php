@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Bbees\E3sBundle\BbeesE3sBundle(),
             new Bbees\UserBundle\BbeesUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(), // routing from JS
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(), // translations in JS
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

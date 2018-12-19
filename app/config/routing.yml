@@ -16,3 +16,10 @@ bbees_e3s:
     requirements:
         _locale: en|fr
 
+# FOSJs : JS side routing
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+# Bazinga : JS side translations
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
