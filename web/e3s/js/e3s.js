@@ -1,3 +1,74 @@
+
+/**
+ * manage     the add and add new button for ArrayCollectionEmbed
+ */
+function addCollectionButtonsEmbed(formNameOfCollection, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
+
+  var $containerCollectionEmbed = $('div#' + formNameOfCollection);
+  if ($containerCollectionEmbed.length !== 0) {
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
+    $containerCollectionEmbed.prepend('</br></br>');
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    //var index = $container.find(':input').length;
+    // var index = $('div [id^='+container+'_]').length;
+    //var index = $('[id^="' + container + '_"][id$="_' + nameFirstFieldCollection + '"]').length;
+    var index = getLastIndex(formNameOfCollection);
+    // alert('addCollectionButtonEmbed : index= '+index);
+    
+    if (addnew) {
+      // ajout du bonton add New
+      var nameAddNewButon = "Add a new " + nameCollection;
+      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
+      $containerCollectionEmbed.prepend($addBoutonAdd);
+    }
+    // On ajoute un lien pour ajouter une nouvelle catégorie
+    var nameAddButon = "Add a " + nameCollection;
+    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
+    $containerCollectionEmbed.prepend($addLink);
+    // Si le champ obligatoire on affiche le formulaire Embed
+    if (index == 0 && fieldRequired) {
+      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
+      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed, false);
+      var containerEmbed = formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
+      index++;
+      //addArrayCollectionButton2(containerEmbed,'personneFk',nameCollectionEmbed,false,true ); 
+    }
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $addLink.click(function(e) {
+      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed);
+      var $containerEmbed = $(formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed);
+      var containerEmbed = formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
+      // alert(containerEmbed);
+      // addArrayCollectionButton2(containerEmbed, 'personneFk', nameCollectionEmbed, false, true);
+      addCollectionButtons(containerEmbed, 'Personne', false);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      index++;
+      return false;
+    });
+    // Pour chaque collection  on ajoute un lien de suppression & on ajoute les boutons pour la ArraycollectionEmbed (estIdentifiePars)
+    var comptChildren = 0;
+    var nbCollectionEmbed = $containerCollectionEmbed.children('div').length;
+    //alert('nbCollectionEmbed='+nbCollectionEmbed);
+    // boucle sur le nombre d'expece identifiee
+    $containerCollectionEmbed.children('div').each(function() {
+      //alert("attribut Id="+$(this).find('[id$="_'+nameArrayCollectionEmbed+'"]').html());
+      if (fieldRequired == false || comptChildren > 0) {
+        addDeleteLink($(this), true, nameCollection);
+      } else {
+        addDeleteLink($(this), false, nameCollection);
+      }
+      //alert($(this).html());
+      var containerEstIdentifieePar = $(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').attr('id');
+      // alert($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').attr('id')); 
+      //alert($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').html());
+      // nameArrayCollectionEmbed=estIdentifiePars,  nameCollectionEmbed = Personne
+      // addArrayCollectionButton3($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]'), nameArrayCollectionEmbed, 'personneFk', nameCollectionEmbed, false, true);
+      addCollectionButtons(containerEstIdentifieePar, 'Personne', false);
+      comptChildren++;
+    });
+  }
+}
+
 /**
  * manage     the add and add new button for ArrayCollectionEmbed
  */
@@ -234,7 +305,7 @@ function addCollectionButtons(formNameOfCollection, nameCollection, addnew = fal
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     // var index = $container.find('select').length;
     var index = getLastIndex(formNameOfCollection);
-    // alert(nameCollection+' nb input = '+index);
+    //alert(formNameOfCollection+' nb input = '+index);
     if (addnew) {
       // ajout du bonton add New
       var nameAddNewButon = "Add a new " + nameCollection;
@@ -264,7 +335,7 @@ function addCollectionButtons(formNameOfCollection, nameCollection, addnew = fal
     if (index == 0 && fieldRequired) {
       // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
       addCategoryForExistingRecord(index, $container, false, nameCollection);
-      //index++;
+      index++;
       //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     }
     // Pour chaque collection  on ajoute un lien de suppression
@@ -300,6 +371,7 @@ function addDeleteLink($prototype, visible = true, nameCollection = '') {
   });
 }
 
+
 // La fonction qui ajoute un formulaire dans une collectionEmbed
 function addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectionEmbed, deleteBouton = true) {
   // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -327,6 +399,30 @@ function addCategoryForExistingRecord(index, $container, deleteBouton = true, na
   // - le texte "__name__label__" qu'il contient par le label du champ
   // - le texte "__name__" qu'il contient par le numéro du champ
   var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index));
+  // On ajoute au prototype un lien pour pouvoir supprimer 
+  if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
+  // On ajoute le prototype modifié à la fin de la balise <div>
+  //$container.append($prototype);
+  $container.append($prototype);
+  // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+  return false;
+}
+
+
+// La fonction qui ajoute un formulaire imbriqué Espece identifiée
+function addCategoryForExistingRecordEmbed2(index, $container, deleteBouton = true, nameCollection = '') {
+  //alert("addCategoryForExistingRecord  : index ="+index);
+  // Dans le contenu de l'attribut « data-prototype », on remplace :
+  // - le texte "__name__label__" qu'il contient par le label du champ
+  // - le texte "__name__" qu'il contient par le numéro du champ
+  // alert($container.attr('data-prototype'));
+  var Regex1 = /especeIdentifiees___name__/g;
+  //var Regex2 = /especeIdentifiees[^a-zA-Z0-9_][^a-zA-Z0-9_]___name___/g;
+  //var Regex2 = new RegExp("/[^a-zA-Z0-9_][^a-zA-Z0-9_]___name___/g");
+  // replace(Regex1, "especeIdentifiees_"+index)
+  var Regex2 = /especeIdentifiees\]\[__name__/g;
+  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(Regex1, "especeIdentifiees_"+index).replace(Regex2, "especeIdentifiees]["+index) );
+  // alert($prototype.html());
   // On ajoute au prototype un lien pour pouvoir supprimer 
   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
   // On ajoute le prototype modifié à la fin de la balise <div>

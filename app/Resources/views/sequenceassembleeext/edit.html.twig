@@ -61,18 +61,7 @@
                     var $container = $('div#bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     var index = getLastIndex('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     callAjax(form, $container, index);		
-	}); 
-        /* 
-        // Modal myModalPersonne : Manage new Personne for est_identifie_pars
-        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
-                    ev.preventDefault();		
-                    var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_lotmaterielext_especeIdentifiees');
-                    var index = $container.find(':input').length; 
-                    var $container = $('div#bbees_e3sbundle_lotmaterielext_especeIdentifiees_0_estIdentifiePars');
-                    callAjax(form, $container, index);		
-	});
-        */   
+	});   
        
         // Collection $sqcEstPublieDanss (Source)
         addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstReferenceDanss',"Source",false);                
@@ -80,8 +69,9 @@
         addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars',"Personne",true);  
 
         // Collection especeIdentifiees (EspeceIdentifiee)  
-        var $container = $('div#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees');               
-        addArrayCollectionButtonEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
+        // var $container = $('div#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees');               
+        // addArrayCollectionButtonEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
+        addCollectionButtonsEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
  
     });
  </script>
