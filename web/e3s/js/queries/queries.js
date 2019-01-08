@@ -24,9 +24,8 @@ class SpeciesSelector {
    * Constructor
    * @param {string} formId Form selector in DOM
    * @param {string} toggleId Checkbox selector to toggle genus/species selection
-   * @param {Function} callback Optional callback to execute 
    */
-  constructor(formId, toggleId = null, callback = function () { }) {
+  constructor(formId, toggleId = null) {
     this.form = $(formId)
 
     this.urls = {
@@ -40,6 +39,7 @@ class SpeciesSelector {
     this.genus = this.selector.find('.genus-select')
     this.species = this.selector.find('.species-select')
     this.taxname = this.selector.find('.taxname-select')
+    // Init tooltips
     this.selector.find("select").on('loaded.bs.select', event => {
       $(event.target).parent().tooltip({
         title: $(event.target).data('originalTitle'),
@@ -64,60 +64,106 @@ class SpeciesSelector {
     }
     // withTaxname : add input to select taxname (genus + species combination)
     this.withTaxname = (this.taxname.length) ? true : false
-    this.callback = callback
 
 
 
     // Promise  : resolved on receiving AJAX response
-    this.promise = new $.Deferred()
-
-    this.genus
-      .change(this.onGenusSelected)
-      .trigger('change');
-    this.species
-      .change(this.onSpeciesSelected);
+    this.promise = this.initInputs()
   }
 
   /**
    * Handle Promise and spinners visibility during AJAx querying
    * @param {boolean} waiting True while AJAX query running
    */
-  toggleWaitingResponse(waiting) {
+  toggleWaitingResponse(waiting, promise = null) {
     if (waiting) { // waiting AJAX response : create Promise
-      this.promise = new $.Deferred()
+      this.promise = promise
       this.form.find(".taxon-spinner").removeClass("hidden")
-    } else { // response received : resolve Promise
-      this.promise.resolve()
+    } else {
       this.selector.find("select").selectpicker('refresh')
       this.form.find(".taxon-spinner").addClass("hidden")
-      this.callback()
+    }
+  }
+
+  get genusSpecies() {
+    return {
+      genus: this.genus.val(),
+      species: this.species.val()
     }
   }
 
   /**
-   * On genus selection change
+   * Init select inputs options
    */
+  initInputs() {
+    let self = this
+    return this.fetchSpecies()
+      .then(self.displaySpecies(self.species))
+      .then(taxonObj => {
+        return self.withTaxname ?
+          self.fetchTaxnames(taxonObj).then(self.displayTaxnames(self.taxname)) :
+          Promise.resolve(taxonObj)
+      })
+      .then(_ => {
+        this.genus.change(this.onGenusSelected)
+        this.species.change(this.onSpeciesSelected)
+        self.toggleWaitingResponse(false)
+        return Promise.resolve(true)
+      })
+  }
+
+  fetchSpecies() {
+    this.toggleWaitingResponse(true)
+    return fetch(this.urls.species, {
+      method: 'POST',
+      body: JSON.stringify({ genus: this.genus.val() }),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+      .then(response => { return response.json() })
+  }
+
+  displaySpecies(speciesSelect) {
+    let self = this
+    return function (data) {
+      // Format options
+      let species = data.map(row =>
+        Mustache.render('<option value={{species}}>{{species}}</option>', row))
+      // Insert options in select
+      speciesSelect.html($.makeArray(species))
+      return Promise.resolve(self.genusSpecies)
+      // Trigger species change
+      // speciesSelect.trigger('change')
+    }
+  }
+
+
+
+  fetchTaxnames(taxonObj) {
+    return fetch(this.urls.taxname, {
+      method: 'POST',
+      body: JSON.stringify(taxonObj),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+      .then(response => { return response.json() })
+  }
+
+  displayTaxnames(taxnameSelect) {
+    return function (data) {
+      let taxa = data.map(
+        row => Mustache.render('<option value={{id}}>{{taxname}}</option>', row))
+      taxnameSelect.html(taxa)
+      return Promise.resolve(taxa[0])
+    }
+  }
+
+  /**
+ * On genus selection change
+ */
   onGenusSelected() {
     let self = this
-
-    // New AJAX query
-    self.toggleWaitingResponse(true)
-    $.post(self.urls.species, {
-      genus: self.genus.val()
-    }, response => {
-      // Format options
-      let data = response.data.map(makeOption)
-      // Insert options in select
-      self.species.html($.makeArray(data))
-      // Trigger species change
-      self.species.trigger('change')
-    })
-
-    function makeOption(data) {
-      return Mustache.render(
-        '<option value={{species}}>{{species}}</option>',
-        data)
-    }
+    this.fetchSpecies().then(self.displaySpecies(self.species)).then(
+      _ => self.species.trigger("change")
+    )
   }
 
   /**
@@ -127,23 +173,13 @@ class SpeciesSelector {
     let self = this
     // Query for taxname set in species if form element includes taxnames
     if (self.withTaxname === true) {
-      $.post(self.urls.taxname, {
-        species: self.species.val(),
-        genus: self.genus.val()
-      },
-        response => {
-          let data = response.data.map(makeOption)
-          self.taxname.html($.makeArray(data))
+      self.fetchTaxnames(self.genusSpecies)
+        .then(self.displayTaxnames(self.taxname))
+        .then(_ => {
           self.toggleWaitingResponse(false)
         })
     } else {
       self.toggleWaitingResponse(false)
-    }
-
-    function makeOption(data) {
-      return Mustache.render(
-        '<option value={{id}}>{{taxname}}</option>',
-        data)
     }
   }
 
@@ -216,8 +252,8 @@ class MethodSelector {
     this.toggleWaitingResponse(true)
     var self = this
     $.post(self.urls.datasets, {
-        dataset: this.datasets.val()
-      },
+      dataset: this.datasets.val()
+    },
       response => {
         if (self.mode == 'select') {
           let data = response.data.map(makeOption)

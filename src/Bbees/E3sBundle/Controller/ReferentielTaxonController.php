@@ -251,10 +251,13 @@ class ReferentielTaxonController extends Controller
 
     /**
      * @Route("/species-in-genus", name="species-in-genus")
+     * 
+     * Accepts : 'application/json'
      */
     public function speciesInGenus(Request $request)
     {
-        $genus = $request->request->get('genus');
+        $data = json_decode($request->getContent());
+        $genus = $data->genus;
         $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
 
         $query = $qb->select('rt.species')
@@ -268,16 +271,19 @@ class ReferentielTaxonController extends Controller
 
         $species_set = $query->getResult();
 
-        return new JsonResponse(array('data' => $species_set));
+        return new JsonResponse($species_set);
     }
 
     /**
      * @Route("/taxname-search", name="taxname-search")
+     * 
+     * Accepts : 'application/json'
      */
     public function taxnameSearch(Request $request)
     {
-        $genus = $request->request->get('genus');
-        $species = $request->request->get('species');
+        $data = json_decode($request->getContent());
+        $genus = $data->genus;
+        $species = $data->species;
         $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
 
         $query = $qb->select('rt')
@@ -293,6 +299,6 @@ class ReferentielTaxonController extends Controller
 
         $taxname_set = $query->getArrayResult();
 
-        return new JsonResponse(array('data' => $taxname_set));
+        return new JsonResponse($taxname_set);
     }
 }
