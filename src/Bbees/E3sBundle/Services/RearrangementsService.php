@@ -47,6 +47,7 @@ class RearrangementsService {
 
   public function setParameters(ParameterBag $parameters) {
     $this->parameters = $parameters;
+    dump($parameters);
     $this->reference  = $parameters->get('reference');
     if ($this->reference < 2) {
       $this->target = $parameters->get('target-dataset');

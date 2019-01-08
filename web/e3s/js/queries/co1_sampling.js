@@ -24,7 +24,7 @@ $(document).ready(_ => {
 
   let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
   let geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
- 
+
   speciesSelector.promise.then(_ => {
     initDataTable("#result-table", geoPlot)
   })
@@ -40,7 +40,7 @@ function initDataTable(tableId, geoPlotObject) {
       url: Routing.generate("user_current"),
       type: "GET"
     }).done(user => {
-      let dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
+      const dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
       const table = $(tableId)
       // Render floats with precision 3
       const renderNumber = $.fn.dataTable.render.number('', '.', 3)
@@ -92,11 +92,7 @@ function initDataTable(tableId, geoPlotObject) {
             defaultContent: ""
           }, {
             data: "id",
-            render: function (data, type, row) {
-              return Mustache.render(
-                $("#details-form-template").html(),
-                row)
-            }
+            render: (data, type, row) => Mustache.render($("#details-form-template").html(), row)
           }
         ],
         drawCallback: _ => {

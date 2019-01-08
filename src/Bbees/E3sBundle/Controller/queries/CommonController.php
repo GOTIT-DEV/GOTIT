@@ -39,11 +39,12 @@ class CommonController extends Controller {
    * Returns the set of methods in a target dataset as JSON
    */
   public function methodsByDate(Request $request, QueryBuilderService $service) {
+    $data = json_decode($request->getContent());
     # target dataset 
-    $id_dataset = $request->request->get('dataset');
+    $id_dataset = $data->dataset;
     # fetch methods 
     $methodes = $service->getMethodsByDate($id_dataset);
     # return JSON response
-    return new JsonResponse(array('data' => $methodes));
+    return new JsonResponse($methodes);
   }
 }

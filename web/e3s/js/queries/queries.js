@@ -224,12 +224,15 @@ class MethodSelector {
         placement: 'auto'
       })
     })
-    // Promise resolved when ready
-    this.promise = new $.Deferred()
-
     this.onDateMotuSelected = this.onDateMotuSelected.bind(this)
 
-    this.datasets.change(this.onDateMotuSelected).trigger('change')
+    // Promise resolved when ready
+    this.promise = this.fetchMethods(this.datasets.val())
+      .then(this.displayMethods())
+      .then(_ => {
+        this.datasets.change(this.onDateMotuSelected())
+        return Promise.resolve(true)
+      })
   }
 
   /**
@@ -239,40 +242,60 @@ class MethodSelector {
   toggleWaitingResponse(waiting) {
     this.form.find("button[type='submit']").prop("disabled", waiting);
     if (waiting) {
-      this.promise = new $.Deferred()
       $(".method-spinner").removeClass("hidden");
     } else {
-      this.promise.resolve()
       $(".method-spinner").addClass("hidden");
       this.selector.find("select").selectpicker('refresh')
     }
   }
 
-  onDateMotuSelected() {
+  fetchMethods(dataset) {
     this.toggleWaitingResponse(true)
-    var self = this
-    $.post(self.urls.datasets, {
-      dataset: this.datasets.val()
-    },
-      response => {
-        if (self.mode == 'select') {
-          let data = response.data.map(makeOption)
-          self.methods.html($.makeArray(data));
-        } else if (self.mode == 'checkbox') {
-          let data = response.data.map(makeCheckboxes)
-          self.container.html($.makeArray(data));
-        }
+    return fetch(this.urls.datasets, {
+      method: "POST",
+      body: JSON.stringify({ dataset: dataset }),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    }).then(response => response.json())
+  }
+
+  displayMethods() {
+    let self = this
+    if (self.mode == 'select') {
+      return data => {
+        let methods = data.map(
+          row => Mustache.render('<option value={{id}}>{{code}}</option>', row))
+        self.methods.html(methods)
         self.toggleWaitingResponse(false)
-      })
-
-    function makeOption(data) {
-      return Mustache.render('<option value={{id}}>{{code}}</option>', data);
-    }
-
-    function makeCheckboxes(data) {
-      return Mustache.render(self.checkboxTemplate.html(), data);
+        return Promise.resolve(true)
+      }
+    } else if (self.mode == 'checkbox') {
+      return data => {
+        let methods = data.map(
+          row => Mustache.render(self.checkboxTemplate.html(), row))
+        self.container.html(methods);
+        self.toggleWaitingResponse(false)
+        return Promise.resolve(true)
+      }
     }
   }
+
+  onDateMotuSelected() {
+    let self = this
+    return function () {
+      self.fetchMethods(this.value)
+        .then(self.displayMethods())
+    }
+  }
+
+
+
+  // function makeOption(data) {
+  //   return Mustache.render('<option value={{id}}>{{code}}</option>', data);
+  // }
+
+  // function makeCheckboxes(data) {
+  //   return Mustache.render(self.checkboxTemplate.html(), data);
+  // }
 }
 
 /**

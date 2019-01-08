@@ -36,20 +36,27 @@ class MotuDistribution {
     this.geoPlot = new MotuGeoPlot(mapContainerId)
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId)
-    
-    let currentUserCall = $.ajax({
-      type:"GET",
-      url: Routing.generate('user_current')
-    })
-    // Initialize results as datatable when form is ready
-    $.when(this.speciesSelector.promise, this.methodSelector.promise, currentUserCall)
-      .done((sp, meth, user) => {
-        this.dtbuttons = user[0].role === "ROLE_INVITED" ? [] : dtconfig.buttons
-        this.initDataTable()
-      })
 
+    // Get current user pulbic infos
+    let userAjaxCall = fetch(Routing.generate("user_current"), { method: "GET" })
+
+    /** When selectors are initialized and user info are retrieved : 
+     *  init result table
+     * */
+    Promise.all([this.speciesSelector.promise, this.methodSelector.promise, userAjaxCall])
+      .then(responses => responses[2].json())
+      .then(this.formReady())
   }
-
+  
+  formReady() {
+    let self = this
+    return user => {
+      // Disable result export for invited users
+      self.dtbuttons = (user.role === "ROLE_INVITED" ? [] : dtconfig.buttons)
+      self.initDataTable()
+      return Promise.resolve(true)
+    }
+  }
   /**
    * Update map content with JSON response
    * @param {Object} response JSON response
@@ -120,7 +127,7 @@ class MotuDistribution {
         defaultContent: ""
       }, {
         data: "code_station",
-        render: linkify("station_show", {col:'id_sta'})
+        render: linkify("station_show", { col: 'id_sta' })
       }, {
         data: "commune"
       }, {

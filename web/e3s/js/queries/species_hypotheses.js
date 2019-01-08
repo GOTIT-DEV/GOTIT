@@ -50,13 +50,13 @@ $(document).ready(function () {
       initDataTable("#result-table-recto")
       initDataTable("#result-table-verso")
     case "1":
-      $.when(speciesSelector.promise).done(_ => {
+      speciesSelector.promise.then(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })
       break;
     case "2":
-      $.when(methodSelector.promise).done(_ => {
+      methodSelector.promise.then(_ => {
         initDataTable("#result-table-recto")
         initDataTable("#result-table-verso")
       })

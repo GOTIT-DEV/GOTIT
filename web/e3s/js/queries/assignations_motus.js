@@ -55,22 +55,24 @@ class AssignMotu {
 
 
     // Get current user pulbic infos
-    let userAjaxCall = fetch(Routing.generate("user_current"), {method:"GET"})
+    let userAjaxCall = fetch(Routing.generate("user_current"), { method: "GET" })
 
     /** When selectors are initialized and user info are retrieved : 
      *  init result table
      * */
     Promise.all([this.speciesSelector.promise, this.methodSelector.promise, userAjaxCall])
-      .then( responses => {
-        // console.log(responses, responses[2].json())
-        // Disable result export for invited users
-        // this.dtbuttons = user[0].role === "ROLE_INVITED" ? [] : dtconfig.buttons
-        // this.initDataTable()
-        return responses[2].json()
-      })
-      .then((data)=>{
-        console.log(data)
-      })
+      .then(responses => responses[2].json())
+      .then(this.formReady())
+  }
+
+  formReady(){
+    let self = this
+    return user => {
+      // Disable result export for invited users
+      self.dtbuttons = (user.role === "ROLE_INVITED" ? [] : dtconfig.buttons)
+      self.initDataTable()
+      return Promise.resolve(true)
+    }
   }
 
   /**
