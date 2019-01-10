@@ -61,18 +61,13 @@
                     var $container = $('div#bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     var index = getLastIndex('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     callAjax(form, $container, index);		
-	});   
-       
+	});          
         // Collection $sqcEstPublieDanss (Source)
         addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstReferenceDanss',"Source",false);                
         // Collection sequenceAssembleeEstRealisePars (Personne)
         addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars',"Personne",true);  
-
         // Collection especeIdentifiees (EspeceIdentifiee)  
-        // var $container = $('div#bbees_e3sbundle_sequenceassembleeext_especeIdentifiees');               
-        // addArrayCollectionButtonEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
-        addCollectionButtonsEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','dateIdentification','EspeceIdentifiee',false,true,'estIdentifiePars','Personne'); 
- 
+        addCollectionButtonsEmbed('bbees_e3sbundle_sequenceassembleeext_especeIdentifiees','EspeceIdentifiee',false,true,'estIdentifiePars','Personne');  
     });
  </script>
  

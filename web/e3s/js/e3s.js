@@ -1,55 +1,57 @@
-
 /**
- * manage     the add and add new button for ArrayCollectionEmbed
+ * function addCollectionButtonsEmbed() : Manage form with two level of embed form
+ * @param {String} formNameOfCollection : form name of the first level Collection to embed ex. bbees_e3sbundle_lotmateriel_especeIdentifiees
+ * @param {String} nameCollection : name of the Entity relative to the first level Collection to embed ex. EspeceIdentifiee
+ * @param {Boolean} addnew : to get the add new button in the embed form
+ * @param {Boolean} fieldRequired :  if embed form value(s) is required
+ * @param {String} nameArrayCollectionEmbed : Array name of the second level Collection to embed ex. estIdentifiePars
+ * @param {String} nameCollectionEmbed : name of the Entity relative to the second level Collection to embed ex. Personne
+ * @param {Boolean} addnewEmbed : to get the add new button in the second level embed form
+ * @param {Boolean} fieldRequiredEmbed :  if the second level embed form value(s)is required
  */
-function addCollectionButtonsEmbed(formNameOfCollection, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
-
+function addCollectionButtonsEmbed(formNameOfCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
+ 
+  // define selector of div with the « data-prototype » of embed form    
   var $containerCollectionEmbed = $('div#' + formNameOfCollection);
   if ($containerCollectionEmbed.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
     $containerCollectionEmbed.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    //var index = $container.find(':input').length;
-    // var index = $('div [id^='+container+'_]').length;
-    //var index = $('[id^="' + container + '_"][id$="_' + nameFirstFieldCollection + '"]').length;
-    var index = getLastIndex(formNameOfCollection);
-    // alert('addCollectionButtonEmbed : index= '+index);
     
-    if (addnew) {
-      // ajout du bonton add New
+    // set the last index of the formNameOfCollection
+    var index = getLastIndex(formNameOfCollection);
+    
+    // add button "add New nameCollection"     
+    if (addnew) {      
       var nameAddNewButon = "Add a new " + nameCollection;
       var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
       $containerCollectionEmbed.prepend($addBoutonAdd);
     }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
+    
+    // add button "add nameCollection" 
     var nameAddButon = "Add a " + nameCollection;
     var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
     $containerCollectionEmbed.prepend($addLink);
-    // Si le champ obligatoire on affiche le formulaire Embed
+    
+    // if the field is required display the embeded form
     if (index == 0 && fieldRequired) {
-      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
-      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed, false);
+      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed, false, nameCollection);
       var containerEmbed = formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
       index++;
-      //addArrayCollectionButton2(containerEmbed,'personneFk',nameCollectionEmbed,false,true ); 
     }
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    
+    // add a new field each time you click on the add button
     $addLink.click(function(e) {
-      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed);
+      addCategoryForExistingRecordEmbed2(index, $containerCollectionEmbed, true, nameCollection);
       var $containerEmbed = $(formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed);
       var containerEmbed = formNameOfCollection + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
-      // alert(containerEmbed);
-      // addArrayCollectionButton2(containerEmbed, 'personneFk', nameCollectionEmbed, false, true);
       addCollectionButtons(containerEmbed, 'Personne', false);
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      e.preventDefault(); // prevents a # from appearing in the URL
       index++;
       return false;
     });
-    // Pour chaque collection  on ajoute un lien de suppression & on ajoute les boutons pour la ArraycollectionEmbed (estIdentifiePars)
+    
+    // For each collection we add a delete link & we add the buttons for the ArraycollectionEmbed
     var comptChildren = 0;
     var nbCollectionEmbed = $containerCollectionEmbed.children('div').length;
-    //alert('nbCollectionEmbed='+nbCollectionEmbed);
-    // boucle sur le nombre d'expece identifiee
     $containerCollectionEmbed.children('div').each(function() {
       //alert("attribut Id="+$(this).find('[id$="_'+nameArrayCollectionEmbed+'"]').html());
       if (fieldRequired == false || comptChildren > 0) {
@@ -57,288 +59,65 @@ function addCollectionButtonsEmbed(formNameOfCollection, nameFirstFieldCollectio
       } else {
         addDeleteLink($(this), false, nameCollection);
       }
-      //alert($(this).html());
       var containerEstIdentifieePar = $(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').attr('id');
       // alert($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').attr('id')); 
       //alert($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]').html());
-      // nameArrayCollectionEmbed=estIdentifiePars,  nameCollectionEmbed = Personne
-      // addArrayCollectionButton3($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]'), nameArrayCollectionEmbed, 'personneFk', nameCollectionEmbed, false, true);
       addCollectionButtons(containerEstIdentifieePar, 'Personne', false);
       comptChildren++;
     });
   }
+  
 }
 
 /**
- * manage     the add and add new button for ArrayCollectionEmbed
+ * function addCollectionButtons() : Manage form with one level of embed form
+ * @param {String} formNameOfCollection : form name of the first level Collection to embed ex. bbees_e3sbundle_lotmateriel_especeIdentifiees
+ * @param {String} nameCollection : name of the Entity relative to the first level Collection to embed ex. EspeceIdentifiee
+ * @param {Boolean} addnew : to get the add new button in the embed form
+ * @param {Boolean} fieldRequired :  if embed form value(s) is required
  */
-function addArrayCollectionButtonEmbed(container, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true, nameArrayCollectionEmbed = null, nameCollectionEmbed = null, addnewEmbed = false, fieldRequiredEmbed = true) {
-
-  $containerCollectionEmbed = $('div#' + container);
-  if ($containerCollectionEmbed.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
-    $containerCollectionEmbed.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    //var index = $container.find(':input').length;
-    // var index = $('div [id^='+container+'_]').length;
-    var index = $('[id^="' + container + '_"][id$="_' + nameFirstFieldCollection + '"]').length;
-    //alert('index='+index);
-    if (addnew) {
-      // ajout du bonton add New
-      var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
-      $containerCollectionEmbed.prepend($addBoutonAdd);
-    }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
-    var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
-    $containerCollectionEmbed.prepend($addLink);
-    // Si le champ obligatoire on affiche le formulaire Embed
-    if (index == 0 && fieldRequired) {
-      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
-      addCategoryForExistingRecord(index, $containerCollectionEmbed, false);
-      var containerEmbed = container + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
-      //addArrayCollectionButton2(containerEmbed,'personneFk',nameCollectionEmbed,false,true ); 
-    }
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $addLink.click(function(e) {
-      index++;
-      addCategoryForExistingRecord(index, $containerCollectionEmbed);
-      var $containerEmbed = $(container + '_' + index.toString() + '_' + nameArrayCollectionEmbed);
-      var containerEmbed = container + '_' + index.toString() + '_' + nameArrayCollectionEmbed;
-      //alert(containerEmbed);
-      addArrayCollectionButton2(containerEmbed, 'personneFk', nameCollectionEmbed, false, true);
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-    // Pour chaque collection  on ajoute un lien de suppression & on ajoute les boutons pour la ArraycollectionEmbed (estIdentifiePars)
-    var comptChildren = 0;
-    var nbCollectionEmbed = $containerCollectionEmbed.children('div').length;
-    //alert('nbCollectionEmbed='+nbCollectionEmbed);
-    $containerCollectionEmbed.children('div').each(function() {
-      //alert("attribut Id="+$(this).find('[id$="_'+nameArrayCollectionEmbed+'"]').html());
-      if (fieldRequired == false || comptChildren > 0) {
-        addDeleteLink($(this), true, nameCollection);
-      } else {
-        addDeleteLink($(this), false, nameCollection);
-      }
-      // nameArrayCollectionEmbed=estIdentifiePars,  nameCollectionEmbed = Personne
-      addArrayCollectionButton3($(this).find('[id$="_' + nameArrayCollectionEmbed + '"]'), nameArrayCollectionEmbed, 'personneFk', nameCollectionEmbed, false, true);
-      comptChildren++;
-    });
-  }
-}
-
-//
-function addArrayCollectionButton3($container, nameArrayCollectionEmbed, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true) {
-
-  if ($container.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
-    $container.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    if (addnew) {
-      // ajout du bonton add New
-      var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
-      $container.prepend($addBoutonAdd);
-    }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
-    var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
-    $container.prepend($addLink);
-    //on recherche l'index ;
-    if (nameFirstFieldCollection !== '') {
-      var $selecteur = $container.find('[id$="_' + nameFirstFieldCollection + '"]');
-    } else {
-      var $selecteur = $container;
-    }
-    var index = $selecteur.length;
-    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un         
-    if (index == 0 && fieldRequired) {
-      addCategoryForExistingRecord(index, $container, false);
-      //index++
-      //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-    }
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $addLink.click(function(e) {
-      //alert('addArrayCollectionButton3 :index ='+index);
-      //addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectionEmbed);
-      index++;
-      addCategoryForExistingRecord(index, $container);
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-
-    //alert(nameCollection+':'+$container.children('div').length);
-    //if($container.children('div').length == 0) alert(nameCollection+':'+index);
-
-    // Pour chaque collection  on ajoute un lien de suppression
-    var comptChildren = 0;
-    $container.children('div').each(function() {
-      if (fieldRequired == false || comptChildren > 0) {
-        addDeleteLink($(this), true, nameCollection);
-      } else {
-        addDeleteLink($(this), false, nameCollection);
-      }
-      comptChildren++;
-    });
-  }
-}
-
-//
-function addArrayCollectionButton2(container, nameFirstFieldCollection, nameCollection, addnew = false, fieldRequired = true) {
-  $container = $('div#' + container);
-  if ($container.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
-    $container.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    //var index = $container.find(':input').length;
-    if (nameFirstFieldCollection !== '') {
-      var selecteur = 'div[id^="' + container + '_"][id$="_' + nameFirstFieldCollection + '"]';
-    } else {
-      var selecteur = 'div[id^="' + container + '_"]';
-    }
-    //alert('addArrayCollectionButton2 : selecteur ='+selecteur);
-    //var index = $('div[id^="'+container+'_"][id$="_'+nameFirstFieldCollection+'"]').length;
-    var index = $(selecteur).length;
-    //alert("index="+index);
-    if (addnew) {
-      // ajout du bonton add New
-      var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
-      $container.prepend($addBoutonAdd);
-    }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
-    var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
-    $container.prepend($addLink);
-    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un
-    if (index == 0 && fieldRequired) {
-      addCategoryForExistingRecord(index, $container, false);
-      //index++;
-      //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-    }
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $addLink.click(function(e) {
-      //alert('addArrayCollectionButton2 : index ='+index);
-      addCategoryForExistingRecord(index, $container);
-      index++;
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-
-    // Pour chaque collection  on ajoute un lien de suppression
-    var comptChildren = 0;
-    $container.children('div').each(function() {
-      if (fieldRequired == false || comptChildren > 0) {
-        addDeleteLink($(this), true, nameCollection);
-      } else {
-        addDeleteLink($(this), false, nameCollection);
-      }
-      comptChildren++;
-    });
-  }
-}
-
-
-//
-function addArrayCollectionButton($container, nameCollection, addnew = false, fieldRequired = true) {
-
-  if ($container.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
-    $container.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find('select').length;
-    // alert(nameCollection+' nb input = '+index);
-    if (addnew) {
-      // ajout du bonton add New
-      var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
-      $container.prepend($addBoutonAdd);
-      $addBoutonAdd.click(function(e) {      
-        index++;
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-        return true;
-      });
-    }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
-    var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
-    $container.prepend($addLink);
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-    $addLink.click(function(e) {      
-      addCategoryForExistingRecord(index, $container, true, nameCollection);
-      index++;
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-
-    //alert(nameCollection+':'+$container.children('div').length);
-    //if($container.children('div').length == 0) alert(nameCollection+':'+index);
-
-    if (index == 0 && fieldRequired) {
-      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
-      addCategoryForExistingRecord(index, $container, false, nameCollection);
-      //index++;
-      //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-    }
-    // Pour chaque collection  on ajoute un lien de suppression
-    var comptChildren = 0;
-    $container.children('div').each(function() {
-      if (fieldRequired == false || comptChildren > 0) {
-        addDeleteLink($(this), true, nameCollection);
-      } else {
-        addDeleteLink($(this), false, nameCollection);
-      }
-      comptChildren++;
-    });
-  }
-}
-
-//
 function addCollectionButtons(formNameOfCollection, nameCollection, addnew = false, fieldRequired = true) {
-    
+  
+  // define selector of div with the « data-prototype » of embed form     
   var $container = $('div#'+formNameOfCollection);
   if ($container.length !== 0) {
-    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.$
     $container.prepend('</br></br>');
-    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    // var index = $container.find('select').length;
+    
+    // set the last index of the formNameOfCollection
     var index = getLastIndex(formNameOfCollection);
-    //alert(formNameOfCollection+' nb input = '+index);
+    
+    // add button "add New nameCollection" 
     if (addnew) {
-      // ajout du bonton add New
       var nameAddNewButon = "Add a new " + nameCollection;
       var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
       $container.prepend($addBoutonAdd);
       $addBoutonAdd.click(function(e) {      
         index++;
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        e.preventDefault(); // prevents a # from appearing in the URL
         return true;
       });
     }
-    // On ajoute un lien pour ajouter une nouvelle catégorie
+    
+    // add button "add nameCollection" 
     var nameAddButon = "Add a " + nameCollection;
     var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
     $container.prepend($addLink);
-    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    
+    // add a new field each time you click on the add button
     $addLink.click(function(e) {      
       addCategoryForExistingRecord(index, $container, true, nameCollection);
       index++;
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      e.preventDefault(); // prevents a # from appearing in the URL
       return false;
     });
-
-    //alert(nameCollection+':'+$container.children('div').length);
-    //if($container.children('div').length == 0) alert(nameCollection+':'+index);
-
+    
+    // if the field is required display the embeded form
     if (index == 0 && fieldRequired) {
-      // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un 
       addCategoryForExistingRecord(index, $container, false, nameCollection);
       index++;
-      //e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     }
-    // Pour chaque collection  on ajoute un lien de suppression
+    
+    // For each collection we add a delete link
     var comptChildren = 0;
     $container.children('div').each(function() {
       if (fieldRequired == false || comptChildren > 0) {
@@ -349,30 +128,35 @@ function addCollectionButtons(formNameOfCollection, nameCollection, addnew = fal
       comptChildren++;
     });
   }
+  
 }
 
-// La fonction qui ajoute un lien de suppression d'une catégorie
+// function to add a delete link 
 function addDeleteLink($prototype, visible = true, nameCollection = '') {
-  // Création du lien
+  // Create link
   var id_delete = (nameCollection != '') ? 'id="delete_' + nameCollection + '"' : 'id="delete_Collection"';
   if (visible) {
     var $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right"><a href="#" class="btn btn-danger btn-sm " type="button">Delete</a></div>');
   } else {
     var $deleteLink = $('<div ' + id_delete + ' class="col-sm-2 pull-right">&nbsp;</div>');
   }
-  // Ajout du lien
   $prototype.prepend($deleteLink);
-  // Ajout du listener sur le clic du lien
+  // Add  listener to the clic link
   $deleteLink.click(function(e) {
     $prototype.remove();
-    //if(nameCollection == "Chromatogramme") {setCodeSqcAss();}
-    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+    e.preventDefault(); // prevents a # from appearing in the URL
     return false;
   });
 }
 
 
-// La fonction qui ajoute un formulaire dans une collectionEmbed
+/**
+ * function addCategoryForExistingEmbedRecord() : add a form to a collectionEmbed
+ * @param {Int} index : last index of nameArrayCollectionEmbed
+ * @param {Object} $container : jquery container 
+ * @param {String} nameArrayCollectionEmbed : name of the ArrayCollectionEmbed
+ * @param {Boolean} deleteBouton : to get the delete button in the embed form
+ */
 function addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectionEmbed, deleteBouton = true) {
   // Dans le contenu de l'attribut « data-prototype », on remplace :
   // - le texte "__name__label__" qu'il contient par le label du champ
@@ -381,18 +165,21 @@ function addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectio
   // On ajoute au prototype un lien pour pouvoir supprimer 
   if (deleteBouton) addDeleteLink($prototype);
   // On ajoute le prototype modifié à la fin de la balise <div>
-  //alert("addCategoryForExistingEmbedRecord  : index ="+index);
-  //alert('addArrayCollectionButton3 :container ='+$container.html());
   var newindex = index + 1;
   var $prototypeEmbed = $($prototype.find('div[id$="' + nameArrayCollectionEmbed + '_0"]').html().replace(nameArrayCollectionEmbed + '_0', nameArrayCollectionEmbed + '_' + newindex).replace(nameArrayCollectionEmbed + '][0', nameArrayCollectionEmbed + '][' + newindex));
   // On ajoute le prototype modifié à la fin de la balise <div>
-  //$container.append($prototype);
   $container.append($prototypeEmbed);
   // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
   return false;
 }
 
-// La fonction qui ajoute un formulaire 
+/**
+ * function addCategoryForExistingRecord() : add a form to a embeded collectionEmbed
+ * @param {Int} index : last index 
+ * @param {Object} $container : jquery container 
+ * @param {String} nameCollection : name of the Collection Embed
+ * @param {Boolean} deleteBouton : to get the delete button in the embed form
+ */ 
 function addCategoryForExistingRecord(index, $container, deleteBouton = true, nameCollection = '') {
   //alert("addCategoryForExistingRecord  : index ="+index);
   // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -409,18 +196,26 @@ function addCategoryForExistingRecord(index, $container, deleteBouton = true, na
 }
 
 
-// La fonction qui ajoute un formulaire imbriqué Espece identifiée
+/**
+ * function addCategoryForExistingRecordEmbed2() : add a form to a embeded collectionEmbed
+ * @param {Int} index : last index 
+ * @param {Object} $container : jquery container 
+ * @param {String} nameCollection : name of the Collection Embed
+ * @param {Boolean} deleteBouton : to get the delete button in the embed form
+ */
 function addCategoryForExistingRecordEmbed2(index, $container, deleteBouton = true, nameCollection = '') {
-  //alert("addCategoryForExistingRecord  : index ="+index);
-  // Dans le contenu de l'attribut « data-prototype », on remplace :
-  // - le texte "__name__label__" qu'il contient par le label du champ
-  // - le texte "__name__" qu'il contient par le numéro du champ
-  // alert($container.attr('data-prototype'));
-  var Regex1 = /especeIdentifiees___name__/g;
-  //var Regex2 = /especeIdentifiees[^a-zA-Z0-9_][^a-zA-Z0-9_]___name___/g;
-  //var Regex2 = new RegExp("/[^a-zA-Z0-9_][^a-zA-Z0-9_]___name___/g");
-  // replace(Regex1, "especeIdentifiees_"+index)
-  var Regex2 = /especeIdentifiees\]\[__name__/g;
+  // replace in the « data-prototype » :
+  // - the text "__name__label__" by a blank . No label
+  // - the  text "__name__" by the index
+  switch(nameCollection) {
+    case 'EspeceIdentifiee':
+      var Regex1 = /especeIdentifiees___name__/g;
+      var Regex2 = /especeIdentifiees\]\[__name__/g;
+      break;
+    default:
+      alert("bad nameCollection in addCategoryForExistingRecordEmbed2()");
+      return false;
+  }
   var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(Regex1, "especeIdentifiees_"+index).replace(Regex2, "especeIdentifiees]["+index) );
   // alert($prototype.html());
   // On ajoute au prototype un lien pour pouvoir supprimer 
@@ -429,10 +224,11 @@ function addCategoryForExistingRecordEmbed2(index, $container, deleteBouton = tr
   //$container.append($prototype);
   $container.append($prototype);
   // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
-  return false;
+  return true;
+  
 }
 
-// La fonction qui ajoute un formulaire Structure
+//  function to add a embeded form
 function addCategoryForNewRecord(index, $container, select_id, select_name) {
   // Dans le contenu de l'attribut « data-prototype », 
   // - on supprime les labels
@@ -449,7 +245,7 @@ function addCategoryForNewRecord(index, $container, select_id, select_name) {
 }
 
 
-//
+// function to call Ajax on form
 function callAjax(form, $container, index) {
   $.ajax({
     type: form.attr('method'),
@@ -457,7 +253,6 @@ function callAjax(form, $container, index) {
     data: form.serialize(),
     beforeSend: function(htmlResponse) {
       var $content_to_change = $('div#content_to_change_' + htmlResponse['entityname']);
-      //$content_to_change.html('<img id="img_load" src="https://d13yacurqjgara.cloudfront.net/users/82092/screenshots/1073359/spinner.gif" height="42" width="42" />');
       $content_to_change.html('<i class="fa fa-spinner fa-spin fa-4x"></i>');
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -492,10 +287,11 @@ function callAjax(form, $container, index) {
 }
 
 
-// getLastIndex(formNameOfCollection) 
-// get the last index of the form Collection "formNameOfCollection"
-// formNameOfCollection : the name of the Symfony Collection used in the form
-// ex. formNameOfCollection = bbees_e3sbundle_collecte_estFinancePars
+/** getLastIndex(formNameOfCollection) 
+ *  get the last index of the form Collection "formNameOfCollection"
+ *  formNameOfCollection : the name of the Symfony Collection used in the form
+ *   ex. formNameOfCollection = bbees_e3sbundle_collecte_estFinancePars
+*/
 function getLastIndex(formNameOfCollection) {
     var $container = $('div#'+formNameOfCollection);
     // search for the last index used and create a new record with  index = lastindex + 1 
@@ -507,7 +303,6 @@ function getLastIndex(formNameOfCollection) {
         var lastindex =  $container.find('select').last().attr('id').charAt(posindexinid);   
         var nextcharafterlastindex = $container.find('select').last().attr('id').charAt(posindexinid+1);
         var index = parseInt(lastindex);
-        // alert(nextcharafterlastindex+' : '+index);
         if (nextcharafterlastindex !== '_') {
             index = index*10 + ( parseInt(nextcharafterlastindex) );
         }
@@ -520,7 +315,7 @@ function getLastIndex(formNameOfCollection) {
 }
 
 
-// MAJ
+// function to convert in Upper case 
 function maj($container) {
   $container.keyup(function(e) {
     var field_value = $container.val().toUpperCase();
@@ -528,7 +323,7 @@ function maj($container) {
   })
 }
 
-// Adding a Back to Button to collect
+// function to Add a Back to Button to the entityform
 function addBackToRelatedRecord(entityform, entityRel, nameButonBack) {
   var entityrel_lowercase = entityRel.toLowerCase();
   var entityRelSelected = $('#bbees_e3sbundle_' + entityform + '_' + entityRel + 'Fk option:selected').val();
@@ -540,7 +335,7 @@ function addBackToRelatedRecord(entityform, entityRel, nameButonBack) {
   }
 }
 
-// Test de cohérences sur les champ date et date_precision
+// function to Test the values of fields date and date_precision
 function dateDateprecision(container, nameFieldDate, message) {
   var valueDatePrecision = $('input[id^="' + container + '_datePrecisionVocFk_"]:checked ').val();
   var datePrecision = $('label[for=' + container + '_datePrecisionVocFk_' + valueDatePrecision + ']').text().trim();
@@ -583,7 +378,6 @@ function dateDateprecision(container, nameFieldDate, message) {
       break;
     case 'YEAR':
       if (dateCollecteYear == '' || Number(dateCollecteMonth) != 1 || Number(dateCollecteDay) != 1) {
-        //alert(dateCollecteYear+' - '+Number(dateCollecteMonth)+' - '+Number(dateCollecteDay));
         flagDatePrecision = 0;
         alert(message["ANNEE"]);
       }
@@ -608,14 +402,14 @@ function dateDateprecision(container, nameFieldDate, message) {
   return flagDatePrecision;
 }
 
-// Test sur le format des dates
+// function to Test date format
 function dateFormat(container, nameFieldDate, message) {
   var valueDatePrecision = $('input[id^="' + container + '_datePrecisionVocFk_"]:checked ').val();
   var datePrecision = $('label[for=' + container + '_datePrecisionVocFk_' + valueDatePrecision + ']').text().trim();
   var dateCollecteYear = $('#' + container + '_' + nameFieldDate + '_year').val();
   var dateCollecteMonth = $('#' + container + '_' + nameFieldDate + '_month').val();
   var dateCollecteDay = $('#' + container + '_' + nameFieldDate + '_day').val();
-  // si aucune date_precision est cochée on laisse la possibilité d'inscrire n'importe quelle date avec un contrôle sur le format
+  // if no date_precision is checked, leave the possibility to enter any date with a check on the format
   // if(dateCollecteDay != '' && dateCollecteMonth != '' && dateCollecteYear != '') alert("dateCollecteYear:"+dateCollecteYear+"dateCollecteMonth:"+dateCollecteMonth+"dateCollecteDay:"+dateCollecteDay); 
   var flagDate = 1;
   if (dateCollecteDay != '' && dateCollecteMonth != '' && dateCollecteYear != '') {
@@ -638,7 +432,7 @@ function dateFormat(container, nameFieldDate, message) {
 }
 
 /**
- * Renvoie un tableau des valeurs d'une clé d'un objet JSON.
+ * Returns an array of the values ​​of a key of a JSON object.
  * @param {Object} json objet JSON
  * @param {any} key clé à cibler
  */
@@ -647,20 +441,12 @@ function unpack(json, key) {
 }
 
 /**
- * Fonction d'affichage des stations situées dans une aire de 0.1x0.1 deg autour d'un point GPS
- * 
+ * Display stations located in an area of ​​0.1x0.1 deg around a GPS point
  * @param {Object} json_stations  
  * @param {number} latGPS
  * @param {number} longGPS
  */
 function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
-  /**
-   * Fonction pour extraire les données JSON et construire un objet de données 
-   * pour plotly
-   * 
-   * @param {Object} json données json
-   * @param {Object} update données à ajouter
-   */
 
   var longmin = (parseFloat(longGPS.replace(",", ".")) - 0.1).toFixed(6);
   var longmax = (parseFloat(longGPS.replace(",", ".")) + 0.1).toFixed(6);
@@ -678,7 +464,7 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
       code_station = unpack(json, 'station.codeStation'),
       nom_station = unpack(json, 'station.nomStation'),
       code_commune = unpack(json, 'commune.codeCommune')
-      // Initialisation des hover text
+      // Initialization of hover text
     var hoverText = []
     for (var i = 0; i < latitude.length; i++) {
       var difLat = parseFloat(latitude[i] - latGPS).toFixed(6);
@@ -707,7 +493,7 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
         },
         name: "Stations",
       }
-      // Ajout données supplémentaires à l'objet data
+      // Add data
     $.extend(true, data, update)
     return data
   }
@@ -750,16 +536,13 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
     name: "GPS : lat = " + latGPS + "  /  long = " + longGPS,
   }
 
-  // Objet data : contient les scatterplots
+  // Objet data : scatterplots
   var data = [
     data_stations,
     dataSelectedStation
   ]
 
-
-  // Objet data complet : scatterplots 
-
-  // Paramètres d'affichage du graphique
+  // Graph display settings
   const layout = $.extend(plotlyconfig.geo.layout, {
     geo: $.extend(plotlyconfig.geo.layout.geo, {
       lonaxis: {
@@ -788,8 +571,7 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
 
 
 /**
- * Fonction d'affichage des stations sur la carte dashboard
- * 
+ * Function to plot stations on map
  * @param {Object} json_stations  
  * @param {number} latGPS
  * @param {number} longGPS
@@ -823,7 +605,7 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
         },
         name: "Stations",
       }
-      // Ajout données supplémentaires à l'objet data
+      // Add data 
     $.extend(true, data, update)
     return data
   }
@@ -866,7 +648,7 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
     name: "GPS : lat = " + latGPS + "  /  long = " + longGPS,
   }
 
-  // Objet data : contient les scatterplots
+  // Objet data : scatterplots
   var data = [
     data_stations
   ]
@@ -874,7 +656,7 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
 
   // Objet data complet : scatterplots 
 
-  // Paramètres d'affichage du graphique
+  // graphic display Parameters 
   const layout = $.extend(plotlyconfig.geo.layout, {
     showlegend: false,
     margin: {
@@ -899,12 +681,12 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
   })
 
   Plotly.newPlot(gd, data, layout, {
-    displaylogo: false, // pas de logo, enlever boutons de controle inutiles
+    displaylogo: false, 
     modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d'],
     staticPlot: true
   })
 
-  Plotly.Plots.resize(gd) // Remplir l'espace dans le DOM
+  Plotly.Plots.resize(gd) 
 
-  return gd // Renvoi objet plotly
+  return gd // Return objet plotly
 }
