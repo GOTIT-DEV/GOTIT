@@ -1,4 +1,19 @@
-# ajouter le 13/11/2018 
+# 11/01/201
+# column title of links
+list.show: Lire
+list.edit: Edit
+list.delete: Supp
+list.linkAdn: ADN
+list.linkIndividulame : Lame
+list.linkPcr : Pcr(s)
+list.linkLotmateriel: Lot
+list.linkLotmaterielext: LotExt
+list.linkSequenceassembleeext: SqcExt
+list.linkIndividu: Ind(s)
+list.linkIndividu_codestation: Ind/St
+list.linkChromatogramme: Chr(s)
+list.linkCollecte: Col
+#  13/11/2018 
 # Button headings of csv file import forms
 buton.ImportVoc: Importer fichier Vocabulaire
 buton.ImportReferentieltaxon: Importer fichier Taxon
@@ -438,8 +453,8 @@ list.lastCodeSeqAss: Dernier code sequence assemblee
 list.lastStatutSeqAss: Dernier statut 
 list.lastCodeSeqAlignement: Dernier code sequence alignee
 list.lastDateSeqAss: Derniere date sequence assemblee
-list.Date maj: Date de mise a jour
-list.Date cre: Date de creation
+list.Date maj: Date maj
+list.Date cre: Date cre
 list.Lat deg dec: Latitude
 list.Long deg dec: Longitude
 list.Liste taxons: Liste de taxons

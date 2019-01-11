@@ -61,9 +61,9 @@
                     var $container = $('div#bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     var index = getLastIndex('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars');
                     callAjax(form, $container, index);		
-	});          
-        // Collection $sqcEstPublieDanss (Source)
-        addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstReferenceDanss',"Source",false);                
+	}); 
+        // Collection $sqcEstPublieDanss (Source) : required field
+        addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstReferenceDanss',"Source",false,true);          
         // Collection sequenceAssembleeEstRealisePars (Personne)
         addCollectionButtons('bbees_e3sbundle_sequenceassembleeext_sqcExtEstRealisePars',"Personne",true);  
         // Collection especeIdentifiees (EspeceIdentifiee)  
