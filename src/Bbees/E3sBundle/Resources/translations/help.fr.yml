@@ -19,7 +19,7 @@ importfiles.form: |
          - character encoding in UTF-8
          - the "semicolon" as record delimiter
          - quotation marks as text field delimiter 
-#requetes
+#queries
 co1-sampling: |
     INFO : Use this request to explore the availability and distribution of COI sequences for a species taxon as well as the distribution of that species taxon. See section 12.1 in GOTIT HELP for more details about the functionalities of this request.
 assign-motu : |

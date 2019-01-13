@@ -61,7 +61,7 @@ class BarPlot extends BasePlot {
     this.layout = {
       // X axis
       xaxis: {
-        title: Translator.trans("methode.label", {}, 'requetes'),
+        title: Translator.trans("methode.label", {}, 'queries'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -71,7 +71,7 @@ class BarPlot extends BasePlot {
       },
       // Y axis
       yaxis: {
-        title: Translator.trans('queries.rearrangement.short', {}, 'requetes'),
+        title: Translator.trans('queries.rearrangement.short', {}, 'queries'),
         titlefont: {
           family: 'sans serif',
           size: 18,
@@ -326,7 +326,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
     let data = []
     data.push( // COI data
       self.build_station_data(response.with_co1, {
-        name: Translator.trans('geo.station.co1', {}, 'requetes'),
+        name: Translator.trans('geo.station.co1', {}, 'queries'),
         marker: {
           symbol: "triangle-up",
           color: "red"
@@ -349,7 +349,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
 
     data.push(
       self.build_station_data(lotsMat.interne, {
-        name: Translator.trans("geo.station.lotmateriel.interne", {}, 'requetes'),
+        name: Translator.trans("geo.station.lotmateriel.interne", {}, 'queries'),
         marker: {
           symbol: "circle-open",
           size: 10,
@@ -363,7 +363,7 @@ class SamplingGeoPlot extends BaseGeoPlot {
     )
     data.push(
       self.build_station_data(lotsMat.externe, {
-        name: Translator.trans('geo.station.lotmateriel.externe', {}, 'requetes'),
+        name: Translator.trans('geo.station.lotmateriel.externe', {}, 'queries'),
         marker: {
           symbol: "circle-open",
           size: 8,

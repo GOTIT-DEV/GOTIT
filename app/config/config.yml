@@ -76,7 +76,7 @@ fos_js_routing:
 bazinga_js_translation:
     active_domains:
         - messages
-        - requetes
+        - queries
     active_locales:
         - en
         - fr
