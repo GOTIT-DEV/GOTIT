@@ -49,6 +49,7 @@ $(document).ready(function () {
     case "0":
       initDataTable("#result-table-recto")
       initDataTable("#result-table-verso")
+      break;
     case "1":
       speciesSelector.promise.then(_ => {
         initDataTable("#result-table-recto")
