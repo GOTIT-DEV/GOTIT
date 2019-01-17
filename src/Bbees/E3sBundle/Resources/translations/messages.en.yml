@@ -1,4 +1,19 @@
-# ajouter le 13/11/2018
+# 11/01/201
+# column title of links
+list.show: Show
+list.edit: Edit
+list.delete: Del
+list.linkAdn: DNA
+list.linkIndividulame : Slide
+list.linkPcr : Pcr(s)
+list.linkLotmateriel: Lot
+list.linkLotmaterielext: LotExt
+list.linkSequenceassembleeext: SqcExt
+list.linkIndividu: Ind(s)
+list.linkIndividu_codestation: Ind/St
+list.linkChromatogramme: Chr(s)
+list.linkCollecte: Col
+# 13/11/2018
 # Button headings of csv file import forms
 buton.ImportVoc: Import new set of Vocabulary
 buton.ImportReferentieltaxon: Import new set of Taxon
