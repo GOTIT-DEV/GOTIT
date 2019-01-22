@@ -4,8 +4,8 @@ list.show: Lire
 list.edit: Edit
 list.delete: Supp
 list.linkAdn: ADN
-list.linkIndividulame : Lame
-list.linkPcr : Pcr(s)
+list.linkIndividulame: Lame
+list.linkPcr: Pcr(s)
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: LotExt
 list.linkSequenceassembleeext: SqcExt
@@ -43,12 +43,14 @@ importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( d / 
 importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
 importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
 importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affectée à la séquence assemblée
+importfileService.ERROR sqc already store: ERREUR - La séquence est déjà affectée à une boite
+importfileService.ERROR sqc already publish: ERREUR - La séquence est déjà affectée à une source
 importfileService.ERROR lot already publish: ERREUR - Lot materiel  déjà affectée à une source
 importfileService.ERROR lot already store: ERREUR - Lot materiel  déjà affectée à une boite
 importfileService.ERROR slide already store: ERREUR - Lame  déjà affectée à une boite
 importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à une boite
 importfileService.ERROR no box code for material: ERREUR - le code boite  n a pas été renseigné pour le code lot materiel
-importfileService.ERROR no box code: ERREUR - le code boite  n a pas été renseigné pour le code lamme coll 
+importfileService.ERROR no box code: ERREUR - le code boite  n a pas été renseigné pour le code lame coll 
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la bdd
 importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la bdd
 importfileService.ERROR bad code: ERREUR - Code INCONNU
@@ -64,7 +66,7 @@ Email: Adresse electronique
 Role: Role
 Name: Nom complet de l'utilisateur
 Institution: Etablissement
-Commentaire user: Commentaire utilisateur
+Commentaire user: Commentaires utilisateur
 Locale: Version
 buton.NewUser: Créer un nouvel utilisateur
 title.user: Utilisateur
@@ -133,7 +135,7 @@ Dashboard.nbAdn: ADN
 Dashboard.nbBoite: Boite
 Dashboard.nbStation: Stations
 Dashboard.nbCollecte: Collectes
-Dashboard.nbPcr : PCR
+Dashboard.nbPcr: PCR
 Dashboard.nbChromatogramme: Chromatogramme
 Dashboard.nbSequenceAssemblee: Séquence ADN
 Dashboard.Données de terrain: Données de terrain
@@ -263,7 +265,7 @@ Nom personne ref: Synonyme
 Nom programme: Nom programme
 Nom region: Nom region
 Nom station: Nom station
-Noms responsables: Nom responsable
+Noms responsables: Nom responsables
 Num ind biomol: Numero moleculaire individu
 Num individu sqc ass ext: Numero moleculaire individu sequence externe assemblee
 Num motu: Numero MOTU
@@ -314,7 +316,7 @@ Yeux voc fk: Vision
 Choose a typeCollection: Selectionner un type de collection
 Choose a codeCollection: Selectionner un code  collection
 Choose a typeBoite: Selectionner un type de boite
-Choose an option : Selectionner une option
+Choose an option: Selectionner une option
 Choose a Motu File: Selectionner le fichier MOTU a importer
 Choose a origineSqcAssExt: Selectionner une origine
 Choose a chromatogramme: Selectionner un  chromatogramme

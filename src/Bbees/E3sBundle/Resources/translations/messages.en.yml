@@ -4,19 +4,19 @@ list.show: Show
 list.edit: Edit
 list.delete: Del
 list.linkAdn: DNA
-list.linkIndividulame : Slide
-list.linkPcr : Pcr(s)
+list.linkIndividulame: Slide
+list.linkPcr: PCR
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: LotExt
 list.linkSequenceassembleeext: SqcExt
 list.linkIndividu: Ind(s)
 list.linkIndividu_codestation: Ind/St
 list.linkChromatogramme: Chr(s)
-list.linkCollecte: Col
+list.linkCollecte: Sam
 # 13/11/2018
 # Button headings of csv file import forms
 buton.ImportVoc: Import new set of Vocabulary
-buton.ImportReferentieltaxon: Import new set of Taxon
+buton.ImportReferentieltaxon: Import new set of Taxa
 buton.ImportPays: Import new set of Country
 buton.ImportPersonne: Import new set of Person
 buton.ImportProgramme: Import new set of Program
@@ -24,7 +24,7 @@ buton.ImportEtablissement: Import new set of Institution
 buton.ImportCommune: Import new set of Municipality
 buton.Back to the list of voc: Back to the list of Vocabulary
 buton.Back to the list of referentieltaxon: Back to the list of Taxon
-buton.Back to the list of pays: Back to the list of Contry
+buton.Back to the list of pays: Back to the list of Country
 buton.Back to the list of personne: Back to the list of Person
 buton.Back to the list of programme: Back to the list of Program
 buton.Back to the list of etablissement: Back to the list of Institution
@@ -32,30 +32,30 @@ buton.Back to the list of commune: Back to the list of Municipality
 # Service ERROR messages
 importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
 importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
-importfileService.ERROR bad number of columns in CSV file: ERROR - Bad number of columns in the CSV file - cf. GOTIT Help 
-importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain the correct columns of the migration template - cf. GOTIT Help 
+importfileService.ERROR bad number of columns in CSV file: ERROR - Wrong number of columns in CSV file - cf. GOTIT Help 
+importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain correct column names - cf. GOTIT Help 
 importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( OUI / NON )
 importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
-importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code that exists internally and externally
-importfileService.ERROR bad float format: ERROR - Bad FLOAT format
-importfileService.ERROR bad date format: ERROR - Bad date format ( d / m / Y )
+importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code, code already exists in database
+importfileService.ERROR bad float format: ERROR - Wrong FLOAT format
+importfileService.ERROR bad date format: ERROR - Wrong date format ( dd / mm / yyyy )
 importfileService.ERROR unknown record: ERROR - UNKNOWN record 
 importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
-importfileService.ERROR assession number already assign: ERROR - an accession number is already assigned to the sequence
-importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
+importfileService.ERROR assession number already assign: ERROR - Accession number is already assigned to the sequence
+importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a box
 importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
 importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
 importfileService.ERROR lot already store: ERROR - The material is already assigned to a box
 importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
-importfileService.ERROR adn already store: ERROR - DNA is already assigned to a box
+importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
 importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
-importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lamme coll 
-importfileService.ERROR duplicate record: ERROR - DUPLICATE record
-importfileService.ERROR duplicate code: ERROR - DUPLICATE code 
+importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lame coll 
+importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
+importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
 importfileService.ERROR bad code: ERROR - UNKNOWN code
 importfileService.Date of data set import: Date of data set import
-importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, you must modify your CSV file. Error message is
-importfileService.Import OK: Import process is successful. Number of records Imported
+importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, please modify your CSV file. Error message is
+importfileService.Import OK: Data import is successful. Number of records Imported
 Switch version: Switch version
 ##### ajouter  26/09/2018
 # Vocabulaire (table VOC)
@@ -73,7 +73,7 @@ Email: Email address
 Role: Role
 Name: User full name
 Institution: Institution
-Commentaire user: User comment
+Commentaire user: User comments
 Locale: Version
 buton.NewUser: Create a new User
 title.user: User
@@ -142,7 +142,7 @@ Dashboard.nbAdn: DNA
 Dashboard.nbBoite: Box
 Dashboard.nbStation: Site
 Dashboard.nbCollecte: Sample
-Dashboard.nbPcr : PCR
+Dashboard.nbPcr: PCR
 Dashboard.nbChromatogramme: Chromatogram
 Dashboard.nbSequenceAssemblee: DNA Sequence
 Dashboard.Données de terrain: Field data
@@ -437,7 +437,7 @@ Nom personne ref: Person name bis
 Nom programme: Program name
 Nom region: Region name
 Nom station: Site name
-Noms responsables: Program coordinator
+Noms responsables: Program coordinators
 Num ind biomol: Specimen molecular number
 Num individu sqc ass ext: External sequence specimen number
 Num motu: MOTU number
@@ -489,7 +489,7 @@ Yeux voc fk: Vision
 Choose a typeCollection: Select collection type
 Choose a codeCollection: Select collection code
 Choose a typeBoite: Select box type
-Choose an option : Select an option
+Choose an option: Select an option
 Choose a Motu File: Select MOTU file
 Choose a origineSqcAssExt: Select external sequence origin
 Choose a chromatogramme: Select chromatogram
@@ -698,4 +698,3 @@ import.sequenceassemblee: Upload internal sequence
 import.sequenceassembleeext: Upload external sequence
 import.motu: Upload MOTU
 import.source: Upload source
-

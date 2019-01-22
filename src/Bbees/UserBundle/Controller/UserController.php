@@ -245,7 +245,7 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('token');
-        var_dump($request->request->get('role'));
+        //var_dump($request->request->get('role'));
         
         if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
             $em = $this->getDoctrine()->getManager();

@@ -52,7 +52,7 @@ class ImportFileE3s
     {
         $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
         $csvDataAdnRange = $importFileCsvService->readCSV($fichier);      
-        $columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table    
+        //$columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table    
         $DateImport= $importFileCsvService->GetCurrentTimestamp();
         $em = $this->entityManager;    // call of Doctrine manager 
         // line by line processing of the csv file        
@@ -94,9 +94,6 @@ class ImportFileE3s
                     $query_adn[0]->setDateMaj($DateImport); 
                     $query_adn[0]->setUserMaj($userId); 
                     $em->persist($query_adn[0]);  
-                    $query_boite[0]->setDateMaj($DateImport); 
-                    $query_boite[0]->setUserMaj($userId);
-                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -239,9 +236,6 @@ class ImportFileE3s
                     $query_lame[0]->setDateMaj($DateImport); 
                     $query_lame[0]->setUserMaj($userId);
                     $em->persist($query_lame[0]);  
-                    $query_boite[0]->setDateMaj($DateImport); 
-                    $query_boite[0]->setUserMaj($userId);
-                    $em->persist($query_boite[0]);
                 }
             }
         }
@@ -382,10 +376,7 @@ class ImportFileE3s
                     $query_lot[0]->setBoiteFk(null);
                     $query_lot[0]->setDateMaj($DateImport); 
                     $query_lot[0]->setUserMaj($userId);
-                    $em->persist($query_lot[0]);  
-                    $query_boite[0]->setDateMaj($DateImport); 
-                    $query_boite[0]->setUserMaj($userId);
-                    $em->persist($query_boite[0]); 
+                    $em->persist($query_lot[0]);   
                 }
             }
         }
