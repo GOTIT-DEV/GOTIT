@@ -117,6 +117,7 @@ class SpeciesSelector {
     return fetch(this.urls.species, {
       method: 'POST',
       body: JSON.stringify({ genus: this.genus.val() }),
+      credentials: 'include',
       headers: new Headers({ 'Content-Type': 'application/json' })
     })
       .then(response => { return response.json() })
@@ -142,6 +143,7 @@ class SpeciesSelector {
     return fetch(this.urls.taxname, {
       method: 'POST',
       body: JSON.stringify(taxonObj),
+      credentials: 'include',
       headers: new Headers({ 'Content-Type': 'application/json' })
     })
       .then(response => { return response.json() })
@@ -254,6 +256,7 @@ class MethodSelector {
     return fetch(this.urls.datasets, {
       method: "POST",
       body: JSON.stringify({ dataset: dataset }),
+      credentials: 'include',
       headers: new Headers({ 'Content-Type': 'application/json' })
     }).then(response => response.json())
   }

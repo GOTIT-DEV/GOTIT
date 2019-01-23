@@ -55,7 +55,7 @@ class AssignMotu {
 
 
     // Get current user pulbic infos
-    let userAjaxCall = fetch(Routing.generate("user_current"), { method: "GET" })
+    let userAjaxCall = fetch(Routing.generate("user_current"), { method: "GET", credentials: 'include' })
 
     /** When selectors are initialized and user info are retrieved : 
      *  init result table
