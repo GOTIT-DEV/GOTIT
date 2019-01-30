@@ -62,6 +62,10 @@ DirectoryIndex app.php
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
+    # Redirect gotit.cnrs.fr to the homepage of Gotit : gotit.cnrs.fr/index.htm 
+    RewriteCond %{HTTP_HOST} ^gotit.cnrs.fr$
+    RewriteRule ^$ http://gotit.cnrs.fr/index.htm [L,R=301]
+
     # Rewrite all other queries to the front controller.
     RewriteRule ^ %{ENV:BASE}/app.php [L]
 </IfModule>
