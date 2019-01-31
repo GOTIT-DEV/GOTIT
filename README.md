@@ -1,4 +1,4 @@
-README - GOTIT1.1
+README - GOTIT
 =====================
 A Symfony project updated on 01/03/2019 : Publish Version 1.1
 

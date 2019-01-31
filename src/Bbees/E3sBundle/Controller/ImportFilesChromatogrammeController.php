@@ -100,7 +100,7 @@ class ImportFilesChromatogrammeController extends Controller
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
             $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
             // test if the file imported match the good columns name of the template file
-            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/Template_folder/'.$this->type_csv.'.csv';
+            $pathToTemplate = $this->get('kernel')->getRootDir(). '/../web/template/'.$this->type_csv.'.csv';
             $service = $this->get('bbees_e3s.import_file_csv');
             $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate , $fichier));
             $message .= $checkName;
