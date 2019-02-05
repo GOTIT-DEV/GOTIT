@@ -74,7 +74,7 @@ class ImportFilesMotuController extends Controller
         
         if ($form->isSubmitted()){ //processing form request 
             $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-            $this->type_csv = "motu";
+            $this->type_csv = "MOTU";
             $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
             $message = "Import : ".$nom_fichier_download." ( Template ".$this->type_csv.".csv )<br />";
             // test if the file imported match the good columns name of the template file
@@ -84,7 +84,7 @@ class ImportFilesMotuController extends Controller
             $message .= $checkName;
             if($checkName  == ''){
                 switch ($this->type_csv) {
-                    case 'motu':
+                    case 'MOTU':
                         if ($form->get('fichier')->getData() !== NULL) {
                             // suppression des donnéee assignées 
                             //var_dump($form->get('motuFk')->getData()); exit;

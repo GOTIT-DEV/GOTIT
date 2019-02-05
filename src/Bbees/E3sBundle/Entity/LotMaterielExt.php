@@ -23,7 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * LotMaterielExt
  *
- * @ORM\Table(name="lot_materiel_ext", indexes={@ORM\Index(name="IDX_EEFA43F3662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_EEFA43F3A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_EEFA43F382ACDC4", columns={"nb_individus_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"yeux_voc_fk"})})
+ * @ORM\Table(name="lot_materiel_ext", uniqueConstraints={@ORM\UniqueConstraint(name="cu_lot_materiel_ext_code_lot_materiel_ext", columns={"code_lot_materiel_ext"})}, indexes={@ORM\Index(name="IDX_EEFA43F3662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_EEFA43F3A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_EEFA43F382ACDC4", columns={"nb_individus_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"yeux_voc_fk"})})
  * @ORM\Entity
  */
 class LotMaterielExt
@@ -41,7 +41,7 @@ class LotMaterielExt
     /**
      * @var string
      *
-     * @ORM\Column(name="code_lot_materiel_ext", type="string", length=255, nullable=false)
+     * @ORM\Column(name="code_lot_materiel_ext", type="string", length=255, nullable=false, unique=true)
      */
     private $codeLotMaterielExt;
 
