@@ -1,0 +1,233 @@
+Malard et al. 2019. GOTIT: A laboratory application software for optimizing multi-criteria species based research. Submitted to Methods in Ecology and Evolution.
+
+Appendix S4. SQL queries
+
+GOTIT database help: Appendix S6 (S6_Gotitdb_sql_queries.pdf). A list of selected SQL queries to recover different subsets of data from GOTIT database.
+
+Query 1: This query returns multiple-criteria species data sets in which individual specimens are attributed to multiple species hypotheses. The data set can then be used to unveil geographic variation in species richness among the different sets of species hypotheses.
+
+WITH liste_motus AS (
+	SELECT code_sqc,accession_number, voc.code as methode, motu.date_motu, num_motu as motu
+FROM (
+	SELECT 	sequence_assemblee.code_sqc_ass as code_sqc,
+			accession_number,
+			assigne.methode_motu_voc_fk as methode_voc,
+			assigne.num_motu,
+			assigne.motu_fk
+	FROM assigne JOIN sequence_assemblee ON assigne.sequence_assemblee_fk=sequence_assemblee.id
+	UNION
+	SELECT 	sequence_assemblee_ext.code_sqc_ass_ext as code_sqc,
+			accession_number_sqc_ass_ext as accession_number,
+			assigne.methode_motu_voc_fk as methode_voc,
+			assigne.num_motu,
+			assigne.motu_fk
+	FROM assigne JOIN sequence_assemblee_ext ON assigne.sequence_assemblee_ext_fk=sequence_assemblee_ext.id
+	) as seq
+	JOIN voc ON voc.id=seq.methode_voc
+	JOIN motu ON motu.id=seq.motu_fk
+	)
+
+SELECT seq.code_sqc,
+		seq.accession_number,
+		seq.delimitation,
+		TH13.motu as TH_2013,
+		GMYC.motu as GMYC_2013,
+		TH17.motu as TH_2017,
+		PTP.motu as PTP_2017,
+		bPTP.motu as bPTP_2017,
+		tax.taxname,
+		station.lat_deg_dec as latitude,
+		station.long_deg_dec as longitude,
+		collecte.code_collecte,
+		station.code_station, station.nom_station,
+		pays.nom_pays
+
+FROM (SELECT code_sqc, accession_number, collecte_fk, rt, delimitation
+		FROM (
+			SELECT code_sqc_ass_ext as code_sqc,accession_number_sqc_ass_ext as accession_number, collecte_fk, ei.referentiel_taxon_fk as rt, 
+					critere.code as delimitation
+			FROM sequence_assemblee_ext
+				LEFT JOIN espece_identifiee ei on ei.sequence_assemblee_ext_fk=sequence_assemblee_ext.id
+				LEFT JOIN voc critere ON ei.critere_identification_voc_fk=critere.id
+		UNION
+			SELECT seqas.code_sqc_ass as code_sqc, seqas.accession_number, lmat.collecte_fk, ei.referentiel_taxon_fk as rt, 
+					critere.code as delimitation
+			FROM lot_materiel lmat
+				JOIN individu I ON I.lot_materiel_fk=lmat.id
+				JOIN adn ON adn.individu_fk=I.id
+				JOIN pcr ON pcr.adn_fk=adn.id
+				JOIN chromatogramme ON chromatogramme.pcr_fk=pcr.id
+				JOIN est_aligne_et_traite eaet ON chromatogramme.id=eaet.chromatogramme_fk
+				JOIN sequence_assemblee seqas ON seqas.id=eaet.sequence_assemblee_fk
+				LEFT JOIN espece_identifiee ei on ei.sequence_assemblee_fk=seqas.id
+				LEFT JOIN voc critere ON ei.critere_identification_voc_fk=critere.id
+			) AS union_seq ) AS seq
+	LEFT JOIN referentiel_taxon tax ON tax.id=seq.rt
+	JOIN collecte ON seq.collecte_fk=collecte.id
+	JOIN station ON collecte.station_fk=station.id
+	JOIN commune ON station.commune_fk=commune.id
+	JOIN pays ON station.pays_fk=pays.id
+
+	LEFT JOIN (	SELECT * FROM liste_motus
+							WHERE date_motu='2013-03-05' AND methode='GMYC')
+			GMYC ON seq.code_sqc=GMYC.code_sqc
+	LEFT JOIN (	SELECT * FROM liste_motus
+							WHERE date_motu='2013-03-05' AND methode='TH')
+			TH13 ON seq.code_sqc=TH13.code_sqc
+	LEFT JOIN (	SELECT * FROM liste_motus
+							WHERE date_motu='2017-02-05' AND methode='TH')
+			TH17 ON seq.code_sqc=TH17.code_sqc
+	LEFT JOIN (	SELECT * FROM liste_motus
+							WHERE date_motu='2017-02-05' AND methode='PTP')
+			PTP ON seq.code_sqc=PTP.code_sqc
+	LEFT JOIN (	SELECT * FROM liste_motus
+							WHERE date_motu='2017-02-05' AND methode='BPTP')
+			BPTP ON seq.code_sqc=BPTP.code_sqc
+	
+WHERE bPTP.motu IS NOT NULL OR PTP.motu IS NOT NULL OR TH17.motu IS NOT NULL
+
+ORDER BY accession_number
+
+
+Query 2: This query returns the available vouchers, here the specimen lots containing ovigerous females, as well as a number of data and metadata for exploring differences in species reproductive traits (e.g. number and size of eggs) among habitats, herein surface water and groundwater.
+
+-- (1) Create first the function compt_nb_total_specimens(id_lot_materiel bigint) - PL/pgSQL language
+CREATE FUNCTION compt_nb_total_specimens(id_lot_materiel bigint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+	DECLARE nb_tot_specimens INT;
+    BEGIN	
+	SELECT SUM(composition_lot_materiel.nb_individus) INTO nb_tot_specimens
+		FROM composition_lot_materiel  
+		JOIN lot_materiel lot ON lot.id = composition_lot_materiel.lot_materiel_fk
+        WHERE composition_lot_materiel.lot_materiel_fk = id_lot_materiel
+		GROUP BY  composition_lot_materiel.lot_materiel_fk 
+		;
+	RETURN nb_tot_specimens;	
+	END;
+$$;
+
+-- (2) Execute the SQL Query  
+SELECT lot_materiel.code_lot_materiel, voc_pigmentation.code as code_pigmentation, voc_yeux.code as code_eye, boite.code_boite as code_box, rt.taxname, voc_critere_identification.code as code_identification,
+station.code_station, station.lat_deg_dec, station.long_deg_dec, voc_habitat_type.code as code_habitat, voc_point_acces.code as code_point_acces, collecte.date_collecte, 
+composition_lot_materiel.commentaire_compo_lot_materiel, compt_nb_total_specimens(composition_lot_materiel.lot_materiel_fk) as nb_tot_specimens, composition_lot_materiel.nb_individus as nb_BOV
+	FROM composition_lot_materiel  
+    	JOIN voc voc_type_individu ON voc_type_individu.id = composition_lot_materiel.type_individu_voc_fk
+    JOIN lot_materiel ON lot_materiel.id = composition_lot_materiel.lot_materiel_fk
+    	LEFT JOIN voc voc_pigmentation ON voc_pigmentation.id = lot_materiel.pigmentation_voc_fk
+        LEFT JOIN voc voc_yeux ON voc_yeux.id = lot_materiel.yeux_voc_fk
+        LEFT JOIN boite  ON boite.id = lot_materiel.boite_fk
+        JOIN espece_identifiee ei_lot ON ei_lot.lot_materiel_fk = lot_materiel.id
+			INNER JOIN (SELECT MAX(ei_loti.id) AS maxei_loti FROM espece_identifiee ei_loti GROUP BY ei_loti.lot_materiel_fk) ei_lot2 ON (ei_lot.id = ei_lot2.maxei_loti)
+        	JOIN voc voc_critere_identification ON voc_critere_identification.id = ei_lot.critere_identification_voc_fk
+			JOIN referentiel_taxon rt ON ei_lot.referentiel_taxon_fk = rt.id
+		JOIN collecte ON collecte.id = lot_materiel.collecte_fk
+			LEFT JOIN voc voc_date_precision ON voc_date_precision.id = collecte.date_precision_voc_fk
+		JOIN station  ON station.id = collecte.station_fk
+			LEFT JOIN voc voc_habitat_type ON voc_habitat_type.id = station.habitat_type_voc_fk
+			LEFT JOIN voc voc_point_acces ON voc_point_acces.id = station.point_acces_voc_fk
+	WHERE  voc_type_individu.code = 'BOV'
+;
+
+
+
+Query 3: This query returns the available sequence material for implementing a concatenated phylogenetic tree: that is all sequence identifier codes, their geographic locations and attributed morphospecies for specimens having 4 targeted genes successfully sequenced
+
+SELECT foo.liste_gene, foo.liste_chromato, foo.liste_sa,  foo.liste_sa_code_sqc_ass,
+	foo.code_station, foo.lat_deg_dec, foo.long_deg_dec, 
+	foo.code_lot_materiel, foo.taxname_lot, 
+	foo.code_ind_tri_morpho, foo.code_ind_biomol, foo.taxname_ind,
+	foo.taxname_sqc_ass
+FROM 
+( SELECT   st.code_station, st.lat_deg_dec, st.long_deg_dec,
+	lot.code_lot_materiel, rt_lot.taxname as taxname_lot, ei_lot.date_identification as date_identification_lot,
+	ind.code_ind_tri_morpho, ind.code_ind_biomol, rt_ind.taxname as taxname_ind, ei_ind.date_identification as date_identification_ind, 
+   	rt_sqc_ass.taxname as taxname_sqc_ass, 
+   	string_agg(voc_gene.code, ';') as liste_gene,
+	string_agg(chromato.code_chromato, ' ;') as liste_chromato,
+ 	string_agg(cast( sa.id as character varying) , ' ;') as liste_sa,
+	string_agg(sa.code_sqc_ass , ' ;') as liste_sa_code_sqc_ass
+FROM lot_materiel lot 
+		JOIN collecte col ON col.id = lot.collecte_fk
+			JOIN station st ON st.id = col.station_fk
+		LEFT JOIN espece_identifiee ei_lot ON ei_lot .lot_materiel_fk = lot.id
+			INNER JOIN (SELECT MAX(ei_loti.id) AS maxei_loti FROM espece_identifiee ei_loti GROUP BY ei_loti.lot_materiel_fk) ei_lot2 ON (ei_lot.id = ei_lot2.maxei_loti)
+			LEFT JOIN referentiel_taxon rt_lot ON ei_lot.referentiel_taxon_fk = rt_lot.id
+		JOIN  individu ind ON ind.lot_materiel_fk=lot.id
+			LEFT JOIN espece_identifiee ei_ind ON ei_ind.individu_fk = ind.id
+				INNER JOIN (SELECT MAX(ei_indi.id) AS maxei_indi FROM espece_identifiee ei_indi GROUP BY ei_indi.individu_fk) ei_ind2 ON (ei_ind.id = ei_ind2.maxei_indi)
+				LEFT JOIN referentiel_taxon rt_ind ON ei_ind.referentiel_taxon_fk = rt_ind.id
+			JOIN adn ON adn.individu_fk = ind.id
+				JOIN pcr ON pcr.adn_fk = adn.id
+					LEFT JOIN voc voc_gene ON pcr.gene_voc_fk = voc_gene.id
+       		 		JOIN chromatogramme chromato ON chromato.pcr_fk = pcr.id
+           				JOIN est_aligne_et_traite eaet ON eaet.chromatogramme_fk = chromato.id
+							JOIN sequence_assemblee sa ON eaet.sequence_assemblee_fk = sa.id
+								LEFT JOIN voc voc_statut_sqc_ass ON sa.statut_sqc_ass_voc_fk = voc_statut_sqc_ass .id
+								LEFT JOIN espece_identifiee ei_sqc_ass ON ei_sqc_ass.sequence_assemblee_fk = sa.id
+									INNER JOIN (SELECT MAX(ei_sqc_assi.id) AS maxei_sqc_assi FROM espece_identifiee ei_sqc_assi GROUP BY ei_sqc_assi.sequence_assemblee_fk) ei_sqc_ass2 ON (ei_sqc_ass.id = ei_sqc_ass2.maxei_sqc_assi)
+									LEFT JOIN referentiel_taxon rt_sqc_ass ON ei_sqc_ass.referentiel_taxon_fk = rt_sqc_ass.id
+WHERE  voc_statut_sqc_ass.code = 'VALIDEE'
+GROUP BY st.code_station, st.lat_deg_dec, st.long_deg_dec,
+	lot.code_lot_materiel, rt_lot.taxname, ei_lot.date_identification, 
+   	ind.code_ind_tri_morpho, ind.code_ind_biomol, ind.code_ind_biomol, rt_ind.taxname, ei_ind.date_identification,
+	rt_sqc_ass.taxname
+) as foo
+GROUP BY foo.liste_gene, foo.liste_chromato, foo.liste_sa, foo.liste_sa_code_sqc_ass, 
+	foo.code_station, foo.lat_deg_dec, foo.long_deg_dec, 
+	foo.code_lot_materiel, foo.taxname_lot, 
+	foo.taxname_ind, foo.code_ind_tri_morpho, foo.code_ind_biomol,
+	foo.taxname_sqc_ass
+HAVING foo.liste_gene LIKE '%16S%' AND foo.liste_gene LIKE '%COI%' AND foo.liste_gene LIKE '%AM4%' AND foo.liste_gene LIKE '%28S%' 
+ORDER BY foo.code_station ASC
+
+
+Query 4: This query provides a laboratory worker with all the necessary data to build key indicators for selecting the most suitable PCR primers to obtain a DNA sequence among all primers used for a given species and gene. The query can be refined to select data for a single targeted gene and unique species.
+
+SELECT st.code_station, col.code_collecte,
+lot.code_lot_materiel, rt_lot.taxname as taxname_lot, ei_lot.date_identification as date_ei_lot, 
+individu.code_ind_biomol, individu.code_ind_tri_morpho, rt.taxname as taxname_ind, voc_critere_identification.code as critere_ei_ind, ei_ind.date_identification as date_ei_ind, 
+adn.code_adn, voc_gene.code as gene,
+pcr.code_pcr, pcr.date_pcr, voc_date_precision_pcr.code as date_precision_pcr, voc_primer_pcr_start.code as primer_pcr_start_pcr, voc_primer_pcr_end.code as primer_pcr_end_pcr, voc_qualite_pcr.code as qualite_pcr, voc_specificite.code as specificite_pcr, pcr.detail_pcr, pcr.remarque_pcr,
+chromatogramme.code_chromato, chromatogramme.num_yas, primer_chromato.code as primer_chromato_chromato, qualite_chromato.code as qualite_chromato, chromatogramme.commentaire_chromato,
+sa.code_sqc_ass, sa.code_sqc_alignement, voc_statut_sqc_ass.code as statut_sqc_ass, sa.commentaire_sqc_ass, rt_sqc_ass.taxname as taxname_sqc, voc_critere_identification_sqc_ass.code as critere_ei_sqc
+FROM lot_materiel lot 
+	LEFT JOIN espece_identifiee ei_lot ON ei_lot.lot_materiel_fk = lot.id
+		INNER JOIN (SELECT MAX(ei_loti.id) AS maxei_loti FROM espece_identifiee ei_loti GROUP BY ei_loti.lot_materiel_fk) ei_lot2 ON (ei_lot.id = ei_lot2.maxei_loti)
+		LEFT JOIN voc voc_date_precision_lot ON ei_lot.date_precision_voc_fk = voc_date_precision_lot.id
+		LEFT JOIN voc voc_critere_identification_lot ON ei_lot.critere_identification_voc_fk = voc_critere_identification_lot.id
+		LEFT JOIN referentiel_taxon rt_lot ON ei_lot.referentiel_taxon_fk = rt_lot.id
+	JOIN collecte col ON col.id = lot.collecte_fk
+		JOIN station st ON st.id = col.station_fk
+	LEFT JOIN individu ON individu.lot_materiel_fk=lot.id
+		LEFT JOIN voc voc1 ON individu.type_individu_voc_fk = voc1.id
+		LEFT JOIN espece_identifiee ei_ind ON ei_ind.individu_fk = individu.id
+			INNER JOIN (SELECT MAX(ei_indi.id) AS maxei_indi FROM espece_identifiee ei_indi GROUP BY ei_indi.individu_fk) ei_ind2 ON (ei_ind.id = ei_ind2.maxei_indi)
+			LEFT JOIN voc voc_date_precision ON ei_ind.date_precision_voc_fk = voc_date_precision.id
+			LEFT JOIN voc voc_critere_identification ON ei_ind.critere_identification_voc_fk = voc_critere_identification.id
+			LEFT JOIN referentiel_taxon rt ON ei_ind.referentiel_taxon_fk = rt.id
+		LEFT JOIN adn ON adn.individu_fk = individu.id
+			LEFT JOIN voc voc_statut ON adn.methode_extraction_adn_voc_fk = voc_statut.id
+			LEFT JOIN pcr ON pcr.adn_fk = adn.id
+				LEFT JOIN voc voc_primer_pcr_start ON pcr.primer_pcr_start_voc_fk = voc_primer_pcr_start.id
+				LEFT JOIN voc voc_primer_pcr_end ON pcr.primer_pcr_end_voc_fk = voc_primer_pcr_end.id
+				LEFT JOIN voc voc_gene ON pcr.gene_voc_fk = voc_gene.id
+				LEFT JOIN voc voc_qualite_pcr ON pcr.qualite_pcr_voc_fk = voc_qualite_pcr.id
+				LEFT JOIN voc voc_date_precision_pcr ON pcr.date_precision_voc_fk = voc_date_precision_pcr.id
+				LEFT JOIN voc voc_specificite ON pcr.specificite_voc_fk = voc_specificite.id
+			LEFT JOIN chromatogramme ON chromatogramme.pcr_fk = pcr.id
+				LEFT JOIN voc qualite_chromato ON chromatogramme.qualite_chromato_voc_fk = qualite_chromato.id
+				LEFT JOIN voc primer_chromato ON chromatogramme.primer_chromato_voc_fk = primer_chromato.id
+				LEFT JOIN est_aligne_et_traite eaet ON eaet.chromatogramme_fk = chromatogramme.id
+					LEFT JOIN sequence_assemblee sa ON eaet.sequence_assemblee_fk = sa.id
+						LEFT JOIN voc voc_statut_sqc_ass ON sa.statut_sqc_ass_voc_fk = voc_statut_sqc_ass.id
+					LEFT JOIN espece_identifiee ei_sqc_ass ON ei_sqc_ass.sequence_assemblee_fk = sa.id
+						INNER JOIN (SELECT MAX(ei_sqc_assi.id) AS maxei_sqc_assi FROM espece_identifiee ei_sqc_assi GROUP BY ei_sqc_assi.sequence_assemblee_fk) ei_sqc_ass2 ON (ei_sqc_ass.id = ei_sqc_ass2.maxei_sqc_assi)
+						LEFT JOIN voc voc_date_precision_sqc_ass ON ei_sqc_ass.date_precision_voc_fk = voc_date_precision_sqc_ass.id
+						LEFT JOIN voc voc_critere_identification_sqc_ass ON ei_sqc_ass.critere_identification_voc_fk = voc_critere_identification_sqc_ass.id
+						LEFT JOIN referentiel_taxon rt_sqc_ass ON ei_sqc_ass.referentiel_taxon_fk = rt_sqc_ass.id
+WHERE rt_sqc_ass.taxname LIKE '%'
+AND voc_gene.code LIKE '%'
+ORDER BY lot.id, individu.id, adn.id, pcr.id, chromatogramme.id, sa.id ASC
+;
+

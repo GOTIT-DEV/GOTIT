@@ -1,1 +1,0 @@
-source.code_source;source.annee_source;source.libelle_source;source.commentaire_source;source_a_ete_integre_par.personne_fk(personne.nom_personne)

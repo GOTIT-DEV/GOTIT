@@ -1,0 +1,1 @@
+pcr.adn_fk(adn.code_adn);pcr_est_realise_par.personne_fk(personne.nom_personne);pcr.gene_voc_fk(voc.code);pcr.code_pcr;pcr.num_pcr;pcr.date_pcr;pcr.date_precision_voc_fk(voc.code);pcr.primer_pcr_start_voc_fk(voc.code);pcr.primer_pcr_end_voc_fk(voc.code);pcr.qualite_pcr_voc_fk(voc.code);pcr.specificite_voc_fk(voc.code);pcr.detail_pcr;pcr.remarque_pcr

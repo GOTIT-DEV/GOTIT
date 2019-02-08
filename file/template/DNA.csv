@@ -1,1 +1,0 @@
-adn.individu_fk(individu.code_ind_biomol);adn.code_adn;adn.date_adn;adn.date_precision_voc_fk(voc.code);adn.methode_extraction_adn_voc_fk(voc.code);adn.concentration_ng_microlitre;adn.commentaire_adn;adn_est_realise_par.personne_fk(personne.nom_personne);adn.boite_fk(boite.code_boite);adn.qualite_adn_voc_fk(voc.code)

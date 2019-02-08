@@ -1,1 +1,0 @@
-chromatogramme.pcr_fk(pcr.code_pcr);chromatogramme.code_chromato;chromatogramme.num_yas;chromatogramme.primer_chromato_voc_fk(voc.code);chromatogramme.qualite_chromato_voc_fk(voc.code);chromatogramme.commentaire_chromato;chromatogramme.etablissement_fk(etablissement.nom_etablissement)
