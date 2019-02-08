@@ -13,8 +13,6 @@
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
-/vendor/
-/web/bundles/
 .vscode/
 /app/Resources/views/show.html.twig.backup
 /nbproject/private/
@@ -22,3 +20,15 @@
 /e3sDev_cc-in2p3_18092018.tar
 /tests
 /app/Resources/views/bootstrap_3_horizontal_layout_backup.html.twig
+/ListeComposantsGOTIT1-1
+/ListeComposantsProjet.txt
+/LogInstallGoti1-1
+/composer.lock.backup
+/loginfo
+/logtest
+/updatV1.0_011018
+/updatV1.0_031018
+/updatebdd
+/updatebdd-gotit
+/updatebdd17Sept
+/secutity_check
