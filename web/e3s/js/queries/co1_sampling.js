@@ -36,10 +36,8 @@ $(document).ready(_ => {
 
 function initDataTable(tableId, geoPlotObject) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
-    $.ajax({
-      url: Routing.generate("user_current"),
-      type: "GET"
-    }).done(user => {
+    fetchCurrentUser().then(response => response.json())
+    .then(user => {
       const dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
       const table = $(tableId)
       // Render floats with precision 3

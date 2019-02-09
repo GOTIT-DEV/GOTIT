@@ -289,16 +289,13 @@ class MethodSelector {
         .then(self.displayMethods())
     }
   }
+}
 
-
-
-  // function makeOption(data) {
-  //   return Mustache.render('<option value={{id}}>{{code}}</option>', data);
-  // }
-
-  // function makeCheckboxes(data) {
-  //   return Mustache.render(self.checkboxTemplate.html(), data);
-  // }
+/**
+ * Fetch current user informations
+ */
+function fetchCurrentUser(){
+  return fetch(Routing.generate("user_current"), { method: "GET", credentials: 'include' })
 }
 
 /**

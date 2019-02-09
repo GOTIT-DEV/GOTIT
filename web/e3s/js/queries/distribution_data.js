@@ -37,13 +37,11 @@ class MotuDistribution {
     this.speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
     this.methodSelector = new MethodSelector(formId)
 
-    // Get current user pulbic infos
-    let userAjaxCall = fetch(Routing.generate("user_current"), { method: "GET", credentials: 'include' })
 
     /** When selectors are initialized and user info are retrieved : 
      *  init result table
      * */
-    Promise.all([this.speciesSelector.promise, this.methodSelector.promise, userAjaxCall])
+    Promise.all([this.speciesSelector.promise, this.methodSelector.promise, fetchCurrentUser()])
       .then(responses => responses[2].json())
       .then(this.formReady())
   }

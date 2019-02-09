@@ -119,68 +119,66 @@ function toggleFormSelect(event) {
 
 function initDataTable(tableId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
-    $.ajax({
-      url: Routing.generate("user_current"),
-      type: "GET"
-    }).done(user => {
-      let dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
-      const table = $(tableId)
-      const side = table.data('target')
-      let barplot = new BarPlot(table.data('barplot'))
-      $('.nav-tabs li a').on('shown.bs.tab', event => {
-        barplot.resize()
-      })
-      var dataTable = table.DataTable({
-        responsive: true,
-        autoWidth: false,
-        ajax: {
-          "url": Routing.generate('species-hypotheses-query'),
-          "dataSrc": side,
-          "type": "POST",
-          "data": _ => {
-            return $("#main-form").serialize()
+    fetchCurrentUser().then(response => response.json())
+      .then(user => {
+        let dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
+        const table = $(tableId)
+        const side = table.data('target')
+        let barplot = new BarPlot(table.data('barplot'))
+        $('.nav-tabs li a').on('shown.bs.tab', event => {
+          barplot.resize()
+        })
+        var dataTable = table.DataTable({
+          responsive: true,
+          autoWidth: false,
+          ajax: {
+            "url": Routing.generate('species-hypotheses-query'),
+            "dataSrc": side,
+            "type": "POST",
+            "data": _ => {
+              return $("#main-form").serialize()
+            }
+          },
+          language: dtconfig.language[$("html").attr("lang")],
+          dom: 'lf<"clear pull-right"B>rtip',
+          buttons: dtbuttons,
+          order: [1, 'asc'],
+          columns: [{
+            data: "methode"
+          }, {
+            data: "libelle_motu",
+          }, {
+            data: "match"
+          }, {
+            data: "split"
+          }, {
+            data: "lump"
+          }, {
+            data: "reshuffling"
+          }, {
+            data: 'nb_seq'
+          }, {
+            data: 'nb_sta'
+          }],
+          drawCallback: _ => {
+            $('[data-toggle="tooltip"]').tooltip()
           }
-        },
-        language: dtconfig.language[$("html").attr("lang")],
-        dom: 'lf<"clear pull-right"B>rtip',
-        buttons: dtbuttons,
-        order: [1, 'asc'],
-        columns: [{
-          data: "methode"
-        }, {
-          data: "libelle_motu",
-        }, {
-          data: "match"
-        }, {
-          data: "split"
-        }, {
-          data: "lump"
-        }, {
-          data: "reshuffling"
-        }, {
-          data: 'nb_seq'
-        }, {
-          data: 'nb_sta'
-        }],
-        drawCallback: _ => {
-          $('[data-toggle="tooltip"]').tooltip()
-        }
-      })
+        })
 
-      dataTable.on('xhr', _ => {
-        let response = dataTable.ajax.json()
-        barplot.refresh(response[side])
-        uiReceivedResponse()
-      })
+        dataTable.on('xhr', _ => {
+          let response = dataTable.ajax.json()
+          barplot.refresh(response[side])
+          uiReceivedResponse()
+        })
 
-      /****************
-       * Submit form handler
-       */
-      $("#main-form").submit(event => {
-        event.preventDefault();
-        uiWaitResponse()
-        table.DataTable().ajax.reload()
-      });
-    })
+        /****************
+         * Submit form handler
+         */
+        $("#main-form").submit(event => {
+          event.preventDefault();
+          uiWaitResponse()
+          table.DataTable().ajax.reload()
+        });
+      })
   }
 }
