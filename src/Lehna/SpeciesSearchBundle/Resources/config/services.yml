@@ -1,0 +1,9 @@
+services:
+#    lehna_species_search.example:
+#        class: Lehna\SpeciesSearchBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    lehna_species_search.query_builder_e3s:
+        class: Lehna\SpeciesSearchBundle\Services\QueryBuilderService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    Lehna\SpeciesSearchBundle\Services\QueryBuilderService: '@lehna_species_search.query_builder_e3s'

@@ -41,3 +41,11 @@ services:
         resource: '../../src/Bbees/UserBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    Lehna\SpeciesSearchBundle\Controller\:
+        resource: '../../src/Lehna/SpeciesSearchBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    Lehna\SpeciesSearchBundle\Services\:
+        resource: '../../src/Lehna/SpeciesSearchBundle/Services'

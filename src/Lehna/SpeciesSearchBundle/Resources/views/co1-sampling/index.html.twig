@@ -1,0 +1,46 @@
+{% extends '@LehnaSpeciesSearch/base.queries.html.twig' %}
+
+{% trans_default_domain 'queries' %}
+
+{% block titlepage %}
+  <h1>
+    {{"queries.echantillonnage.title" | trans }}
+  </h1>
+  <hr style="clear:both">
+{% endblock %}
+
+{% block body %}
+  <div class='row' style='padding:10px'>
+    <div class="col-xs-12 col-lg-3 col-lg-offset-0">
+      {# Formulaire #}
+      {% include '@LehnaSpeciesSearch/co1-sampling/form.html.twig' %}
+    </div>
+
+    <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
+      <fieldset>
+        <legend>
+          <h2 style='margin-bottom:18px'>
+            {{"label.resultats" | trans }}
+          </h2>
+        </legend>
+        {% include '@LehnaSpeciesSearch/co1-sampling/results.html.twig' %}
+      </div>
+    </fieldset>
+
+  </div>
+
+  {% include '@LehnaSpeciesSearch/co1-sampling/details.form.html.twig' %}
+
+  {# Modal #}
+  <div id="modal-container">
+    {% include '@LehnaSpeciesSearch/co1-sampling/details.modal.html.twig' with {
+      'taxname' : ''
+    } %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="{{asset('e3s/js/queries/plots.js')}}"></script>
+  <script src="{{asset('e3s/js/queries/co1_sampling.js')}}"></script>
+{% endblock %}

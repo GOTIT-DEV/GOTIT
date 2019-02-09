@@ -495,7 +495,6 @@ title.pays: Pays
 title.commune: Commune
 title.etablissement: Etablissement
 title.programme: Programme
-title.Recherche bdd: Recherche dans BDD
 
 # messages d'alerte relatif a la gestion des dates
 alert.datePrecisionINCONNU:  les champs date doivent être vides

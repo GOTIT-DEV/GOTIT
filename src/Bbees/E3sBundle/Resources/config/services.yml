@@ -10,10 +10,3 @@ services:
     bbees_e3s.generic_function_e3s:
         class: Bbees\E3sBundle\Services\GenericFunctionE3s
         arguments: ['@doctrine.orm.entity_manager']
-        
-    bbees_e3s.query_builder_e3s:
-        class: Bbees\E3sBundle\Services\QueryBuilderService
-        arguments: ['@doctrine.orm.entity_manager']
-
-    Bbees\E3sBundle\Services\QueryBuilderService: '@bbees_e3s.query_builder_e3s'
-     

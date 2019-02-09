@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new Bbees\E3sBundle\BbeesE3sBundle(),
             new Bbees\UserBundle\BbeesUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), // routing from JS
-            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(), // translations in JS
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(), // translations in JS,
+            new Lehna\SpeciesSearchBundle\LehnaSpeciesSearchBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

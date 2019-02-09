@@ -670,7 +670,6 @@ title.pays: Country
 title.commune: Municipality
 title.etablissement: Institution
 title.programme: Program
-title.Recherche bdd: Search in database
 
 # messages d'alerte relatif a la gestion des dates
 alert.datePrecisionINCONNU:  date fields must be left blank 

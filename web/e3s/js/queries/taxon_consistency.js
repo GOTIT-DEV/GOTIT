@@ -68,10 +68,11 @@ function initDataTable(tableId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(response => response.json())
       .then(user => {
+        // Disable export buttons for invited users
         let dtbuttons = user.role === 'ROLE_INVITED' ? [] : dtconfig.buttons
-        const table = $(tableId)
 
-        var dataTable = table.DataTable({
+        const table = $(tableId)
+        let dataTable = table.DataTable({
           autoWidth: false,
           responsive: {
             orthogonal: "responsive",
