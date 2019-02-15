@@ -3938,7 +3938,7 @@ class ImportFileE3s
                                    $CodeCommune = $dataColCsv ;
                                    if (array_key_exists($CodeCommune,$list_new_commune)) {  
                                        $commune = $list_new_commune[$CodeCommune];
-                                   } else { // create a new commune decoding information of codeCommune as NomCommune|NomRegion|NomPays
+                                   } else { // if CodeCommune is null create a new commune generating a codeCommune as NomCommune|NomRegion|NomPays
                                        $commune = new \Bbees\E3sBundle\Entity\Commune();      
                                        $commune->setCodeCommune($CodeCommune);
                                        $list_field_commune = explode("|", $dataColCsv);

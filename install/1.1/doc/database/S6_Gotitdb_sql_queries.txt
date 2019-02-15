@@ -230,4 +230,3 @@ WHERE rt_sqc_ass.taxname LIKE '%'
 AND voc_gene.code LIKE '%'
 ORDER BY lot.id, individu.id, adn.id, pcr.id, chromatogramme.id, sa.id ASC
 ;
-
