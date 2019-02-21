@@ -23,3 +23,10 @@ fos_js_routing:
 # Bazinga : JS side translations
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+lehna_species_search:
+    resource: "@LehnaSpeciesSearchBundle/Controller/"
+    type:     annotation
+    prefix:   /{_locale}/queries
+    requirements:
+        _locale: en|fr
