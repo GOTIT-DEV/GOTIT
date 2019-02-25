@@ -294,7 +294,7 @@ class MethodSelector {
 /**
  * Fetch current user informations
  */
-function fetchCurrentUser(){
+function fetchCurrentUser() {
   return fetch(Routing.generate("user_current"), { method: "GET", credentials: 'include' })
 }
 
@@ -374,8 +374,8 @@ function linkify(url,
     let path = url
     if (generateRoute === true) {
       path = col === null ?
-        Routing.generate(url) :
-        Routing.generate(url, { id: row[col] })
+        Routing.generate(url, { _locale: $("html").attr("lang") }) :
+        Routing.generate(url, { id: row[col], _locale: $("html").attr("lang") })
     } else {
       if (col != null) {
         path += row[col]

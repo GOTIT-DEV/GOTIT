@@ -97,7 +97,7 @@ class AssignMotu {
         buttons: self.dtbuttons,
         columns: [{
           data: "taxname",
-          render: linkify("referentieltaxon_show", { col: 'id' })
+          render: linkify("referentieltaxon_show", { col: 'id', _locale:self.table.data('locale') })
         },
         {
           data: "methode"
