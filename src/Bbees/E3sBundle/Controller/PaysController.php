@@ -3,7 +3,7 @@
 /*
  * This file is part of the E3sBundle.
  *
- * Copyright (c) 2018 Philippe Grison <philippe.grison@mnhn.fr>
+ * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -31,6 +31,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  *
  * @Route("pays")
  * @Security("has_role('ROLE_INVITED')")
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PaysController extends Controller
 {

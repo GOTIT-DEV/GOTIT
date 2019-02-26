@@ -43,4 +43,4 @@ Roadmap :
 - A demo version of GOTIT was made available at [http://gotit.cnrs.fr](http://gotit.cnrs.fr) on March 2019
 - We anticipate to release an uggraded version 1.2 of GOTIT in 2020.
 
-Notes :
+Notes : BBEES laboratory will not support any development of GOTIT in response to sollicitations other than those of LEHNA laboratory.
