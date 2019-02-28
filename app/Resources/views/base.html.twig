@@ -148,8 +148,18 @@
                     {% else %}
                     <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.user'|trans}}</font></a></li> 
                   {% endif %}
+
+
+                  {# SpeciesSearchBundle : nav links  #}
+
                   {% if is_granted('ROLE_INVITED') %}
-                    <li><a><i class="fa fa-search"></i>{{'title.Recherche bdd'|trans}}<span class="fa fa-chevron-down"></span></a>
+                  <li>
+                    <a><i class="fa fa-search"></i>
+                      {% trans from 'queries' %}
+                        queries.navtitle
+                      {% endtrans %}
+                      <span class="fa fa-chevron-down"></span>
+                    </a>
                     <ul class="nav child_menu">
                     <li><a href="{{ path('co1-sampling') }}">
                         {% trans from 'queries' %}
@@ -178,7 +188,11 @@
                         </a></li>
                     </ul>                      
                   </li>
+
+                  {# INSERT new bundle nav links here #}
+
                     {% else %}
+                    {#  #}
                     <li><a href="#"><i class="fa fa-lock"></i><font color="grey">{{'title.Recherche bdd'|trans}}</font></a></li> 
                   {% endif %}  
                   

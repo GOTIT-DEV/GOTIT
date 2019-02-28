@@ -62,6 +62,7 @@ geo:
     co1: COI Sites
 
 queries:
+  navtitle: Species search # Dropdown menu label in navbar
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
     nav: MOTU

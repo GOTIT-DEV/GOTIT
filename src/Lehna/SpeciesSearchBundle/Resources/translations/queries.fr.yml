@@ -62,6 +62,7 @@ geo:
     co1: Stations COI
 
 queries:
+  navtitle: Recherche taxonomique
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
     nav: MOTU
