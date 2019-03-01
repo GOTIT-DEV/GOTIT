@@ -3939,7 +3939,7 @@ class ImportFileE3s
                                    $CodeCommune = $dataColCsv ;
                                    if (array_key_exists($CodeCommune,$list_new_commune)) {  
                                        $commune = $list_new_commune[$CodeCommune];
-                                   } else { // if CodeCommune is null create a new commune generating a codeCommune as NomCommune|NomRegion|NomPays
+                                   } else { // if CodeCommune is null create a new commune with a codeCommune as Nom_Commune|Nom_Region|Nom_Pays and field site_name = "Nom Commune" and municipality_name = "Nom Region"
                                        $commune = new \Bbees\E3sBundle\Entity\Commune();      
                                        $commune->setCodeCommune($CodeCommune);
                                        $list_field_commune = explode("|", $dataColCsv);
