@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the E3sBundle.
+ * This file is part of the SpeciesSearchBundle.
  *
  * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
  *
@@ -12,8 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- 
+ *
  */
 
 namespace Lehna\SpeciesSearchBundle\Controller;

@@ -1,5 +1,5 @@
 /*
- * This file is part of the E3sBundle.
+ * This file is part of the SpeciesSearchBundle.
  *
  * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
  *
