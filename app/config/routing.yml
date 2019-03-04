@@ -1,3 +1,10 @@
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: default_index
+        permanent: true
+
 bbees_user:
     resource: "@BbeesUserBundle/Resources/config/routing.yml"
     prefix:   /
