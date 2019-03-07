@@ -27,15 +27,15 @@ At last, GOTIT is implemented and distributed following public license practices
 
 # Documentation
 
-- [admin GOTIT installation](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/doc/gotit_doc_install.pdf)
-- [user web interface help](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/doc/gotit_help.pdf)
-- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/doc/database/S3_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
+- [admin GOTIT installation](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/GOTIT_Install.pdf)
+- [user web interface help](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/S3_GOTIT_Help.pdf)
+- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S3_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
 
 # Files :
 
-- [release v1.1](https://github.com/GOTIT-DEV/GOTIT/archive/1.1.zip)
-- [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/file/templates.zip)
-- [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/1.1/file/vocabulary.csv) with all scientific and other vocabulary 
+- [release v1.1](https://github.com/GOTIT-DEV/GOTIT/archive/1.1.0.zip)
+- [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/template.zip)
+- [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/vocabulary_gotit1-1.csv) with all scientific and other vocabulary 
 
 # Roadmap :
 

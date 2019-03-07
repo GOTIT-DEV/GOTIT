@@ -143,7 +143,7 @@
                 //modal.val(nomCommune);                
                 modal.val(nomCommuneUpperCase);
                 var nomCommune = nomCommuneUpperCase.split(' ').join('_');
-                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion.split(' ').join('_')+'|'+nomPays);
             })
             $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
                 var modal = $(this);
@@ -157,7 +157,7 @@
                 // modal.val(nomRegion);
                 modal.val(nomRegionUpperCase);
                 var nomRegion = nomRegionUpperCase.split(' ').join('_');
-                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune.split(' ').join('_')+'|'+nomRegion+'|'+nomPays);
             })
             })  
         // 3) Actions after the creation of a new municipality 
