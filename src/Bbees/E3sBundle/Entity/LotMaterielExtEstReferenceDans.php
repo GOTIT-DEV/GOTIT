@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="lot_materiel_ext_est_reference_dans", indexes={@ORM\Index(name="IDX_D2338BB240D80ECD", columns={"lot_materiel_ext_fk"}), @ORM\Index(name="IDX_D2338BB2821B1D3F", columns={"source_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielExtEstReferenceDans
 {

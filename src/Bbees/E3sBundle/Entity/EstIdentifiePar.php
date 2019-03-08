@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="est_identifie_par", indexes={@ORM\Index(name="IDX_F8FCCF63B53CD04C", columns={"personne_fk"}), @ORM\Index(name="IDX_F8FCCF63B4AB6BA0", columns={"espece_identifiee_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class EstIdentifiePar
 {

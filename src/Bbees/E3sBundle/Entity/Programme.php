@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="programme", uniqueConstraints={@ORM\UniqueConstraint(name="cu_programme_cle_primaire", columns={"code_programme"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Programme
 {

@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="commune", uniqueConstraints={@ORM\UniqueConstraint(name="cu_commune_cle_primaire", columns={"code_commune"})}, indexes={@ORM\Index(name="IDX_E2E2D1EEB1C3431A", columns={"pays_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Commune
 {

@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="a_cibler", indexes={@ORM\Index(name="IDX_C0DF0CE4662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_C0DF0CE47B09E3BC", columns={"referentiel_taxon_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ACibler
 {

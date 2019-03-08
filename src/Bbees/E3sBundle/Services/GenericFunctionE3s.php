@@ -25,6 +25,7 @@ use Bbees\E3sBundle\Entity\Voc;
 
 /**
  * Service GenericFunctionE3s
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class GenericFunctionE3s
 {

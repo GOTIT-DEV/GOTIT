@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="pcr", uniqueConstraints={@ORM\UniqueConstraint(name="cu_pcr_cle_primaire", columns={"code_pcr"})}, indexes={@ORM\Index(name="IDX_5B6B99369D3CDB05", columns={"gene_voc_fk"}), @ORM\Index(name="IDX_5B6B99368B4A1710", columns={"qualite_pcr_voc_fk"}), @ORM\Index(name="IDX_5B6B99366CCC2566", columns={"specificite_voc_fk"}), @ORM\Index(name="IDX_5B6B99362C5B04A7", columns={"primer_pcr_start_voc_fk"}), @ORM\Index(name="IDX_5B6B9936F1694267", columns={"primer_pcr_end_voc_fk"}), @ORM\Index(name="IDX_5B6B9936A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_5B6B99364B06319D", columns={"adn_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Pcr
 {

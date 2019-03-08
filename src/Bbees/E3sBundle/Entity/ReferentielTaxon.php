@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="referentiel_taxon", uniqueConstraints={ @ORM\UniqueConstraint(name="cu_referentiel_taxon_cle_primaire", columns={"taxname"}), @ORM\UniqueConstraint(name="cu_referentiel_taxon_code_taxon", columns={"code_taxon"}) } )
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxon
 {

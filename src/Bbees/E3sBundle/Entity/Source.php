@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="source", uniqueConstraints={@ORM\UniqueConstraint(name="cu_source_cle_primaire", columns={"code_source"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Source
 {

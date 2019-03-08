@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="a_pour_fixateur", indexes={@ORM\Index(name="IDX_60129A315FD841AC", columns={"fixateur_voc_fk"}), @ORM\Index(name="IDX_60129A31662D9B98", columns={"collecte_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class APourFixateur
 {

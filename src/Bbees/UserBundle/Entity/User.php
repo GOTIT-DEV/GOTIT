@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of the E3sBundle from the GOTIT project (Gene, Occurence and Taxa in Integrative Taxonomy)
+ *
+ * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
+ *
+ * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * 
+ * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
+ * 
+ */
+
 namespace Bbees\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="user_db", uniqueConstraints={@ORM\UniqueConstraint(name="cu_user_db_username", columns={"username"})})
  * @ORM\Entity(repositoryClass="Bbees\UserBundle\Repository\UserRepository")
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class User implements UserInterface
 {

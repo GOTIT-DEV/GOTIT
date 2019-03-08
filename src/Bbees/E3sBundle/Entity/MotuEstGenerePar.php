@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="motu_est_genere_par", indexes={@ORM\Index(name="IDX_17A90EA3503B4409", columns={"motu_fk"}), @ORM\Index(name="IDX_17A90EA3B53CD04C", columns={"personne_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class MotuEstGenerePar
 {

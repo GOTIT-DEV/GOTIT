@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="chromatogramme", uniqueConstraints={@ORM\UniqueConstraint(name="cu_chromatogramme_cle_primaire", columns={"code_chromato"})}, indexes={@ORM\Index(name="IDX_FCB2DAB7286BBCA9", columns={"primer_chromato_voc_fk"}), @ORM\Index(name="IDX_FCB2DAB7206FE5C0", columns={"qualite_chromato_voc_fk"}), @ORM\Index(name="IDX_FCB2DAB7E8441376", columns={"etablissement_fk"}), @ORM\Index(name="IDX_FCB2DAB72B63D494", columns={"pcr_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Chromatogramme
 {

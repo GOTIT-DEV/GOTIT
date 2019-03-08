@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="lot_materiel_est_realise_par", indexes={@ORM\Index(name="IDX_69C58AFF54DBBD4D", columns={"lot_materiel_fk"}), @ORM\Index(name="IDX_69C58AFFB53CD04C", columns={"personne_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielEstRealisePar
 {

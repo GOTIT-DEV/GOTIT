@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="individu", uniqueConstraints={@ORM\UniqueConstraint(name="cu_individu_code_ind_tri_morpho", columns={"code_ind_tri_morpho"}), @ORM\UniqueConstraint(name="cu_individu_code_ind_biomol", columns={"code_ind_biomol"})}, indexes={@ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"type_individu_voc_fk"}), @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"lot_materiel_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Individu
 {

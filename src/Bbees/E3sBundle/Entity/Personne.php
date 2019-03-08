@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="personne", uniqueConstraints={@ORM\UniqueConstraint(name="cu_personne_cle_primaire", columns={"nom_personne"})}, indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"etablissement_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Personne
 {

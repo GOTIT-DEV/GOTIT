@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="station", uniqueConstraints={@ORM\UniqueConstraint(name="cu_station_cle_primaire", columns={"code_station"})}, indexes={@ORM\Index(name="IDX_9F39F8B143D4E2C", columns={"commune_fk"}), @ORM\Index(name="IDX_9F39F8B1B1C3431A", columns={"pays_fk"}), @ORM\Index(name="IDX_9F39F8B14D50D031", columns={"point_acces_voc_fk"}), @ORM\Index(name="IDX_9F39F8B1C23046AE", columns={"habitat_type_voc_fk"}), @ORM\Index(name="IDX_9F39F8B1E86DBD90", columns={"precision_lat_long_voc_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Station
 {

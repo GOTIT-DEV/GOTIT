@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sqc_est_publie_dans", indexes={@ORM\Index(name="IDX_BA97B9C4821B1D3F", columns={"source_fk"}), @ORM\Index(name="IDX_BA97B9C45BE90E48", columns={"sequence_assemblee_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SqcEstPublieDans
 {

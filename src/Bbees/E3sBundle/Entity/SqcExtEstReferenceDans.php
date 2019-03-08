@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sqc_ext_est_reference_dans", indexes={@ORM\Index(name="IDX_8D0E8D6A821B1D3F", columns={"source_fk"}), @ORM\Index(name="IDX_8D0E8D6ACDD1F756", columns={"sequence_assemblee_ext_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SqcExtEstReferenceDans
 {

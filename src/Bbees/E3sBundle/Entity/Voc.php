@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="voc", uniqueConstraints={@ORM\UniqueConstraint(name="cu_voc_cle_primaire", columns={"code", "parent"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Voc
 {

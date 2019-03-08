@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="lot_materiel", uniqueConstraints={@ORM\UniqueConstraint(name="cu_lot_materiel_cle_primaire", columns={"code_lot_materiel"})}, indexes={@ORM\Index(name="IDX_BA1841A5A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_BA1841A5B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_BA1841A5A897CC9E", columns={"yeux_voc_fk"}), @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"collecte_fk"}), @ORM\Index(name="IDX_BA1841A52B644673", columns={"boite_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */ 
 class LotMateriel
 {

@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="espece_identifiee", indexes={@ORM\Index(name="IDX_49D19C8DFB5F790", columns={"critere_identification_voc_fk"}), @ORM\Index(name="IDX_49D19C8DA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_49D19C8DCDD1F756", columns={"sequence_assemblee_ext_fk"}), @ORM\Index(name="IDX_49D19C8D40D80ECD", columns={"lot_materiel_ext_fk"}), @ORM\Index(name="IDX_49D19C8D54DBBD4D", columns={"lot_materiel_fk"}), @ORM\Index(name="IDX_49D19C8D7B09E3BC", columns={"referentiel_taxon_fk"}), @ORM\Index(name="IDX_49D19C8D5F2C6176", columns={"individu_fk"}), @ORM\Index(name="IDX_49D19C8D5BE90E48", columns={"sequence_assemblee_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class EspeceIdentifiee
 {

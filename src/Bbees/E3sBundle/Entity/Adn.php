@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="adn", uniqueConstraints={@ORM\UniqueConstraint(name="cu_adn_cle_primaire", columns={"code_adn"})}, indexes={@ORM\Index(name="adn_code_adn", columns={"code_adn"}), @ORM\Index(name="cle_etrangere1", columns={"date_precision_voc_fk"}), @ORM\Index(name="cle_etrangere3", columns={"individu_fk"}), @ORM\Index(name="cle_etrangere", columns={"methode_extraction_adn_voc_fk"}), @ORM\Index(name="cle_etrangere2", columns={"boite_fk"}), @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"qualite_adn_voc_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Adn
 {

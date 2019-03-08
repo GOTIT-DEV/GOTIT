@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sqc_ext_est_realise_par", indexes={@ORM\Index(name="IDX_DC41E25ACDD1F756", columns={"sequence_assemblee_ext_fk"}), @ORM\Index(name="IDX_DC41E25AB53CD04C", columns={"personne_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SqcExtEstRealisePar
 {

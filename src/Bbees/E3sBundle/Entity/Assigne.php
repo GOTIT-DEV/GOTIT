@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="assigne", indexes={@ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"sequence_assemblee_ext_fk"}), @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"methode_motu_voc_fk"}), @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"sequence_assemblee_fk"}), @ORM\Index(name="IDX_4E79CB8D503B4409", columns={"motu_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Assigne
 {

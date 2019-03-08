@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pays", uniqueConstraints={@ORM\UniqueConstraint(name="cu_pays_cle_primaire", columns={"code_pays"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Pays
 {

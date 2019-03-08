@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="etablissement", uniqueConstraints={@ORM\UniqueConstraint(name="cu_etablissement_cle_primaire", columns={"nom_etablissement"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Etablissement
 {

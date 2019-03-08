@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="collecte", uniqueConstraints={@ORM\UniqueConstraint(name="cu_collecte_cle_primaire", columns={"code_collecte"})}, indexes={@ORM\Index(name="IDX_55AE4A3DA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_55AE4A3D50BB334E", columns={"leg_voc_fk"}), @ORM\Index(name="IDX_55AE4A3D369AB36B", columns={"station_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Collecte
 {

@@ -25,6 +25,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="a_pour_sampling_method", indexes={@ORM\Index(name="IDX_5A6BD88A29B38195", columns={"sampling_method_voc_fk"}), @ORM\Index(name="IDX_5A6BD88A662D9B98", columns={"collecte_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class APourSamplingMethod
 {

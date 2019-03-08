@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="pcr_est_realise_par", indexes={@ORM\Index(name="IDX_1041853B2B63D494", columns={"pcr_fk"}), @ORM\Index(name="IDX_1041853BB53CD04C", columns={"personne_fk"})})
  * @ORM\Entity
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PcrEstRealisePar
 {
