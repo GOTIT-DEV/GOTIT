@@ -27,15 +27,15 @@ At last, GOTIT is implemented and distributed following public license practices
 
 # Documentation
 
-- [admin GOTIT installation](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/GOTIT_Install.pdf)
-- [user web interface help](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/S3_GOTIT_Help.pdf)
-- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S3_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
+- [admin GOTIT installation](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/GOTIT_Install.pdf)
+- [user web interface help](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/S3_GOTIT_Help.pdf)
+- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S3_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
 
 # Files :
 
-- [release v1.1](https://github.com/GOTIT-DEV/GOTIT/archive/1.1.0.zip)
-- [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/template.zip)
-- [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/1.1.0/install/1.1/vocabulary_gotit1-1.csv) with all scientific and other vocabulary 
+- [release v1.1.0](https://github.com/GOTIT-DEV/GOTIT/archive/v1.1.0.zip)
+- [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/template.zip)
+- [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/vocabulary_gotit1-1.csv) with all scientific and other vocabulary 
 
 # Roadmap :
 
@@ -47,7 +47,7 @@ At last, GOTIT is implemented and distributed following public license practices
 - The first alpha version of the web interface was produced in August 2018
 - Version 1.0 was produced in October 2018
 - Version 1.1 with full documentation was released on February 2019
-- A demo version of GOTIT was made available at [http://gotit.cnrs.fr](http://gotit.cnrs.fr) on March 2019
+- A demo version of GOTIT was made available at [https://gotit.cnrs.fr](https://gotit.cnrs.fr) on March 2019
 - We anticipate to release an uggraded version 1.2 of GOTIT in 2020.
 
 ----
