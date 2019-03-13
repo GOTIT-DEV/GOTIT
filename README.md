@@ -29,7 +29,7 @@ At last, GOTIT is implemented and distributed following public license practices
 
 - [admin GOTIT installation](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/GOTIT_Install.pdf)
 - [user web interface help](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/S3_GOTIT_Help.pdf)
-- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S3_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
+- database models [MCD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S3_Gotitdb_conceptual_model_en.jpg)/[MRD](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S1_Gotitdb_logical_model_en.jpg) and [tables/fields description](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/doc/database/S5_Gotitdb_tables_fields.ods)
 
 # Files :
 
