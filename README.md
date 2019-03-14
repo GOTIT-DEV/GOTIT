@@ -3,11 +3,12 @@ GOTIT : Gene, Occurence and Taxa in Integrative Taxonomy
 
 A Symfony project updated on 13/03/2019 : Publish Version 1.1.0
 
-**Authors :** Philippe GRISON(1), Chloé MARTIN(1), Cécile CALLOU(1),  Florian MALARD(2) , Lara KONECNY(2), Louis DUCHEMIN(2), Tristan LEFEBURE(2), Christope DOUADY(2)
+**Authors :** Authors : Florian MALARD (1), Philippe GRISON (2), Louis DUCHEMIN (1), Lara KONECNY-DUPRE (1), Tristan LEFEBURE (1), Nathanaëlle Saclier (1), David Eme (3), Chloé MARTIN (2), Cécile CALLOU (2), Christope DOUADY (1)
 
-(1)  BBEES : *Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés Muséum national d'Histoire naturelle*, CNRS ; CP55, 57 rue Cuvier 75005 Paris, France
+(1) LEHNA : UMR CNRS 5023 Ecologie des Hydrosystèmes Naturels et Anthropisés, Université Lyon 1, ENTPE, CNRS, Université Lyon
+(2) BBEES : Unité Bases de données sur la Biodiversité, Écologie, Environnement et Sociétés Muséum national d'Histoire naturelle, CNRS ; CP55, 57 rue Cuvier 75005 Paris, France
+(3) New Zealand Inst. for Advanced Studies, Inst. of Natural and Mathematical Sciences, Massey Univ., Auckland, New Zealand
 
-(2)  LEHNA : *UMR CNRS 5023 Ecologie des Hydrosystèmes Naturels et Anthropisés*, Université Lyon 1 , ENTPE, CNRS, Université Lyon
 
 Licence : GPL-v3
 
