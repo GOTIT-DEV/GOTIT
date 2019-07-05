@@ -21,6 +21,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
@@ -31,7 +32,39 @@ class VocType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('code')->add('libelle')->add('parent')->add('commentaire')
+        $builder->add('code')
+                ->add('libelle')
+                ->add('parent', ChoiceType::class, array('choices' => [
+                    'vocParent.codeCollection' => 'codeCollection',
+                    'vocParent.datePrecision' => 'datePrecision,',
+                    'vocParent.fixateur' => 'fixateur',
+                    'vocParent.gene' => 'gene',
+                    'vocParent.habitatType' => 'habitatType',
+                    'vocParent.leg' => 'leg',
+                    'vocParent.methodeExtractionAdn' => 'methodeExtractionAdn',
+                    'vocParent.methodeMotu' => 'methodeMotu',
+                    'vocParent.nbIndividus' => 'nbIndividus',
+                    'vocParent.origineSqcAssExt' => 'origineSqcAssExt',
+                    'vocParent.pigmentation' => 'pigmentation',
+                    'vocParent.pointAcces' => 'pointAcces',
+                    'vocParent.precisionLatLong' => 'precisionLatLong',
+                    'vocParent.primerChromato' => 'primerChromato',
+                    'vocParent.primerPcrEnd' => 'primerPcrEnd',
+                    'vocParent.primerPcrStart' => 'primerPcrStart',
+                    'vocParent.qualiteAdn' => 'qualiteAdn',
+                    'vocParent.qualiteChromato' => 'qualiteChromato',
+                    'vocParent.qualitePcr' => 'qualitePcr',
+                    'vocParent.samplingMethod' => 'samplingMethod',
+                    'vocParent.specificite' => 'specificite',
+                    'vocParent.statutSqcAss' => 'statutSqcAss',
+                    'vocParent.typeBoite' => 'typeBoite',
+                    'vocParent.typeCollection' => 'typeCollection',
+                    'vocParent.typeIndividu' => 'typeIndividu',
+                    'vocParent.yeux' => 'yeux'
+                    ] , 
+                    'placeholder' => 'Choose a Parent', 'required' => true, 'choice_translation_domain' => true, 'multiple' => false, 'expanded' => false,                    
+                    ))
+                ->add('commentaire')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
                 ->add('userCre', HiddenType::class, array())

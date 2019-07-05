@@ -1,6 +1,204 @@
-legales_mentions: Mentions légales
-# 11/01/201
-# column title of links
+# VOCABULARY ###################################################################
+# Vocabulary (table Voc) : vocabulary labels translations 
+# NOTE : put only vocabulary where translation is needed. 
+# By default it's the primary langage vocabulary label which will be used
+LOT: LOT
+ADN: ADN
+LAME: LAME
+INCONNU: INCONNU
+? INCONNU: ? INCONNU
+0 - INCONNU: 0 - INCONNU
+EAU DOUCE SOUTERRAINE: EAU DOUCE SOUTERRAINE
+EAU SAUMATRE SOUTERRAINE: EAU SAUMATRE SOUTERRAINE
+EAU SALEE SOUTERRAINE: EAU SALEE SOUTERRAINE
+EAU DOUCE DE SURFACE: EAU DOUCE DE SURFACE
+EAU SAUMATRE DE SURFACE: EAU SAUMATRE DE SURFACE
+EAU SALEE DE SURFACE: EAU SALEE DE SURFACE
+AQUIFERE POREUX: AQUIFERE POREUX
+AQUIFERE ALLUVIAL: AQUIFERE ALLUVIAL
+AQUIFERE FISSURE: AQUIFERE FISSURE
+AQUIFERE KARSTIQUE: AQUIFERE KARSTIQUE
+ZONE HYPORHEIQUE: ZONE HYPORHEIQUE
+ZONE NON SATUREE KARSTIQUE: ZONE NON SATUREE KARSTIQUE
+ZONE SATUREE KARSTIQUE: ZONE SATUREE KARSTIQUE
+SYSTEME LENTIQUE: SYSTEME LENTIQUE
+SYSTEME LOTIQUE: SYSTEME LOTIQUE
+AQUEDUC: AQUEDUC
+CANAL: CANAL
+CAPTAGE EAU: CAPTAGE EAU
+CITERNE: CITERNE
+ETANG: ETANG
+FONTAINE: FONTAINE
+FOSSE DE DRAINAGE: FOSSE DE DRAINAGE
+GROTTE: GROTTE
+LAC: LAC
+LAVOIR: LAVOIR
+MARAIS MARE: MARAIS MARE
+MINE: MINE
+PUITS: PUITS
+RESERVOIR: RESERVOIR
+RIVIERE: RIVIERE
+RUISSEAU: RUISSEAU
+SOURCE: SOURCE
+TORRENT: TORRENT
+TUNNEL: TUNNEL
+PLAGE: PLAGE
+AUTRE: AUTRE
+INFERIEUR A 100M: INFERIEUR A 100M
+INFERIEUR A 1KM: INFERIEUR A 1KM
+INFERIEUR A 10KM: INFERIEUR A 10KM
+DE 10 A 100KM: DE 10 A 100KM
+A VUE: A VUE
+BOUTEILLON PRELEVEUR: BOUTEILLON PRELEVEUR
+DRAGAGE: DRAGAGE
+FILET PHREATOBIOLOGIQUE: FILET PHREATOBIOLOGIQUE
+FILTRAGE DERIVE: FILTRAGE DERIVE
+LAVAGE RACINE VEGETATION: LAVAGE RACINE VEGETATION
+PAS ECHANTILLONNE: PAS ECHANTILLONNE
+PIEGE: PIEGE
+PIEGE APPATE: PIEGE APPATE
+POMPAGE: POMPAGE
+SONDAGE BOU ROUCH: SONDAGE BOU ROUCH
+SONDAGE KARAMAN CHAPPUIS: SONDAGE KARAMAN CHAPPUIS
+SURBER: SURBER
+ALCOOL: ALCOOL
+CRYOCONSERVATION: CRYOCONSERVATION
+RNA LATER: RNA LATER
+SILICE: SILICE
+PAS DE MATERIEL FIXE: PAS DE MATERIEL FIXE
+JOUR: JOUR
+MOIS: MOIS
+ANNEE: ANNEE
+Day: JOUR
+Month: MOIS
+Year: ANNEE
+OUI: OUI
+NON: NON
+NA: NA
+APPENDICES: APPENDICES
+CUTICULE: CUTICULE
+FEMELLE: FEMELLE
+FEMELLE OVIGERE: FEMELLE OVIGERE
+FEMELLE POCHE VIDE: FEMELLE POCHE VIDE
+FRAGMENT: FRAGMENT
+INDIVIDUS: INDIVIDUS
+JEUNE MALE: JEUNE MALE
+JUVENILE: JUVENILE
+MALE: MALE
+MUES: MUES
+PULLI: PULLI
+LEGS: LEGS
+INDIVIDUS CRYOCONSERVES: INDIVIDUS CRYOCONSERVES
+FORMOL: FORMOL
+ISOPROPANOL: ISOPROPANOL
+PAS DE MATERIEL DANS LE LOT: PAS DE MATERIEL DANS LE LOT
+ANOPHTALME: ANOPHTALME
+MICROPHTALME: MICROPHTALME
+OCULE: OCULE
+ANOPHTALME_MICROPHTALME: ANOPHTALME_MICROPHTALME
+ANOPHTALME_OCULE: ANOPHTALME_OCULE
+MICROPHTALME_OCULE: MICROPHTALME_OCULE
+ANOPHTALME_MICROPHTALME_OCULE: ANOPHTALME_MICROPHTALME_OCULE
+DEPIGMENTE: DEPIGMENTE
+DEPIGMENTE PARTIELLEMENT: DEPIGMENTE PARTIELLEMENT
+PIGMENTE: PIGMENTE
+DEPIGMENTE_DEPIGMENTE PARTIELLEMENT: DEPIGMENTE_DEPIGMENTE PARTIELLEMENT
+DEPIGMENTE_PIGMENTE: DEPIGMENTE_PIGMENTE
+DEPIGMENTE PARTIELLEMENT_PIGMENTE: DEPIGMENTE PARTIELLEMENT_PIGMENTE
+DEPIGMENTE_DEPIGMENTE PARTIELLEMENT_PIGMENTE: DEPIGMENTE_DEPIGMENTE PARTIELLEMENT_PIGMENTE
+Morphologie: Morphologie
+Assignation moleculaire temporaire: Assignation moleculaire temporaire
+Delimitation moleculaire: Delimitation moleculaire
+Lot collection: Collection
+Code collection ASEL: Code collection ASEL
+NON DESTRUCTIVE: NON DESTRUCTIVE
+DESTRUCTIVE: DESTRUCTIVE
+CHELEX: CHELEX
+ARN: ARN
+KIT: KIT
+AUTRE VOIR COMMENTAIRES: AUTRE VOIR COMMENTAIRES
+OK: OK
+MAUVAISE: MAUVAISE
+CONTAMINE: CONTAMINE
+VIDE: VIDE
+COI: COI
+16S: 16S
+28S: 28S
+AM4: AM4
+OPS1: OPS1
+OPS2: OPS2
+TRES BIEN: TRES BIEN
+ASSEZ BIEN: ASSEZ BIEN
+MOYEN: MOYEN
+ECHEC: ECHEC
+BASIQUE: BASIQUE
+DILUTION ADN: DILUTION ADN
+NICHEE/SEMI-NICHEE: NICHEE/SEMI-NICHEE
+REAMPLIFICATION: REAMPLIFICATION
+GEL-CUT: GEL-CUT
+3KB: 3KB
+3KB et DILUTION: 3KB et DILUTION
+DILUTION ADN et NICHEE/SEMI-NICHEE: DILUTION ADN et NICHEE/SEMI-NICHEE
+DILUTION ADN et REAMPLIFICATION: DILUTION ADN et REAMPLIFICATION
+GEL-CUT et DILUTION ADN: GEL-CUT et DILUTION ADN
+GEL-CUT et DILUTION ADN et NICHEE/SEMI-NICHEE: GEL-CUT et DILUTION ADN et NICHEE/SEMI-NICHEE
+GEL-CUT et DILUTION ADN et REAMPLIFICATION: GEL-CUT et DILUTION ADN et REAMPLIFICATION
+GEL-CUT et NICHEE/SEMI-NICHEE: GEL-CUT et NICHEE/SEMI-NICHEE
+GEL-CUT et REAMPLIFICATION: GEL-CUT et REAMPLIFICATION
+TRANSCRIPTOME: TRANSCRIPTOME
+NUMT: NUMT
+CONTAMINATION: CONTAMINATION
+NON DISPONIBLE: NON DISPONIBLE
+SEQUENCE VALIDEE: SEQUENCE VALIDEE
+SEQUENCE EN ATTENTE: SEQUENCE EN ATTENTE
+SEQUENCE POLYMORPHE: SEQUENCE POLYMORPHE
+SEQUENCE COURTE: SEQUENCE COURTE
+SEQUENCE PROBLEMATIQUE: SEQUENCE PROBLEMATIQUE
+methode motu BPTP: methode motu BPTP
+methode motu PTP: methode motu PTP
+methode motu TH: methode motu TH
+methode motu HAPLO: methode motu HAPLO
+methode motu GMYC: methode motu GMYC
+Inconnu: Inconnu
+National Center for Biotechnology Information: National Center for Biotechnology Information
+Personal Communication: Personal Communication
+Un seul individu: Un seul individu
+Quelques individus (1-5): Quelques individus (1-5)
+Une dizaine d'individus (6-10): Une dizaine d'individus (6-10)
+Plusierus dizaines d'individus (11-100): Plusierus dizaines d'individus (11-100)
+Centaine d'individus (>100): Centaine d'individus (>100)
+Nombre inconnu: Nombre inconnu
+# class of vocabulary (table = Voc , field = parent)
+vocParent.codeCollection: code Collection
+vocParent.critereIdentification: critère Identification
+vocParent.datePrecision: date Precision
+vocParent.fixateur: fixateur
+vocParent.gene: gene
+vocParent.habitatType: habitat Type
+vocParent.leg: leg
+vocParent.methodeExtractionAdn: methode Extraction Adn
+vocParent.methodeMotu: methode Motu
+vocParent.nbIndividus: nb Individus
+vocParent.origineSqcAssExt: origine Sqc Ass Ext
+vocParent.pigmentation: pigmentation
+vocParent.pointAcces: pointAcces
+vocParent.precisionLatLong: precision Lat Long
+vocParent.primerChromato: primer Chromato
+vocParent.primerPcrEnd: primer Pcr End
+vocParent.primerPcrStart: primer Pcr Start
+vocParent.qualiteAdn: qualite Adn
+vocParent.qualiteChromato: qualite Chromato
+vocParent.qualitePcr: qualite Pcr
+vocParent.samplingMethod: sampling Method
+vocParent.specificite: specificite
+vocParent.statutSqcAss: statut Sqc Ass
+vocParent.typeBoite: type Boite
+vocParent.typeCollection: type Collection
+vocParent.typeIndividu: type Individu
+vocParent.yeux: yeux
+
+# SHORT TITLE OF CRUD LIST COLUMNS #############################################
+# Links
 list.show: Lire
 list.edit: Edit
 list.delete: Supp
@@ -14,7 +212,33 @@ list.linkIndividu: Ind(s)
 list.linkIndividu_codestation: Ind/St
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Col
-#  13/11/2018 
+# Columns headings 
+list.vocLibelle: Libelle
+list.Date creation sqc ass ext: Date de creation
+list.Accession number sqc ass ext: Ext. Acc. Number
+list.Accession number: Acc. Number
+list.List source: Source(s)
+list.List code adn: Liste de codes ADN
+list.Date creation lot materiel: Date creation
+list.lastCodeSeqAss: Dernier code sequence assemblee
+list.lastStatutSeqAss: Dernier statut 
+list.lastCodeSeqAlignement: Dernier code sequence alignee
+list.lastDateSeqAss: Derniere date sequence assemblee
+list.Date maj: Date maj
+list.Date cre: Date cre
+list.Lat deg dec: Latitude
+list.Long deg dec: Longitude
+list.Liste taxons: Liste de taxons
+list.Liste personnes: Liste de personne(s)
+list.Last taxname: Dernier nom de taxon
+list.Last identification date: Derniere date identification
+list.Last identification critere: Dernier critere identification
+list.MotuAssigne: MOTU
+
+# BUTTONS ######################################################################
+# 
+buton.See Stations Around: Afficher les Stations autour du point GPS
+buton.Close: Fermer
 # Button headings of csv file import forms
 buton.ImportVoc: Importer fichier Vocabulaire
 buton.ImportReferentieltaxon: Importer fichier Taxon
@@ -30,13 +254,107 @@ buton.Back to the list of personne: Retour à la liste des Personnes
 buton.Back to the list of programme: Retour à la liste des Programmes
 buton.Back to the list of etablissement: Retour à la liste des Etablissements
 buton.Back to the list of commune: Retour à la liste des Communes
-# Erreurs de la procédure d'importation des données 
+# Button headings "Back to Entity"
+buton.Back to station: Retour à la Station
+buton.Back to collecte: Retour à la Collecte
+buton.Back to lotmateriel: Retour au Lot matériel
+buton.Back to individu: Retour à l'Individu
+buton.Back to individulame: Retour à la Lame
+buton.Back to lotmaterielext: Retour au Lot matériel externe
+buton.Back to adn: Retour à l'ADN
+buton.Back to pcr: Retour à la PCR
+buton.Back to chromatogramme: Retour au Chromatogramme
+buton.Back to pcrchromato: Retour à la PCR
+buton.Back to sequenceassemblee: Retour à la Sequence interne
+buton.Back to sequenceassembleeext: Retour à la Sequence externe
+buton.Back to motu: Retour au MOTU
+buton.Back to boite: Retour à la Boite
+buton.Back to source: Retour à la Source
+# Button headers for csv file import forms
+buton.Back to the list of station: Retour à la liste des Stations
+buton.Back to the list of collecte: Retour à la liste des Collectes
+buton.Back to the list of lotmateriel: Retour à la liste des Lots matériels
+buton.Back to the list of individu: Retour à la liste des Individus
+buton.Back to the list of individulame: Retour à la liste des Lames
+buton.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
+buton.Back to the list of adn: Retour à la liste des ADN
+buton.Back to the list of pcr: Retour à la liste des PCR
+buton.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
+buton.Back to the list of pcrchromato: Retour à la liste des PCR
+buton.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
+buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
+buton.Back to the list of motu: Retour à la liste des MOTU
+buton.Back to the list of boite: Retour à la liste des Boites
+buton.Back to the list of source: Retour à la liste des Sources
+# Headers of the interface buttons
+buton.Add a Chromatogramme: Ajouter un chromatogramme
+buton.Add a Source: Ajouter une source
+buton.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
+buton.Add a EspeceIdentifiee: Ajouter une espece identifiee
+buton.Add a new Commune: Ajouter une nouvelle commune
+buton.Add a SamplingMethod: Ajouter une methode d echantillonage
+buton.Add a Fixateur: Ajouter un fixateur
+buton.Add a Programme: Ajouter un programme
+buton.Add a new Programme: Ajouter un nouveau programme
+buton.Add a Personne: Ajouter une personne
+buton.Add a new Personne: Ajouter une nouvelle personne
+buton.Add a ACibler: Ajouter un taxon cible
+buton.Import adn deplace: Deplacer supprimer des boites ADN
+buton.Import adn range: Stocker des boites ADN
+buton.Import individu lame deplace: Deplacer supprimer des lames
+buton.Import individu lame range: Stocker des lames
+buton.Import lot materiel deplace: Deplacer supprimer des lots materiels
+buton.Import lot materiel range: Stocker des lots materiels
+buton.NewBoite: Creer une nouvelle boite
+buton.Import sqc assemblee publie: Referencer des sequences assemblees
+buton.Import lot materiel publie: Referencer des lots materiels
+buton.ImportSource: Importer des sources
+buton.NewSource: Creer une source
+buton.NewVoc: Creer un vocabulaire
+buton.NewReferentieltaxon: Creer un taxon
+buton.NewPersonne: Creer une personne
+buton.NewEtablissement: Creer un etablissement
+buton.NewProgramme: Creer un programme
+buton.NewPays: Creer un Pays
+buton.NewMotu: Creer un MOTU
+buton.ImportMotu: Importer des MOTUs
+buton.NewSequenceassembleeext: Creer une sequence externe assemblee
+buton.ImportSequenceassembleeext: Importer des sequences externes assemblees
+buton.NewSequenceassemblee: Creer une sequence assemblee
+buton.ImportSequenceassemblee: Importer des sequences assemblees
+buton.NewCommune: Creer une nouvelle commune
+buton.NewLotmaterielext: Creer un lot materiel externe
+buton.ImportLotmaterielext: Importer des lots materiels externes
+buton.NewStation: Creer une station
+buton.ImportStation: Importer des stations
+buton.NewCollecte: Creer une collecte
+buton.ImportCollecte: Importer des collectes
+buton.NewLotmateriel: Creer un lot materiel
+buton.ImportLotmateriel: Importer des lots materiels
+buton.NewIndividu: Creer un individu
+buton.ImportIndividu: Importer des individus
+buton.NewIndividulame: Creer une lame
+buton.ImportIndividulame: Importer des lames
+buton.NewAdn: Creer un ADN
+buton.ImportAdn: Importer des ADN
+buton.NewPcr: Creer une PCR
+buton.ImportPcr: Importer des PCR
+buton.NewChromatogramme: Creer un chromatogramme
+buton.ImportChromatogramme: Importer des chromatogrammes
+buton.Valid: Valider
+buton.BackToTheSelection: Retour à la selection
+buton.BackToTheList: Retour à la Liste
+buton.showAllRecord: Liste de tous les enregistrements
+Envoyer: Importer le fichier CSV
+
+# IMPORTFILE SERVICE ERROR MESSAGES ############################################
+# Error message from the data import procedures (ImportFileE3s)
 importfileService.ERROR Unknown file imported: ERREUR - fichier CSV INCONNU
 importfileService.ERROR Unknown template file: ERREUR - template INCONNU
 importfileService.ERROR bad number of columns in CSV file: ERREUR - Le fichier CSV ne contient pas le bon nombre de collonnes - cf. Aide GOTIT
 importfileService.ERROR bad column in CSV file: ERREUR - le fichier CSV ne contient pas les bonnes colonnes du modèle de migration - cf. Aide GOTIT
 importfileService.ERROR NULL value: ERREUR - Contenu INVALIDE (valeur NULL)
-importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  ( OUI / NON )
+importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE  { OUI / NON , YES / NO, 1 / 0}
 importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERREUR - DOUBLON du code séquence qui existe en interne et en externe
 importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE 
@@ -58,66 +376,111 @@ importfileService.ERROR bad code: ERREUR - Code INCONNU
 importfileService.Date of data set import: Date import
 importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
 importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés
-Switch version: Changer de version
-# ajouter  26/09/2018
-Username: Nom d'utilisateur 
-Password: Mot de passe (8 char min)
-Repeat Password: Confirmez le Mot de passe 
-Email: Adresse electronique
-Role: Role
-Name: Nom complet de l'utilisateur
-Institution: Etablissement
-Commentaire user: Commentaires utilisateur
-Locale: Version
-buton.NewUser: Créer un nouvel utilisateur
-title.user: Utilisateur
-list.User cre: User Create
-list.User maj: User Update
+
+# LINKS LABELS TO BATCH PROCEDURE ##############################################
+import.liste: Importer des fichiers 
+import.boite.lotmaterielrange: Stocker des lots materiels par fichier
+import.boite.individulamerange: Stocker des lames par fichier
+import.boite.adnrange: Stocker des ADN par fichier
+import.station: Importer fichier(s) station
+import.collecte: Importer fichier(s) collecte
+import.lotmateriel: Importer fichier(s) lot materiel
+import.individu: Importer fichier(s) individu
+import.individulame: Importer fichier(s) lame
+import.lotmaterielext: Importer fichier(s) lot materiel externe
+import.adn: Importer fichier(s) ADN
+import.pcr: Importer fichier(s) PCR
+import.chromatogramme: Importer fichier(s) chromatogramme
+import.pcrchromato: Importer fichier(s) PCR et chromatogramme
+import.sequenceassemblee: Importer fichier(s) sequence
+import.sequenceassembleeext: Importer fichier(s) sequence externe
+import.motu: Importer fichier(s) MOTU
+import.source: Importer fichier(s) source
 import.boite.lotmaterieldeplace: Deplacer supprimer des lots materiels
 import.boite.individulamedeplace: Deplacer supprimer des lames
 import.boite.adndeplace: Deplacer supprimer des ADN
 import.source.lotmaterielpublie:  Referencer des lots materiels
 import.source.sequencepublie: Referencer des sequences assemblées
-#
-list.MotuAssigne: MOTU
+import.motu-assigne: MOTU
+
+# TITLES OF THE MENUS  #########################################################
 title.Import Files CSV: Import des fichiers CSV
 title.boiteLOT: Boite lot materiel
 title.boiteLAME: Boite lame
 title.boiteADN: Boite ADN
-# Intitules des boutons "Retour à l'Entité"
-buton.Back to station: Retour à la Station
-buton.Back to collecte: Retour à la Collecte
-buton.Back to lotmateriel: Retour au Lot matériel
-buton.Back to individu: Retour à l'Individu
-buton.Back to individulame: Retour à la Lame
-buton.Back to lotmaterielext: Retour au Lot matériel externe
-buton.Back to adn: Retour à l'ADN
-buton.Back to pcr: Retour à la PCR
-buton.Back to chromatogramme: Retour au Chromatogramme
-buton.Back to pcrchromato: Retour à la PCR
-buton.Back to sequenceassemblee: Retour à la Sequence interne
-buton.Back to sequenceassembleeext: Retour à la Sequence externe
-buton.Back to motu: Retour au MOTU
-buton.Back to boite: Retour à la Boite
-buton.Back to source: Retour à la Source
-# Intitules des boutons des formulaires d'import de fichiers csv
-buton.Back to the list of station: Retour à la liste des Stations
-buton.Back to the list of collecte: Retour à la liste des Collectes
-buton.Back to the list of lotmateriel: Retour à la liste des Lots matériels
-buton.Back to the list of individu: Retour à la liste des Individus
-buton.Back to the list of individulame: Retour à la liste des Lames
-buton.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
-buton.Back to the list of adn: Retour à la liste des ADN
-buton.Back to the list of pcr: Retour à la liste des PCR
-buton.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
-buton.Back to the list of pcrchromato: Retour à la liste des PCR
-buton.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
-buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
-buton.Back to the list of motu: Retour à la liste des MOTU
-buton.Back to the list of boite: Retour à la liste des Boites
-buton.Back to the list of source: Retour à la liste des Sources
-# Intitules des champs de la base de donnees E3S Version Anglaise
-#  dashboard
+title.boite: Boite
+title.Dashboard: Tableau de bord
+title.Terrain: Donnees de terrain
+title.station: Station
+title.collecte: Collecte
+title.Analyse morphologique: Analyse morphologique
+title.lotmateriel: Lot materiel
+title.individu: Individu
+title.individulame: Lame
+title.lotmaterielext: Lot materiel externe
+title.Analyses génétiques: Analyse moleculaire
+title.adn: ADN
+title.pcr: PCR
+title.chromatogramme: Chromatogramme
+title.Etude séquençage: Sequences ADN
+title.sequenceassemblee: Sequences internes
+title.sequenceassembleeext: Sequences externes
+title.motu: MOTU
+title.Stock: Stock
+title.source: Source
+title.Source bibliographique: Source
+title.Référentiels: Referentiels
+title.voc: Vocabulaire
+title.referentieltaxon: Taxon
+title.personne: Personne
+title.pays: Pays
+title.commune: Commune
+title.etablissement: Etablissement
+title.programme: Programme
+
+# HEADINGS OF SELECTION LISTS ##################################################
+Choose a Parent: Selectionner une classe de vocabulaire
+Choose a typeCollection: Selectionner un type de collection
+Choose a codeCollection: Selectionner un code  collection
+Choose a typeBoite: Selectionner un type de boite
+Choose an option: Selectionner une option
+Choose a Motu File: Selectionner le fichier MOTU a importer
+Choose a origineSqcAssExt: Selectionner une origine
+Choose a chromatogramme: Selectionner un  chromatogramme
+Choose a statut: Selectionner un status
+Choose a status: Selectionner un status
+Choose a Person: Selectionner une personne
+Choose a Etablissement: Selectionner un etablissement
+Choose a DNA: Selectionner un ADN
+Choose a gene: Selectionner un gene
+Choose a quality: Selectionner une qualite
+Choose a specificity: Selectionner une specificite
+Choose a primer start: Selectionner une amorce sens
+Choose a primer end: Selectionner une amorce antisens
+Choose a Country: Selectionner un pays
+Choose a Commune: Selectionner une commune
+Choose an Habitat Type: Selectionner un habitat
+Choose an Access Point: Selectionner un acces
+Choose a GPS Distance Quality: Selectionner precision latitude longitude
+Choose a Station: Selectionner une station
+Choose a Sampling method: Selectionner une methode d echantillonage
+Choose a Fixateur: Selectionner un fixateur
+Choose a Program: Selectionner un programme
+Choose a Taxon: Selectionner un taxon
+Choose a Collecte: Selectionner une collecte
+Choose a Pigmentation: Selectionner pigmentation
+Choose a Eye: Selectionner vision
+Choose a Box: Selectionner une boite
+Choose a Type: Selectionner un type
+Choose a Lot Materiel: Selectionner un lot materiel
+Choose a Source: Selectionner une source
+Choose an individu: Selectionner un individu
+Choose a method: Selectionner une methode
+Choose a PCR: Selectionner une PCR
+Choose a primer: Selectionner une amorce
+Choose a socitety: Selectionner un etablissement
+
+# DASHBOARD ####################################################################
 Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence et Taxa en Taxonomie Integrative
 Dashboard.Distribution des stations: Distribution des stations
 Dashboard.Hypothese espece: Hypothèse d'espèce
@@ -143,15 +506,22 @@ Dashboard.Données de terrain: Données de terrain
 Dashboard.Données moléculaire: Données moléculaires
 Dashboard.LastUpdate: Dernières mises à jour
 Dashboard.Tools: Outils métiers
-# champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
-Libelle motu: libelle MOTU
-# boutons ajouter > 16/07/2018
-title.Personne: Personne
-buton.See Stations Around: Afficher les Stations autour du point GPS
+
+# OTHER ########################################################################
+legales_mentions: Mentions légales
+NO: NON
+YES: OUI
 modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
-buton.Close: Fermer
-################################# VALIDE  par Florian le 19/07/2018
-# Intitules des champs de la base de donnes E3S Version Anglaise
+Switch version: Changer de version
+# PopUp alert messages related to date management
+alert.datePrecisionINCONNU:  les champs date doivent être vides
+alert.datePrecisionANNEE:  les champs date doivent avoir le format 01-01-AAAA
+alert.datePrecisionMOIS:  les champs date doivent avoir le format 01-MM-AAAA
+alert.datePrecisionJOUR:  les champs date doivent avoir le format JJ-MM-AAAA
+alert.BadFormatDate:  mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=[1,31] MM=[1,12] AAAA=[1000,2999]
+
+# GOTIT DATABASE  ##############################################################
+# GOTIT Database Field Titles
 A faire: Etat
 Accession number: Numero d ordre
 Accession number sqc ass ext: Numero d ordre
@@ -246,6 +616,7 @@ Libelle: Libelle
 Libelle boite: Libelle boite
 Libelle collection: Libelle collection
 Libelle lame: Libelle lame
+Libelle motu: libelle MOTU
 Libelle source: Libelle source
 Long deg dec: Longitude degre decimal
 Lot materiel ext fk: Lot materiel externe
@@ -313,47 +684,7 @@ User cre: Utilisateur creation
 User maj: Utilisateur mise a jour
 Validity: Validite
 Yeux voc fk: Vision
-# Intitules des listes de selection
-Choose a typeCollection: Selectionner un type de collection
-Choose a codeCollection: Selectionner un code  collection
-Choose a typeBoite: Selectionner un type de boite
-Choose an option: Selectionner une option
-Choose a Motu File: Selectionner le fichier MOTU a importer
-Choose a origineSqcAssExt: Selectionner une origine
-Choose a chromatogramme: Selectionner un  chromatogramme
-Choose a statut: Selectionner un status
-Choose a status: Selectionner un status
-Choose a Person: Selectionner une personne
-Choose a Etablissement: Selectionner un etablissement
-Choose a DNA: Selectionner un ADN
-Choose a gene: Selectionner un gene
-Choose a quality: Selectionner une qualite
-Choose a specificity: Selectionner une specificite
-Choose a primer start: Selectionner une amorce sens
-Choose a primer end: Selectionner une amorce antisens
-Choose a Country: Selectionner un pays
-Choose a Commune: Selectionner une commune
-Choose an Habitat Type: Selectionner un habitat
-Choose an Access Point: Selectionner un acces
-Choose a GPS Distance Quality: Selectionner precision latitude longitude
-Choose a Station: Selectionner une station
-Choose a Sampling method: Selectionner une methode d echantillonage
-Choose a Fixateur: Selectionner un fixateur
-Choose a Program: Selectionner un programme
-Choose a Taxon: Selectionner un taxon
-Choose a Collecte: Selectionner une collecte
-Choose a Pigmentation: Selectionner pigmentation
-Choose a Eye: Selectionner vision
-Choose a Box: Selectionner une boite
-Choose a Type: Selectionner un type
-Choose a Lot Materiel: Selectionner un lot materiel
-Choose a Source: Selectionner une source
-Choose an individu: Selectionner un individu
-Choose a method: Selectionner une methode
-Choose a PCR: Selectionner une PCR
-Choose a primer: Selectionner une amorce
-Choose a socitety: Selectionner un etablissement
-# intitules des collections ou tableaux relatifs aux tables relationnelles de type N-N
+# titles of collections or N-N type relational tables
 Source a ete integre pars: Est integree par
 Adns: ADN
 Lot materiels: Lot materiel
@@ -381,146 +712,21 @@ A pour fixateurs: Fixateur
 Est finance pars: Programme
 Est effectue pars: Est realise par
 A ciblers: Taxa cibles par collecte
-No: Non
-Yes: Oui
-Personne: Personne
-# Intitules des boutons de l'interface
-buton.Add a Chromatogramme: Ajouter un chromatogramme
-buton.Add a Source: Ajouter une source
-buton.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
-buton.Add a EspeceIdentifiee: Ajouter une espece identifiee
-buton.Add a new Commune: Ajouter une nouvelle commune
-buton.Add a SamplingMethod: Ajouter une methode d echantillonage
-buton.Add a Fixateur: Ajouter un fixateur
-buton.Add a Programme: Ajouter un programme
-buton.Add a new Programme: Ajouter un nouveau programme
-buton.Add a Personne: Ajouter une personne
-buton.Add a new Personne: Ajouter une nouvelle personne
-buton.Add a ACibler: Ajouter un taxon cible
-buton.Import adn deplace: Deplacer supprimer des boites ADN
-buton.Import adn range: Stocker des boites ADN
-buton.Import individu lame deplace: Deplacer supprimer des lames
-buton.Import individu lame range: Stocker des lames
-buton.Import lot materiel deplace: Deplacer supprimer des lots materiels
-buton.Import lot materiel range: Stocker des lots materiels
-buton.NewBoite: Creer une nouvelle boite
-buton.Import sqc assemblee publie: Referencer des sequences assemblees
-buton.Import lot materiel publie: Referencer des lots materiels
-buton.ImportSource: Importer des sources
-buton.NewSource: Creer une source
-buton.NewVoc: Creer un vocabulaire
-buton.NewReferentieltaxon: Creer un taxon
-buton.NewPersonne: Creer une personne
-buton.NewEtablissement: Creer un etablissement
-buton.NewProgramme: Creer un programme
-buton.NewPays: Creer un Pays
-buton.NewMotu: Creer un MOTU
-buton.ImportMotu: Importer des MOTUs
-buton.NewSequenceassembleeext: Creer une sequence externe assemblee
-buton.ImportSequenceassembleeext: Importer des sequences externes assemblees
-buton.NewSequenceassemblee: Creer une sequence assemblee
-buton.ImportSequenceassemblee: Importer des sequences assemblees
-buton.NewCommune: Creer une nouvelle commune
-buton.NewLotmaterielext: Creer un lot materiel externe
-buton.ImportLotmaterielext: Importer des lots materiels externes
-buton.NewStation: Creer une station
-buton.ImportStation: Importer des stations
-buton.NewCollecte: Creer une collecte
-buton.ImportCollecte: Importer des collectes
-buton.NewLotmateriel: Creer un lot materiel
-buton.ImportLotmateriel: Importer des lots materiels
-buton.NewIndividu: Creer un individu
-buton.ImportIndividu: Importer des individus
-buton.NewIndividulame: Creer une lame
-buton.ImportIndividulame: Importer des lames
-buton.NewAdn: Creer un ADN
-buton.ImportAdn: Importer des ADN
-buton.NewPcr: Creer une PCR
-buton.ImportPcr: Importer des PCR
-buton.NewChromatogramme: Creer un chromatogramme
-buton.ImportChromatogramme: Importer des chromatogrammes
-buton.Valid: Valider
-buton.BackToTheSelection: Retour à la selection
-buton.BackToTheList: Retour à la Liste
-buton.showAllRecord: Liste de tous les enregistrements
-Envoyer: Importer le fichier CSV
 
-# intitules des colonnes des listes d'enregistrements
-list.Date creation sqc ass ext: Date de creation
-list.Accession number sqc ass ext: Ext. Acc. Number
-list.Accession number: Acc. Number
-list.List source: Source(s)
-list.List code adn: Liste de codes ADN
-list.Date creation lot materiel: Date creation
-list.lastCodeSeqAss: Dernier code sequence assemblee
-list.lastStatutSeqAss: Dernier statut 
-list.lastCodeSeqAlignement: Dernier code sequence alignee
-list.lastDateSeqAss: Derniere date sequence assemblee
-list.Date maj: Date maj
-list.Date cre: Date cre
-list.Lat deg dec: Latitude
-list.Long deg dec: Longitude
-list.Liste taxons: Liste de taxons
-list.Liste personnes: Liste de personne(s)
-list.Last taxname: Dernier nom de taxon
-list.Last identification date: Derniere date identification
-list.Last identification critere: Dernier critere identification
-
-# Titres des pages
-title.boite: Boite
-title.Dashboard: Tableau de bord
-title.Terrain: Donnees de terrain
-title.station: Station
-title.collecte: Collecte
-title.Analyse morphologique: Analyse morphologique
-title.lotmateriel: Lot materiel
-title.individu: Individu
-title.individulame: Lame
-title.lotmaterielext: Lot materiel externe
-title.Analyses génétiques: Analyse moleculaire
-title.adn: ADN
-title.pcr: PCR
-title.chromatogramme: Chromatogramme
-title.Etude séquençage: Sequences ADN
-title.sequenceassemblee: Sequences internes
-title.sequenceassembleeext: Sequences externes
-title.motu: MOTU
-title.Stock: Stock
-title.source: Source
-title.Source bibliographique: Source
-title.Référentiels: Referentiels
-title.voc: Vocabulaire
-title.referentieltaxon: Taxon
-title.personne: Personne
-title.pays: Pays
-title.commune: Commune
-title.etablissement: Etablissement
-title.programme: Programme
-
-# messages d'alerte relatif a la gestion des dates
-alert.datePrecisionINCONNU:  les champs date doivent être vides
-alert.datePrecisionANNEE:  les champs date doivent avoir le format 01-01-AAAA
-alert.datePrecisionMOIS:  les champs date doivent avoir le format 01-MM-AAAA
-alert.datePrecisionJOUR:  les champs date doivent avoir le format JJ-MM-AAAA
-alert.BadFormatDate:  mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=[1,31] MM=[1,12] AAAA=[1000,2999]
-
-# menus de la liste deroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
-import.liste: Importer des fichiers 
-import.boite.lotmaterielrange: Stocker des lots materiels par fichier
-import.boite.individulamerange: Stocker des lames par fichier
-import.boite.adnrange: Stocker des ADN par fichier
-import.station: Importer fichier(s) station
-import.collecte: Importer fichier(s) collecte
-import.lotmateriel: Importer fichier(s) lot materiel
-import.individu: Importer fichier(s) individu
-import.individulame: Importer fichier(s) lame
-import.lotmaterielext: Importer fichier(s) lot materiel externe
-import.adn: Importer fichier(s) ADN
-import.pcr: Importer fichier(s) PCR
-import.chromatogramme: Importer fichier(s) chromatogramme
-import.pcrchromato: Importer fichier(s) PCR et chromatogramme
-import.sequenceassemblee: Importer fichier(s) sequence
-import.sequenceassembleeext: Importer fichier(s) sequence externe
-import.motu: Importer fichier(s) MOTU
-import.source: Importer fichier(s) source
+# USER BUNDLE  #################################################################
+# UserBundle messages
+Username: Nom d'utilisateur 
+Password: Mot de passe (8 char min)
+Repeat Password: Confirmez le Mot de passe 
+Email: Adresse electronique
+Role: Role
+Name: Nom complet de l'utilisateur
+Institution: Etablissement
+Commentaire user: Commentaires utilisateur
+Locale: Version
+buton.NewUser: Créer un nouvel utilisateur
+title.user: Utilisateur
+list.User cre: User Create
+list.User maj: User Update
+title.Personne: Personne
 

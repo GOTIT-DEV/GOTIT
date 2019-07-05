@@ -99,8 +99,8 @@ class CollecteType extends AbstractType
                         'entry_options' => array('label' => false)
         	))
                 ->add('dureeEchantillonnageMn')->add('temperatureC')->add('conductiviteMicroSieCm')
-                ->add('aFaire', ChoiceType::class, array('choices'  => array( 'OUI' => 1, 'NON' => 0,), 'required' => true,
-                               'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
+                ->add('aFaire', ChoiceType::class, array('choices'  => array( 'YES' => 1, 'NO' => 0,), 'required' => true,
+                             'choice_translation_domain' => true, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
                     ))
                 ->add('commentaireCollecte')
                 ->add('legVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 

@@ -97,7 +97,8 @@ class VocController extends Controller
             $tab_toshow[] = array("id" => $id, "voc.id" => $id, 
              "voc.code" => $entity->getCode(),
              "voc.libelle" => $entity->getLibelle(),
-             "voc.parent" => $entity->getParent(),
+             "voc.libelleSecondLanguage" => $this->get('translator')->trans($entity->getLibelle()),
+             "voc.parent" => $this->get('translator')->trans('vocParent.'.$entity->getParent()),
              "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
              "userCreId" => $service->GetUserCreId($entity), "voc.userCre" => $service->GetUserCreUsername($entity) ,"voc.userMaj" => $service->GetUserMajUsername($entity),
              );

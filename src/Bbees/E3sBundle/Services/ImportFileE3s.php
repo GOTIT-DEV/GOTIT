@@ -1537,9 +1537,9 @@ class ImportFileE3s
                     }
                     if ($ColCsv == 'collecte.a_faire') { 
                         if ($dataColCsv != '') {
-                            if ($dataColCsv == 'OUI' || $dataColCsv == 'NON') {
-                                $dataColCsv = ($dataColCsv=='OUI') ? 1 : 0; 
-                            } else {
+                            if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {$dataColCsv = 1 ;}
+                            if ($dataColCsv == 'NON' || $dataColCsv == 'NO' || $dataColCsv == '0') {$dataColCsv = 0 ;}
+                            if ($dataColCsv != 1 && $dataColCsv != 0) {
                                 $message .= $this->translator->trans('importfileService.ERROR bad data OUI-NON').'<b> : '.$ColCsv."/ ".$data[$ColCsv]."</b>  <br> ligne ".(string)($l+2).": ".join(';', $data)."<br>";    
                             }
                         } else {

@@ -1,164 +1,13 @@
-legales_mentions: Legal notices
-# 11/01/201
-# column title of links
-list.show: Show
-list.edit: Edit
-list.delete: Del
-list.linkAdn: DNA
-list.linkIndividulame: Slide
-list.linkPcr: PCR
-list.linkLotmateriel: Lot
-list.linkLotmaterielext: LotExt
-list.linkSequenceassembleeext: SqcExt
-list.linkIndividu: Ind(s)
-list.linkIndividu_codestation: Ind/St
-list.linkChromatogramme: Chr(s)
-list.linkCollecte: Sam
-# 13/11/2018
-# Button headings of csv file import forms
-buton.ImportVoc: Import new set of Vocabulary
-buton.ImportReferentieltaxon: Import new set of Taxa
-buton.ImportPays: Import new set of Country
-buton.ImportPersonne: Import new set of Person
-buton.ImportProgramme: Import new set of Program
-buton.ImportEtablissement: Import new set of Institution
-buton.ImportCommune: Import new set of Municipality
-buton.Back to the list of voc: Back to the list of Vocabulary
-buton.Back to the list of referentieltaxon: Back to the list of Taxon
-buton.Back to the list of pays: Back to the list of Country
-buton.Back to the list of personne: Back to the list of Person
-buton.Back to the list of programme: Back to the list of Program
-buton.Back to the list of etablissement: Back to the list of Institution
-buton.Back to the list of commune: Back to the list of Municipality
-# Service ERROR messages
-importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
-importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
-importfileService.ERROR bad number of columns in CSV file: ERROR - Wrong number of columns in CSV file - cf. GOTIT Help 
-importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain correct column names - cf. GOTIT Help 
-importfileService.ERROR bad data OUI-NON: ERROR - INVALID record ( OUI / NON )
-importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
-importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code, code already exists in database
-importfileService.ERROR bad float format: ERROR - Wrong FLOAT format
-importfileService.ERROR bad date format: ERROR - Wrong date format ( dd / mm / yyyy )
-importfileService.ERROR unknown record: ERROR - UNKNOWN record 
-importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
-importfileService.ERROR assession number already assign: ERROR - Accession number is already assigned to the sequence
-importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a box
-importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
-importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
-importfileService.ERROR lot already store: ERROR - The material is already assigned to a box
-importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
-importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
-importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
-importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lame coll 
-importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
-importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
-importfileService.ERROR bad code: ERROR - UNKNOWN code
-importfileService.Date of data set import: Date of data set import
-importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, please modify your CSV file. Error message is
-importfileService.Import OK: Data import is successful. Number of records Imported
-Switch version: Switch version
-##### ajouter  26/09/2018
-# Vocabulaire (table VOC)
+# VOCABULARY ###################################################################
+# Vocabulary (table Voc) : vocabulary labels translations 
+# NOTE : put only vocabulary where translation is needed. 
+# By default it's the primary langage vocabulary label which will be used
 LOT: LOT
 ADN: DNA
 LAME: SLIDE
 INCONNU: NOT KNOWN
 ? INCONNU: ? NOT KNOWN
 0 - INCONNU: 0 - NOT KNOWN
-# table User_db
-Username: Username
-Password: Password (8 char min)
-Repeat Password: Repeat Password
-Email: Email address
-Role: Role
-Name: User full name
-Institution: Institution
-Commentaire user: User comments
-Locale: Version
-buton.NewUser: Create a new User
-title.user: User
-list.User cre: User Create
-list.User maj: User Update
-import.boite.lotmaterieldeplace: Move or delete biological material as file
-import.boite.individulamedeplace: Move or delete slides as file
-import.boite.adndeplace: Move or delete DNA boxes as file
-import.source.lotmaterielpublie:  Source to biological material as file
-import.source.sequencepublie: Source to sequence as file
-####### 
-list.MotuAssigne: MOTU
-title.Import Files CSV: Import Files CSV
-title.boiteLOT: Box biological material
-title.boiteLAME: Box specimen slide
-title.boiteADN: Box DNA
-# Intitules des boutons "Back to Entity"
-buton.Back to station: Back to Site
-buton.Back to collecte: Back to Sampling
-buton.Back to lotmateriel: Back to Biological material
-buton.Back to individu: Back to Specimen
-buton.Back to individulame: Back to Specimen slide
-buton.Back to lotmaterielext: Back to External biological material
-buton.Back to adn: Back to DNA
-buton.Back to pcr: Back to PCR
-buton.Back to chromatogramme: Back to Chromatogram
-buton.Back to pcrchromato: Back to PCR
-buton.Back to sequenceassemblee: Back to Internal sequence
-buton.Back to sequenceassembleeext: Back to External sequence
-buton.Back to motu: Back to MOTU
-buton.Back to boite: Back to Boxes
-buton.Back to source: Back to Sources
-# Intitules des boutons des formulaires d'import de fichiers csv
-buton.Back to the list of station: Back to the list of Sites
-buton.Back to the list of collecte: Back to the list of Sampling
-buton.Back to the list of lotmateriel: Back to the list of Biological material
-buton.Back to the list of individu: Back to the list of Specimen
-buton.Back to the list of individulame: Back to the list of Specimen slide
-buton.Back to the list of lotmaterielext: Back to the list of External biological material
-buton.Back to the list of adn: Back to the list of DNA
-buton.Back to the list of pcr: Back to the list of PCR
-buton.Back to the list of chromatogramme: Back to the list of Chromatogram
-buton.Back to the list of pcrchromato: Back to the list of PCR
-buton.Back to the list of sequenceassemblee: Back to the list of Internal sequence
-buton.Back to the list of sequenceassembleeext: Back to the list of External sequence
-buton.Back to the list of motu: Back to the list of MOTU
-buton.Back to the list of boite: Back to the list of Boxes
-buton.Back to the list of source: Back to the list of Sources
-# Intitules des champs de la base de donnees E3S Version Anglaise
-#  dashboard
-Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy
-Dashboard.Distribution des stations: Distribution of sites
-Dashboard.Hypothese espece: Species hypotheses
-Dashboard.nbMotuSqcAss: Internal sequence assigned to MOTU
-Dashboard.nbMotuSqcAssExt: External sequence assigned to  MOTU
-Dashboard.nbTaxon: Taxa
-Dashboard.Données de la litérature: Literature data
-Dashboard.LotMaterielExt: Lot
-Dashboard.nbSequenceAssembleeExt: DNA sequence
-Dashboard.nbSource: Reference
-Dashboard.nbLotMateriel: Lot
-Dashboard.Materiel biologique: Biological material
-Dashboard.nbIndividu: Specimen
-Dashboard.nbIndividuLame: Slide
-Dashboard.nbAdn: DNA
-Dashboard.nbBoite: Box
-Dashboard.nbStation: Site
-Dashboard.nbCollecte: Sample
-Dashboard.nbPcr: PCR
-Dashboard.nbChromatogramme: Chromatogram
-Dashboard.nbSequenceAssemblee: DNA Sequence
-Dashboard.Données de terrain: Field data
-Dashboard.Données moléculaire: Molecular data
-Dashboard.LastUpdate: Last updates
-Dashboard.Tools: Tools
-# champ ajoute a la bdd v14-4 et 14-5 : [lot_materiel]a_faire, [motu]libelle
-Libelle motu: MOTU title
-# boutons ajouter > 16/07/2018
-import.motu-assigne: MOTU
-title.Personne: Person
-buton.See Stations Around: See nearby sites
-modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
-buton.Close: Close
-# Vocabulaire (table VOC)
 EAU DOUCE SOUTERRAINE: FRESH GROUNDWATER
 EAU SAUMATRE SOUTERRAINE: SALTY GROUNDWATER
 EAU SALEE SOUTERRAINE: SALINE GROUNDWATER
@@ -220,6 +69,9 @@ PAS DE MATERIEL FIXE: NO MATERIAL PRESERVED
 JOUR: DAY
 MOIS: MONTH
 ANNEE: YEAR
+Day: DAY
+Month: MONTH
+Year: YEAR
 OUI: YES
 NON: NO
 NA: NOT APPLICABLE
@@ -257,19 +109,14 @@ DEPIGMENTE_DEPIGMENTE PARTIELLEMENT_PIGMENTE: DEPIGMENTED_PARTIALLY DEPIGMENTED_
 Morphologie: MORPHOLOGY
 Assignation moleculaire temporaire: TEMPORARY MOLECULAR ASSIGNMENT
 Delimitation moleculaire: MOLECULAR DELIMITATION
-Lot collection: MATERIAL COLLECTION
-Lot collection: MATERIAL BOX
+Lot collection:  COLLECTION
 Code collection ASEL: ASELLOIDEA COLLECTION
-Lot collection: SLIDE COLLECTION
-Lot collection: SLIDE BOX
 NON DESTRUCTIVE: NON DESTRUCTIVE
 DESTRUCTIVE: DESTRUCTIVE
 CHELEX: CHELEX
 ARN: RNA
 KIT: KIT
 AUTRE VOIR COMMENTAIRES: OTHERS SEE COMMENTS
-Lot collection: DNA COLLECTION
-Lot collection: DNA BOX
 OK: OK
 MAUVAISE: POOR
 CONTAMINE: CONTAMINATED
@@ -321,9 +168,361 @@ Une dizaine d'individus (6-10): TEN SPECIMENS (6-10)
 Plusierus dizaines d'individus (11-100): SEVERAL TENS OF SPECIMENS (11-100)
 Centaine d'individus (>100): HUNDRED SPECIMENS (>100)
 Nombre inconnu: NUMBER NOT KNOWN
-? INCONNU: ? NOT KNOWN
-################################# VALIDE  par Florian le 19/07/2018
-# Intitules des champs de la base de donnes E3S Version Anglaise
+# Class of vocabulary (table = Voc , field = parent)
+vocParent.codeCollection: Code collection
+vocParent.critereIdentification:  Identification criteria
+vocParent.datePrecision: Date Precision
+vocParent.fixateur: Fixative
+vocParent.gene: Gene
+vocParent.habitatType: Habitat Type
+vocParent.leg: Donation
+vocParent.methodeExtractionAdn: DNA extraction method
+vocParent.methodeMotu: method Motu
+vocParent.nbIndividus:  Number of specimen
+vocParent.origineSqcAssExt: External sequence origin
+vocParent.pigmentation: Pigmentation
+vocParent.pointAcces: Access type
+vocParent.precisionLatLong: Coordonate precision
+vocParent.primerChromato: Primer Chromato
+vocParent.primerPcrEnd: Primer PCR End
+vocParent.primerPcrStart: Primer PCR Start
+vocParent.qualiteAdn: DNA quality
+vocParent.qualiteChromato: Chromatogram quality 
+vocParent.qualitePcr: PCR quality 
+vocParent.samplingMethod: sampling method
+vocParent.specificite: PCR specificity
+vocParent.statutSqcAss: Sequence status
+vocParent.typeBoite: Box type
+vocParent.typeCollection: Collection type 
+vocParent.typeIndividu: Specimen type
+vocParent.yeux: Vision
+
+# SHORT TITLE OF CRUD LIST COLUMNS #############################################
+# Links
+list.show: Show
+list.edit: Edit
+list.delete: Del
+list.linkAdn: DNA
+list.linkIndividulame: Slide
+list.linkPcr: PCR
+list.linkLotmateriel: Lot
+list.linkLotmaterielext: LotExt
+list.linkSequenceassembleeext: SqcExt
+list.linkIndividu: Ind(s)
+list.linkIndividu_codestation: Ind/St
+list.linkChromatogramme: Chr(s)
+list.linkCollecte: Sam
+# Columns headings 
+list.vocLibelle: Title (database)
+list.vocLibelleSecondLanguage: Title (translation)
+list.Date creation sqc ass ext: Date creation
+list.Accession number sqc ass ext: Ext. Acc. Number
+list.Accession number: Acc. Number
+list.List source: Source(s)
+list.List code adn: List of DNA code(s)
+list.Date creation lot materiel: Date creation
+list.lastCodeSeqAss: Last sequence code
+list.lastStatutSeqAss: Last status 
+list.lastCodeSeqAlignement: Last alignment code
+list.lastDateSeqAss: Last sequence date
+list.Date maj: Date Up
+list.Date cre: Date Cre
+list.Lat deg dec: Latitude
+list.Long deg dec: Longitude
+list.Liste taxons: List of taxa
+list.Liste personnes: List of person(s)
+list.Last taxname: Last taxon name
+list.Last identification date: Last id. date
+list.Last identification critere: Last id. criterion
+list.MotuAssigne: MOTU
+
+# BUTTONS ######################################################################
+#
+buton.See Stations Around: See nearby sites
+buton.Close: Close 
+# Button headings of csv file import forms
+buton.ImportVoc: Import new set of Vocabulary
+buton.ImportReferentieltaxon: Import new set of Taxa
+buton.ImportPays: Import new set of Country
+buton.ImportPersonne: Import new set of Person
+buton.ImportProgramme: Import new set of Program
+buton.ImportEtablissement: Import new set of Institution
+buton.ImportCommune: Import new set of Municipality
+buton.Back to the list of voc: Back to the list of Vocabulary
+buton.Back to the list of referentieltaxon: Back to the list of Taxon
+buton.Back to the list of pays: Back to the list of Country
+buton.Back to the list of personne: Back to the list of Person
+buton.Back to the list of programme: Back to the list of Program
+buton.Back to the list of etablissement: Back to the list of Institution
+buton.Back to the list of commune: Back to the list of Municipality
+#  Button headings "Back to Entity"
+buton.Back to station: Back to Site
+buton.Back to collecte: Back to Sampling
+buton.Back to lotmateriel: Back to Biological material
+buton.Back to individu: Back to Specimen
+buton.Back to individulame: Back to Specimen slide
+buton.Back to lotmaterielext: Back to External biological material
+buton.Back to adn: Back to DNA
+buton.Back to pcr: Back to PCR
+buton.Back to chromatogramme: Back to Chromatogram
+buton.Back to pcrchromato: Back to PCR
+buton.Back to sequenceassemblee: Back to Internal sequence
+buton.Back to sequenceassembleeext: Back to External sequence
+buton.Back to motu: Back to MOTU
+buton.Back to boite: Back to Boxes
+buton.Back to source: Back to Sources
+#  Button headers for csv file import forms
+buton.Back to the list of station: Back to the list of Sites
+buton.Back to the list of collecte: Back to the list of Sampling
+buton.Back to the list of lotmateriel: Back to the list of Biological material
+buton.Back to the list of individu: Back to the list of Specimen
+buton.Back to the list of individulame: Back to the list of Specimen slide
+buton.Back to the list of lotmaterielext: Back to the list of External biological material
+buton.Back to the list of adn: Back to the list of DNA
+buton.Back to the list of pcr: Back to the list of PCR
+buton.Back to the list of chromatogramme: Back to the list of Chromatogram
+buton.Back to the list of pcrchromato: Back to the list of PCR
+buton.Back to the list of sequenceassemblee: Back to the list of Internal sequence
+buton.Back to the list of sequenceassembleeext: Back to the list of External sequence
+buton.Back to the list of motu: Back to the list of MOTU
+buton.Back to the list of boite: Back to the list of Boxes
+buton.Back to the list of source: Back to the list of Sources
+# Headers of the interface buttons
+buton.Add a Chromatogramme: Add chromatogram
+buton.Add a Source: Add source
+buton.Add a CompositionLotMateriel: Add composition of biological material
+buton.Add a EspeceIdentifiee: Add species taxa
+buton.Add a new Commune: Add new Municipality
+buton.Add a SamplingMethod: Add sampling Method
+buton.Add a Fixateur: Add fixative
+buton.Add a Programme: Add program
+buton.Add a new Programme: Add new program
+buton.Add a Personne: Add person
+buton.Add a new Personne: Add new person
+buton.Add a ACibler: Add targeted taxa
+buton.Import adn deplace: Move or delete DNA boxes as file
+buton.Import adn range: Store DNA boxes as file
+buton.Import individu lame deplace: Move or delete slides as file
+buton.Import individu lame range: Store slides as file
+buton.Import lot materiel deplace: Move or delete biological material as file
+buton.Import lot materiel range: Store biological material as file
+buton.NewBoite: Create new box
+buton.Import sqc assemblee publie: Source to sequence as file
+buton.Import lot materiel publie: Source to biological material as file
+buton.ImportSource: Import new set of sources
+buton.NewSource: Create new source
+buton.NewVoc: Create new vocabulary
+buton.NewReferentieltaxon: Add taxon name
+buton.NewPersonne: Create new person
+buton.NewEtablissement: Create new institution
+buton.NewProgramme: Create new program
+buton.NewPays: Create new country
+buton.NewMotu: Create new set of MOTU
+buton.ImportMotu: Import new set of MOTU and related data
+buton.NewSequenceassembleeext: Create new external sequence
+buton.ImportSequenceassembleeext: Import new set of external sequences and related data
+buton.NewSequenceassemblee: Create new sequence
+buton.ImportSequenceassemblee: Import new set of sequences and related data
+buton.NewCommune: Create new municipality
+buton.NewLotmaterielext: Create new external biological material
+buton.ImportLotmaterielext: Import new set of external biological material and related data
+buton.NewStation: Create new site
+buton.ImportStation: Import new set of sites and related data
+buton.NewCollecte: Create new sampling
+buton.ImportCollecte: Import new set of sampling and related data
+buton.NewLotmateriel: Create new biological material
+buton.ImportLotmateriel: Import new set of biological material and related data
+buton.NewIndividu: Create new specimen
+buton.ImportIndividu: Import new set of specimens and related data
+buton.NewIndividulame: Create new slide
+buton.ImportIndividulame: Import new set of slides and related data
+buton.NewAdn: Create new DNA
+buton.ImportAdn: Import new set of DNA and related data
+buton.NewPcr: Create new PCR
+buton.ImportPcr: Import new set of PCR and related data
+buton.NewChromatogramme: Create new chromatogram
+buton.ImportChromatogramme: Import new set of chromatograms and related data
+buton.Valid: Validate
+buton.BackToTheSelection: Back to selection
+buton.BackToTheList: Back to list
+buton.showAllRecord: Show all records
+Envoyer: Import CSV file
+
+# IMPORTFILE SERVICE ERROR MESSAGES ###########################################
+# Error message from the data import procedures (ImportFileE3s)
+importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
+importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
+importfileService.ERROR bad number of columns in CSV file: ERROR - Wrong number of columns in CSV file - cf. GOTIT Help 
+importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain correct column names - cf. GOTIT Help 
+importfileService.ERROR bad data OUI-NON: ERROR - INVALID record { OUI / NON , YES / NO, 1 / 0}
+importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
+importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code, code already exists in database
+importfileService.ERROR bad float format: ERROR - Wrong FLOAT format
+importfileService.ERROR bad date format: ERROR - Wrong date format ( dd / mm / yyyy )
+importfileService.ERROR unknown record: ERROR - UNKNOWN record 
+importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
+importfileService.ERROR assession number already assign: ERROR - Accession number is already assigned to the sequence
+importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a box
+importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
+importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
+importfileService.ERROR lot already store: ERROR - The material is already assigned to a box
+importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
+importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
+importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
+importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lame coll 
+importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
+importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
+importfileService.ERROR bad code: ERROR - UNKNOWN code
+importfileService.Date of data set import: Date of data set import
+importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, please modify your CSV file. Error message is
+importfileService.Import OK: Data import is successful. Number of records Imported
+
+#  LINKS LABELS TO BATCH PROCEDURE #############################################
+import.liste: Upload other set of files 
+import.boite.lotmaterielrange: Store biological material as file
+import.boite.individulamerange: Store slide as file
+import.boite.adnrange: Store DNA box as file
+import.station: Upload Site
+import.collecte: Upload sampling
+import.lotmateriel: Upload biological material
+import.individu: Upload specimen
+import.individulame: Upload specimen slide
+import.lotmaterielext: Upload external biological material
+import.adn: Upload DNA
+import.pcr: Upload PCR
+import.chromatogramme: Upload chromatogram
+import.pcrchromato: Upload PCR and chromatogram
+import.sequenceassemblee: Upload internal sequence
+import.sequenceassembleeext: Upload external sequence
+import.motu: Upload MOTU
+import.source: Upload source
+import.boite.lotmaterieldeplace: Move or delete biological material as file
+import.boite.individulamedeplace: Move or delete slides as file
+import.boite.adndeplace: Move or delete DNA boxes as file
+import.source.lotmaterielpublie:  Source to biological material as file
+import.source.sequencepublie: Source to sequence as file
+import.motu-assigne: MOTU
+
+# TITLES OF THE MENUS  #########################################################
+title.Import Files CSV: Import Files CSV
+title.boiteLOT: Box biological material
+title.boiteLAME: Box specimen slide
+title.boiteADN: Box DNA
+title.boite: Box
+title.Dashboard: Dashboard
+title.Terrain: Field data
+title.station: Site
+title.collecte: Sampling
+title.Analyse morphologique: Morphological analysis
+title.lotmateriel: Biological material
+title.individu: Specimen
+title.individulame: Specimen slide
+title.lotmaterielext: External biological material
+title.Analyses génétiques: Molecular analysis
+title.adn: DNA
+title.pcr: PCR
+title.chromatogramme: Chromatogram
+title.Etude séquençage: DNA Sequence
+title.sequenceassemblee: Internal sequence
+title.sequenceassembleeext: External sequence
+title.motu: MOTU
+title.Stock: Stock
+title.source: Source
+title.Source bibliographique: Source
+title.Référentiels: Repositories
+title.voc: Vocabulary
+title.referentieltaxon: Taxon
+title.personne: Person
+title.pays: Country
+title.commune: Municipality
+title.etablissement: Institution
+title.programme: Program
+
+# HEADINGS OF SELECTION LISTS ##################################################
+Choose a Parent: Select a class of vocabulary
+Choose a typeCollection: Select collection type
+Choose a codeCollection: Select collection code
+Choose a typeBoite: Select box type
+Choose an option: Select an option
+Choose a Motu File: Select MOTU file
+Choose a origineSqcAssExt: Select external sequence origin
+Choose a chromatogramme: Select chromatogram
+Choose a statut: Select status
+Choose a status: Select status
+Choose a Person: Select person
+Choose a Etablissement: Select institution
+Choose a DNA:  Select DNA code
+Choose a gene: Select gene
+Choose a quality: Select quality
+Choose a specificity: Select specificity
+Choose a primer start: Select forward primer
+Choose a primer end: Select reverse primer
+Choose a Country: Select country
+Choose a Commune: Select municipality
+Choose an Habitat Type: Select habitat type
+Choose an Access Point: Select access type
+Choose a GPS Distance Quality: Select coordinate precision
+Choose a Station: Select site
+Choose a Sampling method: Select sampling method
+Choose a Fixateur: Select fixative
+Choose a Program: Select program
+Choose a Taxon: Select taxon
+Choose a Collecte: Select sampling
+Choose a Pigmentation: Select pigmentation
+Choose a Eye: Select vision
+Choose a Box: Select box
+Choose a Type: Select type
+Choose a Lot Materiel: Select biological material
+Choose a Source: Select source
+Choose an individu: Select specimen
+Choose a method: Select method
+Choose a PCR: Select PCR code
+Choose a primer: Select primer
+Choose a socitety: Select institution
+
+# DASHBOARD ####################################################################
+Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence and Taxa in Integrative Taxonomy
+Dashboard.Distribution des stations: Distribution of sites
+Dashboard.Hypothese espece: Species hypotheses
+Dashboard.nbMotuSqcAss: Internal sequence assigned to MOTU
+Dashboard.nbMotuSqcAssExt: External sequence assigned to  MOTU
+Dashboard.nbTaxon: Taxa
+Dashboard.Données de la litérature: Literature data
+Dashboard.LotMaterielExt: Lot
+Dashboard.nbSequenceAssembleeExt: DNA sequence
+Dashboard.nbSource: Reference
+Dashboard.nbLotMateriel: Lot
+Dashboard.Materiel biologique: Biological material
+Dashboard.nbIndividu: Specimen
+Dashboard.nbIndividuLame: Slide
+Dashboard.nbAdn: DNA
+Dashboard.nbBoite: Box
+Dashboard.nbStation: Site
+Dashboard.nbCollecte: Sample
+Dashboard.nbPcr: PCR
+Dashboard.nbChromatogramme: Chromatogram
+Dashboard.nbSequenceAssemblee: DNA Sequence
+Dashboard.Données de terrain: Field data
+Dashboard.Données moléculaire: Molecular data
+Dashboard.LastUpdate: Last updates
+Dashboard.Tools: Tools
+
+# OTHER ########################################################################
+NO: NO
+YES: YES
+legales_mentions: Legal notices
+Switch version: Switch version
+modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
+# PopUp alert messages related to date management
+alert.datePrecisionINCONNU:  date fields must be left blank 
+alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
+alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
+alert.datePrecisionJOUR:  All date fields have to be filled with the format DD-MM-YYYY
+alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,12] YYYY=[1000,2999]
+
+
+# GOTIT DATABASE  ##############################################################
+# GOTIT Database Field Titles
 A faire: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
@@ -418,6 +617,7 @@ Libelle: Title
 Libelle boite: Box title
 Libelle collection: Collection title
 Libelle lame: Slide title
+Libelle motu: MOTU title
 Libelle source: Source title
 Long deg dec: Longitude Dec Deg
 Lot materiel ext fk: External biological material
@@ -485,48 +685,6 @@ User cre: Creation user name
 User maj: Updating user name
 Validity: Taxon validity
 Yeux voc fk: Vision
-
-# Intitules des listes de selection
-Choose a typeCollection: Select collection type
-Choose a codeCollection: Select collection code
-Choose a typeBoite: Select box type
-Choose an option: Select an option
-Choose a Motu File: Select MOTU file
-Choose a origineSqcAssExt: Select external sequence origin
-Choose a chromatogramme: Select chromatogram
-Choose a statut: Select status
-Choose a status: Select status
-Choose a Person: Select person
-Choose a Etablissement: Select institution
-Choose a DNA:  Select DNA code
-Choose a gene: Select gene
-Choose a quality: Select quality
-Choose a specificity: Select specificity
-Choose a primer start: Select forward primer
-Choose a primer end: Select reverse primer
-Choose a Country: Select country
-Choose a Commune: Select municipality
-Choose an Habitat Type: Select habitat type
-Choose an Access Point: Select access type
-Choose a GPS Distance Quality: Select coordinate precision
-Choose a Station: Select site
-Choose a Sampling method: Select sampling method
-Choose a Fixateur: Select fixative
-Choose a Program: Select program
-Choose a Taxon: Select taxon
-Choose a Collecte: Select sampling
-Choose a Pigmentation: Select pigmentation
-Choose a Eye: Select vision
-Choose a Box: Select box
-Choose a Type: Select type
-Choose a Lot Materiel: Select biological material
-Choose a Source: Select source
-Choose an individu: Select specimen
-Choose a method: Select method
-Choose a PCR: Select PCR code
-Choose a primer: Select primer
-Choose a socitety: Select institution
-
 # intitules des collections ou tableaux relatifs aux tables relationnelles de type N-N
 Source a ete integre pars: is integrated by
 Adns: DNA
@@ -555,146 +713,21 @@ A pour fixateurs: Fixative
 Est finance pars: Funding program
 Est effectue pars: Is done by
 A ciblers: Targeted taxa
-No: No
-Yes: Yes
+
+# USER BUNDLE  #################################################################
+# table User_db
+Username: Username
+Password: Password (8 char min)
+Repeat Password: Repeat Password
+Email: Email address
+Role: Role
+Name: User full name
+Institution: Institution
+Commentaire user: User comments
+Locale: Version
+buton.NewUser: Create a new User
+title.user: User
+list.User cre: User Create
+list.User maj: User Update
+title.Personne: Person
 Personne: Person
-
-# Intitules des boutons de l'interface
-buton.Add a Chromatogramme: Add chromatogram
-buton.Add a Source: Add source
-buton.Add a CompositionLotMateriel: Add composition of biological material
-buton.Add a EspeceIdentifiee: Add species taxa
-buton.Add a new Commune: Add new Municipality
-buton.Add a SamplingMethod: Add sampling Method
-buton.Add a Fixateur: Add fixative
-buton.Add a Programme: Add program
-buton.Add a new Programme: Add new program
-buton.Add a Personne: Add person
-buton.Add a new Personne: Add new person
-buton.Add a ACibler: Add targeted taxa
-buton.Import adn deplace: Move or delete DNA boxes as file
-buton.Import adn range: Store DNA boxes as file
-buton.Import individu lame deplace: Move or delete slides as file
-buton.Import individu lame range: Store slides as file
-buton.Import lot materiel deplace: Move or delete biological material as file
-buton.Import lot materiel range: Store biological material as file
-buton.NewBoite: Create new box
-buton.Import sqc assemblee publie: Source to sequence as file
-buton.Import lot materiel publie: Source to biological material as file
-buton.ImportSource: Import new set of sources
-buton.NewSource: Create new source
-buton.NewVoc: Create new vocabulary
-buton.NewReferentieltaxon: Add taxon name
-buton.NewPersonne: Create new person
-buton.NewEtablissement: Create new institution
-buton.NewProgramme: Create new program
-buton.NewPays: Create new country
-buton.NewMotu: Create new set of MOTU
-buton.ImportMotu: Import new set of MOTU and related data
-buton.NewSequenceassembleeext: Create new external sequence
-buton.ImportSequenceassembleeext: Import new set of external sequences and related data
-buton.NewSequenceassemblee: Create new sequence
-buton.ImportSequenceassemblee: Import new set of sequences and related data
-buton.NewCommune: Create new municipality
-buton.NewLotmaterielext: Create new external biological material
-buton.ImportLotmaterielext: Import new set of external biological material and related data
-buton.NewStation: Create new site
-buton.ImportStation: Import new set of sites and related data
-buton.NewCollecte: Create new sampling
-buton.ImportCollecte: Import new set of sampling and related data
-buton.NewLotmateriel: Create new biological material
-buton.ImportLotmateriel: Import new set of biological material and related data
-buton.NewIndividu: Create new specimen
-buton.ImportIndividu: Import new set of specimens and related data
-buton.NewIndividulame: Create new slide
-buton.ImportIndividulame: Import new set of slides and related data
-buton.NewAdn: Create new DNA
-buton.ImportAdn: Import new set of DNA and related data
-buton.NewPcr: Create new PCR
-buton.ImportPcr: Import new set of PCR and related data
-buton.NewChromatogramme: Create new chromatogram
-buton.ImportChromatogramme: Import new set of chromatograms and related data
-buton.Valid: Validate
-buton.BackToTheSelection: Back to selection
-buton.BackToTheList: Back to list
-buton.showAllRecord: Show all records
-Envoyer: Import CSV file
-
-# intitules des colonnes des listes d'enregistrements
-list.Date creation sqc ass ext: Date creation
-list.Accession number sqc ass ext: Ext. Acc. Number
-list.Accession number: Acc. Number
-list.List source: Source(s)
-list.List code adn: List of DNA code(s)
-list.Date creation lot materiel: Date creation
-list.lastCodeSeqAss: Last sequence code
-list.lastStatutSeqAss: Last status 
-list.lastCodeSeqAlignement: Last alignment code
-list.lastDateSeqAss: Last sequence date
-list.Date maj: Date Up
-list.Date cre: Date Cre
-list.Lat deg dec: Latitude
-list.Long deg dec: Longitude
-list.Liste taxons: List of taxa
-list.Liste personnes: List of person(s)
-list.Last taxname: Last taxon name
-list.Last identification date: Last id. date
-list.Last identification critere: Last id. criterion
-
-# Titres des pages
-title.boite: Box
-title.Dashboard: Dashboard
-title.Terrain: Field data
-title.station: Site
-title.collecte: Sampling
-title.Analyse morphologique: Morphological analysis
-title.lotmateriel: Biological material
-title.individu: Specimen
-title.individulame: Specimen slide
-title.lotmaterielext: External biological material
-title.Analyses génétiques: Molecular analysis
-title.adn: DNA
-title.pcr: PCR
-title.chromatogramme: Chromatogram
-title.Etude séquençage: DNA Sequence
-title.sequenceassemblee: Internal sequence
-title.sequenceassembleeext: External sequence
-title.motu: MOTU
-title.Stock: Stock
-title.source: Source
-title.Source bibliographique: Source
-title.Référentiels: Repositories
-title.voc: Vocabulary
-title.referentieltaxon: Taxon
-title.personne: Person
-title.pays: Country
-title.commune: Municipality
-title.etablissement: Institution
-title.programme: Program
-
-# messages d'alerte relatif a la gestion des dates
-alert.datePrecisionINCONNU:  date fields must be left blank 
-alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
-alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
-alert.datePrecisionJOUR:  All date fields have to be filled with the format DD-MM-YYYY
-alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,12] YYYY=[1000,2999]
-
-# menus de la liste deroulante "Go to Import other set of files " des formulaires d'import des fichiers csv
-import.liste: Upload other set of files 
-import.boite.lotmaterielrange: Store biological material as file
-import.boite.individulamerange: Store slide as file
-import.boite.adnrange: Store DNA box as file
-import.station: Upload Site
-import.collecte: Upload sampling
-import.lotmateriel: Upload biological material
-import.individu: Upload specimen
-import.individulame: Upload specimen slide
-import.lotmaterielext: Upload external biological material
-import.adn: Upload DNA
-import.pcr: Upload PCR
-import.chromatogramme: Upload chromatogram
-import.pcrchromato: Upload PCR and chromatogram
-import.sequenceassemblee: Upload internal sequence
-import.sequenceassembleeext: Upload external sequence
-import.motu: Upload MOTU
-import.source: Upload source

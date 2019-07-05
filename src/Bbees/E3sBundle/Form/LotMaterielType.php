@@ -85,8 +85,8 @@ class LotMaterielType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
-                ->add('aFaire', ChoiceType::class, array('choices'  => array('No' => 0, 'Yes' => 1,), 'required' => true,
-                      'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
+                ->add('aFaire', ChoiceType::class, array('choices'  => array('NO' => 0, 'YES' => 1,), 'required' => true,
+                      'choice_translation_domain' => true, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
                     ))
                 ->add('commentaireConseilSqc')
                 ->add('commentaireLotMateriel')

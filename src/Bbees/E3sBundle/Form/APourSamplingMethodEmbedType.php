@@ -38,7 +38,7 @@ class APourSamplingMethodEmbedType extends AbstractType
                                     ->setParameter('parent', 'samplingMethod')
                                     ->orderBy('voc.libelle', 'ASC');
                             }, 
-                        'choice_translation_domain' => true,'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
+                        'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
                         'placeholder' => 'Choose a Sampling method',)
                     );
     }

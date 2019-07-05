@@ -25,7 +25,14 @@
             <tr>
                 <th data-column-id="voc.id" data-type="numeric" data-visible="false" >Id</th>
                 <th data-column-id="voc.code" data-sortable="true">{{'Code'|trans}}</th> 
-                <th data-column-id="voc.libelle" data-sortable="true">{{'Libelle'|trans}}</th> 
+                <th data-column-id="voc.libelle" data-sortable="true">{{'list.vocLibelle'|trans}}</th> 
+                {% set locale = app.request.getLocale() %}
+                {% set defaultLocale = app.request.getDefaultLocale() %}
+                {% if second_language != '' %}
+                    {% if locale != defaultLocale %} 
+                        <th data-column-id="voc.libelleSecondLanguage" data-sortable="true" data-visible="true">{{'list.vocLibelleSecondLanguage'|trans}}</th>
+                    {% endif %}
+                {% endif %}
                 <th data-column-id="voc.parent" data-sortable="true">{{'Parent'|trans}}</th> 
                 <th data-column-id="voc.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
                 <th data-column-id="voc.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>

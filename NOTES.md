@@ -22,3 +22,11 @@ A Symfony project created on 03/12/2018 : Publish Version 1.1
 - ajout form-theme : colorisation en bleu des champs obligatoire
 - ajout licence GNU GPL3 (Controller)
 - internationalisation des controller
+
+updated 05/07/2019 : Version 1.1.1
+
+- Add a field in english version of the vocabulary list with the translation of the title (label) store in the database (see translations in message.en.yml - vocParent.*)
+- Add a selected list for the class of vocabulary (field "parent" from Voc entity) in the vocabulary form (VocType.php). The selected list labels are defined in messages.fr.yml/messages.en.yml for fr/en langages (/views/voc)
+- Better english integration for YES/NO (0/1) fields in forms (see Sampling and Lot forms) 
+- Modify the import scripts to accept YES and NO values (or 1 and 0)  ​for the status field of the Sampling and Biological material tables (see importFileE3s services)
+- Reorganization and English comments of dictionaries (messages.fr.yml, messages.en.yml) for better readability and use in English version
