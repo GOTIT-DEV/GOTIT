@@ -214,7 +214,7 @@ list.linkChromatogramme: Chr(s)
 list.linkCollecte: Sam
 # Columns headings 
 list.vocLibelle: Title (database)
-list.vocLibelleSecondLanguage: Title (translation)
+list.vocLibelleSecondLanguage: Title (En. translation)
 list.Date creation sqc ass ext: Date creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number

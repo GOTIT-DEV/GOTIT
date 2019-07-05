@@ -213,7 +213,8 @@ list.linkIndividu_codestation: Ind/St
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Col
 # Columns headings 
-list.vocLibelle: Libelle
+list.vocLibelle: Libelle (bdd)
+list.vocLibelleSecondLanguage: Libelle (traduction fr)
 list.Date creation sqc ass ext: Date de creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
