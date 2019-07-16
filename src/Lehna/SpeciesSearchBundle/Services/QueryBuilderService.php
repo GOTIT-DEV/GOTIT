@@ -328,7 +328,7 @@ class QueryBuilderService {
     return $res;
   }
 
-  public function getSpeciesGeoDetails($id, $co1 = -1) {
+  public function getSpeciesGeoDetails($id, $co1 = false) {
 
     if ($co1) {
       $station_subquery = "SELECT DISTINCT

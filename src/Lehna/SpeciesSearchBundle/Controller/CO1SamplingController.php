@@ -57,7 +57,7 @@ class CO1SamplingController extends Controller {
     $data = $request->request;
 
     # fetch sampling data
-    $all_sta = $service->getSpeciesGeoSummary($data);
+    $all_sta = $service->getSpeciesGeoSummary($data, $coi = false);
     $coi_sta = $service->getSpeciesGeoSummary($data, $coi = true);
 
     # merge specimen sampling data and COI sampling data 
@@ -82,7 +82,7 @@ class CO1SamplingController extends Controller {
     $res = array_values($all_sta);
 
     # return JSON response
-    return new JsonResponse(array('rows' => $res));
+    return new JsonResponse($res);
   }
 
   /**

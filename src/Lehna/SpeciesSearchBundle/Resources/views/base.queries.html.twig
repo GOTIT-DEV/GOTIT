@@ -6,8 +6,12 @@
   <link href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
   <!-- Bootstrap select -->
   <link href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+  <!-- Bootstrap slider -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css" integrity="sha256-G3IAYJYIQvZgPksNQDbjvxd/Ca1SfCDFwu2s2lt0oGo=" crossorigin="anonymous" />
   <!-- Datatables -->
   <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
+  <!-- Leaflet style -->
+  <link href="{{ asset('e3s/vendors/leaflet/leaflet.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
   <link href="{{ asset('bundles/lehnaspeciessearch/css/queries.css') }}" rel="stylesheet">
   <!-- Datatables Style -->
@@ -16,8 +20,13 @@
 {% endblock %}
 
 {% block headincl %}
-  <!-- Plotly -->
+  <!-- Plotly and Leaflet for maps-->
   <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
+  <script src="{{ asset('e3s/vendors/leaflet/leaflet.js') }}"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
+    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
+    crossorigin=""></script>
+
 {% endblock %}
 
 {% block titlepage %}
@@ -53,6 +62,9 @@
   <script src="{{ asset('e3s/vendors/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
   <!-- Mustache templating engine -->
   <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
+  <!-- Bootstrap slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js">
+  </script>
   <!-- Custom Scripts -->
   <script src="{{ asset('bundles/lehnaspeciessearch/js/queries.js') }}"></script>
 

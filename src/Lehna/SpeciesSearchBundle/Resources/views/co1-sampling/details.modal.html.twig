@@ -2,24 +2,45 @@
 
 {% extends "@LehnaSpeciesSearch/base.modal.html.twig" %}
 {% block modal_title %}
-  {{ taxname }}
+    {{ taxname }}
 {% endblock %}
 
 {% block modal_body %}
-  <div class="geo-container">
-    <div id="station-geo-map" style="width:100%"></div>
-    <div class="geo-overlay">
-      <i class="fa fa-spinner fa-spin fa-4x"></i>
+    <div class="geo-container">
+        <div id="station-geo-map" style="height:70vh;width:100%"></div>
+        {# <div class="geo-overlay">
+                                                      <i class="fa fa-spinner fa-spin fa-4x"></i>
+                                                    </div> #}
     </div>
-  </div>
+{% endblock %}
+
+{% block modal_footer %}
+    <form class="modal-footer-form">
+            <label class="control-label">
+                Marker radius
+            </label>
+            <input data-slider-id='marker-radius-slider' data-slider-max="12" data-slider-min="3" data-slider-step="1" data-slider-value="5" id="marker-radius-slider" type="text"/>
+
+            <label class="control-label">
+                opacity
+            </label>
+            <input data-slider-id='marker-opacity-slider' data-slider-max="1" data-slider-min="0.5" data-slider-step="0.05" data-slider-value="1" id="marker-opacity-slider" type="text"/>
+
+    </form>
 {% endblock %}
 
 {% block extra_templates %}
-  <template id="details-modal-title">
-    {% trans from 'queries' %}
-    queries.echantillonnage.title
-    {% endtrans %}
-    :
-    {{"{{taxname}}"}}
-  </template>
+    <template id="details-modal-title">
+        {% trans from 'queries' %}
+        queries.echantillonnage.title
+        {% endtrans %}
+        :
+        {{"{{taxname}}"}}
+    </template>
+
+    <template id="dashed-circle-svg">
+        <svg height="16px" style="vertical-align:middle" width="16px">
+            <circle cx="8" cy="8" fill="none" r="5" stroke-dasharray="3" stroke-width="3" stroke="cyan"/>
+        </svg>
+    </template>
 {% endblock %}
