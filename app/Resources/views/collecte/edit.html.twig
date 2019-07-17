@@ -160,12 +160,12 @@
                 codeCollecte = nomStation + '_';
                 var valueDatePrecision = $('input:checked').val();
                 var datePrecision = $('label[for=bbees_e3sbundle_collecte_datePrecisionVocFk_'+valueDatePrecision+']').text().trim();
-                var dateCollecteMonth = $('#bbees_e3sbundle_collecte_dateCollecte_month').val();
+                var dateCollecteMonth = parseInt($('#bbees_e3sbundle_collecte_dateCollecte_month').val());
                 dateCollecteMonth =  (dateCollecteMonth < 10) ? '0'+dateCollecteMonth.toString() : dateCollecteMonth.toString();
                 var dateCollecteYear = $('#bbees_e3sbundle_collecte_dateCollecte_year').val();
-                if (datePrecision == '{{'INCONNU'|trans}}') {codeCollecte = codeCollecte + '000000';}
-                if (datePrecision == '{{'ANNEE'|trans}}' ) {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
-                if (datePrecision == '{{'MOIS'|trans}}' || datePrecision == '{{'JOUR'|trans}}') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}
+                if (datePrecision == '{{'INCONNU'|trans}}' || datePrecision == '{{'NOT KNOWN'|trans}}' ) {codeCollecte = codeCollecte + '000000';}
+                if (datePrecision == '{{'ANNEE'|trans}}' || datePrecision == '{{'YEAR'|trans}}') {  codeCollecte = codeCollecte + dateCollecteYear + '00';  }         
+                if (datePrecision == '{{'MOIS'|trans}}' || datePrecision == '{{'JOUR'|trans}}' || datePrecision == '{{'MONTH'|trans}}' || datePrecision == '{{'DAY'|trans}}') {codeCollecte = codeCollecte + dateCollecteYear + dateCollecteMonth;}                
                 //alert('change on click: '+datePrecision+'-'+dateCollecteYear);
                 $('#bbees_e3sbundle_collecte_codeCollecte').val(codeCollecte);
             }

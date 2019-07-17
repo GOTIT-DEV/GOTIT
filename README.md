@@ -51,7 +51,7 @@ At last, GOTIT is implemented and distributed following public license practices
 - Version 1.0 was produced in October 2018
 - Version 1.1 with full documentation was released on February 2019
 - A demo version of GOTIT was made available at [https://gotit.cnrs.fr](https://gotit.cnrs.fr) on March 2019
-- We anticipate to release an uggraded version 1.2 of GOTIT in 2020.
+- We anticipate to release an uggraded version of GOTIT current 2020/2021
 
 ----
 

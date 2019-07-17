@@ -68,7 +68,6 @@ class ImportFileE3s
             ->getResult();
             $flagAdn = count($query_adn);
             if ($flagAdn == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_adn"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-            //$query_boite
             $flagBoite = 1;
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
@@ -140,7 +139,6 @@ class ImportFileE3s
             ->getResult();
             $flagAdn = count($query_adn);
             if ($flagAdn == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_adn"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-            //$query_boite
             $flagBoite = 1;
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
@@ -210,7 +208,6 @@ class ImportFileE3s
             ->getResult();
             $flagLame = count($query_lame);
             if ($flagLame == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_lame_coll"].'</b>  <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-            //$query_boite
             $flagBoite = 1;
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
@@ -281,7 +278,6 @@ class ImportFileE3s
             ->getResult();
             $flagLame = count($query_lame);
             if ($flagLame == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_lame_coll"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-            //$query_boite
             $flagBoite = 1;
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
@@ -351,7 +347,6 @@ class ImportFileE3s
             ->getResult();
             $flagLot = count($query_lot);
             if ($flagLot == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_lot_materiel"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
-            //$query_boite
             $flagBoite = 1;
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
@@ -488,7 +483,6 @@ class ImportFileE3s
             ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
             ->getQuery()
             ->getResult();
-            //$query_source
             $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
             ->where('source.codeSource LIKE :code_source')
             ->setParameter('code_source', $data["source.code_source"])
@@ -564,7 +558,6 @@ class ImportFileE3s
             ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
             ->getQuery()
             ->getResult();
-            //$query_source
             $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
             ->where('source.codeSource LIKE :code_source')
             ->setParameter('code_source', $data["source.code_source"])
@@ -653,9 +646,8 @@ class ImportFileE3s
                         }
                     }
                     
-                    // we adapt the format of types float
+                    // control and standardization of field formats
                     if ($ColCsv == 'source.annee_source' && !is_null($dataColCsv)) {$dataColCsv = intval(str_replace(",", ".", $dataColCsv));}
-                    // we adapt the date formats
                     $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                     $entity->$method($dataColCsv);                     
                 }
@@ -665,7 +657,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     if (!is_null($dataColCsv)) {
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -717,7 +709,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\SourceAEteIntegrePar();
                         $method = "setSourceFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -784,7 +776,7 @@ class ImportFileE3s
         foreach($csvData as $l => $data){ // 1- Line-to-line data processing ($ l)
             $compt++;   
             $flag_new_pcr = 1;
-            # Enregistrement des données de pcr
+            # Records of pcr data
             $entity = new \Bbees\E3sBundle\Entity\Pcr();    
             // 
             foreach($columnByTable["pcr"] as $ColCsv){  
@@ -803,7 +795,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         } 
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'pcr.date_pcr' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y 
                         if ($dataColCsv != ''){
@@ -836,7 +828,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -894,7 +886,7 @@ class ImportFileE3s
                            $entityRel = new \Bbees\E3sBundle\Entity\PcrEstRealisePar();
                            $method = "setPcrFk";
                            $entityRel->$method($entity);
-                           // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                            $varfield_parent = strstr($varfield, 'Voc', true);
                            if (!$varfield_parent) {
                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -942,7 +934,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     // save the values ​​of the field
                     $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                     $entityRel->$method($dataColCsv);                     
@@ -952,7 +944,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -1001,7 +993,7 @@ class ImportFileE3s
     /**
     *  importCSVDataPcr($fichier, $userId = null)
     *  $fichier : path to the download csv file 
-    *  NOTE : the template of csv file to import is PCR
+    *  NOTE : the template of csv file to import PCR
     */ 
     public function importCSVDataPcr($fichier, $userId = null)
     {
@@ -1015,7 +1007,7 @@ class ImportFileE3s
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');       
         foreach($csvData as $l => $data){ // 1- Line-to-line data processing ($ l)
             $compt++;   
-            # Enregistrement des données de pcr
+            # Record PCR data
             $entity = new \Bbees\E3sBundle\Entity\Pcr();    
             foreach($columnByTable["pcr"] as $ColCsv){  
                 $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field');   
@@ -1032,7 +1024,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         } 
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'pcr.date_pcr' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -1065,7 +1057,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -1090,7 +1082,7 @@ class ImportFileE3s
                    }
                 }                
             }
-            // persist de la pcr (1 pcr /ligne)
+            // persist the PCR (1 pcr /line)
             $entity->setDateCre($DateImport);
             $entity->setDateMaj($DateImport);
             $entity->setUserCre($userId);
@@ -1116,7 +1108,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\PcrEstRealisePar();
                        $method = "setPcrFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1177,7 +1169,7 @@ class ImportFileE3s
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');           
         foreach($csvData as $l => $data){ // 1- Line-to-line data processing ($ l)
             $compt++;   
-            # Record of chromatogramme   
+            # Record of the chromatogram   
             $entity = new \Bbees\E3sBundle\Entity\Chromatogramme();            
             foreach($columnByTable["chromatogramme"] as $ColCsv){  
                 $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field');   
@@ -1195,7 +1187,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     // save the values ​​of the field
                     $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                     $entity->$method($dataColCsv);                     
@@ -1205,7 +1197,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -1290,9 +1282,9 @@ class ImportFileE3s
                         }
                     }
                     
-                    // we adapt the format of types float
+                    // control and standardization of field formats
                     if ($ColCsv == 'adn.concentration_ng_microlitre' && !is_null($dataColCsv)) {$dataColCsv = floatval(str_replace(",", ".", $dataColCsv));}
-                    // we adapt the date formats
+                    // test of the date format
                     if ($ColCsv == 'adn.date_adn' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if (!is_null($dataColCsv)){
@@ -1324,7 +1316,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     if (!is_null($dataColCsv)) {
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -1375,7 +1367,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\AdnEstRealisePar();
                         $method = "setAdnFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1519,7 +1511,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$dataColCsv."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // on adapte les format 
+                    // control and standardization of field formats 
                     if ($ColCsv == 'collecte.conductivite_micro_sie_cm' || $ColCsv == 'collecte.temperature_c') {
                         if ($dataColCsv != '') {
                             $dataColCsv = floatval(str_replace(",", ".", $dataColCsv));
@@ -1539,7 +1531,7 @@ class ImportFileE3s
                         if ($dataColCsv != '') {
                             if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {$dataColCsv = 1 ;}
                             if ($dataColCsv == 'NON' || $dataColCsv == 'NO' || $dataColCsv == '0') {$dataColCsv = 0 ;}
-                            if ($dataColCsv != 1 && $dataColCsv != 0) {
+                            if ($dataColCsv !== 1 && $dataColCsv !== 0) {
                                 $message .= $this->translator->trans('importfileService.ERROR bad data OUI-NON').'<b> : '.$ColCsv."/ ".$data[$ColCsv]."</b>  <br> ligne ".(string)($l+2).": ".join(';', $data)."<br>";    
                             }
                         } else {
@@ -1576,7 +1568,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    // var_dump($varfield); var_dump($varfield_parent); var_dump($field);
                    if (!$varfield_parent) {
@@ -1627,7 +1619,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\ACibler();
                         $method = "setCollecteFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1678,7 +1670,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\APourFixateur();
                         $method = "setCollecteFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1722,7 +1714,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\APourSamplingMethod();
                         $method = "setCollecteFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1766,7 +1758,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\EstEffectuePar();
                         $method = "setCollecteFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1810,7 +1802,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\EstFinancePar();
                         $method = "setCollecteFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -1888,7 +1880,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'individu_lame.date_lame' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -1922,7 +1914,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     if (!is_null($dataColCsv)) { 
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -1974,7 +1966,7 @@ class ImportFileE3s
                        $method = "setIndividuLameFk";
                        $entityRel->$method($entity);
                        if (!is_null($val_foreign_field) && $val_foreign_field != '') { 
-                            // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2066,7 +2058,6 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats des champs DATE ou FLOAT
                     // save the values ​​of the field
                     $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                     $entity->$method($dataColCsv);                     
@@ -2077,7 +2068,7 @@ class ImportFileE3s
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                    if (!is_null($dataColCsv)) { 
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -2128,7 +2119,7 @@ class ImportFileE3s
                    $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag to know if 1) it is a foreign key                 
                    if (!$flag_foreign) { 
                        $varfield = explode(".", $field)[1];
-                       // we adapt the formats
+                       // control and standardization of field formats
                        if ($ColCsv == 'espece_identifiee.date_identification' ) {
                            // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                            if (!is_null($dataColCsv)){
@@ -2161,7 +2152,7 @@ class ImportFileE3s
                        $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                        $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                        if (!is_null($dataColCsv)) { 
-                            // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -2216,7 +2207,7 @@ class ImportFileE3s
                            $method = "setEspeceIdentifieeFk";
                            $entityRel->$method($entityEspeceIdentifie);
                            if (!is_null($val_foreign_field) && $val_foreign_field != '') { 
-                               // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                                $varfield_parent = strstr($varfield, 'Voc', true);
                                if (!$varfield_parent) {
                                  $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2310,7 +2301,7 @@ class ImportFileE3s
                        $linker = explode('.', trim($foreign_content[0],"()"));  
                        $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                        $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -2393,7 +2384,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'lot_materiel.date_lot_materiel' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -2418,6 +2409,17 @@ class ImportFileE3s
                           $dataColCsv = NULL;  
                         }
                     }
+                    if ($ColCsv == 'lot_materiel.a_faire') { 
+                        if ($dataColCsv != '') {
+                            if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {$dataColCsv = 1 ;}
+                            if ($dataColCsv == 'NON' || $dataColCsv == 'NO' || $dataColCsv == '0') {$dataColCsv = 0 ;}
+                            if ($dataColCsv !== 1 && $dataColCsv !== 0) {
+                                $message .= $this->translator->trans('importfileService.ERROR bad data OUI-NON').'<b> : '.$ColCsv."/ ".$data[$ColCsv]."</b>  <br> ligne ".(string)($l+2).": ".join(';', $data)."<br>";    
+                            }
+                        } else {
+                            $dataColCsv = NULL; 
+                        }
+                    }
                     // save the values ​​of the field
                     $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                     $entity->$method($dataColCsv);                     
@@ -2427,7 +2429,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -2480,7 +2482,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\LotMaterielEstRealisePar();
                         $method = "setLotMaterielFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2531,7 +2533,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\LotEstPublieDans();
                         $method = "setLotMaterielFk";
                         $entityRel->$method($entity);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2620,7 +2622,7 @@ class ImportFileE3s
                 $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag to know if 1) it is a foreign key                 
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'espece_identifiee.date_identification' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -2655,7 +2657,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     $val_foreign_field = trim($dataColCsv);
-                    // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2705,7 +2707,7 @@ class ImportFileE3s
                         $entityRel = new \Bbees\E3sBundle\Entity\EstIdentifiePar();
                         $method = "setEspeceIdentifieeFk";
                         $entityRel->$method($entityEspeceIdentifie);
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -2897,7 +2899,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     if (!is_null($dataColCsv)) {
-                        // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -2948,7 +2950,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\MotuEstGenerePar();
                        $method = "setMotuFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3080,7 +3082,7 @@ class ImportFileE3s
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
                         }
-                        // we adapt the formats
+                        // control and standardization of field formats
                         // save the values ​​of the field
                         $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                         $entity->$method($dataColCsv);                     
@@ -3213,7 +3215,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'sequence_assemblee_ext.date_creation_sqc_ass_ext' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -3247,7 +3249,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -3297,7 +3299,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\SqcExtEstRealisePar;
                        $method = "setSequenceAssembleeExtFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3348,7 +3350,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\SqcExtEstReferenceDans();
                        $method = "setSequenceAssembleeExtFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3394,7 +3396,7 @@ class ImportFileE3s
                 $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag to know if 1) it is a foreign key                 
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'espece_identifiee.date_identification' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -3429,7 +3431,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     $val_foreign_field = trim($dataColCsv);
-                    // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3479,7 +3481,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\EstIdentifiePar();
                        $method = "setEspeceIdentifieeFk";
                        $entityRel->$method($entityEspeceIdentifie);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3564,7 +3566,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'lot_materiel_ext.date_creation_lot_materiel_ext' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -3598,7 +3600,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -3648,7 +3650,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\LotMaterielExtEstRealisePar;
                        $method = "setLotMaterielExtFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3699,7 +3701,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\LotMaterielExtEstReferenceDans();
                        $method = "setLotMaterielExtFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3745,7 +3747,7 @@ class ImportFileE3s
                 $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag to know if 1) it is a foreign key                 
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'espece_identifiee.date_identification' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -3780,7 +3782,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     $val_foreign_field = trim($dataColCsv);
-                    // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3830,7 +3832,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\EstIdentifiePar();
                        $method = "setEspeceIdentifieeFk";
                        $entityRel->$method($entityEspeceIdentifie);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -3925,7 +3927,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -4043,7 +4045,7 @@ class ImportFileE3s
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$dataColCsv."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'sequence_assemblee.date_creation_sqc_ass' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -4076,7 +4078,7 @@ class ImportFileE3s
                    $linker = explode('.', trim($foreign_content[0],"()"));  
                    $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                    $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
-                   // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                   //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -4126,7 +4128,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\SequenceAssembleeEstRealisePar();
                        $method = "setSequenceAssembleeFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -4177,7 +4179,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\SqcEstPublieDans();
                        $method = "setSequenceAssembleeFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -4228,7 +4230,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\EstAligneEtTraite();
                        $method = "setSequenceAssembleeFk";
                        $entityRel->$method($entity);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -4274,7 +4276,7 @@ class ImportFileE3s
                 $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content);  // flag to know if 1) it is a foreign key                 
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
-                    // we adapt the formats
+                    // control and standardization of field formats
                     if ($ColCsv == 'espece_identifiee.date_identification' ) {
                         // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
                         if ($dataColCsv != ''){
@@ -4309,7 +4311,7 @@ class ImportFileE3s
                     $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                     $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                     $val_foreign_field = trim($dataColCsv);
-                    // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -4359,7 +4361,7 @@ class ImportFileE3s
                        $entityRel = new \Bbees\E3sBundle\Entity\EstIdentifiePar();
                        $method = "setEspeceIdentifieeFk";
                        $entityRel->$method($entityEspeceIdentifie);
-                       // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                       //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
@@ -4578,7 +4580,7 @@ class ImportFileE3s
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
                         }
-                        // we adapt the formats
+                        // control and standardization of field formats
                         // save the values ​​of the field
                         $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                         $entity->$method($dataColCsv);                     
@@ -4589,7 +4591,7 @@ class ImportFileE3s
                         $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                         $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                         if (!is_null($dataColCsv)) { 
-                            // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
@@ -4681,7 +4683,7 @@ class ImportFileE3s
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
                         }
-                        // we adapt the formats
+                        // control and standardization of field formats
                         // save the values ​​of the field
                         $method =  $importFileCsvService->TransformNameForSymfony($varfield,'set');
                         $entity->$method($dataColCsv);                     
@@ -4692,7 +4694,7 @@ class ImportFileE3s
                         $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0],'table'); 
                         $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1],'field'); 
                         if (!is_null($dataColCsv)) { 
-                            // We test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
