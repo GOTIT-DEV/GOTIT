@@ -71,11 +71,11 @@ class MotuDistribution {
     self.geoPlot.plot(response.rows)
     // Loading overlay and tab switching events
     $('#table-tab a ').on('shown.bs.tab', _ => {
-      scrollTo('#resultats', 500)
+      scrollToElement('#resultats', 500)
       $(".geo-overlay").hide()
     })
     $("#geolocation-tab a ").on('shown.bs.tab', _ => {
-      scrollTo('#resultats', 500)
+      scrollToElement('#resultats', 500)
       self.geoPlot.resize()
     })
     self.geoPlot.resize()

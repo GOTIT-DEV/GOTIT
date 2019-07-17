@@ -303,7 +303,7 @@ function fetchCurrentUser() {
  * @param {string} elt_id target element selector
  * @param {int} time animation time in ms
  */
-function scrollTo(elt_id, time = 1000) {
+function scrollToElement(elt_id, time = 1000) {
   $('html, body').animate({
     scrollTop: $(elt_id).offset().top
   }, time);
