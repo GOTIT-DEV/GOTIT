@@ -49,7 +49,7 @@ class BasePlot {
       Plotly.Plots.resize(this.gd)
   }
 
-  plot() {}
+  plot() { }
 }
 
 /**
@@ -153,7 +153,7 @@ class BarPlot extends BasePlot {
       this.layout, // layout options
       {
         scrollZoom: false,
-        displaylogo: false, 
+        displaylogo: false,
         modeBarButtonsToRemove: [ // remove unwanted control buttons 
           'sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d',
           'zoom2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d'
@@ -431,15 +431,15 @@ class SamplingGeoPlot extends BaseGeoPlot {
       hover: []
     }
     json.reduce((currentCoords, row) => {
-      currentCoords.latitude.push(row['latitude']),
-        currentCoords.longitude.push(row['longitude']),
-        currentCoords.hover.push([
-          row['code_station'],
-          "Coords:" + row['latitude'] + ";" + row['longitude'],
-          "Alt:" + row['altitude'] + "m",
-          row['commune'],
-          row['pays']
-        ].join("<br>"))
+      currentCoords.latitude.push(row['latitude'])
+      currentCoords.longitude.push(row['longitude'])
+      currentCoords.hover.push([
+        row['code_station'],
+        "Coords:" + row['latitude'] + ";" + row['longitude'],
+        "Alt:" + row['altitude'] + "m",
+        row['commune'],
+        row['pays']
+      ].join("<br>"))
       return currentCoords
     }, coords)
 

@@ -18,58 +18,55 @@
 /* **************************
  *  Document ready
  **************************** */
-$(document).ready(_ => {
+// Init map
+let stationMap = L.map('station-geo-map', {
+  center: [40, 0],
+  zoom: 10,
+  worldCopyJump: true,
+  wheelPxPerZoomLevel: 100,
+  minZoom: 1,
+  zoomSnap: 0.5,
+  maxBounds: L.latLngBounds(
+    L.latLng(90, -360),
+    L.latLng(-90, 360)
+  ),
+  fullscreenControl: true,
+})
 
-  uiWaitResponse()
+stationMap.createPane("bioMatExtPane")
+stationMap.getPane("bioMatExtPane").style.zIndex = 698
 
-  let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
-  // let geoPlot = new SamplingGeoPlot("#station-geo-map", "#result-table", "#detailsModal")
+stationMap.createPane("co1Pane")
+stationMap.getPane("co1Pane").style.zIndex = 699
 
-  // Init species selector
-  speciesSelector.promise.then(_ => {
-    initDataTable("#result-table")
-  })
+// Tile Layer 
+let basemap = L.esri.basemapLayer("Imagery").addTo(stationMap)
+let labels = L.esri.basemapLayer('ImageryLabels')
 
-  // Init map
-  let stationMap = L.map('station-geo-map', {
-    center: [40, 0],
-    zoom: 10,
-    worldCopyJump: true,
-    wheelPxPerZoomLevel: 100,
-    minZoom: 1
-  })
-  stationMap.createPane("bioMatExtPane")
-  stationMap.getPane("bioMatExtPane").style.zIndex = 998
+// Legend control
+let legend = L.control.layers(null).addTo(stationMap)
 
-  stationMap.createPane("co1Pane")
-  stationMap.getPane("co1Pane").style.zIndex = 999
-
-  // Tile Layer 
-  L.esri.basemapLayer("Imagery").addTo(stationMap);
-
-  // Marker layers
-  let radius = 5
-  let outerStroke = radius*3/5
-  let nDashes = 10
-  let point = L.circleMarker([40, 0], {
+// let lmpLine =
+let radius = 5
+let outerStroke = radius * 3 / 5
+let nDashes = 10
+let markerStyles = {
+  co1: {
     color: 'black',
     fillColor: 'lime',
     fillOpacity: 1,
-    radius: radius - outerStroke/2 - 0.5,
+    radius: radius - outerStroke / 2 - 0.5,
     opacity: 0.75,
     weight: 1,
     pane: "co1Pane"
-  })
-  let co1Samples = L.layerGroup([point]).addTo(stationMap)
-
-  let circle = L.circleMarker([40, 0], {
+  },
+  bioMat: {
     color: "#ff4f09",
     fillOpacity: 0,
-    radius: radius
-  })
-  let bioMat = L.layerGroup([circle]).addTo(stationMap)
-
-  let bmExtMarker = L.circleMarker([40, 0], {
+    radius: radius,
+    dashArray: null
+  },
+  bioMatExt: {
     color: '#00b7ff',
     weight: outerStroke,
     fillOpacity: 0,
@@ -78,69 +75,111 @@ $(document).ready(_ => {
     lineJoin: 'bevel',
     lineCap: "butt",
     pane: "bioMatExtPane"
+  },
+  lmpLine: { color: 'lime', weight: 2, dashArray: '4,10' }
+}
+let layerGroups = {
+  co1: L.layerGroup(),
+  bioMat: L.layerGroup(),
+  bioMatExt: L.layerGroup(),
+  lmpLines: L.layerGroup()
+}
+
+let sliders = {
+  radius: $("#marker-radius-slider").slider(),
+  opacity: $("#marker-opacity-slider").slider()
+}
+let resetZoom = L.easyButton('fa-crosshairs', _ => _).addTo(stationMap);
+
+$(document).ready(_ => {
+
+  uiWaitResponse()
+
+  $(".modal-dialog").css("width", "95vw")
+
+  let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
+
+  // Init species selector
+  speciesSelector.promise.then(_ => {
+    initDataTable("#result-table")
   })
-  let bioMatExt = L.layerGroup([bmExtMarker]).addTo(stationMap)
-  let lmpLine = L.polyline([
-    [40, -18000], [40, 18000]
-  ], { color: 'lime', weight: 2, dashArray: '4,10' }
-  ).addTo(stationMap)
 
-  let bioMatExtLegend = $("template#dashed-circle-svg").html()
-  let overlayMarks = {
-    '<i class="fa fa-circle"></i> <span>CO1 sample</span>': co1Samples,
-    '<i class="fa fa-circle-o"></i> <span>Biological Material (Int.)</span>': bioMat,
-    ['<span style="vertical-align:middle">' + bioMatExtLegend + ' Biological Material (Ext.)</span>']: bioMatExt,
-    '<span>LMP (CO1)</span>': lmpLine
-  }
-  L.control.layers(null, overlayMarks, { collapsed: true }).addTo(stationMap)
 
-  $("#detailsModal").on("shown.bs.modal", ev => {
-    stationMap.invalidateSize()
-  })
-
-  $("#marker-radius-slider").slider()
-    .on("slide", event => {
-      let radius = event.value,
-        stroke = radius * 3 / 5
-      bioMat.invoke("setRadius", radius)
-      bioMatExt.invoke("setRadius", radius)
-      co1Samples.invoke("setRadius", radius - stroke/2 - 0.5)
-      bioMat.invoke("setStyle", { weight: stroke })
-      bioMatExt.invoke("setStyle", {
-        weight: stroke,
-        dashArray: radiusToDasharray(radius, nDashes)
-      })
-    })
-    $("#marker-opacity-slider").slider()
-      .on("slide", event => {
-        let opacity = event.value
-        bioMat.invoke("setStyle", { opacity: opacity })
-        bioMatExt.invoke("setStyle", {opacity: opacity})
-        co1Samples.invoke("setStyle", {fillOpacity: opacity})
-        lmpLine.setStyle({ opacity: opacity })
-      })
 })
 
 /* **************************
  *  Initialize datatable
  **************************** */
 
-function radiusToDasharray(radius, n){
-  let length = 2*Math.PI*radius / n
+function radiusToDasharray(radius, n = 10) {
+  let length = 2 * Math.PI * radius / n
   return `${length},${length}`
 }
 
-function fetchSamplingCoords(rowForm) {
+function fetchSamplingCoords(formData) {
   return fetch(Routing.generate("co1-geocoords"), {
     method: 'POST',
-    body: new FormData(rowForm),
+    body: formData,
     credentials: 'include'
-    // headers: new Headers({ 'Content-Type': 'application/json' })
   })
     .then(response => { return response.json() })
 }
 
 function displayModal(json) {
+  let plotParams = prepareGeoMarkers(json.stations);
+  let markers = plotParams.markers,
+    bounds = plotParams.bounds
+  for (layerGroup in markers) {
+    markers[layerGroup].addTo(stationMap)
+  }
+
+
+  bounds = [
+    [bounds.lat.min, bounds.lon.min],
+    [bounds.lat.max, bounds.lon.max]
+  ]
+  $("#detailsModal").on("shown.bs.modal", ev => {
+    stationMap.invalidateSize()
+    stationMap.fitBounds(bounds, { maxZoom: 10, padding: L.point(20, 20) })
+  })
+  resetZoom._states[0].onClick = function () {
+    stationMap.fitBounds(bounds, { maxZoom: 10, padding: L.point(20, 20) })
+  }
+
+
+  let bioMatExtLegend = $("template#bio-mat-ext-legend").html()
+  let overlayMarks = {
+    [$("template#co1-legend").html()]: markers.co1,
+    [$("template#bio-mat-legend").html()]: markers.bioMat,
+    [$("template#bio-mat-ext-legend").html()]: markers.bioMatExt,
+    [$("template#lmp-legend").html()]: markers.lmpLines,
+    "Borders": labels
+  }
+  stationMap.removeControl(legend)
+  legend = L.control
+    .layers(null, overlayMarks)
+    .addTo(stationMap)
+
+
+  sliders.radius
+    .on("change", (event) => {
+      let radius = event.value.newValue
+      let stroke = radius * 3 / 5
+      markers.bioMat.invoke("setRadius", radius)
+      markers.bioMatExt.invoke("setRadius", radius)
+      markers.co1.invoke("setRadius", radius - stroke / 2 - 0.5)
+      markers.bioMat.invoke("setStyle", { weight: stroke })
+      markers.bioMatExt.invoke("setStyle", { weight: stroke })
+    })
+
+  sliders.opacity
+    .on("change", (event) => {
+      let opacity = event.value.newValue
+      markers.bioMat.invoke("setStyle", { opacity: opacity })
+      markers.bioMatExt.invoke("setStyle", { opacity: opacity })
+      markers.co1.invoke("setStyle", { fillOpacity: opacity })
+      markers.lmpLines.invoke("setStyle", { opacity: opacity })
+    })
 
   $("#detailsModal").find(".modal-title").html(
     Mustache.render($("template#details-modal-title").html(), {
@@ -148,7 +187,93 @@ function displayModal(json) {
     }))
   $(".geo-overlay").show()
   $("#detailsModal").modal('show')
+}
 
+
+
+function prepareGeoMarkers(json) {
+  // Marker layers
+
+  return json.reduce((plotParams, row) => {
+    let lat = row.latitude,
+      lon = row.longitude
+    if(row.altitude === null) row.altitude = '-';
+    if (row["co1"] === true) {
+      plotParams.markers.co1
+        .addLayer(L.circleMarker([lat, lon], markerStyles.co1)
+          .bindPopup(
+            Mustache.render($("template#leaflet-popup-template").html(), row)
+          )
+        )
+    }
+    if (row["lm_id"] === null) {
+      plotParams.markers.bioMatExt
+        .addLayer(L.circleMarker([lat, lon], markerStyles.bioMatExt)
+          .bindPopup(
+            Mustache.render($("template#leaflet-popup-template").html(), row)
+          ))
+    } else {
+      plotParams.markers.bioMat
+        .addLayer(L.circleMarker([lat, lon], markerStyles.bioMat)
+          .bindPopup(
+            Mustache.render($("template#leaflet-popup-template").html(), row)
+          ))
+    }
+
+    if (plotParams.bounds === null) {
+      plotParams.bounds = {
+        lat: {
+          min: lat,
+          max: lat
+        },
+        lon: {
+          min: lon,
+          max: lon
+        }
+      }
+    }
+
+    plotParams.bounds = {
+      lat: {
+        min: Math.min(plotParams.bounds.lat.min, lat),
+        max: Math.max(plotParams.bounds.lat.max, lat)
+      },
+      lon: {
+        min: Math.min(plotParams.bounds.lon.min, lon),
+        max: Math.max(plotParams.bounds.lon.max, lon),
+      }
+    }
+    return plotParams
+  }, {
+      markers: layerGroups,
+      bounds: null
+    })
+}
+
+function resetLayers(formData) {
+  for (group in layerGroups) {
+    layerGroups[group].clearLayers()
+  }
+
+  let lmp = {
+    bioMat: formData.get("lmp_lm"),
+    co1: formData.get("lmp_co1")
+  }
+
+  if (lmp.bioMat !== "")
+    layerGroups.lmpLines.addLayer(
+      L.polyline([
+        [lmp.bioMat, -720], [lmp.bioMat, 720]
+      ], markerStyles.lmpLine)
+        .setStyle({ color: "orange" })
+    )
+  if (lmp.co1 !== "")
+    layerGroups.lmpLines.addLayer(
+      L.polyline([
+        [lmp.co1, -720], [lmp.co1, 720]
+      ], markerStyles.lmpLine)
+        .setStyle({ color: "lime" })
+    )
 }
 
 function initDataTable(tableId) {
@@ -215,7 +340,9 @@ function initDataTable(tableId) {
             $('[data-toggle="tooltip"]').tooltip()
             $(".details-form").submit(event => {
               event.preventDefault()
-              fetchSamplingCoords(event.target)
+              let formData = new FormData(event.target)
+              resetLayers(formData)
+              fetchSamplingCoords(formData)
                 .then(json => displayModal(json))
               // geoPlotObject.reload(event.target)
             }) // .details-form.submit
