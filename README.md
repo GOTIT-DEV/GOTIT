@@ -40,7 +40,7 @@ At last, GOTIT is implemented and distributed following public license practices
 - [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/template.zip)
 - [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.0/install/1.1/vocabulary_gotit1-1.csv) with all scientific and other vocabulary 
 
-# Roadmap :
+# GOTIT History :
 
 - The GOTIT project was first launched in 2015 between BBEES and LEHNA
 - The first conceptual and logical data model of the relational data base were established in May 2017 with further refinements thenafter

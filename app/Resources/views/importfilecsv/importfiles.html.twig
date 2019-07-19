@@ -1,6 +1,6 @@
 {% extends 'importfilecsv.html.twig' %}
 
-{# retourne le nom de la route dans l'url #}
+{# return the name of the route in the url #}
 {% set route_index = app.request.attributes.get('_route') %}
 {% set route_url = route_index|split('_')[0] %}
 

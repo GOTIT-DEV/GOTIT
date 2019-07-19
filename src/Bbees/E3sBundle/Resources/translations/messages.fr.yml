@@ -28,7 +28,7 @@ vocParent.typeCollection: type Collection
 vocParent.typeIndividu: type Individu
 vocParent.yeux: yeux
 
-# SHORT TITLE OF CRUD LIST COLUMNS #############################################
+# SHORT TITLE OF COLUMNS IN CONTENT PAGES #############################################
 # Links
 list.show: Lire
 list.edit: Edit
@@ -43,7 +43,7 @@ list.linkIndividu: Ind(s)
 list.linkIndividu_codestation: Ind/St
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Col
-# Columns headings 
+# Column titles
 list.vocLibelle: Libelle (bdd)
 list.vocLibelleSecondLanguage: Libelle (traduction fr)
 list.Date creation sqc ass ext: Date de creation
@@ -71,7 +71,7 @@ list.MotuAssigne: MOTU
 # 
 buton.See Stations Around: Afficher les Stations autour du point GPS
 buton.Close: Fermer
-# Button headings of csv file import forms
+# Button titles in csv file uploading tools
 buton.ImportVoc: Importer fichier Vocabulaire
 buton.ImportReferentieltaxon: Importer fichier Taxon
 buton.ImportPays: Importer fichier Pays
@@ -86,7 +86,7 @@ buton.Back to the list of personne: Retour à la liste des Personnes
 buton.Back to the list of programme: Retour à la liste des Programmes
 buton.Back to the list of etablissement: Retour à la liste des Etablissements
 buton.Back to the list of commune: Retour à la liste des Communes
-# Button headings "Back to Entity"
+# Button titles "Back to Entity"
 buton.Back to station: Retour à la Station
 buton.Back to collecte: Retour à la Collecte
 buton.Back to lotmateriel: Retour au Lot matériel
@@ -102,7 +102,7 @@ buton.Back to sequenceassembleeext: Retour à la Sequence externe
 buton.Back to motu: Retour au MOTU
 buton.Back to boite: Retour à la Boite
 buton.Back to source: Retour à la Source
-# Button headers for csv file import forms
+# Button titles "Back to Entity" in csv file uploading tools
 buton.Back to the list of station: Retour à la liste des Stations
 buton.Back to the list of collecte: Retour à la liste des Collectes
 buton.Back to the list of lotmateriel: Retour à la liste des Lots matériels
@@ -118,7 +118,7 @@ buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences
 buton.Back to the list of motu: Retour à la liste des MOTU
 buton.Back to the list of boite: Retour à la liste des Boites
 buton.Back to the list of source: Retour à la liste des Sources
-# Headers of the interface buttons
+# Button titles in web interface
 buton.Add a Chromatogramme: Ajouter un chromatogramme
 buton.Add a Source: Ajouter une source
 buton.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
@@ -179,8 +179,8 @@ buton.BackToTheList: Retour à la Liste
 buton.showAllRecord: Liste de tous les enregistrements
 Envoyer: Importer le fichier CSV
 
-# IMPORTFILE SERVICE ERROR MESSAGES ############################################
-# Error message from the data import procedures (ImportFileE3s)
+# UPLODAING FILE SERVICE ERROR MESSAGES ############################################
+# Error messages from the data uploading procedures (ImportFileE3s)
 importfileService.ERROR Unknown file imported: ERREUR - fichier CSV INCONNU
 importfileService.ERROR Unknown template file: ERREUR - template INCONNU
 importfileService.ERROR bad number of columns in CSV file: ERREUR - Le fichier CSV ne contient pas le bon nombre de collonnes - cf. Aide GOTIT
@@ -209,7 +209,7 @@ importfileService.Date of data set import: Date import
 importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
 importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés
 
-# LINKS LABELS TO BATCH PROCEDURE ##############################################
+# BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ##############################################
 import.liste: Importer des fichiers 
 import.boite.lotmaterielrange: Stocker des lots materiels par fichier
 import.boite.individulamerange: Stocker des lames par fichier
@@ -235,7 +235,7 @@ import.source.lotmaterielpublie:  Referencer des lots materiels
 import.source.sequencepublie: Referencer des sequences assemblées
 import.motu-assigne: MOTU
 
-# TITLES OF THE MENUS  #########################################################
+# TITLES OF CONTENT PAGES  #########################################################
 title.Import Files CSV: Import des fichiers CSV
 title.boiteLOT: Boite lot materiel
 title.boiteLAME: Boite lame
@@ -258,7 +258,7 @@ title.Etude séquençage: Sequences ADN
 title.sequenceassemblee: Sequences internes
 title.sequenceassembleeext: Sequences externes
 title.motu: MOTU
-title.Stock: Storage
+title.Stock: Stock
 title.source: Source
 title.Source bibliographique: Source
 title.Référentiels: Referentiels
@@ -270,7 +270,7 @@ title.commune: Commune
 title.etablissement: Etablissement
 title.programme: Programme
 
-# HEADINGS OF SELECTION LISTS ##################################################
+# HEADINGS OF SCROLLING LISTS ##################################################
 Choose a Parent: Selectionner une classe de vocabulaire
 Choose a typeCollection: Selectionner un type de collection
 Choose a codeCollection: Selectionner un code  collection
@@ -546,7 +546,7 @@ Est effectue pars: Est realise par
 A ciblers: Taxa cibles par collecte
 
 # USER BUNDLE  #################################################################
-# UserBundle messages
+# table User_db
 Username: Nom d'utilisateur 
 Password: Mot de passe (8 char min)
 Repeat Password: Confirmez le Mot de passe 
@@ -561,4 +561,3 @@ title.user: Utilisateur
 list.User cre: User Create
 list.User maj: User Update
 title.Personne: Personne
-

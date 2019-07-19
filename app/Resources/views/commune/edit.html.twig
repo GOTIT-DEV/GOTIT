@@ -48,7 +48,7 @@
                 var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
-            // 3) Actions après la création d'une nouvelle Commune 
+            // 3) Actions after the creation of a new municipality
             $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
                 $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             
             }); 

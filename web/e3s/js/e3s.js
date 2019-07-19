@@ -200,16 +200,15 @@ function addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectio
  */ 
 function addCategoryForExistingRecord(index, $container, deleteBouton = true, nameCollection = '') {
   //alert("addCategoryForExistingRecord  : index ="+index);
-  // Dans le contenu de l'attribut « data-prototype », on remplace :
-  // - le texte "__name__label__" qu'il contient par le label du champ
-  // - le texte "__name__" qu'il contient par le numéro du champ
+  // In the content of the "data-prototype" attribute, we replace:
+  // - the text "__name__label__" that it contains by the label of the field
+  // - the text "__name__" that it contains by the number of the field
   var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index));
-  // On ajoute au prototype un lien pour pouvoir supprimer 
+  // We add to the prototype a link to delete
   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
-  // On ajoute le prototype modifié à la fin de la balise <div>
+  // Add the modified prototype to the end of the <div> tag
   //$container.append($prototype);
   $container.append($prototype);
-  // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
   return false;
 }
 
@@ -236,12 +235,11 @@ function addCategoryForExistingRecordEmbed2(index, $container, deleteBouton = tr
   }
   var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(Regex1, "especeIdentifiees_"+index).replace(Regex2, "especeIdentifiees]["+index) );
   // alert($prototype.html());
-  // On ajoute au prototype un lien pour pouvoir supprimer 
+  // We add to the prototype a link to delete 
   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
-  // On ajoute le prototype modifié à la fin de la balise <div>
+  // Add the modified prototype to the end of the <div> tag
   //$container.append($prototype);
   $container.append($prototype);
-  // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
   return true;
   
 }
@@ -254,11 +252,11 @@ function addCategoryForNewRecord(index, $container, select_id, select_name) {
   //var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'APourSamplingMethod :' + (index+1)).replace(/__name__/g, index));
   var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index)
     .replace('</select>', '><option value="' + select_id + '" selected="selected">' + select_name + '</option></select>'));
-  // On ajoute au prototype un lien pour pouvoir supprimer 
+  // We add to the prototype a link to delete 
   addDeleteLink($prototype);
-  // On ajoute le prototype modifié à la fin de la balise <div>
+  // Add the modified prototype to the end of the <div> tag
   $container.append($prototype);
-  // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+  // Finally, we increment the counter so that the next addition is done with another number
   return index++;
 }
 
@@ -282,13 +280,13 @@ function callAjax(form, $container, index) {
     success: function(htmlResponse) {
       var $content_to_change = $('div#content_to_change_' + htmlResponse['entityname']);
       if (htmlResponse['exception_message'] == '') {
-        if (index === undefined) { // cas des enregistrement liés (rel 1-N)
+        if (index === undefined) { // case of linked records (rel 1-N)
           $($container).append($('<option>', {
             value: htmlResponse['select_id'],
             text: htmlResponse['select_name']
           }));
           $($container).val(htmlResponse['select_id']);
-        } else { // cas des ArrayCollection (rel N-N)
+        } else { // case of ArrayCollection (rel N-N)
           index = addCategoryForNewRecord(index, $container, htmlResponse['select_id'], htmlResponse['select_name']);
         }
         $content_to_change.html(htmlResponse['html_form']);
@@ -522,7 +520,7 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
   var gd3 = d3.select('#station-geo-map')
   var gd = gd3.node()
 
-  // Données
+  // Data
   const data_stations = build_station_data(json_stations, {
     name: "Stations BDD",
     marker: {
@@ -577,13 +575,13 @@ function stationsPlot(json_stations, latGPS = undefined, longGPS = undefined) {
   })
 
   Plotly.newPlot(gd, data, layout, {
-    displaylogo: false, // pas de logo, enlever boutons de controle inutiles
+    displaylogo: false, // no logo, remove unnecessary control buttons
     modeBarButtonsToRemove: ['sendDataToCloud', 'box', 'lasso2d', 'select2d', 'pan2d']
   })
 
-  Plotly.Plots.resize(gd) // Remplir l'espace dans le DOM
+  Plotly.Plots.resize(gd) 
 
-  return gd // Renvoi objet plotly
+  return gd // Return objet plotly
 }
 
 
@@ -634,7 +632,7 @@ function stationsMap(json_stations, latGPS = undefined, longGPS = undefined) {
   var gd3 = d3.select('#station-geo-map')
   var gd = gd3.node()
 
-  // Données
+  // Data
   const data_stations = build_station_data(json_stations, {
     name: "Stations BDD",
     marker: {

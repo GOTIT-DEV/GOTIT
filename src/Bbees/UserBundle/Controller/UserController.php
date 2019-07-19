@@ -207,7 +207,7 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) { 
-            // encodage du password
+            // password encoding
             $plainPassword = $user->getPlainPassword();
             $encoded = $encoder->encodePassword($user, $plainPassword);
             //var_dump($plainPassword); var_dump($encoded);exit;

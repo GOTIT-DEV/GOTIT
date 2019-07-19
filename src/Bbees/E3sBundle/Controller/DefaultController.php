@@ -72,7 +72,7 @@ class DefaultController extends Controller
         $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM BbeesE3sBundle:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
         //
         $tab_toshow =[];
-        // retourne les derniers enregistrements des adn
+        // returns the last records of the dna
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
             ->addOrderBy('adn.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -90,7 +90,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-        // retourne les derniers enregistrements des chromatogramme
+        // returns the last records of the chromatogram
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Chromatogramme")->createQueryBuilder('chromatogramme')
             ->addOrderBy('chromatogramme.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -108,7 +108,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
-        // retourne les derniers enregistrements des collectes
+        // returns the last records of the sampling
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Collecte")->createQueryBuilder('collecte')
             ->addOrderBy('collecte.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -126,7 +126,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         }  
-        // retourne les derniers enregistrements des individu
+        // returns the last records of the specimen
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Individu")->createQueryBuilder('individu')
             ->addOrderBy('individu.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -144,7 +144,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-        // retourne les derniers enregistrements des lame
+        // returns the last records of the slide
         $entities_toshow = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('individulame')
             ->addOrderBy('individulame.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -162,7 +162,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-        // retourne les derniers enregistrements des lots
+        // returns the last records of the lot material
         $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lotMateriel')
             ->addOrderBy('lotMateriel.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -180,7 +180,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-        // retourne les derniers enregistrements des lots ext
+        // returns the last records of the external lot material
         $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMaterielExt")->createQueryBuilder('lotmaterielext')
             ->addOrderBy('lotmaterielext.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -198,7 +198,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
-        // retourne les derniers enregistrements des motu
+        // returns the last records of the motu
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Motu")->createQueryBuilder('motu')
             ->addOrderBy('motu.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -216,7 +216,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
-        // retourne les derniers enregistrements des pcr
+        // returns the last records of the pcr
         $entities_toshow = $em->getRepository("BbeesE3sBundle:Pcr")->createQueryBuilder('pcr')
             ->addOrderBy('pcr.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -234,7 +234,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         }
-        // retourne les derniers enregistrements des sequence
+        // returns the last records of the sequence
         $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceassemblee')
             ->addOrderBy('sequenceassemblee.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -252,7 +252,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-                // retourne les derniers enregistrements des sequenceext
+        // returns the last records of the external sequence
         $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceassembleeext')
             ->addOrderBy('sequenceassembleeext.dateMaj', 'DESC')
             ->setMaxResults( 25 )
@@ -270,7 +270,7 @@ class DefaultController extends Controller
             "userMaj" => $service->GetUserMajUsername($entity),
              );
         } 
-        // retourne les derniers enregistrements des stations
+        // returns the last records of the site
         $entities_toshow  = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
             ->addOrderBy('station.dateMaj', 'DESC')
             ->setMaxResults( 25 )
