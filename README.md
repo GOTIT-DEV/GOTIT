@@ -1,7 +1,7 @@
 GOTIT : Gene, Occurence and Taxa in Integrative Taxonomy
 =====================
 
-A Symfony project updated on 13/03/2019 : Publish Version 1.1.0
+A Symfony project updated on 13/03/2019 : Publish Version 1.1.1
 
 **Authors :** Florian MALARD (1), Philippe GRISON (2), Louis DUCHEMIN (1), Lara KONECNY-DUPRE (1), Tristan LEFEBURE (1), Nathanaëlle Saclier (1), David Eme (3), Chloé MARTIN (2), Cécile CALLOU (2), Christope DOUADY (1)
 
@@ -36,7 +36,7 @@ At last, GOTIT is implemented and distributed following public license practices
 
 # Files :
 
-- [release v1.1.0](https://github.com/GOTIT-DEV/GOTIT/archive/v1.1.1.zip)
+- [release v1.1.1](https://github.com/GOTIT-DEV/GOTIT/archive/v1.1.1.zip)
 - [templates of csv files](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.1/install/1.1/template.zip)
 - [vocabulary.csv](https://github.com/GOTIT-DEV/GOTIT/blob/v1.1.1/install/1.1/vocabulary_gotit1-1.csv) with all scientific and other vocabulary 
 
