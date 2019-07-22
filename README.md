@@ -1,7 +1,7 @@
 GOTIT : Gene, Occurence and Taxa in Integrative Taxonomy
 =====================
 
-A Symfony project updated on 13/03/2019 : Publish Version 1.1.1
+A Symfony project updated on 22/07/2019 : Publish Version 1.1.1
 
 **Authors :** Florian MALARD (1), Philippe GRISON (2), Louis DUCHEMIN (1), Lara KONECNY-DUPRE (1), Tristan LEFEBURE (1), Nathanaëlle Saclier (1), David Eme (3), Chloé MARTIN (2), Cécile CALLOU (2), Christope DOUADY (1)
 
