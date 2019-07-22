@@ -28,7 +28,7 @@ vocParent.typeCollection: type Collection
 vocParent.typeIndividu: type Individu
 vocParent.yeux: yeux
 
-# SHORT TITLE OF COLUMNS IN CONTENT PAGES #############################################
+# SHORT TITLE OF COLUMNS IN CONTENT PAGES ######################################
 # Links
 list.show: Lire
 list.edit: Edit
@@ -179,7 +179,7 @@ buton.BackToTheList: Retour à la Liste
 buton.showAllRecord: Liste de tous les enregistrements
 Envoyer: Importer le fichier CSV
 
-# UPLODAING FILE SERVICE ERROR MESSAGES ############################################
+# UPLODAING FILE SERVICE ERROR MESSAGES ########################################
 # Error messages from the data uploading procedures (ImportFileE3s)
 importfileService.ERROR Unknown file imported: ERREUR - fichier CSV INCONNU
 importfileService.ERROR Unknown template file: ERREUR - template INCONNU
@@ -209,7 +209,7 @@ importfileService.Date of data set import: Date import
 importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
 importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés
 
-# BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ##############################################
+# BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
 import.liste: Importer des fichiers 
 import.boite.lotmaterielrange: Stocker des lots materiels par fichier
 import.boite.individulamerange: Stocker des lames par fichier
@@ -235,7 +235,7 @@ import.source.lotmaterielpublie:  Referencer des lots materiels
 import.source.sequencepublie: Referencer des sequences assemblées
 import.motu-assigne: MOTU
 
-# TITLES OF CONTENT PAGES  #########################################################
+# TITLES OF CONTENT PAGES  #####################################################
 title.Import Files CSV: Import des fichiers CSV
 title.boiteLOT: Boite lot materiel
 title.boiteLAME: Boite lame
@@ -345,6 +345,9 @@ NO: NON
 YES: OUI
 modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
 Switch version: Changer de version
+DAY: JOUR 
+MONTH: MOIS
+YEAR: ANNEE
 # PopUp alert messages related to date management
 alert.datePrecisionINCONNU:  les champs date doivent être vides
 alert.datePrecisionANNEE:  les champs date doivent avoir le format 01-01-AAAA

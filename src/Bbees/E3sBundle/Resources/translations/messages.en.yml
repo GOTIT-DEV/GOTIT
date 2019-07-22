@@ -3,7 +3,6 @@
 # NOTE : Only add vocabulary terms for which translation is needed. 
 # By default,the primary langage vocabulary label will be used
 # 1 - DELETE THE FIRST PART OF THAT FILE IF ENGLISH IS USED AS A PRIMARY LANGAGE
-VALIDEE: VALIDATED
 LOT: LOT
 ADN: DNA
 LAME: SLIDE
@@ -200,7 +199,7 @@ vocParent.typeCollection: Collection type
 vocParent.typeIndividu: Specimen type
 vocParent.yeux: Vision
 
-# SHORT TITLE OF COLUMNS IN CONTENT PAGES #############################################
+# SHORT TITLE OF COLUMNS IN CONTENT PAGES ######################################
 # Links
 list.show: Show
 list.edit: Edit
@@ -212,7 +211,7 @@ list.linkLotmateriel: Lot
 list.linkLotmaterielext: LotExt
 list.linkSequenceassembleeext: SqcExt
 list.linkIndividu: Ind(s)
-list.linkIndividu_codestation: Ind/St
+list.linkIndividu_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Sam
 # Column titles 
@@ -351,7 +350,7 @@ buton.BackToTheList: Back to list
 buton.showAllRecord: Show all records
 Envoyer: Import CSV file
 
-# UPLODAING FILE SERVICE ERROR MESSAGES ###########################################
+# UPLODAING FILE SERVICE ERROR MESSAGES ########################################
 # Error messages from the data uploading procedures (ImportFileE3s)
 importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
 importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
@@ -380,7 +379,7 @@ importfileService.Date of data set import: Date of data set import
 importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is stopped, please modify your CSV file. Error message is
 importfileService.Import OK: Data import is successful. Number of records Imported
 
-#  BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #############################################
+#  BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ########################
 import.liste: Upload other set of files 
 import.boite.lotmaterielrange: Store biological material as file
 import.boite.individulamerange: Store slide as file
@@ -406,7 +405,7 @@ import.source.lotmaterielpublie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
 import.motu-assigne: MOTU
 
-# TITLES OF CONTENT PAGES  #########################################################
+# TITLES OF CONTENT PAGES  #####################################################
 title.Import Files CSV: Import Files CSV
 title.boiteLOT: Box biological material
 title.boiteLAME: Box specimen slide

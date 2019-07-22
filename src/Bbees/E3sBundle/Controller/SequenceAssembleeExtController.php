@@ -126,7 +126,7 @@ class SequenceAssembleeExtController extends Controller
              "sequenceAssembleeExt.codeSqcAssExt" => $entity->getCodeSqcAssExt(),
              "sequenceAssembleeExt.accessionNumberSqcAssExt" => $entity->getAccessionNumberSqcAssExt(),
              "vocGene.code" => $entity->getGeneVocFk()->getCode(), 
-             "vocDatePrecision.code" => $entity->getDatePrecisionVocFk()->getCode(), 
+             "vocDatePrecision.libelle" => $this->get('translator')->trans($entity->getDatePrecisionVocFk()->getLibelle()), 
              "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),                 
              "sequenceAssembleeExt.dateCreationSqcAssExt" => $dateCreationSqcAssExt,  
              "sequenceAssembleeExt.taxonOrigineSqcAssExt" => $entity->getTaxonOrigineSqcAssExt(),

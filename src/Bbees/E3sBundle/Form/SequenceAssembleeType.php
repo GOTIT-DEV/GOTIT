@@ -55,7 +55,7 @@ class SequenceAssembleeType extends AbstractType
                                     ->setParameter('parent', 'statutSqcAss')
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
-                     'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a status')) 
+                      'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a status')) 
                 ->add('estAligneEtTraites', CollectionType::class , array(
         		'entry_type' => EstAligneEtTraiteEmbedType::class,
         		'allow_add' => true,
