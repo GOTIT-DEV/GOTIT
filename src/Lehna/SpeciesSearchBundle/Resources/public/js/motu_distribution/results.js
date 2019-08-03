@@ -15,7 +15,6 @@
  */
 
 import { dtconfig, linkify, fetchCurrentUser } from '../queries.js'
-import { updateMap } from './map.js'
 
 const form = $("#main-form")
 const renderNumber = $.fn.dataTable.render.number('', '.', 3)
@@ -62,7 +61,7 @@ const columns = [
   }
 ]
 
-export function initDataTable(tableId) {
+export function initDataTable(tableId, uiReceivedResponse) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(user => {
       let dtbuttons = (user.role === "ROLE_INVITED") ? [] : dtconfig.buttons
@@ -88,9 +87,13 @@ export function initDataTable(tableId) {
       })
 
       dataTable.on('xhr', _ => {
-        let response = dataTable.ajax.json()
-        uiReceivedResponse(response)
-      });
+        uiReceivedResponse(dataTable.ajax.json())
+      })
+
+      $('#table-tab a ').on('shown.bs.tab', _ => {
+        // scrollToElement('#resultats', 500)
+        dataTable.columns.adjust()
+      })
 
       /*******************************
        * Submit form handler
@@ -100,25 +103,13 @@ export function initDataTable(tableId) {
         uiWaitResponse()
         dataTable.ajax.reload()
       })
+      return dataTable
     })
 
   }
 }
 
 
-/**
- * Toggle result tab containing geographical map
- * @param {bool} activeMap 
- */
-function toggleTabs(activeMap) {
-  if (!activeMap) $("#table-tab a").tab('show')
-
-  $("#geolocation-tab")
-    .toggleClass('disabled', !activeMap)
-    .find("a")
-    .attr('data-toggle', activeMap ? 'tab' : '')
-    .toggleClass('disabled', !activeMap)
-}
 
 /**
 * Toggle UI loading mode
@@ -127,15 +118,3 @@ function uiWaitResponse() {
   form.find("button[type='submit']").button('loading')
 }
 
-/**
- * Toggle UI loading done
- * @param {Object} response JSON response
- */
-function uiReceivedResponse(response) {
-  form.find("button[type='submit']").button('reset')
-  let showGeo = ('taxname' in response.query && response.rows.length)
-  if (showGeo) {
-    updateMap(response)
-  }
-  toggleTabs(showGeo)
-}

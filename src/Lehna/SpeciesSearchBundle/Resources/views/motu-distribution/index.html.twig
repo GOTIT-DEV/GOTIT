@@ -11,31 +11,28 @@
 {% block body %}
 
   <div class='row'>
-    <div class="col-xs-12">
+    <div
+      class="col-xs-12">
       {# Formulaire #}
       {% include '@LehnaSpeciesSearch/motu-distribution/form.html.twig' %}
     </div>
   </div>
   <hr>
   <div class="row">
-    <h2 id="resultats">
-      {% trans from 'queries' %}
-      label.resultats
-      {% endtrans %}
+    <h2 id="results-title">
+      <span>
+        {% trans from 'queries' %}
+        label.resultats
+        {% endtrans %}
+      </span>
     </h2>
     {% include '@LehnaSpeciesSearch/motu-distribution/results.html.twig' with methods_list %}
   </div>
-</div>
-
-{% endblock %}
-
-{% block scripts %}
+</div>{% endblock %}{% block scripts %}
 
 {{ parent() }}
 
 <script>
-  const methodList = JSON.parse("{{methods_list|json_encode()|raw |e('js')}}")
+  const methodList = JSON.parse("{{ methods_list|json_encode()|raw |e('js') }}")
 </script>
-<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motu_distribution/main.js')}}"></script>
-
-{% endblock %}
+<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motu_distribution/main.js')}}"></script>{% endblock %}

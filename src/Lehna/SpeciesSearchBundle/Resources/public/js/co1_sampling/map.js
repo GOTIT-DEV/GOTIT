@@ -1,6 +1,20 @@
-import { styleControl } from '../leaflet-style-controls.js'
+/*
+* This file is part of the SpeciesSearchBundle.
+*
+* Authors : see information concerning authors of GOTIT project in file AUTHORS.md
+*
+* SpeciesSearchBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+* 
+* SpeciesSearchBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License along with SpeciesSearchBundle.  If not, see <https://www.gnu.org/licenses/>
+* 
+* Author : Louis Duchemin <ls.duchemin@gmail.com>
+*/
 
-L.control.styleControl = styleControl
+import { initBaseMap, radiusToDasharray, updateBounds } from '../map_settings.js'
 
 let radius = 5
 let outerStroke = radius * 3 / 5
@@ -39,22 +53,9 @@ let markerStyles = {
  * @param {String} dom_id Map container DOM id
  */
 function initMap(dom_id) {
-    let map = L.map(dom_id, {
-        center: [40, 0],
-        zoom: 10,
-        worldCopyJump: true,
-        wheelPxPerZoomLevel: 100,
-        minZoom: 1,
-        zoomSnap: 0.5,
-        maxBounds: L.latLngBounds(
-            L.latLng(90, -360),
-            L.latLng(-90, 360)
-        ),
-        fullscreenControl: true,
-    })
 
-    map.baseLayer = L.esri.basemapLayer("Imagery").addTo(map)
-    map.labelsLayer = L.esri.basemapLayer('ImageryLabels')
+    let map = initBaseMap(dom_id)
+
     map.markerLayers = {
         co1: L.layerGroup(),
         bioMat: L.layerGroup(),
@@ -68,10 +69,6 @@ function initMap(dom_id) {
     map.createPane("co1Pane")
     map.getPane("co1Pane").style.zIndex = 699
 
-    map.resetZoomBtn = L.easyButton('fa-crosshairs', _ => _).addTo(map)
-
-    map.sliderControls = L.control.styleControl({ position: 'bottomright' })
-        .addTo(map)
 
     /**
  * Clears current map markers and resets LMP lines
@@ -121,17 +118,7 @@ function initMap(dom_id) {
             .addTo(this)
     }
 
-    map.updateBounds = function (bounds) {
-        this.bounds = [
-            [bounds.lat.min, bounds.lon.min],
-            [bounds.lat.max, bounds.lon.max]
-        ]
-        this.fitBounds(this.bounds, { maxZoom: 10, padding: L.point(30, 30) })
-        let map = this
-        this.resetZoomBtn._states[0].onClick = function () {
-            map.fitBounds(map.bounds, { maxZoom: 10, padding: L.point(30, 30) })
-        }
-    }
+    map.updateBounds = updateBounds(map)
 
     map.updateMarkers = function (markers) {
         for (let layerGroup in markers) {
@@ -221,9 +208,6 @@ function initMap(dom_id) {
     return map
 }
 
-function radiusToDasharray(radius, n = 10) {
-    let length = 2 * Math.PI * radius / n
-    return `${length},${length}`
-}
+
 
 export { initMap }
