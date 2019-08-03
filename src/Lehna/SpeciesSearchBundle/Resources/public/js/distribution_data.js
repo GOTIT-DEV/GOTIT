@@ -13,7 +13,10 @@
  * 
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
-
+import { MotuGeoPlot } from './plots.js'
+import { SpeciesSelector } from './form_elements/species_select.js'
+import { MethodSelector } from './form_elements/method_select.js'
+import { fetchCurrentUser, dtconfig, linkify, scrollToElement } from './queries.js'
 
 /**
  * DOCUMENT READY

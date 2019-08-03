@@ -16,6 +16,19 @@
       </button>
     </form>
   </template>
+
+
+  <template id="download-form-template">
+    <form class="download-details">
+    <input type="hidden" name="taxon" value="{{ id }}"/>
+    <button
+      type="submit"
+      class="btn btn-xs btn-default command-details"
+      data-row-id="{{ id }}"
+      style="width:25px">
+      <span class="fa fa-download"></span>
+    </button>
+  </template>
 {% endverbatim %}
 
 

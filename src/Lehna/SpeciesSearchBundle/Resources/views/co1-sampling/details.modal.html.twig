@@ -7,39 +7,11 @@
 
 {% block modal_body %}
     <div class="geo-container">
-        <div id="station-geo-map" style="height:70vh;width:100%"></div>
+        <div id="station-geo-map"></div>
     </div>
 {% endblock %}
 
 {% block modal_footer %}
-    <form class="modal-footer-form">
-        <div class="form-group">
-            <label class="control-label">
-                Marker radius
-            </label>
-            <input
-                data-slider-id='marker-radius-slider'
-                data-slider-max="12"
-                data-slider-min="3"
-                data-slider-step="1"
-                data-slider-value="5"
-                id="marker-radius-slider"
-                type="text"/>
-        </div>
-        <div class="form-group">
-            <label class="control-label">
-                opacity
-            </label>
-            <input
-                data-slider-id='marker-opacity-slider'
-                data-slider-max="1"
-                data-slider-min="0.1"
-                data-slider-step="0.05"
-                data-slider-value="1"
-                id="marker-opacity-slider"
-                type="text"/>
-        </div>
-    </form>
 {% endblock %}
 
 {% block extra_templates %}
@@ -48,11 +20,12 @@
         {% endtrans %} : {{"{{taxname}}"}}
     </template>
 
+
     <template id="leaflet-popup-template">
         {% verbatim %}
             <div class="station-popup">
                 <label style="grid-column: 1 / span 2;">
-                    <b>{{code_station}}</b>
+                    <a href={{station_url}}><b>{{station_code}}</b></a>
                 </label>
                 <label>Lat:</label>
                 <span>{{latitude}}</span>
@@ -60,8 +33,8 @@
                 <span>{{longitude}}</span>
                 <label>Alt:</label>
                 <span>{{altitude}} m</span>
-                <span style="grid-column: 1 / span 2;text-align:right">{{commune}}</span>
-                <span style="grid-column: 1 / span 2;text-align:right">{{pays}}</span>
+                <span style="grid-column: 1 / span 2;text-align:right">{{municipality}}</span>
+                <span style="grid-column: 1 / span 2;text-align:right">{{country}}</span>
             </div>
         {% endverbatim %}
     </template>

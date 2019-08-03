@@ -14,57 +14,24 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-
-/* **************************
- *  Document ready
- **************************** */
-$(document).ready(function () {
-  $("select.concordance")
-    .change(updateChoiceColor)
-    .trigger('change')
-  uiWaitResponse()
-  initDataTable("#result-table")
-})
+import { linkify, dtconfig, fetchCurrentUser } from '../queries.js'
 
 /**
- * Change <select> inputs background color to show query constraints
- * 
- * @param {Object} event jquery event object
+ * Toggle loading mode on
  */
-function updateChoiceColor(event) {
-  const target = $(event.target)
-  target.removeClass("typeA typeB typeC unassigned no-constraints")
-  switch (target.val()) {
-    case "A":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-info')
-      break
-    case "B":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-success')
-      break
-    case "C":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-danger')
-      break
-    case "0":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-      break
-    case "1":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-      break
-  }
-
+function uiWaitResponse() {
+  $("#main-form").find("button[type='submit']").button('loading')
 }
 
-
-
-
-/* **************************
- *  Initialize datatable
- **************************** */
+/**
+ * Toggle loading mode off
+ */
+function uiReceivedResponse() {
+  $("#main-form").find("button[type='submit']").button('reset')
+}
 
 function initDataTable(tableId) {
+  uiWaitResponse()
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(response => response.json())
       .then(user => {
@@ -165,16 +132,4 @@ function renderLinkify(fieldName, url) {
   }
 }
 
-/**
- * Toggle loading mode on
- */
-function uiWaitResponse() {
-  $("#main-form").find("button[type='submit']").button('loading')
-}
-
-/**
- * Toggle loading mode off
- */
-function uiReceivedResponse() {
-  $("#main-form").find("button[type='submit']").button('reset')
-}
+export { initDataTable }

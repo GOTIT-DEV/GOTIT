@@ -364,15 +364,15 @@ class QueryBuilderService {
     $rawSql = "WITH esta AS ($station_subquery)";
     $rawSql .= "SELECT DISTINCT
                 rt.id as taxon_id,
-                rt.taxname,
-                esta.lm_id as lm_id,
-                s.id,
-                s.code_station,
+                rt.taxname as taxon_name,
+                esta.lm_id as bio_mat_id,
+                s.id as station_id,
+                s.code_station as station_code,
                 s.lat_deg_dec as latitude,
                 s.long_deg_dec as longitude,
                 s.altitude_m as altitude,
-                c.nom_commune as commune,
-                p.nom_pays as pays
+                c.nom_commune as municipality,
+                p.nom_pays as country
             FROM referentiel_taxon rt
             JOIN esta ON esta.referentiel_taxon_fk = rt.id
             JOIN station s ON s.id = esta.id_sta

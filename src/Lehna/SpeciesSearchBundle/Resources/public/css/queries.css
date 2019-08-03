@@ -109,7 +109,8 @@ div.geo-container {
 
 .leaflet-control-layers,
 .leaflet-control-layers-list,
-.leaflet-popup-content-wrapper {
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
     background-color: rgb(55, 75, 75);
     color: white;
 }
@@ -125,7 +126,7 @@ button#reset-zoom {
 }
 
 #station-geo-map {
-    height: 70vh;
+    height: 80vh;
     width: 100%;
 }
 
@@ -151,17 +152,82 @@ input.leaflet-control-layers-selector {
     top: 0px;
 }
 
-p.station-popup-row{
-  display:flex;
-  justify-content: space-between;
-  justify-self: stretch;
-  margin: 0;
-  padding: 0;
+p.station-popup-row {
+    display: flex;
+    justify-content: space-between;
+    justify-self: stretch;
+    margin: 0;
+    padding: 0;
 }
 
-.station-popup{
-  display: grid;
-  grid-template-columns: auto-fit auto-fit;
-  grid-template-rows: auto;
-  grid-column-gap: 10px;
+.station-popup {
+    display: grid;
+    grid-template-columns: auto-fit auto-fit;
+    grid-template-rows: auto;
+    grid-column-gap: 10px;
+}
+
+.station-popup a{
+    color: #1ec8d8;
+}
+
+input.leaflet-slider {
+    width: 100px;
+    height: 5px;
+    margin: 0;
+    transform-origin: 50px 50px;
+    transform: rotate(-90deg);
+    cursor: pointer;
+}
+
+input.leaflet-slider:focus {
+    outline: none;
+}
+
+input.leaflet-slider::-moz-focus-outer {
+    border: 0;
+}
+
+.leaflet-slider-container {
+    width: 10px;
+    height: 100px;
+}
+
+.leaflet-control-collapse {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-control-bar {
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    background: rgb(55, 75, 75);
+    opacity: 0.8;
+    color: white;
+    border-radius: 3px;
+    align-items: center;
+    justify-items: center;
+    grid-gap: 5px;
+}
+
+.map-control-bar label {
+  font-weight: 100;
+}
+
+.method-container {
+    display:flex;
+    flex-flow: wrap;
+}
+
+.method-container div.checkbox{
+    margin-left: 0px;
+    margin-right: 10px;
+    font-weight: 400;
 }
