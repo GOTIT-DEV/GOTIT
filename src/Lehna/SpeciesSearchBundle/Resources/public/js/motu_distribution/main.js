@@ -70,7 +70,7 @@ function uiReceivedResponse(response) {
   //   }))
   // }
   let showGeo = ('taxname' in response.query && response.rows.length)
-
+  map.resetMarkers()
   let plotParams = map.prepareGeoMarkers(response.rows)
   map.updateMarkers(plotParams.markers)
   map.updateBounds(plotParams.bounds)

@@ -6,6 +6,38 @@
 
 {% trans_default_domain 'queries' %}
 
+<template id="leaflet-popup-template">
+  {% verbatim %}
+    <div class="station-popup">
+      <label style="grid-column: 1 / span 2;">
+        <a href={{station_url}}>
+          <b>{{station_code}}</b>
+        </a>
+      </label>
+      <label>MOTU:</label>
+      <span>{{motu}}</span>
+      <label>Lat:</label>
+      <span>{{latitude}}</span>
+      <label>Lon:</label>
+      <span>{{longitude}}</span>
+      <label>Alt:</label>
+      <span>{{altitude}}
+        m</span>
+      <span style="grid-column: 1 / span 2;text-align:right">{{municipality}}</span>
+      <span style="grid-column: 1 / span 2;text-align:right">{{country}}</span>
+    </div>
+  {% endverbatim %}
+</template>
+
+<template id="marker-legend">
+{% verbatim %}
+  <span>MOTU {{motu}}</span>
+  <svg height="16px" width="16px">
+    <circle cx="8" cy="8" fill={{fillColor}} r="5" stroke-width="2" stroke={{color}} color={{color}} fill-opacity={{fillOpacity}}/>
+  </svg>
+{% endverbatim %}
+</template>
+
 {# Tabs #}
 
 <ul class="nav nav-tabs" id="result-tabs" role="tablist">

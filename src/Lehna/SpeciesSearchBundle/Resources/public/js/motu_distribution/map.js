@@ -14,110 +14,138 @@
 * Author : Louis Duchemin <ls.duchemin@gmail.com>
 */
 
-import { initBaseMap, radiusToDasharray, updateBounds } from '../map_settings.js'
+import { initBaseMap, updateBounds } from '../map_settings.js'
 
-let radius = 5
-// let outerStroke = radius * 3 / 5
-let nDashes = 10
-let markerStyles = {
-  co1: {
-    color: 'black',
-    fillColor: 'lime',
-    fillOpacity: 1,
-    radius: radius,
-    opacity: 0.75,
-    strokeOpacity: 1,
-    weight: 1
-  },
-  bioMat: {
-    color: "#ff4f09",
-    fillOpacity: 0,
-    radius: radius,
-    dashArray: null
-  },
-  bioMatExt: {
-    color: '#00b7ff',
-    // weight: outerStroke,
-    fillOpacity: 0,
-    radius: radius,
-    dashArray: radiusToDasharray(radius, nDashes),
-    lineJoin: 'bevel',
-    lineCap: "butt",
-    pane: "bioMatExtPane"
-  },
-  lmpLine: { color: 'lime', weight: 2, dashArray: '4,10' }
+let radius = 6
+let markerStyle = {
+  color: 'black',
+  fillOpacity: 1,
+  radius: radius,
+  opacity: 0.75,
+  strokeOpacity: 1,
+  weight: 2
 }
 
 
 export function initMap(dom_id) {
+
   let map = initBaseMap(dom_id)
+  let locale = $("html").attr("lang")
 
   map.markerLayers = {}
+
+
+  map.sortByMotuStations = function (json) {
+    return json.reduce((motuStations, row) => {
+      let motu = row.motu
+      let station = row.id_sta
+      row.station_url = Routing.generate("station_show", { id: row.id_sta, _locale: locale })
+      let seq_route = row.seq_type ? "sequenceassembleeext_show" : "sequenceassemblee_show"
+      row.seq_url = Routing.generate(seq_route, { id: row.id, _locale: locale })
+      if (row.altitude === null) row.altitude = '-'
+
+      if (!(motu in motuStations))
+        motuStations[motu] = {}
+      if (!(station in motuStations[motu]))
+        motuStations[motu][station] = []
+
+      motuStations[motu][station].push(row)
+
+      return motuStations
+    }, {})
+  }
+
+  map.updateLegend = function (motuStyles) {
+    if (this.legend)
+      this.removeControl(this.legend)
+    let overlayMarks = motuStyles.reduce((legendItems, layerStyling) => {
+      let label = Mustache.render($("template#marker-legend").html(), layerStyling.style)
+      legendItems[label] = layerStyling.layer
+      return legendItems
+    }, {})
+    overlayMarks.Borders = map.labelsLayer
+    this.legend = L.control
+      .layers(null, overlayMarks)
+      .addTo(this)
+  }
 
   /**
 * Builds markers to be displayed on map from a JSON object
 * @param {Object} json Station sampling response
 */
   map.prepareGeoMarkers = function (json) {
-
+    let dataset = map.sortByMotuStations(json)
     this.markerLayers = {}
-    // Marker layers
-    return json.reduce((plotParams, row) => {
-      let lat = row.latitude,
-        lon = row.longitude,
-        motu = row.motu
-      row.station_url = Routing.generate("station_show", { id: row.station_id, _locale: $("html").attr("lang") })
+    let bounds = null
+    let scale = chroma.scale('Spectral')
+      .colors(Math.min(Math.max(2, Object.keys(dataset).length), 10))
+    let motuStyles = []
+    let motuIdx = 0
 
-      if (row.altitude === null) row.altitude = '-'
-
-      if (!(motu in plotParams.markers)) {
-        plotParams.markers[motu] = L.layerGroup()
+    Object.entries(dataset).forEach(([motu, stations]) => {
+      motuIdx += 1
+      map.markerLayers[motu] = L.layerGroup()
+      let style = Object.assign({
+        fillColor: scale[motuIdx],
+        motu: motu
+      }, markerStyle)
+      if (motuIdx >= 10) {
+        style = Object.assign(style, {
+          fillOpacity: 0,
+          weight: 3,
+          color: scale[(motuIdx % 10)]
+        })
       }
-      plotParams.markers[motu].addLayer(
-        L.circleMarker([lat, lon], markerStyles.co1).bindPopup("Hey")
-      )
-
-      if (plotParams.bounds === null) {
-        plotParams.bounds = {
-          lat: {
-            min: lat,
-            max: lat
-          },
-          lon: {
-            min: lon,
-            max: lon
+      Object.entries(stations).forEach(([station, sequences]) => {
+        let lat = sequences[0].latitude
+        let lon = sequences[0].longitude
+        map.markerLayers[motu].addLayer(
+          L.circleMarker([lat, lon], style)
+            .bindPopup(Mustache.render($("template#leaflet-popup-template").html(), sequences[0]))
+        )
+        if (bounds === null) {
+          bounds = {
+            lat: {
+              min: lat,
+              max: lat
+            },
+            lon: {
+              min: lon,
+              max: lon
+            }
+          }
+        } else {
+          bounds = {
+            lat: {
+              min: Math.min(bounds.lat.min, lat),
+              max: Math.max(bounds.lat.max, lat)
+            },
+            lon: {
+              min: Math.min(bounds.lon.min, lon),
+              max: Math.max(bounds.lon.max, lon),
+            }
           }
         }
-      }
-
-      plotParams.bounds = {
-        lat: {
-          min: Math.min(plotParams.bounds.lat.min, lat),
-          max: Math.max(plotParams.bounds.lat.max, lat)
-        },
-        lon: {
-          min: Math.min(plotParams.bounds.lon.min, lon),
-          max: Math.max(plotParams.bounds.lon.max, lon),
-        }
-      }
-      return plotParams
-    }, {
-        markers: this.markerLayers,
-        bounds: null
       })
+      motuStyles.push({ style: style, layer: map.markerLayers[motu] })
+    })
+
+    map.updateLegend(motuStyles)
+    return {
+      markers: this.markerLayers,
+      bounds: bounds
+    }
   }
 
   map.updateMarkers = function (markers) {
-    for (let layerGroup in markers) {
-      markers[layerGroup].addTo(map)
-    }
-
-    // this.updateLegend(markers)
+    Object.entries(markers).forEach(([motu, layerGroup]) => {
+      layerGroup.addTo(map)
+    })
 
     L.DomEvent.on(this.sliderControls.radiusSlider, "input",
       (event) => {
         let radius = event.target.value
-        let stroke = radius * 3 / 5
+        let stroke = 2
         for (let layerGroup in markers)
           markers[layerGroup].invoke("setStyle", { radius: radius, weight: stroke })
       })
@@ -129,6 +157,14 @@ export function initMap(dom_id) {
           markers[layerGroup].invoke("setStyle", { fillOpacity: opacity })
       })
   }
+
+  map.resetMarkers = function (formData) {
+    Object.entries(this.markerLayers).forEach(([motu, layerGroup]) => {
+      layerGroup.clearLayers()
+    })
+  }
+
+
 
   map.updateBounds = updateBounds(map)
 

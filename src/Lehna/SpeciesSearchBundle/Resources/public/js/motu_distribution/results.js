@@ -31,7 +31,7 @@ const columns = [
       return linkify(route, { col: 'id' })(data, type, row)
     }
   }, {
-    data: "type_seq",
+    data: "seq_type",
     render: isExternal => {
       return isExternal ?
         Translator.trans('entity.seq.type.externe') :
@@ -52,12 +52,12 @@ const columns = [
     render: renderNumber,
     defaultContent: ""
   }, {
-    data: "code_station",
+    data: "station_code",
     render: linkify("station_show", { col: 'id_sta' })
   }, {
-    data: "commune"
+    data: "municipality"
   }, {
-    data: "pays"
+    data: "country"
   }
 ]
 
