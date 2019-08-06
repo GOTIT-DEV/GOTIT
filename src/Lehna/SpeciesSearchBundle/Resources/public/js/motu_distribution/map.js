@@ -21,10 +21,13 @@ let markerStyle = {
   color: 'black',
   fillOpacity: 1,
   radius: radius,
-  opacity: 0.75,
-  strokeOpacity: 1,
-  weight: 2
+  opacity: 1,
+  strokeOpacity: 0,
+  weight: 1
 }
+
+const markerShapes = ["circle", "diamond", "triangle", "square"]
+const nbColorPerScale = 8
 
 
 export function initMap(dom_id) {
@@ -33,6 +36,7 @@ export function initMap(dom_id) {
   let locale = $("html").attr("lang")
 
   map.markerLayers = {}
+  map.sliderControls.opacitySlider.value = markerStyle.opacity
 
 
   map.sortByMotuStations = function (json) {
@@ -75,32 +79,32 @@ export function initMap(dom_id) {
 */
   map.prepareGeoMarkers = function (json) {
     let dataset = map.sortByMotuStations(json)
+    let motuCount = Object.keys(dataset).length
     this.markerLayers = {}
     let bounds = null
     let scale = chroma.scale('Spectral')
-      .colors(Math.min(Math.max(2, Object.keys(dataset).length), 10))
+      .colors(Math.min(Math.max(2, motuCount), nbColorPerScale))
+    let altScale = chroma.scale('Spectral')
+      .colors(Math.max(2, motuCount % nbColorPerScale))
     let motuStyles = []
     let motuIdx = 0
 
     Object.entries(dataset).forEach(([motu, stations]) => {
       motuIdx += 1
       map.markerLayers[motu] = L.layerGroup()
+      let shape = markerShapes[Math.floor(motuIdx / nbColorPerScale)]
+      let color = scale[motuIdx % nbColorPerScale]
       let style = Object.assign({
-        fillColor: scale[motuIdx],
+        shape: shape,
+        fillColor: color,
         motu: motu
       }, markerStyle)
-      if (motuIdx >= 10) {
-        style = Object.assign(style, {
-          fillOpacity: 0,
-          weight: 3,
-          color: scale[(motuIdx % 10)]
-        })
-      }
+
       Object.entries(stations).forEach(([station, sequences]) => {
         let lat = sequences[0].latitude
         let lon = sequences[0].longitude
         map.markerLayers[motu].addLayer(
-          L.circleMarker([lat, lon], style)
+          L.shapeMarker([lat, lon], style)
             .bindPopup(Mustache.render($("template#leaflet-popup-template").html(), sequences[0]))
         )
         if (bounds === null) {
@@ -147,7 +151,7 @@ export function initMap(dom_id) {
         let radius = event.target.value
         let stroke = 2
         for (let layerGroup in markers)
-          markers[layerGroup].invoke("setStyle", { radius: radius, weight: stroke })
+          markers[layerGroup].invoke("setRadius", parseInt(radius))
       })
 
     L.DomEvent.on(this.sliderControls.opacitySlider, "input",
@@ -163,8 +167,6 @@ export function initMap(dom_id) {
       layerGroup.clearLayers()
     })
   }
-
-
 
   map.updateBounds = updateBounds(map)
 

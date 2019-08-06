@@ -35,5 +35,6 @@
 <script>
   const methodList = JSON.parse("{{ methods_list|json_encode()|raw |e('js') }}")
 </script>
+<script src="{{asset('e3s/vendors/leaflet-shape-markers/leaflet-svg-shape-markers.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.4/chroma.min.js"></script>
 <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motu_distribution/main.js')}}"></script>{% endblock %}
