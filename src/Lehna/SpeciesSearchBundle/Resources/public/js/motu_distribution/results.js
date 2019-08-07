@@ -62,7 +62,6 @@ const columns = [
 ]
 
 export function initDataTable(tableId, uiReceivedResponse) {
-  console.log("DataTable")
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(user => {
       let dtbuttons = (user.role === "ROLE_INVITED") ? [] : dtconfig.buttons

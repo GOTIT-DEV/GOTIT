@@ -38,7 +38,7 @@ function initBaseMap(dom_id) {
   map.baseLayer = L.esri.basemapLayer("Imagery").addTo(map)
   map.labelsLayer = L.esri.basemapLayer('ImageryLabels')
 
-  map.resetZoomBtn = L.easyButton('fa-crosshairs', _ => _).addTo(map)
+  map.resetZoomBtn = L.easyButton('fa-crosshairs', _ => _, "Reset zoom").addTo(map)
 
   map.sliderControls = L.control.styleControl({ position: 'bottomright' }).addTo(map)
 

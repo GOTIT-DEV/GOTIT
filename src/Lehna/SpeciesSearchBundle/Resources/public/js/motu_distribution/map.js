@@ -37,6 +37,12 @@ export function initMap(dom_id) {
   let locale = $("html").attr("lang")
 
   map.markerLayers = {}
+  map.resetFilterBtn = L.easyButton('fa-eye', _=> {
+    Object.entries(map.markerLayers).forEach(([motu, layer]) =>{
+      if (!map.hasLayer(layer)) map.addLayer(layer)
+    })
+  }, "Reset filter").addTo(map)
+
   map.sliderControls.opacitySlider.value = markerStyle.opacity
 
 
@@ -110,8 +116,15 @@ export function initMap(dom_id) {
         let marker = L.shapeMarker([lat, lon], style).bindPopup(popupContent)
         map.markerLayers[motu].addLayer(marker)
 
+        $(popupContent).find(".btn-marker-isolate").click(_=>{
+          Object.entries(map.markerLayers).forEach(([targetMotu, layer])=> {
+            if (motu !== targetMotu && map.hasLayer(layer))
+              map.removeLayer(layer)
+          })
+        })
+
         modalTablePromise.then(modalTable => {
-          $(popupContent).find("button").click(_ => {
+          $(popupContent).find(".btn-seq-modal").click(_ => {
             modalTable.clear()
             modalTable.rows.add(stationInfo.sequences)
             modalTable.draw()

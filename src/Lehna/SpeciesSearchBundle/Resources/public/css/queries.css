@@ -177,7 +177,7 @@ p.station-popup-row {
   margin-bottom: 5px;
 }
 
-.station-popup button > i::before{
+.station-popup .btn-seq-modal > i::before{
   margin-right: 5px;
 }
 

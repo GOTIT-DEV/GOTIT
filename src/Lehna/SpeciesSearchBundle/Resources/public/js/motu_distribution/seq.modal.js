@@ -22,7 +22,6 @@ export function initModalTable(tableId) {
   return fetchCurrentUser()
     .then(response => response.json())
     .then(user => {
-      console.log(user)
       let dtbuttons = (user.role === 'ROLE_INVITED') ? [] : dtconfig.buttons
       return $(tableId).DataTable({
         autoWidth: false,
