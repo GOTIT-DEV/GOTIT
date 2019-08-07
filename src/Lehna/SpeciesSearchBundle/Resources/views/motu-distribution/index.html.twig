@@ -28,6 +28,9 @@
     </h2>
     {% include '@LehnaSpeciesSearch/motu-distribution/results.html.twig' with methods_list %}
   </div>
+</div>
+<div id="modal-container">
+  {% include '@LehnaSpeciesSearch/motu-distribution/seq.modal.html.twig' %}
 </div>{% endblock %}{% block scripts %}
 
 {{ parent() }}

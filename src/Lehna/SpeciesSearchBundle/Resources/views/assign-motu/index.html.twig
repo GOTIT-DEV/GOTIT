@@ -10,13 +10,13 @@
 {% endblock %}
 
 {% block body %}
-  {# Formulaire #}
+  {# Main form #}
   {% include '@LehnaSpeciesSearch/assign-motu/form.html.twig' with criteres %}
 
-  {# Tableau résultats #}
+  {# Result table #}
   {% include '@LehnaSpeciesSearch/assign-motu/results.html.twig' %}
 
-  {# Modal et templates HTML #}
+  {# Modal and templates #}
   <div id="modal-container">
     {% include '@LehnaSpeciesSearch/assign-motu/details.modal.html.twig' %}
   </div>

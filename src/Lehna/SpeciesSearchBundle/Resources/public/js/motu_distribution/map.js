@@ -15,6 +15,7 @@
 */
 
 import { initBaseMap, updateBounds } from '../map_settings.js'
+import { initModalTable } from './seq.modal.js'
 
 let radius = 6
 let markerStyle = {
@@ -27,11 +28,11 @@ let markerStyle = {
 }
 
 const markerShapes = ["circle", "diamond", "triangle", "square"]
-const nbColorPerScale = 8
+let nbColorPerScale = 5
 
 
 export function initMap(dom_id) {
-
+  let modalTablePromise = initModalTable("#sequence-table")
   let map = initBaseMap(dom_id)
   let locale = $("html").attr("lang")
 
@@ -51,9 +52,9 @@ export function initMap(dom_id) {
       if (!(motu in motuStations))
         motuStations[motu] = {}
       if (!(station in motuStations[motu]))
-        motuStations[motu][station] = []
+        motuStations[motu][station] = Object.assign(row, { sequences: [] })
 
-      motuStations[motu][station].push(row)
+      motuStations[motu][station].sequences.push(row)
 
       return motuStations
     }, {})
@@ -63,7 +64,7 @@ export function initMap(dom_id) {
     if (this.legend)
       this.removeControl(this.legend)
     let overlayMarks = motuStyles.reduce((legendItems, layerStyling) => {
-      let label = Mustache.render($("template#marker-legend").html(), layerStyling.style)
+      let label = Mustache.render($(`template.marker-legend#${layerStyling.style.shape}`).html(), layerStyling.style)
       legendItems[label] = layerStyling.layer
       return legendItems
     }, {})
@@ -80,12 +81,13 @@ export function initMap(dom_id) {
   map.prepareGeoMarkers = function (json) {
     let dataset = map.sortByMotuStations(json)
     let motuCount = Object.keys(dataset).length
+    nbColorPerScale = Math.max(3, Math.ceil(motuCount / markerShapes.length))
     this.markerLayers = {}
     let bounds = null
     let scale = chroma.scale('Spectral')
       .colors(Math.min(Math.max(2, motuCount), nbColorPerScale))
-    let altScale = chroma.scale('Spectral')
-      .colors(Math.max(2, motuCount % nbColorPerScale))
+    // let altScale = chroma.scale('Spectral')
+    //   .colors(Math.max(2, motuCount % nbColorPerScale))
     let motuStyles = []
     let motuIdx = 0
 
@@ -100,13 +102,27 @@ export function initMap(dom_id) {
         motu: motu
       }, markerStyle)
 
-      Object.entries(stations).forEach(([station, sequences]) => {
-        let lat = sequences[0].latitude
-        let lon = sequences[0].longitude
-        map.markerLayers[motu].addLayer(
-          L.shapeMarker([lat, lon], style)
-            .bindPopup(Mustache.render($("template#leaflet-popup-template").html(), sequences[0]))
-        )
+      Object.entries(stations).forEach(([station, stationInfo]) => {
+        let lat = stationInfo.latitude
+        let lon = stationInfo.longitude
+        let popupContent = L.DomUtil.create('div')
+        popupContent.innerHTML = Mustache.render($("template#leaflet-popup-template").html(), stationInfo)
+        let marker = L.shapeMarker([lat, lon], style).bindPopup(popupContent)
+        map.markerLayers[motu].addLayer(marker)
+
+        modalTablePromise.then(modalTable => {
+          $(popupContent).find("button").click(_ => {
+            modalTable.clear()
+            modalTable.rows.add(stationInfo.sequences)
+            modalTable.draw()
+            $("h4.modal-title").html(
+              Mustache.render('<a href="{{station_url}}">{{station_code}}</a> // MOTU {{motu}}', stationInfo)
+            )
+            $("#modal-container .modal").modal('show');
+          })
+        })
+
+
         if (bounds === null) {
           bounds = {
             lat: {
@@ -149,7 +165,6 @@ export function initMap(dom_id) {
     L.DomEvent.on(this.sliderControls.radiusSlider, "input",
       (event) => {
         let radius = event.target.value
-        let stroke = 2
         for (let layerGroup in markers)
           markers[layerGroup].invoke("setRadius", parseInt(radius))
       })

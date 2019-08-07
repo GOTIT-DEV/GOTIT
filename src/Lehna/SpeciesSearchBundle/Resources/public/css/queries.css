@@ -165,10 +165,20 @@ p.station-popup-row {
     grid-template-columns: auto-fit auto-fit;
     grid-template-rows: auto;
     grid-column-gap: 10px;
+    grid-auto-rows: min-content;
 }
 
 .station-popup a{
     color: #1ec8d8;
+}
+
+.station-popup hr{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.station-popup button > i::before{
+  margin-right: 5px;
 }
 
 input.leaflet-slider {
@@ -236,6 +246,19 @@ input.leaflet-slider::-moz-focus-outer {
     width: 100%;
     height: 80vh;
 }
+
+div.station-popup-wrapper{
+  display:flex;
+  
+}
+
+div.station-popup-side {
+  display:flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+  padding-left: 10px;
+}
+
 /* 
 h2#results-title {
   display: flex;
