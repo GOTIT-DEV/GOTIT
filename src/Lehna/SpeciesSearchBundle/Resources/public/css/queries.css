@@ -246,34 +246,3 @@ input.leaflet-slider::-moz-focus-outer {
     width: 100%;
     height: 80vh;
 }
-
-div.station-popup-wrapper{
-  display:flex;
-  
-}
-
-div.station-popup-side {
-  display:flex;
-  flex-flow: column;
-  flex-wrap: wrap;
-  padding-left: 10px;
-}
-
-/* 
-h2#results-title {
-  display: flex;
-  align-items: center;
-}
-
-span#result-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 60%;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-span#result-label .label {
-  font-size: 100%;
-  margin-right: 10px;
-  font-weight: inherit;
-} */
