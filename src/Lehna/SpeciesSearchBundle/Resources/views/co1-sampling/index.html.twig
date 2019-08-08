@@ -2,6 +2,14 @@
 
 {% trans_default_domain 'queries' %}
 
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+  <!-- Maps styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/leaflet-maps.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block titlepage %}
     <h1>
         {{"queries.echantillonnage.title" | trans }}

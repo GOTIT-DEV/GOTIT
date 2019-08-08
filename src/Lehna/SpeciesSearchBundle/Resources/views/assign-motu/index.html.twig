@@ -9,6 +9,12 @@
   <hr style="clear:both">
 {% endblock %}
 
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
   {# Main form #}
   {% include '@LehnaSpeciesSearch/assign-motu/form.html.twig' with criteres %}
