@@ -14,7 +14,8 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import { linkify, dtconfig, fetchCurrentUser } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig, linkify } from '../datatables_utils.js'
 
 /**
  * Toggle loading mode on
@@ -30,6 +31,10 @@ function uiReceivedResponse() {
   $("#main-form").find("button[type='submit']").button('reset')
 }
 
+/**
+ * Initialize result table
+ * @param {String} tableId DOM table id
+ */
 function initDataTable(tableId) {
   uiWaitResponse()
   if (!$.fn.DataTable.isDataTable(tableId)) {

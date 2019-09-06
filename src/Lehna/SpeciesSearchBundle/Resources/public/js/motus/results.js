@@ -15,7 +15,8 @@
  */
 
 import { ids } from "./main.js"
-import { linkify, dtconfig, fetchCurrentUser } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig, linkify } from '../datatables_utils.js'
 
 
 let lastQuery = {}
@@ -23,6 +24,10 @@ let detailsTable = null
 let dtbuttons = null
 let detailsFormData = null
 
+/**
+ * Initialize result table
+ * @param {String} tableId DOM table ID
+ */
 export function initDataTable(tableId) {
   uiWaitResponse()
   // Don't try to initialize if already init

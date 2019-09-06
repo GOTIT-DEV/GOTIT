@@ -30,7 +30,10 @@ let markerStyle = {
 const markerShapes = ["circle", "diamond", "triangle", "square"]
 let nbColorPerScale = 5
 
-
+/**
+ * Initialize leaflet map to display motu distribution
+ * @param {String} dom_id container DOM id
+ */
 export function initMap(dom_id) {
   let modalTablePromise = initModalTable("#sequence-table")
   let map = initBaseMap(dom_id)

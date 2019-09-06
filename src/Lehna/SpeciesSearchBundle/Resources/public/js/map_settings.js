@@ -18,6 +18,7 @@ import { styleControl } from './leaflet-style-controls.js'
 
 L.control.styleControl = styleControl
 
+
 let init_settings = {
   center: [0, 0],
   zoom: 10,
@@ -32,24 +33,35 @@ let init_settings = {
   fullscreenControl: true,
 }
 
-function initBaseMap(dom_id) {
-  let map = L.map(dom_id, init_settings)
+/**
+ * Initialize leaflet map in DOM container
+ * @param {string} dom_id container DOM id
+ * @param {object} settings optional settings
+ */
+function initBaseMap(dom_id, settings = {}) {
+  let map = L.map(dom_id, Object.assign(init_settings, settings))
 
+  // Base ESRI layer
   map.baseLayer = L.esri.basemapLayer("Imagery").addTo(map)
+  // Administrative annotations layer
   map.labelsLayer = L.esri.basemapLayer('ImageryLabels')
-
-  map.resetZoomBtn = L.easyButton('fa-crosshairs', _ => _, "Reset zoom").addTo(map)
-
-  map.sliderControls = L.control.styleControl({ position: 'bottomright' }).addTo(map)
+  // Reset zoom button
+  map.resetZoomBtn = L.easyButton('fa-crosshairs',
+    _ => console.error("No callback set for reset zoom button"),
+    "Reset zoom")
+    .addTo(map)
+  // Slider controls for marker styles
+  map.sliderControls = L.control.styleControl({
+    position: 'bottomright'
+  }).addTo(map)
 
   return map
 }
 
-function radiusToDasharray(radius, n = 10) {
-  let length = 2 * Math.PI * radius / n
-  return `${length},${length}`
-}
-
+/**
+ * Function closure to assign an update function for bounds to a given map object
+ * @param {L.map} map Leaflet map object
+ */
 function updateBounds(map) {
   return function (bounds) {
     map.bounds = [
@@ -63,4 +75,4 @@ function updateBounds(map) {
   }
 }
 
-export { init_settings, initBaseMap, radiusToDasharray, updateBounds }
+export { init_settings, initBaseMap, updateBounds }

@@ -15,25 +15,6 @@
  */
 
 /**
- * Fetch current user informations
- */
-function fetchCurrentUser() {
-  return fetch(Routing.generate("user_current"), { method: "GET", credentials: 'include' })
-}
-
-/**
- * Convenience fonction for jquery auto scrolling 
- * @param {string} elt_id target element selector
- * @param {int} time animation time in ms
- */
-function scrollToElement(elt_id, time = 1000) {
-  $('html, body').animate({
-    scrollTop: $(elt_id).offset().top
-  }, time);
-}
-
-
-/**
  * Renderer to truncate strings in datatable 
  * @param {int} cutoff max characters in string
  * @param {boolean} wordbreak allow word break
@@ -185,24 +166,4 @@ const dtconfig = {
   }
 }
 
-function asCSV(array) {
-  // Use first element to choose the keys and the order
-  var keys = Object.keys(array[0]);
-
-  // Build header
-  var result = keys.join(",") + "\n";
-
-  // Add the rows
-  array.forEach(function (obj) {
-    keys.forEach(function (k, ix) {
-      if (ix) result += ",";
-      if (obj[k] !== null) result += obj[k];
-    });
-    result += "\n";
-  });
-
-  return result;
-}
-
-
-export { fetchCurrentUser, dtconfig, linkify, asCSV, scrollToElement }
+export { dtconfig, linkify }

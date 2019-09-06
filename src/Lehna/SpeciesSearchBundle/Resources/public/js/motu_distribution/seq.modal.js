@@ -14,10 +14,14 @@
 * Author : Louis Duchemin <ls.duchemin@gmail.com>
 */
 
-import { dtconfig, linkify, fetchCurrentUser } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig, linkify } from '../datatables_utils.js'
 
 
-
+/**
+ * Initialize modal table to list sequences from a given station
+ * @param {String} tableId DOM result table ID
+ */
 export function initModalTable(tableId) {
   return fetchCurrentUser()
     .then(response => response.json())
@@ -26,14 +30,6 @@ export function initModalTable(tableId) {
       return $(tableId).DataTable({
         autoWidth: false,
         responsive: true,
-        // ajax: {
-        //   type: 'POST',
-        //   url: Routing.generate("motu-modal"),
-        //   dataSrc: '',
-        //   data: _ => {
-        //     return detailsFormData
-        //   }
-        // },
         language: dtconfig.language[$("html").attr("lang")],
         columns: [{
           data: 'code',
@@ -49,9 +45,6 @@ export function initModalTable(tableId) {
           render: linkify('https://www.ncbi.nlm.nih.gov/nuccore/',
             { col: 'acc', ellipsis: false, generateRoute: false })
         },
-        // {
-        //   data: 'gene'
-        // }, 
         {
           data: 'type',
           render: seqType => {
@@ -61,11 +54,7 @@ export function initModalTable(tableId) {
           }
         }, {
           data: 'motu'
-        }
-          // , {
-          //   data: 'critere'
-          // }
-        ],
+        }],
         dom: "lfrtipB",
         buttons: dtbuttons,
         drawCallback: _ => { $('[data-toggle="tooltip"]').tooltip() }

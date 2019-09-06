@@ -1,5 +1,6 @@
 
-import { fetchCurrentUser, dtconfig, linkify } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig, linkify } from '../datatables_utils.js'
 /**
  * Initializes Datatable on result table DOM element
  * @param {String} tableId result table DOM id

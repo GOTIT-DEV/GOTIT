@@ -13,7 +13,7 @@
  * 
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
-import { asCSV } from '../queries.js'
+import { asCSV } from '../utils.js'
 import { initMap } from './map.js'
 import { initDataTable } from './results.js'
 import { SpeciesSelector } from '../form_elements/species_select.js'
@@ -57,7 +57,7 @@ function fetchSamplingCoords(formData) {
  * @param {Object} json Station sampling JSON response
  */
 function displayModal(json) {
-  let plotParams = stationMap.prepareGeoMarkers(json.stations);
+  let plotParams = stationMap.prepareGeoMarkers(json.stations)
   stationMap.updateMarkers(plotParams.markers)
   stationMap.updateBounds(plotParams.bounds)
 
@@ -68,9 +68,13 @@ function displayModal(json) {
   $("#detailsModal").modal('show')
 }
 
+/**
+ * Callback on datatables results drawn
+ */
 function onResultsDraw() {
   uiReceivedResponse()
   $('[data-toggle="tooltip"]').tooltip()
+
   $(".details-form").submit(event => {
     event.preventDefault()
     let formData = new FormData(event.target)
@@ -78,6 +82,7 @@ function onResultsDraw() {
     fetchSamplingCoords(formData)
       .then(json => displayModal(json))
   }) // .details-form.submit
+
   $(".download-details").submit(event => {
     event.preventDefault()
     let formData = new FormData(event.target)
@@ -85,6 +90,10 @@ function onResultsDraw() {
   })
 }
 
+/**
+ * Download stations data as CSV for a given taxon
+ * @param {Object} json 
+ */
 function downloadSamplingDetails(json) {
   let fileName = json.taxname + "_sampling.csv"
   let csv = asCSV(json.stations)

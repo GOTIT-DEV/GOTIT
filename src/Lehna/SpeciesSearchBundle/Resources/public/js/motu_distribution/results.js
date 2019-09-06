@@ -14,7 +14,8 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import { dtconfig, linkify, fetchCurrentUser } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig, linkify } from '../datatables_utils.js'
 
 const form = $("#main-form")
 const renderNumber = $.fn.dataTable.render.number('', '.', 3)
@@ -61,6 +62,11 @@ const columns = [
   }
 ]
 
+/**
+ * Initialize result table
+ * @param {String} tableId DOM table id
+ * @param {Function} uiReceivedResponse Callback function on ajax JSON response
+ */
 export function initDataTable(tableId, uiReceivedResponse) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(user => {
@@ -91,7 +97,6 @@ export function initDataTable(tableId, uiReceivedResponse) {
       })
 
       $('#table-tab a ').on('shown.bs.tab', _ => {
-        // scrollToElement('#resultats', 500)
         dataTable.columns.adjust()
       })
 

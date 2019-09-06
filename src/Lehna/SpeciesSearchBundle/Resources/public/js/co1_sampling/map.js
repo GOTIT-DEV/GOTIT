@@ -14,11 +14,17 @@
 * Author : Louis Duchemin <ls.duchemin@gmail.com>
 */
 
-import { initBaseMap, radiusToDasharray, updateBounds } from '../map_settings.js'
+import { initBaseMap, updateBounds } from '../map_settings.js'
 
 let radius = 5
 let outerStroke = radius * 3 / 5
 let nDashes = 10
+
+function radiusToDasharray(radius, n = 10) {
+  let length = 2 * Math.PI * radius / n
+  return `${length},${length}`
+}
+
 let markerStyles = {
   co1: {
     color: 'black',

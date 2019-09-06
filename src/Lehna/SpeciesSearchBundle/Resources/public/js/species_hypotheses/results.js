@@ -14,10 +14,14 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import { fetchCurrentUser, dtconfig } from '../queries.js'
+import { fetchCurrentUser } from '../utils.js'
+import { dtconfig } from '../datatables_utils.js'
 import { BarPlot } from '../plots.js'
 
-
+/**
+ * Initialize result table
+ * @param {String} tableId DOM table ID
+ */
 export function initDataTable(tableId) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
     fetchCurrentUser().then(response => response.json())

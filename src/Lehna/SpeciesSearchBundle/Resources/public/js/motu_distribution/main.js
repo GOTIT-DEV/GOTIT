@@ -18,7 +18,7 @@ import { SpeciesSelector } from '../form_elements/species_select.js'
 import { MethodSelector } from '../form_elements/method_select.js'
 import { initDataTable } from './results.js'
 import { initMap } from './map.js'
-import { scrollToElement } from '../queries.js'
+import { scrollToElement } from '../utils.js'
 
 const formId = "#main-form"
 let map = initMap("motu-geo-map")
@@ -62,21 +62,10 @@ function toggleTabs(activeMap) {
  */
 function uiReceivedResponse(response) {
   $(formId).find("button[type='submit']").button('reset')
-  // if (response.rows) {
-  //   $("#result-label").html(Mustache.render($("#geo-title-template").html(), {
-  //     taxname: response.rows[0]['taxname'],
-  //     code_methode: response.methode.code,
-  //     dataset: response.methode.libelle_motu
-  //   }))
-  // }
   let showGeo = ('taxname' in response.query && response.rows.length)
   map.resetMarkers()
   let plotParams = map.prepareGeoMarkers(response.rows)
   map.updateMarkers(plotParams.markers)
   map.updateBounds(plotParams.bounds)
-
-  // if (showGeo) {
-  //   updateMap(response)
-  // }
   toggleTabs(showGeo)
 }
