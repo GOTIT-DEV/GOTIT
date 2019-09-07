@@ -44,7 +44,7 @@ export function initMap(dom_id) {
     Object.entries(map.markerLayers).forEach(([motu, layer]) =>{
       if (!map.hasLayer(layer)) map.addLayer(layer)
     })
-  }, "Reset filter").addTo(map)
+  }, Translator.trans("maps.controls.filter.reset")).addTo(map)
 
   map.sliderControls.opacitySlider.value = markerStyle.opacity
 
@@ -77,7 +77,7 @@ export function initMap(dom_id) {
       legendItems[label] = layerStyling.layer
       return legendItems
     }, {})
-    overlayMarks.Borders = map.labelsLayer
+    overlayMarks[Translator.trans("maps.labels")] = map.labelsLayer
     this.legend = L.control
       .layers(null, overlayMarks)
       .addTo(this)

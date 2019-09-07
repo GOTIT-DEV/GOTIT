@@ -71,7 +71,7 @@ class BarPlot extends BasePlot {
       },
       // Y axis
       yaxis: {
-        title: Translator.trans('queries.rearrangement.short', {}, 'queries'),
+        title: Translator.trans('queries.specieshypotheses.short', {}, 'queries'),
         titlefont: {
           family: 'sans serif',
           size: 18,

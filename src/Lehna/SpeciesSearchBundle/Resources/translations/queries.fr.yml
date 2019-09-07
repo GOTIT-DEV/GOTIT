@@ -10,7 +10,7 @@ label:
     constraints: Contraintes
   resultats: Résultats
   reference: Méthode de référence
-  morphologie: Morphologie
+  morpho: Morphologie
   morphotaxon: Taxon
   target: Jeu de données à comparer
 tabs:
@@ -31,9 +31,9 @@ methode:
 plots:
   noresult: Aucun résultat à afficher
 ui:
-  fermer: Fermer
+  close: Fermer
 entity:
-  lotmateriel: 
+  biomaterial: 
     label: Lot matériel
     id: ID lot matériel
     species: Espèce lot mat.
@@ -54,33 +54,43 @@ entity:
       interne: Interne
       externe: Externe
 
-geo:
-  station:
-    lotmateriel: 
-      interne: Stations lot mat. (Interne)
-      externe: Stations lot mat. (Externe)
-    co1: Stations COI
+maps:
+  labels: Régions
+  controls:
+    opacity: Opacité
+    radius: Rayon
+    zoom:
+      reset: Vue par défaut
+    filter:
+      reset: Afficher tout
+      motu: "Afficher ce MOTU uniquement"
 
 queries:
   navtitle: Recherche taxonomique
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
     nav: MOTU
-  rearrangement:
+  specieshypotheses:
     title: Réarrangements taxonomiques entre méthodes
     nav: Réarrangements taxonomiques
     short: Réarrangements
-  richesse:
+  distribution:
     title: 'Carte de richesse : distribution des MOTUs'
     nav: Carte de richesse
     param:
-      echantillonnage: Superposer les données d'échantillonnage COI
-  echantillonnage:
+      sampling: Superposer les données d'échantillonnage COI
+  sampling:
     title: Données d'échantillonnage COI
     nav: Echantillonnage COI
+    biomaterial:
+      internal: Lot matériel (Interne)
+      external: Lot matériel (Externe)
+    co1: Echantillon CO1
+    lmp: Point médian latitudinal (LMP)
   concordance:
     nav: Comparaison d'espèces
     title: Comparer les attributions d'espèces 
+
 columns:
   id: ID
   code: Code
@@ -95,7 +105,7 @@ columns:
   type: Type
   seqid: ID. séq.
   taxon: Taxon
-  methode: Méthode moléculaire
+  method: Méthode moléculaire
   dataset: Jeu de données
   seq: Séquence
   seqs: Séquences
@@ -112,8 +122,8 @@ columns:
   split: Split
   lump: Lump
   reshuffling: Reshuffling
-  commune: Commune
-  pays: Pays
+  municipality: Commune
+  country: Pays
   gene: Gène
   seqcode: Code séq.
   any: Sans contrainte

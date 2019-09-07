@@ -10,7 +10,7 @@ label:
     constraints: Constraint parameters
   resultats: Results
   reference: Reference method
-  morphologie: Morphology
+  morpho: Morphology
   morphotaxon: Taxon
   target: Target dataset
 tabs:
@@ -31,9 +31,9 @@ methode:
 plots:
   noresult: No results to plot
 ui:
-  fermer: Close
+  close: Close
 entity:
-  lotmateriel: 
+  biomaterial: 
     label: Biological material
     id: Bio. mat. ID
     species: BM taxon
@@ -54,30 +54,39 @@ entity:
       interne: Internal
       externe: External
 
-geo:
-  station:
-    lotmateriel: 
-      interne: Bio. Mat. Sites (Internal)
-      externe: Bio. Mat. Sites (External)
-    co1: COI Sites
+maps:
+  labels: Area labels
+  controls:
+    opacity: Opacity
+    radius: Radius
+    zoom:
+      reset: Reset default view
+    filter:
+      reset: Show all stations
+      motu: Filter on this MOTU
 
 queries:
   navtitle: Species search # Dropdown menu label in navbar
   motu:
     title: Molecular Operational Taxonomic Unit (MOTU)
     nav: MOTU
-  rearrangement:
+  specieshypotheses:
     title: Correspondance among species hypotheses
     nav: Species hypotheses
     short: Correspondances
-  richesse:
+  distribution:
     title: MOTU distribution data
     nav: Distribution data
     param:
-      echantillonnage: Superpose COI sampling data
-  echantillonnage:
+      sampling: Superpose COI sampling data
+  sampling:
     title: COI sampling sites
     nav: COI data set
+    biomaterial:
+      internal: Bio. material (Internal)
+      external: Bio. material (External)
+    co1: CO1 sample
+    lmp: Latitudinal midpoint (LMP)
   concordance:
     nav: Species names
     title: Compare species name attribution
@@ -95,7 +104,7 @@ columns:
   type: Type
   seqid: Seq ID
   taxon: Taxon
-  methode: Molecular method
+  method: Molecular method
   dataset: Data set
   seq: Sequence
   seqs: Sequences
@@ -112,8 +121,8 @@ columns:
   split: Split
   lump: Lump
   reshuffling: Reshuffling
-  commune: Municipality
-  pays: Country
+  municipality: Municipality
+  country: Country
   gene: Gene
   seqcode: Seq. Code
   any: Any

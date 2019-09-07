@@ -116,7 +116,7 @@ function initMap(dom_id) {
       [$("template#bio-mat-legend").html()]: markers.bioMat,
       [$("template#bio-mat-ext-legend").html()]: markers.bioMatExt,
       [$("template#lmp-legend").html()]: markers.lmpLines,
-      "Borders": map.labelsLayer
+      [Translator.trans("maps.labels")]: map.labelsLayer
     }
 
     this.legend = L.control

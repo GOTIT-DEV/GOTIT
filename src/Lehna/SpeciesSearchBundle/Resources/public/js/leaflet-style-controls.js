@@ -27,7 +27,7 @@ L.Control.StyleControl = L.Control.extend({
         L.DomEvent.disableClickPropagation(panel);
         // Radius slider
         let radiusLabel = L.DomUtil.create("label", "leaflet-ctrl-label", panel)
-        radiusLabel.innerHTML = "Radius"
+        radiusLabel.innerHTML = Translator.trans("maps.controls.radius")
         let radiusCtnr = L.DomUtil.create("div", "leaflet-slider-container", panel)
         this.radiusSlider = L.DomUtil.create("input", "leaflet-slider", radiusCtnr)
         Object.assign(this.radiusSlider, {
@@ -38,7 +38,7 @@ L.Control.StyleControl = L.Control.extend({
         })
         // Opacity slider
         let opacityLabel = L.DomUtil.create("label", "leaflet-ctrl-label", panel)
-        opacityLabel.innerHTML = "Opacity"
+        opacityLabel.innerHTML = Translator.trans("maps.controls.opacity")
         let opacityCtnr = L.DomUtil.create("div", "leaflet-slider-container", panel)
         this.opacitySlider = L.DomUtil.create("input", "leaflet-slider", opacityCtnr)
         Object.assign(this.opacitySlider, {

@@ -48,7 +48,7 @@ function initBaseMap(dom_id, settings = {}) {
   // Reset zoom button
   map.resetZoomBtn = L.easyButton('fa-crosshairs',
     _ => console.error("No callback set for reset zoom button"),
-    "Reset zoom")
+    Translator.trans("maps.controls.zoom.reset"))
     .addTo(map)
   // Slider controls for marker styles
   map.sliderControls = L.control.styleControl({
