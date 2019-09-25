@@ -5,7 +5,7 @@
 {% block titlepage %}
   <h2>
     {% trans %}
-    queries.rearrangement.title
+    queries.specieshypotheses.title
     {% endtrans %}
   </h2>
   <hr style="clear:both">
@@ -26,7 +26,6 @@
 {% block scripts %}
 
   {{ parent() }}
-  <script src="{{asset('bundles/lehnaspeciessearch/js/plots.js')}}"></script>
-  <script src="{{asset('bundles/lehnaspeciessearch/js/species_hypotheses.js')}}"></script>
+  <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/species_hypotheses/main.js')}}"></script>
 
 {% endblock %}

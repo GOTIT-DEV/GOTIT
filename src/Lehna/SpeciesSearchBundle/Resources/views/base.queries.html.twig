@@ -3,21 +3,37 @@
 {% block stylesheets %}
   {{ parent() }}
   <!-- Bootstrap toggle -->
-  <link href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
   <!-- Bootstrap select -->
-  <link href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
   <!-- Datatables -->
-  <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
+  <!-- Leaflet style -->
+  <link
+  href="{{ asset('e3s/vendors/leaflet/leaflet.css') }}" rel="stylesheet">
+  <!--Leaflet fullscreen plugin -->
+  <link
+  href='{{ asset('e3s/vendors/leaflet-fullscreen/leaflet.fullscreen.css') }}' rel='stylesheet'/>
+  <!-- Leaflet Easy Button style -->
+  <link
+  href="{{ asset('e3s/vendors/leaflet-easybutton/easy-button.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/queries.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('bundles/lehnaspeciessearch/css/common.css') }}" rel="stylesheet">
   <!-- Datatables Style -->
   <link href="{{ asset('bundles/lehnaspeciessearch/css/datatables.fa.css') }}" rel="stylesheet">
-
 {% endblock %}
 
 {% block headincl %}
-  <!-- Plotly -->
+  <!-- Plotly and Leaflet for maps-->
   <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
+  <script src="{{ asset('e3s/vendors/leaflet/leaflet.js') }}"></script>
+  <script src="{{ asset('e3s/vendors/leaflet-easybutton/easy-button.js') }}"></script>
+  <script src="{{ asset('e3s/vendors/esri-leaflet/esri-leaflet.js') }}"></script>
+  <script src='{{ asset('e3s/vendors/leaflet-fullscreen/Leaflet.fullscreen.min.js') }}'></script>
 {% endblock %}
 
 {% block titlepage %}
@@ -25,7 +41,7 @@
 {% endblock %}
 
 {% block action %}
-{{ parent() }}
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -53,7 +69,5 @@
   <script src="{{ asset('e3s/vendors/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
   <!-- Mustache templating engine -->
   <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
-  <!-- Custom Scripts -->
-  <script src="{{ asset('bundles/lehnaspeciessearch/js/queries.js') }}"></script>
 
 {% endblock %}

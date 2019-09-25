@@ -57,7 +57,7 @@ class CO1SamplingController extends Controller {
     $data = $request->request;
 
     # fetch sampling data
-    $all_sta = $service->getSpeciesGeoSummary($data);
+    $all_sta = $service->getSpeciesGeoSummary($data, $coi = false);
     $coi_sta = $service->getSpeciesGeoSummary($data, $coi = true);
 
     # merge specimen sampling data and COI sampling data 
@@ -82,7 +82,7 @@ class CO1SamplingController extends Controller {
     $res = array_values($all_sta);
 
     # return JSON response
-    return new JsonResponse(array('rows' => $res));
+    return new JsonResponse($res);
   }
 
   /**
@@ -97,14 +97,22 @@ class CO1SamplingController extends Controller {
     $id   = $data->get('taxon');
     # fetch sampling sites 
     $no_co1   = $service->getSpeciesGeoDetails($id, 0);
+    foreach($no_co1 as $key => &$val){
+      $val['co1'] = false;
+    }
     $with_co1 = $service->getSpeciesGeoDetails($id, 1);
+    foreach($with_co1 as $key => &$val){
+      $val['co1'] = true;
+    }
+    unset($val);
+
+    $stations = array_merge($no_co1, $with_co1);
     # fetch taxon details
     $taxon = $this->getDoctrine()->getRepository(ReferentielTaxon::class)->find($id);
     # return JSON response
     return new JsonResponse(array(
       'taxname'  => $taxon->getTaxname(),
-      'with_co1' => $with_co1,
-      'no_co1'   => $no_co1,
+      'stations' => $stations
     ));
   }
 }

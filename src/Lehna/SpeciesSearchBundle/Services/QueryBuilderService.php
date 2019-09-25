@@ -328,7 +328,7 @@ class QueryBuilderService {
     return $res;
   }
 
-  public function getSpeciesGeoDetails($id, $co1 = -1) {
+  public function getSpeciesGeoDetails($id, $co1 = false) {
 
     if ($co1) {
       $station_subquery = "SELECT DISTINCT
@@ -364,15 +364,15 @@ class QueryBuilderService {
     $rawSql = "WITH esta AS ($station_subquery)";
     $rawSql .= "SELECT DISTINCT
                 rt.id as taxon_id,
-                rt.taxname,
-                esta.lm_id as lm_id,
-                s.id,
-                s.code_station,
+                rt.taxname as taxon_name,
+                esta.lm_id as bio_mat_id,
+                s.id as station_id,
+                s.code_station as station_code,
                 s.lat_deg_dec as latitude,
                 s.long_deg_dec as longitude,
                 s.altitude_m as altitude,
-                c.nom_commune as commune,
-                p.nom_pays as pays
+                c.nom_commune as municipality,
+                p.nom_pays as country
             FROM referentiel_taxon rt
             JOIN esta ON esta.referentiel_taxon_fk = rt.id
             JOIN station s ON s.id = esta.id_sta
@@ -502,7 +502,7 @@ class QueryBuilderService {
     $rawSql = "WITH liste_motus AS ($subquery)";
     $rawSql .= "SELECT DISTINCT seq.id, seq.code, seq.accession_number,
             seq.delimitation,
-            seq.type_seq,
+            seq.type_seq as seq_type,
             liste_motus.id_methode,
             liste_motus.methode,
             liste_motus.id_dataset,
@@ -514,9 +514,9 @@ class QueryBuilderService {
             station.altitude_m as altitude,
             station.lat_deg_dec as latitude,
             station.long_deg_dec as longitude,
-            station.code_station,
-            commune.nom_commune as commune,
-            pays.nom_pays as pays
+            station.code_station as station_code,
+            commune.nom_commune as municipality,
+            pays.nom_pays as country
 
             FROM (SELECT id,code,  accession_number,
                  collecte_fk, rt, delimitation, type_seq

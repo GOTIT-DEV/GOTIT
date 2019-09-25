@@ -9,14 +9,20 @@
   <hr style="clear:both">
 {% endblock %}
 
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-  {# Formulaire #}
+  {# Main form #}
   {% include '@LehnaSpeciesSearch/assign-motu/form.html.twig' with criteres %}
 
-  {# Tableau résultats #}
+  {# Result table #}
   {% include '@LehnaSpeciesSearch/assign-motu/results.html.twig' %}
 
-  {# Modal et templates HTML #}
+  {# Modal and templates #}
   <div id="modal-container">
     {% include '@LehnaSpeciesSearch/assign-motu/details.modal.html.twig' %}
   </div>
@@ -29,6 +35,6 @@
 {% block scripts %}
   {{ parent() }}
 
-  <script src="{{asset('bundles/lehnaspeciessearch/js/assignations_motus.js')}}"></script>
+  <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motus/main.js')}}"></script>
 
 {% endblock %}

@@ -91,8 +91,6 @@ class AssignationMotuController extends Controller {
     # execute query
     $res = $service->getMotuSeqList($data);
     # return JSON response
-    return new JsonResponse(array(
-      'rows' => $res,
-    ));
+    return new JsonResponse($res);
   }
 }

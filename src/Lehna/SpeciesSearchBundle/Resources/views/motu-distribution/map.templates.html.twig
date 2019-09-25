@@ -1,0 +1,79 @@
+{% trans_default_domain 'queries' %}
+
+<template id="leaflet-popup-template">
+
+  <div class="station-popup-wrapper">
+    <div class="station-popup">
+      {% verbatim %}
+        <label style="grid-column: 1 / span 2;">
+          <a href={{station_url}}>
+            <b>{{station_code}}</b>
+          </a>
+        </label>
+        <label>MOTU:</label>
+        <span>{{motu}}</span>
+        <label>Lat:</label>
+        <span>{{latitude}}</span>
+        <label>Lon:</label>
+        <span>{{longitude}}</span>
+        <label>Alt:</label>
+        <span>{{altitude}}
+          m</span>
+        <span style="grid-column: 1 / span 2;text-align:right">{{municipality}}</span>
+        <span style="grid-column: 1 / span 2;text-align:right">{{country}}</span>
+
+      <span style="grid-column: 1 / span 2;">
+        <hr/>
+        <button class="btn btn-sm btn-seq-modal btn-dark" title="Sequences">
+          <i class="fa fa-th-list">{{sequences.length}}</i>
+        </button>
+
+      {% endverbatim %}
+        <button class="btn btn-sm btn-dark btn-marker-isolate" title='{{ "maps.controls.filter.motu"|trans}}'>
+          <i class="fa fa-eye"></i>
+        </button>
+      </span>
+
+    </div>
+  </div>
+</template>
+
+<template class="marker-legend" id="circle">
+  {% verbatim %}
+    <span>MOTU
+      {{motu}}</span>
+    <svg height="16px" width="16px">
+      <circle cx="8" cy="8" fill={{fillColor}} r="5" stroke-width="1" stroke={{color}} color={{color}} fill-opacity={{fillOpacity}}/>
+    </svg>
+  {% endverbatim %}
+</template>
+
+<template class="marker-legend" id="diamond">
+  {% verbatim %}
+    <span>MOTU
+      {{motu}}</span>
+    <svg height="16px" width="16px">
+      <rect x="4" y="4" width="8" height="8" fill={{fillColor}} r="5" stroke-width="1" stroke={{color}} color={{color}} fill-opacity={{fillOpacity}} transform="rotate(45, 8, 8)"/>
+    </svg>
+  {% endverbatim %}
+</template>
+
+<template class="marker-legend" id="triangle">
+  {% verbatim %}
+    <span>MOTU
+      {{motu}}</span>
+    <svg height="16px" width="16px">
+      <polygon points="8,2 14,14 2,14" fill={{fillColor}} r="5" stroke-width="1" stroke={{color}} color={{color}} fill-opacity={{fillOpacity}}/>
+    </svg>
+  {% endverbatim %}
+</template>
+
+<template class="marker-legend" id="square">
+  {% verbatim %}
+    <span>MOTU
+      {{motu}}</span>
+    <svg height="16px" width="16px">
+      <rect x="4" y="4" width="8" height="8" fill={{fillColor}} r="5" stroke-width="1" stroke={{color}} color={{color}} fill-opacity={{fillOpacity}}/>
+    </svg>
+  {% endverbatim %}
+</template>

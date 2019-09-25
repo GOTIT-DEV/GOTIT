@@ -11,13 +11,16 @@
       <div class="modal-body">
         {% block modal_body %}{% endblock %}
       </div>
+      {% block modal_footer %}
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        {% block modal_footer_content %}{% endblock %}
+        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">
           {% trans %}
-          ui.fermer
+          ui.close
           {% endtrans %}
         </button>
       </div>
+      {% endblock %}
     </div>
   </div>
   {% block extra_templates %}
