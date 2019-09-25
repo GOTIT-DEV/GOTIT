@@ -1,39 +1,39 @@
 .form-inline .form-control.taxa-select {
-    width: 100%;
+  width: 100%;
 }
 
 .dataTable a {
-    color: #337ab7;
+  color: #337ab7;
 }
 
 .dataTable a:hover {
-    color: #005580;
+  color: #005580;
 }
 
 .dt-top-bar {
-    float: right;
-    width: 60%
+  float: right;
+  width: 60%
 }
 
 @-moz-document url-prefix() {
-    fieldset {
-        display: table-cell;
-    }
+  fieldset {
+    display: table-cell;
+  }
 }
 
 .tooltip {
-    max-width: unset;
+  max-width: unset;
 }
 
 .tooltip-inner {
-    max-width: unset;
+  max-width: unset;
 }
 
 .tooltip-arrow {
-    max-width: unset;
+  max-width: unset;
 }
 
 .taxon-spinner {
-    font-size: 18px;
-    padding: 0 20px;
+  font-size: 18px;
+  padding: 0 20px;
 }

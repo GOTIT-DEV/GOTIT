@@ -3,21 +3,26 @@
 {% block stylesheets %}
   {{ parent() }}
   <!-- Bootstrap toggle -->
-  <link href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/bootstrap-toggle/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
   <!-- Bootstrap select -->
-  <link href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
-  <!-- Bootstrap slider -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css" integrity="sha256-G3IAYJYIQvZgPksNQDbjvxd/Ca1SfCDFwu2s2lt0oGo=" crossorigin="anonymous" />
+  <link
+  href="{{ asset('e3s/vendors/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
   <!-- Datatables -->
-  <link href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/datatables/datatables.min.css') }}" rel="stylesheet">
   <!-- Leaflet style -->
-  <link href="{{ asset('e3s/vendors/leaflet/leaflet.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('e3s/vendors/leaflet/leaflet.css') }}" rel="stylesheet">
   <!--Leaflet fullscreen plugin -->
-  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+  <link
+  href='{{ asset('e3s/vendors/leaflet-fullscreen/leaflet.fullscreen.css') }}' rel='stylesheet'/>
   <!-- Leaflet Easy Button style -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+  <link
+  href="{{ asset('e3s/vendors/leaflet-easybutton/easy-button.css') }}" rel="stylesheet">
   <!-- Custom Theme Style -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/common.css') }}" rel="stylesheet">
+  <link
+  href="{{ asset('bundles/lehnaspeciessearch/css/common.css') }}" rel="stylesheet">
   <!-- Datatables Style -->
   <link href="{{ asset('bundles/lehnaspeciessearch/css/datatables.fa.css') }}" rel="stylesheet">
 {% endblock %}
@@ -26,11 +31,9 @@
   <!-- Plotly and Leaflet for maps-->
   <script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
   <script src="{{ asset('e3s/vendors/leaflet/leaflet.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-  <script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
-    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
-    crossorigin=""></script>
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <script src="{{ asset('e3s/vendors/leaflet-easybutton/easy-button.js') }}"></script>
+  <script src="{{ asset('e3s/vendors/esri-leaflet/esri-leaflet.js') }}"></script>
+  <script src='{{ asset('e3s/vendors/leaflet-fullscreen/Leaflet.fullscreen.min.js') }}'></script>
 {% endblock %}
 
 {% block titlepage %}
@@ -38,7 +41,7 @@
 {% endblock %}
 
 {% block action %}
-{{ parent() }}
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -66,7 +69,5 @@
   <script src="{{ asset('e3s/vendors/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
   <!-- Mustache templating engine -->
   <script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
-  <!-- Bootstrap slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js">
-  </script>
+
 {% endblock %}
