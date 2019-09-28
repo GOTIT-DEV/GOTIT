@@ -269,7 +269,7 @@ function callAjax(form, $container, index) {
     data: form.serialize(),
     beforeSend: function(htmlResponse) {
       var $content_to_change = $('div#content_to_change_' + htmlResponse['entityname']);
-      $content_to_change.html('<i class="fa fa-spinner fa-spin fa-4x"></i>');
+      $content_to_change.html('<i class="fas fa-spinner fa-spin fa-4x"></i>');
     },
     error: function(jqXHR, textStatus, errorThrown) {
       alert('error ajax request : ' + errorThrown);
