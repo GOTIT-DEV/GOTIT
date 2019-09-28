@@ -266,13 +266,13 @@ body {
 }
 
 .nav-sm ul.nav.child_menu {
-  left: 100%;
+  left: calc(100% + 5px);
   position: absolute;
   top: 0;
   width: 210px;
   z-index: 4000;
   background: #3E5367;
-  display: none
+  display: none;
 }
 
 .nav-sm ul.nav.child_menu li {
@@ -362,32 +362,38 @@ body {
   float: left
 }
 
-.main_menu span.fa {
+.main_menu span.fas,
+.main_menu span.far {
   float: right;
   text-align: center;
   margin-top: 5px;
   font-size: 10px;
   min-width: inherit;
-  color: #C4CFDA
+  color: #C4CFDA;
+  position: absolute;
+  right: 8px;
 }
 
-.active a span.fa {
+.active>a>span.fas,
+.active>a>span.far {
   text-align: right !important;
-  margin-right: 4px
+  right: 11px;
 }
 
 .nav-sm .menu_section {
   margin: 0
 }
 
-.nav-sm span.fa,
+.nav-sm span.fas,
+.nav-sm span.far,
 .nav-sm .menu_section h3 {
   display: none
 }
 
-.nav-sm li li span.fa {
+/* .nav-sm li li span.fas,
+.nav-sm li li span.far {
   display: inline-block
-}
+} */
 
 .nav_menu {
   float: left;
@@ -437,18 +443,22 @@ body .container.body .right_col {
 }
 
 @media (max-width: 991px) {
+
   .nav-md .container.body .right_col,
   .nav-md .container.body .top_nav {
     width: 100%;
     margin: 0
   }
+
   .nav-md .container.body .col-md-3.left_col {
     display: none
   }
+
   .nav-md .container.body .right_col {
     width: 100%;
     padding-right: 0
   }
+
   .right_col {
     padding: 10px !important
   }
@@ -459,6 +469,7 @@ body .container.body .right_col {
     width: 62%;
     font-size: 17px
   }
+
   .tile,
   .graph {
     zoom: 85%;
@@ -2190,40 +2201,14 @@ h4.graph_title {
   text-align: center
 }
 
-.fontawesome-icon-list .fa-hover a:hover {
-  background-color: #ddd;
-  color: #fff;
-  text-decoration: none
-}
-
-.fontawesome-icon-list .fa-hover a {
-  display: block;
-  line-height: 32px;
-  height: 32px;
-  padding-left: 10px;
-  border-radius: 4px
-}
-
-.fontawesome-icon-list .fa-hover a:hover .fa {
-  font-size: 28px;
-  vertical-align: -6px
-}
-
-.fontawesome-icon-list .fa-hover a .fa {
-  width: 32px;
-  font-size: 16px;
-  display: inline-block;
-  text-align: right;
-  margin-right: 10px
-}
-
-.main_menu .fa {
+.main_menu .fas,
+.main_menu .far {
   width: 26px;
   opacity: .99;
   display: inline-block;
-  font-family: FontAwesome;
+  /* font-family: FontAwesome; */
   font-style: normal;
-  font-weight: normal;
+  /* font-weight: normal; */
   font-size: 18px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale
@@ -2958,6 +2943,7 @@ textarea:focus {
     margin-right: 0;
     margin-left: 0
   }
+
   .bs-glyphicons li {
     width: 12.5%;
     font-size: 12px
@@ -4284,7 +4270,7 @@ form:after {
 .button {
   background: #f7f9fa;
   background: linear-gradient(top, #f7f9fa 0%, #f0f0f0 100%);
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f7f9fa', endColorstr='#f0f0f0', GradientType=0);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#f7f9fa', endColorstr='#f0f0f0', GradientType=0);
   -ms-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
   -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
@@ -4536,10 +4522,12 @@ fieldset {
   .cropper .btn-group-crop {
     margin-right: -15px !important
   }
+
   .cropper .btn-group-crop>.btn {
     padding-left: 5px;
     padding-right: 5px
   }
+
   .cropper .btn-group-crop .docs-tooltip {
     margin-left: -5px;
     margin-right: -5px;
@@ -4993,6 +4981,7 @@ ul.notifications {
     width: 100%;
     margin-bottom: 5px;
   }
+
   .dataTables_wrapper .col-sm-6 .dataTables_filter {
     float: none;
   }

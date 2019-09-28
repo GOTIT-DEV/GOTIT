@@ -131,18 +131,18 @@ const dtconfig = {
   }],
   language: {
     'en': {
-      "sProcessing": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Processing...",
-      "sLoadingRecords": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Loading...",
+      "sProcessing": "<i class='fas fa-spin fa-spinner'></i>&nbsp;Processing...",
+      "sLoadingRecords": "<i class='fas fa-spin fa-spinner'></i>&nbsp;Loading...",
     },
     'fr': {
-      "sProcessing": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Traitement en cours...",
+      "sProcessing": "<i class='fas fa-spin fa-spinner'></i>&nbsp;Traitement en cours...",
       "sSearch": "Rechercher&nbsp;:",
       "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
       "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
       "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
       "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
       "sInfoPostFix": "",
-      "sLoadingRecords": "<i class='fa fa-spin fa-spinner'></i>&nbsp;Chargement en cours...",
+      "sLoadingRecords": "<i class='fas fa-spin fa-spinner'></i>&nbsp;Chargement en cours...",
       "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
       "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
       "oPaginate": {
