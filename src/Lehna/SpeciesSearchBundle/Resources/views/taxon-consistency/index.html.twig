@@ -10,21 +10,20 @@
 {% endblock %}
 
 {% block body %}
-  <div class='row' style='padding:10px'>
+  <div
+    class='row' style='padding:10px'>
     {# Formulaire #}
     {% include '@LehnaSpeciesSearch/taxon-consistency/form.html.twig' %}
   </div>
 
-  <div class="row">
-    <fieldset>
-      <legend>
-        <h2 style='margin-bottom:18px'>
-          {{"label.resultats" | trans }}
-        </h2>
-      </legend>
-      {% include '@LehnaSpeciesSearch/taxon-consistency/results.html.twig' %}
-    </fieldset>
-  </div>
+  <fieldset>
+    <legend>
+      <h2 style='margin-bottom:18px'>
+        {{"label.resultats" | trans }}
+      </h2>
+    </legend>
+    {% include '@LehnaSpeciesSearch/taxon-consistency/results.html.twig' %}
+  </fieldset>
 
 {% endblock %}
 
