@@ -5,9 +5,9 @@
 {% set base_route_index = app.request.attributes.get('_route') %}
 {% set base_route_url = base_route_index|split('_')[0] %}
 {% set help_message = base_route_index|trans({},'help')|nl2br %}
-{% if help_message ==  base_route_index %} 
-        {% set help_message =  base_route_index %} 
-{% endif %} 
+{% if help_message ==  base_route_index %}
+  {% set help_message =  base_route_index %}
+{% endif %}
 
 
 {# Main TWIG template of GOTIT application : BASE.HTML.TWIG #}
@@ -16,32 +16,35 @@
 
 <html lang="{{ app.request.locale|split('_')[0] }}">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta
+    http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico" />
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico"/>
 
     <title>
-        {% block title %}
-            GOTIT 
-        {% endblock %}
+      {% block title %}
+        GOTIT
+      {% endblock %}
     </title>
-    
+
     {% block stylesheets %}
-        <!-- Bootstrap -->
-        <link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-        <!-- Font Awesome -->
-        <link href="{{ asset('e3s/vendors/font-awesome/css/all.min.css') }}" rel="stylesheet">   	
-        <!-- Custom Theme Style -->
-        <link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">   
-        <!-- Bootgrid  -->
-        <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">   
+      <!-- Bootstrap -->
+      <link
+      href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+      <!-- Font Awesome -->
+      <link
+      href="{{ asset('e3s/vendors/font-awesome/css/all.min.css') }}" rel="stylesheet">
+      <!-- Custom Theme Style -->
+      <link
+      href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">
+      <!-- Bootgrid  -->
+      <link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">
     {% endblock %}
-    
-    {% block headincl %}
-    {% endblock %}
+
+    {% block headincl %}{% endblock %}
 
   </head>
 
@@ -51,7 +54,12 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-                <a href="{{path('default_index') }}" class="site_title"><i class="fas fa-database"></i> <b><span>&nbsp;&nbsp;G O T I T&nbsp;&nbsp;&nbsp;</span></b></a>
+              <a href="{{path('default_index') }}" class="site_title">
+                <i class="fas fa-database"></i>
+                <b>
+                  <span>&nbsp;&nbsp;G O T I T&nbsp;&nbsp;&nbsp;</span>
+                </b>
+              </a>
             </div>
 
             <div class="clearfix"></div>
@@ -64,327 +72,494 @@
               </div>
             </div>
             <!-- /menu profile quick info -->
-            <br />   
+            <br/>
             <!-- sidebar menu -->
             {% block sidebar %}
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <ul class="nav side-menu">
-                  <li><a href="{{ path('default_index') }}"><i class="fas fa-home"></i> {{'title.Dashboard'|trans}} </a></li>
-                  <li><a><i class="fas fas fa-edit"></i>{{'title.Terrain'|trans}}<span class="fas fas fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ path('station_index') }}">{{'title.station'|trans}}</a></li>
-                      <li><a href="{{ path('collecte_index') }}">{{'title.collecte'|trans}}</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fas fa-microscope"></i>{{'title.Analyse morphologique'|trans}} <span class="fas fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ path('lotmateriel_index') }}">{{'title.lotmateriel'|trans}}</a></li>
-                      <li><a href="{{ path('individu_index') }}">{{'title.individu'|trans}}</a></li>
-                      <li><a href="{{ path('individulame_index') }}">{{'title.individulame'|trans}}</a></li>
-                      <li><a href="{{ path('lotmaterielext_index') }}">{{'title.lotmaterielext'|trans}}</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fas fa-flask"></i>{{'title.Analyses génétiques'|trans}} <span class="fas fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ path('adn_index') }}">{{'title.adn'|trans}}</a></li>
-                      <li><a href="{{ path('pcr_index') }}">{{'title.pcr'|trans}}</a></li>
-                      <li><a href="{{ path('chromatogramme_index') }}">{{'title.chromatogramme'|trans}}</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fas fa-dna"></i>{{'title.Etude séquençage'|trans}} <span class="fas fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{ path('sequenceassemblee_index')}}">{{'title.sequenceassemblee'|trans}}</a></li>
-                      <li><a href="{{ path('sequenceassembleeext_index')}}">{{'title.sequenceassembleeext'|trans}}</a></li>
-                      <li><a href="{{ path('motu_index')}}">{{'title.motu'|trans}}</a></li>
-                    </ul>
-                  </li>
-                   <li><a><i class="fas fa-tasks"></i>{{'title.Stock'|trans}}<span class="fas fa-chevron-down"></span></a>                      
-                    <ul class="nav child_menu">
-                    <li><a href="{{ path('boite_index',{'typeBoite':'LOT'}) }}">{{'title.lotmateriel'|trans}}</a></li>
-                    <li><a href="{{ path('boite_index',{'typeBoite':'LAME'}) }}">{{'title.individulame'|trans}}</a></li>
-                    <li><a href="{{ path('boite_index',{'typeBoite':'ADN'}) }}">{{'title.adn'|trans}}</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="{{ path('source_index') }}"><i class="far fa-newspaper"></i>{{'title.Source bibliographique'|trans}}</a></li>   
-                  <li><a><i class="fas fa-lock"></i> {{'title.Référentiels'|trans}} <span class="fas fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">                    
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('voc_index') }}">{{'title.voc'|trans}} </a></li>
-                        <li><a href="{{ path('referentieltaxon_index') }}">{{'title.referentieltaxon'|trans}} </a></li>
-                        <li><a href="{{ path('pays_index') }}">{{'title.pays'|trans}}</a></li>
-                        <li><a href="{{ path('commune_index') }}">{{'title.commune'|trans}}</a></li>
-                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
-                        <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
-                        <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
-                    {% elseif  is_granted('ROLE_PROJECT')%}
-                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
-                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
-                        <li><a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a></li>
-                        <li><a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a></li>
-                    {% elseif  is_granted('ROLE_COLLABORATION')%}
-                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
-                        <li><a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a></li>
-                        <li><a href="#" color="grey"><font color="grey">{{'title.programme'|trans}}</font></a></li>
-                        <li><a href="#" color="grey"><font color="grey">{{'title.etablissement'|trans}}</font></a></li>
-                    {% else  %}
-                        <li><a href="#"><font color="grey">{{'title.voc'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.referentieltaxon'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.pays'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.commune'|trans}}</font></a></li> 
-                        <li><a href="#"><font color="grey">{{'title.personne'|trans}}</font></a></li>
-                        <li><a href="#" color="grey"><font color="grey">{{'title.programme'|trans}}</font></a></li>
-                        <li><a href="#" color="grey"><font color="grey">{{'title.etablissement'|trans}}</font></a></li>
-                    {% endif %}
-                    </ul>
+              <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+                  <ul class="nav side-menu">
+                    <li>
+                      <a href="{{ path('default_index') }}">
+                        <i class="fas fa-home"></i>
+                        {{'title.Dashboard'|trans}}
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-edit"></i>
+                        {{'title.Terrain'|trans}}
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('station_index') }}">{{'title.station'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('collecte_index') }}">{{'title.collecte'|trans}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-microscope"></i>
+                        {{'title.Analyse morphologique'|trans}}
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('lotmateriel_index') }}">{{'title.lotmateriel'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('individu_index') }}">{{'title.individu'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('individulame_index') }}">{{'title.individulame'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('lotmaterielext_index') }}">{{'title.lotmaterielext'|trans}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-flask"></i>
+                        {{'title.Analyses génétiques'|trans}}
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('adn_index') }}">{{'title.adn'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('pcr_index') }}">{{'title.pcr'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('chromatogramme_index') }}">{{'title.chromatogramme'|trans}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-dna"></i>
+                        {{'title.Etude séquençage'|trans}}
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('sequenceassemblee_index')}}">{{'title.sequenceassemblee'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('sequenceassembleeext_index')}}">{{'title.sequenceassembleeext'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('motu_index')}}">{{'title.motu'|trans}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-tasks"></i>
+                        {{'title.Stock'|trans}}<span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('boite_index',{'typeBoite':'LOT'}) }}">{{'title.lotmateriel'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('boite_index',{'typeBoite':'LAME'}) }}">{{'title.individulame'|trans}}</a>
+                        </li>
+                        <li>
+                          <a href="{{ path('boite_index',{'typeBoite':'ADN'}) }}">{{'title.adn'|trans}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="{{ path('source_index') }}">
+                        <i class="far fa-newspaper"></i>
+                        {{'title.Source bibliographique'|trans}}</a>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fas fa-lock"></i>
+                        {{'title.Référentiels'|trans}}
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        {% if is_granted('ROLE_ADMIN') %}
+                          <li>
+                            <a href="{{path('voc_index')}}">{{'title.voc'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('referentieltaxon_index')}}">{{'title.referentieltaxon'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('pays_index')}}">{{'title.pays'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('commune_index')}}">{{'title.commune'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('personne_index')}}">{{'title.personne'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('programme_index')}}">{{'title.programme'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{path('etablissement_index')}}">{{'title.etablissement'|trans}}</a>
+                          </li>
+
+                        {% elseif  is_granted('ROLE_PROJECT')%}
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.voc'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.referentieltaxon'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.pays'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.commune'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{ path('programme_index') }}">{{'title.programme'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="{{ path('etablissement_index') }}">{{'title.etablissement'|trans}}</a>
+                          </li>
+                        {% elseif  is_granted('ROLE_COLLABORATION')%}
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.voc'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.referentieltaxon'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.pays'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.commune'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{{ path('personne_index') }}">{{'title.personne'|trans}}</a>
+                          </li>
+                          <li>
+                            <a href="#" color="grey">
+                              <font color="grey">{{'title.programme'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" color="grey">
+                              <font color="grey">{{'title.etablissement'|trans}}</font>
+                            </a>
+                          </li>
+                        {% else  %}
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.voc'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.referentieltaxon'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.pays'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.commune'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <font color="grey">{{'title.personne'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" color="grey">
+                              <font color="grey">{{'title.programme'|trans}}</font>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" color="grey">
+                              <font color="grey">{{'title.etablissement'|trans}}</font>
+                            </a>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    </li>
                   </li>
                   {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="{{ path('user_index') }}"><i class="fas fa-lock"></i>{{'title.user'|trans}}</a></li> 
-                    {% else %}
-                    <li><a href="#"><i class="fas fa-lock"></i><font color="grey">{{'title.user'|trans}}</font></a></li> 
+                    <li>
+                      <a href="{{ path('user_index') }}">
+                        <i class="fas fa-lock"></i>
+                        {{'title.user'|trans}}</a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="#">
+                        <i class="fas fa-lock"></i>
+                        <font color="grey">{{'title.user'|trans}}</font>
+                      </a>
+                    </li>
                   {% endif %}
 
 
                   {# SpeciesSearchBundle : nav links  #}
 
                   {% if is_granted('ROLE_INVITED') %}
-                  <li>
-                    <a><i class="fas fa-search"></i>
-                      {% trans from 'queries' %}
+                    <li>
+                      <a>
+                        <i class="fas fa-search"></i>
+                        {% trans from 'queries' %}
                         queries.navtitle
-                      {% endtrans %}
-                      <span class="fas fa-chevron-down"></span>
-                    </a>
-                    <ul class="nav child_menu">
-                    <li><a href="{{ path('co1-sampling') }}">
-                        {% trans from 'queries' %}
-                        queries.sampling.nav
                         {% endtrans %}
-                        </a></li>
-                    <li><a href="{{ path('assign-motu') }}">
-                        {% trans from 'queries' %}
-                        queries.motu.nav
-                        {% endtrans %}
-                        </a></li>
-                    <li><a href="{{ path('species-hypotheses') }}">
-                        {% trans from 'queries' %}
-                        queries.specieshypotheses.nav
-                        {% endtrans %}
-                        </a></li>                   
-                    <li><a href="{{ path('distribution') }}">
-                        {% trans from 'queries' %}
-                        queries.distribution.nav
-                        {% endtrans %}
-                        </a></li>
-                        <li><a href="{{ path('consistency') }}">
-                        {% trans from 'queries' %}
-                        queries.concordance.nav
-                        {% endtrans %}
-                        </a></li>
-                    </ul>                      
-                  </li>
+                        <span class="fas fa-chevron-down"></span>
+                      </a>
+                      <ul class="nav child_menu">
+                        <li>
+                          <a href="{{ path('co1-sampling') }}">
+                            {% trans from 'queries' %}
+                            queries.sampling.nav
+                            {% endtrans %}
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('assign-motu') }}">
+                            {% trans from 'queries' %}
+                            queries.motu.nav
+                            {% endtrans %}
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('species-hypotheses') }}">
+                            {% trans from 'queries' %}
+                            queries.specieshypotheses.nav
+                            {% endtrans %}
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('distribution') }}">
+                            {% trans from 'queries' %}
+                            queries.distribution.nav
+                            {% endtrans %}
+                          </a>
+                        </li>
+                        <li>
+                          <a href="{{ path('consistency') }}">
+                            {% trans from 'queries' %}
+                            queries.concordance.nav
+                            {% endtrans %}
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
 
-                  {# INSERT new bundle nav links here #}
+                    {# INSERT new bundle nav links here #}
 
-                    {% else %}
+                  {% else %}
                     {#  #}
-                    <li><a href="#"><i class="fas fa-lock"></i><font color="grey">{{'title.Recherche bdd'|trans}}</font></a></li> 
-                  {% endif %}  
-                  
+                    <li>
+                      <a href="#">
+                        <i class="fas fa-lock"></i>
+                        <font color="grey">{{'title.Recherche bdd'|trans}}</font>
+                      </a>
+                    </li>
+                  {% endif %}
+
                 </ul>
               </div>
             </div>
-            {% endblock %}
-            <!-- /sidebar menu -->
+          {% endblock %}
+          <!-- /sidebar menu -->
 
-            <!-- /menu footer buttons -->
-            {% block navfooter %}
+          <!-- /menu footer buttons -->
+          {% block navfooter %}
             <!-- /menu 
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ path('logout') }}">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            -->
-            {% endblock %}
-            <!-- /menu footer buttons -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        {% block topnav %}	
-        <div class="top_nav">            
-          <div class="nav_menu">
-            <nav>                
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fas fa-bars"></i></a>
-              </div>
-               <ul class="nav navbar-nav navbar-right">                     
-                <li class="">                  
-                    {% if app.user.username is defined %}  
-                        <a href="javascript:;"  class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        {{app.user.username}} 
-                        {% if is_granted('ROLE_ADMIN') %}  
-                            : ADMIN  
-                        {% else %}
-                            {% if is_granted('ROLE_PROJECT') %}  
-                                : PROJECT MEMBER  
-                            {% else %}                       
-                                {% if is_granted('ROLE_COLLABORATION') %}  
-                                    : COLLABORATION MEMBER  
-                                {% else %}
-                                    {% if is_granted('ROLE_INVITED') %}  : INVITED MEMBER  {% endif %}
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-                        <span class=" fas fa-angle-down"></span>
-                      </a>
-                      <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        {% if is_granted('ROLE_PROJECT') %}  
-                            <li><a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a></li>
-                        {% endif %}
-                        <li>
-                        {% set requestUri = app.request.requestUri %}
-                        {% set locale = app.request.getLocale() %}
-                        {% set defaultLocale = app.request.getDefaultLocale() %}
-                        {% set pathRouteInArray = requestUri|split(['/', locale, '/']|join) %}
-                        {% set FlagUrilangageParameter = requestUri|split('langage=switch') %}
-                        {% set FlagUriParameter = requestUri|split('?') %}
-                        {% set UrilangageParameter = '' %} 
-                        {% if second_language != '' %}
-                            {% if FlagUriParameter|length == 1 %} 
-                                {% if FlagUrilangageParameter|length == 1 %} 
-                                    {% set UrilangageParameter = '?langage=switch' %}
-                                {% endif %}
-                            {% else %}
-                                {% if FlagUrilangageParameter|length == 1 %} 
-                                    {% set UrilangageParameter = '&langage=switch' %}
-                                {% endif %}                        
-                            {% endif %}
-                            {% if locale == defaultLocale %} 
-                                  {% if FlagUriParameter|length == 1 %} 
-                                      <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fas fa-flag-checkered pull-right"></i> {{'Switch version'|trans}}  {{locale}} / {{second_language}}</a>
-                                  {% else %}
-                                      <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fas fa-flag-checkered pull-right"></i> {{'Switch version'|trans}}  {{locale}} / {{second_language}}</a>
-                                  {% endif %}
-                            {% else %}
-                                  {% set pathRouteEnInArray = requestUri|split(['/', second_language, '/']|join) %}
-                                  {% if FlagUriParameter|length == 1 %} 
-                                      <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fas fa-flag-checkered pull-right"></i>  {{'Switch version'|trans}}  {{locale}} / {{defaultLocale}}</a>
-                                   {% else %}
-                                      <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}"><i class="fas fa-flag-checkered pull-right"></i>  {{'Switch version'|trans}}  {{locale}} / {{defaultLocale}}</a>
-                                  {% endif %}
-                            {% endif %}
-                        {% endif %}
-                        </li>
-                        <li><a href="{{path('logout') }}"><i class="fas fa-sign-out pull-right"></i> Log Out</a></li>
-                      </ul>
-
-                  {% endif %}
-                </li>               
-              </ul>
-            </nav>
-          </div>
-        </div>
-        {% endblock %}
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-        <div class="">
-            
-        {# help button #}
-        {% block helpbutton %}
-        <button
-              class="btn btn-info pull-right"
-              type="button"
-              data-toggle="collapse"
-              data-target="#page-help"
-              aria-expanded="false"
-              aria-controls="page-help">
-              <i class="fas fa-question"></i>
-            </button>
-        {% endblock %}
-
-        {% block titlepage %}
-        {% endblock %}
-        
-        <ul>
-        {% block action %}
-        {% endblock %} 
-        </ul>
-        
-        <div class="collapse" id="page-help">
-        <div class="well">
-        {% block pagehelp %}
-            {% if help_message is defined and help_message is not empty %} 
-                    {{help_message|raw}} 
-                     {% else %}
-                    Undefined    
-             {% endif %}         
-        {% endblock %}
-        </div>
-        </div>
-
-        {% block body %}
-           <div class="clearfix"></div>
-        {% endblock %}
-        
-        {% block link %}
-            <div class="clearfix"></div>
-        {% endblock %}
-        </div>
-        </div>
-        <!-- /page content -->
-
-        <!-- footer content -->
-        {% block footer %}
-        <footer>
-          <div class="pull-right">
-             © <a href="http://bbees.mnhn.fr">BBEES</a> 2019 - GOTIT1.1.1 -  <a href="{{ asset(['doc/legal_notices_', app.request.getLocale(), '.pdf']|join) }}" target="_blank">{{'legales_mentions'|trans}}</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        {% endblock %}
-        <!-- /footer content -->
-        
-      </div>
-    </div>
-
-    <!--  General Scripts -->
-    {% block scripts %}
-        <!-- jQuery -->
-        <script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
-        <!-- Bootstrap -->
-        <script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>    
-        <!-- Custom Theme Scripts -->
-        <script src="{{ asset('e3s/js/options.min.js') }}"></script>
-        <script src="{{ asset('e3s/js/e3s.js') }}"></script>
-        <script src="{{ asset('e3s/js/custom.min.js') }}"></script>
-        <!-- Bootgrid  -->
-        <script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
-    {% endblock %}
-    
-    <!--  Templates Scripts -->
-    {% block templatescripts %}
-        <!--  Templates Scripts : index.html.twig / edit.html.twig ... -->
-    {% endblock %}
-        
+                                                            <div class="sidebar-footer hidden-small">
+                                                              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                              </a>
+                                                              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                                                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                                                              </a>
+                                                              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                                                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                                                              </a>
+                                                              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ path('logout') }}">
+                                                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                                              </a>
+                                                            </div>
+                                                            -->
+          {% endblock %}
+          <!-- /menu footer buttons -->
+        </body>
+      </html>
+    </body>
   </body>
+</html></div></div><!-- top navigation -->{% block topnav %}<div class="top_nav">
+<div class="nav_menu">
+  <nav>
+    <div class="nav toggle">
+      <a id="menu_toggle">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="">
+        {% if app.user.username is defined %}
+          <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            {{app.user.username}}
+            {% if is_granted('ROLE_ADMIN') %}
+              : ADMIN
+            {% else %}
+              {% if is_granted('ROLE_PROJECT') %}
+                : PROJECT MEMBER
+              {% else %}
+                {% if is_granted('ROLE_COLLABORATION') %}
+                  : COLLABORATION MEMBER
+                {% else %}
+                  {% if is_granted('ROLE_INVITED') %}
+                    : INVITED MEMBER
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            <span class=" fas fa-angle-down"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-usermenu pull-right">
+            {% if is_granted('ROLE_PROJECT') %}
+              <li>
+                <a href="{{ path('user_index')}}{{app.user.id}}/edit">Profile</a>
+              </li>
+            {% endif %}
+            <li>
+              {% set requestUri = app.request.requestUri %}
+              {% set locale = app.request.getLocale() %}
+              {% set defaultLocale = app.request.getDefaultLocale() %}
+              {% set pathRouteInArray = requestUri|split(['/', locale, '/']|join) %}
+              {% set FlagUrilangageParameter = requestUri|split('langage=switch') %}
+              {% set FlagUriParameter = requestUri|split('?') %}
+              {% set UrilangageParameter = '' %}
+              {% if second_language != '' %}
+                {% if FlagUriParameter|length == 1 %}
+                  {% if FlagUrilangageParameter|length == 1 %}
+                    {% set UrilangageParameter = '?langage=switch' %}
+                  {% endif %}
+                {% else %}
+                  {% if FlagUrilangageParameter|length == 1 %}
+                    {% set UrilangageParameter = '&langage=switch' %}
+                  {% endif %}
+                {% endif %}
+                {% if locale == defaultLocale %}
+                  {% if FlagUriParameter|length == 1 %}
+                    <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}">
+                      <i class="fas fa-flag-checkered pull-right"></i>
+                      {{'Switch version'|trans}}
+                      {{locale}}
+                      /
+                      {{second_language}}</a>
+                  {% else %}
+                    <a href="{{ [pathRouteInArray[0], ['/', second_language, '/']|join, pathRouteInArray[1], UrilangageParameter]|join }}">
+                      <i class="fas fa-flag-checkered pull-right"></i>
+                      {{'Switch version'|trans}}
+                      {{locale}}
+                      /
+                      {{second_language}}</a>
+                  {% endif %}
+                {% else %}
+                  {% set pathRouteEnInArray = requestUri|split(['/', second_language, '/']|join) %}
+                  {% if FlagUriParameter|length == 1 %}
+                    <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}">
+                      <i class="fas fa-flag-checkered pull-right"></i>
+                      {{'Switch version'|trans}}
+                      {{locale}}
+                      /
+                      {{defaultLocale}}</a>
+                  {% else %}
+                    <a href="{{ [pathRouteInArray[0], ['/', defaultLocale, '/']|join , pathRouteInArray[1], UrilangageParameter]|join }}">
+                      <i class="fas fa-flag-checkered pull-right"></i>
+                      {{'Switch version'|trans}}
+                      {{locale}}
+                      /
+                      {{defaultLocale}}</a>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            </li>
+            <li>
+              <a href="{{path('logout') }}">
+                <i class="fas fa-sign-out pull-right"></i>
+                Log Out</a>
+            </li>
+          </ul>
 
-</html>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
+</div></div>{% endblock %}<!-- /top navigation --><!-- page content --><div class="right_col" role="main"><div
+class="">
+
+{# help button #}
+{% block helpbutton %}
+  <button class="btn btn-info pull-right" type="button" data-toggle="collapse" data-target="#page-help" aria-expanded="false" aria-controls="page-help">
+    <i class="fas fa-question"></i>
+  </button>
+{% endblock %}
+
+{% block titlepage %}{% endblock %}
+
+<ul>
+  {% block action %}{% endblock %}
+</ul>
+
+<div class="collapse" id="page-help">
+  <div class="well">
+    {% block pagehelp %}
+      {% if help_message is defined and help_message is not empty %}
+        {{help_message|raw}}
+      {% else %}
+        Undefined
+      {% endif %}
+    {% endblock %}
+  </div>
+</div>
+
+{% block body %}
+  <div class="clearfix"></div>
+{% endblock %}
+
+{% block link %}
+  <div class="clearfix"></div>
+{% endblock %}</div></div><!-- /page content --><!-- footer content -->{% block footer %}<footer>
+<div class="pull-right">
+  ©
+  <a href="http://bbees.mnhn.fr">BBEES</a>
+  2019 - GOTIT1.1.2 -
+  <a href="{{ asset(['doc/legal_notices_', app.request.getLocale(), '.pdf']|join) }}" target="_blank">{{'legales_mentions'|trans}}</a>
+</div>
+<div class="clearfix"></div></footer>{% endblock %}<!-- /footer content --></body></html></div></div><!--  General Scripts -->{% block scripts %}<!-- jQuery --><script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script><!-- Bootstrap --><script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script><!-- Custom Theme Scripts --><script src="{{ asset('e3s/js/options.min.js') }}"></script><script src="{{ asset('e3s/js/e3s.js') }}"></script><script src="{{ asset('e3s/js/custom.min.js') }}"></script><!-- Bootgrid  --><script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>{% endblock %}<!--  Templates Scripts -->{% block templatescripts %}<!--  Templates Scripts : index.html.twig / edit.html.twig ... -->{% endblock %}</body></html>

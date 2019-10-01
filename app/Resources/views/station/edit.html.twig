@@ -103,7 +103,7 @@
             paysCode = paysCode.split(' ').join('_');
             var paysId = $('#bbees_e3sbundle_station_paysFk option:selected').val();           
             $('#myModalCommune').find('#bbees_e3sbundle_commune_paysFk').val(paysId);
-            // modification de la liste déroulante des communes
+            // change selected list of Municipalities
             var nbCommune = $("#bbees_e3sbundle_station_communeFk").length;
             var newlisteCommune = '<option value="" selected="selected">{{'Choose a Commune'|trans}}</option>';          
             var compt = 0;
