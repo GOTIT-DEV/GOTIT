@@ -1,8 +1,8 @@
 GOTIT1-1
 =======
-A Symfony project created on 03/12/2018 : Dev version 1.1.2 / Last release  Version 1.1.1
+A Symfony project created on 03/12/2018 : Dev version 1.1.2 / Last publish release  v1.1.1
 
-update 26/09/2019
+update 02/10/2019
 - fix the issue #1 : "bad selected country value when you add a new municipality from an existing site form"
 - add new version of the bundle SpeciesSearchBundle
 - update font-awesome to v5
