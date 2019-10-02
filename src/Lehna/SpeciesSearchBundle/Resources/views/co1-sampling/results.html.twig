@@ -3,10 +3,7 @@
 {% trans_default_domain 'queries' %}
 
 <div class="table-responsive-md">
-  <table
-    id="result-table"
-    class="table table-condensed table-hover table-striped"
-    style="width:100%">
+  <table id="result-table" class="table table-condensed table-hover table-striped" style="width:100%">
     <thead>
       <tr>
         <th colspan="2"></th>
@@ -32,7 +29,9 @@
         <th class="all" id="col-details">
           {{"columns.loc" | trans}}
         </th>
-        <th class="all">{{"columns.download"}}</th>
+        {% if is_granted("ROLE_COLLABORATION") %}
+          <th class="all">{{"columns.download"}}</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody></tbody>
