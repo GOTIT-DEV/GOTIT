@@ -10,7 +10,9 @@
         <th colspan="3">
           {{"columns.sampling.specimen" | trans}}
         </th>
-        <th colspan="3">
+
+        {# adjust COI column number with regards to the presence of "download" column #}
+        <th colspan="{{ is_granted('ROLE_COLLABORATION') ? 3 : 2}}">
           {{"columns.sampling.co1" | trans}}
         </th>
         <th></th>
