@@ -361,7 +361,7 @@ class QueryBuilderService
             JOIN collecte co ON co.id = sext.collecte_fk OR co.id=lm.collecte_fk
             JOIN station sta ON co.station_fk = sta.id
             WHERE v1.code='COI' OR v2.code='COI'
-            AND statut.code IN ('SHORT', 'VALIDATED')";
+            AND statut.code IN ('SHORT', 'VALIDEE')";
     } else {
       $station_subquery = "SELECT DISTINCT
              eid.referentiel_taxon_fk, lm.id as lm_id,
@@ -430,7 +430,7 @@ class QueryBuilderService
             JOIN station sta ON co.station_fk = sta.id
             -- COI constraint
             WHERE v1.code='COI' OR v2.code='COI'
-            AND statut.code IN ('SHORT', 'VALIDATED')";
+            AND statut.code IN ('SHORT', 'VALIDEE')";
     } else {
       $station_subquery = "SELECT DISTINCT
              eid.referentiel_taxon_fk,
