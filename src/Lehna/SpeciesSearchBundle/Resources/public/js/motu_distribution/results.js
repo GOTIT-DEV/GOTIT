@@ -69,47 +69,49 @@ const columns = [
  */
 export function initDataTable(tableId, uiReceivedResponse) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
-    fetchCurrentUser().then(user => {
-      let dtbuttons = (user.role === "ROLE_INVITED") ? [] : dtconfig.buttons
-      let dataTable = $(tableId).DataTable({
-        autoWidth: false,
-        responsive: true,
-        ajax: {
-          "url": Routing.generate('distribution-query'),
-          "dataSrc": "rows",
-          "type": "POST",
-          "data": _ => {
-            return form.serialize()
+    fetchCurrentUser()
+      .then(response => response.json())
+      .then(user => {
+        let dtbuttons = (user.role === "ROLE_INVITED") ? [] : dtconfig.buttons
+        let dataTable = $(tableId).DataTable({
+          autoWidth: false,
+          responsive: true,
+          ajax: {
+            "url": Routing.generate('distribution-query'),
+            "dataSrc": "rows",
+            "type": "POST",
+            "data": _ => {
+              return form.serialize()
+            }
+          },
+          language: dtconfig.language[$("html").attr("lang")],
+          dom: "lfrtipB",
+          buttons: dtbuttons,
+          order: [1, 'asc'],
+          columns: columns,
+          drawCallback: _ => {
+            $('[data-toggle="tooltip"]').tooltip()
           }
-        },
-        language: dtconfig.language[$("html").attr("lang")],
-        dom: "lfrtipB",
-        buttons: dtbuttons,
-        order: [1, 'asc'],
-        columns: columns,
-        drawCallback: _ => {
-          $('[data-toggle="tooltip"]').tooltip()
-        }
-      })
+        })
 
-      dataTable.on('xhr', _ => {
-        uiReceivedResponse(dataTable.ajax.json())
-      })
+        dataTable.on('xhr', _ => {
+          uiReceivedResponse(dataTable.ajax.json())
+        })
 
-      $('#table-tab a ').on('shown.bs.tab', _ => {
-        dataTable.columns.adjust()
-      })
+        $('#table-tab a ').on('shown.bs.tab', _ => {
+          dataTable.columns.adjust()
+        })
 
-      /*******************************
-       * Submit form handler
-       ***************************** */
-      form.submit(event => {
-        event.preventDefault();
-        uiWaitResponse()
-        dataTable.ajax.reload()
+        /*******************************
+         * Submit form handler
+         ***************************** */
+        form.submit(event => {
+          event.preventDefault();
+          uiWaitResponse()
+          dataTable.ajax.reload()
+        })
+        return dataTable
       })
-      return dataTable
-    })
 
   }
 }
