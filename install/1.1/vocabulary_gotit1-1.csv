@@ -1,35 +1,39 @@
-voc.code;voc.libelle;voc.parent;voc.commentaire
-code collection CODE-1;code collection LABEL-1;codeCollection;
-identification criterion CODE-1;identification criterion LABEL-1;critereIdentification;
-date precision CODE-DAY;DAY;datePrecision;
-date precision CODE-MONTH;MONTH;datePrecision;
-date precision CODE-YEAR;YEAR;datePrecision;
-date precision CODE-NOT KNOWN;NOT KNOWN;datePrecision;
-fixative CODE-1;fixative LABEL-1;fixateur;
-gene CODE-1;gene LABEL-1;gene;
-habitat type CODE-1;habitat type LABEL-1;habitatType;
-leg CODE-YES;YES;leg;
-leg CODE-NO;NO;leg;
-leg CODE-NA;NA;leg;
-dna extraction method CODE-1;dna extraction method LABEL-1;methodeExtractionAdn;
-method motu CODE-1;method motu LABEL-1;methodeMotu;
-number of specimens CODE-1;number of specimens LABEL-1;nbIndividus;
-external sequence origin CODE-1;external sequence origin LABEL-1;origineSqcAssExt;
-pigmentation CODE-1;pigmentation LABEL-1;pigmentation;
-access type CODE-1;access type LABEL-1;pointAcces;
-coordinate precision CODE-1;coordinate precision LABEL-1;precisionLatLong;
-primer chromatogram CODE-1;primer chromatogram LABEL-1;primerChromato;
-primer pcr end CODE-1;primer pcr end LABEL-1;primerPcrEnd;
-primer pcr start CODE-1;primer pcr start LABEL-1;primerPcrStart;
-dna quality CODE-1;dna quality LABEL-1;qualiteAdn;
-chromatogram quality CODE-1;chromatogram quality LABEL-1;qualiteChromato;
-pcr quality CODE-1;pcr quality LABEL-1;qualitePcr;
-sampling method CODE-1;sampling method LABEL-1;samplingMethod;
-pcr specificity CODE-1;pcr specificity LABEL-1;specificite;
-sequence status CODE-1;sequence status LABEL-1;statutSqcAss;
-LOT;type box of biological material LABEL;typeBoite;
-LAME;type box of slide LABEL;typeBoite;
-ADN;type box of dna LABEL;typeBoite;
-type collection CODE-1;type collection LABEL-1;typeCollection;
-specimen type CODE-1;specimen type LABEL-1;typeIndividu;
-vision CODE-1;vision LABEL-1;yeux;
+voc.code,voc.libelle,voc.parent,voc.commentaire
+code collection CODE-1,code collection LABEL-1,codeCollection,
+identification criterium CODE-1,identification criterium LABEL-1,critereIdentification,
+date precision CODE-DAY,DAY,datePrecision,! DON’T CHANGE THE LABEL : DAY 
+date precision CODE-MONTH,MONTH,datePrecision,! DON’T CHANGE THE LABEL : MONTH 
+date precision CODE-YEAR,YEAR,datePrecision,! DON’T CHANGE THE LABEL : YEAR 
+date precision CODE-NOT KNOWN,NOT KNOWN,datePrecision,
+fixative CODE-1,fixative LABEL-1,fixateur,
+gene CODE-1,gene LABEL-1,gene,
+COI,COI gene LABEL,gene,! DON’T CHANGE THE CODE : COI 
+habitat type CODE-1,habitat type LABEL-1,habitatType,
+leg CODE-YES,YES,leg,
+leg CODE-NO,NO,leg,
+leg CODE-NA,NA,leg,
+dna extraction method CODE-1,dna extraction method LABEL-1,methodeExtractionAdn,
+method motu CODE-1,method motu LABEL-1,methodeMotu,
+HAPLO,HAPLO method motu LABEL,methodeMotu,! DON’T CHANGE THE CODE : HAPLO 
+number of specimens CODE-1,number of specimens LABEL-1,nbIndividus,
+external sequence origin CODE-1,external sequence origin LABEL-1,origineSqcAssExt,
+pigmentation CODE-1,pigmentation LABEL-1,pigmentation,
+access type CODE-1,access type LABEL-1,pointAcces,
+coordinate precision CODE-1,coordinate precision LABEL-1,precisionLatLong,
+primer chromatogram CODE-1,primer chromatogram LABEL-1,primerChromato,
+primer pcr end CODE-1,primer pcr end LABEL-1,primerPcrEnd,
+primer pcr start CODE-1,primer pcr start LABEL-1,primerPcrStart,
+dna quality CODE-1,dna quality LABEL-1,qualiteAdn,
+chromatogram quality CODE-1,chromatogram quality LABEL-1,qualiteChromato,
+pcr quality CODE-1,pcr quality LABEL-1,qualitePcr,
+sampling method CODE-1,sampling method LABEL-1,samplingMethod,
+pcr specificity CODE-1,pcr specificity LABEL-1,specificite,
+sequence status CODE-1,sequence status LABEL-1,statutSqcAss,
+VALID,VALID sequence status LABEL,statutSqcAss,! DON’T CHANGE THE CODE : VALID 
+SHORT,SHORT sequence status LABEL,statutSqcAss,! DON’T CHANGE THE CODE : SHORT 
+LOT,type box of biological material LABEL,typeBoite,! DON’T CHANGE THE CODE : LOT 
+LAME,type box of slide LABEL,typeBoite,! DON’T CHANGE THE CODE : LAME 
+ADN,type box of dna LABEL,typeBoite,! DON’T CHANGE THE CODE : ADN 
+type collection CODE-1,type collection LABEL-1,typeCollection,
+specimen type CODE-1,specimen type LABEL-1,typeIndividu,
+vision CODE-1,vision LABEL-1,yeux,
