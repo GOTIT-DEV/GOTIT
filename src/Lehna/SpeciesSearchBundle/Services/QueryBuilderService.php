@@ -57,7 +57,10 @@ class QueryBuilderService {
               JOIN station sta ON co.station_fk = sta.id
               -- COI constraint
               WHERE v1.code='COI' OR v2.code='COI'
-              AND statut.code IN ('SHORT', 'VALIDEE')",
+              AND (
+                statut.code = 'SHORT' OR
+                statut.code LIKE 'VALID%'
+              )",
   ];
 
   public function __construct(EntityManagerInterface $manager) {
