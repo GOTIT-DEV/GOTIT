@@ -114,7 +114,7 @@
             if (numIndividu == '') numIndividu = "{{'Num individu sqc ass ext'|trans}}";
             if (accessionNumber == '') accessionNumber = "{{'Accession number sqc ass ext'|trans}}";
             //alert(RefTaxonSelected);
-            if (statut=='VALIDEE'){
+            if (statut.substr(0, 5)==='VALID'){
                 code =  RefTaxonSelected+'_'+codeCollecte+'_'+numIndividu+'_'+accessionNumber+'|'+origine ;
             } else {
                 code =  statut+'_'+RefTaxonSelected+'_'+codeCollecte+'_'+numIndividu+'_'+accessionNumber+'|'+origine ;

@@ -447,7 +447,7 @@ class SequenceAssembleeController extends Controller
             // The status of the sequence DNA the referential Taxon = to the last taxname attributed
             $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
             $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees-1]->getReferentielTaxonFk()->getCodeTaxon();
-            $codeSqcAlignement = ($codeStatutSqcAss == 'VALIDEE') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;           
+            $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5)=='VALID') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;           
             $Chromatogramme1 = $sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk();
             $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getNumIndBiomol();
             $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
