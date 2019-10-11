@@ -189,7 +189,7 @@
                 }
             } else {
             }
-            if (statut=='VALIDEE'){
+            if (statut.substr(0, 5)==='VALID'){              
                 code =  codeIndBiomol+'_'+codeChromatoSpecificite ;
             } else {
                 code =  statut+'_'+codeIndBiomol+'_'+codeChromatoSpecificite ;
