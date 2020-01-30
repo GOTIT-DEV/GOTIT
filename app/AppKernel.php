@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), // routing from JS
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(), // translations in JS,
             new Lehna\SpeciesSearchBundle\LehnaSpeciesSearchBundle(),
+            new Lehna\QueryBuilderBundle\LehnaQueryBuilderBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
