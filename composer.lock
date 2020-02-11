@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "778ec994eb23d7f31142a359c5e91f2b",
+    "content-hash": "613cf52876d0675c6ed363d8eb9bd535",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -763,12 +763,12 @@
             "version": "v2.5.13",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/93103f44a3e36e7b48165b6e6b736833f33b18ef",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/93103f44a3e36e7b48165b6e6b736833f33b18ef",
                 "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef",
                 "shasum": ""
             },
@@ -889,39 +889,31 @@
             "time": "2016-10-17T18:31:11+00:00"
         },
         {
-            "name": "friendsofsymfony/jsrouting-bundle",
-            "version": "2.2.1",
+            "name": "fourlabs/qbjs-parser",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
-                "reference": "fce90c6d283f46e7ae1beb39c9c018c1a702442e"
+                "url": "https://github.com/fourlabsldn/QBJSParser.git",
+                "reference": "4aedf876e0262e6c8d64a520e34bad8c53f01bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/fce90c6d283f46e7ae1beb39c9c018c1a702442e",
-                "reference": "fce90c6d283f46e7ae1beb39c9c018c1a702442e",
+                "url": "https://api.github.com/repos/fourlabsldn/QBJSParser/zipball/4aedf876e0262e6c8d64a520e34bad8c53f01bc8",
+                "reference": "4aedf876e0262e6c8d64a520e34bad8c53f01bc8",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.9|^7.0",
-                "symfony/console": "~2.7||~3.0|^4.0",
-                "symfony/framework-bundle": "~2.7||~3.0|^4.0",
-                "symfony/serializer": "~2.7||~3.0|^4.0",
-                "willdurand/jsonp-callback-validator": "~1.0"
+                "php": ">=7.0",
+                "symfony/property-info": "~2.8|~3.0|~3.1"
             },
             "require-dev": {
-                "symfony/expression-language": "~2.7||~3.0|^4.0",
-                "symfony/phpunit-bridge": "^3.3|^4.0"
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "*"
             },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
+            "type": "library",
             "autoload": {
                 "psr-4": {
-                    "FOS\\JsRoutingBundle\\": ""
+                    "FL\\QBJSParser\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -930,22 +922,86 @@
             ],
             "authors": [
                 {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
-                },
-                {
-                    "name": "William Durand",
-                    "email": "will+git@drnd.me"
+                    "name": "Four Labs",
+                    "homepage": "https://fourlabs.co.uk"
                 }
             ],
-            "description": "A pretty nice way to expose your Symfony2 routing to client applications.",
-            "homepage": "http://friendsofsymfony.github.com",
+            "description": "Parse JSON coming from jQuery QueryBuilder, into database queries.",
+            "homepage": "https://github.com/fourlabsldn/QBJSParser",
             "keywords": [
-                "Js Routing",
-                "javascript",
-                "routing"
+                "QBJS",
+                "QBJSParser",
+                "doctrine",
+                "jQuery-QueryBuilder",
+                "jquery",
+                "orm",
+                "parser",
+                "php",
+                "querybuilder",
+                "querybuilder.js",
+                "querybuilder.js.org",
+                "symfony"
             ],
-            "time": "2018-09-29T11:04:35+00:00"
+            "time": "2018-07-10T10:57:22+00:00"
+        },
+        {
+            "name": "fourlabs/qbjs-parser-bundle",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fourlabsldn/QBJSParserBundle.git",
+                "reference": "4a1b26d359b884c7053a736f9e3177895e2baf42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fourlabsldn/QBJSParserBundle/zipball/4a1b26d359b884c7053a736f9e3177895e2baf42",
+                "reference": "4a1b26d359b884c7053a736f9e3177895e2baf42",
+                "shasum": ""
+            },
+            "require": {
+                "fourlabs/qbjs-parser": "~1.0",
+                "php": "^7.0",
+                "symfony/config": "~2.8|~3.0|~3.1|^4.0|^5.0",
+                "symfony/dependency-injection": "~2.8|~3.0|~3.1|^4.0|^5.0",
+                "symfony/event-dispatcher": "~2.8|~3.0|~3.1|^4.0|^5.0",
+                "symfony/http-kernel": "~2.8|~3.0|~3.1|^4.0|^5.0",
+                "symfony/property-info": "~2.8|~3.0|~3.1|^4.0|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FL\\QBJSParserBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Four Labs",
+                    "email": "luis@fourlabs.co.uk",
+                    "homepage": "https://fourlabs.co.uk/"
+                }
+            ],
+            "description": "This bundle is a Symfony wrapper for fourlabs/qbjs-parser.",
+            "homepage": "https://github.com/fourlabsldn/QBJSParserBundle",
+            "keywords": [
+                "QBJS",
+                "QBJSParser",
+                "QBJSParserBundle",
+                "doctrine",
+                "jQuery-QueryBuilder",
+                "jquery",
+                "orm",
+                "parser",
+                "php",
+                "querybuilder",
+                "querybuilder.js",
+                "querybuilder.js.org",
+                "symfony"
+            ],
+            "time": "2019-11-29T07:50:10+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2372,49 +2428,43 @@
                 "templating"
             ],
             "time": "2017-09-27T18:06:46+00:00"
-        },
+        }
+    ],
+    "packages-dev": [
         {
-            "name": "willdurand/js-translation-bundle",
-            "version": "2.6.6",
+            "name": "friendsofsymfony/jsrouting-bundle",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/willdurand/BazingaJsTranslationBundle.git",
-                "reference": "9c80406dd4cc195f1f835a52e038fb80a96563b2"
+                "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
+                "reference": "fce90c6d283f46e7ae1beb39c9c018c1a702442e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaJsTranslationBundle/zipball/9c80406dd4cc195f1f835a52e038fb80a96563b2",
-                "reference": "9c80406dd4cc195f1f835a52e038fb80a96563b2",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/fce90c6d283f46e7ae1beb39c9c018c1a702442e",
+                "reference": "fce90c6d283f46e7ae1beb39c9c018c1a702442e",
                 "shasum": ""
             },
             "require": {
-                "symfony/console": "~2.7|~3.1|~4.0",
-                "symfony/finder": "~2.7|~3.1|~4.0",
-                "symfony/framework-bundle": "~2.7|~3.1|~4.0",
-                "symfony/intl": "~2.7|~3.1|~4.0",
-                "symfony/translation": "~2.7|~3.1|~4.0",
-                "symfony/twig-bundle": "~2.7|~3.1|~4.0"
-            },
-            "replace": {
-                "willdurand/expose-translation-bundle": "2.5.*"
+                "php": "^5.3.9|^7.0",
+                "symfony/console": "~2.7||~3.0|^4.0",
+                "symfony/framework-bundle": "~2.7||~3.0|^4.0",
+                "symfony/serializer": "~2.7||~3.0|^4.0",
+                "willdurand/jsonp-callback-validator": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|~5.7",
-                "symfony/asset": "~2.7|~3.1|~4.0",
-                "symfony/browser-kit": "~2.7|~3.1|~4.0",
-                "symfony/phpunit-bridge": "~2.7|~3.1|~4.0",
-                "symfony/twig-bundle": "~2.7|~3.1|~4.0",
-                "symfony/yaml": "~2.7|~3.1|~4.0"
+                "symfony/expression-language": "~2.7||~3.0|^4.0",
+                "symfony/phpunit-bridge": "^3.3|^4.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Bazinga\\Bundle\\JsTranslationBundle\\": ""
+                    "FOS\\JsRoutingBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2422,61 +2472,24 @@
                 "MIT"
             ],
             "authors": [
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
+                },
                 {
                     "name": "William Durand",
                     "email": "will+git@drnd.me"
                 }
             ],
-            "description": "A pretty nice way to expose your translation messages to your JavaScript.",
+            "description": "A pretty nice way to expose your Symfony2 routing to client applications.",
+            "homepage": "http://friendsofsymfony.github.com",
             "keywords": [
+                "Js Routing",
                 "javascript",
-                "symfony",
-                "translation"
+                "routing"
             ],
-            "time": "2018-02-11T14:19:14+00:00"
+            "time": "2018-09-29T11:04:35+00:00"
         },
-        {
-            "name": "willdurand/jsonp-callback-validator",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
-                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
-                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~3.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JsonpCallbackValidator": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "William Durand",
-                    "email": "william.durand1@gmail.com",
-                    "homepage": "http://www.willdurand.fr"
-                }
-            ],
-            "description": "JSONP callback validator.",
-            "time": "2014-01-20T22:35:06+00:00"
-        }
-    ],
-    "packages-dev": [
         {
             "name": "sensio/generator-bundle",
             "version": "v3.1.6",
@@ -2592,6 +2605,108 @@
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
             "time": "2017-12-04T20:23:06+00:00"
+        },
+        {
+            "name": "willdurand/js-translation-bundle",
+            "version": "2.6.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/BazingaJsTranslationBundle.git",
+                "reference": "9c80406dd4cc195f1f835a52e038fb80a96563b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/BazingaJsTranslationBundle/zipball/9c80406dd4cc195f1f835a52e038fb80a96563b2",
+                "reference": "9c80406dd4cc195f1f835a52e038fb80a96563b2",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/console": "~2.7|~3.1|~4.0",
+                "symfony/finder": "~2.7|~3.1|~4.0",
+                "symfony/framework-bundle": "~2.7|~3.1|~4.0",
+                "symfony/intl": "~2.7|~3.1|~4.0",
+                "symfony/translation": "~2.7|~3.1|~4.0",
+                "symfony/twig-bundle": "~2.7|~3.1|~4.0"
+            },
+            "replace": {
+                "willdurand/expose-translation-bundle": "2.5.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|~5.7",
+                "symfony/asset": "~2.7|~3.1|~4.0",
+                "symfony/browser-kit": "~2.7|~3.1|~4.0",
+                "symfony/phpunit-bridge": "~2.7|~3.1|~4.0",
+                "symfony/twig-bundle": "~2.7|~3.1|~4.0",
+                "symfony/yaml": "~2.7|~3.1|~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bazinga\\Bundle\\JsTranslationBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "will+git@drnd.me"
+                }
+            ],
+            "description": "A pretty nice way to expose your translation messages to your JavaScript.",
+            "keywords": [
+                "javascript",
+                "symfony",
+                "translation"
+            ],
+            "time": "2018-02-11T14:19:14+00:00"
+        },
+        {
+            "name": "willdurand/jsonp-callback-validator",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonpCallbackValidator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                }
+            ],
+            "description": "JSONP callback validator.",
+            "time": "2014-01-20T22:35:06+00:00"
         }
     ],
     "aliases": [],

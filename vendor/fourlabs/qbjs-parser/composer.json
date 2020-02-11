@@ -1,0 +1,36 @@
+{
+  "name": "fourlabs/qbjs-parser",
+  "description": "Parse JSON coming from jQuery QueryBuilder, into database queries.",
+  "license": "MIT",
+  "homepage": "https://github.com/fourlabsldn/QBJSParser",
+  "keywords": [
+    "PHP","QBJSParser", "QBJS",
+    "Parser", "Symfony", "Doctrine",
+    "ORM", "querybuilder.js", "querybuilder.js.org",
+    "jQuery-QueryBuilder", "jQuery", "QueryBuilder"
+  ],
+  "authors": [
+    {
+      "name": "Four Labs",
+      "homepage": "https://fourlabs.co.uk"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "symfony/property-info": "~2.8|~3.0|~3.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "satooshi/php-coveralls": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "FL\\QBJSParser\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FL\\QBJSParser\\Tests\\": "tests"
+    }
+  }
+}

@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(), // translations in JS,
             new Lehna\SpeciesSearchBundle\LehnaSpeciesSearchBundle(),
             new Lehna\QueryBuilderBundle\LehnaQueryBuilderBundle(),
+            new FL\QBJSParserBundle\FLQBJSParserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
