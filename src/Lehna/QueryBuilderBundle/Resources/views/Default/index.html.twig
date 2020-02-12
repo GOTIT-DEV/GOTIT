@@ -3,7 +3,7 @@
 {% block stylesheets %}
   {{parent()}}
   <!-- Modal window styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/query-builder.default.css') }}" rel="stylesheet">
   {% endblock %}
 
 {% block titlepage %}
@@ -15,9 +15,9 @@
 
 {% block body %}
 
-    <div class='row'>
+    <div class='row' id="builder">
     <div
-      class="col-xs-12">
+      class="col-xs-12" id="builder" >
       {# Formulaire #}
       <legend>
       <h2 style='margin-bottom:18px'>
@@ -53,7 +53,13 @@
     {% include '@LehnaQueryBuilder/Default/results.html.twig' %}
   </div>
 
-  </div>
 
 
 {% endblock %}
+{% block scripts %}
+
+{{ parent() }}
+
+
+<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/query-builder.js')}}"></script>{% endblock %}
+
