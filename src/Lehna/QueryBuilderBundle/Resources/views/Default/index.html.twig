@@ -1,5 +1,59 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+  {% endblock %}
+
+{% block titlepage %}
+    <h1>
+        Query Builder
+    </h1>
+    <hr style="clear:both">
+{% endblock %}
+
 {% block body %}
-Hello World!
+
+    <div class='row'>
+    <div
+      class="col-xs-12">
+      {# Formulaire #}
+      <legend>
+      <h2 style='margin-bottom:18px'>
+        Query fields
+        </h2>
+        </legend>
+      {% include '@LehnaQueryBuilder/Default/form.html.twig' %}
+    </div>
+    <center>
+      <button
+        type="submit"
+        href="#resultats"
+        value="Rechercher"
+        class="btn btn-primary btn-lg"
+        id="submit-button"
+        style="min-width: 10em"
+        data-loading-text="<i class='fas fa-spinner fa-spin'></i>">
+        {% trans %}
+        Search
+        {% endtrans %}
+      </button>
+    </center>
+  </div>
+  <hr>
+  <div>
+    <h2 id="results-title">
+      <span>
+        {% trans from 'queries' %}
+        label.resultats
+        {% endtrans %}
+      </span>
+    </h2>
+    {% include '@LehnaQueryBuilder/Default/results.html.twig' %}
+  </div>
+
+  </div>
+
+
 {% endblock %}
