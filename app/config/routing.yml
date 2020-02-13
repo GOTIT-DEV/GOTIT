@@ -1,9 +1,3 @@
-lehna_query_builder:
-    resource: "@LehnaQueryBuilderBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}/qbuilder
-    requirements:
-        _locale: en|fr
-
 root:
     path: /
     defaults:
@@ -41,5 +35,13 @@ lehna_species_search:
     resource: "@LehnaSpeciesSearchBundle/Controller/"
     type:     annotation
     prefix:   /{_locale}/queries
+    requirements:
+        _locale: en|fr
+
+lehna_query_builder:
+    # resource: "@LehnaQueryBuilderBundle/Resources/config/routing.yml"
+    resource: "@LehnaQueryBuilderBundle/Controller/"
+    type:     annotation
+    prefix:   /{_locale}/qbuilder
     requirements:
         _locale: en|fr
