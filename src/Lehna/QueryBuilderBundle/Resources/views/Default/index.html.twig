@@ -3,7 +3,7 @@
 {% block stylesheets %}
   {{parent()}}
   <!-- Modal window styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/query-builder.default.css') }}" rel="stylesheet">
+  <link href="{{ asset('e3s/vendors/queryBuilder/query-builder.default.css') }}" rel="stylesheet">
   {% endblock %}
 
 {% block titlepage %}
@@ -61,5 +61,6 @@
 {{ parent() }}
 
 
-<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/query-builder.js')}}"></script>{% endblock %}
+<script type="module" src="{{ asset('e3s/vendors/queryBuilder/query-builder.js') }}"></script>
+{% endblock %}
 
