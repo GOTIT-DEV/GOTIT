@@ -1,0 +1,3 @@
+[submodule "web/e3s/vendors/jquery-extendext/jQuery.extendext"]
+	path = web/e3s/vendors/jquery-extendext/jQuery.extendext
+	url = https://github.com/mistic100/jQuery.extendext.git
