@@ -1,5 +1,87 @@
 {% block body %}
-<div class="col-md-12">
+
+<div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>
+            SELECT          </strong>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="control-label" for="niveau">
+              Table            </label>
+            <div class="btn-group bootstrap-select form-control" data-original-title="" title="">
+            </div>
+          </div>
+          <div class="form-horizontal">
+
+                          <div class="form-group">
+                <div class="checkbox checkbox-inline">
+                  <label>
+                    <input type="checkbox" name="criteres[]" value="108" checked="checked">
+                    Contraintes
+                  </label></div>
+                </div>
+              
+            </div>
+          </div>
+                  </div>
+      </div>
+</div>
+
+<div class="col-xs-12 col-sm-8 ">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>
+            Nouvelle sélection          </strong>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <label for="lot-materiel" class="control-label">
+                Table précédente              </label>
+              <div class="btn-group bootstrap-select form-control concordance">
+              </div>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <label for="individu" class="control-label">
+                  Choix jointure              </label>
+                <div class="btn-group bootstrap-select form-control concordance">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <label for="sequence" class="control-label">
+                  Table adjacente              </label>
+                <div class="btn-group bootstrap-select form-control concordance">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                <div class="checkbox checkbox-inline">
+                  <label>
+                    <input type="checkbox" name="criteres[]" value="108" checked="checked">
+                    Contraintes
+                  </label></div>
+                </div>
+              </div>
+            </div>
+          </div>
+                </div>
+      </div>
+</div>
+
+  <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-3">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="form-check">
+              <strong>
+                Choix des champs              </strong>
+            </div>
+          </div>
+      </div>
+  </div>
+    
+  <div class="col-xs-2 col-sm-7">
     <div id="builder-basic" class="query-builder form-inline">
     <div id="builder-basic_group_0" class="rules-group-container">   
     <div class="rules-group-header">     
@@ -93,5 +175,7 @@
 
     
   </div>
+
+
 
 {% endblock %}

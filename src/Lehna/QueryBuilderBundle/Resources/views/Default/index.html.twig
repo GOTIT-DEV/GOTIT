@@ -15,9 +15,11 @@
 
 {% block body %}
 
-    <div class='row' id="builder">
+  
+
+    <div class='row' >
     <div
-      class="col-xs-12" id="builder" >
+      class="col-xs-12"  >
       {# Formulaire #}
       <legend>
       <h2 style='margin-bottom:18px'>
@@ -26,6 +28,7 @@
         </legend>
       {% include '@LehnaQueryBuilder/Default/form.html.twig' %}
     </div>
+    
     <center>
       <button
         type="submit"
@@ -40,7 +43,7 @@
         {% endtrans %}
       </button>
     </center>
-  </div>
+
   <hr>
   <div>
     <h2 id="results-title">
@@ -51,6 +54,7 @@
       </span>
     </h2>
     {% include '@LehnaQueryBuilder/Default/results.html.twig' %}
+  </div>
   </div>
 
 
