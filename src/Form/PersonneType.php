@@ -34,7 +34,7 @@ class PersonneType extends AbstractType
         $builder->add('nomPersonne')
                 ->add('nomComplet')
                 ->add('nomPersonneRef')
-                ->add('etablissementFk',EntityType::class, array('class' => 'BbeesE3sBundle:Etablissement','placeholder' => 'Choose a Etablissement', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false,'required' => false,))
+                ->add('etablissementFk',EntityType::class, array('class' => 'App:Etablissement','placeholder' => 'Choose a Etablissement', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false,'required' => false,))
                 ->add('commentairePersonne')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false, ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false, ))

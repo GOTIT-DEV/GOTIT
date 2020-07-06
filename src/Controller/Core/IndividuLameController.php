@@ -44,7 +44,7 @@ class IndividuLameController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $individuLames = $em->getRepository('BbeesE3sBundle:IndividuLame')->findAll();
+        $individuLames = $em->getRepository('App:IndividuLame')->findAll();
 
         return $this->render('individulame/index.html.twig', array(
             'individuLames' => $individuLames,
@@ -162,7 +162,7 @@ class IndividuLameController extends Controller
         // check if the relational Entity (Individu) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId);
             $individuLame->setIndividuFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\IndividuLameType', $individuLame);
@@ -171,7 +171,7 @@ class IndividuLameController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id of relational Entity (Individu) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('individuId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
             $individuLame->setIndividuFk($RelEntity);
             // persist
             $em->persist($individuLame);
@@ -239,7 +239,7 @@ class IndividuLameController extends Controller
             // (i) load the id of relational Entity (Individu) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('individuId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
             $individuLame->setIndividuFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($individuLame);                       

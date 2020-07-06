@@ -31,7 +31,7 @@ class AdnListeIndBiomolType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('individuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Individu',
+        $builder->add('individuFk',EntityType::class, array('class' => 'App:Individu',
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('ind')
                                ->where('ind.codeIndBiomol IS NOT NULL')

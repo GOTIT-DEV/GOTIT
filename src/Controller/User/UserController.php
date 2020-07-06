@@ -17,7 +17,7 @@
 
 namespace App\Controller\User;
 
-use App\Entity\User\User;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository('BbeesUserBundle:User')->findAll();
+        $users = $em->getRepository('App:User')->findAll();
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,
@@ -87,7 +87,7 @@ class UserController extends Controller
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount;      
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesUserBundle:User")->createQueryBuilder('user')
+        $entities_toshow = $em->getRepository("App:User")->createQueryBuilder('user')
             ->where('LOWER(user.username) LIKE :criteriaLower')
             ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

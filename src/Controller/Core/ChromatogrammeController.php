@@ -44,7 +44,7 @@ class ChromatogrammeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $chromatogrammes = $em->getRepository('BbeesE3sBundle:Chromatogramme')->findAll();
+        $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
 
         return $this->render('chromatogramme/index.html.twig', array(
             'chromatogrammes' => $chromatogrammes,
@@ -160,7 +160,7 @@ class ChromatogrammeController extends Controller
         // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Pcr')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Pcr')->find($RelEntityId);
             $chromatogramme->setPcrFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\ChromatogrammeType', $chromatogramme);
@@ -169,7 +169,7 @@ class ChromatogrammeController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id of relational Entity (Pcr) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('pcrId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Pcr')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Pcr')->find($RelEntityId->getData());
             $chromatogramme->setPcrFk($RelEntity);
             // persist Entity
             $em->persist($chromatogramme);
@@ -229,7 +229,7 @@ class ChromatogrammeController extends Controller
             // (i) load the id of relational Entity (Pcr) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('pcrId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Pcr')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Pcr')->find($RelEntityId->getData());
             $chromatogramme->setPcrFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($chromatogramme);                       

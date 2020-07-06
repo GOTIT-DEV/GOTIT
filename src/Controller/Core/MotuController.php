@@ -48,7 +48,7 @@ class MotuController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $motus = $em->getRepository('BbeesE3sBundle:Motu')->findAll();
+        $motus = $em->getRepository('App:Motu')->findAll();
 
         return $this->render('motu/index.html.twig', array(
             'motus' => $motus,
@@ -81,7 +81,7 @@ class MotuController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $toshow = $em->getRepository("BbeesE3sBundle:Motu")->createQueryBuilder('motu')
+        $toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -96,7 +96,7 @@ class MotuController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             //  concatenated list of people
-            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM BbeesE3sBundle:MotuEstGenerePar megp JOIN megp.personneFk p WHERE megp.motuFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:MotuEstGenerePar megp JOIN megp.personneFk p WHERE megp.motuFk = '.$id.'')->getResult();            
             $arrayListePersonne = array();
             foreach($query as $taxon) {
                  $arrayListePersonne[] = $taxon['nom'];

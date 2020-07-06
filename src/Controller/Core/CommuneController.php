@@ -43,7 +43,7 @@ class CommuneController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $communes = $em->getRepository('BbeesE3sBundle:Commune')->findAll();
+        $communes = $em->getRepository('App:Commune')->findAll();
 
         return $this->render('commune/index.html.twig', array(
             'communes' => $communes,
@@ -75,10 +75,10 @@ class CommuneController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Commune")->createQueryBuilder('commune')
+        $entities_toshow = $em->getRepository("App:Commune")->createQueryBuilder('commune')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Pays', 'pays', 'WITH', 'commune.paysFk = pays.id')
+            ->leftJoin('App:Pays', 'pays', 'WITH', 'commune.paysFk = pays.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();

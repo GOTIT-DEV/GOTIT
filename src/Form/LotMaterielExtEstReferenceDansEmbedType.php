@@ -33,7 +33,7 @@ class LotMaterielExtEstReferenceDansEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('sourceFk', EntityType::class, array('class' => 'BbeesE3sBundle:Source',
+        $builder->add('sourceFk', EntityType::class, array('class' => 'App:Source',
                     'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('source')
                             ->orderBy('source.codeSource', 'ASC');

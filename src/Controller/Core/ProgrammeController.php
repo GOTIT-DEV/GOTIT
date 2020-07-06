@@ -43,7 +43,7 @@ class ProgrammeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $programmes = $em->getRepository('BbeesE3sBundle:Programme')->findAll();
+        $programmes = $em->getRepository('App:Programme')->findAll();
 
         return $this->render('programme/index.html.twig', array(
             'programmes' => $programmes,
@@ -76,7 +76,7 @@ class ProgrammeController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Programme")->createQueryBuilder('programme')
+        $entities_toshow = $em->getRepository("App:Programme")->createQueryBuilder('programme')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

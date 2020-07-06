@@ -44,7 +44,7 @@ class LotMaterielExtController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $lotMaterielExts = $em->getRepository('BbeesE3sBundle:LotMaterielExt')->findAll();
+        $lotMaterielExts = $em->getRepository('App:LotMaterielExt')->findAll();
 
         return $this->render('lotmaterielext/index.html.twig', array(
             'lotMaterielExts' => $lotMaterielExts,
@@ -162,7 +162,7 @@ class LotMaterielExtController extends Controller
         // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
             $lotMaterielExt->setCollecteFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);
@@ -171,7 +171,7 @@ class LotMaterielExtController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id  the relational Entity (Collecte) from typeahead input field and (ii) set the foreign key 
             $RelEntityId = $form->get('collecteId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $lotMaterielExt->setCollecteFk($RelEntity);
             // persist
             $em->persist($lotMaterielExt);
@@ -242,7 +242,7 @@ class LotMaterielExtController extends Controller
             // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('collecteId');;
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $lotMaterielExt->setCollecteFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($lotMaterielExt);                       

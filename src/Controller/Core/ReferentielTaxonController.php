@@ -44,7 +44,7 @@ class ReferentielTaxonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $referentielTaxons = $em->getRepository('BbeesE3sBundle:ReferentielTaxon')->findAll();
+        $referentielTaxons = $em->getRepository('App:ReferentielTaxon')->findAll();
 
         return $this->render('referentieltaxon/index.html.twig', array(
             'referentielTaxons' => $referentielTaxons,
@@ -76,7 +76,7 @@ class ReferentielTaxonController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:ReferentielTaxon")->createQueryBuilder('referentielTaxon')
+        $entities_toshow = $em->getRepository("App:ReferentielTaxon")->createQueryBuilder('referentielTaxon')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -254,7 +254,7 @@ class ReferentielTaxonController extends Controller
         $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
 
         $query = $qb->select('rt.species')
-            ->from('BbeesE3sBundle:ReferentielTaxon', 'rt')
+            ->from('App:ReferentielTaxon', 'rt')
             ->where('rt.species IS NOT NULL')
             ->andWhere('rt.genus = :genus')
             ->setParameter('genus', $genus)
@@ -280,7 +280,7 @@ class ReferentielTaxonController extends Controller
         $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
 
         $query = $qb->select('rt')
-            ->from('BbeesE3sBundle:ReferentielTaxon', 'rt')
+            ->from('App:ReferentielTaxon', 'rt')
             ->where('rt.species IS NOT NULL')
             ->andWhere('rt.genus = :genus AND rt.species = :species')
             ->setParameters([

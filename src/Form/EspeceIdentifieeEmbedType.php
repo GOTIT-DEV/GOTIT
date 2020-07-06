@@ -35,14 +35,14 @@ class EspeceIdentifieeEmbedType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         
-        $builder->add('referentielTaxonFk', EntityType::class, array('class' => 'BbeesE3sBundle:ReferentielTaxon', 
+        $builder->add('referentielTaxonFk', EntityType::class, array('class' => 'App:ReferentielTaxon', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('rt')
                                     ->orderBy('rt.taxname', 'ASC');
                             }, 
                         'choice_label' => $options['refTaxonLabel'], 'multiple' => false, 'expanded' => false, 'required' => true,'placeholder' => 'Choose a Taxon')
                         )
-                ->add('critereIdentificationVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('critereIdentificationVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')
@@ -52,7 +52,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
                         )
                 ->add('dateIdentification', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')
@@ -61,7 +61,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 'required' => true,)
                     )
-                ->add('typeMaterielVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('typeMaterielVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')

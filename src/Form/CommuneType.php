@@ -35,7 +35,7 @@ class CommuneType extends AbstractType
         $builder->add('codeCommune')
                 ->add('nomCommune')
                 ->add('nomRegion')
-                ->add('paysFk', EntityType::class, array('class' => 'BbeesE3sBundle:Pays',
+                ->add('paysFk', EntityType::class, array('class' => 'App:Pays',
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('pays')
                                     ->orderBy('pays.nomPays', 'ASC');

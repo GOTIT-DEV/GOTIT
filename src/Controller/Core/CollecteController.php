@@ -45,7 +45,7 @@ class CollecteController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $collectes = $em->getRepository('BbeesE3sBundle:Collecte')->findAll();
+        $collectes = $em->getRepository('App:Collecte')->findAll();
        
         return $this->render('collecte/index.html.twig', array( 
             'collectes' => $collectes,));                
@@ -59,7 +59,7 @@ class CollecteController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('collecte.id, collecte.codeCollecte as code')
-            ->from('BbeesE3sBundle:Collecte', 'collecte');
+            ->from('App:Collecte', 'collecte');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -107,13 +107,13 @@ class CollecteController extends Controller
         }
         // Search the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Collecte")->createQueryBuilder('collecte')
+        $entities_toshow = $em->getRepository("App:Collecte")->createQueryBuilder('collecte')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
-            ->leftJoin('BbeesE3sBundle:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
-            ->leftJoin('BbeesE3sBundle:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'voc', 'WITH', 'collecte.legVocFk = voc.id')
+            ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
+            ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
+            ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+            ->leftJoin('App:Voc', 'voc', 'WITH', 'collecte.legVocFk = voc.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -126,16 +126,16 @@ class CollecteController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // search for material associated with a sampling
-            $query = $em->createQuery('SELECT lot.id FROM BbeesE3sBundle:LotMateriel lot WHERE lot.collecteFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = '.$id.'')->getResult();
             $linkLotmaterielFk = (count($query) > 0) ? $id : '';
             // search for external material associated with a sampling 
-            $query = $em->createQuery('SELECT lotext.id FROM BbeesE3sBundle:LotMaterielExt lotext WHERE lotext.collecteFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = '.$id.'')->getResult();
             $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
              // search for external sequence associated with a sampling 
-            $query = $em->createQuery('SELECT sqcext.id FROM BbeesE3sBundle:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = '.$id.'')->getResult();
             $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
             // Search for the concatenated list of targeted taxa
-            $query = $em->createQuery('SELECT rt.taxname as taxname FROM BbeesE3sBundle:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = '.$id.'')->getResult();            
             $arrayTaxonsCibler = array();
             foreach($query as $taxon) {
                  $arrayTaxonsCibler[] = $taxon['taxname'];
@@ -181,7 +181,7 @@ class CollecteController extends Controller
         // check if the relational Entity (Station) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Station')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Station')->find($RelEntityId);
             $collecte->setStationFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\CollecteType', $collecte);
@@ -190,7 +190,7 @@ class CollecteController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id of the relational Entity (Station) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('stationId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Station')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Station')->find($RelEntityId->getData());
             $collecte->setStationFk($RelEntity);
             // persist Entity
             $em->persist($collecte);          
@@ -267,7 +267,7 @@ class CollecteController extends Controller
             // (i) load the id of relational Entity (Station) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $numStationId = $editForm->get('stationId');
-            $stationId = $em->getRepository('BbeesE3sBundle:Station')->find($numStationId->getData());
+            $stationId = $em->getRepository('App:Station')->find($numStationId->getData());
             $collecte->setStationFk($stationId);
             // flush
             $this->getDoctrine()->getManager()->persist($collecte);                       

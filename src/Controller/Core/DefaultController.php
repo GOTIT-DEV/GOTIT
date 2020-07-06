@@ -51,27 +51,27 @@ class DefaultController extends Controller
         // load Doctrine Manager
         $em = $this->getDoctrine()->getManager();
         //
-        $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Collecte u')->getSingleScalarResult();
-        $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Station u')->getSingleScalarResult();
-        $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:LotMateriel u')->getSingleScalarResult();
-        $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:LotMaterielExt u')->getSingleScalarResult();
-        $nbIndividu = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Individu u')->getSingleScalarResult();
-        $nbIndividuLame = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:IndividuLame u')->getSingleScalarResult();
-        $nbAdn = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Adn u')->getSingleScalarResult();
-        $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Pcr u')->getSingleScalarResult();
-        $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Chromatogramme u')->getSingleScalarResult();
-        $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:SequenceAssemblee u')->getSingleScalarResult();
-        $nbSequenceAssembleeExt = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:SequenceAssembleeExt u')->getSingleScalarResult();
-        $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Assigne u')->getSingleScalarResult();
-        $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM BbeesE3sBundle:Assigne u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
-        $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM BbeesE3sBundle:Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
-        $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Boite u')->getSingleScalarResult();
-        $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM BbeesE3sBundle:Source u')->getSingleScalarResult();
-        $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM BbeesE3sBundle:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
+        $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
+        $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
+        $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
+        $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
+        $nbIndividu = $em->createQuery('SELECT COUNT(u.id) FROM App:Individu u')->getSingleScalarResult();
+        $nbIndividuLame = $em->createQuery('SELECT COUNT(u.id) FROM App:IndividuLame u')->getSingleScalarResult();
+        $nbAdn = $em->createQuery('SELECT COUNT(u.id) FROM App:Adn u')->getSingleScalarResult();
+        $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
+        $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
+        $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssemblee u')->getSingleScalarResult();
+        $nbSequenceAssembleeExt = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssembleeExt u')->getSingleScalarResult();
+        $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:Assigne u')->getSingleScalarResult();
+        $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:Assigne u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
+        $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
+        $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM App:Boite u')->getSingleScalarResult();
+        $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
+        $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
         //
         $tab_toshow =[];
         // returns the last records of the dna
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+        $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
             ->addOrderBy('adn.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -89,7 +89,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the chromatogram
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Chromatogramme")->createQueryBuilder('chromatogramme')
+        $entities_toshow = $em->getRepository("App:Chromatogramme")->createQueryBuilder('chromatogramme')
             ->addOrderBy('chromatogramme.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -107,7 +107,7 @@ class DefaultController extends Controller
              );
         }
         // returns the last records of the sampling
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Collecte")->createQueryBuilder('collecte')
+        $entities_toshow = $em->getRepository("App:Collecte")->createQueryBuilder('collecte')
             ->addOrderBy('collecte.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -125,7 +125,7 @@ class DefaultController extends Controller
              );
         }  
         // returns the last records of the specimen
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Individu")->createQueryBuilder('individu')
+        $entities_toshow = $em->getRepository("App:Individu")->createQueryBuilder('individu')
             ->addOrderBy('individu.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -143,7 +143,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the slide
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('individulame')
+        $entities_toshow = $em->getRepository("App:IndividuLame")->createQueryBuilder('individulame')
             ->addOrderBy('individulame.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -161,7 +161,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the lot material
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lotMateriel')
+        $entities_toshow = $em->getRepository("App:LotMateriel")->createQueryBuilder('lotMateriel')
             ->addOrderBy('lotMateriel.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -179,7 +179,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the external lot material
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:LotMaterielExt")->createQueryBuilder('lotmaterielext')
+        $entities_toshow = $em->getRepository("App:LotMaterielExt")->createQueryBuilder('lotmaterielext')
             ->addOrderBy('lotmaterielext.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -197,7 +197,7 @@ class DefaultController extends Controller
              );
         }
         // returns the last records of the motu
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Motu")->createQueryBuilder('motu')
+        $entities_toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
             ->addOrderBy('motu.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -215,7 +215,7 @@ class DefaultController extends Controller
              );
         }
         // returns the last records of the pcr
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Pcr")->createQueryBuilder('pcr')
+        $entities_toshow = $em->getRepository("App:Pcr")->createQueryBuilder('pcr')
             ->addOrderBy('pcr.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -233,7 +233,7 @@ class DefaultController extends Controller
              );
         }
         // returns the last records of the sequence
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceassemblee')
+        $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceassemblee')
             ->addOrderBy('sequenceassemblee.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -251,7 +251,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the external sequence
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceassembleeext')
+        $entities_toshow = $em->getRepository("App:SequenceAssembleeExt")->createQueryBuilder('sequenceassembleeext')
             ->addOrderBy('sequenceassembleeext.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -269,7 +269,7 @@ class DefaultController extends Controller
              );
         } 
         // returns the last records of the site
-        $entities_toshow  = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+        $entities_toshow  = $em->getRepository("App:Station")->createQueryBuilder('station')
             ->addOrderBy('station.dateMaj', 'DESC')
             ->setMaxResults( 25 )
             ->getQuery()
@@ -321,7 +321,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
               
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+        $entities_toshow = $em->getRepository("App:Station")->createQueryBuilder('station')
             ->getQuery()
             ->getResult();
         $nb_entities = count($entities_toshow);

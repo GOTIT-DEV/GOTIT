@@ -58,10 +58,10 @@ class ImportFilesMotuController extends Controller
         if($user->getRole() == 'ROLE_ADMIN') {
             $form = $this->createFormBuilder()
                     ->setMethod('POST')
-                    ->add('motuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Motu',
+                    ->add('motuFk',EntityType::class, array('class' => 'App:Motu',
                          'query_builder' => function (EntityRepository $er) {
                                 return $er->createQueryBuilder('motu')
-                                   ->leftJoin('BbeesE3sBundle:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
+                                   ->leftJoin('App:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
                                    ->where('assigne.id IS NULL') 
                                    ;
                             }, 

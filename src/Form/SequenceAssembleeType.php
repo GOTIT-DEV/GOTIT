@@ -40,7 +40,7 @@ class SequenceAssembleeType extends AbstractType
                 ->add('codeSqcAlignement')
                 ->add('commentaireSqcAss')
                 ->add('dateCreationSqcAss',DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
@@ -48,7 +48,7 @@ class SequenceAssembleeType extends AbstractType
                                ->orderBy('voc.id', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
-                ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')

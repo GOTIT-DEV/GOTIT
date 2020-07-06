@@ -33,7 +33,7 @@ class CompositionLotMaterielEmbedType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nbIndividus')
-                ->add('typeIndividuVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('typeIndividuVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')

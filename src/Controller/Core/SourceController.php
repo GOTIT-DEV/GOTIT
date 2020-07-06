@@ -44,7 +44,7 @@ class SourceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $sources = $em->getRepository('BbeesE3sBundle:Source')->findAll();
+        $sources = $em->getRepository('App:Source')->findAll();
 
         return $this->render('source/index.html.twig', array(
             'sources' => $sources,
@@ -76,7 +76,7 @@ class SourceController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
+        $entities_toshow = $em->getRepository("App:Source")->createQueryBuilder('source')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

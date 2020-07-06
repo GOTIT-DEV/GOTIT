@@ -47,7 +47,7 @@ class PcrController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pcrs = $em->getRepository('BbeesE3sBundle:Pcr')->findAll();
+        $pcrs = $em->getRepository('App:Pcr')->findAll();
 
         return $this->render('pcr/index.html.twig', array(
             'pcrs' => $pcrs,
@@ -62,7 +62,7 @@ class PcrController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('pcr.id, pcr.codePcr as code')
-            ->from('BbeesE3sBundle:Pcr', 'pcr');
+            ->from('App:Pcr', 'pcr');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -109,14 +109,14 @@ class PcrController extends Controller
         }
         // Search for the list to show
         $tab_toshow = [];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Pcr")->createQueryBuilder('pcr')
+        $entities_toshow = $em->getRepository("App:Pcr")->createQueryBuilder('pcr')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-            ->leftJoin('BbeesE3sBundle:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-            ->leftJoin('BbeesE3sBundle:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+            ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
+            ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+            ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+            ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
+            ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -129,10 +129,10 @@ class PcrController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // Search chromatograms associated to a PCR
-            $query = $em->createQuery('SELECT chromato.id FROM BbeesE3sBundle:Chromatogramme chromato WHERE chromato.pcrFk = ' . $id . '')->getResult();
+            $query = $em->createQuery('SELECT chromato.id FROM App:Chromatogramme chromato WHERE chromato.pcrFk = ' . $id . '')->getResult();
             $linkChromatogramme = (count($query) > 0) ? $id : '';
             // concatenated list of people 
-            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM BbeesE3sBundle:PcrEstRealisePar erp JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id . '')->getResult();
+            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id . '')->getResult();
             $arrayListePersonne = array();
             foreach ($query as $taxon) {
                 $arrayListePersonne[] = $taxon['nom'];
@@ -181,7 +181,7 @@ class PcrController extends Controller
         // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Adn')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId);
             $pcr->setAdnFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\PcrType', $pcr);
@@ -190,7 +190,7 @@ class PcrController extends Controller
         if ($form->isSubmitted() && $form->isValid() && $form->get('adnId')->getData() !== null) {
             // (i) load the id of relational Entity (Adn) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('adnId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Adn')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId->getData());
             $pcr->setAdnFk($RelEntity);
             // persist Entity
             $em->persist($pcr);
@@ -256,7 +256,7 @@ class PcrController extends Controller
             // (i) load the id of relational Entity (Adn) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('adnId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Adn')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId->getData());
             $pcr->setAdnFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($pcr);

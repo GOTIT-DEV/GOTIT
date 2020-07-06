@@ -33,7 +33,7 @@ class SourceAEteIntegreParEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('personneFk', EntityType::class, array('class' => 'BbeesE3sBundle:Personne', 
+        $builder->add('personneFk', EntityType::class, array('class' => 'App:Personne', 
               'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('personne')
                             ->orderBy('personne.nomPersonne', 'ASC');

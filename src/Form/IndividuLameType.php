@@ -40,7 +40,7 @@ class IndividuLameType extends AbstractType
                 ->add('codeLameColl')
                 ->add('libelleLame')
                 ->add('dateLame', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
@@ -50,10 +50,10 @@ class IndividuLameType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
                 ->add('nomDossierPhotos')
                 ->add('commentaireLame')
-                ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',
+                ->add('boiteFk',EntityType::class, array('class' => 'App:Boite',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('boite')
-                               ->leftJoin('BbeesE3sBundle:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
+                               ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
                                ->where('voc.code LIKE :codetype')
                                ->setParameter('codetype', 'LAME')
                                ->orderBy('LOWER(boite.codeBoite)', 'ASC');

@@ -60,7 +60,7 @@ class SequenceAssembleeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $sequenceAssemblees = $em->getRepository('BbeesE3sBundle:SequenceAssemblee')->findAll();
+        $sequenceAssemblees = $em->getRepository('App:SequenceAssemblee')->findAll();
 
         return $this->render('sequenceassemblee/index.html.twig', array(
             'sequenceAssemblees' => $sequenceAssemblees,
@@ -95,16 +95,16 @@ class SequenceAssembleeController extends Controller
         }
         // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
+        $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
-            ->leftJoin('BbeesE3sBundle:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
-            ->leftJoin('BbeesE3sBundle:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
-            ->leftJoin('BbeesE3sBundle:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-            ->leftJoin('BbeesE3sBundle:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-            ->leftJoin('BbeesE3sBundle:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+            ->leftJoin('App:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
+            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
+            ->leftJoin('App:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
+            ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+            ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+            ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
+            ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
             ->groupBy('sequenceAssemblee.id')
             ->addGroupBy('vocStatutSqcAss.code')
             ->addGroupBy('sequenceAssemblee.codeSqcAlignement')
@@ -126,19 +126,19 @@ class SequenceAssembleeController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
             // Search for the number of sequence associated to a chromatogram
-            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
             // search for motu associated to a sequence
-            $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
+            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
             // load the first identified taxon            
-            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
+            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
             // Search for sousrces associated to a sequence
-            $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
             foreach($query as $taxon) {
                  $arrayListeSource[] = $taxon['source'];
@@ -205,16 +205,16 @@ class SequenceAssembleeController extends Controller
         }
         // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
+        $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
-            ->leftJoin('BbeesE3sBundle:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
-            ->leftJoin('BbeesE3sBundle:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
-            ->leftJoin('BbeesE3sBundle:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-            ->leftJoin('BbeesE3sBundle:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-            ->leftJoin('BbeesE3sBundle:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+            ->leftJoin('App:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
+            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
+            ->leftJoin('App:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
+            ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+            ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+            ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
+            ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
             ->groupBy('sequenceAssemblee.id')
             ->addGroupBy('vocStatutSqcAss.code')
             ->addGroupBy('sequenceAssemblee.codeSqcAlignement')
@@ -236,19 +236,19 @@ class SequenceAssembleeController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
             // Search for the number of sequence associated to a chromatogram
-            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
             // search for motu associated to a sequence
-            $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
+            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
             // load the first identified taxon            
-            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
+            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
             // Search for sousrces associated to a sequence
-            $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
             foreach($query as $taxon) {
                  $arrayListeSource[] = $taxon['source'];
@@ -315,12 +315,12 @@ class SequenceAssembleeController extends Controller
             $where = ' chromatogramme.id = '.$request->get('idFk');
             // Search for the list to show EstAligneEtTraite
             $tab_toshow =[];
-            $entities_toshow = $this->getDoctrine()->getManager()->getRepository("BbeesE3sBundle:Chromatogramme")->createQueryBuilder('chromatogramme')
+            $entities_toshow = $this->getDoctrine()->getManager()->getRepository("App:Chromatogramme")->createQueryBuilder('chromatogramme')
                 ->where($where)
-                ->leftJoin('BbeesE3sBundle:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-                ->leftJoin('BbeesE3sBundle:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-                ->leftJoin('BbeesE3sBundle:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-                ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+                ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+                ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
+                ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+                ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
                 ->getQuery()
                 ->getResult();
             // set the geneVocFk and individuFk parameteres
@@ -373,7 +373,7 @@ class SequenceAssembleeController extends Controller
         // Recherche du gene et de l'individu pour la sequenceAssemblee
         $em = $this->getDoctrine()->getManager();
         $id = $sequenceAssemblee->getId();
-        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
         $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
         $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : ''; 
         //
@@ -409,7 +409,7 @@ class SequenceAssembleeController extends Controller
         // Recherche du gene et de l'individu pour la sequence
         $em = $this->getDoctrine()->getManager();
         $id = $sequenceAssemblee->getId();
-        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM BbeesE3sBundle:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
         $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
         $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';  
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );        
@@ -510,7 +510,7 @@ class SequenceAssembleeController extends Controller
         if ($sequenceAssemblee->getId() == null && $geneVocFk == null) {
             return $this->createFormBuilder()
                     ->setMethod('POST')
-                    ->add('geneVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                    ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
                            'query_builder' => function (EntityRepository $er) {
                                 return $er->createQueryBuilder('voc')
                                         ->where('voc.parent LIKE :parent')
@@ -518,7 +518,7 @@ class SequenceAssembleeController extends Controller
                                         ->orderBy('voc.libelle', 'ASC');
                             }, 
                         'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
-                     ->add('individuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Individu',
+                     ->add('individuFk',EntityType::class, array('class' => 'App:Individu',
                              'query_builder' => function (EntityRepository $er) {
                                 return $er->createQueryBuilder('ind')
                                    ->where('ind.codeIndBiomol IS NOT NULL')
@@ -533,7 +533,7 @@ class SequenceAssembleeController extends Controller
             $options = ['geneVocFk'=>$geneVocFk ,'individuFk'=>$individuFk ];
             return $this->createFormBuilder()
                     ->setMethod('POST')
-                    ->add('geneVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                    ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
                            'query_builder' => function (EntityRepository $er) use($options) {
                                 return $er->createQueryBuilder('voc')
                                         ->where('voc.id = :geneVocFk')
@@ -541,7 +541,7 @@ class SequenceAssembleeController extends Controller
                                         ->orderBy('voc.libelle', 'ASC');
                             }, 
                         'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => false)) 
-                     ->add('individuFk',EntityType::class, array('class' => 'BbeesE3sBundle:Individu',
+                     ->add('individuFk',EntityType::class, array('class' => 'App:Individu',
                              'query_builder' => function (EntityRepository $er) use($options) {
                                 return $er->createQueryBuilder('ind')
                                    ->where('ind.id = :individuFk')

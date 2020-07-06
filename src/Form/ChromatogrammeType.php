@@ -40,7 +40,7 @@ class ChromatogrammeType extends AbstractType
                 ->add('pcrId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))                
                 ->add('codeChromato')
                 ->add('numYas',  TextType::class, array( 'required' => true,))
-                ->add('primerChromatoVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('primerChromatoVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -48,7 +48,7 @@ class ChromatogrammeType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a primer')) 
-                ->add('qualiteChromatoVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('qualiteChromatoVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -56,7 +56,7 @@ class ChromatogrammeType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality')) 
-                ->add('etablissementFk',EntityType::class, array('class' => 'BbeesE3sBundle:Etablissement',
+                ->add('etablissementFk',EntityType::class, array('class' => 'App:Etablissement',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('etablissement')
                                     ->orderBy('etablissement.nomEtablissement', 'ASC');

@@ -43,7 +43,7 @@ class EtablissementController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $etablissements = $em->getRepository('BbeesE3sBundle:Etablissement')->findAll();
+        $etablissements = $em->getRepository('App:Etablissement')->findAll();
 
         return $this->render('etablissement/index.html.twig', array(
             'etablissements' => $etablissements,
@@ -75,7 +75,7 @@ class EtablissementController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Etablissement")->createQueryBuilder('etablissement')
+        $entities_toshow = $em->getRepository("App:Etablissement")->createQueryBuilder('etablissement')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

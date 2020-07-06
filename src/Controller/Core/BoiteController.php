@@ -49,7 +49,7 @@ class BoiteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $boites = $em->getRepository('BbeesE3sBundle:Boite')->findAll();
+        $boites = $em->getRepository('App:Boite')->findAll();
 
         return $this->render('boite/index.html.twig', array(
             'boites' => $boites,
@@ -84,11 +84,11 @@ class BoiteController extends Controller
         }
         // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+        $entities_toshow = $em->getRepository("App:Boite")->createQueryBuilder('boite')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocCodeCollection', 'WITH', 'boite.codeCollectionVocFk = vocCodeCollection.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocTypeBoite', 'WITH', 'boite.typeBoiteVocFk = vocTypeBoite.id')
+            ->leftJoin('App:Voc', 'vocCodeCollection', 'WITH', 'boite.codeCollectionVocFk = vocCodeCollection.id')
+            ->leftJoin('App:Voc', 'vocTypeBoite', 'WITH', 'boite.typeBoiteVocFk = vocTypeBoite.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();

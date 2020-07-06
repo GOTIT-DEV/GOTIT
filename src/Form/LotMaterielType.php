@@ -39,7 +39,7 @@ class LotMaterielType extends AbstractType
                 ->add('collecteId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))  
                 ->add('codeLotMateriel')
                 ->add('dateLotMateriel', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
@@ -65,7 +65,7 @@ class LotMaterielType extends AbstractType
         		'by_reference' => false,
                         'entry_options' => array('label' => false)
         	))
-                ->add('yeuxVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('yeuxVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -73,7 +73,7 @@ class LotMaterielType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
-                ->add('pigmentationVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('pigmentationVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -86,10 +86,10 @@ class LotMaterielType extends AbstractType
                     ))
                 ->add('commentaireConseilSqc')
                 ->add('commentaireLotMateriel')
-                ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',
+                ->add('boiteFk',EntityType::class, array('class' => 'App:Boite',
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('boite')
-                               ->leftJoin('BbeesE3sBundle:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
+                               ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
                                ->where('voc.code LIKE :codetype')
                                ->setParameter('codetype', 'LOT')
                                ->orderBy('LOWER(boite.codeBoite)', 'ASC');

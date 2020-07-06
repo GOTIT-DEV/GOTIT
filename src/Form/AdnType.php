@@ -42,7 +42,7 @@ class AdnType extends AbstractType
                 ->add('individuId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))
                 ->add('codeAdn')
                 ->add('dateAdn', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')
@@ -50,7 +50,7 @@ class AdnType extends AbstractType
                                ->orderBy('voc.id', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline')))
-                ->add('methodeExtractionAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('methodeExtractionAdnVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -60,7 +60,7 @@ class AdnType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a method'))
                 ->add('concentrationNgMicrolitre', NumberType::class,array( 'scale' => 4, 'required' => false ))
                 ->add('commentaireAdn')
-                ->add('qualiteAdnVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('qualiteAdnVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -68,10 +68,10 @@ class AdnType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a quality'))             
-                ->add('boiteFk',EntityType::class, array('class' => 'BbeesE3sBundle:Boite',
+                ->add('boiteFk',EntityType::class, array('class' => 'App:Boite',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('boite')
-                               ->leftJoin('BbeesE3sBundle:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
+                               ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
                                ->where('voc.code LIKE :codetype')
                                ->setParameter('codetype', 'ADN')
                                ->orderBy('LOWER(boite.codeBoite)', 'ASC');

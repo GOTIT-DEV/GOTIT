@@ -44,7 +44,7 @@ class GenericFunctionE3s
     public function GetUserCreUsername($entity){
         $em = $this->entityManager;
         $userCreId = ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
-        $query = $em->createQuery('SELECT user.username FROM BbeesUserBundle:User user WHERE user.id = '.$userCreId.'')->getResult();
+        $query = $em->createQuery('SELECT user.username FROM App:User user WHERE user.id = '.$userCreId.'')->getResult();
         $userCre = (count($query) > 0) ? $query[0]['username'] : 'NA';
         return $userCre;
     }
@@ -52,7 +52,7 @@ class GenericFunctionE3s
     public function GetUserMajUsername($entity){
         $em = $this->entityManager;
         $userMajId = ($entity->getUserMaj() !== null) ? $entity->getUserMaj() : 0;
-        $query = $em->createQuery('SELECT user.username FROM BbeesUserBundle:User user WHERE user.id = '.$userMajId.'')->getResult();
+        $query = $em->createQuery('SELECT user.username FROM App:User user WHERE user.id = '.$userMajId.'')->getResult();
         $userMaj = (count($query) > 0) ? $query[0]['username'] : 'NA';
         return $userMaj;
     }

@@ -44,7 +44,7 @@ class VocController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $vocs = $em->getRepository('BbeesE3sBundle:Voc')->findAll();
+        $vocs = $em->getRepository('App:Voc')->findAll();
 
         return $this->render('voc/index.html.twig', array(
             'vocs' => $vocs,
@@ -77,7 +77,7 @@ class VocController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Voc")->createQueryBuilder('voc')
+        $entities_toshow = $em->getRepository("App:Voc")->createQueryBuilder('voc')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

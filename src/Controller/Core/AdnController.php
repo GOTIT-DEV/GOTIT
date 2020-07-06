@@ -46,7 +46,7 @@ class AdnController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $adns = $em->getRepository('BbeesE3sBundle:Adn')->findAll();
+        $adns = $em->getRepository('App:Adn')->findAll();
 
         return $this->render('adn/index.html.twig', array(
             'adns' => $adns,
@@ -60,7 +60,7 @@ class AdnController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('adn.id, adn.codeAdn as code')
-            ->from('BbeesE3sBundle:Adn', 'adn');
+            ->from('App:Adn', 'adn');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -108,11 +108,11 @@ class AdnController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+        $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-            ->leftJoin('BbeesE3sBundle:Boite', 'boite', 'WITH', 'adn.boiteFk = boite.id')
+            ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+            ->leftJoin('App:Boite', 'boite', 'WITH', 'adn.boiteFk = boite.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -127,10 +127,10 @@ class AdnController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // search the PCRs from the DNA
-            $query = $em->createQuery('SELECT pcr.id FROM BbeesE3sBundle:Pcr pcr WHERE pcr.adnFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT pcr.id FROM App:Pcr pcr WHERE pcr.adnFk = '.$id.'')->getResult();
             $linkPcr= (count($query) > 0) ? $id : '';
             //  concatenated list of people
-            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM BbeesE3sBundle:AdnEstRealisePar erp JOIN erp.personneFk p WHERE erp.adnFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:AdnEstRealisePar erp JOIN erp.personneFk p WHERE erp.adnFk = '.$id.'')->getResult();            
             $arrayListePersonne = array();
             foreach($query as $taxon) {
                  $arrayListePersonne[] = $taxon['nom'];
@@ -176,7 +176,7 @@ class AdnController extends Controller
         // check if the relational Entity (Individu) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId);
             $adn->setIndividuFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\AdnType', $adn);
@@ -185,7 +185,7 @@ class AdnController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id of relational Entity (Individu) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('individuId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
             $adn->setIndividuFk($RelEntity);
             // persist
             $em->persist($adn);
@@ -251,7 +251,7 @@ class AdnController extends Controller
             // (i) load the id of relational Entity (Individu) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('individuId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Individu')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
             $adn->setIndividuFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($adn); 

@@ -42,7 +42,7 @@ class SequenceAssembleeExtType extends AbstractType
                 ->add('accessionNumberSqcAssExt')
                 ->add('numIndividuSqcAssExt')
                 ->add('taxonOrigineSqcAssExt')
-                ->add('origineSqcAssExtVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('origineSqcAssExtVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')
@@ -50,7 +50,7 @@ class SequenceAssembleeExtType extends AbstractType
                                 ->orderBy('voc.libelle', 'ASC');
                     }, 
                 'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a origineSqcAssExt')) 
-                ->add('geneVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')
@@ -58,7 +58,7 @@ class SequenceAssembleeExtType extends AbstractType
                                 ->orderBy('voc.libelle', 'ASC');
                     }, 
                 'choice_translation_domain' => true, 'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
-                ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('statutSqcAssVocFk', EntityType::class, array('class' => 'App:Voc', 
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('voc')
                                 ->where('voc.parent LIKE :parent')
@@ -67,7 +67,7 @@ class SequenceAssembleeExtType extends AbstractType
                     }, 
                 'choice_label' => 'code', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a statut')) 
                 ->add('dateCreationSqcAssExt',DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')

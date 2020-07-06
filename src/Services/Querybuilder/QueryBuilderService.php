@@ -197,7 +197,7 @@ class QueryBuilderService
 
     $initial = $data["initial"];
     $table = $initial["initialTable"];
-    $query = $query->from('BbeesE3sBundle:' . $table, $table); // Adding the initial table to the query
+    $query = $query->from('App:' . $table, $table); // Adding the initial table to the query
     $fields = $initial["initialFields"];
     foreach ($fields as $value) {
       $query = $query->addSelect($table . "." . $value); // Adding every field selected for the initial table
@@ -423,9 +423,9 @@ class QueryBuilderService
   private function makeJoin($joins, $query, $formerTable, $jointype, $adjTable, $adjTableAlias, $srcField, $tgtField)
   {
     if ($jointype == "Inner Join") {
-      $query = $query->innerJoin('BbeesE3sBundle:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
+      $query = $query->innerJoin('App:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
     } elseif ($jointype == "Left Join") {
-      $query = $query->leftJoin('BbeesE3sBundle:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
+      $query = $query->leftJoin('App:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
     }
 
     return $query;

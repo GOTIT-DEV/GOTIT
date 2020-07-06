@@ -43,7 +43,7 @@ class PaysController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pays = $em->getRepository('BbeesE3sBundle:Pays')->findAll();
+        $pays = $em->getRepository('App:Pays')->findAll();
 
         return $this->render('pays/index.html.twig', array(
             'pays' => $pays,
@@ -75,7 +75,7 @@ class PaysController extends Controller
         }
         // Search for the list to show
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Pays")->createQueryBuilder('pays')
+        $entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])

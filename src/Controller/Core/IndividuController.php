@@ -46,7 +46,7 @@ class IndividuController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $individus = $em->getRepository('BbeesE3sBundle:Individu')->findAll();
+        $individus = $em->getRepository('App:Individu')->findAll();
 
         return $this->render('individu/index.html.twig', array(
             'individus' => $individus,
@@ -60,7 +60,7 @@ class IndividuController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('ind.id, ind.codeIndBiomol as code')
-            ->from('BbeesE3sBundle:Individu', 'ind');
+            ->from('App:Individu', 'ind');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -191,7 +191,7 @@ class IndividuController extends Controller
         // check if the relational Entity (LotMateriel) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:LotMateriel')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId);
             $individu->setLotMaterielFk($RelEntity);
         } 
         $form = $this->createForm('Bbees\E3sBundle\Form\IndividuType', $individu);
@@ -200,7 +200,7 @@ class IndividuController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id  the relational Entity (LotMateriel) from typeahead input field and (ii) set the foreign key 
             $RelEntityId = $form->get('lotmaterielId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:LotMateriel')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId->getData());
             $individu->setLotMaterielFk($RelEntity);
             // persist Entity
             $em->persist($individu);
@@ -275,7 +275,7 @@ class IndividuController extends Controller
             // (i) load the id of relational Entity (LotMateriel) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('lotmaterielId');;
-            $RelEntity = $em->getRepository('BbeesE3sBundle:LotMateriel')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId->getData());
             $individu->setLotMaterielFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($individu);                       

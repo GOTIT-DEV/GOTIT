@@ -49,7 +49,7 @@ class SequenceAssembleeExtController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $sequenceAssembleeExts = $em->getRepository('BbeesE3sBundle:SequenceAssembleeExt')->findAll();
+        $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')->findAll();
 
         return $this->render('sequenceassembleeext/index.html.twig', array(
             'sequenceAssembleeExts' => $sequenceAssembleeExts,
@@ -84,12 +84,12 @@ class SequenceAssembleeExtController extends Controller
         }
         // Search for the list to show EstAligneEtTraite
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->createQueryBuilder('sequenceAssembleeExt')
+        $entities_toshow = $em->getRepository("App:SequenceAssembleeExt")->createQueryBuilder('sequenceAssembleeExt')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssembleeExt.statutSqcAssVocFk = vocStatutSqcAss.id')
-            ->leftJoin('BbeesE3sBundle:Voc', 'vocGene', 'WITH', 'sequenceAssembleeExt.geneVocFk = vocGene.id')
-            ->leftJoin('BbeesE3sBundle:Collecte', 'collecte', 'WITH', 'sequenceAssembleeExt.collecteFk = collecte.id')
+            ->leftJoin('App:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssembleeExt.statutSqcAssVocFk = vocStatutSqcAss.id')
+            ->leftJoin('App:Voc', 'vocGene', 'WITH', 'sequenceAssembleeExt.geneVocFk = vocGene.id')
+            ->leftJoin('App:Collecte', 'collecte', 'WITH', 'sequenceAssembleeExt.collecteFk = collecte.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -103,15 +103,15 @@ class SequenceAssembleeExtController extends Controller
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
             // load the first identified taxon            
-            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM BbeesE3sBundle:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeExtFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
+            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeExtFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
             $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
             // search for motu associated to a sequence
-            $query = $em->createQuery('SELECT a.id FROM BbeesE3sBundle:Assigne a JOIN a.sequenceAssembleeExtFk sqc  WHERE a.sequenceAssembleeExtFk = '.$id.' ')->getResult();
+            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeExtFk sqc  WHERE a.sequenceAssembleeExtFk = '.$id.' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
             // search for sources associated to a sequence
-            $query = $em->createQuery('SELECT s.codeSource as source FROM BbeesE3sBundle:SqcExtEstReferenceDans seerd JOIN seerd.sourceFk s WHERE seerd.sequenceAssembleeExtFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcExtEstReferenceDans seerd JOIN seerd.sourceFk s WHERE seerd.sequenceAssembleeExtFk = '.$id.'')->getResult();            
             $arrayListeSource = array();
             foreach($query as $taxon) {
                  $arrayListeSource[] = $taxon['source'];
@@ -168,7 +168,7 @@ class SequenceAssembleeExtController extends Controller
         // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
             $sequenceAssembleeExt->setCollecteFk($RelEntity);
         }
         $form = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeExtType', $sequenceAssembleeExt, ['refTaxonLabel' => 'codeTaxon']);
@@ -177,7 +177,7 @@ class SequenceAssembleeExtController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id  the relational Entity (Collecte) from typeahead input field and (ii) set the foreign key 
             $RelEntityId = $form->get('collecteId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $sequenceAssembleeExt->setCollecteFk($RelEntity);
             // persist
             $em->persist($sequenceAssembleeExt);
@@ -250,7 +250,7 @@ class SequenceAssembleeExtController extends Controller
             // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('collecteId');;
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $sequenceAssembleeExt->setCollecteFk($RelEntity);
             // persist
             $em->persist($sequenceAssembleeExt);

@@ -61,7 +61,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataAdnRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_adn = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+            $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
             ->where('adn.codeAdn  LIKE :code_adn')
             ->setParameter('code_adn', $data["code_adn"])
             ->getQuery()
@@ -72,7 +72,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -132,7 +132,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataAdnRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_adn = $em->getRepository("BbeesE3sBundle:Adn")->createQueryBuilder('adn')
+            $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
             ->where('adn.codeAdn  LIKE :code_adn')
             ->setParameter('code_adn', $data["code_adn"])
             ->getQuery()
@@ -143,7 +143,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -201,7 +201,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataIndividuLamelRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_lame = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('lame')
+            $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
             ->where('lame.codeLameColl  LIKE :code_lame_coll')
             ->setParameter('code_lame_coll', $data["code_lame_coll"])
             ->getQuery()
@@ -212,7 +212,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -271,7 +271,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataIndividuLamelRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_lame = $em->getRepository("BbeesE3sBundle:IndividuLame")->createQueryBuilder('lame')
+            $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
             ->where('lame.codeLameColl  LIKE :code_lame_coll')
             ->setParameter('code_lame_coll', $data["code_lame_coll"])
             ->getQuery()
@@ -282,7 +282,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -340,7 +340,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataLotMaterielRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
             ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
             ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
             ->getQuery()
@@ -351,7 +351,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -410,7 +410,7 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataLotMaterielRange as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
             ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
             ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
             ->getQuery()
@@ -421,7 +421,7 @@ class ImportFileE3s
             $flagBoiteAffecte = 0;
             if($data["code_boite"] != null || $data["code_boite"] != '') {
                 $flagBoiteAffecte = 1;
-                $query_boite = $em->getRepository("BbeesE3sBundle:Boite")->createQueryBuilder('boite')
+                $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
                 ->where('boite.codeBoite LIKE :code_boite')
                 ->setParameter('code_boite', $data["code_boite"])
                 ->getQuery()
@@ -478,12 +478,12 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
         foreach($csvDataLotMaterielPublie as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_lot = $em->getRepository("BbeesE3sBundle:LotMateriel")->createQueryBuilder('lot')
+            $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
             ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
             ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
             ->getQuery()
             ->getResult();
-            $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
+            $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
             ->where('source.codeSource LIKE :code_source')
             ->setParameter('code_source', $data["source.code_source"])
             ->getQuery()
@@ -492,12 +492,12 @@ class ImportFileE3s
                 if (count($query_lot) == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_lot_materiel"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                 if (count($query_source) == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["source.code_source"].'</b>  <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
             } else {
-                $query_lepd = $em->getRepository("BbeesE3sBundle:LotEstPublieDans")->createQueryBuilder('lepd')
+                $query_lepd = $em->getRepository("App:LotEstPublieDans")->createQueryBuilder('lepd')
                         ->where('lepd.lotMaterielFk = :id_lot')
                         ->setParameter('id_lot', $query_lot[0]->getId())
                         ->andwhere('source.codeSource = :code_source')
                         ->setParameter('code_source', $data["source.code_source"])
-                        ->leftJoin('BbeesE3sBundle:Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
+                        ->leftJoin('App:Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
                         ->getQuery()
                         ->getResult();              
                 if (count($query_lepd) != 0 ) {
@@ -553,12 +553,12 @@ class ImportFileE3s
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s'); 
         foreach($csvDataSqcAssembleePublie as $l => $data){ // 1- Line-to-line data processing ($ l)
-            $query_sa = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->createQueryBuilder('sa')
+            $query_sa = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sa')
             ->where('sa.codeSqcAss LIKE :code_sqc_ass')
             ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
             ->getQuery()
             ->getResult();
-            $query_source = $em->getRepository("BbeesE3sBundle:Source")->createQueryBuilder('source')
+            $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
             ->where('source.codeSource LIKE :code_source')
             ->setParameter('code_source', $data["source.code_source"])
             ->getQuery()
@@ -567,7 +567,7 @@ class ImportFileE3s
                 if (count($query_sa) == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["code_sqc_ass"].'</b>  <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                 if (count($query_source) == 0) $message .= $this->translator->trans('importfileService.ERROR bad code').'<b> : '.$data["source.code_source"].'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
             } else {
-                $query_lepd = $em->getRepository("BbeesE3sBundle:SqcEstPublieDans")->createQueryBuilder('sepd')
+                $query_lepd = $em->getRepository("App:SqcEstPublieDans")->createQueryBuilder('sepd')
                         ->where('sepd.sequenceAssembleeFk = :id_sa')
                         ->setParameter('id_sa', $query_sa[0]->getId())
                         ->getQuery()
@@ -640,7 +640,7 @@ class ImportFileE3s
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
                     if($ColCsv == 'source.code_source') {  
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Source")->findOneBy(array("codeSource" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Source")->findOneBy(array("codeSource" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -660,9 +660,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                        $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -712,9 +712,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -790,7 +790,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'pcr.code_pcr') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Pcr")->findOneBy(array("codePcr" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         } 
@@ -831,9 +831,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -889,9 +889,9 @@ class ImportFileE3s
                            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                            $varfield_parent = strstr($varfield, 'Voc', true);
                            if (!$varfield_parent) {
-                             $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                             $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                            } else {
-                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                              $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                            }  
                            if($foreign_record === NULL){  
                               switch ($foreign_table) {
@@ -929,7 +929,7 @@ class ImportFileE3s
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
                     if($ColCsv == 'chromatogramme.code_chromato') { // On teste pour savoir si le chromatogramme.code_chromato a déja été créé. 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -947,9 +947,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -1019,7 +1019,7 @@ class ImportFileE3s
                 if (!$flag_foreign) { 
                     $varfield = explode(".", $field)[1];
                     if($ColCsv == 'pcr.code_pcr') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Pcr")->findOneBy(array("codePcr" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         } 
@@ -1060,9 +1060,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -1111,9 +1111,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -1182,7 +1182,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'chromatogramme.code_chromato') {  
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -1200,9 +1200,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -1276,7 +1276,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'adn.code_adn') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Adn")->findOneBy(array("codeAdn" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Adn")->findOneBy(array("codeAdn" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -1319,9 +1319,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                        $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1370,9 +1370,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1442,7 +1442,7 @@ class ImportFileE3s
                    }              
                    $varfield = explode(".", $field)[1];
                    if($field == 'programme.codeProgramme') { 
-                       $record_entity = $em->getRepository("BbeesE3sBundle:Programme")->findOneBy(array("codeProgramme" => $dataColCsv)); 
+                       $record_entity = $em->getRepository("App:Programme")->findOneBy(array("codeProgramme" => $dataColCsv)); 
                        if($record_entity !== NULL){ 
                           $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b><br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                        }
@@ -1506,7 +1506,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($field == 'collecte.codeCollecte') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Collecte")->findOneBy(array("codeCollecte" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Collecte")->findOneBy(array("codeCollecte" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$dataColCsv."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -1572,9 +1572,9 @@ class ImportFileE3s
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    // var_dump($varfield); var_dump($varfield_parent); var_dump($field);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));  
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));  
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -1622,9 +1622,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1673,9 +1673,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1717,9 +1717,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1761,9 +1761,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1805,9 +1805,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1875,7 +1875,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($field); var_dump($ColCsv); 
                     if($ColCsv == 'individu_lame.code_lame_coll') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:IndividuLame")->findOneBy(array("codeLameColl" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:IndividuLame")->findOneBy(array("codeLameColl" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -1917,9 +1917,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -1969,9 +1969,9 @@ class ImportFileE3s
                             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
-                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                              $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                             } else {
-                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                               $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                             }  
                             if($foreign_record === NULL){  
                                switch ($foreign_table) {
@@ -2047,13 +2047,13 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'individu.code_ind_biomol' && !is_null($dataColCsv)) { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Individu")->findOneBy(array("codeIndBiomol" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndBiomol" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
                     }
                     if($ColCsv == 'code_ind_tri_morpho' && !is_null($dataColCsv)) { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:Individu")->findOneBy(array("codeIndTriMorpho" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndTriMorpho" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -2071,9 +2071,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -2155,9 +2155,9 @@ class ImportFileE3s
                             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
-                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                              $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                             } else {
-                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                               $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                             }  
                             if($foreign_record === NULL){  
                                switch ($foreign_table) {
@@ -2210,9 +2210,9 @@ class ImportFileE3s
                                //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                                $varfield_parent = strstr($varfield, 'Voc', true);
                                if (!$varfield_parent) {
-                                 $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                                 $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                                } else {
-                                  $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                                  $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                                }  
                                if($foreign_record === NULL){  
                                   switch ($foreign_table) {
@@ -2287,7 +2287,7 @@ class ImportFileE3s
                    if (!$flag_foreign) { 
                       $varfield = explode(".", $field)[1];
                       if($field == 'boite.codeBoite') { 
-                          $record_entity = $em->getRepository("BbeesE3sBundle:Boite")->findOneBy(array("codeBoite" => $dataColCsv)); 
+                          $record_entity = $em->getRepository("App:Boite")->findOneBy(array("codeBoite" => $dataColCsv)); 
                           if($record_entity !== NULL){ 
                              $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                           }
@@ -2304,9 +2304,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -2379,7 +2379,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'lot_materiel.code_lot_materiel') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:LotMateriel")->findOneBy(array("codeLotMateriel" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:LotMateriel")->findOneBy(array("codeLotMateriel" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -2432,9 +2432,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -2485,9 +2485,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -2536,9 +2536,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -2589,7 +2589,7 @@ class ImportFileE3s
                         $type_individu = trim($type_individu);
                         if ($nb_individu == 0)  $nb_individu = NULL;
                         $entityRel->setNbIndividus($nb_individu);
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("code" => $type_individu, "parent" => 'typeIndividu'));  
+                        $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $type_individu, "parent" => 'typeIndividu'));  
                         if($foreign_record === NULL){  
                            switch ("Voc") {
                                 default:
@@ -2660,9 +2660,9 @@ class ImportFileE3s
                     //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                     } else {
-                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                       $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                     }  
                     if($foreign_record === NULL){  
                        switch ($foreign_table) {
@@ -2710,9 +2710,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -2776,7 +2776,7 @@ class ImportFileE3s
         foreach($csvDataMotu as $l2 => $data2){ // 1- Line-to-line data processing ($ l)
                 $flagSeq = 0 ;
                 $flagSeqExt = 0 ;
-                $record_entity_sqc_ass = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"])); 
+                $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"])); 
                 if($record_entity_sqc_ass !== NULL){ 
                     $flagSeq = 1 ;
                     $entityRel = new \App\Entity\Assigne();
@@ -2786,12 +2786,12 @@ class ImportFileE3s
                     $entityRel->$method($record_entity_sqc_ass);
                     $method = "setNumMotu";
                     $entityRel->$method($data2["num_motu"]);
-                    $foreign_record = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+                    $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
                     if($foreign_record === NULL) $message .= $this->translator->trans('importfileService.ERROR unknown record').' : '. $data2["code_methode_motu"]. '</b>  <br> ligne '. (string)($l2+2) . ": " . join(';', $data2). "<br>";
                     $method = "setMethodeMotuVocFk";
                     $entityRel->$method($foreign_record);
                 }
-                $record_entity_sqc_ass_ext = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"])); 
+                $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"])); 
                 if($record_entity_sqc_ass_ext !== NULL){ 
                     $flagSeqExt = 1 ;
                     $entityRel = new \App\Entity\Assigne();
@@ -2801,7 +2801,7 @@ class ImportFileE3s
                     $entityRel->$method($record_entity_sqc_ass_ext);
                     $method = "setNumMotu";
                     $entityRel->$method($data2["num_motu"]);
-                    $foreign_record = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu")); 
+                    $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu")); 
                     if($foreign_record === NULL) $message .= $this->translator->trans('importfileService.ERROR unknown record').' : '. $data2["code_methode_motu"]. '</b>  <br> ligne '. (string)($l2+2) . ": " . join(';', $data2). "<br>";
                     $method = "setMethodeMotuVocFk";
                     $entityRel->$method($foreign_record);
@@ -2902,9 +2902,9 @@ class ImportFileE3s
                         //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                         $varfield_parent = strstr($varfield, 'Voc', true);
                         if (!$varfield_parent) {
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                        $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                         } else {
-                           $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                           $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                         }  
                         if($foreign_record === NULL){  
                            switch ($foreign_table) {
@@ -2953,9 +2953,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -2987,7 +2987,7 @@ class ImportFileE3s
                 foreach($csvDataMotu as $l2 => $data2){ // 1- Line-to-line data processing ($ l)
                     $flagSeq = 0 ;
                     $flagSeqExt = 0 ;
-                    $record_entity_sqc_ass = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"])); 
+                    $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"])); 
                     if($record_entity_sqc_ass !== NULL){ 
                         $flagSeq = 1 ;
                         $entityRel = new \App\Entity\Assigne();
@@ -2997,12 +2997,12 @@ class ImportFileE3s
                         $entityRel->$method($record_entity_sqc_ass);
                         $method = "setNumMotu";
                         $entityRel->$method($data2["num_motu"]);
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+                        $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
                         if($foreign_record === NULL) $message .= $this->translator->trans('importfileService.ERROR unknown record').' : '.$data2["code_methode_motu"]. '</b>  <br> ligne '. (string)($l2+2) . ": " . join(';', $data2). "<br>";
                         $method = "setMethodeMotuVocFk";
                         $entityRel->$method($foreign_record);
                     }
-                    $record_entity_sqc_ass_ext = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"])); 
+                    $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"])); 
                     if($record_entity_sqc_ass_ext !== NULL){ 
                         $flagSeqExt = 1 ;
                         $entityRel = new \App\Entity\Assigne();
@@ -3012,7 +3012,7 @@ class ImportFileE3s
                         $entityRel->$method($record_entity_sqc_ass_ext);
                         $method = "setNumMotu";
                         $entityRel->$method($data2["num_motu"]);
-                        $foreign_record = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu")); 
+                        $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu")); 
                         if($foreign_record === NULL) $message .= $this->translator->trans('importfileService.ERROR unknown record').' : '.$data2["code_methode_motu"]. '</b> INCONNU <br> ligne '. (string)($l2+2) . ": " . join(';', $data2). "<br>";
                         $method = "setMethodeMotuVocFk";
                         $entityRel->$method($foreign_record);
@@ -3077,7 +3077,7 @@ class ImportFileE3s
                     if (!$flag_foreign) { 
                         $varfield = explode(".", $field)[1];
                         if($ColCsv  == 'etablissement.nom_etablissement') { 
-                            $record_entity = $em->getRepository("BbeesE3sBundle:Etablissement")->findOneBy(array("nomEtablissement" => $dataColCsv)); 
+                            $record_entity = $em->getRepository("App:Etablissement")->findOneBy(array("nomEtablissement" => $dataColCsv)); 
                             if($record_entity !== NULL){ 
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
@@ -3143,7 +3143,7 @@ class ImportFileE3s
                     $field = $importFileCsvService->TransformNameForSymfony($ColCsv,'field');                 
                     $varfield = explode(".", $field)[1];
                     if($field == 'pays.codePays') { 
-                        $record_pays = $em->getRepository("BbeesE3sBundle:Pays")->findOneBy(array("codePays" => $dataColCsv)); 
+                        $record_pays = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $dataColCsv)); 
                         if($record_pays !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+1).": ".join(';', $data)."<br>"; 
                         }
@@ -3210,7 +3210,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'sequence_assemblee_ext.code_sqc_ass_ext') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -3252,9 +3252,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -3302,9 +3302,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3353,9 +3353,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3434,9 +3434,9 @@ class ImportFileE3s
                     //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                     } else {
-                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                       $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                     }  
                     if($foreign_record === NULL){  
                        switch ($foreign_table) {
@@ -3484,9 +3484,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3561,7 +3561,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'lot_materiel_ext.code_lot_materiel_ext') {  
-                        $record_entity = $em->getRepository("BbeesE3sBundle:LotMaterielExt")->findOneBy(array("codeLotMaterielExt" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:LotMaterielExt")->findOneBy(array("codeLotMaterielExt" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -3603,9 +3603,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -3653,9 +3653,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3704,9 +3704,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3785,9 +3785,9 @@ class ImportFileE3s
                     //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                     } else {
-                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                       $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                     }  
                     if($foreign_record === NULL){  
                        switch ($foreign_table) {
@@ -3835,9 +3835,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -3910,7 +3910,7 @@ class ImportFileE3s
                    $varfield = explode(".", $field)[1];
                    // var_dump($ColCsv); var_dump($field); exit;
                    if($field == 'station.codeStation') { // On teste pour savoir si le code_station a déja été créé. 
-                       $record_station = $em->getRepository("BbeesE3sBundle:Station")->findOneBy(array("codeStation" => $dataColCsv)); 
+                       $record_station = $em->getRepository("App:Station")->findOneBy(array("codeStation" => $dataColCsv)); 
                        if($record_station !== NULL){ 
                           $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+1).": ".join(';', $data)."<br>"; 
                        }
@@ -3930,9 +3930,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -3951,7 +3951,7 @@ class ImportFileE3s
                                        $commune->setDateMaj($DateImport);
                                        $commune->setUserCre($userId);
                                        $commune->setUserMaj($userId);
-                                       $pays_fk = $em->getRepository("BbeesE3sBundle:Pays")->findOneBy(array("codePays" => $list_field_commune[2])); 
+                                       $pays_fk = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $list_field_commune[2])); 
                                        if($pays_fk === NULL){ 
                                             $message .= $this->translator->trans('importfileService.ERROR bad code').' : '.$list_field_commune[2]. '</b>  <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
                                        }
@@ -4040,7 +4040,7 @@ class ImportFileE3s
                     $varfield = explode(".", $field)[1];
                     // var_dump($ColCsv); var_dump($field); exit;
                     if($ColCsv == 'sequence_assemblee.code_sqc_ass') { 
-                        $record_entity = $em->getRepository("BbeesE3sBundle:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $dataColCsv)); 
+                        $record_entity = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $dataColCsv)); 
                         if($record_entity !== NULL){ 
                            $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$dataColCsv."</b> <br>ligne ".(string)($l+2).": ".join(';', $data)."<br>"; 
                         }
@@ -4081,9 +4081,9 @@ class ImportFileE3s
                    //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                    $varfield_parent = strstr($varfield, 'Voc', true);
                    if (!$varfield_parent) {
-                     $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                     $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                    } else {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                    }  
                    if($foreign_record === NULL){  
                       switch ($foreign_table) {
@@ -4131,9 +4131,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -4182,9 +4182,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -4233,9 +4233,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -4314,9 +4314,9 @@ class ImportFileE3s
                     //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                     $varfield_parent = strstr($varfield, 'Voc', true);
                     if (!$varfield_parent) {
-                      $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                      $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                     } else {
-                       $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                       $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                     }  
                     if($foreign_record === NULL){  
                        switch ($foreign_table) {
@@ -4364,9 +4364,9 @@ class ImportFileE3s
                        //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                        $varfield_parent = strstr($varfield, 'Voc', true);
                        if (!$varfield_parent) {
-                         $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
+                         $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));    
                        } else {
-                          $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
+                          $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));  
                        }  
                        if($foreign_record === NULL){  
                           switch ($foreign_table) {
@@ -4437,7 +4437,7 @@ class ImportFileE3s
                        $message .=  $this->translator->trans('importfileService.ERROR bad character').'<b> : ' .$data[$ColCsv]. '</b> <br> ligne '. (string)($l+2) . ": " . join(';', $data). "<br>";
                    } 
                    if($ColCsv == 'referentiel_taxon.taxname') { // On teste pour savoir si le taxname a déja été créé. 
-                       $record_entity = $em->getRepository("BbeesE3sBundle:ReferentielTaxon")->findOneBy(array("taxname" => $dataColCsv)); 
+                       $record_entity = $em->getRepository("App:ReferentielTaxon")->findOneBy(array("taxname" => $dataColCsv)); 
                        if($record_entity !== NULL){ 
                           $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b>  <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                        }
@@ -4509,7 +4509,7 @@ class ImportFileE3s
                    } 
                   // On teste pour savoir si le code_voc n existe pas deja pour ce parent 
                   if ($ColCsv == 'voc.parent') {
-                      $record_voc = $em->getRepository("BbeesE3sBundle:Voc")->findOneBy(array("parent" => $dataColCsv, "code" => $code));  
+                      $record_voc = $em->getRepository("App:Voc")->findOneBy(array("parent" => $dataColCsv, "code" => $code));  
                       if($record_voc !== NULL){ 
                           $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b>  <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                       }
@@ -4575,7 +4575,7 @@ class ImportFileE3s
                     if (!$flag_foreign) { 
                         $varfield = explode(".", $field)[1];
                         if($ColCsv  == 'personne.nom_personne') { 
-                            $record_entity = $em->getRepository("BbeesE3sBundle:Personne")->findOneBy(array("nomPersonne" => $dataColCsv)); 
+                            $record_entity = $em->getRepository("App:Personne")->findOneBy(array("nomPersonne" => $dataColCsv)); 
                             if($record_entity !== NULL){ 
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
@@ -4594,9 +4594,9 @@ class ImportFileE3s
                             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
-                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                              $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                             } else {
-                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                               $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                             }  
                             if($foreign_record === NULL){  
                                switch ($foreign_table) {
@@ -4678,7 +4678,7 @@ class ImportFileE3s
                     if (!$flag_foreign) { 
                         $varfield = explode(".", $field)[1];
                         if($ColCsv  == 'commune.code_commune') { 
-                            $record_entity = $em->getRepository("BbeesE3sBundle:Commune")->findOneBy(array("codeCommune" => $dataColCsv)); 
+                            $record_entity = $em->getRepository("App:Commune")->findOneBy(array("codeCommune" => $dataColCsv)); 
                             if($record_entity !== NULL){ 
                                $message .= $this->translator->trans('importfileService.ERROR duplicate code').'<b> : '.$data[$ColCsv]." / ".$ColCsv.'</b> <br>ligne '.(string)($l+2).": ".join(';', $data)."<br>"; 
                             }
@@ -4697,9 +4697,9 @@ class ImportFileE3s
                             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                             $varfield_parent = strstr($varfield, 'Voc', true);
                             if (!$varfield_parent) {
-                              $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
+                              $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv));    
                             } else {
-                               $foreign_record = $em->getRepository("BbeesE3sBundle:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
+                               $foreign_record = $em->getRepository("App:".$foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));  
                             }  
                             if($foreign_record === NULL){  
                                switch ($foreign_table) {

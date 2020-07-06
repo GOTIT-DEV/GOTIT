@@ -46,7 +46,7 @@ class StationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $stations = $em->getRepository('BbeesE3sBundle:Station')->findAll();
+        $stations = $em->getRepository('App:Station')->findAll();
 
         return $this->render('station/index.html.twig', array(
             'stations' => $stations,
@@ -60,7 +60,7 @@ class StationController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('station.id, station.codeStation as code')
-            ->from('BbeesE3sBundle:Station', 'station');
+            ->from('App:Station', 'station');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -97,11 +97,11 @@ class StationController extends Controller
         $minRecord = intval($request->get('current')-1)*$rowCount;
         $maxRecord = $rowCount;      
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+        $entities_toshow = $em->getRepository("App:Station")->createQueryBuilder('station')
             ->where('LOWER(station.codeStation) LIKE :criteriaLower')
             ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')).'%')
-            ->leftJoin('BbeesE3sBundle:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
-            ->leftJoin('BbeesE3sBundle:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+            ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
+            ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
@@ -112,7 +112,7 @@ class StationController extends Controller
             $id = $entity->getId();
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $query = $em->createQuery('SELECT collecte.id FROM BbeesE3sBundle:Collecte collecte WHERE collecte.stationFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT collecte.id FROM App:Collecte collecte WHERE collecte.stationFk = '.$id.'')->getResult();
             $stationFk = (count($query) > 0) ? $id : '';
             $tab_toshow[] = array( "id" => $id, "station.id" => $id, "station.codeStation" => $entity->getCodeStation(),
              "station.nomStation" => $entity->getNomStation(),
@@ -150,7 +150,7 @@ class StationController extends Controller
         $em = $this->getDoctrine()->getManager();
               
         $tab_toshow =[];
-        $entities_toshow = $em->getRepository("BbeesE3sBundle:Station")->createQueryBuilder('station')
+        $entities_toshow = $em->getRepository("App:Station")->createQueryBuilder('station')
             ->where('station.longDegDec < :longMax')
             ->setParameter('longMax', $longitude+$diffLatitudeLongitude)
             ->andWhere('station.longDegDec > :longMin')

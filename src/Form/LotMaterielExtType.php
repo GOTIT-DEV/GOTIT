@@ -38,7 +38,7 @@ class LotMaterielExtType extends AbstractType
         $builder->add('collecteTypeahead', null, ['mapped' => false, 'attr' => ['class' => 'typeahead typeahead-collecte', 'data-target_id' => "bbees_e3sbundle_lotmaterielext_collecteId", 'name' => "where", 'placeholder' => "Collecte typeahead placeholder",  "maxlength" => "255"], 'required' => true, ])
                 ->add('collecteId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))  
                 ->add('codeLotMaterielExt')
-                ->add('pigmentationVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('pigmentationVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -46,7 +46,7 @@ class LotMaterielExtType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Pigmentation'))
-                ->add('yeuxVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('yeuxVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -55,7 +55,7 @@ class LotMaterielExtType extends AbstractType
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'))
                 ->add('commentaireLotMaterielExt')   
-                ->add('nbIndividusVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('nbIndividusVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -65,7 +65,7 @@ class LotMaterielExtType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose an option'))
                 ->add('commentaireNbIndividus')
                 ->add('dateCreationLotMaterielExt', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
-                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 
+                ->add('datePrecisionVocFk', EntityType::class, array('class' => 'App:Voc', 
                          'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                ->where('voc.parent LIKE :parent')

@@ -30,7 +30,7 @@ class EstFinanceParEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('programmeFk', EntityType::class, array('class' => 'BbeesE3sBundle:Programme', 
+        $builder->add('programmeFk', EntityType::class, array('class' => 'App:Programme', 
                       'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('programme')
                                     ->orderBy('programme.codeProgramme', 'ASC');

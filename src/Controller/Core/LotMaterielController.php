@@ -46,7 +46,7 @@ class LotMaterielController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $lotMateriels = $em->getRepository('BbeesE3sBundle:LotMateriel')->findAll();
+        $lotMateriels = $em->getRepository('App:LotMateriel')->findAll();
 
         return $this->render('lotmateriel/index.html.twig', array(
             'lotMateriels' => $lotMateriels,
@@ -60,7 +60,7 @@ class LotMaterielController extends Controller
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('lot.id, lot.codeLotMateriel as code')
-            ->from('BbeesE3sBundle:LotMateriel', 'lot');
+            ->from('App:LotMateriel', 'lot');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
         for($i=0; $i<count($query); $i++) {
@@ -185,7 +185,7 @@ class LotMaterielController extends Controller
         // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId);
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
             $lotMateriel->setCollecteFk($RelEntity);
         }        
         $form = $this->createForm('Bbees\E3sBundle\Form\LotMaterielType', $lotMateriel);
@@ -194,7 +194,7 @@ class LotMaterielController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // (i) load the id  the relational Entity (Collecte) from typeahead input field and (ii) set the foreign key 
             $RelEntityId = $form->get('collecteId');
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $lotMateriel->setCollecteFk($RelEntity);
             // persist
             $em->persist($lotMateriel);
@@ -269,7 +269,7 @@ class LotMaterielController extends Controller
             // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $RelEntityId = $editForm->get('collecteId');;
-            $RelEntity = $em->getRepository('BbeesE3sBundle:Collecte')->find($RelEntityId->getData());
+            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
             $lotMateriel->setCollecteFk($RelEntity);
             // flush
             $this->getDoctrine()->getManager()->persist($lotMateriel);                       

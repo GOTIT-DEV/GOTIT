@@ -30,7 +30,7 @@ class ACiblerEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('referentielTaxonFk', EntityType::class, array('class' => 'BbeesE3sBundle:ReferentielTaxon', 
+        $builder->add('referentielTaxonFk', EntityType::class, array('class' => 'App:ReferentielTaxon', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('rt')
                                     ->orderBy('rt.taxname', 'ASC');

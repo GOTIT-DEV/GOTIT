@@ -35,19 +35,19 @@ class StationType extends AbstractType
     {
         $builder->add('codeStation')->add('nomStation')
                 ->add('infoDescription') 
-                ->add('paysFk', EntityType::class, array('class' => 'BbeesE3sBundle:Pays',
+                ->add('paysFk', EntityType::class, array('class' => 'App:Pays',
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('pays')
                                     ->orderBy('pays.nomPays', 'ASC');
                         },
                     'placeholder' => 'Choose a Country', 'choice_label' => 'nom_pays', 'multiple' => false, 'expanded' => false))
-                ->add('communeFk', EntityType::class, array('class' => 'BbeesE3sBundle:Commune',
+                ->add('communeFk', EntityType::class, array('class' => 'App:Commune',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('commune')
                                     ->orderBy('commune.codeCommune', 'ASC');
                         },
                     'choice_label' => 'codeCommune', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a Commune')) 
-                ->add('habitatTypeVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose an Habitat Type',
+                ->add('habitatTypeVocFk', EntityType::class, array('class' => 'App:Voc', 'placeholder' => 'Choose an Habitat Type',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -55,7 +55,7 @@ class StationType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
-                ->add('pointAccesVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose an Access Point',
+                ->add('pointAccesVocFk', EntityType::class, array('class' => 'App:Voc', 'placeholder' => 'Choose an Access Point',
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
@@ -65,7 +65,7 @@ class StationType extends AbstractType
                     'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false))
                 ->add('latDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
                 ->add('longDegDec', NumberType::class,array( 'required' => true,  'scale' => 6 ))
-                ->add('precisionLatLongVocFk', EntityType::class, array('class' => 'BbeesE3sBundle:Voc', 'placeholder' => 'Choose a GPS Distance Quality',
+                ->add('precisionLatLongVocFk', EntityType::class, array('class' => 'App:Voc', 'placeholder' => 'Choose a GPS Distance Quality',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')
                                     ->where('voc.parent LIKE :parent')
