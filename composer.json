@@ -18,11 +18,13 @@
         "symfony/security-bundle": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
         "symfony/validator": "4.4.*",
+        "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "4.4.*",
         "willdurand/js-translation-bundle": "^3.0"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.19"
+        "symfony/maker-bundle": "^1.19",
+        "symfony/profiler-pack": "^1.0"
     },
     "config": {
         "preferred-install": {
