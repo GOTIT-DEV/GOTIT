@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{#  {% set entityname = edit_form.vars.name|split('_')[2] %} #}
+{% set route = app.request.attributes.get('_route') %}
+{% set entityname = route|split('_')[0] %}
+{% set route_index =  [entityname, '_index']|join  %}
+
+{# initialize the url of the BackToTheList button #}
+{% set path_route_index =  path(route_index)  %}
+{% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) and  (app.request.query.get('idFk') !='')%}
+	{% set idFk = app.request.query.get('idFk') %}
+	{% if app.request.query.get('nameFk') is defined %}
+		{% set nameFk =  app.request.query.get('nameFk')  %}
+		{% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join  %}
+		{% set path_route_index =  path(route_index,{'nameFk':nameFk, 'idFk': idFk}) %}
+	{% else %}
+		{% set path_route_index =  path(route_index,{'idFk': idFk}) %}
+	{% endif %}
+{% endif %}
+{% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
+	{% set path_route_index =  path(route_index,{'searchPatern': app.request.query.get('searchPatern')}) %}
+{% endif %}
+{% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
+	{% set path_route_index =  path(route_index,{'typeBoite': app.request.query.get('typeBoite')}) %}
+{% endif %}
+
+{# initializes and manages the variables that are valid for validation and the BackToTheList button #}
+{% set backbutton = 1 %}
+{% set flagvalid = 0 %}
+{% set comptvalid = 1 %}
+
+{#  case of a change of language: language passed in parameter of url? language = switch #}
+{% if (app.request.query.get('langage') is defined and app.request.query.get('langage') != '' )%}
+	{% set backbutton = 0 %}
+{% endif %}
+
+{% block titlepage %}
+	<h1>
+		{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %}
+			{{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
+		{% else %}
+			{{['title.',entityname ]|join|trans}}
+		{% endif %}
+	</h1>
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_content">
+					<br/>
+					{{ form_start(edit_form) }}
+					{{ form_errors(edit_form) }}
+					{{ form_widget(edit_form, { 'attr': {'readonly': 'readonly'} }) }}
+				</br>
+				<div class="clearfix"></div>
+				<div class="form-group">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-10">
+						{% if ( backbutton == 0 )%}
+							{# case of CREATE mode validation #}
+							<a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a>
+						{% else %}
+							{# cas of mode Edit /edit  #}
+							<a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'buton.Back'|trans}}</a>
+						{% endif %}
+					</div>
+				</div>
+				{{ form_end(edit_form) }}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{{ parent() }}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(" :input").prop("disabled", true);
+        $('button[class="btn btn-info pull-right"]').prop("disabled", false);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,556 @@
+{% extends 'base.html.twig' %}
+
+{# DASHBOARD #}
+
+{% block headincl %}
+	<!-- Plotly -->
+	<script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block titlepage %}
+		<h1>{{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}</h1>
+{% endblock %}
+
+{% block body %}
+
+	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbIndividu + nbLotMateriel %}
+
+	<div class="row">
+
+		<div class="col-md-4 col-sm-4 col-xs-12">
+
+			<div class="x_panel tile fixed_height_200">
+				<div class="x_title">
+					<h2>{{'Dashboard.Données de terrain'|trans}}</h2>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbStation'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbStation }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbCollecte'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbCollecte }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="x_panel tile fixed_height_200">
+				<div class="x_title">
+					<h2>{{'Dashboard.Données moléculaire'|trans}}</h2>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbPcr'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbPcr }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbChromatogramme'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbChromatogramme }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbSequenceAssemblee'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbSequenceAssemblee }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<div class="x_panel tile fixed_height_390">
+
+				<div class="x_title">
+					<h2>{{'Dashboard.Materiel biologique'|trans}}</h2>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbLotMateriel'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbLotMateriel }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbIndividu'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbIndividu }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbIndividuLame'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbIndividuLame }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbAdn'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbAdn }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbBoite'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbBoite }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-sm-4 col-xs-12">
+
+			<div class="x_panel tile fixed_height_200">
+				<div class="x_title">
+					<h2>{{'Dashboard.Hypothese espece'|trans}}</h2>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbTaxon'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbTaxon }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbMotuSqcAss'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbMotuSqcAss }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbMotuSqcAssExt'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbMotuSqcAssExt }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="x_panel tile fixed_height_200">
+				<div class="x_title">
+					<h2>{{'Dashboard.Données de la litérature'|trans}}</h2>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.LotMaterielExt'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbLotMaterielExt }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbSequenceAssembleeExt'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbSequenceAssembleeExt }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="widget_summary">
+						<div class="w_left w_55">
+							<span>{{'Dashboard.nbSource'|trans}}</span>
+						</div>
+						<div class="w_center w_25"></div>
+						<div class="w_right w_20">
+							<span>{{ nbSource }}</span>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>{{'Dashboard.Tools'|trans}}</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="dashboard-widget-content">
+
+						{% if is_granted('ROLE_ADMIN') %}
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulame_index') }}">{{'import.individulame'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielext_index') }}">{{'import.lotmaterielext'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesmotu_index') }}">{{'import.motu'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterieldeplace_index') }}">{{'import.boite.lotmaterieldeplace'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulamedeplace_index') }}">{{'import.boite.individulamedeplace'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadndeplace_index') }}">{{'import.boite.adndeplace'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+						{% elseif  is_granted('ROLE_PROJECT')%}
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulame_index') }}">{{'import.individulame'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielext_index') }}">{{'import.lotmaterielext'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.motu'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.individulamedeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.adndeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+						{% elseif  is_granted('ROLE_COLLABORATION')%}
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.station'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.collecte'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.lotmateriel'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.individu'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.individulame'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.lotmaterielext'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadn_index') }}">{{'import.adn'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilespcr_index') }}">{{'import.pcr'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessequenceassembleeext_index') }}">{{'import.sequenceassembleeext'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.motu'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.source'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesindividulamerange_index') }}">{{'import.boite.individulamerange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.individulamedeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.adndeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
+						{% elseif  is_granted('ROLE_INVITED')%}
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.station'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.collecte'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.lotmateriel'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.individu'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.individulame'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.lotmaterielext'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.adn'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.pcr'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.chromatogramme'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.sequenceassemblee'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.sequenceassembleeext'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.motu'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.source'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.lotmaterielrange'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.individulamerange'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.adnrange'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.individulamedeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.boite.adndeplace'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.source.lotmaterielpublie'|trans}}</font>
+							</a><br/>
+							<i class="far fa-arrow-alt-circle-right"></i>
+							<a href="#">
+								<font color="grey">{{'import.source.sequencepublie'|trans}}</font>
+							</a><br/>
+							{% else  %}
+
+						{% endif %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-8 col-sm-8 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>{{'Dashboard.LastUpdate'|trans}}</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div id="stations" class="x_content">
+					<div class="table-responsive">
+						<table id="last-updates-table" class="table table-condensed table-hover table-striped">
+							<thead>
+								<tr>
+									<th data-column-id="id" data-type="numeric" data-visible="false">Id</th>
+									<th data-column-id="dbName" data-visible="false">DB Table</th>
+									<th data-column-id="name">Table</th>
+									<th data-column-id="code">Code</th>
+									<th data-column-id="dateMaj" data-type="date" data-sortable="true">{{'list.Date maj'|trans}}</th>
+									<th data-column-id="userMaj">{{'User maj'|trans}}</th>
+									<th data-column-id="showEntity" data-formatter="showEntity" data-sortable="false" data-visible="true">Show</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for entity in entities %}
+									<tr>
+										<td>{{entity.id }}</td>
+										<td>{{entity.name}}</td>
+										<td>{{['title.',entity.name]|join|trans|capitalize}}</td>
+										<td>{{entity.code }}</td>
+										<td>{{entity.dateMaj}}</td>
+										<td>{{entity.userMaj }}</td>
+										<td></td>
+									</tr>
+
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block scripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{asset('e3s/js/dashboard.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'index.html.twig' %}
+
+{#  INDEX : PROGRAM #}
+
+{# initialize the array of linked entities ([entity1, entity2 ...]) to which we wish to make a link-shortcuts
+1) The table of results should include a collumn of the type: <th data-column-id = "linkEntity" data-formatter = "linkEntity" data-sortable = "false"> Col. </ Th>
+2) the controller will have to return in the table rows the colloids of the type: "linkEntity1" => "patern1", "linkeEntity2" => "patern2" ... #}
+{% set links =  [] %}
+
+{% block action %}
+    {{ parent() }}
+    {% if is_granted('ROLE_PROJECT') %}
+        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+    {% else %}
+        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+    {% endif %}
+{% endblock %}
+
+{% block body %}         
+    {# definition of collones to display 
+     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+    <div class="table-responsive">        
+    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
+        <thead>
+            <tr>
+                <th data-column-id="programme.id" data-type="numeric" data-visible="false" >Id</th>
+                <th data-column-id="programme.codeProgramme" data-sortable="true">{{'Code programme'|trans}}</th> 
+                <th data-column-id="programme.typeFinanceur" data-sortable="true">{{'Type financeur'|trans}}</th> 
+                <th data-column-id="programme.nomProgramme" data-sortable="true" data-visible="false">{{'Nom programme'|trans}}</th> 
+                <th data-column-id="programme.nomsResponsables" data-sortable="true" >{{'Noms responsables'|trans}}</th> 
+                <th data-column-id="programme.anneeDebut" data-sortable="true">{{'Annee debut'|trans}}</th> 
+                <th data-column-id="programme.anneeFin" data-sortable="true">{{'Annee fin'|trans}}</th> 
+                <th data-column-id="programme.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
+                <th data-column-id="programme.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
+                <th data-column-id="programme.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
+                <th data-column-id="programme.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
+                <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">{{'list.show'|trans}}</th>
+                <th data-column-id="edit" data-formatter="edit" data-sortable="false"  data-width="20">{{'list.edit'|trans}}</th>
+                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">{{'list.delete'|trans}}</th>
+            </tr>
+        </thead>
+    </table>
+    </div>       
+{% endblock %}
+

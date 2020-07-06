@@ -1,0 +1,49 @@
+{% extends 'index.html.twig' %}
+
+{# INDEX : PCR #}
+
+{# initialize the array of linked entities ([entity1, entity2 ...]) to which we wish to make a link-shortcuts
+1) The table of results should include a collumn of the type: <th data-column-id = "linkEntity" data-formatter = "linkEntity" data-sortable = "false"> Col. </ Th>
+2) the controller will have to return in the table rows the colloids of the type: "linkEntity1" => "patern1", "linkeEntity2" => "patern2" ... #}
+{% set links =  ['chromatogramme'] %}
+
+{% block action %}
+    {{ parent() }}
+    {% if is_granted('ROLE_COLLABORATION') %}
+        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+    {% else %}
+        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+    {% endif %}
+{% endblock %}
+
+{% block body %}      
+    {# definition of collones to display 
+    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #} 
+    <div class="table-responsive">        
+    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
+        <thead>
+            <tr>
+                <th data-column-id="pcr.id" data-type="numeric" data-visible="false">Id</th>
+                <th data-column-id="individu.codeIndBiomol" data-sortable="true">{{'Code ind biomol'|trans}}</th>
+                <th data-column-id="adn.codeAdn" data-sortable="true" data-visible="false">{{'Code adn'|trans}}</th>
+                <th data-column-id="pcr.codePcr" data-sortable="true" data-visible="true">{{'Code pcr'|trans}}</th>  
+                <th data-column-id="vocGene.code" data-sortable="true">{{'Gene voc fk'|trans}}</th>
+                <th data-column-id="pcr.numPcr" data-sortable="true">{{'Num pcr'|trans}}</th> 
+                <th data-column-id="pcr.datePcr" data-type="date">{{'Date pcr'|trans}}</th>
+                <th data-column-id="vocQualitePcr.code" data-sortable="true">{{'Qualite pcr voc fk'|trans}} </th>
+                <th data-column-id="vocSpecificite.code" data-sortable="true">{{'Specificite voc fk'|trans}} </th>
+                <th data-column-id="listePersonne" data-sortable="false" data-visible="false">{{'list.Liste personnes'|trans}}</th>
+                <th data-column-id="pcr.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
+                <th data-column-id="pcr.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
+                <th data-column-id="pcr.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
+                <th data-column-id="pcr.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
+                <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">{{'list.show'|trans}}</th>
+                <th data-column-id="edit" data-formatter="edit" data-sortable="false"  data-width="20">{{'list.edit'|trans}}</th>
+                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">{{'list.delete'|trans}}</th>                 
+                <th data-column-id="linkChromatogramme" data-formatter="linkChromatogramme" data-sortable="false" data-width="20">{{'list.linkChromatogramme'|trans}}</th>
+            </tr>
+        </thead>
+    </table>
+    </div>       
+{% endblock %}
+

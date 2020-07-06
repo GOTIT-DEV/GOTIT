@@ -1,0 +1,216 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : EXTERNAL MATERIAL #}
+
+{#  Typehead : initialisation of typeahead EntityRelationalId field  #} 
+{% set route = app.request.attributes.get('_route') %}
+{% set action = route|split('_')[1] %}
+    {% set codeCollecte = '' %}
+    {% set idCollecte = '' %}
+{% if (lotMaterielExt.collecteFk.codeCollecte is defined )%}
+    {#  case of an existing record #} 
+    {% set codeCollecte = lotMaterielExt.collecteFk.codeCollecte %}
+    {% set idCollecte = lotMaterielExt.collecteFk.id %}
+{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
+    {#  case of a new record with  a preselected relational entity #} 
+    {% set idCollecte = app.request.query.get('idFk') %}
+    {% if app.request.query.get('idFk') is not empty %}
+            {% set codeCollecte = lotMaterielExt.collecteFk.codeCollecte %}
+    {% endif %}       
+{% endif %}
+
+{% block body %}
+    
+    {{ parent() }}   
+           
+    <!-- Modal : myModalPersonne -->
+     <div id="myModalPersonne" class="modal" role="dialog">
+     <div class="modal-dialog">
+     <div class="modal-content">
+          <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h1 class="modal-title">{{'title.Personne'|trans}}</h1>
+          </div>
+          <div class="modal-body">
+            <div id='content_to_change_personne'>
+                    {{ render(controller('BbeesE3sBundle:Personne:newmodal')) }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{'buton.Close'|trans}}</button>
+          </div>
+        </div>
+      </div>
+     </div>
+ 
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+{% if action != 'show'  %}
+<script type="text/javascript">  
+// Person Modal Actions
+    $('#myModalPersonne').on('show.bs.modal', function (e) {
+        var modal = $(this);
+         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonne = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
+        })
+        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
+            var modal = $(this);
+            var nomComplet = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
+        })
+        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
+            var modal = $(this);
+            var nomPersonneRef = modal.val().toUpperCase();        
+            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
+        })
+    })
+// Actions Jquery     
+    $(document).ready(function(){         
+        // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
+        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
+                    ev.preventDefault();		
+                    var form = $(this);
+                    var $container = $('div#bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars');
+                    var index = getLastIndex('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars');
+                    callAjax(form, $container, index);			
+	}); 
+        // Collection lotMaterielExtEstReferenceDanss (Source)
+        addCollectionButtons('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstReferenceDanss',"Source",false,true);           
+        // Collection lotMaterielEstRealisePars (Personne)
+        addCollectionButtons('bbees_e3sbundle_lotmaterielext_lotMaterielExtEstRealisePars',"Personne",true);        
+        // Collection especeIdentifiees (EspeceIdentifiee)  
+        addCollectionButtonsEmbed('bbees_e3sbundle_lotmaterielext_especeIdentifiees','EspeceIdentifiee',false,true,'estIdentifiePars','Personne');         
+    });
+ </script>
+ {% endif %}
+ 
+<script type="text/javascript">  
+// Form actions
+$(document).ready(function(){
+        // features of date & date_precision fields 
+        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
+        $('#bbees_e3sbundle_lotmaterielext_dateCreationLotMaterielExt').change(function (e) { 
+            dateFormat('bbees_e3sbundle_lotmaterielext', 'dateCreationLotMaterielExt', message);
+        }) 
+        $('[for^=bbees_e3sbundle_lotmaterielext_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_lotmaterielext', 'dateCreationLotMaterielExt', message);
+        }) 
+        $('#bbees_e3sbundle_lotmaterielext_especeIdentifiees_0_dateIdentification').change(function (e) { 
+            dateFormat('bbees_e3sbundle_lotmaterielext_especeIdentifiees_0', 'dateIdentification', message);
+        }) 
+        $('[for^=bbees_e3sbundle_lotmaterielext_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
+            dateDateprecision('bbees_e3sbundle_lotmaterielext_especeIdentifiees_0', 'dateIdentification', message);
+        })
+        
+        // General action on form: form lock (default) / user role: app.user ...
+        {% if action == 'show'  %}  
+           // Adding a Back to Button to Specimen
+            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'buton.Back to collecte'|trans}}", 1, 'show');
+        {% endif %} 
+        {% if action == 'edit'  %}  
+            // Adding a Back to Button to collecte
+            addBackToRelatedRecord('lotmaterielext', 'collecte', "{{'buton.Back to collecte'|trans}}", 1);
+            // General action on form: form lock (default) / user role: app.user ...
+            {% if not is_granted('ROLE_ADMIN') %}  
+                // Locking fields: Station; Code collecte; Date collecte
+                $('#bbees_e3sbundle_lotmaterielext_collecteTypeahead').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){
+                    $('#bbees_e3sbundle_lotmaterielext_collecteTypeahead').attr("disabled", false); 
+                 });
+                $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", true); 
+                $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){
+                    $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", false); 
+                });                 
+            {% endif %}
+        {% endif %}            
+        {% if action == 'new'  %} 
+            // General action on form: form lock (default) / user role: app.user ...
+            $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", true); 
+            $(document).on('submit','form[name="bbees_e3sbundle_lotmaterielext"]',function(ev){
+                // Unlocking fields to allow registration
+                $('#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt').attr("disabled", false); 
+             }); 
+            // case where a sampling is yet selected : Locked field: collecteTypeahead
+            {% if app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not empty %}
+                $('#bbees_e3sbundle_lotmaterielext_collecteTypeahead').attr("disabled", true).css("background-color", "WhiteSmoke");
+            {% endif %}
+            // specific features: automatically generate codeLot
+            setCodeLotExt({"RefTaxonSelected" : "{{'RefTaxonSelected'|trans}}"});
+            $('#bbees_e3sbundle_lotmaterielext_especeIdentifiees').change(function (e) { setCodeLotExt({"RefTaxonSelected" : "{{'RefTaxonSelected'|trans}}"});})
+            $('#bbees_e3sbundle_lotmaterielext_collecteFk').change(function (e) { setCodeLotExt({"RefTaxonSelected" : "{{'RefTaxonSelected'|trans}}"});})
+        {% endif %}
+
+    });
+</script>
+
+
+<script>
+//// Typeahead 
+// Constructing the suggestion engine
+    var collectes = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+           url : '{{ path("collecte_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
+           wildcard: '%QUERY'
+        }
+    });
+
+    // Initializing the typeahead fields
+    var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
+    $('input.typeahead').val( "{{codeCollecte}}" );
+    $('#bbees_e3sbundle_lotmaterielext_collecteId').val( {{idCollecte}} );
+    $('.typeahead-collecte').typeahead(
+        {
+            hint: true,
+            highlight: false, /* Enable substring highlighting */
+            minLength: 1 /* Specify minimum characters required for showing result */
+        },
+        {
+            name: 'collectes',
+            source: collectes,
+            displayKey: "code",
+            limit: 40
+        }
+    ).on('keyup', this, function (event) {
+        selectedTypeahead = 0;
+    }
+    ).bind('typeahead:select', function(ev, item) {
+        var $this = $(this);
+        var codeTypeaheadSelect = item.code;
+        var idTypeaheadSelect = item.id;
+        //alert(codeTypeaheadSelect);
+        $('#'+$this.attr('data-target_id')).val(item.id);
+        $collecte = $this.parents('.form-group').find('input.bbees_e3sbundle_lotmaterielext[collecteId]');
+        if ($collecte.length===1) {
+            $collecte.val(item.id);
+        }
+        selectedTypeahead = 1;
+        // set auto-generated code if needed
+        setCodeLotExt({"RefTaxonSelected" : "{{'RefTaxonSelected'|trans}}"});
+    }
+    ).bind('typeahead:close', function(ev, item) {
+        if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
+            $('input.typeahead').val( "{{codeCollecte}}" ) ;
+            $('#bbees_e3sbundle_lotmaterielext_collecteId').val( {{idCollecte}} ) ;
+            setCodeLotExt({"RefTaxonSelected" : "{{'RefTaxonSelected'|trans}}"});
+            }
+        var $this = $(this);
+        if ($.trim($this.val())==='') {
+            $this.val('');
+            $collecte = $this.parents('.form-group').find('input.bbees_e3sbundle_lotmaterielext[collecteId]');
+            if ($collecte.length===1) {
+                $collecte.val('');
+            }
+        }
+    }
+    );
+</script>
+
+{% endblock %}

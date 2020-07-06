@@ -1,0 +1,86 @@
+{% set small_mode = "" %}
+{% if app.request.cookies.get('gotit-menu-layout') == "small" %}
+	{% set small_mode = "nav-sm" %}
+{% endif %}
+
+<nav class="nav-left {{small_mode}}">
+
+	<a href="{{path('default_index') }}" class="navbar nav-title">
+		<i class="fas fa-database"></i>
+		<span id="nav-title-text">GOTIT</span>
+	</a>
+
+	{# sidebar menu #}
+	{% block sidebar %}
+		<ul class="nav side-menu">
+			{% set current_route = app.request.attributes.get('_route') %}
+			{% for menu_entry in navbar_menu_entries %}
+
+				{# Security check #}
+				{% set link_access = true %}
+				{% if menu_entry.auth_required is defined and not is_granted(menu_entry.auth_required) %}
+					{% set link_access = false %}
+				{% endif %}
+
+				{# Unfold menu for current page #}
+				{% set active_flag = "" %}
+				{% if menu_entry.route == current_route or current_route in menu_entry.children|map(c => c.route) %}
+					{% set active_flag = "current-page" %}
+				{% endif %}
+
+				{# Disable links for menu wrappers and restricted URIs #}
+				{% set href = "#" %}
+				{% if menu_entry.route and link_access %}
+					{% set href = path(menu_entry.route) %}
+				{% endif %}
+
+				{# Translation domain to be used #}
+				{% set trans_domain = menu_entry.trans|default(null) %}
+
+				{# Check for nested menu entries #}
+				{% set children = menu_entry.children|default([]) %}
+
+				<li class="menu-entry {{link_access ? '' : 'disabled'}} {{active_flag}}">
+					<a href="{{href}}">
+						<i class="{{menu_entry.icon}}"></i>
+						{{ menu_entry.text | trans(domain=trans_domain) }}
+
+						{% if children is not empty %}
+							<span class="fas fa-chevron-down nav-collapse-control"></span>
+						{% endif %}
+					</a>
+					{% if children is not empty and link_access %}
+						<ul class="nav child_menu">
+							{% for subentry in children %}
+
+								{# Check for route arguments #}
+								{# in some cases route name is not enough to differenciate entries #}
+								{% set route_args = subentry.route_args|default([]) %}
+								{% set active_flag_sub = "" %}
+									{% if subentry.route == current_route %}
+									{% set arg_matches = route_args|map((value, arg) => app.request.get(arg)) %}
+										{% if arg_matches == route_args %}
+									{% set active_flag_sub = "current-page" %}
+								{% endif %}
+								{% endif %}
+
+								{# Allow overriding parent translation domain for each child #}
+								{% set trans_domain = subentry.trans|default(trans_domain) %}
+									<li class="menu-sub-entry {{active_flag_sub}}"> <a href="{{path(subentry.route, route_args)}}">
+										{{ subentry.text | trans(domain=trans_domain)}}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	{% endblock %}
+	{# sidebar menu #}
+
+	{# menu footer buttons #}
+	{% block navfooter %}{% endblock %}
+	{# menu footer buttons #}
+
+</nav>

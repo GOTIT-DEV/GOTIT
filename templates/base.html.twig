@@ -1,0 +1,127 @@
+{# configuration parameter for second language. put the 'code-ISO-second-language' or '' if there is not #}
+{% set second_language = 'en' %}
+
+{# setup TWIG variables ; base_route_index, base_route_url, help_message #}
+{% set base_route_index = app.request.attributes.get('_route') %}
+{% set help_message = base_route_index|trans({},'help')|nl2br %}
+
+{# Main TWIG template of GOTIT application : BASE.HTML.TWIG #}
+
+<!DOCTYPE html>
+
+<html lang="{{ app.request.getLocale() }}">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico"/>
+
+		<title>
+			{% block title %}
+				GOTIT
+			{% endblock %}
+		</title>
+
+		{% block stylesheets %}
+			{# Bootstrap #}
+			<link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+			{# Font Awesome #}
+			<link href="{{ asset('e3s/vendors/font-awesome/css/all.min.css') }}" rel="stylesheet">
+			{# Custom styles #}
+			<link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">
+			<link href="{{ asset('e3s/css/main.css') }}" rel="stylesheet">
+			{# TypeAheadJS Style #}
+			<link href="{{ asset('e3s/css/typeaheadjs.css') }}" rel="stylesheet">
+			{# Bootgrid  #}
+			<link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">
+		{% endblock %}
+
+		{% block headincl %}{% endblock %}
+
+	</head>
+	<body>
+		<div class="main-container">
+			{% block leftnav %}
+				{% include "nav.html.twig" %}
+			{% endblock %}
+			{# top navigation #}
+			{% block topnav %}
+				{% include "nav-top.html.twig" %}
+			{% endblock %}
+			{# top navigation #}
+
+			{# page content #}
+
+			<header class="main-header">
+				{% block helpbutton %}
+					<button class="help-btn btn btn-info" type="button" data-toggle="collapse" data-target="#page-help" aria-expanded="false" aria-controls="page-help">
+						<i class="fas fa-question"></i>
+					</button>
+				{% endblock %}
+
+				{% block titlepage %}{% endblock %}
+
+				<ul class="page-actions">
+					{% block action %}
+						{# Page action buttons #}
+					{% endblock %}
+				</ul>
+
+				<div class="collapse" id="page-help">
+					<div class="well">
+						{% block pagehelp %}
+							{% if help_message is defined and help_message is not empty %}
+								{{help_message|raw}}
+							{% else %}
+								Undefined
+							{% endif %}
+						{% endblock %}
+					</div>
+				</div>
+			</header>
+
+			<div class="main-content" role="main"> {% block body %}{% endblock %}{% block link %}{% endblock %}
+				</div>
+
+				{# footer content #}
+				{% block footer %}
+					<footer>
+						<div class="pull-right">
+							©
+							<a href="http://bbees.mnhn.fr">BBEES</a>
+							2019 - GOTIT1.1.2 -
+							<a href="{{ asset(['doc/legal_notices_', app.request.getLocale(), '.pdf']|join) }}" target="_blank">{{'legales_mentions'|trans}}</a>
+						</div>
+					</footer>
+				{% endblock %}
+				{# footer content #}
+
+				{# General Scripts #}
+				{% block scripts %}
+					{# jQuery #}
+					<script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
+					{# Bootstrap #}
+					<script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+					{# JS cookies #}
+					<script src="{{ asset('e3s/vendors/js-cookies/js.cookie.js') }}"></script>
+					{# Mustache templating engine #}
+					<script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
+					{# Bootgrid  #}
+					<script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
+                                        <script type="text/javascript" src="{{ asset('e3s/vendors/bootgrid/jquery.tabletoCSV.js') }}"></script>
+					{# typeahead #}
+					<script src="{{ asset('e3s/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
+					{# Custom Theme Scripts #}
+					<script src="{{ asset('e3s/js/options.min.js') }}"></script>
+					<script src="{{ asset('e3s/js/e3s.js') }}"></script>
+					<script src="{{ asset('e3s/js/nav.js') }}"></script>
+					<script src="{{ asset('e3s/js/custom.min.js') }}"></script>
+				{% endblock %}
+				{#  Templates Scripts #}
+				{% block templatescripts %}
+					{#  Templates Scripts : index.html.twig / edit.html.twig ... #}
+				{% endblock %}
+			</body>
+		</body>
+	</html>

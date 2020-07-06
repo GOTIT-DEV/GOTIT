@@ -1,0 +1,60 @@
+{% extends 'edit.html.twig' %}
+
+{# EDIT : MUNICIPALITY #}
+
+{% block body %}
+    {{ parent() }}                  
+{% endblock %}
+
+
+{% block scripts %}
+{{ parent() }}
+{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
+
+<script type="text/javascript">  
+
+    $(document).ready(function(){
+        // MAJ du codeStation, nomStation
+        maj($('#bbees_e3sbundle_commune_codeCommune'));
+        maj($('#bbees_e3sbundle_commune_nomCommune')); 
+        maj($('#bbees_e3sbundle_commune_nomRegion')); 
+
+        {% if action == 'edit'  %}  
+            // General action on form: form lock (default) / user role: app.user ... 
+        {% endif %}
+        {% if action == 'new'  %} 
+            // General action on form: form lock (default) / user role: app.user ...        
+            $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
+            $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
+                var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
+                $(this).val(nomCommune);
+                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                nomPays = nomPays.split(' ').join('_');
+                var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+            })
+            $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
+                var nomRegion = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
+                $(this).val(nomRegion);
+                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                nomPays = nomPays.split(' ').join('_');
+                var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+            })
+            $('#bbees_e3sbundle_commune_paysFk').change(function (e) {  
+                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                nomPays = nomPays.split(' ').join('_');
+                var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
+                var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
+                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+            })
+            // 3) Actions after the creation of a new municipality
+            $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
+                $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             
+            }); 
+        {% endif %}
+            
+          
+    });
+ </script>
+{% endblock %}

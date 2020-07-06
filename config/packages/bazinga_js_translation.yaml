@@ -1,0 +1,9 @@
+# Bazinga : JS side symfony translations
+bazinga_js_translation:
+    active_domains:
+        - messages
+        - queries
+    active_locales:
+        - en
+        - fr
+    locale_fallback: en

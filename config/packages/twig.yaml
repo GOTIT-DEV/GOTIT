@@ -1,0 +1,132 @@
+twig:
+  default_path: '%kernel.project_dir%/templates'
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
+  exception_controller: null
+  globals:
+    navbar_menu_entries:
+      # USAGE :
+      # - route: nav link route name (~ for non-link menu wrappers)
+      #   icon: link icon (font awesome class)
+      #   text : link text
+      #   auth_required: (optional) user privilege/role required
+      #   children : [] -> no sub-navs
+      #     - route: sub-nav link route name
+      #       text: sub-nav link text
+      #       auth_required: (optional)
+      #       route_args: (optional)
+      #         key : value
+      #         ...
+
+      - route: default_index
+        icon: fas fa-home
+        text: title.Dashboard
+        children: []
+      - route: ~
+        icon: fas fa-edit
+        text: title.Terrain
+        children:
+          - route: station_index
+            text: title.station
+          - route: collecte_index
+            text: title.collecte
+      - route: ~
+        icon: fas fa-microscope
+        text: title.Analyse morphologique
+        children:
+          - route: lotmateriel_index
+            text: title.lotmateriel
+          - route: individu_index
+            text: title.individu
+          - route: individulame_index
+            text: title.individulame
+          - route: lotmaterielext_index
+            text: title.lotmaterielext
+      - route: ~
+        icon: fas fa-flask
+        text: title.Analyses génétiques
+        children:
+          - route: adn_index
+            text: title.adn
+          - route: pcr_index
+            text: title.pcr
+          - route: chromatogramme_index
+            text: title.chromatogramme
+      - route: ~
+        text: title.Etude séquençage
+        icon: fas fa-dna
+        children:
+          - route: sequenceassemblee_index
+            text: title.sequenceassemblee
+          - route: sequenceassembleeext_index
+            text: title.sequenceassembleeext
+          - route: motu_index
+            text: title.motu
+      - route: ~
+        text: title.Stock
+        icon: fas fa-tasks
+        children:
+          - route: boite_index
+            route_args:
+              typeBoite: LOT
+            text: title.lotmateriel
+          - route: boite_index
+            route_args:
+              typeBoite: LAME
+            text: title.individulame
+          - route: boite_index
+            route_args:
+              typeBoite: ADN
+            text: title.adn
+      - route: source_index
+        text: title.Source bibliographique
+        icon: far fa-newspaper
+        children: []
+      - route: ~
+        text: title.Référentiels
+        icon: fas fa-lock
+        auth_required: ROLE_ADMIN
+        children:
+          - route: voc_index
+            text: title.voc
+          - route: referentieltaxon_index
+            text: title.referentieltaxon
+          - route: pays_index
+            text: title.pays
+          - route: commune_index
+            text: title.commune
+          - route: personne_index
+            text: title.personne
+            auth_required: ROLE_COLLABORATION
+          - route: programme_index
+            text: title.programme
+            auth_required: ROLE_PROJECT
+          - route: etablissement_index
+            text: title.etablissement
+            auth_required: ROLE_PROJECT
+      - route: user_index
+        text: title.users
+        icon: fas fa-users
+        auth_required: ROLE_ADMIN
+        children: []
+      - route: ~
+        text: queries.navtitle
+        trans: queries
+        icon: fas fa-search
+        auth_required: ROLE_INVITED
+        children:
+          - route: co1-sampling
+            text: queries.sampling.nav
+          - route: assign-motu
+            text: queries.motu.nav
+          - route: species-hypotheses
+            text: queries.specieshypotheses.nav
+          - route: distribution
+            text: queries.distribution.nav
+          - route: consistency
+            text: queries.concordance.nav
+      - route: query_builder_index
+        text: Query Builder
+        icon: fas fa-search
+        auth_required: ROLE_COLLABORATION
+        children: []

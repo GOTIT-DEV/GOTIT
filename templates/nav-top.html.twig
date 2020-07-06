@@ -1,0 +1,52 @@
+<nav class="top-nav">
+
+	<a id="menu-toggle">
+		<i class="fas fa-bars"></i>
+	</a>
+
+	<div id="top-nav-dropdown-menu" class=" dropdown">
+		{% if app.user.username is defined %}
+			<a data-target="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+				{{app.user.username}}
+				:
+				{{app.user.roles|first|trans}}
+				<i class="fas fa-angle-down"></i>
+			</a>
+			<ul id="dropdown-usermenu" class="dropdown-menu pull-right">
+				{% if is_granted('ROLE_PROJECT') %}
+					<li>
+						<a href="{{ path('user_index')}}{{app.user.id}}/edit">
+							<i class="fas fa-user"></i>
+							{{"Profile"|trans}}
+						</a>
+					</li>
+				{% endif %}
+				{% if second_language is defined %}
+					{% set target_locale = app.request.getDefaultLocale() %}
+					{% if app.request.getLocale() == target_locale %}
+						{% set target_locale = second_language %}
+					{% endif %}
+					{% set current_route = app.request.attributes.get('_route') %}
+					{% set route_params = app.request.attributes.get("_route_params") %}
+					{% set route_args = app.request.query|merge(route_params)|merge({_locale: target_locale}) %}
+					<li>
+						<a href="{{path(app.request.attributes.get('_route'), route_args)}}">
+							<i class="fas fa-flag-checkered"></i>
+							{{'Switch version'|trans}}
+							{{app.request.getLocale()|upper}}
+							/
+							{{target_locale|upper}}
+						</a>
+					</li>
+				{% endif %}
+				<li>
+					<a href="{{path('logout') }}">
+						<i class="fas fa-sign-out-alt"></i>
+						Logout
+					</a>
+				</li>
+			</ul>
+
+		{% endif %}
+	</div>
+</nav>
