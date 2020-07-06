@@ -1,0 +1,93 @@
+@import "navbars/nav.less";
+@import "navbars/top-nav.less";
+@import "dashboard.less";
+@import "login.less";
+
+
+body {
+  font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+  font-size: 13px;
+  width: 100%;
+}
+
+body .main-container {
+  max-width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-areas:
+    "nav-left nav-top"
+    "nav-left header"
+    "nav-left main-content"
+    "nav-left footer"
+    "nav-left .";
+
+  grid-template-columns: 0fr minmax(250px, 1fr);
+  grid-template-rows: 0fr auto auto auto 1fr;
+  // gap: 10px;
+  row-gap: 10px;
+
+  nav.nav-left {
+    grid-area: nav-left;
+  }
+
+  nav.top-nav {
+    grid-area: nav-top;
+    width: fit-content;
+  }
+
+  footer {
+    grid-area: footer;
+  }
+
+  div.main-content {
+    grid-area: main-content;
+    padding: 0 10px;
+    max-width: 100%;
+
+  }
+
+  >header.main-header {
+    grid-area: header;
+    padding: 0 10px;
+    // sub-grid definition
+    display: grid;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: auto 0fr;
+    grid-template-areas:
+      "title  help-btn"
+      "actions  actions"
+      "help  help";
+
+    >h1 {
+      grid-area: title;
+    }
+
+    >ul.page-actions {
+      grid-area: actions;
+      padding: 0;
+      margin: 0;
+      margin-right: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: stretch;
+
+      >a {
+        padding: 10px;
+        flex-grow: 1;
+      }
+    }
+
+    >button.help-btn {
+      grid-area: help-btn;
+      width: 40px;
+      height: 40px;
+    }
+
+    >#page-help {
+      grid-area: help;
+    }
+  }
+
+}

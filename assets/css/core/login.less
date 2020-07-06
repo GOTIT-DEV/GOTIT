@@ -1,0 +1,70 @@
+// main: ./main.less
+
+body .main-container {
+
+  #login-images {
+    display:grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  #login-form {
+    padding: 5% 0;
+  }
+
+  #login-footer {
+    display: grid;
+    grid-template-areas:
+      "lehna-logo lehna . logos"
+      "bbees-logo bbees . logos";
+    grid-template-columns: 0fr auto 1fr minmax(0, auto);
+    gap: 10px;
+    align-items: center;
+
+
+    .umr-desc {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      &#lehna-desc {
+        grid-area: lehna;
+      }
+
+      &#bbees-desc {
+        grid-area: bbees;
+      }
+    }
+
+    #lehna-logo {
+      grid-area: lehna-logo;
+    }
+
+
+
+    #bbees-logo {
+      grid-area: bbees-logo;
+    }
+
+
+
+    #login-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      max-width: 300px;
+      grid-area: logos;
+    }
+  }
+
+  @media (max-width: 600px) {
+    #login-footer {
+      grid-template-areas:
+        "lehna-logo lehna"
+        "bbees-logo bbees"
+        "logos logos";
+    }
+  }
+}

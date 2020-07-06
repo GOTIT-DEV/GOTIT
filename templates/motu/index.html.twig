@@ -154,12 +154,12 @@ $(document).ready(function(){
             {
                 {% if is_granted('ROLE_ADMIN') %}
                     if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('e3s/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
+                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
                     } else {
-                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('e3s/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
+                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
                     }                  
                 {% else %}
-                    return "<div class=\"btn btn-sm\"><img src=\"{{ asset('e3s/images/trash_grey.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" align=\"middle\" ></div>"
+                    return "<div class=\"btn btn-sm\"><img src=\"{{ asset('build/images/trash_grey.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" align=\"middle\" ></div>"
                 {% endif %}                    
             }
         }

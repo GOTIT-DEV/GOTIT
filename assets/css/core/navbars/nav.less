@@ -1,0 +1,244 @@
+// main: ../main.less
+
+@nav-width: 230px;
+@active-border: 5px;
+@active-color: #1abb9c;
+@entry-padding: 12px;
+@sub-menu-decorator-color: #687b8b; //#425668;
+@sub-menu-decorator-size: 9px;
+
+@nav-sm-icon-size: 27px;
+
+.nav-left.nav-sm {
+  width: auto;
+
+  .nav-title {
+    padding: inherit 0px;
+    margin: 0;
+
+    i {
+      font-size: @nav-sm-icon-size;
+    }
+
+    #nav-title-text {
+      display: none;
+    }
+  }
+
+  li.menu-entry {
+    >a {
+      display: flex;
+      flex-direction: column;
+      font-size: 10px;
+      text-align: center;
+      padding: 10px @active-border;
+
+      span.nav-collapse-control {
+        display: none;
+      }
+    }
+
+    ul.nav.child_menu {
+      left: calc(100%);
+      position: absolute;
+      top: 0;
+      width: 210px;
+      z-index: 4000;
+      background: #3e5367;
+      display: none;
+
+      >li.menu-sub-entry {
+        padding: 0;
+
+        &:before,
+        &:after {
+          display: none
+        }
+      }
+    }
+
+    &.current-page ul.nav.child_menu {
+      display: none;
+    }
+
+    &:hover,
+    &.active,
+    &.current-page {
+      >a {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.nav-left {
+  min-height: 100%;
+  height: 100%;
+  width: @nav-width;
+  padding: 0;
+  display: flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+
+  color: #73879C;
+  background: #2A3F54;
+  font-weight: 400;
+  line-height: 1.471;
+
+  .nav-title {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 0;
+    color: #ECF0F1;
+
+    font-weight: bold;
+    font-size: 22px;
+
+    text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    >i {
+      border: 1px solid #EAEAEA;
+      padding: 5px 6px;
+      border-radius: 50%
+    }
+
+    >img {
+      max-height: 66px;
+      max-width: 180px;
+    }
+
+    >#nav-title-text {
+      padding: 0 20px;
+      letter-spacing: 0.3em;
+      width: 100%;
+    }
+
+  }
+
+  li:hover,
+  li.active {
+    background-color: rgba(255, 255, 255, 0.06);
+
+    a {
+      background-color: transparent;
+    }
+  }
+
+  li.menu-entry {
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    color: #E7E7E7;
+    font-weight: 500;
+
+    &.disabled{
+      color:grey;
+      cursor:not-allowed;
+    }
+
+    >a {
+      color: inherit;
+      display: grid;
+      grid-template-columns: 20px auto 1fr;
+      align-items: center;
+      justify-content: start;
+      gap: 10px;
+      padding: @entry-padding;
+
+      >i {
+        display: inline-block;
+        font-size: 18px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+      }
+
+      span.nav-collapse-control {
+        text-align: right;
+        font-size: 10px;
+        color: #C4CFDA;
+      }
+
+
+    }
+
+    &.current-page ul.nav.child_menu {
+      display: block;
+    }
+
+    &:hover,
+    &.active,
+    &.current-page {
+      >a {
+        border-right: @active-border solid @active-color;
+        padding-right: calc(@entry-padding - @active-border);
+        text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
+        background: linear-gradient(#334556, #2C4257), #2A3F54;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
+      }
+    }
+
+    &.current-page {
+      >a>i {
+        color: @active-color;
+      }
+
+      ul.nav.child_menu>li.menu-sub-entry.current-page:before {
+        background-color: @active-color;
+      }
+    }
+
+    ul.nav.child_menu {
+      display: none;
+
+      >li.menu-sub-entry {
+        padding-left: 35px;
+
+        >a {
+          color: inherit;
+          font-size: 12px;
+          padding: 9px;
+        }
+
+        // Decorator dot
+        &:before {
+          position: absolute;
+          background: @sub-menu-decorator-color;
+          border-radius: 50%;
+          content: "";
+          height: @sub-menu-decorator-size;
+          width: @sub-menu-decorator-size;
+          left: 15px;
+          top: 14px;
+          z-index: 1;
+        }
+
+        // Decorator vertical line
+        &:after {
+          border-left: 1px solid @sub-menu-decorator-color;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 19px;
+          content: "";
+        }
+
+        &:last-child::after {
+          bottom: 50%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-left:not(.nav-sm) {
+    display: none;
+  }
+}

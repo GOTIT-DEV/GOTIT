@@ -24,17 +24,7 @@
 		</title>
 
 		{% block stylesheets %}
-			{# Bootstrap #}
-			<link href="{{ asset('e3s/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
-			{# Font Awesome #}
-			<link href="{{ asset('e3s/vendors/font-awesome/css/all.min.css') }}" rel="stylesheet">
-			{# Custom styles #}
-			<link href="{{ asset('e3s/css/custom.min.css') }}" rel="stylesheet">
-			<link href="{{ asset('e3s/css/main.css') }}" rel="stylesheet">
-			{# TypeAheadJS Style #}
-			<link href="{{ asset('e3s/css/typeaheadjs.css') }}" rel="stylesheet">
-			{# Bootgrid  #}
-			<link href="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.css') }}" rel="stylesheet">
+			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
 		{% block headincl %}{% endblock %}
@@ -99,24 +89,8 @@
 
 				{# General Scripts #}
 				{% block scripts %}
-					{# jQuery #}
-					<script src="{{ asset('e3s/vendors/jquery/dist/jquery.min.js') }}"></script>
-					{# Bootstrap #}
-					<script src="{{ asset('e3s/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-					{# JS cookies #}
-					<script src="{{ asset('e3s/vendors/js-cookies/js.cookie.js') }}"></script>
-					{# Mustache templating engine #}
-					<script src="{{ asset('e3s/vendors/mustache/mustache.js') }}"></script>
-					{# Bootgrid  #}
-					<script src="{{ asset('e3s/vendors/bootgrid/jquery.bootgrid.min.js') }}"></script>
-                                        <script type="text/javascript" src="{{ asset('e3s/vendors/bootgrid/jquery.tabletoCSV.js') }}"></script>
-					{# typeahead #}
-					<script src="{{ asset('e3s/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
-					{# Custom Theme Scripts #}
-					<script src="{{ asset('e3s/js/options.min.js') }}"></script>
-					<script src="{{ asset('e3s/js/e3s.js') }}"></script>
-					<script src="{{ asset('e3s/js/nav.js') }}"></script>
-					<script src="{{ asset('e3s/js/custom.min.js') }}"></script>
+				  {# Main JS #}
+					{{ encore_entry_script_tags('app') }}
 				{% endblock %}
 				{#  Templates Scripts #}
 				{% block templatescripts %}
