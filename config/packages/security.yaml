@@ -1,23 +1,48 @@
+  # To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        App\Entity\User: sha512
+        
+    role_hierarchy:
+        ROLE_COLLABORATION: ROLE_INVITED
+        ROLE_PROJECT: ROLE_COLLABORATION
+        ROLE_ADMIN: ROLE_PROJECT
+        
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        users_in_memory: { memory: null }
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+                # if you're using multiple entity managers
+                # manager_name: customer
+
+    
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
     firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            security: false          
         main:
-            anonymous: lazy
-            provider: users_in_memory
-
+            pattern: ^/
+            anonymous: ~
+            provider: our_db_provider
             # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+            logout_on_user_change: true
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
+                target: login
