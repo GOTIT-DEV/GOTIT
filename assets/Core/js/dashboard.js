@@ -1,4 +1,4 @@
-import "../../css/core/dashboard.less"
+import "../css/dashboard.less"
 
 import Mustache from 'mustache'
 

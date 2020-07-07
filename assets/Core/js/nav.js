@@ -1,6 +1,6 @@
 // Navbar events and animations
 
-import Cookies from "js-cookies";
+import Cookies from "js-cookie";
 
 function close_sub_menus() {
   $(".nav-left .menu-entry.active")
@@ -31,7 +31,7 @@ $(".nav-left .menu-entry>a").click(event => {
 $('#menu-toggle').click(event => {
   $('.nav-left').toggleClass("nav-sm")
   if ($('.nav-left').hasClass("nav-sm"))
-    Cookies.set("gotit-menu-layout", "small")
+    Cookies.set("gotit-menu-layout", "small",  { sameSite: 'lax' })
   else
-    Cookies.set("gotit-menu-layout", undefined)
+    Cookies.set("gotit-menu-layout", undefined,  { sameSite: 'lax' })
 })

@@ -1,0 +1,123 @@
+.slider-selection {
+  background: #33a4b3;
+}
+.slider-track-high {
+  background-color: #9cafaf;
+}
+.leaflet-control-layers,
+.leaflet-control-layers-list,
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: #374b4b;
+  color: white;
+}
+button#reset-zoom {
+  padding: 5px;
+  margin-left: 15px;
+  color: grey;
+}
+.leaflet-bar button {
+  margin: 0;
+}
+#station-geo-map {
+  height: 80vh;
+  width: 100%;
+}
+.leaflet-control-layers-list label div {
+  display: flex;
+  /* justify-content: space-between; */
+}
+.leaflet-control-layers-list label div > span {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 100%;
+  margin-left: 10px;
+}
+.leaflet-control-layers-list label div > span > svg {
+  margin-left: 10px;
+}
+input.leaflet-control-layers-selector {
+  margin: 0px;
+  top: 0px;
+}
+p.station-popup-row {
+  display: flex;
+  justify-content: space-between;
+  justify-self: stretch;
+  margin: 0;
+  padding: 0;
+}
+.station-popup {
+  display: grid;
+  grid-template-columns: auto-fit auto-fit;
+  grid-template-rows: auto;
+  grid-column-gap: 10px;
+  grid-auto-rows: min-content;
+}
+.station-popup a {
+  color: #1ec8d8;
+}
+.station-popup hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.station-popup .btn-seq-modal > i::before {
+  margin-right: 5px;
+}
+input.leaflet-slider {
+  width: 100px;
+  height: 5px;
+  margin: 0;
+  transform-origin: 50px 50px;
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+input.leaflet-slider :focus {
+  outline: none;
+}
+input.leaflet-slider ::-moz-focus-outer {
+  border: 0;
+}
+.leaflet-slider-container {
+  width: 10px;
+  height: 100px;
+}
+.leaflet-control-collapse {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.map-control-bar {
+  padding: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  background: #374b4b;
+  opacity: 0.8;
+  color: white;
+  border-radius: 3px;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 5px;
+}
+.map-control-bar label {
+  font-weight: 100;
+}
+.method-container {
+  display: flex;
+  flex-flow: wrap;
+}
+.method-container div.checkbox {
+  margin-left: 0px;
+  margin-right: 10px;
+  font-weight: 400;
+}
+#motu-geo-map {
+  width: 100%;
+  height: 80vh;
+}
