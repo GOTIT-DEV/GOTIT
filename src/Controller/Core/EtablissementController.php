@@ -45,7 +45,7 @@ class EtablissementController extends Controller
 
         $etablissements = $em->getRepository('App:Etablissement')->findAll();
 
-        return $this->render('etablissement/index.html.twig', array(
+        return $this->render('Core/etablissement/index.html.twig', array(
             'etablissements' => $etablissements,
         ));
     }
@@ -120,7 +120,7 @@ class EtablissementController extends Controller
     public function newAction(Request $request)
     {
         $etablissement = new Etablissement();
-        $form = $this->createForm('Bbees\E3sBundle\Form\EtablissementType', $etablissement);
+        $form = $this->createForm('App\Form\EtablissementType', $etablissement);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -131,12 +131,12 @@ class EtablissementController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('etablissement_edit', array('id' => $etablissement->getId(), 'valid' => 1));                       
         }
 
-        return $this->render('etablissement/edit.html.twig', array(
+        return $this->render('Core/etablissement/edit.html.twig', array(
             'etablissement' => $etablissement,
             'edit_form' => $form->createView(),
         ));
@@ -150,7 +150,7 @@ class EtablissementController extends Controller
     public function showAction(Etablissement $etablissement)
     {
         $deleteForm = $this->createDeleteForm($etablissement);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\EtablissementType', $etablissement);
+        $editForm = $this->createForm('App\Form\EtablissementType', $etablissement);
 
         return $this->render('show.html.twig', array(
             'etablissement' => $etablissement,
@@ -168,7 +168,7 @@ class EtablissementController extends Controller
     public function editAction(Request $request, Etablissement $etablissement)
     {
         $deleteForm = $this->createDeleteForm($etablissement);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\EtablissementType', $etablissement);
+        $editForm = $this->createForm('App\Form\EtablissementType', $etablissement);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -177,15 +177,15 @@ class EtablissementController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('etablissement/edit.html.twig', array(
+            return $this->render('Core/etablissement/edit.html.twig', array(
                 'etablissement' => $etablissement,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
 
-        return $this->render('etablissement/edit.html.twig', array(
+        return $this->render('Core/etablissement/edit.html.twig', array(
             'etablissement' => $etablissement,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -212,7 +212,7 @@ class EtablissementController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/etablissement/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

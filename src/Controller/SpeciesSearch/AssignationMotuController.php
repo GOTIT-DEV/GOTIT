@@ -17,8 +17,8 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Controller\Core\Entity\Motu;
-use App\Controller\Core\Entity\Voc;
+use App\Entity\Motu;
+use App\Entity\Voc;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,7 +50,7 @@ class AssignationMotuController extends Controller {
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
 
     # render form
-    return $this->render('@LehnaSpeciesSearch/assign-motu/index.html.twig', array(
+    return $this->render('SpeciesSearch/assign-motu/index.html.twig', array(
       'genus_set' => $genus_set,
       'criteres'  => $criteres,
       'datasets'  => $datasets,

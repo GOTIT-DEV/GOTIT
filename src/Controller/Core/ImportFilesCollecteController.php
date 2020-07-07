@@ -116,8 +116,8 @@ class ImportFilesCollecteController extends Controller
                        $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
                 }
             }
-            return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
+            return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }
-        return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message,'form' => $form->createView()));   
+        return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message,'form' => $form->createView()));   
      }   
 }

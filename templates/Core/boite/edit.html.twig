@@ -40,7 +40,7 @@
                 $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", false);
         }); 
         // Automatic selection of the typeBox field if it is passed as a URL parameter
-        {% if  app.request.query.get('typeBoite')is defined and  app.request.query.get('typeBoite') != ''  %}  
+        {% if  app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != ''  %}  
             var typeBoite = "{{app.request.query.get('typeBoite')}}";
             $("#bbees_e3sbundle_boite_typeBoiteVocFk option").filter(function() {
                 return this.text == typeBoite; 

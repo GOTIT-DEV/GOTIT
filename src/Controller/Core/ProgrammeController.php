@@ -45,7 +45,7 @@ class ProgrammeController extends Controller
 
         $programmes = $em->getRepository('App:Programme')->findAll();
 
-        return $this->render('programme/index.html.twig', array(
+        return $this->render('Core/programme/index.html.twig', array(
             'programmes' => $programmes,
         ));
     }   
@@ -126,7 +126,7 @@ class ProgrammeController extends Controller
     public function newAction(Request $request)
     {
         $programme = new Programme();
-        $form = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType', $programme);
+        $form = $this->createForm('App\Form\ProgrammeType', $programme);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,12 +137,12 @@ class ProgrammeController extends Controller
                 } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('programme_edit', array('id' => $programme->getId(), 'valid' => 1)); 
         }
 
-       return $this->render('programme/edit.html.twig', array(
+       return $this->render('Core/programme/edit.html.twig', array(
             'programme' => $programme,
             'edit_form' => $form->createView(),
         ));
@@ -158,7 +158,7 @@ class ProgrammeController extends Controller
     public function newmodalAction(Request $request)
     {
         $programme = new Programme();
-        $form = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType', $programme);
+        $form = $this->createForm('App\Form\ProgrammeType', $programme);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -173,7 +173,7 @@ class ProgrammeController extends Controller
                 $select_name = $programme->getCodeProgramme();
                 // return an empty Program Entity
                 $programme_new = new Programme();
-                $form = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType',$programme_new);           
+                $form = $this->createForm('App\Form\ProgrammeType',$programme_new);           
                 //returns an empty form and the parameters of the new record created
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -188,7 +188,7 @@ class ProgrammeController extends Controller
                 $exception_message = strval($e);
                 // return an empty Program Entity
                 $programme_new = new Programme();
-                $form = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType',$programme_new);   
+                $form = $this->createForm('App\Form\ProgrammeType',$programme_new);   
                 // returns a form with the error message
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -222,7 +222,7 @@ class ProgrammeController extends Controller
     public function showAction(Programme $programme)
     {
         $deleteForm = $this->createDeleteForm($programme);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType', $programme);
+        $editForm = $this->createForm('App\Form\ProgrammeType', $programme);
 
         return $this->render('show.html.twig', array(
             'programme' => $programme,
@@ -242,7 +242,7 @@ class ProgrammeController extends Controller
     {
         //
         $deleteForm = $this->createDeleteForm($programme);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ProgrammeType', $programme);
+        $editForm = $this->createForm('App\Form\ProgrammeType', $programme);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -251,15 +251,15 @@ class ProgrammeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('programme/edit.html.twig', array(
+            return $this->render('Core/programme/edit.html.twig', array(
                 'programme' => $programme,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
         
-        return $this->render('programme/edit.html.twig', array(
+        return $this->render('Core/programme/edit.html.twig', array(
             'programme' => $programme,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -286,7 +286,7 @@ class ProgrammeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/programme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

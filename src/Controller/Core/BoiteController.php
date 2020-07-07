@@ -51,7 +51,7 @@ class BoiteController extends Controller
 
         $boites = $em->getRepository('App:Boite')->findAll();
 
-        return $this->render('boite/index.html.twig', array(
+        return $this->render('Core/boite/index.html.twig', array(
             'boites' => $boites,
         ));
     }
@@ -135,7 +135,7 @@ class BoiteController extends Controller
     public function newAction(Request $request)
     {
         $boite = new Boite();
-        $form = $this->createForm('Bbees\E3sBundle\Form\BoiteType', $boite);
+        $form = $this->createForm('App\Form\BoiteType', $boite);
         $form->handleRequest($request);
        
         if ($form->isSubmitted() && $form->isValid()) {
@@ -146,12 +146,12 @@ class BoiteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
             return $this->redirectToRoute('boite_edit', array('id' => $boite->getId(), 'valid' => 1, 'typeBoite' => $request->get('typeBoite')));                     
         } 
 
-        return $this->render('boite/edit.html.twig', array(
+        return $this->render('Core/boite/edit.html.twig', array(
             'boite' => $boite,
             'edit_form' => $form->createView(),
         ));
@@ -165,7 +165,7 @@ class BoiteController extends Controller
     public function showAction(Boite $boite)
     {
         $deleteForm = $this->createDeleteForm($boite);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\BoiteType', $boite);
+        $editForm = $this->createForm('App\Form\BoiteType', $boite);
 
         return $this->render('show.html.twig', array(
             'boite' => $boite,
@@ -193,7 +193,7 @@ class BoiteController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $deleteForm = $this->createDeleteForm($boite);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\BoiteType', $boite);
+        $editForm = $this->createForm('App\Form\BoiteType', $boite);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -204,18 +204,18 @@ class BoiteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            $editForm = $this->createForm('Bbees\E3sBundle\Form\BoiteType', $boite);
+            $editForm = $this->createForm('App\Form\BoiteType', $boite);
             
-           return $this->render('boite/edit.html.twig', array(
+           return $this->render('Core/boite/edit.html.twig', array(
                 'boite' => $boite,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1,
                 ));
         }
         
-        return $this->render('boite/edit.html.twig', array(
+        return $this->render('Core/boite/edit.html.twig', array(
              'boite' => $boite,
              'edit_form' => $editForm->createView(),
              'delete_form' => $deleteForm->createView(),
@@ -242,7 +242,7 @@ class BoiteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/boite/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
         

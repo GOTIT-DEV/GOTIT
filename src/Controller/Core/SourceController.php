@@ -46,7 +46,7 @@ class SourceController extends Controller
 
         $sources = $em->getRepository('App:Source')->findAll();
 
-        return $this->render('source/index.html.twig', array(
+        return $this->render('Core/source/index.html.twig', array(
             'sources' => $sources,
         ));
     }
@@ -123,7 +123,7 @@ class SourceController extends Controller
     public function newAction(Request $request)
     {
         $source = new Source();
-        $form = $this->createForm('Bbees\E3sBundle\Form\SourceType', $source);
+        $form = $this->createForm('App\Form\SourceType', $source);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -134,12 +134,12 @@ class SourceController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('source_edit', array('id' => $source->getId(), 'valid' => 1));                       
         }
 
-        return $this->render('source/edit.html.twig', array(
+        return $this->render('Core/source/edit.html.twig', array(
             'source' => $source,
             'edit_form' => $form->createView(),
         ));
@@ -153,7 +153,7 @@ class SourceController extends Controller
     public function showAction(Source $source)
     {
         $deleteForm = $this->createDeleteForm($source);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\SourceType', $source);
+        $editForm = $this->createForm('App\Form\SourceType', $source);
 
         return $this->render('show.html.twig', array(
             'source' => $source,
@@ -183,7 +183,7 @@ class SourceController extends Controller
         $sourceAEteIntegrePars = $service->setArrayCollection('SourceAEteIntegrePars',$source);
         //
         $deleteForm = $this->createDeleteForm($source);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\SourceType', $source);
+        $editForm = $this->createForm('App\Form\SourceType', $source);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -195,15 +195,15 @@ class SourceController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('source/edit.html.twig', array(
+            return $this->render('Core/source/edit.html.twig', array(
                 'source' => $source,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
 
-        return $this->render('source/edit.html.twig', array(
+        return $this->render('Core/source/edit.html.twig', array(
             'source' => $source,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -230,7 +230,7 @@ class SourceController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/source/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

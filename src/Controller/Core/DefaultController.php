@@ -287,7 +287,7 @@ class DefaultController extends Controller
              );
         }
 
-        return $this->render('dashboard/index.html.twig', array( 
+        return $this->render('Core/dashboard/index.html.twig', array( 
             'nbCollecte' => $nbcollectes,
             'nbStation' => $nbstations,
             'nbLotMateriel' => $nbLotMateriel,

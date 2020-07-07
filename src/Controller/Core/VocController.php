@@ -46,7 +46,7 @@ class VocController extends Controller
 
         $vocs = $em->getRepository('App:Voc')->findAll();
 
-        return $this->render('voc/index.html.twig', array(
+        return $this->render('Core/voc/index.html.twig', array(
             'vocs' => $vocs,
         ));
     }
@@ -125,7 +125,7 @@ class VocController extends Controller
     public function newAction(Request $request)
     {
         $voc = new Voc();
-        $form = $this->createForm('Bbees\E3sBundle\Form\VocType', $voc);
+        $form = $this->createForm('App\Form\VocType', $voc);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,12 +136,12 @@ class VocController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('voc_edit', array('id' => $voc->getId(), 'valid' => 1));                       
         }
 
-        return $this->render('voc/edit.html.twig', array(
+        return $this->render('Core/voc/edit.html.twig', array(
             'voc' => $voc,
             'edit_form' => $form->createView(),
         ));
@@ -155,7 +155,7 @@ class VocController extends Controller
     public function showAction(Voc $voc)
     {
         $deleteForm = $this->createDeleteForm($voc);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\VocType', $voc);
+        $editForm = $this->createForm('App\Form\VocType', $voc);
 
         return $this->render('show.html.twig', array(
             'voc' => $voc,
@@ -173,7 +173,7 @@ class VocController extends Controller
     public function editAction(Request $request, Voc $voc)
     {
         $deleteForm = $this->createDeleteForm($voc);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\VocType', $voc);
+        $editForm = $this->createForm('App\Form\VocType', $voc);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -182,15 +182,15 @@ class VocController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('voc/edit.html.twig', array(
+            return $this->render('Core/voc/edit.html.twig', array(
                 'voc' => $voc,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
 
-        return $this->render('voc/edit.html.twig', array(
+        return $this->render('Core/voc/edit.html.twig', array(
             'voc' => $voc,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -217,7 +217,7 @@ class VocController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/voc/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

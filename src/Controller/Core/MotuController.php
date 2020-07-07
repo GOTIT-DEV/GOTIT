@@ -50,7 +50,7 @@ class MotuController extends Controller
 
         $motus = $em->getRepository('App:Motu')->findAll();
 
-        return $this->render('motu/index.html.twig', array(
+        return $this->render('Core/motu/index.html.twig', array(
             'motus' => $motus,
         ));
     }
@@ -138,7 +138,7 @@ class MotuController extends Controller
     public function newAction(Request $request)
     {
         $motu = new Motu();
-        $form = $this->createForm('Bbees\E3sBundle\Form\MotuType', $motu);
+        $form = $this->createForm('App\Form\MotuType', $motu);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -149,12 +149,12 @@ class MotuController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('motu_edit', array('id' => $motu->getId(), 'valid' => 1));                       
         }
 
-        return $this->render('motu/edit.html.twig', array(
+        return $this->render('Core/motu/edit.html.twig', array(
             'motu' => $motu,
             'edit_form' => $form->createView(),
         ));
@@ -168,7 +168,7 @@ class MotuController extends Controller
     public function showAction(Motu $motu)
     {
         $deleteForm = $this->createDeleteForm($motu);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\MotuType', $motu);
+        $editForm = $this->createForm('App\Form\MotuType', $motu);
         
         return $this->render('show.html.twig', array(
             'motu' => $motu,
@@ -193,7 +193,7 @@ class MotuController extends Controller
         
         // 
         $deleteForm = $this->createDeleteForm($motu);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\MotuType', $motu);
+        $editForm = $this->createForm('App\Form\MotuType', $motu);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -206,14 +206,14 @@ class MotuController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('motu/edit.html.twig', array(
+            return $this->render('Core/motu/edit.html.twig', array(
                 'motu' => $motu,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
-        return $this->render('motu/edit.html.twig', array(
+        return $this->render('Core/motu/edit.html.twig', array(
         'motu' => $motu,
         'edit_form' => $editForm->createView(),
         ));
@@ -239,7 +239,7 @@ class MotuController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

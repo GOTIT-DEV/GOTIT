@@ -48,7 +48,7 @@ class AdnController extends Controller
 
         $adns = $em->getRepository('App:Adn')->findAll();
 
-        return $this->render('adn/index.html.twig', array(
+        return $this->render('Core/adn/index.html.twig', array(
             'adns' => $adns,
         ));
     }
@@ -179,7 +179,7 @@ class AdnController extends Controller
             $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId);
             $adn->setIndividuFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\AdnType', $adn);
+        $form = $this->createForm('App\Form\AdnType', $adn);
         $form->handleRequest($request);
                 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -194,12 +194,12 @@ class AdnController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('adn_edit', array('id' => $adn->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));                        
         }
 
-        return $this->render('adn/edit.html.twig', array(
+        return $this->render('Core/adn/edit.html.twig', array(
             'adn' => $adn,
             'edit_form' => $form->createView(),
         ));
@@ -213,9 +213,9 @@ class AdnController extends Controller
     public function showAction(Adn $adn)
     {
         $deleteForm = $this->createDeleteForm($adn);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\AdnType', $adn);
+        $editForm = $this->createForm('App\Form\AdnType', $adn);
 
-        return $this->render('adn/edit.html.twig', array(
+        return $this->render('Core/adn/edit.html.twig', array(
             'adn' => $adn,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -242,7 +242,7 @@ class AdnController extends Controller
         $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars',$adn);
         //
         $deleteForm = $this->createDeleteForm($adn);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\AdnType', $adn);
+        $editForm = $this->createForm('App\Form\AdnType', $adn);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -260,15 +260,15 @@ class AdnController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('adn/edit.html.twig', array(
+            return $this->render('Core/adn/edit.html.twig', array(
                 'adn' => $adn,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
         
-        return $this->render('adn/edit.html.twig', array(
+        return $this->render('Core/adn/edit.html.twig', array(
             'adn' => $adn,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -295,7 +295,7 @@ class AdnController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/adn/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

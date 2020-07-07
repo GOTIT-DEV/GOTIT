@@ -48,7 +48,7 @@ class StationController extends Controller
 
         $stations = $em->getRepository('App:Station')->findAll();
 
-        return $this->render('station/index.html.twig', array(
+        return $this->render('Core/station/index.html.twig', array(
             'stations' => $stations,
         ));
     }
@@ -191,7 +191,7 @@ class StationController extends Controller
     public function newAction(Request $request)
     {
         $station = new Station();
-        $form = $this->createForm('Bbees\E3sBundle\Form\StationType', $station);
+        $form = $this->createForm('App\Form\StationType', $station);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -202,12 +202,12 @@ class StationController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('station_edit', array('id' => $station->getId(), 'valid' => 1));           
         }
 
-        return $this->render('station/edit.html.twig', array(
+        return $this->render('Core/station/edit.html.twig', array(
             'station' => $station,
             'edit_form' => $form->createView(),
         ));
@@ -222,8 +222,8 @@ class StationController extends Controller
     {
         $deleteForm = $this->createDeleteForm($station);
         
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\StationType', $station);
-        return $this->render('station/edit.html.twig', array(
+        $editForm = $this->createForm('App\Form\StationType', $station);
+        return $this->render('Core/station/edit.html.twig', array(
             'station' => $station,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -246,7 +246,7 @@ class StationController extends Controller
         }
         
         $deleteForm = $this->createDeleteForm($station);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\StationType', $station);
+        $editForm = $this->createForm('App\Form\StationType', $station);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {            
@@ -256,16 +256,16 @@ class StationController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('station/edit.html.twig', array(
+            return $this->render('Core/station/edit.html.twig', array(
             'station' => $station,
             'edit_form' => $editForm->createView(),
             'valid' => 1,
             ));
         }
 
-        return $this->render('station/edit.html.twig', array(
+        return $this->render('Core/station/edit.html.twig', array(
             'station' => $station,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -292,7 +292,7 @@ class StationController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/station/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
         }
         return $this->redirectToRoute('station_index');

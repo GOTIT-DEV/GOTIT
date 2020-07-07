@@ -1,0 +1,65 @@
+{# 
+Form component to select a MOTU dataset and method
+Variables : 
+   - datasets : all MOTU datasets from SQL table "motu".
+#}
+
+{% trans_default_domain 'queries' %}
+<div
+  id="method-form"
+  class="method-selector form-horizontal"
+  data-spinner=".method-spinner">
+  <div class="form-group">
+    <label for="dataset">
+      {% trans %}
+      label.dataset
+      {% endtrans %}
+    </label>
+    <select
+      name="dataset"
+      id="dataset"
+      class="form-control method-select selectpicker"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{% trans from 'tooltips' %}methodselector.dataset{% endtrans %}">
+      {% for dataset in datasets %}
+        <option value="{{dataset.id}}">
+          {{dataset.libelleMotu}}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>
+      {% trans %}
+      methode.label
+      {% endtrans %}
+    </label>
+    <div id="method-container" class="method-container">
+      {% if method_check_array is defined %}
+        <center>
+          <i class="fas fa-spinner fa-spin method-spinner" style="font-size:24px"></i>
+        </center>
+
+      {% else %}
+        <select
+          name="methode"
+          id="methode"
+          class="form-control method-select selectpicker"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="{% trans from 'tooltips' %}methodselector.methode{% endtrans %}"></select>
+      {% endif %}
+    </div>
+  </div>
+  <template id="method-form-checkbox">
+    <div class="checkbox checkbox-inline">
+      <label>
+        {% verbatim %}
+          <input type="checkbox" name="methodes[]" value="{{id}}" checked="checked">
+          {{code}}
+        {% endverbatim %}
+      </label>
+    </div>
+  </template>
+</div>

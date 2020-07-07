@@ -17,7 +17,7 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Controller\Core\Entity\Motu;
+use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,7 +46,7 @@ class SpeciesHypothesesController extends Controller {
     $doctrine = $this->getDoctrine();
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # render form template
-    return $this->render('@LehnaSpeciesSearch/species-hypotheses/index.html.twig', array(
+    return $this->render('SpeciesSearch/species-hypotheses/index.html.twig', array(
       'datasets'  => $datasets,
       'genus_set' => $genus_set,
     ));

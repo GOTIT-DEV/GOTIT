@@ -45,7 +45,7 @@ class PaysController extends Controller
 
         $pays = $em->getRepository('App:Pays')->findAll();
 
-        return $this->render('pays/index.html.twig', array(
+        return $this->render('Core/pays/index.html.twig', array(
             'pays' => $pays,
         ));
     }
@@ -121,7 +121,7 @@ class PaysController extends Controller
     public function newAction(Request $request)
     {
         $pays = new Pays();
-        $form = $this->createForm('Bbees\E3sBundle\Form\PaysType', $pays);
+        $form = $this->createForm('App\Form\PaysType', $pays);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,12 +132,12 @@ class PaysController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('pays_edit', array('id' => $pays->getId(), 'valid' => 1));                       
         }
 
-        return $this->render('pays/edit.html.twig', array(
+        return $this->render('Core/pays/edit.html.twig', array(
             'pays' => $pays,
             'edit_form' => $form->createView(),
         ));
@@ -151,7 +151,7 @@ class PaysController extends Controller
     public function showAction(Pays $pays)
     {
         $deleteForm = $this->createDeleteForm($pays);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PaysType', $pays);
+        $editForm = $this->createForm('App\Form\PaysType', $pays);
 
         return $this->render('show.html.twig', array(
             'pays' => $pays,
@@ -169,7 +169,7 @@ class PaysController extends Controller
     public function editAction(Request $request, Pays $pays)
     {
         $deleteForm = $this->createDeleteForm($pays);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PaysType', $pays);
+        $editForm = $this->createForm('App\Form\PaysType', $pays);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -178,15 +178,15 @@ class PaysController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('pays/edit.html.twig', array(
+            return $this->render('Core/pays/edit.html.twig', array(
                 'pays' => $pays,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
 
-        return $this->render('pays/edit.html.twig', array(
+        return $this->render('Core/pays/edit.html.twig', array(
             'pays' => $pays,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -213,7 +213,7 @@ class PaysController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
         

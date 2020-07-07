@@ -45,7 +45,7 @@ class CommuneController extends Controller
 
         $communes = $em->getRepository('App:Commune')->findAll();
 
-        return $this->render('commune/index.html.twig', array(
+        return $this->render('Core/commune/index.html.twig', array(
             'communes' => $communes,
         ));
     }
@@ -120,7 +120,7 @@ class CommuneController extends Controller
     public function newAction(Request $request)
     {
         $commune = new Commune();
-        $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType', $commune);
+        $form = $this->createForm('App\Form\CommuneType', $commune);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {           
@@ -131,12 +131,12 @@ class CommuneController extends Controller
                 } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }  
             return $this->redirectToRoute('commune_edit', array('id' => $commune->getId(), 'valid' => 1));              
         }
 
-        return $this->render('commune/edit.html.twig', array(
+        return $this->render('Core/commune/edit.html.twig', array(
             'commune' => $commune,
             'edit_form' => $form->createView(),
         ));
@@ -150,7 +150,7 @@ class CommuneController extends Controller
     public function newmodalAction(Request $request, $id_pays = null)
     {
         $commune = new Commune();
-        $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType', $commune, array('id_pays' => $id_pays,));
+        $form = $this->createForm('App\Form\CommuneType', $commune, array('id_pays' => $id_pays,));
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -165,7 +165,7 @@ class CommuneController extends Controller
                 $select_name = $commune->getCodeCommune();
                 // load a new empty Municipality entity
                 $commune_new = new Commune();
-                $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));           
+                $form = $this->createForm('App\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));           
                 // returns an empty form and the parameters of the new record created
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -180,7 +180,7 @@ class CommuneController extends Controller
                 $exception_message = strval($e);
                 // load a new empty Municipality entity
                 $commune_new = new Commune();
-                $form = $this->createForm('Bbees\E3sBundle\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));   
+                $form = $this->createForm('App\Form\CommuneType',$commune_new, array('id_pays' => $id_pays,));   
                 // returns a form with the error message
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -215,7 +215,7 @@ class CommuneController extends Controller
     {
         $deleteForm = $this->createDeleteForm($commune);
         
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\CommuneType', $commune);
+        $editForm = $this->createForm('App\Form\CommuneType', $commune);
         return $this->render('show.html.twig', array(
             'commune' => $commune,
             'edit_form' => $editForm->createView(),
@@ -233,7 +233,7 @@ class CommuneController extends Controller
     public function editAction(Request $request, Commune $commune)
     {
         $deleteForm = $this->createDeleteForm($commune);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\CommuneType', $commune);
+        $editForm = $this->createForm('App\Form\CommuneType', $commune);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {            
@@ -243,16 +243,16 @@ class CommuneController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('commune/edit.html.twig', array(
+            return $this->render('Core/commune/edit.html.twig', array(
             'commune' => $commune,
             'edit_form' => $editForm->createView(),
             'valid' => 1,
             ));
         }
 
-        return $this->render('commune/edit.html.twig', array(
+        return $this->render('Core/commune/edit.html.twig', array(
             'commune' => $commune,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -279,7 +279,7 @@ class CommuneController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/commune/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
         }
 

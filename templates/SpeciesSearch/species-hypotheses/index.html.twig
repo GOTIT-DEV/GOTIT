@@ -1,0 +1,30 @@
+{% extends 'SpeciesSearch/base.queries.html.twig' %}
+
+{% trans_default_domain 'queries' %}
+
+{% block titlepage %}
+  <h1>
+    {% trans %}
+    queries.specieshypotheses.title
+    {% endtrans %}
+  </h1>
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      {# Formulaire #}
+      {% include 'SpeciesSearch/species-hypotheses/form.html.twig' %}
+    </div>
+    <div class="col-xs-12 col-sm-8">
+      {% include 'SpeciesSearch/species-hypotheses/results.html.twig' %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ parent() }}
+  <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/species_hypotheses/main.js')}}"></script>
+
+{% endblock %}

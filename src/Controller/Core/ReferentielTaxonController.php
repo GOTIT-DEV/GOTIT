@@ -46,7 +46,7 @@ class ReferentielTaxonController extends Controller
 
         $referentielTaxons = $em->getRepository('App:ReferentielTaxon')->findAll();
 
-        return $this->render('referentieltaxon/index.html.twig', array(
+        return $this->render('Core/referentieltaxon/index.html.twig', array(
             'referentielTaxons' => $referentielTaxons,
         ));
     }
@@ -126,7 +126,7 @@ class ReferentielTaxonController extends Controller
     public function newAction(Request $request)
     {
         $referentielTaxon = new Referentieltaxon();
-        $form = $this->createForm('Bbees\E3sBundle\Form\ReferentielTaxonType', $referentielTaxon);
+        $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,13 +137,13 @@ class ReferentielTaxonController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('referentieltaxon_edit', array('id' => $referentielTaxon->getId(), 'valid' => 1));                       
         }
        
 
-        return $this->render('referentieltaxon/edit.html.twig', array(
+        return $this->render('Core/referentieltaxon/edit.html.twig', array(
             'referentielTaxon' => $referentielTaxon,
             'edit_form' => $form->createView(),
         ));
@@ -157,7 +157,7 @@ class ReferentielTaxonController extends Controller
     public function showAction(ReferentielTaxon $referentielTaxon)
     {
         $deleteForm = $this->createDeleteForm($referentielTaxon);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ReferentielTaxonType', $referentielTaxon);
+        $editForm = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon);
 
         return $this->render('show.html.twig', array(
             'referentielTaxon' => $referentielTaxon,
@@ -175,7 +175,7 @@ class ReferentielTaxonController extends Controller
     public function editAction(Request $request, ReferentielTaxon $referentielTaxon)
     {
         $deleteForm = $this->createDeleteForm($referentielTaxon);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ReferentielTaxonType', $referentielTaxon);
+        $editForm = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -184,15 +184,15 @@ class ReferentielTaxonController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('referentieltaxon/edit.html.twig', array(
+            return $this->render('Core/referentieltaxon/edit.html.twig', array(
                 'referentielTaxon' => $referentielTaxon,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
 
-        return $this->render('referentieltaxon/edit.html.twig', array(
+        return $this->render('Core/referentieltaxon/edit.html.twig', array(
             'referentielTaxon' => $referentielTaxon,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -219,7 +219,7 @@ class ReferentielTaxonController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
         

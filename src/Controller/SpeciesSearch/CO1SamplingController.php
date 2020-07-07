@@ -17,7 +17,7 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Controller\Core\Entity\ReferentielTaxon;
+use App\Entity\ReferentielTaxon;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,7 +42,7 @@ class CO1SamplingController extends Controller {
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # render form template
-    return $this->render('@LehnaSpeciesSearch/co1-sampling/index.html.twig', array(
+    return $this->render('SpeciesSearch/co1-sampling/index.html.twig', array(
       'genus_set' => $genus_set,
     ));
   }

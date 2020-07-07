@@ -1,0 +1,80 @@
+{# MOTU distribution form template #}
+
+{% trans_default_domain 'queries' %}
+
+<form id="main-form" action="#">
+  <fieldset>
+    <legend>
+      <h2>
+        {% trans %}
+        label.search.param
+        {% endtrans %}
+      </h2>
+    </legend>
+    <div class="row">
+      <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="form-check">
+              <strong>
+                {% trans %}
+                label.search.espece
+                {% endtrans %}
+              </strong>
+              <span class="pull-right">
+                <input
+                  class="switchbox"
+                  type="checkbox"
+                  name="taxaFilter"
+                  id="taxa-filter"
+                  data-target="select"
+                  data-toggle="toggle"
+                  data-size="mini"
+                  data-onstyle="success"
+                  autocomplete="off"
+                  checked="checked">
+              </span>
+              <i class="fas fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner"></i>
+            </div>
+          </div>
+          <div class="panel-body" id="taxa-select">
+            {% include 'SpeciesSearch/forms/species.selector.html.twig' with {
+              taxname : true
+            } %}
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-5 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>
+              {% trans %}
+              methode.selectprompt
+              {% endtrans %}
+            </strong>
+            <i class="fas fa-spinner fa-spin pull-right method-spinner" style="font-size:16px"></i>
+          </div>
+          <div class="panel-body">
+            {% include 'SpeciesSearch/forms/method.selector.html.twig' %}
+          </div>
+          {# <div class="panel-footer">
+          </div> #}
+        </div>
+      </div>
+    </div>
+    <center>
+      <button
+        type="submit"
+        href="#resultats"
+        value="Rechercher"
+        class="btn btn-primary btn-lg"
+        id="submit-button"
+        style="min-width: 10em"
+        data-loading-text="<i class='fas fa-spinner fa-spin'></i>">
+        {% trans %}
+        label.search.bouton
+        {% endtrans %}
+      </button>
+    </center>
+  </fieldset>
+</form>

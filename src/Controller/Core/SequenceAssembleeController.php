@@ -62,7 +62,7 @@ class SequenceAssembleeController extends Controller
 
         $sequenceAssemblees = $em->getRepository('App:SequenceAssemblee')->findAll();
 
-        return $this->render('sequenceassemblee/index.html.twig', array(
+        return $this->render('Core/sequenceassemblee/index.html.twig', array(
             'sequenceAssemblees' => $sequenceAssemblees,
         ));
     }
@@ -336,7 +336,7 @@ class SequenceAssembleeController extends Controller
 
         // management of the form SequenceAssembleeType
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
-        $form = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk ]);
+        $form = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk ]);
         $form->handleRequest($request);        
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -350,11 +350,11 @@ class SequenceAssembleeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
             return $this->redirectToRoute('sequenceassemblee_edit', array('id' => $sequenceAssemblee->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));
         }       
-        return $this->render('sequenceassemblee/edit.html.twig', array(
+        return $this->render('Core/sequenceassemblee/edit.html.twig', array(
                                 'sequenceAssemblee' => $sequenceAssemblee,
                                 'edit_form' => $form->createView(),
                                 'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
@@ -378,7 +378,7 @@ class SequenceAssembleeController extends Controller
         $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : ''; 
         //
         $deleteForm = $this->createDeleteForm($sequenceAssemblee);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
         //
         $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk ); 
 
@@ -421,7 +421,7 @@ class SequenceAssembleeController extends Controller
         $sequenceAssembleeEstRealisePars = $service->setArrayCollection('SequenceAssembleeEstRealisePars',$sequenceAssemblee);
        
         $deleteForm = $this->createDeleteForm($sequenceAssemblee);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -436,10 +436,10 @@ class SequenceAssembleeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            $editForm = $this->createForm('Bbees\E3sBundle\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
-            return $this->render('sequenceassemblee/edit.html.twig', array(
+            $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+            return $this->render('Core/sequenceassemblee/edit.html.twig', array(
                 'sequenceAssemblee' => $sequenceAssemblee,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1,
@@ -447,7 +447,7 @@ class SequenceAssembleeController extends Controller
                 ));
         }
 
-        return $this->render('sequenceassemblee/edit.html.twig', array(
+        return $this->render('Core/sequenceassemblee/edit.html.twig', array(
             'sequenceAssemblee' => $sequenceAssemblee,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -475,7 +475,7 @@ class SequenceAssembleeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

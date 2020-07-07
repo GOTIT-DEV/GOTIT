@@ -43,7 +43,7 @@ class TaxonConsistencyController extends Controller {
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # render form template
-    return $this->render('@LehnaSpeciesSearch/taxon-consistency/index.html.twig', array(
+    return $this->render('SpeciesSearch/taxon-consistency/index.html.twig', array(
       'genus_set' => $genus_set,
     ));
   }

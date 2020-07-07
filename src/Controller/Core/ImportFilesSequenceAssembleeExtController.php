@@ -127,8 +127,8 @@ class ImportFilesSequenceAssembleeExtController extends Controller
                        $message .=  "ERROR - Bad SELECTED choice ?";
                 }
             }
-            return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
+            return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView())); 
         }
-        return $this->render('importfilecsv/importfiles.html.twig', array("message" => $message,'form' => $form->createView())); 
+        return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message,'form' => $form->createView())); 
      }    
 }

@@ -46,7 +46,7 @@ class ChromatogrammeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
 
-        return $this->render('chromatogramme/index.html.twig', array(
+        return $this->render('Core/chromatogramme/index.html.twig', array(
             'chromatogrammes' => $chromatogrammes,
         ));
     }
@@ -163,7 +163,7 @@ class ChromatogrammeController extends Controller
             $RelEntity = $em->getRepository('App:Pcr')->find($RelEntityId);
             $chromatogramme->setPcrFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\ChromatogrammeType', $chromatogramme);
+        $form = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -178,12 +178,12 @@ class ChromatogrammeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('chromatogramme_edit', array('id' => $chromatogramme->getId(), 'valid' => 1, 'idFk' => $request->get('idFk')));
         }
 
-        return $this->render('chromatogramme/edit.html.twig', array(
+        return $this->render('Core/chromatogramme/edit.html.twig', array(
             'chromatogramme' => $chromatogramme,
             'edit_form' => $form->createView(),
         ));
@@ -197,9 +197,9 @@ class ChromatogrammeController extends Controller
     public function showAction(Chromatogramme $chromatogramme)
     {
         $deleteForm = $this->createDeleteForm($chromatogramme);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ChromatogrammeType', $chromatogramme);
+        $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme);
 
-        return $this->render('chromatogramme/edit.html.twig', array(
+        return $this->render('Core/chromatogramme/edit.html.twig', array(
             'chromatogramme' => $chromatogramme,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -222,7 +222,7 @@ class ChromatogrammeController extends Controller
         }
         //
         $deleteForm = $this->createDeleteForm($chromatogramme);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\ChromatogrammeType', $chromatogramme);
+        $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -238,16 +238,16 @@ class ChromatogrammeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('chromatogramme/edit.html.twig', array(
+            return $this->render('Core/chromatogramme/edit.html.twig', array(
             'chromatogramme' => $chromatogramme,
             'edit_form' => $editForm->createView(),
             'valid' => 1));
 
         }        
 
-        return $this->render('chromatogramme/edit.html.twig', array(
+        return $this->render('Core/chromatogramme/edit.html.twig', array(
             'chromatogramme' => $chromatogramme,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -274,7 +274,7 @@ class ChromatogrammeController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
         

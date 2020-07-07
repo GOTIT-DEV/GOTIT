@@ -1,0 +1,53 @@
+{% extends 'SpeciesSearch/base.queries.html.twig' %}
+
+{% trans_default_domain 'queries' %}
+
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+  <!-- Maps styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/leaflet-maps.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block titlepage %}
+    <h1>
+        {{"queries.sampling.title" | trans }}
+    </h1>
+{% endblock %}
+
+{% block body %}
+    <div class='row' style='padding:10px'>
+        <div
+            class="col-xs-12 col-lg-3 col-lg-offset-0">
+            {# Formulaire #}
+            {% include 'SpeciesSearch/co1-sampling/form.html.twig' %}
+        </div>
+
+        <div class=" col-xs-12 col-lg-9 col-lg-offset-0">
+            <fieldset>
+                <legend>
+                    <h2 style='margin-bottom:18px'>
+                        {{"label.resultats" | trans }}
+                    </h2>
+                </legend>
+                {% include 'SpeciesSearch/co1-sampling/results.html.twig' %}
+            </div>
+        </fieldset>
+
+    </div>
+
+    {% include 'SpeciesSearch/co1-sampling/details.form.html.twig' %}
+
+    {# Modal #}
+    <div class="modal-co1" id="modal-container">
+        {% include 'SpeciesSearch/co1-sampling/details.modal.html.twig' with {
+      'taxname' : ''
+    } %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/co1_sampling/main.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% trans_default_domain 'queries' %}
+
+<div id="species-selector" class="species-selector">
+  <div class="form-group">
+    <label class="control-label" for="genus">
+      {% trans %}
+      label.genre
+      {% endtrans %}
+    </label><br/>
+    <select
+      name="genus"
+      id="genus"
+      class="form-control taxa-select genus-select selectpicker"
+      data-live-search="true"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{% trans from 'tooltips' %}speciesselector.genus{% endtrans %}">
+      {% for genus in genus_set %}
+        <option value="{{genus.genus}}">
+          {{genus.genus}}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="species">
+      {% trans %}
+      label.espece
+      {% endtrans %}
+    </label><br/>
+    <select
+      name="species"
+      id="species"
+      class="form-control taxa-select species-select selectpicker"
+      data-live-search="true"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{% trans from 'tooltips' %}speciesselector.species{% endtrans %}"></select>
+  </div>
+  {% if taxname is defined and taxname %}
+    <div class="form-group">
+      <label class="control-label" for="taxname">
+        {% trans %}
+        label.taxon
+        {% endtrans %}
+      </label><br/>
+      <select
+        name="taxname"
+        id="taxname"
+        class="form-control taxa-select taxname-select selectpicker"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="{% trans from 'tooltips' %}speciesselector.taxname{% endtrans %}"></select>
+    </div>
+  {% endif %}
+</div>

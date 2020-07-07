@@ -17,7 +17,7 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Controller\Core\Entity\Motu;
+use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -47,7 +47,7 @@ class MotuDistributionController extends Controller {
     $genus_set    = $service->getGenusSet();
     $methods_list = $service->listMethodsByDate();
     # render form template
-    return $this->render('@LehnaSpeciesSearch/motu-distribution/index.html.twig', array(
+    return $this->render('SpeciesSearch/motu-distribution/index.html.twig', array(
       'genus_set'    => $genus_set,
       'datasets'     => $datasets,
       'methods_list' => $methods_list,

@@ -3,12 +3,11 @@
 {# DASHBOARD #}
 
 {% block headincl %}
-	<!-- Plotly -->
-	<script src="{{ asset('e3s/vendors/plotly.js/plotly-latest.min.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
+	{{ encore_entry_link_tags('dashboard') }}
 {% endblock %}
 
 {% block titlepage %}
@@ -552,5 +551,5 @@
 {% endblock %}
 {% block scripts %}
 	{{ parent() }}
-	<script type="text/javascript" src="{{asset('e3s/js/dashboard.js')}}"></script>
+	{{ encore_entry_script_tags('dashboard') }}
 {% endblock %}

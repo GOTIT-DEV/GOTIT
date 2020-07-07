@@ -45,7 +45,7 @@ class PersonneController extends Controller
 
         $personnes = $em->getRepository('App:Personne')->findAll();
 
-        return $this->render('personne/index.html.twig', array(
+        return $this->render('Core/personne/index.html.twig', array(
             'personnes' => $personnes,
         ));
     }
@@ -124,7 +124,7 @@ class PersonneController extends Controller
     public function newAction(Request $request)
     {
         $personne = new Personne();
-        $form = $this->createForm('Bbees\E3sBundle\Form\PersonneType', $personne);
+        $form = $this->createForm('App\Form\PersonneType', $personne);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -135,12 +135,12 @@ class PersonneController extends Controller
                 } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('personne_edit', array('id' => $personne->getId(), 'valid' => 1));  
         }
 
-        return $this->render('personne/edit.html.twig', array(
+        return $this->render('Core/personne/edit.html.twig', array(
             'personne' => $personne,
             'edit_form' => $form->createView(),
         ));
@@ -154,7 +154,7 @@ class PersonneController extends Controller
     public function newmodalAction(Request $request)
     {
         $personne = new Personne();
-        $form = $this->createForm('Bbees\E3sBundle\Form\PersonneType', $personne);
+        $form = $this->createForm('App\Form\PersonneType', $personne);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -169,7 +169,7 @@ class PersonneController extends Controller
                 $select_name = $personne->getNomPersonne();
                 // load an empty Person entity
                 $personne_new = new Personne();
-                $form = $this->createForm('Bbees\E3sBundle\Form\PersonneType',$personne_new);           
+                $form = $this->createForm('App\Form\PersonneType',$personne_new);           
                 // returns an empty form and the parameters of the new record created
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -184,7 +184,7 @@ class PersonneController extends Controller
                 $exception_message = strval($e);
                 // load an empty Person entity
                 $personne_new = new Personne();
-                $form = $this->createForm('Bbees\E3sBundle\Form\PersonneType',$personne_new);   
+                $form = $this->createForm('App\Form\PersonneType',$personne_new);   
                 // returns a form with the error message
                 $response = new Response ();
                 $response->setContent ( json_encode ( array (
@@ -219,7 +219,7 @@ class PersonneController extends Controller
     public function showAction(Personne $personne)
     {
         $deleteForm = $this->createDeleteForm($personne);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PersonneType', $personne);
+        $editForm = $this->createForm('App\Form\PersonneType', $personne);
 
         return $this->render('show.html.twig', array(
             'personne' => $personne,
@@ -243,7 +243,7 @@ class PersonneController extends Controller
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         $deleteForm = $this->createDeleteForm($personne);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PersonneType', $personne);
+        $editForm = $this->createForm('App\Form\PersonneType', $personne);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -252,15 +252,15 @@ class PersonneController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('personne/edit.html.twig', array(
+            return $this->render('Core/personne/edit.html.twig', array(
                 'personne' => $personne,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }
         
-        return $this->render('personne/edit.html.twig', array(
+        return $this->render('Core/personne/edit.html.twig', array(
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -287,7 +287,7 @@ class PersonneController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

@@ -47,7 +47,7 @@ class CollecteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $collectes = $em->getRepository('App:Collecte')->findAll();
        
-        return $this->render('collecte/index.html.twig', array( 
+        return $this->render('Core/collecte/index.html.twig', array( 
             'collectes' => $collectes,));                
      }
      
@@ -184,7 +184,7 @@ class CollecteController extends Controller
             $RelEntity = $em->getRepository('App:Station')->find($RelEntityId);
             $collecte->setStationFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\CollecteType', $collecte);
+        $form = $this->createForm('App\Form\CollecteType', $collecte);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -199,12 +199,12 @@ class CollecteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));  
         }
 
-        return $this->render('collecte/edit.html.twig', array(
+        return $this->render('Core/collecte/edit.html.twig', array(
             'collecte' => $collecte,
             'edit_form' => $form->createView(),
         ));
@@ -218,9 +218,9 @@ class CollecteController extends Controller
     public function showAction(Collecte $collecte)
     {
         $deleteForm = $this->createDeleteForm($collecte);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\CollecteType', $collecte);
+        $editForm = $this->createForm('App\Form\CollecteType', $collecte);
 
-        return $this->render('collecte/edit.html.twig', array(
+        return $this->render('Core/collecte/edit.html.twig', array(
             'collecte' => $collecte,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -254,7 +254,7 @@ class CollecteController extends Controller
 
         // editAction
         $deleteForm = $this->createDeleteForm($collecte);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\CollecteType', $collecte);
+        $editForm = $this->createForm('App\Form\CollecteType', $collecte);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -276,16 +276,16 @@ class CollecteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('collecte/edit.html.twig', array(
+            return $this->render('Core/collecte/edit.html.twig', array(
                 'collecte' => $collecte,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));                        
             //return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1)); 
         }
 
-        return $this->render('collecte/edit.html.twig', array(
+        return $this->render('Core/collecte/edit.html.twig', array(
             'collecte' => $collecte,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -312,7 +312,7 @@ class CollecteController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

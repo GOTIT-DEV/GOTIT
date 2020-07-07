@@ -46,7 +46,7 @@ class LotMaterielExtController extends Controller
 
         $lotMaterielExts = $em->getRepository('App:LotMaterielExt')->findAll();
 
-        return $this->render('lotmaterielext/index.html.twig', array(
+        return $this->render('Core/lotmaterielext/index.html.twig', array(
             'lotMaterielExts' => $lotMaterielExts,
         ));
     }
@@ -165,7 +165,7 @@ class LotMaterielExtController extends Controller
             $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
             $lotMaterielExt->setCollecteFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);
+        $form = $this->createForm('App\Form\LotMaterielExtType', $lotMaterielExt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -180,12 +180,12 @@ class LotMaterielExtController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('lotmaterielext_edit', array('id' => $lotMaterielExt->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));                       
         }
 
-        return $this->render('lotmaterielext/edit.html.twig', array(
+        return $this->render('Core/lotmaterielext/edit.html.twig', array(
             'lotMaterielExt' => $lotMaterielExt,
             'edit_form' => $form->createView(),
         ));
@@ -199,9 +199,9 @@ class LotMaterielExtController extends Controller
     public function showAction(LotMaterielExt $lotMaterielExt)
     {
         $deleteForm = $this->createDeleteForm($lotMaterielExt);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);
+        $editForm = $this->createForm('App\Form\LotMaterielExtType', $lotMaterielExt);
 
-        return $this->render('lotmaterielext/edit.html.twig', array(
+        return $this->render('Core/lotmaterielext/edit.html.twig', array(
             'lotMaterielExt' => $lotMaterielExt,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -231,7 +231,7 @@ class LotMaterielExtController extends Controller
         $lotMaterielExtEstRealisePars = $service->setArrayCollection('LotMaterielExtEstRealisePars',$lotMaterielExt);        
         //
         $deleteForm = $this->createDeleteForm($lotMaterielExt);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\LotMaterielExtType', $lotMaterielExt);
+        $editForm = $this->createForm('App\Form\LotMaterielExtType', $lotMaterielExt);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -251,17 +251,17 @@ class LotMaterielExtController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
            //return $this->redirectToRoute('lotmaterielext_edit', array('id' => $lotMaterielExt->getId(), 'valid' => 1)); 
-           return $this->render('lotmaterielext/edit.html.twig', array(
+           return $this->render('Core/lotmaterielext/edit.html.twig', array(
                 'lotMaterielExt' => $lotMaterielExt,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
 
         }
 
-        return $this->render('lotmaterielext/edit.html.twig', array(
+        return $this->render('Core/lotmaterielext/edit.html.twig', array(
             'lotMaterielExt' => $lotMaterielExt,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -288,7 +288,7 @@ class LotMaterielExtController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/lotmaterielext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
 

@@ -46,7 +46,7 @@ class IndividuLameController extends Controller
 
         $individuLames = $em->getRepository('App:IndividuLame')->findAll();
 
-        return $this->render('individulame/index.html.twig', array(
+        return $this->render('Core/individulame/index.html.twig', array(
             'individuLames' => $individuLames,
         ));
     }
@@ -165,7 +165,7 @@ class IndividuLameController extends Controller
             $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId);
             $individuLame->setIndividuFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\IndividuLameType', $individuLame);
+        $form = $this->createForm('App\Form\IndividuLameType', $individuLame);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -180,12 +180,12 @@ class IndividuLameController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
             return $this->redirectToRoute('individulame_edit', array('id' => $individuLame->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));                       
         }
 
-        return $this->render('individulame/edit.html.twig', array(
+        return $this->render('Core/individulame/edit.html.twig', array(
             'individuLame' => $individuLame,
             'edit_form' => $form->createView(),
         ));
@@ -199,9 +199,9 @@ class IndividuLameController extends Controller
     public function showAction(IndividuLame $individuLame)
     {
         $deleteForm = $this->createDeleteForm($individuLame);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\IndividuLameType', $individuLame);
+        $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame);
 
-        return $this->render('individulame/edit.html.twig', array(
+        return $this->render('Core/individulame/edit.html.twig', array(
             'individuLame' => $individuLame,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -230,7 +230,7 @@ class IndividuLameController extends Controller
         $individuLameEstRealisePars = $service->setArrayCollection('IndividuLameEstRealisePars',$individuLame);
         //
         $deleteForm = $this->createDeleteForm($individuLame);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\IndividuLameType', $individuLame);
+        $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -248,15 +248,15 @@ class IndividuLameController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             } 
-            return $this->render('individulame/edit.html.twig', array(
+            return $this->render('Core/individulame/edit.html.twig', array(
                 'individuLame' => $individuLame,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1));
         }       
 
-        return $this->render('individulame/edit.html.twig', array(
+        return $this->render('Core/individulame/edit.html.twig', array(
             'individuLame' => $individuLame,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -283,7 +283,7 @@ class IndividuLameController extends Controller
             } 
             catch(\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/individulame/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }   
         }
         return $this->redirectToRoute('individulame_index');

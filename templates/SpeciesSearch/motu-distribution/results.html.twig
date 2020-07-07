@@ -1,0 +1,89 @@
+{# Formulaire 4 : résultats 
+  
+  Requiert variables :
+  - methods_list
+#}
+
+{% trans_default_domain 'queries' %}
+
+
+{% include "SpeciesSearch/motu-distribution/map.templates.html.twig" %}
+
+{# Tabs #}
+
+<ul class="nav nav-tabs" id="result-tabs" role="tablist">
+  <li class="active" id="geolocation-tab" role="presentation">
+    <a aria-controls="geolocation-pane" data-toggle='tab' href="#geolocation-pane" role="tab">
+      <strong>
+        <i class="fas fa-map-marker"></i>
+        {% trans %}
+        tabs.distribution.geo
+        {% endtrans %}
+      </strong>
+    </a>
+  </li>
+  <li id="table-tab" role="presentation">
+    <a aria-controls="result-pane" data-toggle='tab' href="#result-pane" role="tab">
+      <strong>
+        <i class="fas fa-th-list"></i>
+        {% trans %}
+        tabs.distribution.data
+        {% endtrans %}
+      </strong>
+    </a>
+  </li>
+</ul>
+
+{# Tab content #}
+
+<div class="tab-content">
+  <div class="tab-pane fade in out" id="result-pane" role="tabpanel">
+    <div class="well well-sm">
+      <div class="table-responsive">
+        <table class="table table-condensed table-hover table-striped" id="result-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th id="col-taxname">
+                {% trans %}
+                columns.taxon
+                {% endtrans %}</th>
+              <th id="col-code-seq">
+                {% trans %}
+                columns.seqcode
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.type
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.accession
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.motu
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.lat
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.long
+                {% endtrans %}</th>
+              <th id="col-station" data-link-url="{{path('station_show', {id:0}) | trim(0)}}">{% trans %}
+                columns.station
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.municipality
+                {% endtrans %}</th>
+              <th>{% trans %}
+                columns.country
+                {% endtrans %}</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade in out active" id="geolocation-pane" role="tabpanel">
+    <div id="motu-geo-map"></div>
+  </div>
+</div>

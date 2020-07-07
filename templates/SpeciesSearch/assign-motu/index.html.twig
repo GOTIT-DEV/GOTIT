@@ -1,0 +1,39 @@
+{% extends 'SpeciesSearch/base.queries.html.twig' %}
+
+{% block titlepage %}
+  <h1>
+    {% trans from 'queries' %}
+    queries.motu.title
+    {% endtrans %}
+  </h1>
+{% endblock %}
+
+{% block stylesheets %}
+  {{parent()}}
+  <!-- Modal window styles -->
+  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  {# Main form #}
+  {% include 'SpeciesSearch/assign-motu/form.html.twig' with criteres %}
+
+  {# Result table #}
+  {% include 'SpeciesSearch/assign-motu/results.html.twig' %}
+
+  {# Modal and templates #}
+  <div id="modal-container">
+    {% include 'SpeciesSearch/assign-motu/details.modal.html.twig' %}
+  </div>
+
+  {% include 'SpeciesSearch/assign-motu/details.form.html.twig' %}
+
+{% endblock %}
+
+{# Scripts #}
+{% block scripts %}
+  {{ parent() }}
+
+  <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motus/main.js')}}"></script>
+
+{% endblock %}

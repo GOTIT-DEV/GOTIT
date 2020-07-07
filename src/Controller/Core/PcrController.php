@@ -49,7 +49,7 @@ class PcrController extends Controller
 
         $pcrs = $em->getRepository('App:Pcr')->findAll();
 
-        return $this->render('pcr/index.html.twig', array(
+        return $this->render('Core/pcr/index.html.twig', array(
             'pcrs' => $pcrs,
         ));
     }
@@ -184,7 +184,7 @@ class PcrController extends Controller
             $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId);
             $pcr->setAdnFk($RelEntity);
         }
-        $form = $this->createForm('Bbees\E3sBundle\Form\PcrType', $pcr);
+        $form = $this->createForm('App\Form\PcrType', $pcr);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $form->get('adnId')->getData() !== null) {
@@ -198,12 +198,12 @@ class PcrController extends Controller
                 $em->flush();
             } catch (\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
             return $this->redirectToRoute('pcr_edit', array('id' => $pcr->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));
         }
 
-        return $this->render('pcr/edit.html.twig', array(
+        return $this->render('Core/pcr/edit.html.twig', array(
             'pcr' => $pcr,
             'edit_form' => $form->createView(),
         ));
@@ -217,9 +217,9 @@ class PcrController extends Controller
     public function showAction(Pcr $pcr)
     {
         $deleteForm = $this->createDeleteForm($pcr);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PcrType', $pcr);
+        $editForm = $this->createForm('App\Form\PcrType', $pcr);
 
-        return $this->render('pcr/edit.html.twig', array(
+        return $this->render('Core/pcr/edit.html.twig', array(
             'pcr' => $pcr,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -247,7 +247,7 @@ class PcrController extends Controller
         $pcrEstRealisePars = $service->setArrayCollection('PcrEstRealisePars', $pcr);
         //
         $deleteForm = $this->createDeleteForm($pcr);
-        $editForm = $this->createForm('Bbees\E3sBundle\Form\PcrType', $pcr);
+        $editForm = $this->createForm('App\Form\PcrType', $pcr);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -264,18 +264,18 @@ class PcrController extends Controller
                 $this->getDoctrine()->getManager()->flush();
             } catch (\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
             //return $this->redirectToRoute('lotmateriel_edit', array('id' => $lotMateriel->getId()));
             // return $this->redirectToRoute('lotmateriel_index');
-            return $this->render('pcr/edit.html.twig', array(
+            return $this->render('Core/pcr/edit.html.twig', array(
                 'pcr' => $pcr,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1
             ));
         }
 
-        return $this->render('pcr/edit.html.twig', array(
+        return $this->render('Core/pcr/edit.html.twig', array(
             'pcr' => $pcr,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -302,7 +302,7 @@ class PcrController extends Controller
                 $em->flush();
             } catch (\Doctrine\DBAL\DBALException $e) {
                 $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+                return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
         }
 
