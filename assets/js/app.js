@@ -8,11 +8,15 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.less';
 
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+import '@fortawesome/fontawesome-free';
 import 'bootstrap';
-import '@fortawesome/fontawesome-free'
+import 'jquery-bootgrid/dist/jquery.bootgrid.js';
 
-require('./core/custom.js');
-import './core/dashboard.js';
+import './core/custom.js';
+// import './core/dashboard.js';
 import './core/e3s.js';
 import './core/nav.js';
 import './core/options.js';

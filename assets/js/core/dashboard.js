@@ -1,3 +1,6 @@
+import "../../css/core/dashboard.less"
+
+import Mustache from 'mustache'
 
 $(document).ready(() => {
   $("#last-updates-table").bootgrid({

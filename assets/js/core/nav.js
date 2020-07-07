@@ -1,5 +1,7 @@
 // Navbar events and animations
 
+import Cookies from "js-cookies";
+
 function close_sub_menus() {
   $(".nav-left .menu-entry.active")
     .removeClass("active")
