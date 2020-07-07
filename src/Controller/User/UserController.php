@@ -134,7 +134,7 @@ class UserController extends Controller
     public function newAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $form = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
+        $form = $this->createForm('App\Form\UserType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -172,7 +172,7 @@ class UserController extends Controller
     {
         $deleteForm = $this->createDeleteForm($user);
 
-        $editForm = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
+        $editForm = $this->createForm('App\Form\UserType', $user);
         return $this->render('show.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
@@ -196,7 +196,7 @@ class UserController extends Controller
         }
         //
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('Bbees\UserBundle\Form\UserType', $user);
+        $editForm = $this->createForm('App\Form\UserType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) { 
