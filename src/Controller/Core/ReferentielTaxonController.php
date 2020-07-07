@@ -242,6 +242,26 @@ class ReferentielTaxonController extends Controller
         ;
     }
 
+
+    /**
+     * @Route("/json/genus", name="genus-list", methods={"GET"})
+     */
+    public function genusList(Request $request)
+    {
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+
+        $query = $qb->select('rt.genus')
+            ->from('App:ReferentielTaxon', 'rt')
+            ->where('rt.species IS NOT NULL')
+            ->distinct()
+            ->orderBy('rt.genus')
+            ->getQuery();
+
+        $genus_set = $query->getResult();
+
+        return new JsonResponse($genus_set);
+    }
+
     /**
      * @Route("/species-in-genus", name="species-in-genus")
      * 
@@ -277,7 +297,7 @@ class ReferentielTaxonController extends Controller
         $data = json_decode($request->getContent());
         $genus = $data->genus;
         $species = $data->species;
-        $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
 
         $query = $qb->select('rt')
             ->from('App:ReferentielTaxon', 'rt')
