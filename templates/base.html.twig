@@ -24,7 +24,7 @@
 		</title>
 
 		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
+			{{ encore_entry_link_tags('core') }}
 		{% endblock %}
 
 		{% block headincl %}{% endblock %}
@@ -90,7 +90,7 @@
 				{# General Scripts #}
 				{% block scripts %}
 				  {# Main JS #}
-					{{ encore_entry_script_tags('app') }}
+					{{ encore_entry_script_tags('core') }}
 				{% endblock %}
 				{#  Templates Scripts #}
 				{% block templatescripts %}

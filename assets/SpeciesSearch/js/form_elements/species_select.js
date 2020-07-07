@@ -113,7 +113,6 @@ export class SpeciesSelector {
 
   fetchSpecies() {
     this.toggleWaitingResponse(true)
-    console.log(this.genus)
     return fetch(this.urls.species, {
       method: 'POST',
       body: JSON.stringify({ genus: this.genus.val() }),

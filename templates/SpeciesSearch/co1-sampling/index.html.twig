@@ -4,10 +4,7 @@
 
 {% block stylesheets %}
   {{parent()}}
-  <!-- Modal window styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
-  <!-- Maps styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/leaflet-maps.css') }}" rel="stylesheet">
+  {{ encore_entry_link_tags('co1-sampling') }}
 {% endblock %}
 
 {% block titlepage %}
@@ -49,5 +46,5 @@
 
 {% block scripts %}
     {{ parent() }}
-    <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/co1_sampling/main.js')}}"></script>
+    {{ encore_entry_script_tags('co1-sampling') }}
 {% endblock %}

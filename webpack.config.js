@@ -23,8 +23,13 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
-    .addEntry('dashboard', './assets/js/core/dashboard.js')
+
+    // Core assets
+    .addEntry('core', './assets/Core/js/core.js')
+    .addEntry('dashboard', './assets/Core/js/dashboard.js')
+    // Species Search assets
+    .addEntry('species-search', './assets/SpeciesSearch/js/species_search.js')
+    .addEntry('co1-sampling', './assets/SpeciesSearch/js/co1_sampling/main.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -69,6 +74,12 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
+    // jQuery Datatables loader
+    .addLoader({ test: /datatables\.net.*/, loader: 'imports-loader?define=>false' })
+
+    .autoProvideVariables({
+        L: "leaflet",
+    })
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
