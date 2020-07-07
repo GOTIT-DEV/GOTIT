@@ -251,7 +251,7 @@ class ReferentielTaxonController extends Controller
     {
         $data = json_decode($request->getContent());
         $genus = $data->genus;
-        $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
 
         $query = $qb->select('rt.species')
             ->from('App:ReferentielTaxon', 'rt')
