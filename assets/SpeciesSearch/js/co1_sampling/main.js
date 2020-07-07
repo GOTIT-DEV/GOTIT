@@ -21,11 +21,45 @@ import { initMap } from './map.js'
 import { initDataTable } from './results.js'
 import { SpeciesSelector } from '../form_elements/species_select.js'
 
+import Vue from "vue"
+import Vuex from "vuex"
+import TaxonomySelectPanel from "../components/taxonomy/TaxonomySelectPanel"
+
+Vue.use(Vuex)
+const store = new Vuex.Store({
+  state: {
+    genus: undefined,
+    species: undefined,
+    taxname: undefined
+  },
+  mutations: {
+    setGenus(state, value) {
+      state.genus = value
+    },
+    setSpecies(state, value) {
+      state.species = value
+    },
+    setTaxname(state, value) {
+      state.taxname = value
+    }
+  }
+})
+
+const vue_app = new Vue({
+  el: '#app',
+  template: '<TaxonomySelectPanel with-taxname/>',
+  components: { TaxonomySelectPanel },
+  store
+})
+console.log(vue_app)
 
 // Init map
 let stationMap = initMap('station-geo-map')
 
 $(document).ready(_ => {
+
+
+
   uiWaitResponse()
 
   // Init modal map container

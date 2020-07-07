@@ -3,52 +3,40 @@
 {% trans_default_domain 'queries' %}
 
 <form id="main-form" action="#">
-  <fieldset>
-    <legend>
-      <h2 style='margin-bottom:18px'>
-        {{ "label.search.param" | trans }}
-      </h2>
-    </legend>
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-12 col-lg-offset-0">
-        <div class="panel panel-default">
-          <div class="panel-heading">
+	<fieldset>
+		<legend>
+			<h2 style='margin-bottom:18px'>
+				{{ "label.search.param" | trans }}
+			</h2>
+		</legend>
 
-            <div class="form-check">
-              <strong>
-                {{ "label.search.espece" | trans }}
-              </strong>
-              <span class="pull-right">
-                <input
-                  class="switchbox"
-                  type="checkbox"
-                  name="taxaFilter"
-                  id="taxa-filter"
-                  data-toggle="toggle"
-                  data-size="mini"
-                  data-onstyle="success"
-                  autocomplete="off"
-                  checked="checked">
-              </span>
-              <i class="fas fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner"></i>
-            </div>
-          </div>
-          <div class="panel-body" id="taxa-select">
-            {% include 'SpeciesSearch/forms/species.selector.html.twig' %}
-          </div>
-          <div class="panel-footer">
-            <button
-              type="submit"
-              value="Rechercher"
-              class="btn btn-primary btn-block"
-              id="submit-button"
-              data-loading-text="<i class='fas fa-spinner fa-spin'></i>">
+		<div id="app"></div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-12 col-lg-offset-0">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+
+						<div class="form-check">
+							<strong>
+								{{ "label.search.espece" | trans }}
+							</strong>
+							<span class="pull-right">
+								<input class="switchbox" type="checkbox" name="taxaFilter" id="taxa-filter" data-toggle="toggle" data-size="mini" data-onstyle="success" autocomplete="off" checked="checked">
+							</span>
+							<i class="fas fa-spinner fa-spin pull-right taxon-spinner" id="taxon-spinner"></i>
+						</div>
+					</div>
+					<div class="panel-body" id="taxa-select">
+						{% include 'SpeciesSearch/forms/species.selector.html.twig' %}
+					</div>
+					<div class="panel-footer">
+						<button type="submit" value="Rechercher" class="btn btn-primary btn-block" id="submit-button" data-loading-text="<i class='fas fa-spinner fa-spin'></i>">
 							{{ "label.search.bouton" | trans }}
-							</button>
-          </div>
-        </div>
-      </div>
-    </div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  </fieldset>
+	</fieldset>
 </form>

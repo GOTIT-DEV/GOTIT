@@ -65,6 +65,9 @@ Encore
     // enables Less support
     .enableLessLoader()
 
+    // enables VueJS
+    .enableVueLoader()
+
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
@@ -75,8 +78,9 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
     // jQuery Datatables loader
-    .addLoader({ test: /datatables\.net.*/, loader: 'imports-loader?define=>false' })
+    // .addLoader({ test: /datatables\.net.*/, loader: 'imports-loader?define=>false' })
 
+    // Provide L namespace for leaflet 
     .autoProvideVariables({
         L: "leaflet",
     })
@@ -90,6 +94,14 @@ Encore
         from: './assets/images',
         to: 'images/[name].[ext]'
     })
-;
+    ;
 
-module.exports = Encore.getWebpackConfig();
+var config = Encore.getWebpackConfig();
+// disable amd, for datatable
+config.module.rules.unshift({
+    parser: {
+        amd: false
+    }
+});
+
+module.exports = config;

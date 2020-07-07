@@ -13,10 +13,11 @@ import "../css/leaflet-maps.less"
 
 
 require('jszip');
-require( 'datatables.net-bs' );
-require( 'datatables.net-buttons-bs' )(window);
-require( 'datatables.net-buttons/js/buttons.html5.js' )(window);
-require( 'datatables.net-responsive-bs' );
+import dt from 'datatables.net-bs';
+dt(window, $);
+require('datatables.net-buttons-bs')(window, $);
+require('datatables.net-buttons/js/buttons.html5.js')(window, $);
+require('datatables.net-responsive-bs')(window, $);
 
 import "bootstrap-select"
 import "bootstrap-toggle"
