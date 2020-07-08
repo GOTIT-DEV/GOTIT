@@ -19,48 +19,31 @@ import Mustache from "mustache"
 import { asCSV } from '../utils.js'
 import { initMap } from './map.js'
 import { initDataTable } from './results.js'
-import { SpeciesSelector } from '../form_elements/species_select.js'
 
 import Vue from "vue"
 import Vuex from "vuex"
 import TaxonomySelectPanel from "../components/taxonomy/TaxonomySelectPanel"
+import TaxonomyModule from "../components/taxonomy/TaxonomyStore"
 
 Vue.use(Vuex)
+
 const store = new Vuex.Store({
-  state: {
-    genus: undefined,
-    species: undefined,
-    taxname: undefined
-  },
-  mutations: {
-    setGenus(state, value) {
-      state.genus = value
-    },
-    setSpecies(state, value) {
-      state.species = value
-    },
-    setTaxname(state, value) {
-      state.taxname = value
-    }
+  modules: {
+    taxonomy: TaxonomyModule
   }
 })
 
 const vue_app = new Vue({
-  el: '#app',
+  el: '#species-select',
   template: '<TaxonomySelectPanel with-taxname/>',
   components: { TaxonomySelectPanel },
   store
 })
-console.log(vue_app)
 
 // Init map
 let stationMap = initMap('station-geo-map')
 
 $(document).ready(_ => {
-
-
-
-  uiWaitResponse()
 
   // Init modal map container
   $(".modal-dialog").css("width", "95vw")
@@ -70,10 +53,14 @@ $(document).ready(_ => {
   })
 
   // Init species selector
-  let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
-  speciesSelector.promise.then(_ => {
+  // let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
+  // speciesSelector.promise.then(_ => {
+  vue_app.$store.state.taxonomy.ready.then(_ => {
+    console.log("ready")
     initDataTable("#result-table", onResultsDraw)
+
   })
+  // })
 })
 
 
@@ -149,12 +136,6 @@ function downloadSamplingDetails(json) {
   }
 }
 
-/**
- * Toggle UI loading mode
- */
-function uiWaitResponse() {
-  $("#main-form").find("button[type='submit']").button('loading')
-}
 
 /**
  * Toggle UI loading done

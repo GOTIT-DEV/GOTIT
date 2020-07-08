@@ -15,32 +15,37 @@
       <TaxonomySelect v-bind:with-taxname="withTaxname" ref="core" />
     </div>
     <div class="panel-footer">
-      <button
-        type="submit"
-        value="Rechercher"
-        class="btn btn-primary btn-block"
-        id="submit-button"
-        data-loading-text="<i class='fas fa-spinner fa-spin'></i>"
-      >
-        "label.search.bouton"
-      </button>
+      <ButtonLoading v-bind:loading="loading" v-on:click="submit" ref="button">
+        Search
+      </ButtonLoading>
     </div>
   </div>
 </template>
 
 <script>
 import TaxonomySelect from "./TaxonomySelect";
+import ButtonLoading from "../ButtonLoading";
 import { ToggleButton } from "vue-js-toggle-button";
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapMutations } = createNamespacedHelpers('taxonomy')
 
 export default {
   components: {
     TaxonomySelect,
-    ToggleButton
+    ToggleButton,
+    ButtonLoading
   },
   props: {
     withTaxname: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    ...mapState(["loading", "ready"]),
+    ready(){
+      !this.loading
     }
   },
   data() {
@@ -54,8 +59,11 @@ export default {
       this.$refs.core.toggleActive(newValue);
     }
   },
-  mounted() {
-    // $(this.$refs.switch).bootstrapToggle();
+  methods:{
+    ...mapMutations(["setLoading"]),
+    submit(){
+      this.$refs.button.toggle(true)
+    }
   }
 };
 </script>

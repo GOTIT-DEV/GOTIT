@@ -471,7 +471,7 @@ class SpeciesQueryService
             --taxafilter.placeholder
             GROUP BY rt.id, rt.taxon_name
             ORDER BY nb_sta DESC";
-    if ($data->get('taxaFilter')) {
+    if ($data->get('species')) {
       // Additional filter to query only for a target species
       $main_subquery = str_replace(
         '--taxafilter.placeholder',
@@ -495,7 +495,7 @@ class SpeciesQueryService
             ORDER BY taxon_name;";
 
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
-    if ($data->get('taxaFilter')) {
+    if ($data->get('species')) {
       $stmt->execute(array(
         'genus'   => $data->get('genus'),
         'species' => $data->get('species'),

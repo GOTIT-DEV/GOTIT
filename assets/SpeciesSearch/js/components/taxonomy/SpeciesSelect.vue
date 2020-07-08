@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapMutations } = createNamespacedHelpers('taxonomy')
 import { SelectPicker } from "../directives/SelectPickerDirective";
 
 export default {
@@ -30,16 +31,14 @@ export default {
     SelectPicker
   },
   computed: {
+    ...mapState(['genus']),
     species: {
       set(value) {
         this.setSpecies(value);
       },
       get() {
-        return this.$store.state.species;
+        return this.$store.state.taxonomy.species;
       }
-    },
-    genus() {
-      return this.$store.state.genus;
     }
   },
   data() {

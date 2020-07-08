@@ -15,7 +15,8 @@
 import GenusSelect from "./GenusSelect";
 import SpeciesSelect from "./SpeciesSelect";
 import TaxnameSelect from "./TaxnameSelect";
-import { mapState } from "vuex";
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapMutations } = createNamespacedHelpers('taxonomy')
 
 export default {
   components: {
@@ -29,13 +30,9 @@ export default {
       default: false
     }
   },
-  computed: mapState(["genus", "species", "taxname"]),
-  data() {
-    return {
-      loading: true
-    };
-  },
+  computed: mapState(["genus", "species", "taxname", "loading", "ready"]),
   methods: {
+    ...mapMutations(["setLoading"]),
     toggleActive(state) {
       $(this.$el)
         .find(":input")
@@ -44,10 +41,10 @@ export default {
   },
   watch: {
     taxname: function(newVal, oldVal) {
-      this.loading = false;
+      this.setLoading(false)
     },
     species: function(newVal, oldVal) {
-      if (!this.withTaxname) this.loading = true;
+      this.setLoading(!this.withTaxname)
     }
   }
 };

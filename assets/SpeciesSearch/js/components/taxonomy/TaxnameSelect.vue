@@ -17,7 +17,9 @@
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
-import { mapState, mapMutations } from "vuex";
+
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapMutations } = createNamespacedHelpers('taxonomy')
 
 export default {
   directives: {
@@ -25,7 +27,7 @@ export default {
   },
   computed: {
     taxname: {
-      get() { return this.$store.state.taxname},
+      get() { return this.$store.state.taxonomy.taxname},
       set(value) {this.setTaxname(value)}
     },
     ...mapState(["genus", "species"])

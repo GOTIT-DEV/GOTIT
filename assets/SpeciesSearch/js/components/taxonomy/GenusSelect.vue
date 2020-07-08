@@ -23,7 +23,8 @@
 
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapMutations } = createNamespacedHelpers('taxonomy')
 import { SelectPicker } from "../directives/SelectPickerDirective";
 
 export default {
@@ -32,7 +33,7 @@ export default {
   },
   computed: {
     genus: {
-      get() {return this.$store.state.genus},
+      get() {return this.$store.state.taxonomy.genus},
       set(value) {
         return this.setGenus(value);
       }
