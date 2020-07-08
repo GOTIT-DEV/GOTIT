@@ -4,7 +4,7 @@ label:
   taxon: Taxon
   dataset: Jeu de données
   search:
-    param: Paramètres de recherche
+    param: Recherche
     espece: Recherche par espèce
     bouton: Rechercher
     constraints: Contraintes

@@ -22,21 +22,39 @@ import { initDataTable } from './results.js'
 
 import Vue from "vue"
 import Vuex from "vuex"
+import TaxonomySelect from "../components/taxonomy/TaxonomySelect"
 import TaxonomySelectPanel from "../components/taxonomy/TaxonomySelectPanel"
+import TogglablePanel from "../components/taxonomy/TogglablePanel"
 import TaxonomyModule from "../components/taxonomy/TaxonomyStore"
+import DeferredForm from "../components/DeferredForm"
 
 Vue.use(Vuex)
-
 const store = new Vuex.Store({
   modules: {
     taxonomy: TaxonomyModule
+  },
+  state: {
+    loading: true
+  },
+  mutations: {
+    setLoading(state, value) {
+      state.loading = value
+    }
   }
 })
 
 const vue_app = new Vue({
   el: '#species-select',
-  template: '<TaxonomySelectPanel with-taxname/>',
-  components: { TaxonomySelectPanel },
+  template: '<DeferredForm/>',
+  // template: `
+  // <TogglablePanel title="kanar"> 
+  //   <TaxonomySelect withTaxname />
+  //   <template v-slot:footer>
+  //   </template>
+  // </TogglablePanel>
+  // `,
+  // components: { TaxonomySelect, TogglablePanel },
+  components: { DeferredForm },
   store
 })
 
@@ -52,15 +70,11 @@ $(document).ready(_ => {
     stationMap.fitBounds(stationMap.bounds, { maxZoom: 10, padding: L.point(30, 30) })
   })
 
-  // Init species selector
-  // let speciesSelector = new SpeciesSelector("#main-form", "#taxa-filter")
-  // speciesSelector.promise.then(_ => {
-  vue_app.$store.state.taxonomy.ready.then(_ => {
-    console.log("ready")
-    initDataTable("#result-table", onResultsDraw)
+  
 
+  store.state.taxonomy.ready.then(_ => {
+    initDataTable("#result-table", onResultsDraw)
   })
-  // })
 })
 
 
@@ -142,7 +156,9 @@ function downloadSamplingDetails(json) {
  * @param {Object} response JSON response
  */
 function uiReceivedResponse(response) {
-  $("#main-form").find("button[type='submit']").button('reset')
+  // $("#main-form").find("button[type='submit']").button('reset')
+  store.state.loading=false
+
 }
 
 

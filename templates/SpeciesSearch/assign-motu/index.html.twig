@@ -10,8 +10,7 @@
 
 {% block stylesheets %}
   {{parent()}}
-  <!-- Modal window styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+  {{ encore_entry_link_tags('spsearch/motu') }}
 {% endblock %}
 
 {% block body %}
@@ -34,6 +33,6 @@
 {% block scripts %}
   {{ parent() }}
 
-  <script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motus/main.js')}}"></script>
+    {{ encore_entry_script_tags('spsearch/motu') }}
 
 {% endblock %}
