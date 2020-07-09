@@ -1,0 +1,33 @@
+<table class="table table-condensed table-hover table-striped" id="result-table">
+
+	<thead>
+		{# selectedFields #}
+		<tr>
+			{% for table, fields in selectedFields %}
+				{% for f in fields %}
+					<th>{{table}}.{{f}}</th>
+				{% endfor %}
+			{% endfor %}
+		</tr>
+	</thead>
+
+	<tbody>
+		{# results #}
+		{% for row in results %}
+			<tr>
+				{% for table, fields in selectedFields %}
+					{% for f in fields %}
+						{% set value = attribute(row, f)%}
+						<td>
+							{% if value.timestamp is defined %}
+								{{value|date("Y-m-d")}}
+							{% else %}
+								{{value}}
+							{% endif %}
+						</td>
+					{% endfor %}
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

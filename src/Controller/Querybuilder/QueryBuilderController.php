@@ -16,7 +16,7 @@ use App\Services\Querybuilder\QueryBuilderService;
 /**
  * Controller for querying the GOTIT database.
  *
- * @Route("/")
+ * @Route("/querybuilder")
  * @Security("has_role('ROLE_INVITED')")
  */
 class QueryBuilderController extends Controller
@@ -27,7 +27,7 @@ class QueryBuilderController extends Controller
    */
   public function indexAction()
   {
-    return $this->render('@LehnaQueryBuilder/index.html.twig');
+    return $this->render('QueryBuilder/index.html.twig');
   }
 
 
@@ -62,7 +62,7 @@ class QueryBuilderController extends Controller
     return new JsonResponse([
       "dql" => $dqlresults, "sql" => $sqlresults,
       "results" => $this->renderView(
-        '@LehnaQueryBuilder/resultQuery.html.twig',
+        'QueryBuilder/resultQuery.html.twig',
         ["results" => $results, "selectedFields" => $selectedFields]
       )
     ]);

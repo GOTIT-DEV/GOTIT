@@ -1,0 +1,46 @@
+/* Form-bottom : Add Join, Clear and Search buttons */
+div#form-end {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.5fr 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  row-gap: 20px;
+  grid-template-areas:
+    "add-join . . . . ."
+    ". clear-button . . results-btn .";
+
+  button#add-join {
+    grid-area: add-join;
+    justify-self: start;
+
+    i#add-join-block {
+      font-size: 30px;
+    }
+  }
+
+  button#clear {
+    grid-area: clear-button;
+    justify-self: start;
+    min-width: 10em;
+  }
+
+  button#submit-button {
+    grid-area: results-btn;
+    justify-self: center;
+    min-width: 10em;
+  }
+}
+
+@media (max-width: 520px) {
+  div#form-end {
+    grid-template-columns: 0.5fr 0.5fr 1fr 1fr 1fr;;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+    "add-join . . . . "
+    ". . clear-button . ."
+    ". . results-btn . .";
+
+    >button {
+      justify-self: start;
+    }
+  }
+}

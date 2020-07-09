@@ -13,7 +13,7 @@
  * 
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
-
+require('datatables.net-bs')(window, $);
 import Mustache from "mustache"
 
 /**

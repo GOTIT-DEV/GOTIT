@@ -8,6 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Mapping\DisconnectedMetadataFactory;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 /**
  * Service QueryBuilderService
  */
@@ -17,21 +19,25 @@ class QueryBuilderService
   private $metadataManager;
   private $container;
 
-  public function __construct(ManagerRegistry $manager, ContainerInterface $container)
+  public function __construct(EntityManagerInterface $em, ManagerRegistry $manager, ContainerInterface $container)
   {
     $this->container = $container;
     $this->doctrineManagerRegistry = $manager;
+    $this->em = $em;
     $this->metadataManager =
       new DisconnectedMetadataFactory($this->doctrineManagerRegistry);
   }
 
   public function make_qbuilder_config()
   {
-    $coreBundle = $this->container->get("kernel")->getBundle("BbeesE3sBundle");
-    $metadata = $this->metadataManager
-      ->getBundleMetadata($coreBundle)
-      ->getMetadata();
-    return $this->parse_entities_metadata($metadata);
+    // $em = $this->getDoctrine()->getManager();
+    $meta = $this->em->getMetadataFactory()->getAllMetadata();
+    // dump($meta);
+    // $metadata = $this->metadataManager
+      // ->getNamespaceMetadata("App\Entity\Core")
+      // ->getAllMetadata()
+      // ->getMetadata();
+    return $this->parse_entities_metadata($meta);
   }
 
   private function parse_entity_name($entity)

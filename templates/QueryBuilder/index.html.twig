@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+		{{ encore_entry_link_tags('querybuilder') }}
+{% endblock %}
+
+{% block titlepage %}
+	<h1 id="main-page-title">
+		Query Builder
+	</h1>
+{% endblock %}
+
+{% block body %}
+
+	{% include 'QueryBuilder/logical.db.model.html.twig' %}
+
+	<legend>
+		<h2 id="query-fields-title">
+			{% trans %}
+			Query fields
+			{% endtrans %}
+		</h2>
+	</legend>
+	<div class='row'>
+		<div
+			class="col-xs-12">
+			{#Form #}
+			{% include 'QueryBuilder/form.html.twig' %}
+		</div>
+	</div>
+	<hr>
+	<div>
+		{% include 'QueryBuilder/results.html.twig' %}
+		<button class="help-btn btn btn-info pull-right" id="myBtn" title="Go to top">
+			<i class="glyphicon glyphicon-menu-up" style="font-size:20px"></i>
+		</button>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	  <!-- Symfony javascript routing bundle -->
+  <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+  {# Symfony translation in JS #}
+  <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+  <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'queries', 'locales': 'fr,en' }) }}"></script>
+  <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) }}"></script>
+
+	{{ encore_entry_script_tags('querybuilder') }}
+{% endblock %}

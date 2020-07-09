@@ -1,0 +1,31 @@
+{# QueryBuilder form template #}
+
+{% trans_default_domain 'queries' %}
+
+<form id="main-form" action="#">
+
+  {# Initial Block #}
+  {% include 'QueryBuilder/forms/initial.block.html.twig' %}
+
+  {# Join Blocks #}
+  <div class="add-constraints" id="add-constraints">
+    {% include 'QueryBuilder/forms/join.blocks.html.twig' %}
+  </div>
+
+  {# Button to Add a Join Div #}
+  <div class="btn-group pull-left group-actions" id="form-end">
+    <button class="btn btn-xs btn-basic collapsed" id="add-join" type="button" disabled>
+      <i class="glyphicon glyphicon-plus-sign" id="add-join-block"  data-toggle="tooltip" data-placement="right" title="Add a join block"></i>
+    </button>
+    <button type="reset" value="Reset" class="btn btn-warning btn-lg" id="clear" data-toggle="tooltip" data-placement="top" title="Reinitialize the form">
+      {% trans %}
+      Clear
+      {% endtrans %}
+    </button>
+    <button type="submit" href="#resultats" value="Rechercher" class="btn btn-primary btn-lg" id="submit-button" disabled>
+      {% trans %}
+      Search
+      {% endtrans %}
+    </button>
+  </div>
+</form>

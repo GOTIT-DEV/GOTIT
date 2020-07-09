@@ -1,0 +1,22 @@
+{% trans_default_domain 'queries' %}
+
+<h2 id="logical-model-title">
+	{% trans %}
+	Database Logical Model
+	{% endtrans %}
+</h2>
+<div id="logical-model">
+
+  <div id="logical-model-text">
+    <p>Hover to zoom on image regions</p>
+    <p>Use mouse scroll to adjust zoom level</p>
+  </div>
+
+	<a download class="btn download-text" href="{{ asset('build/images/S1_Gotitdb_V2_logical_model_en.jpg') }}">
+		<i class="fa fa-download"></i>
+		Download model
+	</a>
+	<div id="img-container" data-toggle="tooltip" data-placement="left" title="Click on the image to see the Logical Model of the Full Database">
+		<img id="logical-db-img" src="{{ asset('build/images/S1_Gotitdb_V2_logical_model_en.jpg') }}" alt="Logical Model">
+	</div>
+</div>

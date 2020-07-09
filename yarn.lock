@@ -1521,15 +1521,15 @@ bootstrap-toggle@^2.2.2:
   resolved "https://registry.yarnpkg.com/bootstrap-toggle/-/bootstrap-toggle-2.2.2.tgz#2b88534fc1b998674f877f98ba0d8b5b743e96fe"
   integrity sha1-K4hTT8G5mGdPh3+Yug2LW3Q+lv4=
 
+"bootstrap@>=3.1.0 <4", bootstrap@^3:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
+  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
+
 bootstrap@>=3.1.1:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.0.tgz#97d9dbcb5a8972f8722c9962483543b907d9b9ec"
   integrity sha512-Z93QoXvodoVslA+PWNdk23Hze4RBYIkpb5h8I2HY2Tu2h7A0LpAgLcyrhrSUyo2/Oxm2l1fRZPs1e5hnxnliXA==
-
-bootstrap@^3:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
-  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -2676,6 +2676,11 @@ dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
+dot@>=1.0.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/dot/-/dot-1.1.3.tgz#351360e00a748bce9a1f8f27c00c394a7e4e1e9f"
+  integrity sha512-/nt74Rm+PcfnirXGEdhZleTwGC2LMnuKTeeTIlI82xb5loBBoXNYzr2ezCroPSMtilK8EZIfcNZwOcHN+ib1Lg==
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
@@ -3043,6 +3048,11 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
+
+ez-plus@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ez-plus/-/ez-plus-1.2.1.tgz#b16dca155e75944301fdcde3ccd9a7944a6f99c3"
+  integrity sha1-sW3KFV51lEMB/c3jzNmnlEpvmcM=
 
 fast-deep-equal@^3.1.1:
   version "3.1.3"
@@ -4116,6 +4126,17 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+jQuery-QueryBuilder@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/jQuery-QueryBuilder/-/jQuery-QueryBuilder-2.5.2.tgz#be337dc3ec01a35380fa0f7ee9366a5fc75a0dd1"
+  integrity sha512-DkWePjNfPsposPTWvz0thDhVxuiwdpjrmKIIaoD9MgLmMKbwQmdKUH9q6xO2ZfMYEDZ8k1aZPCHIDEoC1NgIPg==
+  dependencies:
+    bootstrap ">=3.1.0 <4"
+    dot ">=1.0.3"
+    jquery "^3.3.1"
+    jquery-extendext ">=0.1.2"
+    moment "^2.21.0"
+
 jquery-bootgrid@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/jquery-bootgrid/-/jquery-bootgrid-1.3.1.tgz#951e14b5c4847426ad543e967612ebe5bbb0424a"
@@ -4124,7 +4145,14 @@ jquery-bootgrid@^1.3.1:
     bootstrap ">=3.1.1"
     jquery ">=1.9.0"
 
-jquery@>=1.7, jquery@>=1.9.0, jquery@^3.5.1:
+jquery-extendext@>=0.1.2:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jquery-extendext/-/jquery-extendext-1.0.0.tgz#00d6615e2ef7da630fbced293910002a1b281ee1"
+  integrity sha512-gDJjpQ8ISd4ZMwSn0yXSuyufsPMCeWtWJ8kmqE85VromJqyVT2sdkHzS5yL0w1GK81UpOzmr2f9JgFln2sbJSg==
+  dependencies:
+    jquery ">=1.9.1"
+
+jquery@>=1.7, jquery@>=1.9.0, jquery@>=1.9.1, jquery@^3.3.1, jquery@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
@@ -4655,7 +4683,7 @@ mkdirp@1.0.4:
   dependencies:
     minimist "^1.2.5"
 
-moment@^2.27.0:
+moment@^2.21.0, moment@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==

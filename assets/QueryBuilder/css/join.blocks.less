@@ -1,0 +1,164 @@
+/* Grid for the Join Blocks */
+
+div#join-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "join-header"
+    "join-fields-constraints-options";
+
+  div#join-header {
+    grid-area: join-header;
+    display: grid;
+    grid-template-columns: 0fr 0fr 0fr 0fr 1fr 0fr;
+    grid-template-rows: auto;
+    grid-template-areas: "former-table-choice join-type-choice adj-table-choice join-source-fields . remove-btn";
+    align-items: center;
+    gap: 5px;
+
+    div#former-table-choice {
+      grid-area: former-table-choice;
+      padding-left: 5x;
+    }
+
+    div#join-type-choice {
+      grid-area: join-type-choice;
+    }
+
+    div#adj-table-choice {
+      grid-area: adj-table-choice;
+    }
+
+    div#join-source-fields {
+      grid-area: join-source-fields;
+      display: none;
+    }
+
+    button#remove-btn {
+      grid-area: remove-btn;
+    }
+  }
+
+  @media (max-width: 1290px) {
+    div#join-header {
+      grid-template-columns: 0fr 0fr 0fr 1fr 0fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "former-table-choice join-type-choice adj-table-choice . remove-btn"
+        ". join-source-fields . .";
+    }
+  }
+
+  @media (max-width: 1010px) {
+    div#join-header {
+      grid-template-columns: 0fr 0fr 1fr 0fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "former-table-choice adj-table-choice . remove-btn"
+        "join-type-choice join-source-fields . .";
+
+      >div{
+        justify-self: start;
+      }
+    }
+  }
+
+  @media (max-width: 650px) {
+    div#join-header {
+      grid-template-columns: 1fr 0fr;
+      grid-template-rows: auto auto auto auto;
+      grid-template-areas:
+        "former-table-choice remove-btn"
+        "join-type-choice ."
+        "adj-table-choice ."
+        "join-source-fields .";
+
+      >div {
+        justify-self: center;
+      }
+    }
+  }
+
+  @media (max-width: 470px) {
+    div#join-header {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto auto;
+      grid-template-areas:
+        "former-table-choice"
+        "join-type-choice"
+        "adj-table-choice"
+        "join-source-fields"
+        "remove-btn";
+
+      >button {
+        justify-self: center;
+      }
+
+      >div {
+        justify-self: center;
+      }
+    }
+  }
+
+  div.join-fields-constraints-options {
+    grid-area: join-fields-constraints-options;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 0fr;
+    padding: 10px 20px;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "messages messages ."
+      "join-selected-fields  . join-checked-constraints"
+      "toggled-constraints toggled-constraints reset-constraints";
+
+    div#join-selected-fields {
+      grid-area: join-selected-fields;
+      justify-self: start;
+      width: 100%;
+    }
+
+    div#join-checked-constraints {
+      grid-area: join-checked-constraints;
+      justify-self: end;
+    }
+
+    div.toggled-constraints {
+      grid-area: toggled-constraints;
+      display:none;
+    }
+
+    button#join-cc-reset {
+      grid-area: reset-constraints;
+      display: none;
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    div.join-fields-constraints-options {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+      "messages messages"
+      "join-selected-fields join-checked-constraints"
+      "toggled-constraints toggled-constraints"
+      "reset-constraints reset-constraints";
+
+      >button {
+        justify-self: center;
+      }
+
+      div.toggled-constraints {
+        justify-self: start;
+      }
+    }
+  }
+}
+
+.highlight-div {
+  border-color: #00ffff;
+  border-style: solid;
+  border-width: 8px;
+}

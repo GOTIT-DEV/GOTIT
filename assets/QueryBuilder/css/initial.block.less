@@ -1,0 +1,89 @@
+/* Grid for the Initial Block */
+
+div#initial-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "initial-header"
+    "initial-fields-constraints-options";
+
+  div#initial-header {
+    grid-area: initial-header;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "initial-table-selection";
+    gap: 5px;
+
+    div#initial-table-selection {
+      grid-area: initial-table-selection;
+      justify-self: start;
+      padding-left: 5px;
+      padding-bottom: 5px;
+    }
+  }
+
+  div#initial-fields-constraints-options {
+    grid-area: initial-fields-constraints-options;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 0fr;
+    padding: 10px 20px;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "messages messages ."
+      "initial-selected-fields . initial-checked-constraints"
+      "toggled-constraints toggled-constraints initial-reset-constraints";
+
+    div#initial-selected-fields {
+      grid-area: initial-selected-fields;
+      justify-self: start;
+      width: 100%;
+    }
+
+    div#initial-checked-constraints {
+      grid-area: initial-checked-constraints;
+      justify-self: end;
+    }
+
+    div.toggled-constraints {
+      grid-area: toggled-constraints;
+      display: none;
+    }
+
+    button#initial-cc-reset {
+      grid-area: initial-reset-constraints;
+      display: none;
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    div#initial-fields-constraints-options {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto;
+      grid-template-areas:
+      "messages messages"
+      "initial-selected-fields initial-checked-constraints"
+      "toggled-constraints toggled-constraints"
+      "initial-reset-constraints initial-reset-constraints";
+
+      >button {
+        justify-self: center;
+      }
+
+      div.toggled-constraints {
+        justify-self: start;
+      }
+    }
+  }
+}
+
+label.control-label {
+  font-size: 15px;
+}
+
+strong {
+  font-size: 15px;
+}

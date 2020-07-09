@@ -1,0 +1,72 @@
+{# Form component to be used for each block of join #}
+
+{% trans_default_domain 'queries' %}
+
+{% verbatim %}
+
+	<template id="form-block-template">
+		<div id="form-block-{{id}}" class="form-block-id">
+			<div class="panel panel-default form-block" id="join-panel">
+				<div class="panel-heading" id="join-header">
+					<div class="form-group" id="former-table-choice">
+						<label class="control-label" for="lot-materiel" data-toggle="tooltip">
+							FROM
+						</label>
+						<br>
+						<select class="selectpicker" id="former-table"></select>
+					</div>
+					<div class="form-group" id="join-type-choice">
+						<label class="control-label" for="individu" data-toggle="tooltip">
+							JOIN
+						</label>
+						<br>
+						<select class="selectpicker" id="join-type"></select>
+					</div>
+					<div class="form-group" id="adj-table-choice">
+						<label for="sequence" class="control-label" data-toggle="tooltip">
+							TO
+						</label>
+						<br>
+						<select class="selectpicker adjacent-tables" id="adjacent-tables"></select>
+					</div>
+					<div class="form-group" id="join-source-fields">
+						<label class="control-label" data-toggle="tooltip">
+							Select Join Path
+						</label>
+						<br>
+						<select id="source-fields" class="selectpicker source-fields"></select>
+					</div>
+					<button class="btn btn-danger remove" id="remove-btn" data-target=".form-block" title="Remove join">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				
+				<div id="collapse-constraints-{{id}}" class="join-fields-constraints-options panel-body">
+					<div class="form-group" id="join-selected-fields">
+						<label class="control-label" data-toggle="tooltip">
+							Select Field(s)
+						</label>
+						<br>
+						<select id="table-selects-{{id}}" class="table-selects" multiple></select>
+					</div>
+					<div class="form-group" id="join-checked-constraints">
+						<label class="control-label">
+							Constraints
+						</label>
+						<br>
+						<label class="control-label" title="Add Constraints" data-toggle="tooltip" data-placement="left">
+							<input id="join-constraints-switchbox" class="constraints-switchbox" type="checkbox" data-toggle="toggle" data-onstyle="success" data-size="normal" data-target="#join-toggled-constraints-{{id}}">
+						</label>
+					</div>
+
+					<div id="builder-constraints-{{id}}" class="collapsed-query-builder toggled-constraints"></div>
+
+					<button class="btn btn-warning reset" id="join-cc-reset" data-target="#builder-constraints-{{id}}">
+						Reset
+					</button>
+				</div>
+			</div>
+		</div>
+	</template>
+
+{% endverbatim %}

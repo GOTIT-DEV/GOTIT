@@ -1,0 +1,45 @@
+/* Grid for the query-builder form header */
+div#logical-model {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "info image"
+    "download image";
+  align-items: center;
+  justify-items: center;
+
+  div.logical-model-text {
+    grid-area: info;
+  }
+
+  a.download-text {
+    grid-area: download;
+    justify-self: center;
+    width: 45%;
+    min-width: 225px;
+    background-color: DodgerBlue;
+    color: white;
+
+    &:hover {
+      background-color: RoyalBlue;
+    }
+  }
+
+
+  div#img-container {
+    grid-area: image;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  div#logical-model {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "image"
+      "info"
+      "download";
+  }
+}
