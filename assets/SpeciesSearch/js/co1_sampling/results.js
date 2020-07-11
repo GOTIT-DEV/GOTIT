@@ -70,7 +70,6 @@ function initDataTable(tableId, drawCallback) {
 
         table.DataTable({
           autoWidth: false,
-          deferLoading: 0,
           responsive: {
             orthogonal: "responsive",
             details: {
