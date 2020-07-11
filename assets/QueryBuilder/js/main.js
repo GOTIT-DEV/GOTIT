@@ -8,8 +8,8 @@
  * Authors : Thierno Diallo, Maud Ferrer and Elsa Mendes.
  */
 
-import "../css/main.less"
 
+// Vendor imports
 import 'bootstrap-select/dist/css/bootstrap-select.css'
 import 'bootstrap-toggle/css/bootstrap-toggle.css'
 import "jQuery-QueryBuilder/dist/css/query-builder.default.css"
@@ -26,6 +26,10 @@ import "bootstrap-toggle"
 import "jQuery-QueryBuilder"
 import "ez-plus"
 
+// Internal imports
+import "../css/main.less"
+import "../../SpeciesSearch/css/datatables-custom.less"
+import "../../SpeciesSearch/css/common.css"
 
 import { initResults, copySQLFunction } from "./results.js";
 import {

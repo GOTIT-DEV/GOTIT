@@ -38,10 +38,13 @@ export function initResults(data) {
         $("#contentModalQuery").html(response.dql);
         $("#contentModalQuerySql").html(response.sql);
         $("#result-container").html(response.results);
-        $("#result-table").dataTable(
+        $("#result-table").DataTable(
           Object.assign({ 
             dom: "lfrtipB",
-            responsive: true
+            responsive: {
+              orthogonal: "responsive"
+            },
+            autoWidth: false
           }, dtconfig)
         )
       }
@@ -54,8 +57,10 @@ export function initResults(data) {
  * Copy the SQL query to the clipboard 
  */
 export function copySQLFunction() {
-  let hiddenSQL = document.createElement("textarea"); // Init a new hidden textarea
-  hiddenSQL.value = document.getElementById("contentModalQuerySql").innerHTML; // Setting the value of the textarea to the SQL Query
+  // Init a new hidden textarea
+  let hiddenSQL = document.createElement("textarea"); 
+  // Setting the value of the textarea to the SQL Query
+  hiddenSQL.value = document.getElementById("contentModalQuerySql").innerHTML; 
 
   // Making sure we won't see the textarea on the page and making sure we cannot write in it anyway
   hiddenSQL.setAttribute("readonly", "");
@@ -63,8 +68,11 @@ export function copySQLFunction() {
   hiddenSQL.style.left = "-9999px";
 
   document.querySelector("body").appendChild(hiddenSQL);
-  hiddenSQL.select(); // Selecting the text
-  document.execCommand("copy"); // Copying what is in the textarea
+  // Selecting the text
+  hiddenSQL.select(); 
+  // Copying what is in the textarea
+  document.execCommand("copy"); 
   document.body.removeChild(hiddenSQL);
-  alert("COPIED TO CLIPBOARD:\n" + hiddenSQL.value); // Alert showing just to check we copied the right text
+   // Alert showing just to check we copied the right text
+  alert("COPIED TO CLIPBOARD:\n" + hiddenSQL.value);
 }
