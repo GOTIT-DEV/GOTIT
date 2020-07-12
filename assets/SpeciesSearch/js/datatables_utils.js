@@ -13,7 +13,7 @@
  * 
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
-require('datatables.net-bs')(window, $);
+require('datatables.net-bs4')(window, $);
 import Mustache from "mustache"
 
 /**
@@ -111,7 +111,7 @@ function dt_responsive_meta_header(datatable) {
   datatable.on("responsive-resize", function (e, dt, columns) {
     // Parse visible/hidden subcolumns of each meta header
     let i = 0
-    let show_headers = colspans.map( span => {
+    let show_headers = colspans.map(span => {
       let start = i, end = start + span
       i = end
       return columns.slice(start, end).some(v => v === true)
@@ -142,16 +142,19 @@ const dtconfig = {
   },
   buttons: [{
     extend: 'copy',
+    className: "border btn-light btn-sm",
     exportOptions: {
       orthogonal: null
     }
   }, {
     extend: "csv",
+    className: "border btn-light btn-sm",
     exportOptions: {
       orthogonal: null
     }
   }, {
     extend: 'excel',
+    className: "border btn-light btn-sm",
     exportOptions: {
       orthogonal: null
     }

@@ -2,7 +2,7 @@
   <div class="motu-select requires-loading" v-bind:class="{ loading: loading }">
     <div class="select-container">
       <div class="form-group">
-        <label for="dataset">
+        <label class="col-form-label" for="dataset">
           {{ labels.dataset }}
         </label>
         <select
@@ -22,7 +22,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label>
+        <label class="col-form-label" :for="methodInputName">
           {{ labels.methods }}
         </label>
         <select

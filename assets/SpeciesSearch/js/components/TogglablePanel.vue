@@ -1,19 +1,20 @@
 <template>
-  <div class="panel panel-default">
-    <div class="panel-heading">
+  <div class="card panel-default">
+    <div class="card-header">
       <strong>
         {{ trans_title }}
       </strong>
       <ToggleButton
         class="toggle-btn"
         v-model="enabled"
+        height="20"
         v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
       />
     </div>
-    <div class="panel-body" ref="content">
+    <div class="card-body" ref="content">
       <slot></slot>
     </div>
-    <div class="panel-footer" v-if="hasFooter">
+    <div class="card-footer" v-if="hasFooter">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -72,14 +73,14 @@ export default {
 
 <style lang="less" scoped>
 
-.panel {
+.card {
   min-width: 250px;
 }
 
 .panel-toggle {
   margin-left: 10px;
 }
-.panel-heading {
+.card-header {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;

@@ -6,31 +6,31 @@
 
 	<template id="form-block-template">
 		<div id="form-block-{{id}}" class="form-block-id">
-			<div class="panel panel-default form-block" id="join-panel">
-				<div class="panel-heading" id="join-header">
+			<div class="card panel-default form-block" id="join-panel">
+				<div class="card-header" id="join-header">
 					<div class="form-group" id="former-table-choice">
-						<label class="control-label" for="lot-materiel" data-toggle="tooltip">
+						<label class="col-form-label" for="lot-materiel" data-toggle="tooltip">
 							FROM
 						</label>
 						<br>
 						<select class="selectpicker" id="former-table"></select>
 					</div>
 					<div class="form-group" id="join-type-choice">
-						<label class="control-label" for="individu" data-toggle="tooltip">
+						<label class="col-form-label" for="individu" data-toggle="tooltip">
 							JOIN
 						</label>
 						<br>
 						<select class="selectpicker" id="join-type"></select>
 					</div>
 					<div class="form-group" id="adj-table-choice">
-						<label for="sequence" class="control-label" data-toggle="tooltip">
+						<label for="sequence" class="col-form-label" data-toggle="tooltip">
 							TO
 						</label>
 						<br>
 						<select class="selectpicker adjacent-tables" id="adjacent-tables"></select>
 					</div>
 					<div class="form-group" id="join-source-fields">
-						<label class="control-label" data-toggle="tooltip">
+						<label class="col-form-label" data-toggle="tooltip">
 							Select Join Path
 						</label>
 						<br>
@@ -41,20 +41,20 @@
 					</button>
 				</div>
 				
-				<div id="collapse-constraints-{{id}}" class="join-fields-constraints-options panel-body">
+				<div id="collapse-constraints-{{id}}" class="join-fields-constraints-options card-body">
 					<div class="form-group" id="join-selected-fields">
-						<label class="control-label" data-toggle="tooltip">
+						<label class="col-form-label" data-toggle="tooltip">
 							Select Field(s)
 						</label>
 						<br>
 						<select id="table-selects-{{id}}" class="table-selects" multiple></select>
 					</div>
 					<div class="form-group" id="join-checked-constraints">
-						<label class="control-label">
+						<label class="col-form-label">
 							Constraints
 						</label>
 						<br>
-						<label class="control-label" title="Add Constraints" data-toggle="tooltip" data-placement="left">
+						<label class="col-form-label" title="Add Constraints" data-toggle="tooltip" data-placement="left">
 							<input id="join-constraints-switchbox" class="constraints-switchbox" type="checkbox" data-toggle="toggle" data-onstyle="success" data-size="normal" data-target="#join-toggled-constraints-{{id}}">
 						</label>
 					</div>

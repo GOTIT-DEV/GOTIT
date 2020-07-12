@@ -70,6 +70,7 @@ export function initDataTable(tableId) {
             data: "nb_motus"
           }, {
             data: "id",
+            className: "form-column",
             render: (data, type, row) =>
               Mustache.render($("#details-form-template").html(), row)
           }],

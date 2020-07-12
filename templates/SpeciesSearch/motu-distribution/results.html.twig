@@ -11,77 +11,78 @@
 
 {# Tabs #}
 
-<ul class="nav nav-tabs" id="result-tabs" role="tablist">
-	<li class="active" id="geolocation-tab" role="presentation">
-		<a aria-controls="geolocation-pane" data-toggle='tab' href="#geolocation-pane" role="tab">
+<ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+	<li class="nav-item">
+		<a
+			class="nav-link active"
+			id="result-table-tab"
+			href="#result-map-container"
+			data-toggle="tab"
+			role="tab"
+			aria-controls="result-map"
+			aria-selected="true">
 			<strong>
 				<i class="fas fa-map-marker"></i>
-				{% trans %}
-				tabs.distribution.geo
-				{% endtrans %}
+				{% trans %} tabs.distribution.geo {% endtrans %}
 			</strong>
 		</a>
 	</li>
-	<li id="table-tab" role="presentation">
-		<a aria-controls="result-pane" data-toggle='tab' href="#result-pane" role="tab">
+	<li class="nav-item">
+		<a
+			class="nav-link"
+			id="result-map-tab"
+			href="#result-table-container"
+			data-toggle="tab"
+			role="tab"
+			aria-controls="result-table"
+			aria-selected="false">
 			<strong>
 				<i class="fas fa-th-list"></i>
-				{% trans %}
-				tabs.distribution.data
-				{% endtrans %}
+				{% trans %} tabs.distribution.data {% endtrans %}
 			</strong>
 		</a>
 	</li>
 </ul>
 
-{# Tab content #}
+{# Tabs content #}
+<div class="tab-content" id="results-tab-container">
 
-<div class="tab-content">
-	<div class="tab-pane fade in out" id="result-pane" role="tabpanel">
+	<div
+		class="tab-pane fade show active"
+		id="result-map-container"
+		role="tabpanel"
+		aria-labelledby="result-map-tab">
+		<div id="motu-geo-map"></div>
+	</div>
+
+	<div
+		class="tab-pane fade"
+		id="result-table-container"
+		role="tabpanel"
+		aria-labelledby="result-table-tab">
 		<div class="table-responsive">
-			<table class="table table-condensed table-hover table-striped" id="result-table">
+			<table
+				class="table table-condensed table-hover table-striped"
+				id="result-table">
 				<thead>
 					<tr>
 						<th></th>
 						<th id="col-taxname">
-							{% trans %}
-							columns.taxon
-							{% endtrans %}</th>
+							{% trans %} columns.taxon {% endtrans %}</th>
 						<th id="col-code-seq">
-							{% trans %}
-							columns.seqcode
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.type
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.accession
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.motu
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.lat
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.long
-							{% endtrans %}</th>
-						<th id="col-station" data-link-url="{{path('station_show', {id:0}) | trim(0)}}">{% trans %}
-							columns.station
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.municipality
-							{% endtrans %}</th>
-						<th>{% trans %}
-							columns.country
-							{% endtrans %}</th>
+							{% trans %} columns.seqcode {% endtrans %}</th>
+						<th>{% trans %} columns.type {% endtrans %}</th>
+						<th>{% trans %} columns.accession {% endtrans %}</th>
+						<th>{% trans %} columns.motu {% endtrans %}</th>
+						<th>{% trans %} columns.lat {% endtrans %}</th>
+						<th>{% trans %} columns.long {% endtrans %}</th>
+						<th id="col-station" data-link-url="{{path('station_show', {id:0}) | trim(0)}}">{% trans %} columns.station {% endtrans %}</th>
+						<th>{% trans %} columns.municipality {% endtrans %}</th>
+						<th>{% trans %} columns.country {% endtrans %}</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
 			</table>
 		</div>
-	</div>
-	<div class="tab-pane fade in out active" id="geolocation-pane" role="tabpanel">
-		<div id="motu-geo-map"></div>
 	</div>
 </div>

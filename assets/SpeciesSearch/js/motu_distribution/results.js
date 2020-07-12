@@ -85,7 +85,7 @@ export function initDataTable(tableId, uiReceivedResponse) {
             }
           },
           language: dtconfig.language[$("html").attr("lang")],
-          dom: "lfrtipB",
+          dom: "lfrtiBp",
           buttons: dtbuttons,
           order: [1, 'asc'],
           columns: columns,

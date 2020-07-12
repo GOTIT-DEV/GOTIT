@@ -15,11 +15,11 @@ import 'bootstrap-toggle/css/bootstrap-toggle.css'
 import "jQuery-QueryBuilder/dist/css/query-builder.default.css"
 
 require('jszip');
-import dt from 'datatables.net-bs';
+import dt from 'datatables.net-bs4';
 dt(window, $);
-require('datatables.net-buttons-bs')(window, $);
+require('datatables.net-buttons-bs4')(window, $);
 require('datatables.net-buttons/js/buttons.html5.js')(window, $);
-require('datatables.net-responsive-bs')(window, $);
+require('datatables.net-responsive-bs4')(window, $);
 
 import "bootstrap-select"
 import "bootstrap-toggle"
@@ -29,7 +29,7 @@ import "ez-plus"
 // Internal imports
 import "../css/main.less"
 import "../../SpeciesSearch/css/datatables-custom.less"
-import "../../SpeciesSearch/css/common.css"
+import "../../SpeciesSearch/css/common.less"
 
 import { initResults, copySQLFunction } from "./results.js";
 import {

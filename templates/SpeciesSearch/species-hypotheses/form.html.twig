@@ -12,11 +12,11 @@
       </h3>
     </legend>
     <div class="panel-group" id="form-accordion" role="tablist" aria-multiselectable="true">
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card panel-default">
+        <div class="card-header">
           <div class="radio">
             <label
-              class="control-label"
+              class="col-form-label"
               title="{% trans from 'tooltips' %}rearrangements.reference.morpho {% endtrans %}"
               data-toggle="tooltip"
               data-placement="right">
@@ -38,11 +38,11 @@
         </div>
         <div class="collapse panel-collapse in" id="morpho"></div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card panel-default">
+        <div class="card-header">
           <div class="radio">
             <label
-              class="control-label"
+              class="col-form-label"
               title="{% trans from 'tooltips' %}rearrangements.reference.taxon {% endtrans %}"
               data-toggle="tooltip"
               data-placement="right">
@@ -63,18 +63,18 @@
         </div>
 
         <div class="collapse panel-collapse" id="taxon-collapse">
-          <div class="panel-body">
+          <div class="card-body">
             {% include 'SpeciesSearch/forms/species.selector.html.twig' with {
               taxname : true
             } %}
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card panel-default">
+        <div class="card-header">
           <div class="radio">
             <label
-              class="control-label"
+              class="col-form-label"
               title="{% trans from 'tooltips' %}rearrangements.reference.dataset {% endtrans %}"
               data-toggle="tooltip"
               data-placement="right">
@@ -96,7 +96,7 @@
         </div>
 
         <div class="collapse panel-collapse" id="method-panel">
-          <div class="panel-body">
+          <div class="card-body">
             {% include 'SpeciesSearch/forms/method.selector.html.twig' %}
           </div>
         </div>
@@ -107,8 +107,8 @@
     <legend>
       <h3>{{'label.target' | trans}}</h3>
     </legend>
-    <div class="panel panel-default">
-      <div class="form-group panel-body">
+    <div class="card panel-default">
+      <div class="form-group card-body">
         <label for="dataset">
           {% trans %}
           label.dataset
@@ -131,7 +131,7 @@
     </div>
 
   </fieldset>
-  <div class="well well-sm">
+  <div class="card card-body well-sm">
     <button
       type="submit"
       value="Rechercher"

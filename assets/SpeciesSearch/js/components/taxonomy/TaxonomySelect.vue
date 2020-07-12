@@ -6,7 +6,7 @@
     <div class="select-container">
       <!-- Genus select -->
       <div class="form-group">
-        <label class="control-label" for="genus">{{ labels.genus }}</label>
+        <label class="col-form-label" for="genus">{{ labels.genus }}</label>
         <select
           name="genus"
           id="genus"
@@ -23,7 +23,7 @@
       </div>
       <!-- Species select -->
       <div class="form-group">
-        <label class="control-label" for="species">{{ labels.species }}</label>
+        <label class="col-form-label" for="species">{{ labels.species }}</label>
         <select
           name="species"
           id="species"
@@ -44,7 +44,7 @@
       </div>
       <!-- Taxname select -->
       <div class="form-group" v-if="withTaxname">
-        <label class="control-label" for="taxname">{{ labels.taxname }} </label>
+        <label class="col-form-label" for="taxname">{{ labels.taxname }} </label>
         <select
           name="taxname"
           id="taxname"

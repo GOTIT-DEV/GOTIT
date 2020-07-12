@@ -1,23 +1,23 @@
 <template>
   <div class="form-component">
     <!-- <slot> </slot> -->
-    <div id="taxonomy-select" class="panel panel-default">
-      <div class="panel-heading">
+    <div id="taxonomy-select" class="card panel-default">
+      <div class="card-header">
         <strong>
           {{ taxoPanelLabel }}
         </strong>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <TaxonomySelect ref="taxonomy" withTaxname> </TaxonomySelect>
       </div>
     </div>
-    <div id="motu-select" class="panel panel-default">
-      <div class="panel-heading">
+    <div id="motu-select" class="card panel-default">
+      <div class="card-header">
         <strong>
           {{ motuPanelLabel }}
         </strong>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <MotuDatasetSelect ref="motu" />
       </div>
     </div>

@@ -1521,12 +1521,12 @@ bootstrap-toggle@^2.2.2:
   resolved "https://registry.yarnpkg.com/bootstrap-toggle/-/bootstrap-toggle-2.2.2.tgz#2b88534fc1b998674f877f98ba0d8b5b743e96fe"
   integrity sha1-K4hTT8G5mGdPh3+Yug2LW3Q+lv4=
 
-bootstrap@3, "bootstrap@>=3.1.0 <4":
+"bootstrap@>=3.1.0 <4":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
   integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
 
-bootstrap@>=3.1.1:
+bootstrap@>=3.1.1, bootstrap@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.0.tgz#97d9dbcb5a8972f8722c9962483543b907d9b9ec"
   integrity sha512-Z93QoXvodoVslA+PWNdk23Hze4RBYIkpb5h8I2HY2Tu2h7A0LpAgLcyrhrSUyo2/Oxm2l1fRZPs1e5hnxnliXA==
@@ -2402,20 +2402,20 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-bs@^1.10.15, datatables.net-bs@^1.10.21:
+datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.21:
   version "1.10.21"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs/-/datatables.net-bs-1.10.21.tgz#c80e655033787512423ad78a45e8164f25417dc5"
-  integrity sha512-4mpesFXNEkLlQET3IDLclLz95Xit4Kp/jHcOM2X0nc/ijDfO3qJk3ehZ+NSEAkXZDge6ZtY5Zxq2O90ISiIjwQ==
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.21.tgz#7a9ae489ebbd815cd869292450d284edd0f44697"
+  integrity sha512-F9zabYw8ZLXfjvj2S+BdnbkEUsL48bJwWxQFrA47cOXrIvsMhW8nmqPZcIMK4ko3k1i74nbpWLO1t+vueQKoXQ==
   dependencies:
     datatables.net "1.10.21"
     jquery ">=1.7"
 
-datatables.net-buttons-bs@^1.6.2:
+datatables.net-buttons-bs4@^1.6.2:
   version "1.6.2"
-  resolved "https://registry.yarnpkg.com/datatables.net-buttons-bs/-/datatables.net-buttons-bs-1.6.2.tgz#36f00589db9dcaca45be7d446a4092881ede39af"
-  integrity sha512-IQGhukSlpm9g4CxTlu8Kpjj8hBbLeGrBp6klHvtOn2ONxJEYMG74kVgNFn3742BxtsgVknV0vDS7umw01Vh8TQ==
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-bs4/-/datatables.net-buttons-bs4-1.6.2.tgz#234882e3ad345f358bce100768c2351a6dcee097"
+  integrity sha512-v3K2rK4FZAKTUL/M0B3Mm+FlDPszR4sZGqoOdwP3/dinFUQ63oQE/e4O5Mpxf9yuV0gxKUlTHmUBk/QB8k43FQ==
   dependencies:
-    datatables.net-bs "^1.10.15"
+    datatables.net-bs4 "^1.10.15"
     datatables.net-buttons "1.6.2"
     jquery ">=1.7"
 
@@ -2427,12 +2427,12 @@ datatables.net-buttons@1.6.2:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-responsive-bs@^2.2.5:
+datatables.net-responsive-bs4@^2.2.5:
   version "2.2.5"
-  resolved "https://registry.yarnpkg.com/datatables.net-responsive-bs/-/datatables.net-responsive-bs-2.2.5.tgz#4f8f4a200b19dd0b434bf6302491c4905d4d3c39"
-  integrity sha512-O3tIWZUiFtdHm5CkQ9I1vaQBQ74cchOq19JkYzWykkwP5mzW+tKuHINcajxDL5GJo8WXejG9BSNq6ZRK1BQkBw==
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive-bs4/-/datatables.net-responsive-bs4-2.2.5.tgz#c81e6c24b80237ee326454a40b08345563361ebb"
+  integrity sha512-ufUywwBDAyBbUsRJ/QAp6aSSVlZLnNy7BI9cJswqC0y+Si4hwLUTz22kbeoJuCERASPs0aLcx2MaYiKnQi/Euw==
   dependencies:
-    datatables.net-bs "^1.10.15"
+    datatables.net-bs4 "^1.10.15"
     datatables.net-responsive "2.2.5"
     jquery ">=1.7"
 

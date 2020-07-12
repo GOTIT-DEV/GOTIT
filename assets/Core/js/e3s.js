@@ -179,7 +179,7 @@ function addCategoryForExistingEmbedRecord(index, $container, nameArrayCollectio
   // Dans le contenu de l'attribut « data-prototype », on remplace :
   // - le texte "__name__label__" qu'il contient par le label du champ
   // - le texte "__name__" qu'il contient par le numéro du champ
-  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index));
+  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 col-form-label required">__name__label__</label>', '').replace(/__name__/g, index));
   // On ajoute au prototype un lien pour pouvoir supprimer 
   if (deleteBouton) addDeleteLink($prototype);
   // On ajoute le prototype modifié à la fin de la balise <div>
@@ -203,7 +203,7 @@ function addCategoryForExistingRecord(index, $container, deleteBouton = true, na
   // In the content of the "data-prototype" attribute, we replace:
   // - the text "__name__label__" that it contains by the label of the field
   // - the text "__name__" that it contains by the number of the field
-  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index));
+  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 col-form-label required">__name__label__</label>', '').replace(/__name__/g, index));
   // We add to the prototype a link to delete
   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
   // Add the modified prototype to the end of the <div> tag
@@ -233,7 +233,7 @@ function addCategoryForExistingRecordEmbed2(index, $container, deleteBouton = tr
       alert("bad nameCollection in addCategoryForExistingRecordEmbed2()");
       return false;
   }
-  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(Regex1, "especeIdentifiees_"+index).replace(Regex2, "especeIdentifiees]["+index) );
+  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 col-form-label required">__name__label__</label>', '').replace(Regex1, "especeIdentifiees_"+index).replace(Regex2, "especeIdentifiees]["+index) );
   // alert($prototype.html());
   // We add to the prototype a link to delete 
   if (deleteBouton) addDeleteLink($prototype, true, nameCollection);
@@ -250,7 +250,7 @@ function addCategoryForNewRecord(index, $container, select_id, select_name) {
   // - on supprime les labels
   // - on modifie le texte "__name__" qu'il contient par le numéro du champ
   //var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'APourSamplingMethod :' + (index+1)).replace(/__name__/g, index));
-  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 control-label required">__name__label__</label>', '').replace(/__name__/g, index)
+  var $prototype = $($container.attr('data-prototype').replace('<label class="col-sm-2 col-form-label required">__name__label__</label>', '').replace(/__name__/g, index)
     .replace('</select>', '><option value="' + select_id + '" selected="selected">' + select_name + '</option></select>'));
   // We add to the prototype a link to delete 
   addDeleteLink($prototype);

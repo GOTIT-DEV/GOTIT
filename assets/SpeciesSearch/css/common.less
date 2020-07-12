@@ -2,12 +2,31 @@
   width: 100%;
 }
 
-.dataTable a {
-  color: #337ab7;
-}
 
-.dataTable a:hover {
-  color: #005580;
+
+.dataTable {
+  th.form-column {
+    text-align: center;
+    
+  }
+
+  td.form-column {
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+
+    .btn {
+      margin: 0;
+    }
+  }
+
+  a {
+    color: #337ab7;
+
+    &:hover {
+      color: #005580;
+    }
+  }
 }
 
 .dt-top-bar {

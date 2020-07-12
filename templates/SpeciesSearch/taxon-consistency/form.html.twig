@@ -2,18 +2,18 @@
 <form id="main-form" action="#">
 	<div class="row">
 		<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card panel-default">
+				<div class="card-header">
 					<strong>
 						{% trans %}
 						label.search.constraints
 						{% endtrans %}
 					</strong>
 				</div>
-				<div class="panel-body">
+				<div class="card-body">
 					<div class="row">
 						<div class="col-xs-12 col-sm-4">
-							<label for="lot-materiel" class="control-label">
+							<label for="lot-materiel" class="col-form-label">
 								{% trans %}
 								entity.biomaterial.label
 								{% endtrans %}
@@ -23,7 +23,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-sm-4">
-							<label for="individu" class="control-label">
+							<label for="individu" class="col-form-label">
 								{% trans %}
 								entity.individu.label
 								{% endtrans %}
@@ -33,7 +33,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-sm-4">
-							<label for="sequence" class="control-label">
+							<label for="sequence" class="col-form-label">
 								{% trans %}
 								entity.seq.label
 								{% endtrans %}
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 				</div>
-				{# <div class="panel-footer"></div> #}
+				{# <div class="card-footer"></div> #}
 			</div>
 		</div>
 		<div class="col-xs-12 col-lg-6"></div>

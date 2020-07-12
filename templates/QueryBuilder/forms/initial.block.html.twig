@@ -2,10 +2,10 @@
 
 {% trans_default_domain 'queries' %}
 
-<div class="panel panel-default" id="initial-panel">
-	<div class="panel-heading" id="initial-header">
+<div class="card panel-default" id="initial-panel">
+	<div class="card-header" id="initial-header">
 		<div class="form-group" id="initial-table-selection">
-			<label class="control-label" for="initial-table">
+			<label class="col-form-label" for="initial-table">
 				{% trans %}
 				Initial Table
 				{% endtrans %}
@@ -18,7 +18,7 @@
 	</div>
 	<div class="fields-constraints-options" id="initial-fields-constraints-options">
 		<div class="form-group" id="initial-selected-fields">
-			<label class="control-label" for="initial-fields">
+			<label class="col-form-label" for="initial-fields">
 				{% trans %}
 				Select Field(s)
 				{% endtrans %}
@@ -33,7 +33,7 @@
 				{% endtrans %}
 			</strong>
 			<br>
-			<label class="control-label" for="initial-constraints-switchbox" data-toggle="tooltip" data-placement="left" title="Add Constraints">
+			<label class="col-form-label" for="initial-constraints-switchbox" data-toggle="tooltip" data-placement="left" title="Add Constraints">
 				<input id="initial-constraints-switchbox" class="constraints-switchbox" type="checkbox" data-toggle="toggle" data-onstyle="success" data-target=".toggled-constraints">
 			</label>
 		</div>

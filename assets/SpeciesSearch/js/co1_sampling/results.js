@@ -34,9 +34,10 @@ let columns = [
     render: renderNumber,
     defaultContent: ""
   }, {
-    title: "<i class='fas fa-map-marker' style='margin-left:7px'></i>",
+    title: "<i class='fas fa-map-marker'></i>",
     data: "id",
     orderable: false,
+    className: 'form-column',
     render: (data, type, row) =>
       Mustache.render($("#details-form-template").html(), row)
   }
@@ -61,9 +62,10 @@ function initDataTable(tableId, drawCallback) {
         // Show download column to authorized users 
         if (user.role !== 'ROLE_INVITED')
           columns.push({
-            title: "<i class='fas fa-download' style='margin-left:7px'></i>",
+            title: "<i class='fas fa-download'></i>",
             orderable: false,
             data: "id",
+            className: 'form-column',
             render: (data, type, row) =>
               Mustache.render($("#download-form-template").html(), row)
           })

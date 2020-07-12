@@ -4,13 +4,13 @@
     <TogglablePanel class="species-select" title="label.search.espece">
       <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
     </TogglablePanel>
-    <div id="motu-select" class="panel panel-default">
-      <div class="panel-heading">
+    <div id="motu-select" class="card panel-default">
+      <div class="card-header">
         <strong>
           {{ motuPanelLabel }}
         </strong>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <MotuDatasetSelect ref="motu" multiple />
       </div>
     </div>

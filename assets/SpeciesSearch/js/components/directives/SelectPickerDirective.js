@@ -6,7 +6,9 @@ export const SelectPicker = {
   bind(el) {
     // Create selectpicker once DOM is ready
     $(() => {
-      $(el).selectpicker();
+      $(el).selectpicker({
+        style: 'btn-light border'
+      });
     })
   },
 
