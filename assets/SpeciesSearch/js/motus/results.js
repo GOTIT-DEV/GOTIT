@@ -14,6 +14,8 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
+import Mustache from "mustache"
+
 import { ids } from "./main.js"
 import { fetchCurrentUser } from '../utils.js'
 import { dtconfig, linkify } from '../datatables_utils.js'

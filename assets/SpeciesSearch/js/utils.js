@@ -15,6 +15,24 @@
  */
 
 /**
+ *  Creates a promise that can be resolved manually
+ *  https://lea.verou.me/2016/12/resolve-promises-externally-with-this-one-weird-trick/
+ */
+function defer() {
+  var res, rej;
+
+  var promise = new Promise((resolve, reject) => {
+    res = resolve;
+    rej = reject;
+  });
+
+  promise.resolve = res;
+  promise.reject = rej;
+
+  return promise;
+}
+
+/**
  * Fetch current user informations
  */
 function fetchCurrentUser() {
@@ -56,4 +74,4 @@ function asCSV(array) {
 }
 
 
-export { fetchCurrentUser, asCSV, scrollToElement }
+export { defer, fetchCurrentUser, asCSV, scrollToElement }

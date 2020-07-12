@@ -20,6 +20,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Motu
  *
@@ -31,7 +33,8 @@ class Motu
 {
     /**
      * @var integer
-     *
+     * 
+     * @Groups("motu")
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -42,6 +45,7 @@ class Motu
     /**
      * @var string
      *
+     * @Groups("motu")
      * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
      */
     private $libelleMotu;
@@ -49,6 +53,7 @@ class Motu
     /**
      * @var string
      *
+     * @Groups("motu")
      * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
      */
     private $nomFichierCsv;
@@ -56,6 +61,7 @@ class Motu
     /**
      * @var \DateTime
      *
+     * @Groups("motu")
      * @ORM\Column(name="motu_date", type="date", nullable=false)
      */
     private $dateMotu;
@@ -63,6 +69,7 @@ class Motu
     /**
      * @var string
      *
+     * @Groups("motu")
      * @ORM\Column(name="motu_comments", type="text", nullable=true)
      */
     private $commentaireMotu;
@@ -70,6 +77,7 @@ class Motu
     /**
      * @var \DateTime
      *
+     * @Groups("motu")
      * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
      */
     private $dateCre;
@@ -77,6 +85,7 @@ class Motu
     /**
      * @var \DateTime
      *
+     * @Groups("motu")
      * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
      */
     private $dateMaj;
@@ -84,6 +93,7 @@ class Motu
     /**
      * @var integer
      *
+     * @Groups("motu")
      * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
      */
     private $userCre;
@@ -91,6 +101,7 @@ class Motu
     /**
      * @var integer
      *
+     * @Groups("motu")
      * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
     private $userMaj;

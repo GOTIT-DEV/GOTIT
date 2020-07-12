@@ -1,18 +1,4 @@
-// Used to initialize state.ready as promise.
-// https://lea.verou.me/2016/12/resolve-promises-externally-with-this-one-weird-trick/
-function defer() {
-  var res, rej;
-
-  var promise = new Promise((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-  });
-
-  promise.resolve = res;
-  promise.reject = rej;
-
-  return promise;
-}
+import { defer } from "../../utils"
 
 export default {
   namespaced: true,
@@ -24,7 +10,7 @@ export default {
     species_data: [],
     taxname: undefined,
     taxname_data: [],
-    ready: defer()
+    ready: defer() // is a promise resolved after init()
   }),
   actions: {
     async fetchGenusSet({ commit, state }) {

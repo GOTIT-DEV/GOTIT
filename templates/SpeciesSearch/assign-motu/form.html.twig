@@ -4,116 +4,17 @@
     - criteres
 #}
 <form id="main-form" action="#">
-  <fieldset>
-    <legend>
-      <h2>
-        {% trans from 'queries' %}
-        label.search.param
-        {% endtrans %}
-      </h2>
-    </legend>
-    <div class="col-xs-12 col-md-7 col-lg-6 col-lg-offset-1">
-      <div class="row">
-        <div class="col-sm-6 col-xs-12">
-          <div id="species-select"></div>
-        </div>
-        <div class="col-sm-6 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <strong>
-                {% trans from 'queries' %}
-                methode.label
-                {% endtrans %}
-              </strong>
-            </div>
-            <div class="panel-body">
+	<fieldset>
+		<legend>
+			<h2>
+				{% trans from 'queries' %}
+				label.search.param
+				{% endtrans %}
+			</h2>
+		</legend>
 
-              {% include 'SpeciesSearch/forms/method.selector.html.twig' with {
-                method_check_array : true
-              } %}
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-md-5 col-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <strong>
-            {% trans from 'queries' %}
-            identification.label
-            {% endtrans %}
-          </strong>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <label class="control-label" for="niveau">
-              {% trans from 'queries' %}
-              identification.niveau
-              {% endtrans %}
-            </label>
-            <select
-              name="niveau"
-              id="id-level"
-              class="form-control selectpicker"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="{% trans from 'tooltips' %}assignation.niveau{% endtrans %}">
-              <option value="1">
-                {% trans from 'queries' %}
-                entity.biomaterial.label
-                {% endtrans %}
-              </option>
-              <option value="2">
-                {% trans from 'queries' %}
-                entity.individu.label
-                {% endtrans %}
-              </option>
-              <option value="3" selected="selected">
-                {% trans from 'queries' %}
-                entity.seq.label
-                {% endtrans %}
-              </option>
-            </select>
-          </div>
-          <div class="form-horizontal">
-            <label>
-              {% trans from 'queries' %}
-              identification.criteres
-              {% endtrans %}
-            </label>
-
-            {% for critere in criteres %}
-              <div class="form-group">
-                <div class="checkbox checkbox-inline">
-                  <label>
-                    <input type="checkbox" name="criteres[]" value="{{critere.id}}" checked="checked">
-                    {{critere.libelle | trans}}
-                  </div>
-                </div>
-              {% endfor %}
-
-            </div>
-          </div>
-          {# <div class="panel-footer">
-          </div> #}
-        </div>
-      </div>
-    </fieldset>
-    <div class="center-block">
-      <center>
-        <button
-          type="submit"
-          value="Rechercher"
-          class="btn btn-primary btn-lg"
-          id="submit-button"
-          style="min-width:10em"
-          data-loading-text="<i class='fas fa-spinner fa-spin'>">
-          {% trans from 'queries' %}
-          label.search.bouton
-          {% endtrans %}
-        </button>
-      </center>
-    </div>
-  </form>
+		<MotuForm id="motu-form" ref="motuForm">
+			{% include "SpeciesSearch/assign-motu/identification-form-component.html.twig" with criteres %}
+		</MotuForm>
+	</fieldset>
+</form>

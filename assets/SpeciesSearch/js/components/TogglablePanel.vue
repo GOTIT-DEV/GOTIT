@@ -4,15 +4,13 @@
       <strong>
         {{ trans_title }}
       </strong>
-      <span class="pull-right">
-        <ToggleButton
-          v-model="enabled"
-          v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
-        />
-      </span>
+      <ToggleButton
+        class="toggle-btn"
+        v-model="enabled"
+        v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
+      />
     </div>
     <div class="panel-body" ref="content">
-      <!-- <TaxonomySelect v-bind:with-taxname="withTaxname" ref="core" /> -->
       <slot></slot>
     </div>
     <div class="panel-footer" v-if="hasFooter">
@@ -23,8 +21,6 @@
 
 <script>
 // import TaxonomySelect from "./TaxonomySelect";
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("taxonomy");
 
 // import ButtonLoading from "../ButtonLoading";
 import { ToggleButton } from "vue-js-toggle-button";
@@ -32,7 +28,6 @@ import { ToggleButton } from "vue-js-toggle-button";
 export default {
   components: {
     ToggleButton
-    // ButtonLoading
   },
   props: {
     title: {
@@ -45,9 +40,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(["loading"]),
-    trans_title(){
-      return Translator.trans(this.title) 
+    trans_title() {
+      return Translator.trans(this.title);
     },
     hasFooter() {
       return this.$slots.footer !== undefined;
@@ -64,16 +58,35 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setLoading"]),
     submit() {
       this.$refs.button.toggle(true);
     },
     toggleActive(value) {
-      $(this.$refs.content).find(":input").prop("disabled", !value);
+      $(this.$refs.content)
+        .find(":input")
+        .prop("disabled", !value);
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+
+.panel {
+  min-width: 250px;
+}
+
+.panel-toggle {
+  margin-left: 10px;
+}
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  word-wrap: nowrap;
+  .toggle-btn{
+    margin: 0;
+  }
+}
+
 </style>

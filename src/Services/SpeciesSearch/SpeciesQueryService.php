@@ -168,7 +168,7 @@ class SpeciesQueryService
     $query = $query->join('App:Motu', 'motu', 'WITH', 'ass.motuFk = motu.id')
       ->join('App:Voc', 'vocabulary', 'WITH', 'ass.methodeMotuVocFk = vocabulary.id');
 
-    if ($data->get('taxaFilter')) {
+    if ($data->get('species')) {
       $query = $query->andWhere('rt.species = :species')
         ->andWhere('rt.genus = :genus')
         ->setParameters([
@@ -327,10 +327,7 @@ class SpeciesQueryService
 
     $query = $query->distinct()->getQuery();
 
-    dump($query->getSQL());
-
     $res = $query->getArrayResult();
-    dump($res);
 
     # fusion des résultats séquences internes/externes
     foreach ($res as $key => $row) {

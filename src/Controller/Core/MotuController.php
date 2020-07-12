@@ -21,13 +21,9 @@ use App\Entity\Motu;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
-use App\Entity\Voc;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
@@ -55,7 +51,7 @@ class MotuController extends Controller
         ));
     }
 
-        
+
     /**
      * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
@@ -69,66 +65,62 @@ class MotuController extends Controller
         // load Doctrine Manager      
         $em = $this->getDoctrine()->getManager();
         //
-        $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
+        $rowCount = ($request->get('rowCount')  !== NULL) ?
+            $request->get('rowCount') : 10;
+        $orderBy = ($request->get('sort')  !== NULL) ?
+            $request->get('sort') : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-        $where = 'LOWER(motu.libelleMotu) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
+        if ($request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
         }
         // Search for the list to show
-        $tab_toshow =[];
+        $tab_toshow = [];
         $toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
-            ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->where('LOWER(motu.libelleMotu) LIKE :criteriaLower')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
         $nb = count($toshow);
-        $toshow = array_slice($toshow, $minRecord, $rowCount);  
-        foreach($toshow as $entity)
-        {
+        $toshow = array_slice($toshow, $minRecord, $rowCount);
+        foreach ($toshow as $entity) {
             $id = $entity->getId();
             $DateMotu = ($entity->getDateMotu() !== null) ?  $entity->getDateMotu()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             //  concatenated list of people
-            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:MotuEstGenerePar megp JOIN megp.personneFk p WHERE megp.motuFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:MotuEstGenerePar megp JOIN megp.personneFk p WHERE megp.motuFk = ' . $id . '')->getResult();
             $arrayListePersonne = array();
-            foreach($query as $taxon) {
-                 $arrayListePersonne[] = $taxon['nom'];
+            foreach ($query as $taxon) {
+                $arrayListePersonne[] = $taxon['nom'];
             }
-            $listePersonne= implode(", ", $arrayListePersonne);
+            $listePersonne = implode(", ", $arrayListePersonne);
             //
-            $tab_toshow[] = array("id" => $id, "motu.id" => $id, 
-             "motu.libelleMotu" => $entity->getLibelleMotu(),
-             "motu.nomFichierCsv" => $entity->getNomFichierCsv(),
-             "listePersonne" => $listePersonne, 
-             "motu.commentaireMotu" => $entity->getCommentaireMotu(),
-             "motu.dateMotu" => $DateMotu ,
-             "motu.dateCre" => $DateCre, "motu.dateMaj" => $DateMaj,
-             "userCreId" => $service->GetUserCreId($entity), "motu.userCre" => $service->GetUserCreUsername($entity) ,"motu.userMaj" => $service->GetUserMajUsername($entity),
-             );
-        }     
-        // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
-            "searchPhrase" => $searchPhrase,
-            "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+            $tab_toshow[] = array(
+                "id" => $id, "motu.id" => $id,
+                "motu.libelleMotu" => $entity->getLibelleMotu(),
+                "motu.nomFichierCsv" => $entity->getNomFichierCsv(),
+                "listePersonne" => $listePersonne,
+                "motu.commentaireMotu" => $entity->getCommentaireMotu(),
+                "motu.dateMotu" => $DateMotu,
+                "motu.dateCre" => $DateCre, "motu.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "motu.userCre" => $service->GetUserCreUsername($entity), "motu.userMaj" => $service->GetUserMajUsername($entity),
+            );
+        }
 
-        return $response;          
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
+            "searchPhrase" => $searchPhrase,
+            "total"    => $nb // total data array
+        ]);
     }
 
-    
+
     /**
      * Creates a new motu entity.
      *
@@ -140,18 +132,17 @@ class MotuController extends Controller
         $motu = new Motu();
         $form = $this->createForm('App\Form\MotuType', $motu);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($motu);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('motu_edit', array('id' => $motu->getId(), 'valid' => 1));                       
+            }
+            return $this->redirectToRoute('motu_edit', array('id' => $motu->getId(), 'valid' => 1));
         }
 
         return $this->render('Core/motu/edit.html.twig', array(
@@ -169,7 +160,7 @@ class MotuController extends Controller
     {
         $deleteForm = $this->createDeleteForm($motu);
         $editForm = $this->createForm('App\Form\MotuType', $motu);
-        
+
         return $this->render('show.html.twig', array(
             'motu' => $motu,
             'edit_form' => $editForm->createView(),
@@ -184,13 +175,13 @@ class MotuController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, Motu $motu, GenericFunctionE3s $service)
-    {        
+    {
         // load service  generic_function_e3s
         // 
-        
+
         // store ArrayCollection       
-        $motuEstGenerePars = $service->setArrayCollection('MotuEstGenerePars',$motu);
-        
+        $motuEstGenerePars = $service->setArrayCollection('MotuEstGenerePars', $motu);
+
         // 
         $deleteForm = $this->createDeleteForm($motu);
         $editForm = $this->createForm('App\Form\MotuType', $motu);
@@ -198,24 +189,24 @@ class MotuController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // delete ArrayCollection
-            $service->DelArrayCollection('MotuEstGenerePars',$motu, $motuEstGenerePars);
+            $service->DelArrayCollection('MotuEstGenerePars', $motu, $motuEstGenerePars);
             // flush
-            $this->getDoctrine()->getManager()->persist($motu);                       
+            $this->getDoctrine()->getManager()->persist($motu);
             try {
                 $this->getDoctrine()->getManager()->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
+            }
             return $this->render('Core/motu/edit.html.twig', array(
                 'motu' => $motu,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));
+                'valid' => 1
+            ));
         }
         return $this->render('Core/motu/edit.html.twig', array(
-        'motu' => $motu,
-        'edit_form' => $editForm->createView(),
+            'motu' => $motu,
+            'edit_form' => $editForm->createView(),
         ));
     }
 
@@ -229,18 +220,17 @@ class MotuController extends Controller
     {
         $form = $this->createDeleteForm($motu);
         $form->handleRequest($request);
-        
+
         $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->remove($motu);
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/motu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
+            }
         }
 
         return $this->redirectToRoute('motu_index');
@@ -258,7 +248,35 @@ class MotuController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('motu_delete', array('id' => $motu->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
+    }
+
+    /**
+     * List available datasets as JSON
+     * 
+     * @Route("/json/list", name="datasets-list", methods={"GET"})
+     */
+    public function datasetList(SerializerInterface $serializer)
+    {
+        $datasets = $this->getDoctrine()->getRepository(Motu::class)->findAll();
+        $datasetsSerialized = $serializer->serialize($datasets, "json", ["groups" => "motu"]);
+        return JsonResponse::fromJsonString($datasetsSerialized);
+    }
+
+    /**
+     * List all datasets and methods 
+     * @Route("/json/methods", name="methods-list", methods={"GET"})
+     */
+    public function datasetMethodList()
+    {
+        $qb    = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $query = $qb->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
+            ->from('App:Motu', 'm')
+            ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
+            ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
+            ->distinct()
+            ->getQuery();
+
+        return new JsonResponse($query->getArrayResult());
     }
 }

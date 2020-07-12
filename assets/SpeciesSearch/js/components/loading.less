@@ -1,0 +1,26 @@
+.requires-loading {
+  display: grid;
+  grid-template-areas: "area";
+  align-items: center;
+  > * {
+    grid-area: area;
+  }
+  > .select-container {
+    width: 100%;
+  }
+  > .fa-spinner {
+    width: fit-content;
+    font-size: 50px;
+    justify-self: center;
+    visibility: hidden;
+  }
+
+  &.loading {
+    > .select-container {
+      visibility: hidden;
+    }
+    > .fa-spinner {
+      visibility: visible;
+    }
+  }
+}

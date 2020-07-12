@@ -1,5 +1,8 @@
 <template>
-  <div class="taxonomy-select" v-bind:class="{ loading: loading }">
+  <div
+    class="taxonomy-select requires-loading"
+    v-bind:class="{ loading: loading }"
+  >
     <div class="select-container">
       <!-- Genus select -->
       <div class="form-group">
@@ -13,12 +16,8 @@
           v-model="genus"
           v-select-picker
         >
-          <option
-            v-for="genus in genus_data"
-            :value="genus.genus"
-            :key="genus.genus"
-          >
-            {{ genus.genus }}
+          <option v-for="genus in genusList" :value="genus" :key="genus">
+            {{ genus }}
           </option>
         </select>
       </div>
@@ -35,11 +34,11 @@
           v-select-picker
         >
           <option
-            v-for="species in species_data"
-            :value="species.species"
-            :key="species.species"
+            v-for="species in speciesList"
+            :value="species"
+            :key="species"
           >
-            {{ species.species }}
+            {{ species }}
           </option>
         </select>
       </div>
@@ -53,29 +52,22 @@
           v-select-picker
         >
           <option
-            v-for="taxname in taxname_data"
-            :value="taxname.taxname"
-            :key="taxname.taxname"
+            v-for="taxname in taxnameList"
+            :value="taxname"
+            :key="taxname"
           >
-            {{ taxname.taxname }}
+            {{ taxname }}
           </option>
         </select>
       </div>
     </div>
-    <i class="fas fa-spinner fa-spin" id="taxon-spinner"> </i>
+    <i class="fas fa-spinner fa-spin"> </i>
   </div>
 </template>
 
 
 
 <script>
-import GenusSelect from "./GenusSelect";
-import SpeciesSelect from "./SpeciesSelect";
-import TaxnameSelect from "./TaxnameSelect";
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers(
-  "taxonomy"
-);
 import { SelectPicker } from "../directives/SelectPickerDirective";
 
 export default {
@@ -89,40 +81,32 @@ export default {
     }
   },
   computed: {
-    genus: {
-      get() {
-        return this.$store.state.taxonomy.genus;
-      },
-      set(value) {
-        this.setGenus(value);
-      }
+    genusList() {
+      return [...new Set(this.taxonomy.map(taxon => taxon.genus))];
     },
-    species: {
-      get() {
-        return this.$store.state.taxonomy.species;
-      },
-      set(value) {
-        this.setSpecies(value);
-      }
+    speciesList() {
+      let species = this.taxonomy
+        .filter(({ genus }) => genus === this.genus)
+        .map(taxon => taxon.species);
+      return [...new Set(species)];
     },
-    taxname: {
-      get() {
-        return this.$store.state.taxonomy.taxname;
-      },
-      set(value) {
-        this.setTaxname(value);
-      }
-    },
-    ...mapState([
-      "genus_data",
-      "species_data",
-      "taxname_data",
-      "loading",
-      "ready"
-    ])
+    taxnameList() {
+      let taxnames = this.taxonomy
+        .filter(
+          ({ genus, species }) => species == this.species && genus == this.genus
+        )
+        .map(taxon => taxon.taxname);
+      return [...new Set(taxnames)];
+    }
   },
   data() {
     return {
+      url: Routing.generate("species-list"),
+      ready: false,
+      loading: true,
+      taxonomy: [],
+      genus: undefined,
+      species: undefined,
       labels: {
         genus: Translator.trans("label.genre"),
         species: Translator.trans("label.espece"),
@@ -131,24 +115,27 @@ export default {
     };
   },
   methods: {
-    ...mapActions([
-      "fetchGenusSet",
-      "fetchSpeciesSet",
-      "fetchTaxnameSet",
-      "init"
-    ]),
-    ...mapMutations(["setGenus", "setSpecies", "setTaxname"])
+    fetch() {
+      this.ready = fetch(this.url)
+        .then(response => response.json())
+        .then(json => {
+          this.taxonomy = json;
+          this.genus = this.taxonomy[0].genus;
+          this.loading = false;
+        });
+      return this.ready;
+    }
   },
   watch: {
     genus: function(newVal, oldVal) {
-      this.fetchSpeciesSet();
+      this.species = this.speciesList[0];
     },
     species: function(newVal, oldVal) {
-      if (this.withTaxname) this.fetchTaxnameSet();
+      if (this.withTaxname) this.taxname = this.taxnameList[0];
     }
   },
   created() {
-    this.init();
+    this.fetch();
   }
 };
 </script>
@@ -156,30 +143,8 @@ export default {
 
 
 <style lang="less" scoped>
+@import "../loading.less";
 .taxonomy-select {
-  display: grid;
-  grid-template-areas: "area";
-  align-items: center;
-  > * {
-    grid-area: area;
-  }
-  > .select-container {
-    width: 100%;
-  }
-  > .fa-spinner {
-    width: fit-content;
-    font-size: 50px;
-    justify-self: center;
-    visibility: hidden;
-  }
-
-  &.loading {
-    > .select-container {
-      visibility: hidden;
-    }
-    > .fa-spinner {
-      visibility: visible;
-    }
-  }
+  min-width: 220px;
 }
 </style>

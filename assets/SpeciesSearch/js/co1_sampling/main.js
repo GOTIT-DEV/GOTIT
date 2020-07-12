@@ -21,41 +21,11 @@ import { initMap } from './map.js'
 import { initDataTable } from './results.js'
 
 import Vue from "vue"
-import Vuex from "vuex"
-import TaxonomySelect from "../components/taxonomy/TaxonomySelect"
-import TaxonomySelectPanel from "../components/taxonomy/TaxonomySelectPanel"
-import TogglablePanel from "../components/taxonomy/TogglablePanel"
-import TaxonomyModule from "../components/taxonomy/TaxonomyStore"
-import DeferredForm from "../components/DeferredForm"
+import SamplingForm from "./SamplingForm"
 
-Vue.use(Vuex)
-const store = new Vuex.Store({
-  modules: {
-    taxonomy: TaxonomyModule
-  },
-  state: {
-    loading: true
-  },
-  mutations: {
-    setLoading(state, value) {
-      state.loading = value
-    }
-  }
-})
-
-const vue_app = new Vue({
-  el: '#species-select',
-  template: '<DeferredForm/>',
-  // template: `
-  // <TogglablePanel title="kanar"> 
-  //   <TaxonomySelect withTaxname />
-  //   <template v-slot:footer>
-  //   </template>
-  // </TogglablePanel>
-  // `,
-  // components: { TaxonomySelect, TogglablePanel },
-  components: { DeferredForm },
-  store
+const vue_form = new Vue({
+  el: '#form-components',
+  ...SamplingForm,
 })
 
 // Init map
@@ -70,13 +40,33 @@ $(document).ready(_ => {
     stationMap.fitBounds(stationMap.bounds, { maxZoom: 10, padding: L.point(30, 30) })
   })
 
-  
-
-  store.state.taxonomy.ready.then(_ => {
+  vue_form.ready.then(_ => {
     initDataTable("#result-table", onResultsDraw)
   })
 })
 
+
+/**
+ * Callback on datatables results drawn
+ */
+function onResultsDraw() {
+  uiReceivedResponse()
+  $('[data-toggle="tooltip"]').tooltip()
+
+  $(".details-form").submit(event => {
+    event.preventDefault()
+    let formData = new FormData(event.target)
+    stationMap.resetMarkers(formData)
+    fetchSamplingCoords(formData)
+      .then(json => displayModal(json))
+  }) // .details-form.submit
+
+  $(".download-details").submit(event => {
+    event.preventDefault()
+    let formData = new FormData(event.target)
+    fetchSamplingCoords(formData).then(downloadSamplingDetails)
+  })
+}
 
 /**
  * Requests detailled sampling data for target species
@@ -107,27 +97,6 @@ function displayModal(json) {
   $("#detailsModal").modal('show')
 }
 
-/**
- * Callback on datatables results drawn
- */
-function onResultsDraw() {
-  uiReceivedResponse()
-  $('[data-toggle="tooltip"]').tooltip()
-
-  $(".details-form").submit(event => {
-    event.preventDefault()
-    let formData = new FormData(event.target)
-    stationMap.resetMarkers(formData)
-    fetchSamplingCoords(formData)
-      .then(json => displayModal(json))
-  }) // .details-form.submit
-
-  $(".download-details").submit(event => {
-    event.preventDefault()
-    let formData = new FormData(event.target)
-    fetchSamplingCoords(formData).then(downloadSamplingDetails)
-  })
-}
 
 /**
  * Download stations data as CSV for a given taxon
@@ -157,7 +126,7 @@ function downloadSamplingDetails(json) {
  */
 function uiReceivedResponse(response) {
   // $("#main-form").find("button[type='submit']").button('reset')
-  store.state.loading=false
+  vue_form.loading=false
 
 }
 

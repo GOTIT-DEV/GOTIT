@@ -65,58 +65,58 @@ class ReferentielTaxonController extends Controller
         $em = $this->getDoctrine()->getManager();
         //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('referentielTaxon.dateMaj' => 'desc', 'referentielTaxon.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('referentielTaxon.dateMaj' => 'desc', 'referentielTaxon.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(referentielTaxon.taxname) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
+        if ($request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
             $searchPhrase = $request->get('searchPatern');
         }
         // Search for the list to show
-        $tab_toshow =[];
+        $tab_toshow = [];
         $entities_toshow = $em->getRepository("App:ReferentielTaxon")->createQueryBuilder('referentielTaxon')
             ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
         $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord); 
-        foreach($entities_toshow as $entity)
-        {
+        $entities_toshow = ($request->get('rowCount') > 0) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
+        foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             //
-            $tab_toshow[] = array("id" => $id, "referentielTaxon.id" => $id, 
-             "referentielTaxon.taxname" => $entity->getTaxname(),
-             "referentielTaxon.rank" => $entity->getRank(),
-             "referentielTaxon.family" => $entity->getFamily(),
-             "referentielTaxon.validity" => $entity->getValidity(),
-             "referentielTaxon.codeTaxon" => $entity->getCodeTaxon(),
-             "referentielTaxon.clade" => $entity->getClade(),
-             "referentielTaxon.dateCre" => $DateCre, "referentielTaxon.dateMaj" => $DateMaj,
-             "userCreId" => $service->GetUserCreId($entity), "referentielTaxon.userCre" => $service->GetUserCreUsername($entity) ,"referentielTaxon.userMaj" => $service->GetUserMajUsername($entity),
+            $tab_toshow[] = array(
+                "id" => $id, "referentielTaxon.id" => $id,
+                "referentielTaxon.taxname" => $entity->getTaxname(),
+                "referentielTaxon.rank" => $entity->getRank(),
+                "referentielTaxon.family" => $entity->getFamily(),
+                "referentielTaxon.validity" => $entity->getValidity(),
+                "referentielTaxon.codeTaxon" => $entity->getCodeTaxon(),
+                "referentielTaxon.clade" => $entity->getClade(),
+                "referentielTaxon.dateCre" => $DateCre, "referentielTaxon.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "referentielTaxon.userCre" => $service->GetUserCreUsername($entity), "referentielTaxon.userMaj" => $service->GetUserMajUsername($entity),
             );
-        }     
+        }
         // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
-            ) ) );
+        )));
         // If it is an Ajax request: returns the content in json format
         $response->headers->set('Content-Type', 'application/json');
 
-        return $response;          
+        return $response;
     }
 
-    
+
     /**
      * Creates a new referentielTaxon entity.
      *
@@ -134,14 +134,13 @@ class ReferentielTaxonController extends Controller
             $em->persist($referentielTaxon);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('referentieltaxon_edit', array('id' => $referentielTaxon->getId(), 'valid' => 1));                       
+            }
+            return $this->redirectToRoute('referentieltaxon_edit', array('id' => $referentielTaxon->getId(), 'valid' => 1));
         }
-       
+
 
         return $this->render('Core/referentieltaxon/edit.html.twig', array(
             'referentielTaxon' => $referentielTaxon,
@@ -181,15 +180,15 @@ class ReferentielTaxonController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
                 $this->getDoctrine()->getManager()->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
+            }
             return $this->render('Core/referentieltaxon/edit.html.twig', array(
                 'referentielTaxon' => $referentielTaxon,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));
+                'valid' => 1
+            ));
         }
 
         return $this->render('Core/referentieltaxon/edit.html.twig', array(
@@ -211,18 +210,17 @@ class ReferentielTaxonController extends Controller
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->remove($referentielTaxon);
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
+            }
         }
-        
+
         return $this->redirectToRoute('referentieltaxon_index');
     }
 
@@ -238,80 +236,21 @@ class ReferentielTaxonController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('referentieltaxon_delete', array('id' => $referentielTaxon->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
-
-
-    /**
-     * @Route("/json/genus", name="genus-list", methods={"GET"})
-     */
-    public function genusList(Request $request)
-    {
-        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-
-        $query = $qb->select('rt.genus')
-            ->from('App:ReferentielTaxon', 'rt')
-            ->where('rt.species IS NOT NULL')
-            ->distinct()
-            ->orderBy('rt.genus')
-            ->getQuery();
-
-        $genus_set = $query->getResult();
-
-        return new JsonResponse($genus_set);
+            ->getForm();
     }
 
     /**
-     * @Route("/species-in-genus", name="species-in-genus")
-     * 
-     * Accepts : 'application/json'
+     * @Route("/json/species-list", name="species-list", methods={"GET"})
      */
-    public function speciesInGenus(Request $request)
+    public function listSpecies()
     {
-        $data = json_decode($request->getContent());
-        $genus = $data->genus;
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-
-        $query = $qb->select('rt.species')
+        $query = $qb->select('rt.genus, rt.species, rt.taxname')
+            // index results by genus
             ->from('App:ReferentielTaxon', 'rt')
             ->where('rt.species IS NOT NULL')
-            ->andWhere('rt.genus = :genus')
-            ->setParameter('genus', $genus)
-            ->distinct()
-            ->orderBy('rt.species')
+            ->orderBy('rt.genus, rt.species')
             ->getQuery();
-
-        $species_set = $query->getResult();
-
-        return new JsonResponse($species_set);
-    }
-
-    /**
-     * @Route("/taxname-search", name="taxname-search")
-     * 
-     * Accepts : 'application/json'
-     */
-    public function taxnameSearch(Request $request)
-    {
-        $data = json_decode($request->getContent());
-        $genus = $data->genus;
-        $species = $data->species;
-        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-
-        $query = $qb->select('rt')
-            ->from('App:ReferentielTaxon', 'rt')
-            ->where('rt.species IS NOT NULL')
-            ->andWhere('rt.genus = :genus AND rt.species = :species')
-            ->setParameters([
-                'genus'=> $genus,
-                'species' => $species
-            ])
-            ->orderBy('rt.taxname')
-            ->getQuery();
-
-        $taxname_set = $query->getArrayResult();
-
-        return new JsonResponse($taxname_set);
+        return new JsonResponse($query->getArrayResult());
     }
 }
