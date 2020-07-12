@@ -14,11 +14,18 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import { SpeciesSelector } from '../form_elements/species_select.js'
-import { MethodSelector } from '../form_elements/method_select.js'
 import { initDataTable } from './results.js'
 import { initMap } from './map.js'
 import { scrollToElement } from '../utils.js'
+
+import MotuDistributionForm from "./MotuDistributionForm"
+
+import Vue from "vue"
+
+const vue_form = new Vue({
+  el: "#distribution-form",
+  ...MotuDistributionForm
+})
 
 const formId = "#main-form"
 let map = initMap("motu-geo-map")
@@ -31,12 +38,9 @@ $(document).ready(_ => {
   })
 
   // Init form elements
-  let speciesSelector = new SpeciesSelector(formId, "#taxa-filter")
-  let methodSelector = new MethodSelector(formId)
 
   // When selectors are initialized and user info are retrieved : init result table
-  Promise.all([speciesSelector.promise, methodSelector.promise])
-    .then(responses => initDataTable("#result-table", uiReceivedResponse))
+  vue_form.ready.then(() => initDataTable("#result-table", uiReceivedResponse))
 })
 
 

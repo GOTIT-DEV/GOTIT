@@ -28,7 +28,7 @@
         <select
           v-bind:multiple="multiple"
           v-model="methods"
-          name="methods[]"
+          :name="methodInputName"
           id="methods-select"
           class="form-control"
           v-select-picker
@@ -80,6 +80,9 @@ export default {
     };
   },
   computed: {
+    methodInputName(){
+      return this.multiple ? "methods[]" : "methods"
+    },
     motuList() {
       let uniqueDatasets = this.motuMethodList.reduce((acc, record) => {
         acc[record.dataset_id] = {
@@ -88,7 +91,6 @@ export default {
         };
         return acc;
       }, {});
-      console.log(uniqueDatasets);
       return Object.values(uniqueDatasets);
     },
     methodList() {

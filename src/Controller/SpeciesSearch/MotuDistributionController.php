@@ -69,10 +69,10 @@ class MotuDistributionController extends Controller {
     $res = $service->getMotuGeoLocation($data);
     $methode = $service->getMethod($data->get('methode'), $data->get('dataset'));
     # Renvoi réponse JSON
-    return new JsonResponse(array(
+    return new JsonResponse([
       'query'   => $data->all(),
       'rows'    => $res,
       'methode' => $methode,
-    ));
+    ]);
   }
 }

@@ -13,6 +13,10 @@
 * 
 * Author : Louis Duchemin <ls.duchemin@gmail.com>
 */
+import Mustache from "mustache"
+import "leaflet"
+import "leaflet-fullscreen"
+import "leaflet-svg-shape-markers"
 
 import { initBaseMap, updateBounds } from '../map_settings.js'
 import { initModalTable } from './seq.modal.js'

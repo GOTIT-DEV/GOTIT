@@ -18,7 +18,7 @@ import { initBaseMap, updateBounds } from '../map_settings.js'
 
 import Mustache from "mustache"
 import "leaflet"
-import "leaflet-shape-markers"
+import "leaflet-fullscreen"
 
 let radius = 5
 let outerStroke = radius * 3 / 5

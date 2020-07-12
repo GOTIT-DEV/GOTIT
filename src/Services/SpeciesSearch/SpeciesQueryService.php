@@ -63,7 +63,7 @@ class SpeciesQueryService
       ->distinct()
       ->getQuery();
 
-    return $query->getArrayResult()[0];
+    return $query->getArrayResult();
   }
 
   public function listMethodsByDate()
@@ -596,7 +596,7 @@ class SpeciesQueryService
     };
 
     $stmt->bindValue('id_dataset', $data->get('dataset'));
-    $stmt->bindValue('id_methode', $data->get('methode'));
+    $stmt->bindValue('id_methode', $data->get('methods'));
 
     $stmt->execute();
     return $stmt->fetchAll();

@@ -52,11 +52,11 @@
           v-select-picker
         >
           <option
-            v-for="taxname in taxnameList"
-            :value="taxname"
-            :key="taxname"
+            v-for="taxon in taxnameList"
+            :value="taxon.id"
+            :key="taxon.id"
           >
-            {{ taxname }}
+            {{ taxon.taxname }}
           </option>
         </select>
       </div>
@@ -94,8 +94,7 @@ export default {
       let taxnames = this.taxonomy
         .filter(
           ({ genus, species }) => species == this.species && genus == this.genus
-        )
-        .map(taxon => taxon.taxname);
+        );
       return [...new Set(taxnames)];
     }
   },

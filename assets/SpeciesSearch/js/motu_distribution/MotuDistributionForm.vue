@@ -1,9 +1,16 @@
 <template>
   <div class="form-component">
     <!-- <slot> </slot> -->
-    <TogglablePanel class="species-select" title="label.search.espece">
-      <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
-    </TogglablePanel>
+    <div id="taxonomy-select" class="panel panel-default">
+      <div class="panel-heading">
+        <strong>
+          {{ taxoPanelLabel }}
+        </strong>
+      </div>
+      <div class="panel-body">
+        <TaxonomySelect ref="taxonomy" withTaxname> </TaxonomySelect>
+      </div>
+    </div>
     <div id="motu-select" class="panel panel-default">
       <div class="panel-heading">
         <strong>
@@ -11,11 +18,8 @@
         </strong>
       </div>
       <div class="panel-body">
-        <MotuDatasetSelect ref="motu" multiple />
+        <MotuDatasetSelect ref="motu" />
       </div>
-    </div>
-    <div id="slot-container">
-      <slot></slot>
     </div>
     <ButtonLoading
       id="submit"
@@ -50,7 +54,8 @@ export default {
   data() {
     return {
       loading: true,
-      motuPanelLabel: Translator.trans("identification.label")
+      motuPanelLabel: Translator.trans("identification.label"),
+      taxoPanelLabel: Translator.trans("label.search.espece")
     };
   },
   methods: {
@@ -65,9 +70,9 @@ export default {
 .form-component {
   display: grid;
   grid-template-areas:
-    "taxonomy motu id-level"
-    ". submit .";
-  grid-template-columns: 1fr 1fr 1fr;
+    "taxonomy motu"
+    "submit submit";
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   align-content: stretch;
 
@@ -95,9 +100,7 @@ export default {
   .form-component {
     grid-template-areas:
       "taxonomy motu"
-      "id-level id-level"
       "submit submit";
-    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -106,7 +109,6 @@ export default {
     grid-template-areas:
       "taxonomy"
       "motu"
-      "id-level"
       "submit";
     grid-template-columns: 1fr;
   }

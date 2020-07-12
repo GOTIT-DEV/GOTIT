@@ -1,51 +1,51 @@
 {% extends 'SpeciesSearch/base.queries.html.twig' %}
 
 {% block stylesheets %}
-  {{parent()}}
-  <!-- Modal window styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
-  <!-- Maps styles -->
-  <link href="{{ asset('bundles/lehnaspeciessearch/css/leaflet-maps.css') }}" rel="stylesheet">
+	{{parent()}}
+	{{ encore_entry_link_tags('spsearch/distribution') }}
+	<!-- Modal window styles -->
+	<link
+	href="{{ asset('bundles/lehnaspeciessearch/css/modal.css') }}" rel="stylesheet">
+	<!-- Maps styles -->
+	<link href="{{ asset('bundles/lehnaspeciessearch/css/leaflet-maps.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block titlepage %}
-  <h1>
-    {% trans from 'queries' %}
-    queries.distribution.title
-    {% endtrans %}
-  </h1>
+	<h1>
+		{% trans from 'queries' %}
+		queries.distribution.title
+		{% endtrans %}
+	</h1>
 {% endblock %}
 
 {% block body %}
 
-  <div class='row'>
-    <div
-      class="col-xs-12">
-      {# Formulaire #}
-      {% include 'SpeciesSearch/motu-distribution/form.html.twig' %}
-    </div>
-  </div>
-  <hr>
-  <div>
-    <h2 id="results-title">
-      <span>
-        {% trans from 'queries' %}
-        label.resultats
-        {% endtrans %}
-      </span>
-    </h2>
-    {% include 'SpeciesSearch/motu-distribution/results.html.twig' with methods_list %}
-  </div>
-</div>
-<div id="modal-container">
-  {% include 'SpeciesSearch/motu-distribution/seq.modal.html.twig' %}
-</div>{% endblock %}{% block scripts %}
+	<div class='row'>
+		<div
+			class="col-xs-12">
+			{# Formulaire #}
+			{% include 'SpeciesSearch/motu-distribution/form.html.twig' %}
+		</div>
+	</div>
+	<hr>
+	<div>
+		<h2 id="results-title">
+			<span>
+				{% trans from 'queries' %}
+				label.resultats
+				{% endtrans %}
+			</span>
+		</h2>
+		{% include 'SpeciesSearch/motu-distribution/results.html.twig' with methods_list %}
+	</div>
+	<div id="modal-container">
+		{% include 'SpeciesSearch/motu-distribution/seq.modal.html.twig' %}
+	</div>
+{% endblock %}
 
-{{ parent() }}
+{% block scripts %}
 
-<script>
-  const methodList = JSON.parse("{{ methods_list|json_encode()|raw |e('js') }}")
-</script>
-<script src="{{asset('e3s/vendors/leaflet-shape-markers/leaflet-svg-shape-markers.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.4/chroma.min.js"></script>
-<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/motu_distribution/main.js')}}"></script>{% endblock %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('spsearch/distribution') }}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.4/chroma.min.js"></script>
+{% endblock %}

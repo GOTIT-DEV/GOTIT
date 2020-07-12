@@ -245,7 +245,7 @@ class ReferentielTaxonController extends Controller
     public function listSpecies()
     {
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $query = $qb->select('rt.genus, rt.species, rt.taxname')
+        $query = $qb->select('rt.id, rt.genus, rt.species, rt.taxname')
             // index results by genus
             ->from('App:ReferentielTaxon', 'rt')
             ->where('rt.species IS NOT NULL')

@@ -1521,7 +1521,7 @@ bootstrap-toggle@^2.2.2:
   resolved "https://registry.yarnpkg.com/bootstrap-toggle/-/bootstrap-toggle-2.2.2.tgz#2b88534fc1b998674f877f98ba0d8b5b743e96fe"
   integrity sha1-K4hTT8G5mGdPh3+Yug2LW3Q+lv4=
 
-"bootstrap@>=3.1.0 <4", bootstrap@^3:
+bootstrap@3, "bootstrap@>=3.1.0 <4":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
   integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
@@ -4310,14 +4310,12 @@ leaflet-fullscreen@^1.0.2:
   resolved "https://registry.yarnpkg.com/leaflet-fullscreen/-/leaflet-fullscreen-1.0.2.tgz#09c61c4bac45f63b2ee126afd87e5cd97650fc1b"
   integrity sha1-CcYcS6xF9jsu4Sav2H5c2XZQ/Bs=
 
-leaflet-shape-markers@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/leaflet-shape-markers/-/leaflet-shape-markers-1.0.6.tgz#d54056a4e533828120107a71a237b1efc1a07649"
-  integrity sha1-1UBWpOUzgoEgEHpxojex78Ggdkk=
-  dependencies:
-    leaflet "^1.0.0"
+leaflet-svg-shape-markers@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet-svg-shape-markers/-/leaflet-svg-shape-markers-1.2.0.tgz#45596217bf2338b19e52b6e1692a382c10c8db39"
+  integrity sha512-jUxKN+ib8EKRTKSvRyLS9IwnbIDNl+TRdEqP1ypVUqQl+7de03exQDyPeHQl96n+blZP+LuMNUlKjrG36ABuJw==
 
-leaflet@^1.0.0, leaflet@^1.0.1, leaflet@^1.6.0:
+leaflet@^1.0.1, leaflet@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
   integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
@@ -5300,6 +5298,11 @@ plotly.js-dist@^1.54.5:
   version "1.54.5"
   resolved "https://registry.yarnpkg.com/plotly.js-dist/-/plotly.js-dist-1.54.5.tgz#66f26ee99fff546df7eed6a6be587b59340f4df5"
   integrity sha512-gIvJw5pG5ZeqhzJHcSS7Cl6Zfwl1etnMiVI951bJVyvh9q5Bjwiyo1pgqfcYcI14jCAlGXLi2G2s7At3YtPkKA==
+
+popper.js@^1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 portfinder@^1.0.26:
   version "1.0.26"
