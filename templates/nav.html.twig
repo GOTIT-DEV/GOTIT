@@ -12,7 +12,7 @@
 
 	{# sidebar menu #}
 	{% block sidebar %}
-		<ul class="nav side-menu">
+		<ul class="nav flex-column">
 			{% set current_route = app.request.attributes.get('_route') %}
 			{% for menu_entry in navbar_menu_entries %}
 
@@ -40,7 +40,7 @@
 				{# Check for nested menu entries #}
 				{% set children = menu_entry.children|default([]) %}
 
-				<li class="menu-entry {{link_access ? '' : 'disabled'}} {{active_flag}}">
+				<li class="menu-entry nav-item {{link_access ? '' : 'disabled'}} {{active_flag}}">
 					<a href="{{href}}">
 						<i class="{{menu_entry.icon}}"></i>
 						{{ menu_entry.text | trans(domain=trans_domain) }}
@@ -66,7 +66,10 @@
 
 								{# Allow overriding parent translation domain for each child #}
 								{% set trans_domain = subentry.trans|default(trans_domain) %}
-									<li class="menu-sub-entry {{active_flag_sub}}"> <a href="{{path(subentry.route, route_args)}}">
+								
+									<li class="menu-sub-entry nav-item {{active_flag_sub}}"> 
+									<i class="fas fa-circle timeline-point"></i>
+									<a class="nav-link" href="{{path(subentry.route, route_args)}}">
 										{{ subentry.text | trans(domain=trans_domain)}}
 									</a>
 								</li>

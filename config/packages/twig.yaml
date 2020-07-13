@@ -112,7 +112,7 @@ twig:
       - route: ~
         text: queries.navtitle
         trans: queries
-        icon: fas fa-search
+        icon: fas fa-bug
         auth_required: ROLE_INVITED
         children:
           - route: co1-sampling
