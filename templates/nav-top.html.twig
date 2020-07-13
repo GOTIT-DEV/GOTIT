@@ -10,9 +10,8 @@
 				{{app.user.username}}
 				:
 				{{app.user.roles|first|trans}}
-				<i class="fas fa-angle-down"></i>
 			</a>
-			<ul id="dropdown-usermenu" class="dropdown-menu pull-right">
+			<ul id="dropdown-usermenu" class="dropdown-menu dropdown-menu-right">
 				{% if is_granted('ROLE_PROJECT') %}
 					<li>
 						<a href="{{ path('user_index')}}{{app.user.id}}/edit">
@@ -31,7 +30,7 @@
 					{% set route_args = app.request.query|merge(route_params)|merge({_locale: target_locale}) %}
 					<li>
 						<a href="{{path(app.request.attributes.get('_route'), route_args)}}">
-							<i class="fas fa-flag-checkered"></i>
+							<i class="fas fa-globe"></i>
 							{{'Switch version'|trans}}
 							{{app.request.getLocale()|upper}}
 							/
