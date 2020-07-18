@@ -17,32 +17,43 @@
 
 namespace App\Form;
 
+use App\Form\DataTransformer\UppercaseTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProgrammeType extends AbstractType
 {
+
+    public function __construct()
+    {
+        $this->uppercaseTrans = new UppercaseTransformer();
+    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codeProgramme')
-                ->add('nomProgramme')
-                ->add('nomsResponsables')
-                ->add('typeFinanceur')
-                ->add('anneeDebut')
-                ->add('anneeFin')
-                ->add('commentaireProgramme')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array());
+        $builder->add('codeProgramme', TextType::class, [
+            'attr' => ["class" => "text-uppercase"]
+        ])
+            ->add('nomProgramme')
+            ->add('nomsResponsables')
+            ->add('typeFinanceur')
+            ->add('anneeDebut')
+            ->add('anneeFin')
+            ->add('commentaireProgramme')
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
+
+        $builder->get('codeProgramme')->addModelTransformer($this->uppercaseTrans);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +71,4 @@ class ProgrammeType extends AbstractType
     {
         return 'bbees_e3sbundle_programme';
     }
-
-
 }
