@@ -33,21 +33,21 @@ class SourceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('codeSource')->add('anneeSource')->add('libelleSource')->add('commentaireSource')
-                ->add('sourceAEteIntegrePars', CollectionType::class , array(
-        		'entry_type' => SourceAEteIntegreParEmbedType::class,
-        		'allow_add' => true,
-        		'allow_delete' => true,
-                        'prototype' => true,
-                        'prototype_name' => '__name__',
-        		'by_reference' => false,
-                        'entry_options' => array('label' => false)
-        	))
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array());
+            ->add('sourceAEteIntegrePars', CollectionType::class, array(
+                'entry_type' => SourceAEteIntegreParEmbedType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'prototype_name' => '__name__',
+                'by_reference' => false,
+                'entry_options' => array('label' => false)
+            ))
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -65,6 +65,4 @@ class SourceType extends AbstractType
     {
         return 'bbees_e3sbundle_source';
     }
-
-
 }

@@ -18,6 +18,7 @@
 namespace App\Form;
 
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\SequenceStatusType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,7 +28,6 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SequenceAssembleeExtType extends AbstractType
 {
@@ -54,16 +54,7 @@ class SequenceAssembleeExtType extends AbstractType
                 'choice_label' => 'code', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a origineSqcAssExt'
             ))
             ->add('geneVocFk', GeneType::class)
-            ->add('statutSqcAssVocFk', EntityType::class, array(
-                'class' => 'App:Voc',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                        ->where('voc.parent LIKE :parent')
-                        ->setParameter('parent', 'statutSqcAss')
-                        ->orderBy('voc.libelle', 'ASC');
-                },
-                'choice_label' => 'code', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a statut'
-            ))
+            ->add('statutSqcAssVocFk', SequenceStatusType::class)
             ->add('dateCreationSqcAssExt', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('commentaireSqcAssExt')

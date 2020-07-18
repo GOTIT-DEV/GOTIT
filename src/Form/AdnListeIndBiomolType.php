@@ -31,16 +31,20 @@ class AdnListeIndBiomolType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('individuFk',EntityType::class, array('class' => 'App:Individu',
-                         'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('ind')
-                               ->where('ind.codeIndBiomol IS NOT NULL')
-                               ->orderBy('ind.codeIndBiomol', 'ASC');
-                        }, 
-                         'placeholder' => 'Choose an individu', 'choice_label' => 'code_ind_biomol', 'multiple' => false, 'expanded' => false))
-                ;
+        $builder->add('individuFk', EntityType::class, array(
+            'class' => 'App:Individu',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('ind')
+                    ->where('ind.codeIndBiomol IS NOT NULL')
+                    ->orderBy('ind.codeIndBiomol', 'ASC');
+            },
+            'placeholder' => 'Choose an individu', 
+            'choice_label' => 'code_ind_biomol', 
+            'multiple' => false, 
+            'expanded' => false
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -58,6 +62,4 @@ class AdnListeIndBiomolType extends AbstractType
     {
         return 'bbees_e3sbundle_adn';
     }
-
-
 }

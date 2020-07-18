@@ -68,7 +68,11 @@ class LotMaterielExtType extends AbstractType
                         ->setParameter('parent', 'nbIndividus')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose an option'
+                'choice_translation_domain' => true, 
+                'choice_label' => 'libelle', 
+                'multiple' => false, 
+                'expanded' => false, 
+                'placeholder' => 'Choose an option'
             ))
             ->add('commentaireNbIndividus')
             ->add('dateCreationLotMaterielExt', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
