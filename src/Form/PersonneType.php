@@ -23,26 +23,45 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\DataTransformer\UppercaseTransformer;
 
 class PersonneType extends AbstractType
 {
+    public function __construct()
+    {
+        $this->uppercaseTrans = new UppercaseTransformer();
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nomPersonne')
-                ->add('nomComplet')
-                ->add('nomPersonneRef')
-                ->add('etablissementFk',EntityType::class, array('class' => 'App:Etablissement','placeholder' => 'Choose a Etablissement', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false,'required' => false,))
-                ->add('commentairePersonne')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                ;
+        $builder->add('nomPersonne', TextType::class, [
+            'attr' => ["class" => "text-uppercase"]
+        ])
+            ->add('nomComplet', TextType::class, [
+                'attr' => ["class" => "text-uppercase"],
+                'required' => false
+            ])
+            ->add('nomPersonneRef',  TextType::class, [
+                'attr' => ["class" => "text-uppercase"],
+                'required' => false
+            ])
+            ->add('etablissementFk', EntityType::class, array('class' => 'App:Etablissement', 'placeholder' => 'Choose a Etablissement', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false, 'required' => false,))
+            ->add('commentairePersonne')
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
+
+        // force uppercase on these fields
+        $builder->get('nomPersonne')->addModelTransformer($this->uppercaseTrans);
+        $builder->get('nomComplet')->addModelTransformer($this->uppercaseTrans);
+        $builder->get('nomPersonneRef')->addModelTransformer($this->uppercaseTrans);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +79,4 @@ class PersonneType extends AbstractType
     {
         return 'bbees_e3sbundle_personne';
     }
-
-
 }
