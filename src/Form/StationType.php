@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\CountryType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,12 +36,7 @@ class StationType extends AbstractType
     {
         $builder->add('codeStation')->add('nomStation')
                 ->add('infoDescription') 
-                ->add('paysFk', EntityType::class, array('class' => 'App:Pays',
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('pays')
-                                    ->orderBy('pays.nomPays', 'ASC');
-                        },
-                    'placeholder' => 'Choose a Country', 'choice_label' => 'nom_pays', 'multiple' => false, 'expanded' => false))
+                ->add('paysFk', CountryType::class)
                 ->add('communeFk', EntityType::class, array('class' => 'App:Commune',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('commune')

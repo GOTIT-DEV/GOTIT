@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\CountryType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,21 +34,15 @@ class CommuneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('codeCommune')
-                ->add('nomCommune')
-                ->add('nomRegion')
-                ->add('paysFk', EntityType::class, array('class' => 'App:Pays',
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('pays')
-                                    ->orderBy('pays.nomPays', 'ASC');
-                        },
-                    'placeholder' => 'Choose a Country', 'choice_label' => 'nom_pays', 'multiple' => false, 'expanded' => false)) 
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                ;
+            ->add('nomCommune')
+            ->add('nomRegion')
+            ->add('paysFk', CountryType::class)
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -66,6 +61,4 @@ class CommuneType extends AbstractType
     {
         return 'bbees_e3sbundle_commune';
     }
-
-
 }

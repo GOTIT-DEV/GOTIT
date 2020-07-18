@@ -61,7 +61,7 @@ class ChromatogrammeType extends AbstractType
                             return $er->createQueryBuilder('etablissement')
                                     ->orderBy('etablissement.nomEtablissement', 'ASC');
                         },
-                    'placeholder' => 'Choose a socitety', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false)) 
+                    'placeholder' => 'Choose a society', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false)) 
                 ->add('commentaireChromato')
                 ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
                 ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
