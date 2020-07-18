@@ -18,6 +18,7 @@
 namespace App\Form;
 
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\ExtractionMethodType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,16 +45,7 @@ class AdnType extends AbstractType
             ->add('codeAdn')
             ->add('dateAdn', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
             ->add('datePrecisionVocFk', DatePrecisionType::class)
-            ->add('methodeExtractionAdnVocFk', EntityType::class, array(
-                'class' => 'App:Voc',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                        ->where('voc.parent LIKE :parent')
-                        ->setParameter('parent', 'methodeExtractionAdn')
-                        ->orderBy('voc.libelle', 'ASC');
-                },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a method'
-            ))
+            ->add('methodeExtractionAdnVocFk', ExtractionMethodType::class)
             ->add('concentrationNgMicrolitre', NumberType::class, array('scale' => 4, 'required' => false))
             ->add('commentaireAdn')
             ->add('qualiteAdnVocFk', EntityType::class, array(
