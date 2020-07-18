@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\PersonneEmbedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,18 +34,7 @@ class EstEffectueParEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('personneFk', EntityType::class, array(
-            'class' => 'App:Personne',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('personne')
-                    ->orderBy('personne.nomPersonne', 'ASC');
-            },
-            'choice_label' => 'nom_personne', 
-            'multiple' => false, 
-            'expanded' => false, 
-            'label' => false,
-            'placeholder' => 'Choose a Person',
-        ));
+        $builder->add('personneFk', PersonneEmbedType::class);
     }
 
     /**

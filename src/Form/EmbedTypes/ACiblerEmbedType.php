@@ -17,11 +17,10 @@
 
 namespace App\Form;
 
+use App\Form\Type\TaxnameType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 
 class ACiblerEmbedType extends AbstractType
 {
@@ -30,18 +29,7 @@ class ACiblerEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('referentielTaxonFk', EntityType::class, array(
-            'class' => 'App:ReferentielTaxon',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('rt')
-                    ->orderBy('rt.taxname', 'ASC');
-            },
-            'choice_label' => 'taxname',
-            'multiple' => false,
-            'expanded' => false,
-            'label' => false,
-            'placeholder' => 'Choose a Taxon',
-        ));
+        $builder->add('referentielTaxonFk', TaxnameType::class);
     }
 
     /**

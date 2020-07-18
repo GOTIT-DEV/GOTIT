@@ -21,10 +21,9 @@ use App\Entity\Individu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Individu controller.
@@ -164,18 +163,13 @@ class IndividuController extends AbstractController
          }
      
         // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
+        return new JsonResponse ([
             "current"    => intval( $request->get('current') ), 
             "rowCount"  => $rowCount,            
             "rows"     => $tab_toshow, 
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;          
+        ]);      
     }
 
     /**

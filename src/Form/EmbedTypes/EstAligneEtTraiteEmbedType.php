@@ -32,33 +32,36 @@ class EstAligneEtTraiteEmbedType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    // ->select($qb->expr()->concat('chromatogramme.codeChromato','vocSpecificite.code').' AS compil')
-    // 'choice_label' => 'codeChromatoSpecificite', 
-    // 'choice_label' => 'codeChromato'  
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('chromatogrammeFk', EntityType::class, array('class' => 'App:Chromatogramme', 
-                   'query_builder' => function (EntityRepository $er) use ( $options ){
-                        $qb = $er->createQueryBuilder('chromatogramme');
-                        return  $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-                                ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-                                ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-                                ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
-                                ->where('pcr.geneVocFk = :geneVocFk')
-                                ->andwhere('individu.id = :individuFk')
-                                ->setParameters(array('individuFk'=> $options['individuFk'], 'geneVocFk'=> $options['geneVocFk']))
-                                ;
-                        }, 
-                    'choice_label' => 'codeChromatoSpecificite'               
-                    ,'multiple' => false, 'expanded' => false, 'required' => true, 'label' => 'Code Chromato | Specificite', 'placeholder' => 'Choose a chromatogramme',)
-                        )
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                ;
+        $builder->add('chromatogrammeFk', EntityType::class, [
+            'class' => 'App:Chromatogramme',
+            'query_builder' => function (EntityRepository $er) use ($options) {
+                $qb = $er->createQueryBuilder('chromatogramme');
+                return  $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+                    ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
+                    ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+                    ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+                    ->where('pcr.geneVocFk = :geneVocFk')
+                    ->andwhere('individu.id = :individuFk')
+                    ->setParameters([
+                        'individuFk' => $options['individuFk'],
+                        'geneVocFk' => $options['geneVocFk']
+                    ]);
+            },
+            'choice_label' => 'codeChromatoSpecificite',
+            'multiple' => false,
+            'expanded' => false,
+            'required' => true,
+            'label' => 'Code Chromato | Specificite',
+            'placeholder' => 'Choose a chromatogramme',
+        ])
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -78,6 +81,4 @@ class EstAligneEtTraiteEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_estaligneettraite';
     }
-
-
 }

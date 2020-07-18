@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\PersonneEmbedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,18 +34,7 @@ class AdnEstRealiseParEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('personneFk', EntityType::class, array(
-            'class' => 'App:Personne',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('personne')
-                    ->orderBy('personne.nomPersonne', 'ASC');
-            },
-            'choice_label' => 'nom_personne', 
-            'multiple' => false, 
-            'expanded' => false, 
-            'label' => false,
-            'placeholder' => 'Choose a Person',
-        ))
+        $builder->add('personneFk', PersonneEmbedType::class)
             ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
             ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
             ->add('userCre', HiddenType::class, array())

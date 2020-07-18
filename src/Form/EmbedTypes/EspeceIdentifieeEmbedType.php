@@ -28,6 +28,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 use App\Form\Type\CustomTypes\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\TaxnameType;
 
 class EspeceIdentifieeEmbedType extends AbstractType
 {
@@ -37,18 +38,9 @@ class EspeceIdentifieeEmbedType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('referentielTaxonFk', EntityType::class, array(
-            'class' => 'App:ReferentielTaxon',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('rt')
-                    ->orderBy('rt.taxname', 'ASC');
-            },
-            'choice_label' => $options['refTaxonLabel'],
-            'multiple' => false, 
-            'expanded' => false, 
-            'required' => true, 
-            'placeholder' => 'Choose a Taxon'
-        ))
+        $builder->add('referentielTaxonFk', TaxnameType::class, [
+            'choice_label' => $options['refTaxonLabel']
+        ])
             ->add('critereIdentificationVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
                 'query_builder' => function (EntityRepository $er) {
@@ -57,11 +49,11 @@ class EspeceIdentifieeEmbedType extends AbstractType
                         ->setParameter('parent', 'critereIdentification')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 
-                'choice_label' => 'libelle', 
-                'multiple' => false, 
-                'expanded' => true, 
-                'label_attr' => array('class' => 'radio-inline'), 
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline'),
                 'required' => true,
             ))
             ->add('dateIdentification', DateFormattedType::class)
@@ -74,11 +66,11 @@ class EspeceIdentifieeEmbedType extends AbstractType
                         ->setParameter('parent', 'typeMaterial')
                         ->orderBy('voc.id', 'ASC');
                 },
-                'choice_translation_domain' => true, 
-                'choice_label' => 'libelle', 
-                'multiple' => false, 
-                'expanded' => true, 
-                'label_attr' => array('class' => 'radio-inline'), 
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline'),
                 'required' => true,
             ))
             ->add('commentaireEspId')
