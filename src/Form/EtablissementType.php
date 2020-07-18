@@ -32,14 +32,13 @@ class EtablissementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nomEtablissement')
-                ->add('commentaireEtablissement')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                ;
+            ->add('commentaireEtablissement')
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +56,4 @@ class EtablissementType extends AbstractType
     {
         return 'bbees_e3sbundle_etablissement';
     }
-
-
 }
