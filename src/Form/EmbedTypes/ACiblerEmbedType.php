@@ -30,16 +30,20 @@ class ACiblerEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('referentielTaxonFk', EntityType::class, array('class' => 'App:ReferentielTaxon', 
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('rt')
-                                    ->orderBy('rt.taxname', 'ASC');
-                            }, 
-                        'choice_label' => 'taxname', 'multiple' => false, 'expanded' => false, 'label' => false, 
-                        'placeholder' => 'Choose a Taxon',)
-               );
+        $builder->add('referentielTaxonFk', EntityType::class, array(
+            'class' => 'App:ReferentielTaxon',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('rt')
+                    ->orderBy('rt.taxname', 'ASC');
+            },
+            'choice_label' => 'taxname',
+            'multiple' => false,
+            'expanded' => false,
+            'label' => false,
+            'placeholder' => 'Choose a Taxon',
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +61,4 @@ class ACiblerEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_acibler';
     }
-
-
 }

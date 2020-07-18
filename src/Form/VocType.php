@@ -33,8 +33,9 @@ class VocType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('code')
-                ->add('libelle')
-                ->add('parent', ChoiceType::class, array('choices' => [
+            ->add('libelle')
+            ->add('parent', ChoiceType::class, array(
+                'choices' => [
                     'vocParent.codeCollection' => 'codeCollection',
                     'vocParent.datePrecision' => 'datePrecision,',
                     'vocParent.fixateur' => 'fixateur',
@@ -62,17 +63,16 @@ class VocType extends AbstractType
                     'vocParent.typeIndividu' => 'typeIndividu',
                     'vocParent.typeMaterial' => 'typeMaterial',
                     'vocParent.yeux' => 'yeux',
-                    ] , 
-                    'placeholder' => 'Choose a Parent', 'required' => true, 'choice_translation_domain' => true, 'multiple' => false, 'expanded' => false,                    
-                    ))
-                ->add('commentaire')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                        ;
+                ],
+                'placeholder' => 'Choose a Parent', 'required' => true, 'choice_translation_domain' => true, 'multiple' => false, 'expanded' => false,
+            ))
+            ->add('commentaire')
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -90,6 +90,4 @@ class VocType extends AbstractType
     {
         return 'bbees_e3sbundle_voc';
     }
-
-
 }

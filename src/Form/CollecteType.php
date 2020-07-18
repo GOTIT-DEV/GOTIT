@@ -23,6 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\APourSamplingMethodEmbedType;
+use App\Form\Type\DatePrecisionType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -60,20 +61,7 @@ class CollecteType extends AbstractType
         'format' => 'dd-MM-yyyy',
         'required' => false,
       ])
-      ->add('datePrecisionVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'datePrecision')
-            ->orderBy('voc.id', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => true,
-        'label_attr' => ['class' => 'radio-inline']
-      ])
+      ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('aPourSamplingMethods', CollectionType::class, [
         'entry_type' => APourSamplingMethodEmbedType::class,
         'allow_add' => true,
