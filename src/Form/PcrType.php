@@ -18,6 +18,7 @@
 namespace App\Form;
 
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\GeneType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,14 +42,7 @@ class PcrType extends AbstractType
                 ->add('adnId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))
                 ->add('codePcr')
                 ->add('numPcr')
-                ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('voc')
-                                    ->where('voc.parent LIKE :parent')
-                                    ->setParameter('parent', 'gene')
-                                    ->orderBy('voc.libelle', 'ASC');
-                        }, 
-                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
+                ->add('geneVocFk', GeneType::class) 
                 ->add('primerPcrStartVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('voc')

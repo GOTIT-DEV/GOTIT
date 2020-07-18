@@ -53,16 +53,7 @@ class SequenceAssembleeExtType extends AbstractType
                 },
                 'choice_label' => 'code', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a origineSqcAssExt'
             ))
-            ->add('geneVocFk', EntityType::class, array(
-                'class' => 'App:Voc',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                        ->where('voc.parent LIKE :parent')
-                        ->setParameter('parent', 'gene')
-                        ->orderBy('voc.libelle', 'ASC');
-                },
-                'choice_translation_domain' => true, 'choice_label' => 'code', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a gene'
-            ))
+            ->add('geneVocFk', GeneType::class)
             ->add('statutSqcAssVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
                 'query_builder' => function (EntityRepository $er) {

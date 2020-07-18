@@ -17,12 +17,10 @@
 
 namespace App\Form;
 
+use App\Form\Type\GeneType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class PcrListeGeneType extends AbstractType
 {
@@ -31,25 +29,17 @@ class PcrListeGeneType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('voc')
-                                    ->where('voc.parent LIKE :parent')
-                                    ->setParameter('parent', 'gene')
-                                    ->orderBy('voc.libelle', 'ASC');
-                        }, 
-                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
-                ;
+        $builder->add('geneVocFk', GeneType::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'App\Entity\Pcr'
-        ));
+        ]);
     }
 
     /**
@@ -59,6 +49,4 @@ class PcrListeGeneType extends AbstractType
     {
         return 'bbees_e3sbundle_pcr';
     }
-
-
 }

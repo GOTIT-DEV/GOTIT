@@ -17,7 +17,7 @@
 
 namespace App\Form;
 
-use App\Form\Type\CountryType;
+use App\Form\Type\CountryVocType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,7 +36,7 @@ class CommuneType extends AbstractType
         $builder->add('codeCommune')
             ->add('nomCommune')
             ->add('nomRegion')
-            ->add('paysFk', CountryType::class)
+            ->add('paysFk', CountryVocType::class)
             ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
             ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
             ->add('userCre', HiddenType::class, array())

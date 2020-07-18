@@ -17,7 +17,7 @@
 
 namespace App\Form;
 
-use App\Form\Type\CountryType;
+use App\Form\Type\CountryVocType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,7 +36,7 @@ class StationType extends AbstractType
     {
         $builder->add('codeStation')->add('nomStation')
                 ->add('infoDescription') 
-                ->add('paysFk', CountryType::class)
+                ->add('paysFk', CountryVocType::class)
                 ->add('communeFk', EntityType::class, array('class' => 'App:Commune',
                         'query_builder' => function (EntityRepository $er) {
                             return $er->createQueryBuilder('commune')

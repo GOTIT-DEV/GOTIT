@@ -36,25 +36,24 @@ class MotuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nomFichierCsv')
-                ->add('libelleMotu')
-                ->add('dateMotu', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', ))
-                ->add('commentaireMotu')
-                ->add('motuEstGenerePars', CollectionType::class , array(
-        		'entry_type' => MotuEstGenereParEmbedType::class,
-        		'allow_add' => true,
-        		'allow_delete' => true,
-                        'prototype' => true,
-                        'prototype_name' => '__name__',
-        		'by_reference' => false,
-                        'entry_options' => array('label' => false)
-        	))
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                ;
+            ->add('libelleMotu')
+            ->add('dateMotu', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy',))
+            ->add('commentaireMotu')
+            ->add('motuEstGenerePars', CollectionType::class, array(
+                'entry_type' => MotuEstGenereParEmbedType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'prototype_name' => '__name__',
+                'by_reference' => false,
+                'entry_options' => array('label' => false)
+            ))
+            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -72,6 +71,4 @@ class MotuType extends AbstractType
     {
         return 'bbees_e3sbundle_motu';
     }
-
-
 }

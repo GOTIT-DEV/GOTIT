@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
 
-class CountryType extends AbstractType
+class CountryVocType extends AbstractType
 {
 
 
