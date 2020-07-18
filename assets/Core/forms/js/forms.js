@@ -2,18 +2,18 @@ import "bootstrap-select/dist/css/bootstrap-select.min.css"
 import "../css/forms.less"
 
 import "bootstrap-select"
-// import Inputmask from "inputmask";
-import "inputmask/dist/jquery.inputmask.min.js";
+import Inputmask from "inputmask";
 import Mustache from "mustache"
+import moment from "moment"
 
-const maskDateConfig = {
-  mask: "99-99-9999",
-  placeholder: "DD-MM-YYYY"
-}
-const dateMasker = new Inputmask(maskDateConfig)
+
+import {initDateMask} from "./date-mask"
+
+
 
 $(() => {
-  dateMasker.mask(".date-autoformat")
+  initDateMask(document.querySelector("form"))
+
   $("button.btn-entry-add").click(addEntryBtnCallback)
   $("button.btn-entry-delete").click(deleteEntryBtnCallback)
   // Create initial entry in each embed collection if empty
@@ -21,7 +21,6 @@ $(() => {
 
   // Init modal forms
   $(".modal-dialog form").submit(modalFormSubmitCallback)
-
 })
 
 function modalFormSubmitCallback(event) {
@@ -105,7 +104,7 @@ function createEntry(prototype, index, value = undefined) {
   prototype = (prototype.match(/__name__/) !== null)
     ? prototype.replace(/__name__/g, index)
     : prototype.replace(/__name_inner__/g, index)
-  
+
   let $newForm = $(prototype)
   if (index > 0) {
     let btn = $newForm.find("template.delete-btn-template").html()
@@ -113,7 +112,8 @@ function createEntry(prototype, index, value = undefined) {
   }
   // Init plugins
   $newForm.find(".selectpicker").selectpicker()
-  $newForm.find(".date-autoformat").inputmask(maskDateConfig)
+  console.log($newForm.get(0))
+  initDateMask($newForm.get(0))
   $newForm.find("button.btn-entry-add").click(addEntryBtnCallback)
   $newForm.find(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
 
