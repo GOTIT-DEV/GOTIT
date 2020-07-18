@@ -20,43 +20,9 @@
 }
 
 
-body {
-  color: #4c5b6b;
-  /* background: #2A3F54; */
-  font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.471
-}
 
 
 
-
-a {
-  color: #5A738E;
-  text-decoration: none
-}
-
-a,
-a:visited,
-a:focus,
-a:active,
-:visited,
-:focus,
-:active,
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline: 0
-}
-
-a:hover,
-a:focus {
-  text-decoration: none
-}
 
 
 
@@ -95,9 +61,6 @@ footer {
   display: inline-block;
   background: #fff;
   border: 1px solid #E6E9ED;
-  -webkit-column-break-inside: avoid;
-  -moz-column-break-inside: avoid;
-  column-break-inside: avoid;
   opacity: 1;
   transition: all .2s ease
 }
@@ -181,47 +144,10 @@ footer {
 }
 
 
-span.right {
-  float: right;
-  font-size: 14px !important
-}
-
-
 .tile:hover {
   text-decoration: none
 }
 
-a:focus {
-  outline: none
-}
-
-.clearfix:after,
-form:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden
-}
 
 
 
-
-/***********************************
-Bootgrid fix and styling
-*/
-
-.modal .bootgrid-header .actionBar,
-.tab-content .bootgrid-header .actionBar {
-  border-top: none;
-  margin-top: 0;
-}
-
-.bootgrid-header .actionBar .search.form-group .input-group {
-  margin-bottom: 0;
-}
-
-
-/**
-* Bootgrid fix
-*************************************/

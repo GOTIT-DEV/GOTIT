@@ -16,7 +16,7 @@
           
     <!-- Definition of Modal (s): myModalCommune: Common form for the dynamic addition of a new  Municipality -->
     <div id="myModalCommune" class="modal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
     <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -24,11 +24,11 @@
          </div>
          <div class="modal-body">
            <div id='content_to_change_station'>
-                   {{ render(controller('BbeesE3sBundle:Commune:newmodal' )) }}
+                   {{ render(controller('App\\Controller\\Core\\CommuneController::newmodalAction' )) }}
            </div>
          </div>
          <div class="modal-footer">
-           <button type="button" class="btn btn-light border" data-dismiss="modal">{{'buton.Close'|trans}}</button>
+           <button type="button" class="btn btn-light border" data-dismiss="modal">{{'button.Close'|trans}}</button>
          </div>
        </div>
      </div>
@@ -52,7 +52,7 @@
                 </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-light border" data-dismiss="modal">{{'buton.Close'|trans}}</button>
+            <button type="button" class="btn btn-light border" data-dismiss="modal">{{'button.Close'|trans}}</button>
           </div>
         </div>
       </div>
@@ -89,9 +89,9 @@
         
         // other features
         {% if action != 'show'  %}
-            // Capitalize function maj() 
-            maj($('#bbees_e3sbundle_station_codeStation'));
-            maj($('#bbees_e3sbundle_station_nomStation'));          
+            // Capitalize function forceUppercase() 
+            forceUppercase($('#bbees_e3sbundle_station_codeStation'));
+            forceUppercase($('#bbees_e3sbundle_station_nomStation'));          
 
             // specific features: automatically assigns the id of the selected country
             var paysId = {{paysId}};
@@ -127,7 +127,7 @@
             // Common Modal Management Add the "Add new Common" button
             // 1) Addition of the "Add new Commune" button
             var $container = $('select[id="bbees_e3sbundle_station_communeFk"]');
-            var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModalCommune">{{'buton.Add a new Commune'|trans}}</button></div></br>');
+            var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModalCommune">{{'button.Add a new Commune'|trans}}</button></div></br>');
             $addBoutonAdd.insertBefore($container);
             // 2) Actions of the modal myModalCommune; (i) capitalization of the commonname and regionName fields (ii) automatic generation of the common code
             $('#myModalCommune').on('show.bs.modal', function (e) {
@@ -176,7 +176,7 @@
             // Management of the "Show Station" button
             // 1) Added button "See Stations"
             var $container = $('select[id="bbees_e3sbundle_station_precisionLatLongVocFk"]');
-            var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailsModal">{{'buton.See Stations Around'|trans}}</button></div></br>');
+            var $addBoutonAdd = $('<div><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detailsModal">{{'button.See Stations Around'|trans}}</button></div></br>');
             $addBoutonAdd.insertBefore($container);
             //
             $('#detailsModal').on('show.bs.modal', function (ev) {

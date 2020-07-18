@@ -4,7 +4,7 @@
 {% block titlepage %}
 	<h1>
 		{% if  flagvalid == 1 and actioncontroller != 'new'%}
-			<i class="glyphicon glyphicon-ok"></i>
+			<i class="fas fa-check-circle"></i>
 		{% endif %}
 		{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %}
 			{{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}

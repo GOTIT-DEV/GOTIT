@@ -21,7 +21,7 @@ body .main-container {
   #login-form-container {
     display: grid;
     grid-template-areas: "prefix form suffix";
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-content: space-evenly;
     column-gap: 10%;
@@ -34,6 +34,7 @@ body .main-container {
     }
     #login-form {
       grid-area: form;
+      max-width: 800px;
 
       div.messages {
         color: orangered;
@@ -42,7 +43,7 @@ body .main-container {
       // width: 600px;
     }
   }
-  @media (max-width: 1200px) {
+  @media (max-width: 1400px) {
     #login-form-container {
       align-items: start;
       grid-template-columns: auto auto;

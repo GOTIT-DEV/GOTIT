@@ -1,41 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-  {{ parent() }}
+	{{ parent() }}
 
-  {{ encore_entry_link_tags('species-search') }}
+	{{ encore_entry_link_tags('species-search') }}
 {% endblock %}
 
 {% block headincl %}
-  <!-- Plotly and Leaflet for maps-->
+	<!-- Plotly and Leaflet for maps-->
 {% endblock %}
 
 {% block titlepage %}
-  <div class="clearfix"></div>
+	<div class="clearfix"></div>
 {% endblock %}
 
 {% block action %}
-  {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
-  <div class="clearfix"></div>
+	<div class="clearfix"></div>
 {% endblock %}
 
 {% block link %}
-  <div class="clearfix"></div>
+	<div class="clearfix"></div>
 {% endblock %}
 
 {% block scripts %}
-  {{ parent() }}
-  {{ encore_entry_script_tags('species-search') }}
-  <!-- Symfony javascript routing bundle -->
-  <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-  <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-  {# Symfony translation in JS #}
-  <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-  <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'queries', 'locales': 'fr,en' }) }}"></script>
-  <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) }}"></script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('species-search') }}
 
 
 {% endblock %}

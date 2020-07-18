@@ -12,21 +12,21 @@
     {{ parent() }}
     {#  Import sources  #}
     {% if is_granted('ROLE_PROJECT') %}
-        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% endif %}
     {#   Import material published  #}
     {% if is_granted('ROLE_COLLABORATION') %}
-        <a href="{{ path( 'importfileslotmaterielpublie_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel publie'|trans}}</a>
+        <a href="{{ path( 'importfileslotmaterielpublie_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import lot materiel publie'|trans}}</a>
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% endif %}  
     {#   Import sequences  published #}
     {% if is_granted('ROLE_COLLABORATION') %}
-        <a href="{{ path( 'importfilessqcassembleepublie_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import sqc assemblee publie'|trans}}</a>
+        <a href="{{ path( 'importfilessqcassembleepublie_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import sqc assemblee publie'|trans}}</a>
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% endif %} 
 {% endblock %}
 

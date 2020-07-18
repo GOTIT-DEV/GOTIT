@@ -18,8 +18,8 @@
 		{% set path_route_index =  path(route_index,{'idFk': idFk}) %}
 	{% endif %}
 {% endif %}
-{% if (app.request.query.get('searchPatern') is defined) and (app.request.query.get('searchPatern') is not null) and  (app.request.query.get('searchPatern') !='')%}
-	{% set path_route_index =  path(route_index,{'searchPatern': app.request.query.get('searchPatern')}) %}
+{% if (app.request.query.get('searchPattern') is defined) and (app.request.query.get('searchPattern') is not null) and  (app.request.query.get('searchPattern') !='')%}
+	{% set path_route_index =  path(route_index,{'searchPattern': app.request.query.get('searchPattern')}) %}
 {% endif %}
 {% if (app.request.query.get('typeBoite') is defined) and (app.request.query.get('typeBoite') is not null) and  (app.request.query.get('typeBoite') !='')%}
 	{% set path_route_index =  path(route_index,{'typeBoite': app.request.query.get('typeBoite')}) %}
@@ -62,10 +62,10 @@
 					<div class="col-sm-10">
 						{% if ( backbutton == 0 )%}
 							{# case of CREATE mode validation #}
-							<a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'buton.BackToTheList'|trans}}</a>
+							<a href="{{ path_route_index }}" class="btn btn-round btn-primary">{{'button.BackToTheList'|trans}}</a>
 						{% else %}
 							{# cas of mode Edit /edit  #}
-							<a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'buton.Back'|trans}}</a>
+							<a href="#" onclick="window.history.go(-{{comptvalid}});return false;" class="btn btn-round btn-primary  ">{{'button.Back'|trans}}</a>
 						{% endif %}
 					</div>
 				</div>

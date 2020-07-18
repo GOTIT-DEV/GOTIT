@@ -1,24 +1,30 @@
-{% form_theme form 'form-theme.html.twig'   %}
 
-{% set route_newmodal =  [entityname, '_newmodal']|join  %}
+
 
 {% block body %}
-      <!--  <h1>{{entityname}}</h1> -->
-    
-    {% set dateNow = "now"|date('Y-m-d H:i:s',timezone="Europe/Paris")  %} 
-    
-    {{ form_start(form, {'action': path(route_newmodal)}) }}
-        {% if form.dateCre %}{{ form_widget(form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %} 
-        {% if form.dateMaj %}{{ form_widget(form.dateMaj, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}{% endif %}              
-        {{ form_rest(form) }}
-        <div class="form-group">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-10">
-             <button type="submit" class="btn btn-success" value="Create" >Valider</button>       
-            </div>
+  <!-- <h1>{{entityname}}</h1> -->
+  <div class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title">
+            {{ entityname|trans|humanize }}
+          </h1>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
         </div>
-    {{ form_end(form) }}   
-     
-
+        <div class="modal-body">
+          {% include 'modal-form.html.twig' %}
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+            class="btn btn-light border"
+            data-dismiss="modal">
+            {{ 'button.Close'|trans }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
- 

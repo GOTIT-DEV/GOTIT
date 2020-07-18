@@ -8,23 +8,23 @@
 {% set links =  [] %}
 
 {% block action %}
-    <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
+    <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
     {% if is_granted('ROLE_COLLABORATION') %} 
-        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'buton.exportToCSV-title'|trans}}">{{'buton.exportToCSV'|trans}}</button>
+        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">{{'button.exportToCSV'|trans}}</button>
     {% endif %}    
     {% if is_granted('ROLE_ADMIN') %}
         {% if varUrl_nameFk is defined and  varUrl_nameFk != '' %} 
-            <a href="{{ path( route_new ) }}?nameFk={{varUrl_nameFk}}&idFk={{varUrl_idFk}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
+            <a href="{{ path( route_new ) }}?nameFk={{varUrl_nameFk}}&idFk={{varUrl_idFk}}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>  
          {% else %}
-             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
+             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a> 
         {% endif %}
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
     {% endif %}
 {% endblock %} 
 
@@ -74,14 +74,14 @@ $(document).ready(function(){
         post: function ()
         {        
             return {
-                searchPatern: "{{ app.request.query.get('searchPatern') }}",
+                searchPattern: "{{ app.request.query.get('searchPattern') }}",
                 idFk: "{{ app.request.query.get('idFk') }}",
                 typeBoite: "{{ app.request.query.get('typeBoite') }}"
             };
         },
         labels: {
             noResults: "There are no results for the selection",
-            search: "{{ app.request.query.get('searchPatern') }}"
+            search: "{{ app.request.query.get('searchPattern') }}"
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
@@ -104,15 +104,15 @@ $(document).ready(function(){
                     var is_num = row.{{linkname}};
                     is_num = is_num.match(/^\d+$/);
                     if( is_num > 0) {
-                        return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-list\" style=\"color:steelblue\"></span></a>";
+                        return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\" style=\"color:steelblue\"></span></a>";
                     } else {
-                        return "<a href=\"{{ path(link_index)}}?searchPatern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-list\"></span></a>";
+                        return "<a href=\"{{ path(link_index)}}?searchPattern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\"></span></a>";
                     }                 
                  } else {                                  
                     {% if is_granted('ROLE_COLLABORATION') %}
-                      return "<a href=\"{{ path(link_new)}}?nameFk={{nameOfEntity}}Fk&idFk="  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                      return "<a href=\"{{ path(link_new)}}?nameFk={{nameOfEntity}}Fk&idFk="  + row.id + "\" class=\"btn btn-sm\" ><span class=\"fas fa-plus-circle\"></span></a>";
                     {% else %}
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-plus-sign\" style=\"color:lightgrey\"></span></a>";
+                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-plus-circle\" style=\"color:lightgrey\"></span></a>";
                     {% endif %}                      
                  }
             },
@@ -121,32 +121,32 @@ $(document).ready(function(){
             "show": function(column, row, value)
             {   
                  if ( '{{varUrl_typeBoite}}' != '' ) {
-                    return "<a href=\""  + row.id + "?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                    return "<a href=\""  + row.id + "?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"fas fa-eye\"></span></a>";
                  } else {
-                    return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                    return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"fas fa-eye\"></span></a>";
                 }
             },
             "edit": function(column, row, value)
             {
                 {% if is_granted('ROLE_ADMIN') %}
                     if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
+                       return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";                  
                     } 
                     if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
+                       return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";                  
                     } 
                     if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";
+                      return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";
                     }                    
                 {% else %}
                     if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
+                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";                  
                     } 
                     if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
+                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";                  
                     } 
                     if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";
+                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";
                     }                   
                 {% endif %}              
             },
@@ -154,12 +154,12 @@ $(document).ready(function(){
             {
                 {% if is_granted('ROLE_ADMIN') %}
                     if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
+                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <button type='submit' class=\"btn btn-sm\"><i class=\"fas fa-trash\" style=\"color:grey\"></i></button> </form>";                 
                     } else {
-                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
+                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <button type='submit' class=\"btn btn-sm\"><i class=\"fas fa-trash\" style=\"color:grey\"></i></button> </form>";
                     }                  
                 {% else %}
-                    return "<div class=\"btn btn-sm\"><img src=\"{{ asset('build/images/trash_grey.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" align=\"middle\" ></div>"
+                    return "<button class='btn btn-sm' type='submit'><i class=\"fas fa-trash\" style=\"color:grey\"></i></button>"
                 {% endif %}                    
             }
         }

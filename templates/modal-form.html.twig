@@ -1,0 +1,21 @@
+{% form_theme form 'form-theme.html.twig' %}
+{% set route_newmodal = [entityname, '_newmodal']|join %}
+
+{{form_start(form,{action: path(route_newmodal)})}}
+{{ form_rest(form) }}
+
+<div class="form-group row">
+	<div class="offset-lg-2 col-sm-3">
+		<button type="submit" class="btn btn-success form-control" value="Create">
+			Valider
+		</button>
+	</div>
+	<i class="text-right form-status fas fa-3x">
+		{# <i class="fas fa-spin fa-spinner fa-3x d-none"></i>
+		<i class="fas fa-check-circle fa-3x d-none"></i> #}
+	</i>
+</div>
+<div class="errors text-danger offset-md-2">
+	{{form_errors(form)}}
+</div>
+{{ form_end(form) }}

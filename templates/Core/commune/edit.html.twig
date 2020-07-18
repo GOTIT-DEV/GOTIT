@@ -15,9 +15,9 @@
 
     $(document).ready(function(){
         // MAJ du codeStation, nomStation
-        maj($('#bbees_e3sbundle_commune_codeCommune'));
-        maj($('#bbees_e3sbundle_commune_nomCommune')); 
-        maj($('#bbees_e3sbundle_commune_nomRegion')); 
+        forceUppercase($('#bbees_e3sbundle_commune_codeCommune'));
+        forceUppercase($('#bbees_e3sbundle_commune_nomCommune')); 
+        forceUppercase($('#bbees_e3sbundle_commune_nomRegion')); 
 
         {% if action == 'edit'  %}  
             // General action on form: form lock (default) / user role: app.user ... 

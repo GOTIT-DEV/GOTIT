@@ -21,58 +21,58 @@
 {% block action %}
     {# url parameter management  #}       
     {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
-        <a href="{{ path(route_index) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a> 
+        <a href="{{ path(route_index) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a> 
      {% else %}
-         <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
+         <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
     {% endif %}
     
     {% if is_granted('ROLE_COLLABORATION') %} 
-        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'buton.exportToCSV-title'|trans}}">{{'buton.exportToCSV'|trans}}</button>
+        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">{{'button.exportToCSV'|trans}}</button>
         {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
-             <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
+             <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>  
         {% else %}
-             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
+             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a> 
         {% endif %}
     {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>
+        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
     {% endif %}
     
-    {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['buton.Import',entityname|capitalize]|join|trans}}</a>#}
+    {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>#}
     {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LOT' %}         
             {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel range'|trans}}</a>
+                <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import lot materiel range'|trans}}</a>
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import lot materiel range'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel range'|trans}}</a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import lot materiel deplace'|trans}}</a>
+                <a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import lot materiel deplace'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
             {% endif %}
     {% endif %} 
      {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LAME' %} 
         
             {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import individu lame range'|trans}}</a> 
+                <a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import individu lame range'|trans}}</a> 
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import individu lame range'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame range'|trans}}</a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import individu lame deplace'|trans}}</a>
+                <a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import individu lame deplace'|trans}}</a>
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import individu lame deplace'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame deplace'|trans}}</a>
             {% endif %}
     {% endif %} 
     {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'ADN' %} 
             {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import adn range'|trans}}</a>            
+                <a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import adn range'|trans}}</a>            
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import adn range'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn range'|trans}}</a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'buton.Import adn deplace'|trans}}</a>
+                <a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import adn deplace'|trans}}</a>
             {% else %}
-                <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{'buton.Import adn deplace'|trans}}</a>
+                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn deplace'|trans}}</a>
             {% endif %}
     {% endif %} 
 

@@ -30,17 +30,23 @@ class APourFixateurEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('fixateurVocFk', EntityType::class, array('class' => 'App:Voc', 
-               'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                            ->where('voc.parent LIKE :parent')
-                            ->setParameter('parent', 'fixateur')
-                            ->orderBy('voc.libelle', 'ASC');
-                    }, 
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false, 'placeholder' => 'Choose a Fixateur',)
-                    );
+        $builder->add('fixateurVocFk', EntityType::class, array(
+            'class' => 'App:Voc',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('voc')
+                    ->where('voc.parent LIKE :parent')
+                    ->setParameter('parent', 'fixateur')
+                    ->orderBy('voc.libelle', 'ASC');
+            },
+            'choice_translation_domain' => true, 
+            'choice_label' => 'libelle', 
+            'multiple' => false, 
+            'expanded' => false, 
+            'label' => false, 
+            'placeholder' => 'Choose a Fixateur',
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -58,6 +64,4 @@ class APourFixateurEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_apourfixateur_embed';
     }
-
-
 }

@@ -265,117 +265,117 @@ list.MotuAssigne: MOTU
 
 # BUTTONS ######################################################################
 #
-buton.Back: Back
-buton.exportToCSV: Export to CSV file
-buton.exportToCSV-title: UTF-8 encoding and comma point separator
-buton.See Stations Around: See nearby sites
-buton.Close: Close 
+button.Back: Back
+button.exportToCSV: Export to CSV file
+button.exportToCSV-title: UTF-8 encoding and comma point separator
+button.See Stations Around: See nearby sites
+button.Close: Close 
 # Button titles in csv file uploading tools
-buton.ImportVoc: Import new set of Vocabulary
-buton.ImportReferentieltaxon: Import new set of Taxa
-buton.ImportPays: Import new set of Country
-buton.ImportPersonne: Import new set of Person
-buton.ImportProgramme: Import new set of Program
-buton.ImportEtablissement: Import new set of Institution
-buton.ImportCommune: Import new set of Municipality
-buton.Back to the list of voc: Back to the list of Vocabulary
-buton.Back to the list of referentieltaxon: Back to the list of Taxon
-buton.Back to the list of pays: Back to the list of Country
-buton.Back to the list of personne: Back to the list of Person
-buton.Back to the list of programme: Back to the list of Program
-buton.Back to the list of etablissement: Back to the list of Institution
-buton.Back to the list of commune: Back to the list of Municipality
+button.ImportVoc: Import new set of Vocabulary
+button.ImportReferentieltaxon: Import new set of Taxa
+button.ImportPays: Import new set of Country
+button.ImportPersonne: Import new set of Person
+button.ImportProgramme: Import new set of Program
+button.ImportEtablissement: Import new set of Institution
+button.ImportCommune: Import new set of Municipality
+button.Back to the list of voc: Back to the list of Vocabulary
+button.Back to the list of referentieltaxon: Back to the list of Taxon
+button.Back to the list of pays: Back to the list of Country
+button.Back to the list of personne: Back to the list of Person
+button.Back to the list of programme: Back to the list of Program
+button.Back to the list of etablissement: Back to the list of Institution
+button.Back to the list of commune: Back to the list of Municipality
 #  Button titles "Back to Entity"
-buton.Back to station: Back to Site
-buton.Back to collecte: Back to Sampling
-buton.Back to lotmateriel: Back to Biological material
-buton.Back to individu: Back to Specimen
-buton.Back to individulame: Back to Specimen slide
-buton.Back to lotmaterielext: Back to External biological material
-buton.Back to adn: Back to DNA
-buton.Back to pcr: Back to PCR
-buton.Back to chromatogramme: Back to Chromatogram
-buton.Back to pcrchromato: Back to PCR
-buton.Back to sequenceassemblee: Back to Internal sequence
-buton.Back to sequenceassembleeext: Back to External sequence
-buton.Back to motu: Back to MOTU
-buton.Back to boite: Back to Boxes
-buton.Back to source: Back to Sources
+button.Back to station: Back to Site
+button.Back to collecte: Back to Sampling
+button.Back to lotmateriel: Back to Biological material
+button.Back to individu: Back to Specimen
+button.Back to individulame: Back to Specimen slide
+button.Back to lotmaterielext: Back to External biological material
+button.Back to adn: Back to DNA
+button.Back to pcr: Back to PCR
+button.Back to chromatogramme: Back to Chromatogram
+button.Back to pcrchromato: Back to PCR
+button.Back to sequenceassemblee: Back to Internal sequence
+button.Back to sequenceassembleeext: Back to External sequence
+button.Back to motu: Back to MOTU
+button.Back to boite: Back to Boxes
+button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
-buton.Back to the list of station: Back to the list of Sites
-buton.Back to the list of collecte: Back to the list of Sampling
-buton.Back to the list of lotmateriel: Back to the list of Biological material
-buton.Back to the list of individu: Back to the list of Specimen
-buton.Back to the list of individulame: Back to the list of Specimen slide
-buton.Back to the list of lotmaterielext: Back to the list of External biological material
-buton.Back to the list of adn: Back to the list of DNA
-buton.Back to the list of pcr: Back to the list of PCR
-buton.Back to the list of chromatogramme: Back to the list of Chromatogram
-buton.Back to the list of pcrchromato: Back to the list of PCR
-buton.Back to the list of sequenceassemblee: Back to the list of Internal sequence
-buton.Back to the list of sequenceassembleeext: Back to the list of External sequence
-buton.Back to the list of motu: Back to the list of MOTU
-buton.Back to the list of boite: Back to the list of Boxes
-buton.Back to the list of source: Back to the list of Sources
+button.Back to the list of station: Back to the list of Sites
+button.Back to the list of collecte: Back to the list of Sampling
+button.Back to the list of lotmateriel: Back to the list of Biological material
+button.Back to the list of individu: Back to the list of Specimen
+button.Back to the list of individulame: Back to the list of Specimen slide
+button.Back to the list of lotmaterielext: Back to the list of External biological material
+button.Back to the list of adn: Back to the list of DNA
+button.Back to the list of pcr: Back to the list of PCR
+button.Back to the list of chromatogramme: Back to the list of Chromatogram
+button.Back to the list of pcrchromato: Back to the list of PCR
+button.Back to the list of sequenceassemblee: Back to the list of Internal sequence
+button.Back to the list of sequenceassembleeext: Back to the list of External sequence
+button.Back to the list of motu: Back to the list of MOTU
+button.Back to the list of boite: Back to the list of Boxes
+button.Back to the list of source: Back to the list of Sources
 # Button titles in web interface
-buton.Add a Chromatogramme: Add chromatogram
-buton.Add a Source: Add source
-buton.Add a CompositionLotMateriel: Add composition of biological material
-buton.Add a EspeceIdentifiee: Add species taxa
-buton.Add a new Commune: Add new Municipality
-buton.Add a SamplingMethod: Add sampling Method
-buton.Add a Fixateur: Add fixative
-buton.Add a Programme: Add program
-buton.Add a new Programme: Add new program
-buton.Add a Personne: Add person
-buton.Add a new Personne: Add new person
-buton.Add a ACibler: Add targeted taxa
-buton.Import adn deplace: Move or delete DNA boxes as file
-buton.Import adn range: Store DNA boxes as file
-buton.Import individu lame deplace: Move or delete slides as file
-buton.Import individu lame range: Store slides as file
-buton.Import lot materiel deplace: Move or delete biological material as file
-buton.Import lot materiel range: Store biological material as file
-buton.NewBoite: Create new box
-buton.Import sqc assemblee publie: Source to sequence as file
-buton.Import lot materiel publie: Source to biological material as file
-buton.ImportSource: Import new set of sources
-buton.NewSource: Create new source
-buton.NewVoc: Create new vocabulary
-buton.NewReferentieltaxon: Add taxon name
-buton.NewPersonne: Create new person
-buton.NewEtablissement: Create new institution
-buton.NewProgramme: Create new program
-buton.NewPays: Create new country
-buton.NewMotu: Create new set of MOTU
-buton.ImportMotu: Import new set of MOTU and related data
-buton.NewSequenceassembleeext: Create new external sequence
-buton.ImportSequenceassembleeext: Import new set of external sequences and related data
-buton.NewSequenceassemblee: Create new sequence
-buton.ImportSequenceassemblee: Import new set of sequences and related data
-buton.NewCommune: Create new municipality
-buton.NewLotmaterielext: Create new external biological material
-buton.ImportLotmaterielext: Import new set of external biological material and related data
-buton.NewStation: Create new site
-buton.ImportStation: Import new set of sites and related data
-buton.NewCollecte: Create new sampling
-buton.ImportCollecte: Import new set of sampling and related data
-buton.NewLotmateriel: Create new biological material
-buton.ImportLotmateriel: Import new set of biological material and related data
-buton.NewIndividu: Create new specimen
-buton.ImportIndividu: Import new set of specimens and related data
-buton.NewIndividulame: Create new slide
-buton.ImportIndividulame: Import new set of slides and related data
-buton.NewAdn: Create new DNA
-buton.ImportAdn: Import new set of DNA and related data
-buton.NewPcr: Create new PCR
-buton.ImportPcr: Import new set of PCR and related data
-buton.NewChromatogramme: Create new chromatogram
-buton.ImportChromatogramme: Import new set of chromatograms and related data
-buton.Valid: Validate
-buton.BackToTheSelection: Back to selection
-buton.BackToTheList: Show list
-buton.showAllRecord: Show all records
+button.Add a Chromatogramme: Add chromatogram
+button.Add a Source: Add source
+button.Add a CompositionLotMateriel: Add composition of biological material
+button.Add a EspeceIdentifiee: Add species taxa
+button.Add a new Commune: Add new Municipality
+button.Add a SamplingMethod: Add sampling Method
+button.Add a Fixateur: Add fixative
+button.Add a Programme: Add program
+button.Add a new Programme: Add new program
+button.Add a Personne: Add person
+button.Add a new Personne: Add new person
+button.Add a ACibler: Add targeted taxa
+button.Import adn deplace: Move or delete DNA boxes as file
+button.Import adn range: Store DNA boxes as file
+button.Import individu lame deplace: Move or delete slides as file
+button.Import individu lame range: Store slides as file
+button.Import lot materiel deplace: Move or delete biological material as file
+button.Import lot materiel range: Store biological material as file
+button.NewBoite: Create new box
+button.Import sqc assemblee publie: Source to sequence as file
+button.Import lot materiel publie: Source to biological material as file
+button.ImportSource: Import new set of sources
+button.NewSource: Create new source
+button.NewVoc: Create new vocabulary
+button.NewReferentieltaxon: Add taxon name
+button.NewPersonne: Create new person
+button.NewEtablissement: Create new institution
+button.NewProgramme: Create new program
+button.NewPays: Create new country
+button.NewMotu: Create new set of MOTU
+button.ImportMotu: Import new set of MOTU and related data
+button.NewSequenceassembleeext: Create new external sequence
+button.ImportSequenceassembleeext: Import new set of external sequences and related data
+button.NewSequenceassemblee: Create new sequence
+button.ImportSequenceassemblee: Import new set of sequences and related data
+button.NewCommune: Create new municipality
+button.NewLotmaterielext: Create new external biological material
+button.ImportLotmaterielext: Import new set of external biological material and related data
+button.NewStation: Create new site
+button.ImportStation: Import new set of sites and related data
+button.NewCollecte: Create new sampling
+button.ImportCollecte: Import new set of sampling and related data
+button.NewLotmateriel: Create new biological material
+button.ImportLotmateriel: Import new set of biological material and related data
+button.NewIndividu: Create new specimen
+button.ImportIndividu: Import new set of specimens and related data
+button.NewIndividulame: Create new slide
+button.ImportIndividulame: Import new set of slides and related data
+button.NewAdn: Create new DNA
+button.ImportAdn: Import new set of DNA and related data
+button.NewPcr: Create new PCR
+button.ImportPcr: Import new set of PCR and related data
+button.NewChromatogramme: Create new chromatogram
+button.ImportChromatogramme: Import new set of chromatograms and related data
+button.Valid: Validate
+button.BackToTheSelection: Back to selection
+button.BackToTheList: Show list
+button.showAllRecord: Show all records
 Envoyer: Import CSV file
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -616,7 +616,7 @@ Commentaire sqc ass ext: External sequence comments
 Commentaire station: Site comments
 Commune fk: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
-Conductivite micro sie cm: Specific conductance (micro_sie_cm)
+Conductivite micro sie cm: Specific conductance (µS/cm)
 Critere identification voc fk: Identification criterion
 Date adn: DNA date
 Date collecte: Sampling date
@@ -759,7 +759,7 @@ Name: User full name
 Institution: Institution
 Commentaire user: User comments
 Locale: Version
-buton.NewUser: Create a new User
+button.NewUser: Create a new User
 title.user: User
 title.users: Users
 list.User cre: User Create

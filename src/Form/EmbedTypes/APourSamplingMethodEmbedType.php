@@ -31,18 +31,23 @@ class APourSamplingMethodEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('samplingMethodVocFk', EntityType::class, array('class' => 'App:Voc', 
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('voc')
-                                    ->where('voc.parent LIKE :parent')
-                                    ->setParameter('parent', 'samplingMethod')
-                                    ->orderBy('voc.libelle', 'ASC');
-                            }, 
-                        'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'label' => false,
-                        'placeholder' => 'Choose a Sampling method',)
-                    );
+        $builder->add('samplingMethodVocFk', EntityType::class, [
+            'class' => 'App:Voc',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('voc')
+                    ->where('voc.parent LIKE :parent')
+                    ->setParameter('parent', 'samplingMethod')
+                    ->orderBy('voc.libelle', 'ASC');
+            },
+            'choice_translation_domain' => true, 
+            'choice_label' => 'libelle', 
+            'multiple' => false, 
+            'expanded' => false, 
+            'label' => false,
+            'placeholder' => 'Choose a Sampling method',
+        ]);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -60,6 +65,4 @@ class APourSamplingMethodEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_apoursamplingmethod_embed';
     }
-
-
 }

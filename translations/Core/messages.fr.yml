@@ -99,117 +99,118 @@ list.MotuAssigne: MOTU
 
 # BUTTONS ######################################################################
 # 
-buton.Back: Retour
-buton.exportToCSV: Exporter au format CSV
-buton.exportToCSV-title: Encodage UTF-8 et Séparateur point virgule
-buton.See Stations Around: Afficher les Stations autour du point GPS
-buton.Close: Fermer
+button.Back: Retour
+button.exportToCSV: Exporter au format CSV
+button.exportToCSV-title: Encodage UTF-8 et Séparateur point virgule
+button.See Stations Around: Afficher les Stations autour du point GPS
+button.Close: Fermer
 # Button titles in csv file uploading tools
-buton.ImportVoc: Importer fichier Vocabulaire
-buton.ImportReferentieltaxon: Importer fichier Taxon
-buton.ImportPays: Importer fichier Pays
-buton.ImportPersonne: Importer fichier Personne
-buton.ImportProgramme: Importer fichier Programme
-buton.ImportEtablissement: Importer fichier Etablissement
-buton.ImportCommune: Importer fichier Commune
-buton.Back to the list of voc: Retour à la liste des Vocabulaires
-buton.Back to the list of referentieltaxon: Retour à la liste des Taxons
-buton.Back to the list of pays: Retour à la liste des Pays
-buton.Back to the list of personne: Retour à la liste des Personnes
-buton.Back to the list of programme: Retour à la liste des Programmes
-buton.Back to the list of etablissement: Retour à la liste des Etablissements
-buton.Back to the list of commune: Retour à la liste des Communes
+button.ImportVoc: Importer fichier Vocabulaire
+button.ImportReferentieltaxon: Importer fichier Taxon
+button.ImportPays: Importer fichier Pays
+button.ImportPersonne: Importer fichier Personne
+button.ImportProgramme: Importer fichier Programme
+button.ImportEtablissement: Importer fichier Etablissement
+button.ImportCommune: Importer fichier Commune
+button.Back to the list of voc: Retour à la liste des Vocabulaires
+button.Back to the list of referentieltaxon: Retour à la liste des Taxons
+button.Back to the list of pays: Retour à la liste des Pays
+button.Back to the list of personne: Retour à la liste des Personnes
+button.Back to the list of programme: Retour à la liste des Programmes
+button.Back to the list of etablissement: Retour à la liste des Etablissements
+button.Back to the list of commune: Retour à la liste des Communes
 # Button titles "Back to Entity"
-buton.Back to station: Retour à la Station
-buton.Back to collecte: Retour à la Collecte
-buton.Back to lotmateriel: Retour au Lot matériel
-buton.Back to individu: Retour à l'Individu
-buton.Back to individulame: Retour à la Lame
-buton.Back to lotmaterielext: Retour au Lot matériel externe
-buton.Back to adn: Retour à l'ADN
-buton.Back to pcr: Retour à la PCR
-buton.Back to chromatogramme: Retour au Chromatogramme
-buton.Back to pcrchromato: Retour à la PCR
-buton.Back to sequenceassemblee: Retour à la Sequence interne
-buton.Back to sequenceassembleeext: Retour à la Sequence externe
-buton.Back to motu: Retour au MOTU
-buton.Back to boite: Retour à la Boite
-buton.Back to source: Retour à la Source
+button.Back to station: Retour à la Station
+button.Back to collecte: Retour à la Collecte
+button.Back to lotmateriel: Retour au Lot matériel
+button.Back to individu: Retour à l'Individu
+button.Back to individulame: Retour à la Lame
+button.Back to lotmaterielext: Retour au Lot matériel externe
+button.Back to adn: Retour à l'ADN
+button.Back to pcr: Retour à la PCR
+button.Back to chromatogramme: Retour au Chromatogramme
+button.Back to pcrchromato: Retour à la PCR
+button.Back to sequenceassemblee: Retour à la Sequence interne
+button.Back to sequenceassembleeext: Retour à la Sequence externe
+button.Back to motu: Retour au MOTU
+button.Back to boite: Retour à la Boite
+button.Back to source: Retour à la Source
 # Button titles "Back to Entity" in csv file uploading tools
-buton.Back to the list of station: Retour à la liste des Stations
-buton.Back to the list of collecte: Retour à la liste des Collectes
-buton.Back to the list of lotmateriel: Retour à la liste des Lots matériels
-buton.Back to the list of individu: Retour à la liste des Individus
-buton.Back to the list of individulame: Retour à la liste des Lames
-buton.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
-buton.Back to the list of adn: Retour à la liste des ADN
-buton.Back to the list of pcr: Retour à la liste des PCR
-buton.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
-buton.Back to the list of pcrchromato: Retour à la liste des PCR
-buton.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
-buton.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
-buton.Back to the list of motu: Retour à la liste des MOTU
-buton.Back to the list of boite: Retour à la liste des Boites
-buton.Back to the list of source: Retour à la liste des Sources
+button.Back to the list of station: Retour à la liste des Stations
+button.Back to the list of collecte: Retour à la liste des Collectes
+button.Back to the list of lotmateriel: Retour à la liste des Lots matériels
+button.Back to the list of individu: Retour à la liste des Individus
+button.Back to the list of individulame: Retour à la liste des Lames
+button.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
+button.Back to the list of adn: Retour à la liste des ADN
+button.Back to the list of pcr: Retour à la liste des PCR
+button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
+button.Back to the list of pcrchromato: Retour à la liste des PCR
+button.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
+button.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
+button.Back to the list of motu: Retour à la liste des MOTU
+button.Back to the list of boite: Retour à la liste des Boites
+button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
-buton.Add a Chromatogramme: Ajouter un chromatogramme
-buton.Add a Source: Ajouter une source
-buton.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
-buton.Add a EspeceIdentifiee: Ajouter une espece identifiee
-buton.Add a new Commune: Ajouter une nouvelle commune
-buton.Add a SamplingMethod: Ajouter une methode d echantillonage
-buton.Add a Fixateur: Ajouter un fixateur
-buton.Add a Programme: Ajouter un programme
-buton.Add a new Programme: Ajouter un nouveau programme
-buton.Add a Personne: Ajouter une personne
-buton.Add a new Personne: Ajouter une nouvelle personne
-buton.Add a ACibler: Ajouter un taxon cible
-buton.Import adn deplace: Deplacer supprimer des boites ADN
-buton.Import adn range: Stocker des boites ADN
-buton.Import individu lame deplace: Deplacer supprimer des lames
-buton.Import individu lame range: Stocker des lames
-buton.Import lot materiel deplace: Deplacer supprimer des lots materiels
-buton.Import lot materiel range: Stocker des lots materiels
-buton.NewBoite: Creer une nouvelle boite
-buton.Import sqc assemblee publie: Referencer des sequences assemblees
-buton.Import lot materiel publie: Referencer des lots materiels
-buton.ImportSource: Importer des sources
-buton.NewSource: Creer une source
-buton.NewVoc: Creer un vocabulaire
-buton.NewReferentieltaxon: Creer un taxon
-buton.NewPersonne: Creer une personne
-buton.NewEtablissement: Creer un etablissement
-buton.NewProgramme: Creer un programme
-buton.NewPays: Creer un Pays
-buton.NewMotu: Creer un MOTU
-buton.ImportMotu: Importer des MOTUs
-buton.NewSequenceassembleeext: Creer une sequence externe assemblee
-buton.ImportSequenceassembleeext: Importer des sequences externes assemblees
-buton.NewSequenceassemblee: Creer une sequence assemblee
-buton.ImportSequenceassemblee: Importer des sequences assemblees
-buton.NewCommune: Creer une nouvelle commune
-buton.NewLotmaterielext: Creer un lot materiel externe
-buton.ImportLotmaterielext: Importer des lots materiels externes
-buton.NewStation: Creer une station
-buton.ImportStation: Importer des stations
-buton.NewCollecte: Creer une collecte
-buton.ImportCollecte: Importer des collectes
-buton.NewLotmateriel: Creer un lot materiel
-buton.ImportLotmateriel: Importer des lots materiels
-buton.NewIndividu: Creer un individu
-buton.ImportIndividu: Importer des individus
-buton.NewIndividulame: Creer une lame
-buton.ImportIndividulame: Importer des lames
-buton.NewAdn: Creer un ADN
-buton.ImportAdn: Importer des ADN
-buton.NewPcr: Creer une PCR
-buton.ImportPcr: Importer des PCR
-buton.NewChromatogramme: Creer un chromatogramme
-buton.ImportChromatogramme: Importer des chromatogrammes
-buton.Valid: Valider
-buton.BackToTheSelection: Retour à la selection
-buton.BackToTheList: Afficher la Liste
-buton.showAllRecord: Liste de tous les enregistrements
+button.Add a Chromatogramme: Ajouter un chromatogramme
+button.Add a Source: Ajouter une source
+button.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
+button.Add a EspeceIdentifiee: Ajouter une espece identifiee
+button.Add a new Commune: Ajouter une nouvelle commune
+button.add:
+  aPourSamplingMethods: Ajouter une methode d'échantillonnage
+button.Add a Fixateur: Ajouter un fixateur
+button.Add a Programme: Ajouter un programme
+button.Add a new Programme: Ajouter un nouveau programme
+button.Add a Personne: Ajouter une personne
+button.Add a new Personne: Ajouter une nouvelle personne
+button.Add a ACibler: Ajouter un taxon cible
+button.Import adn deplace: Deplacer supprimer des boites ADN
+button.Import adn range: Stocker des boites ADN
+button.Import individu lame deplace: Deplacer supprimer des lames
+button.Import individu lame range: Stocker des lames
+button.Import lot materiel deplace: Deplacer supprimer des lots materiels
+button.Import lot materiel range: Stocker des lots materiels
+button.NewBoite: Creer une nouvelle boite
+button.Import sqc assemblee publie: Referencer des sequences assemblees
+button.Import lot materiel publie: Referencer des lots materiels
+button.ImportSource: Importer des sources
+button.NewSource: Creer une source
+button.NewVoc: Creer un vocabulaire
+button.NewReferentieltaxon: Creer un taxon
+button.NewPersonne: Creer une personne
+button.NewEtablissement: Creer un etablissement
+button.NewProgramme: Creer un programme
+button.NewPays: Creer un Pays
+button.NewMotu: Creer un MOTU
+button.ImportMotu: Importer des MOTUs
+button.NewSequenceassembleeext: Creer une sequence externe assemblee
+button.ImportSequenceassembleeext: Importer des sequences externes assemblees
+button.NewSequenceassemblee: Creer une sequence assemblee
+button.ImportSequenceassemblee: Importer des sequences assemblees
+button.NewCommune: Creer une nouvelle commune
+button.NewLotmaterielext: Creer un lot materiel externe
+button.ImportLotmaterielext: Importer des lots materiels externes
+button.NewStation: Creer une station
+button.ImportStation: Importer des stations
+button.NewCollecte: Creer une collecte
+button.ImportCollecte: Importer des collectes
+button.NewLotmateriel: Creer un lot materiel
+button.ImportLotmateriel: Importer des lots materiels
+button.NewIndividu: Creer un individu
+button.ImportIndividu: Importer des individus
+button.NewIndividulame: Creer une lame
+button.ImportIndividulame: Importer des lames
+button.NewAdn: Creer un ADN
+button.ImportAdn: Importer des ADN
+button.NewPcr: Creer une PCR
+button.ImportPcr: Importer des PCR
+button.NewChromatogramme: Creer un chromatogramme
+button.ImportChromatogramme: Importer des chromatogrammes
+button.Valid: Valider
+button.BackToTheSelection: Retour à la selection
+button.BackToTheList: Afficher la Liste
+button.showAllRecord: Liste de tous les enregistrements
 Envoyer: Importer le fichier CSV
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -328,7 +329,7 @@ Choose an Habitat Type: Selectionner un habitat
 Choose an Access Point: Selectionner un acces
 Choose a GPS Distance Quality: Selectionner precision latitude longitude
 Choose a Station: Selectionner une station
-Choose a Sampling method: Selectionner une methode d echantillonage
+Choose a Sampling method: Sélectionner une méthode d'échantillonnage
 Choose a Fixateur: Selectionner un fixateur
 Choose a Program: Selectionner un programme
 Choose a Taxon: Selectionner un taxon
@@ -340,7 +341,7 @@ Choose a Type: Selectionner un type
 Choose a Lot Materiel: Selectionner un lot materiel
 Choose a Source: Selectionner une source
 Choose an individu: Selectionner un individu
-Choose a method: Selectionner une methode
+Choose a method: Sélectionner une méthode
 Choose a PCR: Selectionner une PCR
 Choose a primer: Selectionner une amorce
 Choose a socitety: Selectionner un etablissement
@@ -453,7 +454,7 @@ Commentaire sqc ass ext: Commentaire sequence externe assemblee
 Commentaire station: Commentaire station
 Commune fk: Commune 
 Concentration ng microlitre: Concentration ng microlitre
-Conductivite micro sie cm: Conductivite micro sie cm
+Conductivite micro sie cm: Conductivité (µS/cm)
 Critere identification voc fk: Critere identification
 Date adn: Date ADN
 Date collecte: Date collecte
@@ -469,7 +470,7 @@ Date motu: Date MOTU
 Date pcr: Date PCR
 Date precision voc fk: Precision date
 Detail pcr: Detail PCR
-Duree echantillonnage mn: Duree echantillonnage mn
+Duree echantillonnage mn: Durée échantillonnage (min)
 Espece identifiee fk: Espece identifiee
 Etablissement fk: Etablissement
 Family: Famille
@@ -547,7 +548,7 @@ Subspecies: Sous espece
 Taxname: Nom taxon
 Taxname ref: Nom synonyme
 Taxon origine sqc ass ext: Taxon origine sequence externe assemblee
-Temperature c: Temperature Celcius
+Temperature c: Température Celsius
 Type boite voc fk: Type boite
 Type collection voc fk: Type collection
 Type financeur: Type financeur
@@ -579,7 +580,7 @@ Composition lot materiels: Composition du lot materiel
 Est identifie pars: Est identifie par
 Lot est publie danss: Est publie dans
 Pcr est realise pars: Est realisee par
-A pour sampling methods: Methode echantillonage
+A pour sampling methods: Méthode échantillonnage
 A pour fixateurs: Fixateur
 Est finance pars: Programme
 Est effectue pars: Est realise par
@@ -596,7 +597,7 @@ Name: Nom complet de l'utilisateur
 Institution: Etablissement
 Commentaire user: Commentaires utilisateur
 Locale: Version
-buton.NewUser: Créer un nouvel utilisateur
+button.NewUser: Créer un nouvel utilisateur
 title.user: Utilisateur
 title.users: Utilisateurs
 list.User cre: User Create

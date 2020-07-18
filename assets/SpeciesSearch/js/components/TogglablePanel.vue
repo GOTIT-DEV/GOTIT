@@ -7,7 +7,7 @@
       <ToggleButton
         class="toggle-btn"
         v-model="enabled"
-        height="20"
+        v-bind:height="20"
         v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
       />
     </div>

@@ -1,21 +1,128 @@
-{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+{% use "bootstrap_4_horizontal_layout.html.twig" %}
 
-{% block form_label_class -%}
-    {% if required is defined and required %}
-        col-sm-2 text-danger
-    {% else %}
-        col-sm-2 
-    {% endif %}
-{%- endblock form_label_class %}
+{% block form_label_class %}
+	{% if required|default(false) %}
+		text-danger
+	{% endif %}
+	col-lg-2 font-weight-bold
+{% endblock %}
 
-{% block form_label %}
-    {# 
-        {% if required %}
-            <div class="col-sm-auto text-right" style="color:red;">*</div>
-        {% endif %}
-    #}
-    {{ parent() }}
+{% block form_label_errors %}{% endblock %}
+
+{% block form_widget %}
+	{{parent()}}
+	{{ block('form_errors') }}
+{% endblock %}
+
+{% block form_group_class %}
+	col-lg-10
+{% endblock %}
+
+{%- block form_start -%}
+{% set attr = attr | merge({class:((attr.class|default('')) ~ ' container-fluid')|trim,}) %}
+{{parent()}}
+{% endblock %}
+
+{% block date_widget -%}
+{% if widget == 'single_text' %}
+	{% set attr =
+      attr|merge({
+        placeholder: 'DD-MM-YYYY',
+        class: ((attr.class|default('')) ~ ' date-autoformat')|trim
+      }) %}
+{% endif %}
+{{ parent() }}
+{% endblock %}
+
+{% block choice_widget_collapsed -%}
+{% set attr =
+      attr|merge({
+        class: ((attr.class|default('')) ~ ' selectpicker border')|trim,
+				"data-live-search": true
+      }) %}
+{{ parent() }}
 {% endblock %}
 
 
+{% block widget_attributes %}
+{% set attr =
+    attr|merge({
+      class: ((attr.class|default('')) ~ ' form-control-sm')|trim,
+    }) %}
+{{ parent() }}
+{% endblock %}
 
+
+{% macro printCollectionEntry(entry, withDelete = true) %}
+{% set route = app.request.attributes.get('_route') %}
+{% set form_type = route|split('_')[1] %}
+
+{% set entry_copy = entry %}
+{% set entry_id = "entry_" ~ entry.vars.id %}
+
+<div id="{{ entry_id }}" class="row collection-entry">
+	{% if (entry_copy|length) > 1 %}
+		{% form_theme entry_copy 'collection-field-theme.html.twig' %}
+	{% else %}
+		{% form_theme entry_copy 'collection-entry-single-field.html.twig' %}
+	{% endif %}
+	{{ form_widget(entry_copy) }}
+	<div class="col-2 delete-btn-container">
+		{% if form_type != 'show' and withDelete %}
+			<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
+				<i class="fas fa-times"></i>
+			</button>
+		{% else %}
+			<template class="delete-btn-template">
+				<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
+					<i class="fas fa-times"></i>
+				</button>
+			</template>
+		{% endif %}
+	</div>
+</div>
+{% endmacro %}
+
+
+{% block collection_widget %}
+{% import _self as formMacros %}
+
+{% set form_type = app.request.attributes.get('_route')|split('_')[1] %}
+{% set wrapper_id = "wrapper_" ~ form.vars.id %}
+{% set prototype = formMacros.printCollectionEntry(form.vars.prototype, false) %}
+<div id="{{ wrapper_id }}" class="card collection-wrapper" data-prototype="{{ prototype | spaceless |e('html_attr') }}" data-index={{ form.count }}>
+	{# <template class="entry-prototype">
+	{{prototype}}
+	</template> #}
+	{% if form_type != 'show' %}
+		{# include card header with buttons #}
+		<div class="card-header">
+			{% if allow_add %}
+				<div class="btn-group flex-wrap btn-group-sm">
+					<button type="button" class="btn-entry-add btn btn-primary" data-target="{{ wrapper_id }}">
+						{{ ('button.add.' ~ name)|trans }}
+					</button>
+					{% if attr['data-allow-new']|default(false) %}
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
+							{{ ('button.add.new.' ~ name)|trans }}
+						</button>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	<div class="card-body entry-list">
+		{% if form.count %}
+			{% form_theme form 'collection-entry-theme.html.twig' %}
+			{% for entry in form %}
+				{{ formMacros.printCollectionEntry(entry, loop.index > 1 or not form.vars.required) }}
+				{% if (entry|length) > 1 %}
+					<hr/>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}

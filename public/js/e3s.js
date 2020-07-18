@@ -14,8 +14,7 @@
  * Author : Philippe Grison  <philippe.grison@mnhn.fr>
  * 
  */
-
-
+  
 /**
  * function addCollectionButtonsEmbed() : Manage form with two level of embed form
  * @param {String} formNameOfCollection : form name of the first level Collection to embed ex. bbees_e3sbundle_lotmateriel_especeIdentifiees
@@ -40,13 +39,13 @@ function addCollectionButtonsEmbed(formNameOfCollection, nameCollection, addnew 
     // add button "add New nameCollection"     
     if (addnew) {      
       var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
+      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + Translator.trans('button.'+nameAddNewButon) + '</button>');
       $containerCollectionEmbed.prepend($addBoutonAdd);
     }
     
     // add button "add nameCollection" 
     var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
+    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + Translator.trans('button.'+nameAddButon) + '</a></span>');
     $containerCollectionEmbed.prepend($addLink);
     
     // if the field is required display the embeded form
@@ -107,7 +106,7 @@ function addCollectionButtons(formNameOfCollection, nameCollection, addnew = fal
     // add button "add New nameCollection" 
     if (addnew) {
       var nameAddNewButon = "Add a new " + nameCollection;
-      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + addButon[nameAddNewButon] + '</button>');
+      var $addBoutonAdd = $('<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal' + nameCollection + '">' + Translator.trans('button.'+nameAddNewButon) + '</button>');
       $container.prepend($addBoutonAdd);
       $addBoutonAdd.click(function(e) {      
         index++;
@@ -118,7 +117,7 @@ function addCollectionButtons(formNameOfCollection, nameCollection, addnew = fal
     
     // add button "add nameCollection" 
     var nameAddButon = "Add a " + nameCollection;
-    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + addButon[nameAddButon] + '</a></span>');
+    var $addLink = $('<span><a href="#" id="add_' + nameCollection + '" class="btn btn-primary btn-sm">' + Translator.trans('button.'+nameAddButon) + '</a></span>');
     $container.prepend($addLink);
     
     // add a new field each time you click on the add button
@@ -332,7 +331,7 @@ function getLastIndex(formNameOfCollection) {
 
 
 // function to convert in Upper case 
-function maj($container) {
+function forceUppercase($container) {
   $container.keyup(function(e) {
     var field_value = $container.val().toUpperCase();
     $container.val(field_value);
@@ -341,12 +340,14 @@ function maj($container) {
 
 // function to Add a Back to Button to the entityform Typeahead
 function addBackToRelatedRecord(entityform, entityRel, nameButonBack, TypeaheadField = 0, action = 'edit') {
+  console.log("ADD BACK")
   var entityrel_lowercase = entityRel.toLowerCase();
   if (TypeaheadField) {
     var entityRelSelected = $('#bbees_e3sbundle_' + entityform + '_' + entityRel + 'Id').val();
   } else {
     var entityRelSelected = $('#bbees_e3sbundle_' + entityform + '_' + entityRel + 'Fk option:selected').val();      
   }
+  console.log()
   
   //if(!nameEntityRel) nameEntityRel = entityRel.toUpperCase();
   //alert("entityRelSelected="+entityRelSelected);

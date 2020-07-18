@@ -16,16 +16,16 @@
 // Form actions
 $(document).ready(function(){
         // MAJ 
-        maj($('#bbees_e3sbundle_referentieltaxon_taxname'));
-        maj($('#bbees_e3sbundle_referentieltaxon_rank')); 
-        maj($('#bbees_e3sbundle_referentieltaxon_subclass'));
-        maj($('#bbees_e3sbundle_referentieltaxon_ordre')); 
-        maj($('#bbees_e3sbundle_referentieltaxon_family'));
-        maj($('#bbees_e3sbundle_referentieltaxon_genus')); 
-        maj($('#bbees_e3sbundle_referentieltaxon_species'));
-        maj($('#bbees_e3sbundle_referentieltaxon_subspecies')); 
-        maj($('#bbees_e3sbundle_referentieltaxon_clade'));
-        maj($('#bbees_e3sbundle_referentieltaxon_taxnameRef')); 
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_taxname'));
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_rank')); 
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_subclass'));
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_ordre')); 
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_family'));
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_genus')); 
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_species'));
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_subspecies')); 
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_clade'));
+        forceUppercase($('#bbees_e3sbundle_referentieltaxon_taxnameRef')); 
         {% if action == 'edit'  %}  
             // General action on form: form lock (default) / user role: app.user ... 
         {% endif %}

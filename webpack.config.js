@@ -27,6 +27,7 @@ Encore
     // Core assets
     .addEntry('core', './assets/Core/js/core.js')
     .addEntry('dashboard', './assets/Core/js/dashboard.js')
+    .addEntry('forms', './assets/Core/js/forms.js')
     .addStyleEntry('login', './assets/Core/css/login.less')
     // Species Search assets
     .addEntry('species-search', './assets/SpeciesSearch/js/species_search.js')

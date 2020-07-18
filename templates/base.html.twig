@@ -45,7 +45,13 @@
 
 			<header class="main-header">
 				{% block helpbutton %}
-					<button class="help-btn btn btn-info" type="button" data-toggle="collapse" data-target="#page-help" aria-expanded="false" aria-controls="page-help">
+					<button
+						class="help-btn btn btn-info"
+						type="button"
+						data-toggle="collapse"
+						data-target="#page-help"
+						aria-expanded="false"
+						aria-controls="page-help">
 						<i class="fas fa-question"></i>
 					</button>
 				{% endblock %}
@@ -71,8 +77,12 @@
 				</div>
 			</header>
 
-			<div class="main-content" role="main"> {% block body %}{% endblock %}{% block link %}{% endblock %}
-				</div>
+			<div class="main-content container" role="main"> 
+			{% block body %}{% endblock %}
+			
+
+			{% block link %}{% endblock %}
+			</div>
 
 				{# footer content #}
 				{% block footer %}
@@ -80,7 +90,7 @@
 						<div class="pull-right">
 							©
 							<a href="http://bbees.mnhn.fr">BBEES</a>
-							2019 - GOTIT1.1.2 -
+							2019 - GOTIT 2 -
 							<a href="{{ asset(['doc/legal_notices_', app.request.getLocale(), '.pdf']|join) }}" target="_blank">{{'legales_mentions'|trans}}</a>
 						</div>
 					</footer>
@@ -89,8 +99,18 @@
 
 				{# General Scripts #}
 				{% block scripts %}
-				  {# Main JS #}
+					{# Legacy code include #}
+					<script src="{{asset('js/e3s.js')}}"></script>
+					{# Main JS #}
 					{{ encore_entry_script_tags('core') }}
+					<!-- Symfony javascript routing bundle -->
+					<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+					<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+					{# Symfony translation in JS #}
+					<script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+					<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'queries', 'locales': 'fr,en' }) }}"></script>
+					<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) }}"></script>
+
 				{% endblock %}
 				{#  Templates Scripts #}
 				{% block templatescripts %}

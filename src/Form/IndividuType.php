@@ -35,37 +35,56 @@ class IndividuType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lotmaterielTypeahead', null, ['mapped' => false, 'attr' => ['class' => 'typeahead typeahead-lotmateriel', 'data-target_id' => "bbees_e3sbundle_individu_lotmaterielId", 'name' => "where", 'placeholder' => "Lotmateriel typeahead placeholder",  "maxlength" => "255"], 'required' => true, ])
-                ->add('lotmaterielId', HiddenType::class, array( 'mapped' => false, 'required' => true, ))                
-                ->add('codeTube')
-                ->add('codeIndTriMorpho')
-                ->add('typeIndividuVocFk', EntityType::class, array('class' => 'App:Voc', 
-                       'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('voc')
-                                    ->where('voc.parent LIKE :parent')
-                                    ->setParameter('parent', 'typeIndividu')
-                                    ->orderBy('voc.libelle', 'ASC');
-                        },
-                    'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Type'))
-                ->add('numIndBiomol')
-                ->add('codeIndBiomol')
-                ->add('commentaireInd')
-                ->add('especeIdentifiees', CollectionType::class , array(
-        		'entry_type' => EspeceIdentifieeEmbedType::class,
-        		'allow_add' => true,
-        		'allow_delete' => true,
-                        'prototype' => true,
-                        'prototype_name' => '__name__',
-        		'by_reference' => false,
-                        'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel'])
-        	)) 
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,  ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-                                ;
+        $builder->add('lotmaterielTypeahead', null, [
+            'mapped' => false,
+            'attr' => [
+                'class' => 'typeahead typeahead-lotmateriel',
+                'data-target_id' => "bbees_e3sbundle_individu_lotmaterielId",
+                'name' => "where",
+                'placeholder' => "Lotmateriel typeahead placeholder",
+                "maxlength" => "255"
+            ],
+            'required' => true,
+        ])
+            ->add('lotmaterielId', HiddenType::class, array(
+                'mapped' => false,
+                'required' => true,
+            ))
+            ->add('codeTube')
+            ->add('codeIndTriMorpho')
+            ->add('typeIndividuVocFk', EntityType::class, array(
+                'class' => 'App:Voc',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('voc')
+                        ->where('voc.parent LIKE :parent')
+                        ->setParameter('parent', 'typeIndividu')
+                        ->orderBy('voc.libelle', 'ASC');
+                },
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false,
+                'placeholder' => 'Choose a Type'
+            ))
+            ->add('numIndBiomol')
+            ->add('codeIndBiomol')
+            ->add('commentaireInd')
+            ->add('especeIdentifiees', CollectionType::class, array(
+                'entry_type' => EspeceIdentifieeEmbedType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'prototype_name' => '__name__',
+                'by_reference' => false,
+                'entry_options' => array(
+                    'label' => false,
+                    'refTaxonLabel' => $options['refTaxonLabel']
+                )
+            ))
+            ->add('userCre', HiddenType::class, array())
+            ->add('userMaj', HiddenType::class, array());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -84,6 +103,4 @@ class IndividuType extends AbstractType
     {
         return 'bbees_e3sbundle_individu';
     }
-
-
 }

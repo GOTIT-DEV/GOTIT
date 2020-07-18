@@ -1,77 +1,92 @@
 {% extends 'base.html.twig' %}
 
-    {# initialize the nameOfEntity variable from the gloable variable _controller: '~ / Controller / NameOfEntityController :: indexAction' #}
-    {% set Urlcontroller = app.request.attributes.get('_controller') %}
-    {% set controllerInArray = Urlcontroller|split('Controller') %}
-    {% set controllerName = controllerInArray[1][1:] %}
-    {% set nameOfEntity = [controllerName[:1]|lower, controllerName[1:]]|join  %}
-    {# initialise la variable entityname à partir de la variable globale _route : 'entityname_index' #}
-    {% set route = app.request.attributes.get('_route') %}
-    {% set entityname = route|split('_')[0] %}
-    {% set actioncontroller = route|split('_')[1] %}
-    {# initialise les routes : 'importfilesentityname_index' et entityname_new #}
-    {% set route_index =  [entityname, '_index']|join  %}
-    {% set route_importfiles =  ['importfiles', entityname, '_index']|join  %}
-    {% set route_new =  [entityname, '_new']|join  %} 
-    {% set route_indexjson =  [entityname, '_indexjson']|join  %}
-    {% if app.request.query.get('idFk') is defined and  app.request.query.get('idFk') != '' %} 
-        {% set varUrl_idFk =  app.request.query.get('idFk')  %}
-    {% else %}
-        {% set varUrl_idFk = 0 %}
-    {% endif %}    
-    {% if app.request.query.get('nameFk') is defined and  app.request.query.get('nameFk') != '' %} 
-        {% set varUrl_nameFk =  app.request.query.get('nameFk')  %}
-    {% else %}
-        {% set varUrl_nameFk = '' %}
-    {% endif %}
-    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
-        {% set varUrl_typeBoite =  app.request.query.get('typeBoite')  %}
-    {% else %}
-        {% set varUrl_typeBoite = '' %}
-    {% endif %} 
-    {% set titleEntityName =  ['title.',entityname]|join  %} 
+{# initialize the nameOfEntity variable from the gloable variable _controller: '~ / Controller / NameOfEntityController :: indexAction' #}
+{% set Urlcontroller = app.request.attributes.get('_controller') %}
+{% set controllerInArray = Urlcontroller|split('Controller') %}
+{% set controllerName = controllerInArray[1][1:] %}
+{% set nameOfEntity = [controllerName[:1]|lower, controllerName[1:]]|join %}
+{# initialise la variable entityname à partir de la variable globale _route : 'entityname_index' #}
+{% set route = app.request.attributes.get('_route') %}
+{% set entityname = route|split('_')[0] %}
+{% set actioncontroller = route|split('_')[1] %}
+{# initialise les routes : 'importfilesentityname_index' et entityname_new #}
+{% set route_index = [entityname, '_index']|join %}
+{% set route_importfiles = ['importfiles', entityname, '_index']|join %}
+{% set route_new = [entityname, '_new']|join %}
+{% set route_indexjson = [entityname, '_indexjson']|join %}
 
+{% set varUrl_idFk = app.request.query.get('idFk') %}
+{% set varUrl_nameFk = app.request.query.get('nameFk') | default('') %}
+{% set varUrl_typeBoite = app.request.query.get('typeBoite') | default('') %}
 
 {% block titlepage %}
-    <h1>{{['title.',entityname ]|join|trans}}</h1>
-{% endblock %}   
-
+  <h1>
+    {{ ['title.', entityname]|join|trans }}
+  </h1>
+{% endblock %}
 
 {% block action %}
-{# url parameter management #}
-    {{ parent() }}
-    <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'buton.showAllRecord'|trans}}</a>
+  {# url parameter management #}
+  {{ parent() }}
+  <a href="{{ path(route_index) }}"
+    class="btn btn-primary btn-sm"
+    role="button">
+    {{ 'button.showAllRecord'|trans }}
+  </a>
 
-    {% if is_granted('ROLE_COLLABORATION') %}
-        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'buton.exportToCSV-title'|trans}}">{{'buton.exportToCSV'|trans}}</button>
-        {% if varUrl_nameFk is defined and  varUrl_nameFk != '' %} 
-            <a href="{{ path( route_new ) }}?nameFk={{varUrl_nameFk}}&idFk={{varUrl_idFk}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
-         {% else %}
-            {% if varUrl_idFk is defined and  varUrl_idFk != '' %} 
-                <a href="{{ path( route_new ) }}?idFk={{varUrl_idFk}}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>  
-             {% else %}
-                 <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a> 
-            {% endif %}
-        {% endif %}
-    {% else %}
-        <a href="#" class="btn btn-primary btn-sm" style="background-color:lightgrey" role="button">{{['buton.New',entityname|capitalize]|join|trans}}</a>
-    {% endif %}
-{% endblock %}   
+  {% if is_granted('ROLE_COLLABORATION') %}
+    <button class="btn btn-primary btn-sm"
+      id="export"
+      data-export="export"
+      data-toggle="tooltip"
+      data-align="right"
+      title="{{ 'button.exportToCSV-title'|trans }}">
+      {{ 'button.exportToCSV'|trans }}
+    </button>
+    {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
+        <a href="{{ path_action_new }}"
+          class="btn btn-success btn-sm"
+          role="button">
+          {{ ['button.New', entityname|capitalize]|join|trans }}
+        </a>
+  {% else %}
+    <a href="#"
+      class="btn btn-secondary btn-sm disabled"
+      role="button">
+      {{ ['button.New', entityname|capitalize]|join|trans }}
+    </a>
+  {% endif %}
+{% endblock %}
 
 {% block templatescripts %}  
   
 {# display of the error message on Delete if there are related records #}
 {% if exception_message is defined %} 
-                {% if  varUrl_typeBoite != ''  %} 
-                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";</script> 
-                {% else %} 
-                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index)}}";</script> 
-                {% endif %}
+<script type="text/javascript"> 
+    alert("{{exception_message|raw}}"); 
+    if (urlParams.get("typeBoite")){
+        window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";
+    } else {
+        window.location = "http://" + location.hostname + "{{path(route_index)}}";
+    }
+</script> 
 {% endif %}
 
 {#  bootgrid list management #} 
-{# style=\"color:steelblue\" , style=\"color:lightgrey\" #}
 <script type="text/javascript">     
+
+const urlParams = new URLSearchParams(window.location.search);
+const current_user_id = {{app.user.id}}
+
+const is_granted = {
+    ROLE_COLLABORATION : {{is_granted("ROLE_COLLABORATION")|json_encode()}},
+    ROLE_PROJECT: {{is_granted("ROLE_PROJECT")|json_encode()}}
+}
+
+function is_owner(row){
+    return current_user_id == row.userCreId
+}
+
 $(document).ready(function(){
     $("#grid-basic").bootgrid({
         ajax: true,
@@ -79,15 +94,15 @@ $(document).ready(function(){
         post: function ()
         {        
             return {
-                searchPatern: "{{ app.request.query.get('searchPatern') }}",
-                idFk: "{{ app.request.query.get('idFk') }}",
-                typeBoite: "{{ app.request.query.get('typeBoite') }}"
+                searchPattern: urlParams.get("searchPattern"),
+                idFk: urlParams.get("idFk"),
+                typeBoite: urlParams.get("typeBoite")
             };
         },
         rowCount: [10, 25, 50, -1],
         labels: {
             noResults: "There are no results for the selection",
-            search: "{{ app.request.query.get('searchPatern') }}"
+            search: urlParams.get("searchPattern") || ""
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
@@ -106,103 +121,49 @@ $(document).ready(function(){
             "{{linkname}}" : function(column, row, value)
             {   
                 if (row.{{linkname}} !== undefined && row.{{linkname}} != '') {
-                    {# Match integer #}
                     var is_num = row.{{linkname}};
                     is_num = is_num.match(/^\d+$/);
                     if( is_num > 0) {
-                        return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-list\" style=\"color:steelblue\"></span></a>";
+                        return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\"></span></a>";
                     } else {
-                        return "<a href=\"{{ path(link_index)}}?searchPatern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-list\"></span></a>";
-                    }                 
-                 } else {                                  
-                    {% if is_granted('ROLE_COLLABORATION') %}
-                      return "<a href=\"{{ path(link_new)}}?nameFk={{nameOfEntity}}Fk&idFk="  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
-                    {% else %}
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-plus-sign\" style=\"color:lightgrey\"></span></a>";
-                    {% endif %}                      
+                        return "<a href=\"{{ path(link_index)}}?searchPattern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\"></span></a>";
+                    }
+                 } else if (is_granted.ROLE_COLLABORATION) {  
+                      return "<a href=\"{{ path(link_new)}}?nameFk={{nameOfEntity}}Fk&idFk="  + row.id + "\" class=\"btn btn-sm\" ><span class=\"fas fa-plus-circle\"></span></a>";
+                 }  else {
+                      return `<a href="#" class="btn btn-sm disabled">
+                      <i class="fas fa-plus-circle"></i></a>`;
                  }
             },
             {% endfor %}
 
             "show": function(column, row, value)
             { 
-                if ( {{varUrl_idFk}} != 0 ) {
-                   return "<a href=\""  + row.id + "?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";                  
-                }
-                if ( '{{varUrl_typeBoite}}' != '' ) {
-                   return "<a href=\""  + row.id + "?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                } 
-                if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                    return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                }
+                return `<a href="${row.id}?${urlParams.toString()}" class="btn btn-sm" >
+                        <i class="fas fa-eye"></i></a>`;
             },
             "edit": function(column, row, value)
             {
-                {% if is_granted('ROLE_PROJECT') %}
-                    if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
-                    } 
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
-                    } 
-                    if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";
-                    }                    
-                {% elseif is_granted('ROLE_COLLABORATION')  %}
-                     if ( {{app.user.id}} == row.userCreId ) {
-                            if ( {{varUrl_idFk}} != 0 ) {
-                               return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
-                            } 
-                            if ( '{{varUrl_typeBoite}}' != '' ) {
-                               return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";                  
-                            } 
-                            if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                              return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\"></span></a>";
-                            }
-                     }  else {
-                            if ( {{varUrl_idFk}} != 0 ) {
-                               return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
-                            } 
-                            if ( '{{varUrl_typeBoite}}' != '' ) {
-                               return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
-                            } 
-                            if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                              return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";
-                            }
-                     }
-                {% else %}
-                    if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
-                    } 
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";                  
-                    } 
-                    if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"glyphicon glyphicon-edit\" style=\"color:lightgrey\"></span></a>";
-                    }                   
-                {% endif %}              
+                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row.userCreId))) {
+                    return `<a href="${row.id}/edit?${urlParams.toString()}" class="btn btn-sm">
+                            <i class="fas fa-edit"></i></a>`;  
+                } else {
+                      return `<a href="#" class="btn btn-sm  disabled" ><i class="fas fa-edit" ></i></a>`;          
+                }
             },
             "delete": function(column, row, value)
             {
-                {% if is_granted('ROLE_PROJECT') %}
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
-                    } else {
-                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
-                    }                  
-                {% elseif is_granted('ROLE_COLLABORATION')  %}
-                     if ( {{app.user.id}} == row.userCreId ) {
-                        if ( '{{varUrl_typeBoite}}' != '' ) {
-                           return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";                 
-                        } else {
-                            return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <div class=\"btn btn-sm\"><input type=\"image\" src=\"{{ asset('build/images/trash.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" ></input></div> </form>";
-                        }
-                     }  else {
-                        return "<div class=\"btn btn-sm\"><img src=\"{{ asset('build/images/trash_grey.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" align=\"middle\" ></div>"
-                     }
-                {% else %}
-                    return "<div class=\"btn btn-sm\"><img src=\"{{ asset('build/images/trash_grey.png') }}\" width=\"15\" height=\"15\" alt=\"delete\" align=\"middle\" ></div>"
-                {% endif %}                    
+                let form_action = `${row.id}?${urlParams.toString()}`
+                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row.userCreId))) {
+                    return `<form  method="post" action="${form_action}"
+                                onsubmit="return confirm('Do you really want to delete this record?');" >
+                            <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
+                            <input name="_method" value="DELETE" type="hidden" /> 
+                            <button class='btn btn-sm' type='submit'>
+                            <i class="fas fa-trash"></i></button></form>`; 
+                } else {
+                    return `<button class="btn btn-sm" disabled><i class="fas fa-trash"></i></button>`
+                }
             }
         }
     }); 
@@ -212,7 +173,7 @@ $(document).ready(function(){
 <script type="text/javascript">
     // enable the table to CSV tool
    $("#export").click(function(){
-           $("#grid-basic").tableToCSV();
+        $("#grid-basic").tableToCSV();
    });
 </script>
 

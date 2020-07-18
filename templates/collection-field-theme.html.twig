@@ -1,0 +1,22 @@
+{% block form_label %}
+{% endblock %}
+
+
+{% block form_widget %}
+	<div class="col-10">
+		{% for field in form %}
+			{% form_theme field 'form-theme.html.twig' %}
+			{# No layout for hidden fields #}
+			{% if field.vars.name in ['userMaj', 'userCre'] %}
+				{{ form_widget(field) }}
+			{% else %}
+				<div class="row form-group">
+					{{ form_label(field) }}
+					<div class="col-lg-10">
+						{{ form_widget(field) }}
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endblock %}

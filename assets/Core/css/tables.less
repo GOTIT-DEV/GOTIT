@@ -1,0 +1,27 @@
+/***********************************
+Bootgrid fix and styling
+*/
+
+.modal .bootgrid-header .actionBar,
+.tab-content .bootgrid-header .actionBar {
+  border-top: none;
+  margin-top: 0;
+}
+
+.bootgrid-header .actionBar .search.form-group .input-group {
+  margin-bottom: 0;
+}
+
+/**
+* Bootgrid fix
+*************************************/
+
+table td .btn {
+  &:disabled .fas, 
+  &.disabled .fas {
+    color: grey;
+  }
+  .fas {
+    color: steelblue;
+  }
+}
