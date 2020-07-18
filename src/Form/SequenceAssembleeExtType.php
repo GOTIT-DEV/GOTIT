@@ -19,6 +19,7 @@ namespace App\Form;
 
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\GeneType;
 use App\Form\Type\SequenceStatusType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

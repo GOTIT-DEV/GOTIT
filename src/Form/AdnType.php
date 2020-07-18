@@ -67,7 +67,7 @@ class AdnType extends AbstractType
                 },
                 'placeholder' => 'Choose a Box', 'choice_label' => 'codeBoite', 'multiple' => false, 'expanded' => false, 'required' => false,
             ))
-            ->add('adnEstRealisePars', CollectionType::class, array(
+            ->add('adnEstRealisePars', CollectionType::class, [
                 'entry_type' => AdnEstRealiseParEmbedType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -75,7 +75,7 @@ class AdnType extends AbstractType
                 'prototype_name' => '__name__',
                 'by_reference' => false,
                 'entry_options' => array('label' => false)
-            ))
+            ])
             ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
             ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
             ->add('userCre', HiddenType::class, array())
