@@ -114,7 +114,7 @@
 
 	<div class="card-body entry-list">
 		{% if form.count %}
-			{% form_theme form 'collection-entry-theme.html.twig' %}
+			{# {% form_theme form 'collection-entry-theme.html.twig' %} #}
 			{% for entry in form %}
 				{{ formMacros.printCollectionEntry(entry, loop.index > 1 or not form.vars.required) }}
 				{% if (entry|length) > 1 %}

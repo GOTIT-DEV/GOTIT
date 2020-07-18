@@ -51,10 +51,14 @@ change of language: language passed in parameter of url? language = switch #}
 	{% set backbutton = 0 %}
 	{% set comptvalid = 1 %}
 {% endif %}
+
+
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags("forms") }}
 {% endblock %}
+
+
 {% block titlepage %}
 	<h1>
 		{{ ["title.", entityname] | join | trans }}
