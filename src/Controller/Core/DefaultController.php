@@ -17,7 +17,7 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +39,7 @@ use App\Entity\Boite;
 use App\Entity\Source;
 use App\Services\Core\GenericFunctionE3s;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default_index")

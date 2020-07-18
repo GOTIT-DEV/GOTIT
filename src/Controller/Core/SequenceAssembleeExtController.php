@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\SequenceAssembleeExt;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +38,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeExtController extends Controller
+class SequenceAssembleeExtController extends AbstractController
 {
     /**
      * Lists all sequenceAssembleeExt entities.
@@ -76,8 +76,8 @@ class SequenceAssembleeExtController extends Controller
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(sequenceAssembleeExt.codeSqcAssExt) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ( $request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
         if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND sequenceAssembleeExt.collecteFk = '.$request->get('idFk');

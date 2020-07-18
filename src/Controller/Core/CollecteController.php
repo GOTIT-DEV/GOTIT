@@ -18,13 +18,14 @@
 namespace App\Controller\Core;
 
 use App\Entity\Collecte;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Collecte controller.
@@ -33,10 +34,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CollecteController extends Controller
+class CollecteController extends AbstractController
 {
     const MAX_RESULTS_TYPEAHEAD   = 20;
-    
+
     /**
      * Lists all collecte entities.
      *
@@ -46,12 +47,13 @@ class CollecteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $collectes = $em->getRepository('App:Collecte')->findAll();
-       
-        return $this->render('Core/collecte/index.html.twig', array( 
-            'collectes' => $collectes,));                
-     }
-     
-             
+
+        return $this->render('Core/collecte/index.html.twig', array(
+            'collectes' => $collectes,
+        ));
+    }
+
+
     /**
      * @Route("/search/{q}", requirements={"q"=".+"}, name="collecte_search")
      */
@@ -62,16 +64,16 @@ class CollecteController extends Controller
             ->from('App:Collecte', 'collecte');
         $query = explode(' ', strtolower(trim(urldecode($q))));
         $and = [];
-        for($i=0; $i<count($query); $i++) {
-            $and[] = '(LOWER(collecte.codeCollecte) like :q'.$i.')';
+        for ($i = 0; $i < count($query); $i++) {
+            $and[] = '(LOWER(collecte.codeCollecte) like :q' . $i . ')';
         }
         $qb->where(implode(' and ', $and));
-        for($i=0; $i<count($query); $i++) {
-            $qb->setParameter('q'.$i, $query[$i].'%');
+        for ($i = 0; $i < count($query); $i++) {
+            $qb->setParameter('q' . $i, $query[$i] . '%');
         }
         $qb->addOrderBy('code', 'ASC');
         $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
-        $results = $qb->getQuery()->getResult();        
+        $results = $qb->getQuery()->getResult();
         // Ajax answer
         return $this->json(
             $results
@@ -92,24 +94,24 @@ class CollecteController extends Controller
         $em = $this->getDoctrine()->getManager();
         //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('collecte.dateMaj' => 'desc', 'collecte.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
-               
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('collecte.dateMaj' => 'desc', 'collecte.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
+
         // initializes the searchPhrase variable
         $where = 'LOWER(collecte.codeCollecte) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
-        if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $where .= ' AND collecte.stationFk  = '.$request->get('idFk');
+        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+            $where .= ' AND collecte.stationFk  = ' . $request->get('idFk');
         }
         // Search the list to show
-        $tab_toshow =[];
+        $tab_toshow = [];
         $entities_toshow = $em->getRepository("App:Collecte")->createQueryBuilder('collecte')
             ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
             ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
             ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
@@ -118,56 +120,52 @@ class CollecteController extends Controller
             ->getQuery()
             ->getResult();
         $nb_entities  = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount')  > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);       
-        foreach($entities_toshow as $entity)
-        {
+        $entities_toshow = ($request->get('rowCount')  > 0) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
+        foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
             $DateCollecte = ($entity->getDateCollecte() !== null) ?  $entity->getDateCollecte()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // search for material associated with a sampling
-            $query = $em->createQuery('SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = ' . $id . '')->getResult();
             $linkLotmaterielFk = (count($query) > 0) ? $id : '';
             // search for external material associated with a sampling 
-            $query = $em->createQuery('SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = '.$id.'')->getResult();
+            $query = $em->createQuery('SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = ' . $id . '')->getResult();
             $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
-             // search for external sequence associated with a sampling 
-            $query = $em->createQuery('SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = '.$id.'')->getResult();
+            // search for external sequence associated with a sampling 
+            $query = $em->createQuery('SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id . '')->getResult();
             $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
             // Search for the concatenated list of targeted taxa
-            $query = $em->createQuery('SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id . '')->getResult();
             $arrayTaxonsCibler = array();
-            foreach($query as $taxon) {
-                 $arrayTaxonsCibler[] = $taxon['taxname'];
+            foreach ($query as $taxon) {
+                $arrayTaxonsCibler[] = $taxon['taxname'];
             }
             $listeTaxonsCibler = implode(", ", $arrayTaxonsCibler);
             //
-            $tab_toshow[] = array("id" => $id, "collecte.id" => $id,"collecte.codeCollecte" => $entity->getCodeCollecte(),
-             "station.codeStation" => $entity->getStationFk()->getCodeStation(),
-             "pays.nomPays" => $entity->getStationFk()->getPaysFk()->getNomPays(),
-             "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
-             "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
-             "collecte.dateCollecte" => $DateCollecte,  "collecte.aFaire" => $entity->getAfaire(),
-             "collecte.dateCre" => $DateCre, "collecte.dateMaj" => $DateMaj,
-             "userCreId" => $service->GetUserCreId($entity), "collecte.userCre" => $service->GetUserCreUsername($entity) ,"collecte.userMaj" => $service->GetUserMajUsername($entity),
-             "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "linkSequenceassembleeext" => $linkSequenceassembleeextFk, 
-             "listeTaxonsCibler" => $listeTaxonsCibler );
-        }     
-        // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
-            "searchPhrase" => $searchPhrase,
-            "total"    => $nb_entities  // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+            $tab_toshow[] = array(
+                "id" => $id, "collecte.id" => $id, "collecte.codeCollecte" => $entity->getCodeCollecte(),
+                "station.codeStation" => $entity->getStationFk()->getCodeStation(),
+                "pays.nomPays" => $entity->getStationFk()->getPaysFk()->getNomPays(),
+                "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
+                "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
+                "collecte.dateCollecte" => $DateCollecte,  "collecte.aFaire" => $entity->getAfaire(),
+                "collecte.dateCre" => $DateCre, "collecte.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "collecte.userCre" => $service->GetUserCreUsername($entity), "collecte.userMaj" => $service->GetUserMajUsername($entity),
+                "linkLotmateriel" => $linkLotmaterielFk,  "linkLotmaterielext" => $linkLotmaterielextFk, "linkSequenceassembleeext" => $linkSequenceassembleeextFk,
+                "listeTaxonsCibler" => $listeTaxonsCibler
+            );
+        }
 
-        return $response;          
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
+            "searchPhrase" => $searchPhrase,
+            "total"    => $nb_entities
+        ]);
     }
-    
+
     /**
      * Creates a new collecte entity.
      *
@@ -193,17 +191,15 @@ class CollecteController extends Controller
             $RelEntity = $em->getRepository('App:Station')->find($RelEntityId->getData());
             $collecte->setStationFk($RelEntity);
             // persist Entity
-            $em->persist($collecte);          
+            $em->persist($collecte);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));  
+            }
+            return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1, 'idFk' => $request->get('idFk')));
         }
-
         return $this->render('Core/collecte/edit.html.twig', array(
             'collecte' => $collecte,
             'edit_form' => $form->createView(),
@@ -238,19 +234,15 @@ class CollecteController extends Controller
         //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId() ) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $collecte->getUserCre() != $user->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
-        
-        // load service  generic_function_e3s
-        // 
-
-        // store ArrayCollectionEstFinancePar       
-        $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods',$collecte);
-        $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs',$collecte);
-        $originalEstFinancePars = $service->setArrayCollection('EstFinancePars',$collecte);
-        $originalEstEffectuePars  = $service->setArrayCollection('EstEffectuePars',$collecte);
-        $originalACiblers  = $service->setArrayCollection('ACiblers',$collecte);
+     
+        $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods', $collecte);
+        $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs', $collecte);
+        $originalEstFinancePars = $service->setArrayCollection('EstFinancePars', $collecte);
+        $originalEstEffectuePars  = $service->setArrayCollection('EstEffectuePars', $collecte);
+        $originalACiblers  = $service->setArrayCollection('ACiblers', $collecte);
 
         // editAction
         $deleteForm = $this->createDeleteForm($collecte);
@@ -259,29 +251,29 @@ class CollecteController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // delete ArrayCollection
-            $service->DelArrayCollection('APourSamplingMethods',$collecte, $originalAPourSamplingMethods);
-            $service->DelArrayCollection('APourFixateurs',$collecte, $originalAPourFixateurs);
-            $service->DelArrayCollection('EstFinancePars',$collecte, $originalEstFinancePars);
-            $service->DelArrayCollection('EstEffectuePars',$collecte, $originalEstEffectuePars);
-            $service->DelArrayCollection('ACiblers',$collecte, $originalACiblers);
+            $service->DelArrayCollection('APourSamplingMethods', $collecte, $originalAPourSamplingMethods);
+            $service->DelArrayCollection('APourFixateurs', $collecte, $originalAPourFixateurs);
+            $service->DelArrayCollection('EstFinancePars', $collecte, $originalEstFinancePars);
+            $service->DelArrayCollection('EstEffectuePars', $collecte, $originalEstEffectuePars);
+            $service->DelArrayCollection('ACiblers', $collecte, $originalACiblers);
             // (i) load the id of relational Entity (Station) from typeahead input field  (ii) set the foreign key
             $em = $this->getDoctrine()->getManager();
             $numStationId = $editForm->get('stationId');
             $stationId = $em->getRepository('App:Station')->find($numStationId->getData());
             $collecte->setStationFk($stationId);
             // flush
-            $this->getDoctrine()->getManager()->persist($collecte);                       
+            $this->getDoctrine()->getManager()->persist($collecte);
             try {
                 $this->getDoctrine()->getManager()->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
+            }
             return $this->render('Core/collecte/edit.html.twig', array(
                 'collecte' => $collecte,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));                        
+                'valid' => 1
+            ));
             //return $this->redirectToRoute('collecte_edit', array('id' => $collecte->getId(), 'valid' => 1)); 
         }
 
@@ -302,18 +294,17 @@ class CollecteController extends Controller
     {
         $form = $this->createDeleteForm($collecte);
         $form->handleRequest($request);
-        
+
         $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->remove($collecte);
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/collecte/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
+            }
         }
 
         return $this->redirectToRoute('collecte_index');
@@ -331,7 +322,6 @@ class CollecteController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('collecte_delete', array('id' => $collecte->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

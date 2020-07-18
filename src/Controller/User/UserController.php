@@ -18,7 +18,7 @@
 namespace App\Controller\User;
 
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @Route("user")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>, Louis Duchemin <ls.duchemin@gmail.com>
  */
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * Lists all user entities.

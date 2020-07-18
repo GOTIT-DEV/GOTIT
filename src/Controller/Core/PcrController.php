@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\Pcr;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -33,7 +33,7 @@ use App\Services\Core\GenericFunctionE3s;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  * 
  */
-class PcrController extends Controller
+class PcrController extends AbstractController
 {
     const MAX_RESULTS_TYPEAHEAD   = 20;
     
@@ -101,8 +101,8 @@ class PcrController extends Controller
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ($request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND pcr.adnFk = ' . $request->get('idFk');

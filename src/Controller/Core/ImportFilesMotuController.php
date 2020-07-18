@@ -17,7 +17,7 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -38,7 +38,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 * @Security("has_role('ROLE_PROJECT')")
 * @author Philippe Grison  <philippe.grison@mnhn.fr>
 */
-class ImportFilesMotuController extends Controller
+class ImportFilesMotuController extends AbstractController
 {
      /**
      * @var string

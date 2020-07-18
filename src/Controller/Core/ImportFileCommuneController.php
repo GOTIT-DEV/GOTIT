@@ -17,7 +17,7 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,7 +36,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 * @Route("importfilescommune")
 * @author Philippe Grison  <philippe.grison@mnhn.fr>
 */
-class ImportFileCommuneController extends Controller 
+class ImportFileCommuneController extends AbstractController 
 {     
     /**
      * @Route("/", name="importfilescommune_index")

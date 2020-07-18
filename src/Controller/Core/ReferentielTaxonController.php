@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\ReferentielTaxon;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +33,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ReferentielTaxonController extends Controller
+class ReferentielTaxonController extends AbstractController
 {
     /**
      * Lists all referentielTaxon entities.
@@ -71,8 +71,8 @@ class ReferentielTaxonController extends Controller
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(referentielTaxon.taxname) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ($request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
         // Search for the list to show
         $tab_toshow = [];

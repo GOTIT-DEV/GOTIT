@@ -18,12 +18,12 @@
 namespace App\Controller\Core;
 
 use App\Entity\Personne;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Personne controller.
@@ -32,7 +32,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PersonneController extends Controller
+class PersonneController extends AbstractController
 {
     /**
      * Lists all personne entities.
@@ -42,15 +42,13 @@ class PersonneController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $personnes = $em->getRepository('App:Personne')->findAll();
-
-        return $this->render('Core/personne/index.html.twig', array(
+        return $this->render('Core/personne/index.html.twig', [
             'personnes' => $personnes,
-        ));
+        ]);
     }
 
-    
+
     /**
      * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
@@ -63,58 +61,53 @@ class PersonneController extends Controller
     {
         // load Doctrine Manager      
         $em = $this->getDoctrine()->getManager();
-        //
+
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(personne.nomPersonne) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
         // Search for the list to show
-        $tab_toshow =[];
+        $tab_toshow = [];
         $entities_toshow = $em->getRepository("App:Personne")->createQueryBuilder('personne')
             ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->leftJoin('App:Etablissement', 'etablissement', 'WITH', 'personne.etablissementFk = etablissement.id')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
         $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord); 
-        foreach($entities_toshow as $entity)
-        {
+        $entities_toshow = ($request->get('rowCount') > 0) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
+        foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
             $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             $NomEtablissement = ($entity->getEtablissementFk() !== null) ?  $entity->getEtablissementFk()->getNomEtablissement() : null;
             //
-            $tab_toshow[] = array("id" => $id, "personne.id" => $id, 
-             "personne.nomPersonne" => $entity->getNomPersonne(),
-             "personne.nomComplet" => $entity->getNomComplet(),
-             "etablissement.nomEtablissement" => $NomEtablissement,
-             "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,
-             "userCreId" => $service->GetUserCreId($entity), "personne.userCre" => $service->GetUserCreUsername($entity) ,"personne.userMaj" => $service->GetUserMajUsername($entity),
-             );
-        }     
-        // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
+            $tab_toshow[] = array(
+                "id" => $id, "personne.id" => $id,
+                "personne.nomPersonne" => $entity->getNomPersonne(),
+                "personne.nomComplet" => $entity->getNomComplet(),
+                "etablissement.nomEtablissement" => $NomEtablissement,
+                "personne.dateCre" => $DateCre, "personne.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "personne.userCre" => $service->GetUserCreUsername($entity), "personne.userMaj" => $service->GetUserMajUsername($entity),
+            );
+        }
+
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;          
+        ]);
     }
-    
+
     /**
      * Creates a new personne entity.
      *
@@ -132,12 +125,16 @@ class PersonneController extends Controller
             $em->persist($personne);
             try {
                 $flush = $em->flush();
-                } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('personne_edit', array('id' => $personne->getId(), 'valid' => 1));  
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+                return $this->render('Core/personne/index.html.twig', array(
+                    'exception_message' =>  explode("\n", $exception_message)[0]
+                ));
+            }
+            return $this->redirectToRoute('personne_edit', array(
+                'id' => $personne->getId(),
+                'valid' => 1
+            ));
         }
 
         return $this->render('Core/personne/edit.html.twig', array(
@@ -145,7 +142,7 @@ class PersonneController extends Controller
             'edit_form' => $form->createView(),
         ));
     }
-    
+
     /**
      * Creates a new personne entity for modal windows
      *
@@ -156,58 +153,47 @@ class PersonneController extends Controller
         $personne = new Personne();
         $form = $this->createForm('App\Form\PersonneType', $personne);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            // flush
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($personne);
-            
-            try {
-                $flush = $em->flush();
-                // mémorize the Person created
-                $select_id = $personne->getId();
-                $select_name = $personne->getNomPersonne();
-                // load an empty Person entity
-                $personne_new = new Personne();
-                $form = $this->createForm('App\Form\PersonneType',$personne_new);           
-                // returns an empty form and the parameters of the new record created
-                $response = new Response ();
-                $response->setContent ( json_encode ( array (
-                    'html_form' => $this->render('modal.html.twig', array('entityname' => 'personne', 'form' => $form->createView()))->getContent(),
-                    'select_id' => $select_id,
-                    'select_name' => $select_name,
-                    'exception_message' => "",
-                    'entityname' => 'personne',
-                    ) ) );	
-                } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message = strval($e);
-                // load an empty Person entity
-                $personne_new = new Personne();
-                $form = $this->createForm('App\Form\PersonneType',$personne_new);   
-                // returns a form with the error message
-                $response = new Response ();
-                $response->setContent ( json_encode ( array (
-                    'html_form' => $this->render('modal.html.twig',array('entityname' => 'personne', 'form' => $form->createView()))->getContent(),
-                    'select_id' => 0,
-                    'select_name' => "",
-                    'exception_message' => $exception_message,
-                    'entityname' => 'personne',
-                    ) ) );	
-                }                   
-            If ($request->isXmlHttpRequest()){
-                // If it is an Ajax request: returns the content in json format
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            } else {
-                var_dump("l appel a la fonction newmodalAction du controller PersonneController n est pas de type XmlHttpRequest"); exit;
-            }
-        }
 
-        return $this->render('modal.html.twig', array(
-            'entityname' => 'personne',
-            'form' => $form->createView(),
-        ));
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                return new JsonResponse([
+                    'valid' => false,
+                    "form" => $this->render('modal-form.html.twig', [
+                        'entityname' => 'personne',
+                        'form' => $form->createView(),
+                    ])->getContent()
+                ]);
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($personne);
+
+                try {
+                    $flush = $em->flush();
+                    $select_id = $personne->getId();
+                    $select_name = $personne->getNomPersonne();
+                    // returns the parameters of the new record created
+                    return new JsonResponse([
+                        'select_id' => $select_id,
+                        'select_name' => $select_name,
+                        'entityname' => 'personne',
+                    ]);
+                } catch (\Doctrine\DBAL\DBALException $e) {
+                    // dump($e);
+                    // $exception_message = strval($e);
+                    // returns a form with the error message
+                    return new JsonResponse([
+                        'exception' => true,
+                        'exception_message' => $e->getMessage(),
+                        'entityname' => 'personne',
+                    ]);
+                }
+            }
+        } else {
+            return $this->render('modal.html.twig', array(
+                'entityname' => 'personne',
+                'form' => $form->createView(),
+            ));
+        }
     }
 
 
@@ -239,27 +225,27 @@ class PersonneController extends Controller
         //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        if ($user->getRole() ==  'ROLE_COLLABORATION' && $personne->getUserCre() != $user->getId() ) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $personne->getUserCre() != $user->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         $deleteForm = $this->createDeleteForm($personne);
         $editForm = $this->createForm('App\Form\PersonneType', $personne);
         $editForm->handleRequest($request);
-        
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
                 $this->getDoctrine()->getManager()->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
+            }
             return $this->render('Core/personne/edit.html.twig', array(
                 'personne' => $personne,
                 'edit_form' => $editForm->createView(),
-                'valid' => 1));
+                'valid' => 1
+            ));
         }
-        
+
         return $this->render('Core/personne/edit.html.twig', array(
             'personne' => $personne,
             'edit_form' => $editForm->createView(),
@@ -279,16 +265,15 @@ class PersonneController extends Controller
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->remove($personne);
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/personne/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
+            }
         }
 
         return $this->redirectToRoute('personne_index');
@@ -306,7 +291,6 @@ class PersonneController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('personne_delete', array('id' => $personne->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

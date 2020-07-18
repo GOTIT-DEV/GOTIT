@@ -21,7 +21,7 @@ use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -33,7 +33,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
-class SpeciesHypothesesController extends Controller {
+class SpeciesHypothesesController extends AbstractController {
   /**
    * @Route("/", name="species-hypotheses", methods={"GET"})
    *

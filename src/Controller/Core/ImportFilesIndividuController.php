@@ -17,7 +17,7 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -35,7 +35,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 * @Route("importfilesindividu")
 * @author Philippe Grison  <philippe.grison@mnhn.fr>
 */
-class ImportFilesIndividuController extends Controller
+class ImportFilesIndividuController extends AbstractController
 {
      /**
      * @var string

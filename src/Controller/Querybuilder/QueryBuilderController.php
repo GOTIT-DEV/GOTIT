@@ -3,7 +3,7 @@
 namespace App\Controller\Querybuilder;
 
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ use App\Services\Querybuilder\QueryBuilderService;
  * @Route("/querybuilder")
  * @Security("has_role('ROLE_INVITED')")
  */
-class QueryBuilderController extends Controller
+class QueryBuilderController extends AbstractController
 {
   /**
    * @Route("/", name="query_builder_index")

@@ -19,7 +19,7 @@ namespace App\Controller\SpeciesSearch;
 
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -32,7 +32,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
-class TaxonConsistencyController extends Controller {
+class TaxonConsistencyController extends AbstractController {
 
   /**
    * @Route("/", name="consistency", methods={"GET"})

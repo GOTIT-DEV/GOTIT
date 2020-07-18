@@ -18,10 +18,11 @@
 namespace App\Controller\Core;
 
 use App\Entity\SequenceAssemblee;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
 use App\Entity\Pcr;
@@ -39,18 +40,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeController extends Controller
+class SequenceAssembleeController extends AbstractController
 {
     /**
-    * @var integer
-    */
+     * @var integer
+     */
     private $geneVocFk = null;
     private $individuFk = null;
     /**
      * constante 
      */
     const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
-    
+
     /**
      * Lists all sequenceAssemblee entities.
      *
@@ -67,7 +68,7 @@ class SequenceAssembleeController extends Controller
         ));
     }
 
-     /**
+    /**
      * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
      * b) the number of lines to display ($ request-> get ('rowCount'))
@@ -81,25 +82,25 @@ class SequenceAssembleeController extends Controller
         $em = $this->getDoctrine()->getManager();
         //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
+        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(sequenceAssemblee.codeSqcAss) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
-        if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $where .= ' AND chromatogramme.id = '.$request->get('idFk');
+        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+            $where .= ' AND chromatogramme.id = ' . $request->get('idFk');
         }
         // Search for the list to show EstAligneEtTraite
-        $tab_toshow =[];
+        $tab_toshow = [];
         $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
             ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->leftJoin('App:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
-            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
+            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id')
             ->leftJoin('App:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
             ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
             ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
@@ -117,67 +118,62 @@ class SequenceAssembleeController extends Controller
             ->getQuery()
             ->getResult();
         $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord); 
+        $entities_toshow = ($request->get('rowCount') > 0) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
         $lastTaxname = '';
-        foreach($entities_toshow as $entity)
-        {
+        foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
             $DateCreationSqcAss = ($entity->getDateCreationSqcAss() !== null) ?  $entity->getDateCreationSqcAss()->format('Y-m-d') : null;
             $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
+            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // Search for the number of sequence associated to a chromatogram
-            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = ' . $id . ' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
             // search for motu associated to a sequence
-            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
+            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = ' . $id . ' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
             // load the first identified taxon            
-            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
+            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = ' . $id . ' ORDER BY ei.id DESC')->getResult();
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
-            $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
+            $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL;
             $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
             // Search for sousrces associated to a sequence
-            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = ' . $id . '')->getResult();
             $arrayListeSource = array();
-            foreach($query as $taxon) {
-                 $arrayListeSource[] = $taxon['source'];
+            foreach ($query as $taxon) {
+                $arrayListeSource[] = $taxon['source'];
             }
             $listSource = implode(", ", $arrayListeSource);
             //
-            $tab_toshow[] = array("id" => $id, "sequenceAssemblee.id" => $id, 
-             "individu.codeIndBiomol" => $codeIndBiomol,
-             "sequenceAssemblee.codeSqcAlignement" => $entity->getCodeSqcAlignement(),
-             "sequenceAssemblee.codeSqcAss" => $entity->getCodeSqcAss(),
-             "sequenceAssemblee.accessionNumber" => $entity->getAccessionNumber(),
-             "vocGene.code" => $geneSeqAss, 
-             "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),                 
-             "sequenceAssemblee.dateCreationSqcAss" => $DateCreationSqcAss,   
-             "lastTaxname" => $lastTaxname,  
-             "listSource" => $listSource, 
-             "lastdateIdentification" => $lastdateIdentification ,
-             "codeIdentification" => $codeIdentification ,
-             "motuAssigne" => $motuAssigne ,   
-             "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj, 
-             "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
-             );
-        }     
+            $tab_toshow[] = array(
+                "id" => $id, "sequenceAssemblee.id" => $id,
+                "individu.codeIndBiomol" => $codeIndBiomol,
+                "sequenceAssemblee.codeSqcAlignement" => $entity->getCodeSqcAlignement(),
+                "sequenceAssemblee.codeSqcAss" => $entity->getCodeSqcAss(),
+                "sequenceAssemblee.accessionNumber" => $entity->getAccessionNumber(),
+                "vocGene.code" => $geneSeqAss,
+                "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),
+                "sequenceAssemblee.dateCreationSqcAss" => $DateCreationSqcAss,
+                "lastTaxname" => $lastTaxname,
+                "listSource" => $listSource,
+                "lastdateIdentification" => $lastdateIdentification,
+                "codeIdentification" => $codeIdentification,
+                "motuAssigne" => $motuAssigne,
+                "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity), "sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
+            );
+        }
         // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+        ]);
+    }
 
-        return $response;          
-    } 
-
-     /**
+    /**
      * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
      * b) the number of lines to display ($ request-> get ('rowCount'))
@@ -191,25 +187,27 @@ class SequenceAssembleeController extends Controller
         $em = $this->getDoctrine()->getManager();
         //
         $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
+        $orderBy = ($request->get('sort')  !== NULL)
+            ? $request->get('sort')
+            : ['sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc'];
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(sequenceAssemblee.codeSqcAss) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
-        if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $where .= ' AND chromatogramme.id = '.$request->get('idFk');
+        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+            $where .= ' AND chromatogramme.id = ' . $request->get('idFk');
         }
         // Search for the list to show EstAligneEtTraite
-        $tab_toshow =[];
+        $tab_toshow = [];
         $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceAssemblee')
             ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
+            ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->leftJoin('App:Voc', 'vocStatutSqcAss', 'WITH', 'sequenceAssemblee.statutSqcAssVocFk = vocStatutSqcAss.id')
-            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id') 
+            ->leftJoin('App:EstAligneEtTraite', 'eaet', 'WITH', 'eaet.sequenceAssembleeFk = sequenceAssemblee.id')
             ->leftJoin('App:Chromatogramme', 'chromatogramme', 'WITH', 'eaet.chromatogrammeFk = chromatogramme.id')
             ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
             ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
@@ -227,67 +225,67 @@ class SequenceAssembleeController extends Controller
             ->getQuery()
             ->getResult();
         $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord); 
+        $entities_toshow = ($request->get('rowCount') > 0) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
         $lastTaxname = '';
-        foreach($entities_toshow as $entity)
-        {
+        foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
-            $DateCreationSqcAss = ($entity->getDateCreationSqcAss() !== null) ?  $entity->getDateCreationSqcAss()->format('Y-m-d') : null;
-            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;       
+            $DateCreationSqcAss = ($entity->getDateCreationSqcAss() !== null)
+                ? $entity->getDateCreationSqcAss()->format('Y-m-d') : null;
+            $DateMaj = ($entity->getDateMaj() !== null)
+                ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $DateCre = ($entity->getDateCre() !== null)
+                ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // Search for the number of sequence associated to a chromatogram
-            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+            $query = $em->createQuery('SELECT eaet.id, voc.libelle as gene, individu.codeIndBiomol as code_ind_biomol FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = ' . $id . ' ORDER BY eaet.id DESC')->getResult();
             $geneSeqAss = (count($query) > 0) ? $query[0]['gene'] : '';
             $codeIndBiomol = (count($query) > 0) ? $query[0]['code_ind_biomol'] : '';
             // search for motu associated to a sequence
-            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = '.$id.' ')->getResult();
+            $query = $em->createQuery('SELECT a.id FROM App:Assigne a JOIN a.sequenceAssembleeFk sqc  WHERE a.sequenceAssembleeFk = ' . $id . ' ')->getResult();
             $motuAssigne = (count($query) > 0) ? 1 : 0;
             // load the first identified taxon            
-            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = '.$id.' ORDER BY ei.id DESC')->getResult(); 
+            $query = $em->createQuery('SELECT ei.id, ei.dateIdentification, rt.taxname as taxname, voc.code as codeIdentification FROM App:EspeceIdentifiee ei JOIN ei.referentielTaxonFk rt JOIN ei.critereIdentificationVocFk voc WHERE ei.sequenceAssembleeFk = ' . $id . ' ORDER BY ei.id DESC')->getResult();
             $lastTaxname = ($query[0]['taxname'] !== NULL) ? $query[0]['taxname'] : NULL;
-            $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL) ? $query[0]['dateIdentification']->format('Y-m-d') : NULL; 
-            $codeIdentification = ($query[0]['codeIdentification'] !== NULL) ? $query[0]['codeIdentification'] : NULL;
+            $lastdateIdentification = ($query[0]['dateIdentification']  !== NULL)
+                ? $query[0]['dateIdentification']->format('Y-m-d') : NULL;
+            $codeIdentification = ($query[0]['codeIdentification'] !== NULL)
+                ? $query[0]['codeIdentification'] : NULL;
             // Search for sousrces associated to a sequence
-            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = '.$id.'')->getResult();            
+            $query = $em->createQuery('SELECT s.codeSource as source FROM App:SqcEstPublieDans sepd JOIN sepd.sourceFk s WHERE sepd.sequenceAssembleeFk = ' . $id . '')->getResult();
             $arrayListeSource = array();
-            foreach($query as $taxon) {
-                 $arrayListeSource[] = $taxon['source'];
+            foreach ($query as $taxon) {
+                $arrayListeSource[] = $taxon['source'];
             }
             $listSource = implode(", ", $arrayListeSource);
             //
-            $tab_toshow[] = array("id" => $id, "sequenceAssemblee.id" => $id, 
-             "individu.codeIndBiomol" => $codeIndBiomol,
-             "sequenceAssemblee.codeSqcAlignement" => $entity->getCodeSqcAlignement(),
-             "sequenceAssemblee.codeSqcAss" => $entity->getCodeSqcAss(),
-             "sequenceAssemblee.accessionNumber" => $entity->getAccessionNumber(),
-             "vocGene.code" => $geneSeqAss, 
-             "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),                 
-             "sequenceAssemblee.dateCreationSqcAss" => $DateCreationSqcAss,   
-             "lastTaxname" => $lastTaxname,  
-             "listSource" => $listSource, 
-             "lastdateIdentification" => $lastdateIdentification ,
-             "codeIdentification" => $codeIdentification ,
-             "motuAssigne" => $motuAssigne ,   
-             "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj, 
-             "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity) ,"sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
-             );
-        }     
+            $tab_toshow[] = array(
+                "id" => $id, "sequenceAssemblee.id" => $id,
+                "individu.codeIndBiomol" => $codeIndBiomol,
+                "sequenceAssemblee.codeSqcAlignement" => $entity->getCodeSqcAlignement(),
+                "sequenceAssemblee.codeSqcAss" => $entity->getCodeSqcAss(),
+                "sequenceAssemblee.accessionNumber" => $entity->getAccessionNumber(),
+                "vocGene.code" => $geneSeqAss,
+                "vocStatutSqcAss.code" => $entity->getStatutSqcAssVocFk()->getCode(),
+                "sequenceAssemblee.dateCreationSqcAss" => $DateCreationSqcAss,
+                "lastTaxname" => $lastTaxname,
+                "listSource" => $listSource,
+                "lastdateIdentification" => $lastdateIdentification,
+                "codeIdentification" => $codeIdentification,
+                "motuAssigne" => $motuAssigne,
+                "sequenceAssemblee.dateCre" => $DateCre, "sequenceAssemblee.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity), "sequenceAssemblee.userCre" => $service->GetUserCreUsername($entity), "sequenceAssemblee.userMaj" => $service->GetUserMajUsername($entity),
+            );
+        }
         // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+        ]);
+    }
 
-        return $response;          
-    } 
 
-    
     /**
      * Creates a new sequenceAssemblee entity.
      *
@@ -297,24 +295,24 @@ class SequenceAssembleeController extends Controller
     public function newAction(Request $request)
     {
 
-        $sequenceAssemblee = new Sequenceassemblee();  
+        $sequenceAssemblee = new Sequenceassemblee();
 
         // management of the form GeneIndbiomolForm
-        $this->geneVocFk = ($request->get('geneVocFk')!== null && $request->get('geneVocFk') != '') ? $request->get('geneVocFk') : null ;
-        $this->individuFk = ($request->get('individuFk')!== null && $request->get('individuFk') != '') ? $request->get('individuFk') : null ;
-        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
-        $form_gene_indbiomol->handleRequest($request); 
-        if ($form_gene_indbiomol->isSubmitted() && $form_gene_indbiomol->isValid()) { 
+        $this->geneVocFk = ($request->get('geneVocFk') !== null && $request->get('geneVocFk') != '') ? $request->get('geneVocFk') : null;
+        $this->individuFk = ($request->get('individuFk') !== null && $request->get('individuFk') != '') ? $request->get('individuFk') : null;
+        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk);
+        $form_gene_indbiomol->handleRequest($request);
+        if ($form_gene_indbiomol->isSubmitted() && $form_gene_indbiomol->isValid()) {
             $this->geneVocFk = $form_gene_indbiomol->get('geneVocFk')->getData()->getId();
             $this->individuFk = $form_gene_indbiomol->get('individuFk')->getData()->getId();
             $sequenceAssemblee->setGeneVocFk($form_gene_indbiomol->get('geneVocFk')->getData()->getId());
             $sequenceAssemblee->setIndividuFk($form_gene_indbiomol->get('individuFk')->getData()->getId());
-        } 
+        }
         // case where the idFk url parameter is not null 
-        if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $where = ' chromatogramme.id = '.$request->get('idFk');
+        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+            $where = ' chromatogramme.id = ' . $request->get('idFk');
             // Search for the list to show EstAligneEtTraite
-            $tab_toshow =[];
+            $tab_toshow = [];
             $entities_toshow = $this->getDoctrine()->getManager()->getRepository("App:Chromatogramme")->createQueryBuilder('chromatogramme')
                 ->where($where)
                 ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
@@ -324,20 +322,19 @@ class SequenceAssembleeController extends Controller
                 ->getQuery()
                 ->getResult();
             // set the geneVocFk and individuFk parameteres
-            foreach($entities_toshow as $entity)
-            {
+            foreach ($entities_toshow as $entity) {
                 $this->geneVocFk = $entity->getPcrFk()->getGeneVocFk()->getId();
                 $this->individuFk = $entity->getPcrFk()->getAdnFk()->getIndividuFk()->getId();
-                $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
-                $sequenceAssemblee->setGeneVocFk($this->geneVocFk );
+                $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk);
+                $sequenceAssemblee->setGeneVocFk($this->geneVocFk);
                 $sequenceAssemblee->setIndividuFk($this->individuFk);
             }
         }
 
         // management of the form SequenceAssembleeType
-        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );
-        $form = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk ]);
-        $form->handleRequest($request);        
+        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk);
+        $form = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]);
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($sequenceAssemblee);
@@ -347,19 +344,18 @@ class SequenceAssembleeController extends Controller
             $em->persist($sequenceAssemblee);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
-            return $this->redirectToRoute('sequenceassemblee_edit', array('id' => $sequenceAssemblee->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));
-        }       
+            return $this->redirectToRoute('sequenceassemblee_edit', array('id' => $sequenceAssemblee->getId(), 'valid' => 1, 'idFk' => $request->get('idFk')));
+        }
         return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-                                'sequenceAssemblee' => $sequenceAssemblee,
-                                'edit_form' => $form->createView(),
-                                'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
-                                'geneVocFk' => $this->geneVocFk,
-                                'individuFk' => $this->individuFk,
+            'sequenceAssemblee' => $sequenceAssemblee,
+            'edit_form' => $form->createView(),
+            'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
+            'geneVocFk' => $this->geneVocFk,
+            'individuFk' => $this->individuFk,
         ));
     }
 
@@ -373,14 +369,14 @@ class SequenceAssembleeController extends Controller
         // Recherche du gene et de l'individu pour la sequenceAssemblee
         $em = $this->getDoctrine()->getManager();
         $id = $sequenceAssemblee->getId();
-        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = ' . $id . ' ORDER BY eaet.id DESC')->getResult();
         $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
-        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : ''; 
+        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';
         //
         $deleteForm = $this->createDeleteForm($sequenceAssemblee);
-        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]);
         //
-        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk ); 
+        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk);
 
         return $this->render('show.html.twig', array(
             'sequenceAssemblee' => $sequenceAssemblee,
@@ -400,51 +396,50 @@ class SequenceAssembleeController extends Controller
         //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        if ($user->getRole() ==  'ROLE_COLLABORATION' && $sequenceAssemblee->getUserCre() != $user->getId() ) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        if ($user->getRole() ==  'ROLE_COLLABORATION' && $sequenceAssemblee->getUserCre() != $user->getId()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         // load service  generic_function_e3s
         // 
-        
+
         // Recherche du gene et de l'individu pour la sequence
         $em = $this->getDoctrine()->getManager();
         $id = $sequenceAssemblee->getId();
-        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = '.$id.' ORDER BY eaet.id DESC')->getResult();
+        $query = $em->createQuery('SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk FROM App:EstAligneEtTraite eaet JOIN eaet.chromatogrammeFk chromato JOIN chromato.pcrFk pcr JOIN pcr.geneVocFk voc JOIN pcr.adnFk adn JOIN adn.individuFk individu WHERE eaet.sequenceAssembleeFk = ' . $id . ' ORDER BY eaet.id DESC')->getResult();
         $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
-        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';  
-        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk );        
-                
+        $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';
+        $form_gene_indbiomol = $this->createGeneIndbiomolForm($sequenceAssemblee, $this->geneVocFk, $this->individuFk);
+
         // store ArrayCollection       
-        $estAligneEtTraites = $service->setArrayCollection('EstAligneEtTraites',$sequenceAssemblee);
-        $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssemblee);
-        $sqcEstPublieDanss = $service->setArrayCollection('SqcEstPublieDanss',$sequenceAssemblee);
-        $sequenceAssembleeEstRealisePars = $service->setArrayCollection('SequenceAssembleeEstRealisePars',$sequenceAssemblee);
-       
+        $estAligneEtTraites = $service->setArrayCollection('EstAligneEtTraites', $sequenceAssemblee);
+        $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $sequenceAssemblee);
+        $sqcEstPublieDanss = $service->setArrayCollection('SqcEstPublieDanss', $sequenceAssemblee);
+        $sequenceAssembleeEstRealisePars = $service->setArrayCollection('SequenceAssembleeEstRealisePars', $sequenceAssemblee);
+
         $deleteForm = $this->createDeleteForm($sequenceAssemblee);
-        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+        $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // delete ArrayCollection
-            $service->DelArrayCollection('EstAligneEtTraites',$sequenceAssemblee, $estAligneEtTraites);
-            $service->DelArrayCollectionEmbed('EspeceIdentifiees','EstIdentifiePars',$sequenceAssemblee, $especeIdentifiees);
-            $service->DelArrayCollection('SqcEstPublieDanss',$sequenceAssemblee, $sqcEstPublieDanss);
-            $service->DelArrayCollection('SequenceAssembleeEstRealisePars',$sequenceAssemblee, $sequenceAssembleeEstRealisePars);
-            $em->persist($sequenceAssemblee); 
+            $service->DelArrayCollection('EstAligneEtTraites', $sequenceAssemblee, $estAligneEtTraites);
+            $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $sequenceAssemblee, $especeIdentifiees);
+            $service->DelArrayCollection('SqcEstPublieDanss', $sequenceAssemblee, $sqcEstPublieDanss);
+            $service->DelArrayCollection('SequenceAssembleeEstRealisePars', $sequenceAssemblee, $sequenceAssembleeEstRealisePars);
+            $em->persist($sequenceAssemblee);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk , 'individuFk' => $this->individuFk]);
+            }
+            $editForm = $this->createForm('App\Form\SequenceAssembleeType', $sequenceAssemblee, ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]);
             return $this->render('Core/sequenceassemblee/edit.html.twig', array(
                 'sequenceAssemblee' => $sequenceAssemblee,
                 'edit_form' => $editForm->createView(),
                 'valid' => 1,
                 'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
-                ));
+            ));
         }
 
         return $this->render('Core/sequenceassemblee/edit.html.twig', array(
@@ -467,16 +462,15 @@ class SequenceAssembleeController extends Controller
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->remove($sequenceAssemblee);
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/sequenceassemblee/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
+            }
         }
 
         return $this->redirectToRoute('sequenceassemblee_index');
@@ -494,68 +488,72 @@ class SequenceAssembleeController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('sequenceassemblee_delete', array('id' => $sequenceAssemblee->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
-    
+
     /**
-    * Creates a form  : createGeneIndbiomolForm(SequenceAssemblee $sequenceAssemblee = null, $geneVocFk = null, $individuFk = null)
-    *
-    * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form  : createGeneIndbiomolForm(SequenceAssemblee $sequenceAssemblee = null, $geneVocFk = null, $individuFk = null)
+     *
+     * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createGeneIndbiomolForm(SequenceAssemblee $sequenceAssemblee = null, $geneVocFk = null, $individuFk = null)
-    {       
+    {
         if ($sequenceAssemblee->getId() == null && $geneVocFk == null) {
             return $this->createFormBuilder()
-                    ->setMethod('POST')
-                    ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
-                           'query_builder' => function (EntityRepository $er) {
-                                return $er->createQueryBuilder('voc')
-                                        ->where('voc.parent LIKE :parent')
-                                        ->setParameter('parent', 'gene')
-                                        ->orderBy('voc.libelle', 'ASC');
-                            }, 
-                        'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a gene')) 
-                     ->add('individuFk',EntityType::class, array('class' => 'App:Individu',
-                             'query_builder' => function (EntityRepository $er) {
-                                return $er->createQueryBuilder('ind')
-                                   ->where('ind.codeIndBiomol IS NOT NULL')
-                                   ->orderBy('ind.codeIndBiomol', 'ASC');
-                            }, 
-                             'placeholder' => 'Choose an individu', 'choice_label' => 'code_ind_biomol', 'multiple' => false, 'expanded' => false))
-                    ->add('buton.Valid', SubmitType::class, array('label' => 'buton.Valid', 'attr' => array('class' => 'btn btn-round btn-success')))
-                    ->getForm()
-            ;
-        } 
-        if ( $geneVocFk != null && $individuFk != null ) {
-            $options = ['geneVocFk'=>$geneVocFk ,'individuFk'=>$individuFk ];
+                ->setMethod('POST')
+                ->add('geneVocFk', EntityType::class, array(
+                    'class' => 'App:Voc',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('voc')
+                            ->where('voc.parent LIKE :parent')
+                            ->setParameter('parent', 'gene')
+                            ->orderBy('voc.libelle', 'ASC');
+                    },
+                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a gene'
+                ))
+                ->add('individuFk', EntityType::class, array(
+                    'class' => 'App:Individu',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('ind')
+                            ->where('ind.codeIndBiomol IS NOT NULL')
+                            ->orderBy('ind.codeIndBiomol', 'ASC');
+                    },
+                    'placeholder' => 'Choose an individu', 'choice_label' => 'code_ind_biomol', 'multiple' => false, 'expanded' => false
+                ))
+                ->add('button.Valid', SubmitType::class, array('label' => 'button.Valid', 'attr' => array('class' => 'btn btn-round btn-success')))
+                ->getForm();
+        }
+        if ($geneVocFk != null && $individuFk != null) {
+            $options = ['geneVocFk' => $geneVocFk, 'individuFk' => $individuFk];
             return $this->createFormBuilder()
-                    ->setMethod('POST')
-                    ->add('geneVocFk', EntityType::class, array('class' => 'App:Voc', 
-                           'query_builder' => function (EntityRepository $er) use($options) {
-                                return $er->createQueryBuilder('voc')
-                                        ->where('voc.id = :geneVocFk')
-                                        ->setParameter('geneVocFk', $options['geneVocFk'])
-                                        ->orderBy('voc.libelle', 'ASC');
-                            }, 
-                        'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => false)) 
-                     ->add('individuFk',EntityType::class, array('class' => 'App:Individu',
-                             'query_builder' => function (EntityRepository $er) use($options) {
-                                return $er->createQueryBuilder('ind')
-                                   ->where('ind.id = :individuFk')
-                                   ->setParameter('individuFk', $options['individuFk'])
-                                   ->orderBy('ind.codeIndBiomol', 'ASC');
-                            }, 
-                             'placeholder' => false, 'choice_label' => 'code_ind_biomol', 'multiple' => false, 'expanded' => false))                                   
-                    ->add('buton.Valid', SubmitType::class, array('label' => 'buton.Valid', 'attr' => array('class' => 'btn btn-round btn-success')))
-                    ->getForm()
-            ;
-        } 
-        
+                ->setMethod('POST')
+                ->add('geneVocFk', EntityType::class, array(
+                    'class' => 'App:Voc',
+                    'query_builder' => function (EntityRepository $er) use ($options) {
+                        return $er->createQueryBuilder('voc')
+                            ->where('voc.id = :geneVocFk')
+                            ->setParameter('geneVocFk', $options['geneVocFk'])
+                            ->orderBy('voc.libelle', 'ASC');
+                    },
+                    'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => false
+                ))
+                ->add('individuFk', EntityType::class, array(
+                    'class' => 'App:Individu',
+                    'query_builder' => function (EntityRepository $er) use ($options) {
+                        return $er->createQueryBuilder('ind')
+                            ->where('ind.id = :individuFk')
+                            ->setParameter('individuFk', $options['individuFk'])
+                            ->orderBy('ind.codeIndBiomol', 'ASC');
+                    },
+                    'placeholder' => false, 'choice_label' => 'code_ind_biomol', 'multiple' => false, 'expanded' => false
+                ))
+                ->add('button.Valid', SubmitType::class, array('label' => 'button.Valid', 'attr' => array('class' => 'btn btn-round btn-success')))
+                ->getForm();
+        }
     }
-    
+
     /**
      * Creates a createCodeSqcAlignement
      *
@@ -563,37 +561,36 @@ class SequenceAssembleeController extends Controller
      *
      */
     private function createCodeSqcAlignement(SequenceAssemblee $sequenceAssemblee = null, $geneVocFk = null, $individuFk = null)
-    {  
+    {
         $codeSqcAlignement = '';
         $em = $this->getDoctrine()->getManager();
         $EspeceIdentifiees =  $sequenceAssemblee->getEspeceIdentifiees();
         $nbEspeceIdentifiees = count($EspeceIdentifiees);
         $eaetId = $sequenceAssemblee->getEstAligneEtTraites()[0]->getId();
         $nbChromato = count($sequenceAssemblee->getEstAligneEtTraites());
-        
-        if( $nbChromato > 0 && $nbEspeceIdentifiees>0 ) {
+
+        if ($nbChromato > 0 && $nbEspeceIdentifiees > 0) {
             // The status of the sequence DNA the referential Taxon = to the last taxname attributed
             $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
-            $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees-1]->getReferentielTaxonFk()->getCodeTaxon();
-            $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5)=='VALID') ? $lastCodeTaxon : $codeStatutSqcAss.'_'.$lastCodeTaxon;           
+            $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees - 1]->getReferentielTaxonFk()->getCodeTaxon();
+            $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID') ? $lastCodeTaxon : $codeStatutSqcAss . '_' . $lastCodeTaxon;
             $Chromatogramme1 = $sequenceAssemblee->getEstAligneEtTraites()[0]->getChromatogrammeFk();
             $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getNumIndBiomol();
             $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
-            $codeSqcAlignement = $codeSqcAlignement.'_'.$codeCollecte.'_'.$numIndBiomol;
+            $codeSqcAlignement = $codeSqcAlignement . '_' . $codeCollecte . '_' . $numIndBiomol;
             //  the concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
             $arrayCodeChromato = array();
             foreach ($sequenceAssemblee->getEstAligneEtTraites() as $entityEstAligneEtTraites) {
-                 $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
-                 $specificite = $entityEstAligneEtTraites->getChromatogrammeFk()->getPcrFk()->getSpecificiteVocFk()->getCode();
-                 $arrayCodeChromato[] = $codeChromato.'|'.$specificite;
+                $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
+                $specificite = $entityEstAligneEtTraites->getChromatogrammeFk()->getPcrFk()->getSpecificiteVocFk()->getCode();
+                $arrayCodeChromato[] = $codeChromato . '|' . $specificite;
             }
             sort($arrayCodeChromato);
             $listeCodeChromato = implode("-", $arrayCodeChromato);
-            $codeSqcAlignement = $codeSqcAlignement.'_'.$listeCodeChromato;
+            $codeSqcAlignement = $codeSqcAlignement . '_' . $listeCodeChromato;
         } else {
             $codeSqcAlignement = null;
         }
-        return $codeSqcAlignement;        
-        
+        return $codeSqcAlignement;
     }
 }

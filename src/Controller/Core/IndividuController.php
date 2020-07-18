@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\Individu;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuController extends Controller
+class IndividuController extends AbstractController
 {
     const MAX_RESULTS_TYPEAHEAD   = 20;
     
@@ -99,8 +99,8 @@ class IndividuController extends Controller
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = ' LOWER(sp.specimen_morphological_code) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPatern') !== null && $request->get('searchPatern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPatern');
+        if ( $request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+            $searchPhrase = $request->get('searchPattern');
         }
         if ( $request->get('idFk') !== null && $request->get('idFk') !== '') {
             $where .= ' AND sp.internal_biological_material_fk = '.$request->get('idFk');
