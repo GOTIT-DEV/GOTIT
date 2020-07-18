@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,7 +38,7 @@ class MotuType extends AbstractType
     {
         $builder->add('nomFichierCsv')
             ->add('libelleMotu')
-            ->add('dateMotu', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy',))
+            ->add('dateMotu', DateFormattedType::class, ['required' => true])
             ->add('commentaireMotu')
             ->add('motuEstGenerePars', CollectionType::class, array(
                 'entry_type' => MotuEstGenereParEmbedType::class,

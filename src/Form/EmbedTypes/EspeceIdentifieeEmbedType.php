@@ -23,11 +23,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 use App\Form\Type\CustomTypes\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
 
 class EspeceIdentifieeEmbedType extends AbstractType
 {
@@ -64,11 +64,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                 'label_attr' => array('class' => 'radio-inline'), 
                 'required' => true,
             ))
-            ->add('dateIdentification', DateType::class, array(
-                'widget' => 'single_text', 
-                'format' => 'dd-MM-yyyy', 
-                'required' => false,
-                ))
+            ->add('dateIdentification', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('typeMaterielVocFk', EntityType::class, array(
                 'class' => 'App:Voc',

@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\SequenceStatusType;
 use Symfony\Component\Form\AbstractType;
@@ -55,7 +56,7 @@ class SequenceAssembleeExtType extends AbstractType
             ))
             ->add('geneVocFk', GeneType::class)
             ->add('statutSqcAssVocFk', SequenceStatusType::class)
-            ->add('dateCreationSqcAssExt', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
+            ->add('dateCreationSqcAssExt', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('commentaireSqcAssExt')
             ->add('sqcExtEstRealisePars', CollectionType::class, array(

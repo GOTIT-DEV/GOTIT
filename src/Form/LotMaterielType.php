@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,7 +40,7 @@ class LotMaterielType extends AbstractType
         $builder->add('collecteTypeahead', null, ['mapped' => false, 'attr' => ['class' => 'typeahead typeahead-collecte', 'data-target_id' => "bbees_e3sbundle_lotmateriel_collecteId", 'name' => "where", 'placeholder' => "Collecte typeahead placeholder",  "maxlength" => "255"], 'required' => true,])
             ->add('collecteId', HiddenType::class, array('mapped' => false, 'required' => true,))
             ->add('codeLotMateriel')
-            ->add('dateLotMateriel', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
+            ->add('dateLotMateriel', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('lotMaterielEstRealisePars', CollectionType::class, array(
                 'entry_type' => LotMaterielEstRealiseParEmbedType::class,

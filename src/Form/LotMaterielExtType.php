@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -75,7 +76,7 @@ class LotMaterielExtType extends AbstractType
                 'placeholder' => 'Choose an option'
             ))
             ->add('commentaireNbIndividus')
-            ->add('dateCreationLotMaterielExt', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
+            ->add('dateCreationLotMaterielExt', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('lotMaterielExtEstRealisePars', CollectionType::class, array(
                 'entry_type' => LotMaterielExtEstRealiseParEmbedType::class,

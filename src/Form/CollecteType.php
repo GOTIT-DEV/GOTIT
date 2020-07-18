@@ -23,6 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\APourSamplingMethodEmbedType;
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -56,11 +57,7 @@ class CollecteType extends AbstractType
         'required' => true,
       ])
       ->add('codeCollecte')
-      ->add('dateCollecte', DateType::class, [
-        'widget' => 'single_text',
-        'format' => 'dd-MM-yyyy',
-        'required' => false,
-      ])
+      ->add('dateCollecte', DateFormattedType::class)
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('aPourSamplingMethods', CollectionType::class, [
         'entry_type' => APourSamplingMethodEmbedType::class,

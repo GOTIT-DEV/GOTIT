@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,7 +41,7 @@ class IndividuLameType extends AbstractType
             ->add('individuId', HiddenType::class, array('mapped' => false, 'required' => true,))
             ->add('codeLameColl')
             ->add('libelleLame')
-            ->add('dateLame', DateType::class, array('widget' => 'text', 'format' => 'dd-MM-yyyy', 'required' => false,))
+            ->add('dateLame', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('nomDossierPhotos')
             ->add('commentaireLame')

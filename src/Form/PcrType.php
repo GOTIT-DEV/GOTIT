@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\GeneType;
 use Symfony\Component\Form\AbstractType;
@@ -59,7 +60,7 @@ class PcrType extends AbstractType
                                     ->orderBy('voc.libelle', 'ASC');
                         }, 
                     'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false,'placeholder' => 'Choose a primer end')) 
-                ->add('datePcr', DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
+                ->add('datePcr', DateFormattedType::class)
                 ->add('datePrecisionVocFk', DatePrecisionType::class)
                 ->add('qualitePcrVocFk', EntityType::class, array('class' => 'App:Voc', 
                        'query_builder' => function (EntityRepository $er) {

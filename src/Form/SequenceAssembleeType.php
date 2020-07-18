@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\SequenceStatusType;
 use Symfony\Component\Form\AbstractType;
@@ -41,7 +42,7 @@ class SequenceAssembleeType extends AbstractType
                 ->add('accessionNumber')
                 ->add('codeSqcAlignement')
                 ->add('commentaireSqcAss')
-                ->add('dateCreationSqcAss',DateType::class, array('widget' => 'text','format' => 'dd-MM-yyyy', 'required' => false, ))
+                ->add('dateCreationSqcAss', DateFormattedType::class)
                 ->add('datePrecisionVocFk', DatePrecisionType::class)
                 ->add('statutSqcAssVocFk', SequenceStatusType::class) 
                 ->add('estAligneEtTraites', CollectionType::class , array(
