@@ -28,7 +28,6 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class SequenceAssembleeExtType extends AbstractType
 {
