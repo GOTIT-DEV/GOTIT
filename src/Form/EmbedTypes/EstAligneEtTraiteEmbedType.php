@@ -53,11 +53,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType
             'required' => true,
             'label' => 'Code Chromato | Specificite',
             'placeholder' => 'Choose a chromatogramme',
-        ])
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+        ]);
     }
 
     /**

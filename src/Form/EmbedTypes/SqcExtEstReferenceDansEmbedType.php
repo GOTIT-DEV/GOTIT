@@ -33,19 +33,21 @@ class SqcExtEstReferenceDansEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('sourceFk', EntityType::class, array('class' => 'App:Source',
-                    'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('source')
-                            ->orderBy('source.codeSource', 'ASC');
-                    }, 
-                    'placeholder' => 'Choose a Source', 'choice_label' => 'code_source', 'multiple' => false, 'expanded' => false, 'label' => false ))
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr'=>array('style'=>'display:none;')))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array())
-       ;
+        $builder->add('sourceFk', EntityType::class, array(
+            'class' => 'App:Source',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('source')
+                    ->orderBy('source.codeSource', 'ASC');
+            },
+            'placeholder' => 'Choose a Source',
+            'choice_label' =>
+            'code_source',
+            'multiple' => false,
+            'expanded' => false,
+            'label' => false
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -63,6 +65,4 @@ class SqcExtEstReferenceDansEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_sqcextestreferencedans';
     }
-
-
 }
