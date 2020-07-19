@@ -31,6 +31,12 @@ const dateMasks = [
   }
 ]
 
+export function getPrecisionOf(precisionFormElt) {
+  const value = parseInt($(precisionFormElt).find(':checked').val())
+  const precisionValues = $(precisionFormElt).find("input").toArray()
+    .map(input => parseInt(input.value))
+  return precisionValues.indexOf(value)
+}
 
 export function initDateMask(formBlockElement) {
   const precisionWidget = formBlockElement.querySelector(".date-precision")
@@ -41,15 +47,10 @@ export function initDateMask(formBlockElement) {
 
   if (precisionWidget !== null) {
     $(precisionWidget).change(event => {
-      const $precisionChanged = $(event.currentTarget)
-      const value = parseInt($precisionChanged.find(':checked').val())
-      const precisionValues = $precisionChanged.find("input").toArray()
-        .map(input => parseInt(input.value))
-
-      const $dateWidget = $precisionChanged.closest(".form-group").parent()
+      const precision = getPrecisionOf(event.currentTarget)
+      const $dateWidget = $(event.currentTarget).closest(".form-group").parent()
         .find(".date-autoformat:first")
 
-      const precision = precisionValues.indexOf(value)
       if (precision !== -1) {
         $dateWidget
           .prop('disabled', precision === 3)
