@@ -115,7 +115,7 @@
             dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2', 'dateIdentification', message);
         })
         {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
-            {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk')is not null) %}
+            {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) %}
                 $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}&idFk={{app.request.query.get('idFk')}}');
             {% else %} 
                 $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}');
