@@ -18,12 +18,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Station
  *
  * @ORM\Table(name="site", uniqueConstraints={@ORM\UniqueConstraint(name="uk_site__site_code", columns={"site_code"})}, indexes={@ORM\Index(name="IDX_9F39F8B143D4E2C", columns={"municipality_fk"}), @ORM\Index(name="IDX_9F39F8B1B1C3431A", columns={"country_fk"}), @ORM\Index(name="IDX_9F39F8B14D50D031", columns={"access_point_voc_fk"}), @ORM\Index(name="IDX_9F39F8B1C23046AE", columns={"habitat_type_voc_fk"}), @ORM\Index(name="IDX_9F39F8B1E86DBD90", columns={"coordinate_precision_voc_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeStation"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Station
