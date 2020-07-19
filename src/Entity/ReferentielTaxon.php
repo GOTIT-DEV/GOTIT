@@ -28,14 +28,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\UniqueConstraint(name="uk_taxon__taxon_name", columns={"taxon_name"}), 
  *      @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"taxname"},
- *  message="This name already exists"
- * )
- * @UniqueEntity(
- *  fields={'codeTaxon'},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"taxname"}, message="This name already exists")
+ * @UniqueEntity(fields={"codeTaxon"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxon

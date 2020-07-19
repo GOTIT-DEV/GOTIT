@@ -35,14 +35,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"sampling_fk"}), 
  *      @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"external_sequence_status_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeSqcAssExt"},
- *  message="This code is already registered"
- * )
- * @UniqueEntity(
- *  fields={"codeSqcAssExtAlignement"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeSqcAssExt"}, message="This code is already registered")
+ * @UniqueEntity(fields={"codeSqcAssExtAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeExt

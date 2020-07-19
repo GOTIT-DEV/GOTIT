@@ -33,10 +33,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"sampling_fk"}), 
  *      @ORM\Index(name="IDX_BA1841A52B644673", columns={"storage_box_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeLotMateriel"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeLotMateriel"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMateriel

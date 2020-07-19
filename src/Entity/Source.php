@@ -27,10 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="source", 
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_source__source_code", columns={"source_code"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeSource"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeSource"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Source

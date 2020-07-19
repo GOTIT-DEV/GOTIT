@@ -32,10 +32,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_9F39F8B1C23046AE", columns={"habitat_type_voc_fk"}), 
  *      @ORM\Index(name="IDX_9F39F8B1E86DBD90", columns={"coordinate_precision_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeStation"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeStation"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Station

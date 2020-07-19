@@ -34,10 +34,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}), 
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeAdn"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeAdn"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Adn

@@ -35,10 +35,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_5B6B9936A30C442F", columns={"date_precision_voc_fk"}), 
  *      @ORM\Index(name="IDX_5B6B99364B06319D", columns={"dna_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codePcr"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codePcr"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Pcr

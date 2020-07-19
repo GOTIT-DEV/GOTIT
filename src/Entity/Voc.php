@@ -26,10 +26,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="vocabulary", 
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_vocabulary__parent__code", columns={"code", "parent"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"code", "parent"},
- *  message="This code is already registered for the specified parent"
- * )
+ * @UniqueEntity(fields={"code", "parent"}, message="This code is already registered for the specified parent")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Voc

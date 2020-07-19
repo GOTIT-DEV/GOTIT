@@ -31,10 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_8DA827E22B644673", columns={"storage_box_fk"}), 
  *      @ORM\Index(name="IDX_8DA827E25F2C6176", columns={"specimen_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeLameColl"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeLameColl"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class IndividuLame

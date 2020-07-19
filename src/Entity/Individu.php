@@ -33,14 +33,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
  * })
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeIndTriMorpho"},
- *  message="This code is already registered"
- * )
- * @UniqueEntity(
- *  fields={"codeIndTriMorpho"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
+ * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Individu

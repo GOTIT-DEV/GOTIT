@@ -31,10 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_FCB2DAB7E8441376", columns={"institution_fk"}), 
  *      @ORM\Index(name="IDX_FCB2DAB72B63D494", columns={"pcr_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeChromato"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeChromato"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Chromatogramme

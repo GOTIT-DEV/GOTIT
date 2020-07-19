@@ -31,10 +31,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_7718EDEF41A72D48", columns={"collection_code_voc_fk"}), 
  *      @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"codeBoite"},
- *  message="This code is already registered"
- * )
+ * @UniqueEntity(fields={"codeBoite"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Boite

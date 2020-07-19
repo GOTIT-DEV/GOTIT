@@ -26,10 +26,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="institution", 
  * uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
  * @ORM\Entity
- * @UniqueEntity(
- *  fields={"nomEtablissement"},
- *  message="This name already exists"
- * )
+ * @UniqueEntity(fields={"nomEtablissement"}, message="This name already exists")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Etablissement
