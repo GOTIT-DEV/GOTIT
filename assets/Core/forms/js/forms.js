@@ -2,7 +2,6 @@ import "bootstrap-select/dist/css/bootstrap-select.min.css"
 import "../css/forms.less"
 
 import "bootstrap-select"
-import Inputmask from "inputmask";
 import Mustache from "mustache"
 import moment from "moment"
 
@@ -28,12 +27,15 @@ function modalFormSubmitCallback(event) {
   event.preventDefault()
   let $form = $(event.target)
   let $submitBtn = $form.find("button[type='submit']")
+
+  // Update UI
   $submitBtn.prop("disabled", true)
   $form.find(".form-status")
     .addClass("fa-spin fa-spinner")
     .removeClass("fa-check-circle")
-  // $form.find(".form-status .fa-spinner").removeClass("d-none")
   $form.find(".errors").html('')
+
+  // Send request
   $.ajax({
     type: $form.attr('method'),
     url: $form.attr('action'),
@@ -46,7 +48,6 @@ function modalFormSubmitCallback(event) {
       console.warn(jqXHR);
     },
     success: function (response) {
-      console.log(response)
       if (response.valid === false) {
         // Invalid form
         let $newForm = $(response.form)

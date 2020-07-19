@@ -1,3 +1,5 @@
+import Inputmask from "inputmask"
+
 const dateMaskConfig = {
   shiftPositions: false,
   regex: "[0-3]\\d-[0-1]\\d-[1-2]\\d{3}",
