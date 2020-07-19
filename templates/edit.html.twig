@@ -72,14 +72,10 @@ change of language: language passed in parameter of url? language = switch #}
 	{% set dateNow = 'now'|date('Y-m-d H:i:s', timezone = 'Europe/Paris') %}
 
 	{{ form_start(edit_form, {'disabled': false}) }}
-	{{ form_errors(edit_form) }} <input id="comptvalid" name="comptvalid" type="hidden" value="{{ comptvalid }}"/>
-	{% if edit_form.userCre and edit_form.userCre.vars.value is empty and app.user.id is defined %}
-		{{ form_widget(edit_form.userCre, { value: app.user.id }) }}
-	{% endif %}
+	{{ form_errors(edit_form) }} 
 
-	{% if edit_form.userMaj and app.user.id is defined %}
-		{{ form_widget(edit_form.userMaj, {value: app.user.id}) }}
-	{% endif %}
+	<input id="comptvalid" name="comptvalid" type="hidden" value="{{ comptvalid }}"/>
+
 	{% if nameFk is defined and action == 'new' and edit_form[nameFk] is defined %}
 		{{ form_row(attribute(edit_form, nameFk), {value: idFk}) }}
 	{% endif %}

@@ -19,20 +19,36 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use App\Form\APourSamplingMethodEmbedType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
+
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+use App\Form\APourSamplingMethodEmbedType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\EventListener\AddUserDateFields;
 
 class CollecteType extends AbstractType
 {
+
+  private $addUserDate;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(TokenStorageInterface $tokenStorage)
+  {
+    $this->addUserDate = new AddUserDateFields($tokenStorage);
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -117,12 +133,12 @@ class CollecteType extends AbstractType
       ])
       ->add('dureeEchantillonnageMn', IntegerType::class, [
         'attr' => ["min" => "0"],
-        'required'=>false
+        'required' => false
       ])
       ->add('temperatureC')
       ->add('conductiviteMicroSieCm', IntegerType::class, [
         'attr' => ["min" => "0"],
-        'required'=>false
+        'required' => false
       ])
       ->add('aFaire', ChoiceType::class, [
         'choices'  => ['YES' => 1, 'NO' => 0,],
@@ -147,9 +163,13 @@ class CollecteType extends AbstractType
         'expanded' => true,
         'label_attr' => ['class' => 'radio-inline']
       ])
-      ->add('userCre', HiddenType::class, [])
-      ->add('userMaj', HiddenType::class, []);
+      ->addEventSubscriber($this->addUserDate);
+    if ($options['action'] == 'show') {
+      $builder->add('dateCre')
+        ->add('dateMaj');
+    }
   }
+
 
   /**
    * {@inheritdoc}
@@ -157,7 +177,7 @@ class CollecteType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Collecte',
+      'data_class' => 'App\Entity\Collecte'
     ));
   }
 

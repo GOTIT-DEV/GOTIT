@@ -20,17 +20,21 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Form\DataTransformer\UppercaseTransformer;
+use App\Form\EventListener\AddUserDateFields;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PersonneType extends AbstractType
 {
-    public function __construct()
+    private $uppercaseTrans;
+    private $addUserDate;
+    
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->uppercaseTrans = new UppercaseTransformer();
+        $this->addUserDate = new AddUserDateFields($tokenStorage);
     }
 
     /**
@@ -49,12 +53,17 @@ class PersonneType extends AbstractType
                 'attr' => ["class" => "text-uppercase"],
                 'required' => false
             ])
-            ->add('etablissementFk', EntityType::class, array('class' => 'App:Etablissement', 'placeholder' => 'Choose a Etablissement', 'choice_label' => 'nom_etablissement', 'multiple' => false, 'expanded' => false, 'required' => false,))
-            ->add('commentairePersonne')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-m-d H:m:s', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->add('etablissementFk', EntityType::class, array(
+                'class' => 'App:Etablissement',
+                'placeholder' => 'Choose a Etablissement',
+                'choice_label' => 'nom_etablissement',
+                'multiple' => false,
+                'expanded' => false,
+                'required' => false,
+            ))
+            ->add('commentairePersonne');
+
+        $builder->addEventSubscriber($this->addUserDate);
 
         // force uppercase on these fields
         $builder->get('nomPersonne')->addModelTransformer($this->uppercaseTrans);
