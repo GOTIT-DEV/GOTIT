@@ -23,7 +23,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Personne
  *
- * @ORM\Table(name="person", uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})}, indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
+ * @ORM\Table(name="person", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})}, 
+ *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
  * @ORM\Entity
  * @UniqueEntity(
  *  fields={"nomPersonne"},

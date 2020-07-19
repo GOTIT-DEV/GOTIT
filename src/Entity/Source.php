@@ -19,12 +19,18 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Source
  *
- * @ORM\Table(name="source", uniqueConstraints={@ORM\UniqueConstraint(name="uk_source__source_code", columns={"source_code"})})
+ * @ORM\Table(name="source", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_source__source_code", columns={"source_code"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeSource"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Source
@@ -94,15 +100,15 @@ class Source
      * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
     private $userMaj;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SourceAEteIntegrePar", mappedBy="sourceFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sourceAEteIntegrePars;
-    
-    
-    
+
+
+
     public function __construct()
     {
         $this->sourceAEteIntegrePars = new ArrayCollection();

@@ -19,14 +19,26 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * LotMateriel
  *
- * @ORM\Table(name="internal_biological_material", uniqueConstraints={@ORM\UniqueConstraint(name="uk_internal_biological_material__internal_biological_material_c", columns={"internal_biological_material_code"})}, indexes={@ORM\Index(name="IDX_BA1841A5A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_BA1841A5B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_BA1841A5A897CC9E", columns={"eyes_voc_fk"}), @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"sampling_fk"}), @ORM\Index(name="IDX_BA1841A52B644673", columns={"storage_box_fk"})})
+ * @ORM\Table(name="internal_biological_material", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_internal_biological_material__internal_biological_material_c", columns={"internal_biological_material_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_BA1841A5A30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_BA1841A5B0B56B73", columns={"pigmentation_voc_fk"}), 
+ *      @ORM\Index(name="IDX_BA1841A5A897CC9E", columns={"eyes_voc_fk"}), 
+ *      @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"sampling_fk"}), 
+ *      @ORM\Index(name="IDX_BA1841A52B644673", columns={"storage_box_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeLotMateriel"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
- */ 
+ */
 class LotMateriel
 {
     /**
@@ -66,7 +78,7 @@ class LotMateriel
      * @ORM\Column(name="internal_biological_material_comments", type="text", nullable=true)
      */
     private $commentaireLotMateriel;
-    
+
     /**
      * @var integer
      *
@@ -151,36 +163,36 @@ class LotMateriel
      * })
      */
     private $boiteFk;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="LotMaterielEstRealisePar", mappedBy="lotMaterielFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotMaterielEstRealisePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="LotEstPublieDans", mappedBy="lotMaterielFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotEstPublieDanss;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="lotMaterielFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="CompositionLotMateriel", mappedBy="lotMaterielFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $compositionLotMateriels;
-    
-    
+
+
     public function __construct()
     {
         $this->lotMaterielEstRealisePars = new ArrayCollection();
-    	$this->lotEstPublieDanss = new ArrayCollection();
+        $this->lotEstPublieDanss = new ArrayCollection();
         $this->especeIdentifiees = new ArrayCollection();
         $this->compositionLotMateriels = new ArrayCollection();
     }
@@ -551,7 +563,7 @@ class LotMateriel
      */
     public function addLotEstPublieDans(\App\Entity\LotEstPublieDans $lotEstPublieDanss)
     {
-       
+
         $lotEstPublieDanss->setLotMaterielFk($this);
         $this->lotEstPublieDanss[] = $lotEstPublieDanss;
 

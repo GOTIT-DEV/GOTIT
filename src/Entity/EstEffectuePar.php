@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EstEffectuePar
  *
- * @ORM\Table(name="sampling_is_performed_by", indexes={@ORM\Index(name="IDX_EE2A88C9B53CD04C", columns={"person_fk"}), @ORM\Index(name="IDX_EE2A88C9662D9B98", columns={"sampling_fk"})})
+ * @ORM\Table(name="sampling_is_performed_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_EE2A88C9B53CD04C", columns={"person_fk"}), 
+ *      @ORM\Index(name="IDX_EE2A88C9662D9B98", columns={"sampling_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

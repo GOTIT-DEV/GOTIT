@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PcrEstRealisePar
  *
- * @ORM\Table(name="pcr_is_done_by", indexes={@ORM\Index(name="IDX_1041853B2B63D494", columns={"pcr_fk"}), @ORM\Index(name="IDX_1041853BB53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="pcr_is_done_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_1041853B2B63D494", columns={"pcr_fk"}), 
+ *      @ORM\Index(name="IDX_1041853BB53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

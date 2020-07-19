@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EstFinancePar
  *
- * @ORM\Table(name="sampling_is_funded_by", indexes={@ORM\Index(name="IDX_18FCBB8F759C7BB0", columns={"program_fk"}), @ORM\Index(name="IDX_18FCBB8F662D9B98", columns={"sampling_fk"})})
+ * @ORM\Table(name="sampling_is_funded_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_18FCBB8F759C7BB0", columns={"program_fk"}), 
+ *      @ORM\Index(name="IDX_18FCBB8F662D9B98", columns={"sampling_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

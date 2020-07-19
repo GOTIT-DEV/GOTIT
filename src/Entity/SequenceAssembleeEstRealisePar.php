@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SequenceAssembleeEstRealisePar
  *
- * @ORM\Table(name="internal_sequence_is_assembled_by", indexes={@ORM\Index(name="IDX_F6971BA85BE90E48", columns={"internal_sequence_fk"}), @ORM\Index(name="IDX_F6971BA8B53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="internal_sequence_is_assembled_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_F6971BA85BE90E48", columns={"internal_sequence_fk"}), 
+ *      @ORM\Index(name="IDX_F6971BA8B53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

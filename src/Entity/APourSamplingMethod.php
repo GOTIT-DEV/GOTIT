@@ -23,7 +23,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * APourSamplingMethod
  *
- * @ORM\Table(name="sampling_is_done_with_method", indexes={@ORM\Index(name="IDX_5A6BD88A29B38195", columns={"sampling_method_voc_fk"}), @ORM\Index(name="IDX_5A6BD88A662D9B98", columns={"sampling_fk"})})
+ * @ORM\Table(name="sampling_is_done_with_method", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_5A6BD88A29B38195", columns={"sampling_method_voc_fk"}), 
+ *      @ORM\Index(name="IDX_5A6BD88A662D9B98", columns={"sampling_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

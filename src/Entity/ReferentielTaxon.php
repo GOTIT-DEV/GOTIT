@@ -18,12 +18,24 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * ReferentielTaxon
  *
- * @ORM\Table(name="taxon", uniqueConstraints={ @ORM\UniqueConstraint(name="uk_taxon__taxon_name", columns={"taxon_name"}), @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
+ * @ORM\Table(name="taxon", 
+ *  uniqueConstraints={ 
+ *      @ORM\UniqueConstraint(name="uk_taxon__taxon_name", columns={"taxon_name"}), 
+ *      @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"taxname"},
+ *  message="This name already exists"
+ * )
+ * @UniqueEntity(
+ *  fields={'codeTaxon'},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxon
@@ -44,7 +56,7 @@ class ReferentielTaxon
      * @ORM\Column(name="taxon_name", type="string", length=255, nullable=false)
      */
     private $taxname;
-    
+
     /**
      * @var string
      *

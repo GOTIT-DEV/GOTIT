@@ -22,7 +22,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Assigne
  *
- * @ORM\Table(name="motu_number", indexes={@ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"external_sequence_fk"}), @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"delimitation_method_voc_fk"}), @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"internal_sequence_fk"}), @ORM\Index(name="IDX_4E79CB8D503B4409", columns={"motu_fk"})})
+ * @ORM\Table(name="motu_number", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"external_sequence_fk"}), 
+ *      @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"delimitation_method_voc_fk"}), 
+ *      @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"internal_sequence_fk"}), 
+ *      @ORM\Index(name="IDX_4E79CB8D503B4409", columns={"motu_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

@@ -19,12 +19,27 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * SequenceAssemblee
  *
- * @ORM\Table(name="internal_sequence", uniqueConstraints={@ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_code", columns={"internal_sequence_code"}), @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_alignment_code", columns={"internal_sequence_alignment_code"})}, indexes={@ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_353CF66988085E0F", columns={"internal_sequence_status_voc_fk"})})
+ * @ORM\Table(name="internal_sequence", 
+ * uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_code", columns={"internal_sequence_code"}), 
+ *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_alignment_code", columns={"internal_sequence_alignment_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_353CF66988085E0F", columns={"internal_sequence_status_voc_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeSqcAss"},
+ *  message="This code is already registered"
+ * )
+ * @UniqueEntity(
+ *  fields={"codeSqcAlignement"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssemblee
@@ -101,7 +116,7 @@ class SequenceAssemblee
      * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
     private $userMaj;
-    
+
     /**
      * @var integer
      */
@@ -138,31 +153,31 @@ class SequenceAssemblee
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sequenceAssembleeEstRealisePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SqcEstPublieDans", mappedBy="sequenceAssembleeFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcEstPublieDanss;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="sequenceAssembleeFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estAligneEtTraites;
-    
-    
-    
+
+
+
     public function __construct()
     {
         $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
-    	$this->sqcEstPublieDanss = new ArrayCollection();
+        $this->sqcEstPublieDanss = new ArrayCollection();
         $this->especeIdentifiees = new ArrayCollection();
         $this->estAligneEtTraites = new ArrayCollection();
     }
@@ -581,7 +596,7 @@ class SequenceAssemblee
     {
         return $this->estAligneEtTraites;
     }
-    
+
     /**
      * Set geneVocFk
      *
@@ -629,5 +644,4 @@ class SequenceAssemblee
     {
         return $this->individuFk;
     }
-
 }

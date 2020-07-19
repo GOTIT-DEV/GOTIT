@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CompositionLotMateriel
  *
- * @ORM\Table(name="composition_of_internal_biological_material", indexes={@ORM\Index(name="IDX_10A697444236D33E", columns={"specimen_type_voc_fk"}), @ORM\Index(name="IDX_10A6974454DBBD4D", columns={"internal_biological_material_fk"})})
+ * @ORM\Table(name="composition_of_internal_biological_material", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_10A697444236D33E", columns={"specimen_type_voc_fk"}), 
+ *      @ORM\Index(name="IDX_10A6974454DBBD4D", columns={"internal_biological_material_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

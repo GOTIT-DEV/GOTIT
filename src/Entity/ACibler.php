@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ACibler
  *
- * @ORM\Table(name="has_targeted_taxa", indexes={@ORM\Index(name="IDX_C0DF0CE4662D9B98", columns={"sampling_fk"}), @ORM\Index(name="IDX_C0DF0CE47B09E3BC", columns={"taxon_fk"})})
+ * @ORM\Table(name="has_targeted_taxa", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_C0DF0CE4662D9B98", columns={"sampling_fk"}), 
+ *      @ORM\Index(name="IDX_C0DF0CE47B09E3BC", columns={"taxon_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

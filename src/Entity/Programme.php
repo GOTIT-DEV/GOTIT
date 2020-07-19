@@ -18,12 +18,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Programme
  *
- * @ORM\Table(name="program", uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
+ * @ORM\Table(name="program", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeProgramme"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Programme

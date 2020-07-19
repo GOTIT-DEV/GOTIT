@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EstIdentifiePar
  *
- * @ORM\Table(name="species_is_identified_by", indexes={@ORM\Index(name="IDX_F8FCCF63B53CD04C", columns={"person_fk"}), @ORM\Index(name="IDX_F8FCCF63B4AB6BA0", columns={"identified_species_fk"})})
+ * @ORM\Table(name="species_is_identified_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_F8FCCF63B53CD04C", columns={"person_fk"}), 
+ *      @ORM\Index(name="IDX_F8FCCF63B4AB6BA0", columns={"identified_species_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

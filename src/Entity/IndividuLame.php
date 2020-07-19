@@ -19,12 +19,22 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * IndividuLame
  *
- * @ORM\Table(name="specimen_slide", uniqueConstraints={@ORM\UniqueConstraint(name="uk_specimen_slide__collection_slide_code", columns={"collection_slide_code"})}, indexes={@ORM\Index(name="IDX_8DA827E2A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_8DA827E22B644673", columns={"storage_box_fk"}), @ORM\Index(name="IDX_8DA827E25F2C6176", columns={"specimen_fk"})})
+ * @ORM\Table(name="specimen_slide", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_specimen_slide__collection_slide_code", columns={"collection_slide_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_8DA827E2A30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_8DA827E22B644673", columns={"storage_box_fk"}), 
+ *      @ORM\Index(name="IDX_8DA827E25F2C6176", columns={"specimen_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeLameColl"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class IndividuLame
@@ -137,9 +147,9 @@ class IndividuLame
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $individuLameEstRealisePars;
-    
-    
-    
+
+
+
     public function __construct()
     {
         $this->individuLameEstRealisePars = new ArrayCollection();

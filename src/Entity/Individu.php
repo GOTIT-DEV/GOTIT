@@ -19,12 +19,28 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Individu
  *
- * @ORM\Table(name="specimen", uniqueConstraints={@ORM\UniqueConstraint(name="uk_specimen__specimen_morphological_code", columns={"specimen_morphological_code"}), @ORM\UniqueConstraint(name="uk_specimen__specimen_molecular_code", columns={"specimen_molecular_code"})}, indexes={@ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"specimen_type_voc_fk"}), @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})})
+ * @ORM\Table(name="specimen", 
+ *  uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="uk_specimen__specimen_morphological_code", columns={"specimen_morphological_code"}), 
+ *      @ORM\UniqueConstraint(name="uk_specimen__specimen_molecular_code", columns={"specimen_molecular_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"specimen_type_voc_fk"}), 
+ *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
+ * })
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeIndTriMorpho"},
+ *  message="This code is already registered"
+ * )
+ * @UniqueEntity(
+ *  fields={"codeIndTriMorpho"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Individu
@@ -121,14 +137,14 @@ class Individu
      * })
      */
     private $lotMaterielFk;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="individuFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
-    
-    
+
+
     public function __construct()
     {
         $this->especeIdentifiees = new ArrayCollection();

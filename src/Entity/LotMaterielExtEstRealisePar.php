@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LotMaterielExtEstRealisePar
  *
- * @ORM\Table(name="external_biological_material_is_processed_by", indexes={@ORM\Index(name="IDX_7D78636FB53CD04C", columns={"person_fk"}), @ORM\Index(name="IDX_7D78636F40D80ECD", columns={"external_biological_material_fk"})})
+ * @ORM\Table(name="external_biological_material_is_processed_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_7D78636FB53CD04C", columns={"person_fk"}), 
+ *      @ORM\Index(name="IDX_7D78636F40D80ECD", columns={"external_biological_material_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

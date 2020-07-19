@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * IndividuLameEstRealisePar
  *
- * @ORM\Table(name="slide_is_mounted_by", indexes={@ORM\Index(name="IDX_88295540D9C85992", columns={"specimen_slide_fk"}), @ORM\Index(name="IDX_88295540B53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="slide_is_mounted_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_88295540D9C85992", columns={"specimen_slide_fk"}), 
+ *      @ORM\Index(name="IDX_88295540B53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

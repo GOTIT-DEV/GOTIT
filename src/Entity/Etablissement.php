@@ -18,12 +18,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Etablissement
  *
- * @ORM\Table(name="institution", uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
+ * @ORM\Table(name="institution", 
+ * uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"nomEtablissement"},
+ *  message="This name already exists"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Etablissement

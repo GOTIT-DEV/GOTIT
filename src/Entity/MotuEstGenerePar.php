@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MotuEstGenerePar
  *
- * @ORM\Table(name="motu_is_generated_by", indexes={@ORM\Index(name="IDX_17A90EA3503B4409", columns={"motu_fk"}), @ORM\Index(name="IDX_17A90EA3B53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="motu_is_generated_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_17A90EA3503B4409", columns={"motu_fk"}), 
+ *      @ORM\Index(name="IDX_17A90EA3B53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

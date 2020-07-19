@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EstAligneEtTraite
  *
- * @ORM\Table(name="chromatogram_is_processed_to", indexes={@ORM\Index(name="IDX_BD45639EEFCFD332", columns={"chromatogram_fk"}), @ORM\Index(name="IDX_BD45639E5BE90E48", columns={"internal_sequence_fk"})})
+ * @ORM\Table(name="chromatogram_is_processed_to", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_BD45639EEFCFD332", columns={"chromatogram_fk"}), 
+ *      @ORM\Index(name="IDX_BD45639E5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

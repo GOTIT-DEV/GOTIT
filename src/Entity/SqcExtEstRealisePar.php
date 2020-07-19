@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SqcExtEstRealisePar
  *
- * @ORM\Table(name="external_sequence_is_entered_by", indexes={@ORM\Index(name="IDX_DC41E25ACDD1F756", columns={"external_sequence_fk"}), @ORM\Index(name="IDX_DC41E25AB53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="external_sequence_is_entered_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_DC41E25ACDD1F756", columns={"external_sequence_fk"}), 
+ *      @ORM\Index(name="IDX_DC41E25AB53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

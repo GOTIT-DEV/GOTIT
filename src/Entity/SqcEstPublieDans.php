@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SqcEstPublieDans
  *
- * @ORM\Table(name="internal_sequence_is_published_in", indexes={@ORM\Index(name="IDX_BA97B9C4821B1D3F", columns={"source_fk"}), @ORM\Index(name="IDX_BA97B9C45BE90E48", columns={"internal_sequence_fk"})})
+ * @ORM\Table(name="internal_sequence_is_published_in", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_BA97B9C4821B1D3F", columns={"source_fk"}), 
+ *      @ORM\Index(name="IDX_BA97B9C45BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

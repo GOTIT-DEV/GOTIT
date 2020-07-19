@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * APourFixateur
  *
- * @ORM\Table(name="sample_is_fixed_with", indexes={@ORM\Index(name="IDX_60129A315FD841AC", columns={"fixative_voc_fk"}), @ORM\Index(name="IDX_60129A31662D9B98", columns={"sampling_fk"})})
+ * @ORM\Table(name="sample_is_fixed_with", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_60129A315FD841AC", columns={"fixative_voc_fk"}), 
+ *      @ORM\Index(name="IDX_60129A31662D9B98", columns={"sampling_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

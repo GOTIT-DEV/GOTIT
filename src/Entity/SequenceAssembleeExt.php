@@ -19,12 +19,30 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * SequenceAssembleeExt
  *
- * @ORM\Table(name="external_sequence", uniqueConstraints={@ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_code", columns={"external_sequence_code"}), @ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_alignment_code", columns={"external_sequence_alignment_code"})}, indexes={@ORM\Index(name="IDX_9E9F85CF9D3CDB05", columns={"gene_voc_fk"}), @ORM\Index(name="IDX_9E9F85CFA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF514D78E0", columns={"external_sequence_origin_voc_fk"}), @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"sampling_fk"}), @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"external_sequence_status_voc_fk"})})
+ * @ORM\Table(name="external_sequence", 
+ *  uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_code", columns={"external_sequence_code"}), 
+ *      @ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_alignment_code", columns={"external_sequence_alignment_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_9E9F85CF9D3CDB05", columns={"gene_voc_fk"}), 
+ *      @ORM\Index(name="IDX_9E9F85CFA30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_9E9F85CF514D78E0", columns={"external_sequence_origin_voc_fk"}), 
+ *      @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"sampling_fk"}), 
+ *      @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"external_sequence_status_voc_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeSqcAssExt"},
+ *  message="This code is already registered"
+ * )
+ * @UniqueEntity(
+ *  fields={"codeSqcAssExtAlignement"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeExt
@@ -172,24 +190,24 @@ class SequenceAssembleeExt
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcExtEstRealisePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SqcExtEstReferenceDans", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $sqcExtEstReferenceDanss;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $especeIdentifiees;
-    
-    
+
+
     public function __construct()
     {
         $this->sqcExtEstRealisePars = new ArrayCollection();
-    	$this->sqcExtEstReferenceDanss = new ArrayCollection();
+        $this->sqcExtEstReferenceDanss = new ArrayCollection();
         $this->especeIdentifiees = new ArrayCollection();
     }
 

@@ -19,12 +19,25 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Adn
  *
- * @ORM\Table(name="dna", uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})}, indexes={@ORM\Index(name="adn_code_adn", columns={"dna_code"}), @ORM\Index(name="idx_dna__date_precision_voc_fk", columns={"date_precision_voc_fk"}), @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}), @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}), @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}), @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
+ * @ORM\Table(name="dna", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="adn_code_adn", columns={"dna_code"}), 
+ *      @ORM\Index(name="idx_dna__date_precision_voc_fk", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}), 
+ *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}), 
+ *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}), 
+ *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeAdn"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Adn
@@ -150,9 +163,9 @@ class Adn
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $adnEstRealisePars;
-    
-    
-    
+
+
+
     public function __construct()
     {
         $this->adnEstRealisePars = new ArrayCollection();

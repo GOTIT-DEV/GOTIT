@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LotEstPublieDans
  *
- * @ORM\Table(name="internal_biological_material_is_published_in", indexes={@ORM\Index(name="IDX_EA07BFA754DBBD4D", columns={"internal_biological_material_fk"}), @ORM\Index(name="IDX_EA07BFA7821B1D3F", columns={"source_fk"})})
+ * @ORM\Table(name="internal_biological_material_is_published_in", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_EA07BFA754DBBD4D", columns={"internal_biological_material_fk"}), 
+ *      @ORM\Index(name="IDX_EA07BFA7821B1D3F", columns={"source_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */

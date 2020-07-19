@@ -19,12 +19,22 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Boite
  *
- * @ORM\Table(name="storage_box", uniqueConstraints={@ORM\UniqueConstraint(name="uk_storage_box__box_code", columns={"box_code"})}, indexes={@ORM\Index(name="IDX_7718EDEF9E7B0E1F", columns={"collection_type_voc_fk"}), @ORM\Index(name="IDX_7718EDEF41A72D48", columns={"collection_code_voc_fk"}), @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
+ * @ORM\Table(name="storage_box", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_storage_box__box_code", columns={"box_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_7718EDEF9E7B0E1F", columns={"collection_type_voc_fk"}), 
+ *      @ORM\Index(name="IDX_7718EDEF41A72D48", columns={"collection_code_voc_fk"}), 
+ *      @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeBoite"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Boite
@@ -123,24 +133,24 @@ class Boite
      * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
      */
     protected $lotMateriels;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
      * @ORM\OrderBy({"codeAdn" = "ASC"})
      */
     protected $adns;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="IndividuLame", mappedBy="boiteFk", cascade={"persist"})
      * @ORM\OrderBy({"codeLameColl" = "ASC"})
      */
     protected $individuLames;
-    
-    
+
+
     public function __construct()
     {
         $this->lotMateriels = new ArrayCollection();
-    	$this->adns = new ArrayCollection();
+        $this->adns = new ArrayCollection();
         $this->individuLames = new ArrayCollection();
     }
 

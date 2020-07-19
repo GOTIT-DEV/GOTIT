@@ -19,12 +19,24 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * LotMaterielExt
  *
- * @ORM\Table(name="external_biological_material", uniqueConstraints={@ORM\UniqueConstraint(name="uk_external_biological_material__external_biological_material_c", columns={"external_biological_material_code"})}, indexes={@ORM\Index(name="IDX_EEFA43F3662D9B98", columns={"sampling_fk"}), @ORM\Index(name="IDX_EEFA43F3A30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_EEFA43F382ACDC4", columns={"number_of_specimens_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}), @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"eyes_voc_fk"})})
+ * @ORM\Table(name="external_biological_material", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_external_biological_material__external_biological_material_c", columns={"external_biological_material_code"})}, 
+ *  indexes={
+ *      @ORM\Index(name="IDX_EEFA43F3662D9B98", columns={"sampling_fk"}), 
+ *      @ORM\Index(name="IDX_EEFA43F3A30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_EEFA43F382ACDC4", columns={"number_of_specimens_voc_fk"}), 
+ *      @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}), 
+ *      @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"eyes_voc_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeLotMaterielExt"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielExt
@@ -145,29 +157,29 @@ class LotMaterielExt
      */
     private $yeuxVocFk;
 
-     /**
+    /**
      * @ORM\OneToMany(targetEntity="LotMaterielExtEstRealisePar", mappedBy="lotMaterielExtFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotMaterielExtEstRealisePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="LotMaterielExtEstReferenceDans", mappedBy="lotMaterielExtFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $lotMaterielExtEstReferenceDanss;
-  
+
     /**
      * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="lotMaterielExtFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
-    protected $especeIdentifiees;   
-    
-    
+    protected $especeIdentifiees;
+
+
     public function __construct()
     {
         $this->lotMaterielExtEstRealisePars = new ArrayCollection();
-    	$this->lotMaterielExtEstReferenceDanss = new ArrayCollection();
+        $this->lotMaterielExtEstReferenceDanss = new ArrayCollection();
         $this->especeIdentifiees = new ArrayCollection();
     }
 

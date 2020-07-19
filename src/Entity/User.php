@@ -20,12 +20,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
- * @ORM\Table(name="user_db", uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"username"})})
+ * @ORM\Table(name="user_db", 
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"username"})})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields={"username"},
+ *  message="This username is already taken"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class User implements UserInterface
@@ -48,16 +54,16 @@ class User implements UserInterface
     private $username;
 
     /**
-    * @Assert\NotBlank()
-    * @Assert\Length(
-    *      min = 8,
-    *      max = 50,
-    *      minMessage = "Your password  must be at least {{ limit }} characters long",
-    *      maxMessage = "Your password  cannot be longer than {{ limit }} characters"
-    * )
-    */
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 50,
+     *      minMessage = "Your password  must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password  cannot be longer than {{ limit }} characters"
+     * )
+     */
     private $plainPassword;
-    
+
     /**
      * @var string
      *
@@ -78,7 +84,7 @@ class User implements UserInterface
      * @ORM\Column(name="role", type="string")
      */
     private $role;
-    
+
 
     /**
      * @var string
@@ -86,14 +92,14 @@ class User implements UserInterface
      * @ORM\Column(name="salt", type="string", length=255, nullable=true)
      */
     private $salt;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
-    
+
     /**
      * @var string
      *
@@ -151,12 +157,11 @@ class User implements UserInterface
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
-    
+
     public function eraseCredentials()
     {
-        
     }
-    
+
     /**
      * Get id
      *
@@ -214,7 +219,7 @@ class User implements UserInterface
     }
 
 
-    
+
     /**
      * Set password
      *

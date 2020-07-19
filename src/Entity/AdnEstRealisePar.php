@@ -22,7 +22,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AdnEstRealisePar
  *
- * @ORM\Table(name="dna_is_extracted_by", indexes={@ORM\Index(name="IDX_B786C5214B06319D", columns={"dna_fk"}), @ORM\Index(name="IDX_B786C521B53CD04C", columns={"person_fk"})})
+ * @ORM\Table(name="dna_is_extracted_by", 
+ *  indexes={
+ *      @ORM\Index(name="IDX_B786C5214B06319D", columns={"dna_fk"}), 
+ *      @ORM\Index(name="IDX_B786C521B53CD04C", columns={"person_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
