@@ -19,12 +19,17 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Collecte
  *
  * @ORM\Table(name="sampling", uniqueConstraints={@ORM\UniqueConstraint(name="uk_sampling__sample_code", columns={"sample_code"})}, indexes={@ORM\Index(name="IDX_55AE4A3DA30C442F", columns={"date_precision_voc_fk"}), @ORM\Index(name="IDX_55AE4A3D50BB334E", columns={"donation_voc_fk"}), @ORM\Index(name="IDX_55AE4A3D369AB36B", columns={"site_fk"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ *  fields={"codeCollecte"},
+ *  message="This code is already registered"
+ * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Collecte
@@ -151,37 +156,37 @@ class Collecte
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aPourSamplingMethods;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="APourFixateur", mappedBy="collecteFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aPourFixateurs;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="EstFinancePar", mappedBy="collecteFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estFinancePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="EstEffectuePar", mappedBy="collecteFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $estEffectuePars;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="ACibler", mappedBy="collecteFk", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
     protected $aCiblers;
-    
-    
-    
+
+
+
     public function __construct()
     {
         $this->aPourSamplingMethods = new ArrayCollection();
-    	$this->aPourFixateurs = new ArrayCollection();
+        $this->aPourFixateurs = new ArrayCollection();
         $this->estFinancePars = new ArrayCollection();
         $this->estEffectuePars = new ArrayCollection();
         $this->aCiblers = new ArrayCollection();
