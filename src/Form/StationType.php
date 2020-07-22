@@ -17,6 +17,8 @@
 
 namespace App\Form;
 
+use App\Form\DataTransformer\UppercaseTransformer;
+use App\Form\EventListener\AddUserDateFields;
 use App\Form\Type\CountryVocType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,15 +29,41 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
-class StationType extends AbstractType
+class StationType extends ActionFormType
 {
+    private $addUserDate;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, Security $security)
+    {
+        $this->addUserDate = new AddUserDateFields($tokenStorage);
+        $this->security = $security;
+        $this->uppercaseTrans = new UppercaseTransformer();
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codeStation')->add('nomStation')
+        $action_type = $options['action_type'];
+        $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
+
+        $builder
+            ->add('codeStation', null, [
+                'attr' => [
+                    'class' => 'text-uppercase',
+                    'readonly' => $editAdminOnly,
+                ],
+            ])
+            ->add('nomStation', null, [
+                'attr' => ['class' => 'text-uppercase'],
+            ])
             ->add('infoDescription')
             ->add('paysFk', CountryVocType::class)
             ->add('communeFk', EntityType::class, array(
@@ -44,49 +72,67 @@ class StationType extends AbstractType
                     return $er->createQueryBuilder('commune')
                         ->orderBy('commune.codeCommune', 'ASC');
                 },
-                'choice_label' => 'codeCommune', 
-                'multiple' => false, 
-                'expanded' => false, 
+                'choice_label' => 'codeCommune',
+                'multiple' => false,
+                'expanded' => false,
                 'placeholder' => 'Choose a Commune'
             ))
             ->add('habitatTypeVocFk', EntityType::class, array(
-                'class' => 'App:Voc', 'placeholder' => 'Choose an Habitat Type',
+                'class' => 'App:Voc',
+                'placeholder' => 'Choose an Habitat Type',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('voc')
                         ->where('voc.parent LIKE :parent')
                         ->setParameter('parent', 'habitatType')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false
             ))
             ->add('pointAccesVocFk', EntityType::class, array(
-                'class' => 'App:Voc', 'placeholder' => 'Choose an Access Point',
+                'class' => 'App:Voc',
+                'placeholder' => 'Choose an Access Point',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('voc')
                         ->where('voc.parent LIKE :parent')
                         ->setParameter('parent', 'pointAcces')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false
             ))
-            ->add('latDegDec', NumberType::class, array('required' => true,  'scale' => 6))
-            ->add('longDegDec', NumberType::class, array('required' => true,  'scale' => 6))
+            ->add('latDegDec', NumberType::class, array(
+                'required' => true,
+                'scale' => 6
+            ))
+            ->add('longDegDec', NumberType::class, array(
+                'required' => true,
+                'scale' => 6
+            ))
             ->add('precisionLatLongVocFk', EntityType::class, array(
-                'class' => 'App:Voc', 'placeholder' => 'Choose a GPS Distance Quality',
+                'class' => 'App:Voc',
+                'placeholder' => 'Choose a GPS Distance Quality',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('voc')
                         ->where('voc.parent LIKE :parent')
                         ->setParameter('parent', 'precisionLatLong')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false
             ))
             ->add('altitudeM')
             ->add('commentaireStation')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
+
+        $builder->get('codeStation')->addModelTransformer($this->uppercaseTrans);
+        $builder->get('nomStation')->addModelTransformer($this->uppercaseTrans);
     }
 
     /**
@@ -94,6 +140,7 @@ class StationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Station'
         ));

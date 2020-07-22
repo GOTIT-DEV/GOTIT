@@ -74,25 +74,9 @@
     
     var nbSelectPays = 0;  
     $(document).ready(function(){
-        {% if action == 'new'  %} 
-            //  
-        {% endif %}
-        {% if action == 'edit'  %}   
-            // General action on form: form lock (default) / user role: app.user ... 
-            {% if not is_granted('ROLE_ADMIN') %}  
-                $('#bbees_e3sbundle_station_codeStation').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_station"]',function(ev){
-                $('#bbees_e3sbundle_station_codeStation').attr("disabled", false); 
-             });
-            {% endif %}
-        {% endif %}
         
         // other features
         {% if action != 'show'  %}
-            // Capitalize function forceUppercase() 
-            forceUppercase($('#bbees_e3sbundle_station_codeStation'));
-            forceUppercase($('#bbees_e3sbundle_station_nomStation'));          
-
             // specific features: automatically assigns the id of the selected country
             var paysId = {{paysId}};
             $('#myModalCommune').find('#bbees_e3sbundle_commune_paysFk').val(paysId);
