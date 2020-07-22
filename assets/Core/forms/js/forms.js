@@ -6,11 +6,12 @@ import Mustache from "mustache"
 import moment from "moment"
 
 
-import {initDateMask} from "./date-mask"
+import { initDateMask } from "./date-mask"
 
 
 
 $(() => {
+  // $("*[readonly] input[type='radio']").click(() => { return false })
   initDateMask(document.querySelector("form"))
 
   $("button.btn-entry-add").click(addEntryBtnCallback)
@@ -42,8 +43,8 @@ function modalFormSubmitCallback(event) {
     data: $form.serialize(),
     error: function (jqXHR, textStatus, errorThrown) {
       $form.find(".errors").append(
-        `<p>Server error ${jqXHR.status} : ${errorThrown}</p>
-          <p>Details logged in console</p>`
+        `<p>Server error ${jqXHR.status} : ${errorThrown}<br/>
+            Details logged in console</p>`
       )
       console.warn(jqXHR);
     },
@@ -94,11 +95,6 @@ function updatePrototype($wrapper, optionElt) {
   let newPrototype = $wrapper.data("prototype")
     .replace(/<select[^>]*>/, optionElt)
   $wrapper.data('prototype', newPrototype)
-  // .find("template.entry-prototype:first")  // prototype wrapper
-  // .get(0).content // prototype form fragment
-  // .querySelector("option") // first option
-  // // insert new option
-  // .insertAdjacentHTML('afterend', optionElt )
 }
 
 function createEntry(prototype, index, value = undefined) {
@@ -113,7 +109,6 @@ function createEntry(prototype, index, value = undefined) {
   }
   // Init plugins
   $newForm.find(".selectpicker").selectpicker()
-  console.log($newForm.get(0))
   initDateMask($newForm.get(0))
   $newForm.find("button.btn-entry-add").click(addEntryBtnCallback)
   $newForm.find(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
