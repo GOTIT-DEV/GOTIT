@@ -31,6 +31,7 @@
   <a href="{{ path(route_index) }}"
     class="btn btn-primary btn-sm"
     role="button">
+    <i class="fas fa-list"></i>
     {{ 'button.showAllRecord'|trans }}
   </a>
 
@@ -41,12 +42,14 @@
       data-toggle="tooltip"
       data-align="right"
       title="{{ 'button.exportToCSV-title'|trans }}">
+      <i class="fas fa-file-export"></i>
       {{ 'button.exportToCSV'|trans }}
     </button>
     {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
         <a href="{{ path_action_new }}"
           class="btn btn-success btn-sm"
           role="button">
+          <i class="fas fa-plus"></i>
           {{ ['button.New', entityname|capitalize]|join|trans }}
         </a>
   {% else %}

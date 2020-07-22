@@ -13,12 +13,14 @@
     <a href="{{ path(route_importfiles) }}"
       class="btn btn-primary btn-sm"
       role="button">
+      <i class="fas fa-upload"></i>
       {{ ['button.Import', entityname|capitalize]|join|trans }}
     </a>
   {% else %}
     <a href="#"
       class="btn btn-secondary btn-sm disabled"
       role="button">
+      <i class="fas fa-upload"></i>
       {{ ['button.Import', entityname|capitalize]|join|trans }}
     </a>
   {% endif %}
