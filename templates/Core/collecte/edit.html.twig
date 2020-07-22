@@ -1,26 +1,5 @@
 {% extends 'edit.html.twig' %}
 
-
-{# EDIT : SAMPLING #}
-
-{# Typehead : initialisation of typeahead EntityRelationalId field #}
-
-{% set codeStation = '' %}
-{% set idStation = '' %}
-{% set route = app.request.attributes.get('_route') %}
-{% set action = route|split('_')[1] %}
-	{% if (collecte.stationFk.codeStation is defined )%}
-	{#  case of an existing record #}
-	{% set codeStation = collecte.stationFk.codeStation %}
-	{% set idStation = collecte.stationFk.id %}
-{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-	{#  case of a new record with  a preselected relational entity #}
-	{% set idStation = app.request.query.get('idFk') %}
-	{% if app.request.query.get('idFk') is not empty %}
-		{% set codeStation = collecte.stationFk.codeStation %}
-	{% endif %}
-{% endif %}
-
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags("sampling-form") }}
@@ -53,54 +32,4 @@
 			alert("{{ exception_message|raw }}");
 		</script>
 	{% endif %}
-	<script>
-		// // Typeahead Constructing the suggestion engine
-var stations = new Bloodhound({
-datumTokenizer: Bloodhound.tokenizers.whitespace,
-queryTokenizer: Bloodhound.tokenizers.whitespace,
-remote: {
-url: Routing.generate("station_search", {'q': "QUERY"}).replace("QUERY", "%QUERY"),
-wildcard: '%QUERY'
-}
-});
-// Initializing the typeahead fields
-var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-
-$('.typeahead-station').typeahead({
-hint: true, highlight: false, /* Enable substring highlighting */
-minLength: 1 /* Specify minimum characters required for showing result */
-}, {
-name: 'stations',
-source: stations,
-displayKey: "code",
-limit: 40
-}).on('keyup', this, function (event) {
-selectedTypeahead = 0;
-}).bind('typeahead:select', function (ev, item) {
-var $this = $(this);
-var codeTypeaheadSelect = item.code;
-var idTypeaheadSelect = item.id;
-$('#' + $this.attr('data-target_id')).val(item.id);
-$station = $this.parents('.form-group').find('input.bbees_e3sbundle_collecte[stationId]');
-if ($station.length === 1) {
-$station.val(item.id);
-}
-selectedTypeahead = 1;
-}).bind('typeahead:close', function (ev, item) {
-if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
-$('input.typeahead').val("{{ codeStation }}");
-$('#bbees_e3sbundle_collecte_stationId').val({{ idStation }});
-}
-var $this = $(this);
-if ($.trim($this.val()) === '') {
-$this.val('');
-$station = $this.parents('.form-group').find('input.bbees_e3sbundle_collecte[stationId]');
-if ($station.length === 1) {
-$station.val('');
-}
-}
-});
-	</script>
-
-
 {% endblock %}

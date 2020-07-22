@@ -60,6 +60,8 @@ class CollecteType extends ActionFormType
     $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
 
     $station = $builder->getData()->getStationFk();
+    $codeStation = $station ? $station->getCodeStation() : null;
+    $idStation = $station ? $station->getId():null;
 
     $builder
       ->add('stationTypeahead', null, [
@@ -70,18 +72,20 @@ class CollecteType extends ActionFormType
           'name' => "where",
           'placeholder' => "Station typeahead placeholder",
           "maxlength" => "255",
-          'readonly' => $editAdminOnly
+          'readonly' => $editAdminOnly,
+          'data-initial' => $codeStation
         ],
         'required' => true,
-        'data' => $station ? $station->getCodeStation() : null
+        'data' => $codeStation,
       ])
       ->add('stationId', HiddenType::class, [
         'mapped' => false,
         'required' => true,
         'attr' => [
-          'class' => 'station-id'
+          'class' => 'station-id',
+          'data-initial' => $idStation
         ],
-        'data' => $station ? $station->getId() : null
+        'data' => $idStation,
       ])
       ->add('codeCollecte', null, [
         'attr' => [
