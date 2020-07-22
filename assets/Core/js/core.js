@@ -14,11 +14,13 @@ window.Bloodhound = require("bloodhound-js")
 
 
 
-import './custom.js';
-// require('./e3s.js');
 import './nav.js';
 import './options.js';
 
+
+/**
+ * Bootgrid config to comply with bootstrap 4
+ */
 Object.assign($.fn.bootgrid.Constructor.defaults.css, {
   actions: "actions btn-group",
   icon: "icon fas",
@@ -44,5 +46,13 @@ Object.assign($.fn.bootgrid.Constructor.defaults.templates, {
   {{ctx.text}}
   </a></li>`
 })
-// console.log($.fn.bootgrid.Constructor.defaults)
 
+
+
+// Progressbar
+if ($(".progress .progress-bar")[0]) {
+	$('.progress .progress-bar').progressbar();
+}
+$(document).ready(function () {
+	$('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+});
