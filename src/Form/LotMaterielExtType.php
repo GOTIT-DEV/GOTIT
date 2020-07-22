@@ -74,8 +74,8 @@ class LotMaterielExtType extends AbstractType
                 'placeholder' => 'Choose an option'
             ))
             ->add('commentaireNbIndividus')
-            ->add('dateCreationLotMaterielExt', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
+            ->add('dateCreationLotMaterielExt', DateFormattedType::class)
             ->add('lotMaterielExtEstRealisePars', CollectionType::class, array(
                 'entry_type' => LotMaterielExtEstRealiseParEmbedType::class,
                 'allow_add' => true,

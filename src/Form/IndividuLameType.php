@@ -39,8 +39,8 @@ class IndividuLameType extends AbstractType
             ->add('individuId', HiddenType::class, array('mapped' => false, 'required' => true,))
             ->add('codeLameColl')
             ->add('libelleLame')
-            ->add('dateLame', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
+            ->add('dateLame', DateFormattedType::class)
             ->add('nomDossierPhotos')
             ->add('commentaireLame')
             ->add('boiteFk', EntityType::class, array(

@@ -17,6 +17,7 @@
 
 namespace App\Form;
 
+use App\Form\EventListener\AddUserDateFields;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\GeneType;
@@ -29,16 +30,41 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SequenceAssembleeExtType extends AbstractType
 {
+
+    private $addUserDate;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->addUserDate = new AddUserDateFields($tokenStorage);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('collecteTypeahead', null, ['mapped' => false, 'attr' => ['class' => 'typeahead typeahead-collecte', 'data-target_id' => "bbees_e3sbundle_sequenceassembleeext_collecteId", 'name' => "where", 'placeholder' => "Collecte typeahead placeholder",  "maxlength" => "255"], 'required' => true,])
-            ->add('collecteId', HiddenType::class, array('mapped' => false, 'required' => true,))
+        $builder->add('collecteTypeahead', null, [
+            'mapped' => false,
+            'attr' => [
+                'class' => 'typeahead typeahead-collecte',
+                'data-target_id' => "bbees_e3sbundle_sequenceassembleeext_collecteId",
+                'name' => "where",
+                'placeholder' => "Collecte typeahead placeholder",
+                "maxlength" => "255"
+            ],
+            'required' => true,
+        ])
+            ->add('collecteId', HiddenType::class, array(
+                'mapped' => false,
+                'required' => true,
+            ))
             ->add('codeSqcAssExt')
             ->add('codeSqcAssExtAlignement')
             ->add('accessionNumberSqcAssExt')
@@ -52,12 +78,15 @@ class SequenceAssembleeExtType extends AbstractType
                         ->setParameter('parent', 'origineSqcAssExt')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_label' => 'code', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a origineSqcAssExt'
+                'choice_label' => 'code',
+                'multiple' => false,
+                'expanded' => false,
+                'placeholder' => 'Choose a origineSqcAssExt'
             ))
             ->add('geneVocFk', GeneType::class)
             ->add('statutSqcAssVocFk', SequenceStatusType::class)
-            ->add('dateCreationSqcAssExt', DateFormattedType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)
+            ->add('dateCreationSqcAssExt', DateFormattedType::class)
             ->add('commentaireSqcAssExt')
             ->add('sqcExtEstRealisePars', CollectionType::class, array(
                 'entry_type' => SqcExtEstRealiseParEmbedType::class,
@@ -75,7 +104,10 @@ class SequenceAssembleeExtType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__name__',
                 'by_reference' => false,
-                'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel'])
+                'entry_options' => array(
+                    'label' => false,
+                    'refTaxonLabel' => $options['refTaxonLabel']
+                )
             ))
             ->add('sqcExtEstReferenceDanss', CollectionType::class, array(
                 'entry_type' => SqcExtEstReferenceDansEmbedType::class,
@@ -86,10 +118,7 @@ class SequenceAssembleeExtType extends AbstractType
                 'by_reference' => false,
                 'entry_options' => array('label' => false)
             ))
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
