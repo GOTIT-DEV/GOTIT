@@ -17,7 +17,6 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,7 +27,6 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use App\Form\APourSamplingMethodEmbedType;
@@ -36,7 +34,10 @@ use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\EventListener\AddUserDateFields;
 
-class CollecteType extends AbstractType
+use App\Form\ActionFormType;
+use Symfony\Component\Security\Core\Security;
+
+class CollecteType extends ActionFormType
 {
 
   private $addUserDate;
@@ -44,9 +45,10 @@ class CollecteType extends AbstractType
   /**
    * {@inheritdoc}
    */
-  public function __construct(TokenStorageInterface $tokenStorage)
+  public function __construct(TokenStorageInterface $tokenStorage, Security $security)
   {
     $this->addUserDate = new AddUserDateFields($tokenStorage);
+    $this->security = $security;
   }
 
   /**
@@ -54,25 +56,47 @@ class CollecteType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
+    $action_type = $options['action_type'];
+    $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
+
+    $station = $builder->getData()->getStationFk();
+
     $builder
       ->add('stationTypeahead', null, [
         'mapped' => false,
         'attr' => [
-          'class' => 'typeahead typeahead-station',
+          'class' => 'typeahead typeahead-station text-uppercase',
           'data-target_id' => "bbees_e3sbundle_collecte_stationId",
           'name' => "where",
           'placeholder' => "Station typeahead placeholder",
-          "maxlength" => "255"
+          "maxlength" => "255",
+          'readonly' => $editAdminOnly
         ],
         'required' => true,
+        'data' => $station ? $station->getCodeStation() : null
       ])
       ->add('stationId', HiddenType::class, [
         'mapped' => false,
         'required' => true,
+        'attr' => [
+          'class' => 'station-id'
+        ],
+        'data' => $station ? $station->getId() : null
       ])
-      ->add('codeCollecte')
-      ->add('dateCollecte', DateFormattedType::class)
-      ->add('datePrecisionVocFk', DatePrecisionType::class)
+      ->add('codeCollecte', null, [
+        'attr' => [
+          'class' => 'sampling-code',
+          'readonly' => $editAdminOnly || $action_type == Action::create()
+        ],
+      ])
+      ->add('datePrecisionVocFk', DatePrecisionType::class, [
+        /* Using mock readonly option to avoid overriding attr option
+          See DatePrecisionType definition */
+        'readonly' => $editAdminOnly
+      ])
+      ->add('dateCollecte', DateFormattedType::class, [
+        'attr' => ['readonly' => $editAdminOnly]
+      ])
       ->add('aPourSamplingMethods', CollectionType::class, [
         'entry_type' => APourSamplingMethodEmbedType::class,
         'allow_add' => true,
@@ -164,10 +188,6 @@ class CollecteType extends AbstractType
         'label_attr' => ['class' => 'radio-inline']
       ])
       ->addEventSubscriber($this->addUserDate);
-    if ($options['action'] == 'show') {
-      $builder->add('dateCre')
-        ->add('dateMaj');
-    }
   }
 
 
@@ -176,9 +196,10 @@ class CollecteType extends AbstractType
    */
   public function configureOptions(OptionsResolver $resolver)
   {
-    $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Collecte'
-    ));
+    parent::configureOptions($resolver);
+    $resolver->setDefaults([
+      'data_class' => 'App\Entity\Collecte',
+    ]);
   }
 
   /**

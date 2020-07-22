@@ -90,6 +90,9 @@
             "config/routes/fos_js_routing.yaml"
         ]
     },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
+    },
     "nikic/php-parser": {
         "version": "v4.6.0"
     },

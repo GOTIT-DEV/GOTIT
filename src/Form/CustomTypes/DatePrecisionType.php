@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\OptionsResolver\Options;
 
 class DatePrecisionType extends AbstractType
 {
@@ -25,13 +26,16 @@ class DatePrecisionType extends AbstractType
       'choice_label' => 'libelle',
       'multiple' => false,
       'expanded' => true,
-      'attr' => [
-        "class" => "date-precision"
-      ],
       'label_attr' => array('class' => 'radio-inline'),
-      'required' => true
-
+      'required' => true,
+      'readonly' => false
     ]);
+    $resolver->setDefault('attr', function(Options $options){
+      return [
+        "class" => "date-precision",
+        'readonly' => $options['readonly']
+      ];
+    });
   }
 
   public function getParent()

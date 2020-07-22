@@ -67,14 +67,31 @@ change of language: language passed in parameter of url? language = switch #}
 		{% endif %}
 	</h1>
 {% endblock %}
+
+{% block action %}
+	<a href="{{ path_route_index }}" class="btn btn-sm btn-light border">
+		<i class="fas fa-list"></i>
+		{{ "button.BackToTheList" | trans }}
+	</a>
+	{% if 
+			edit_form.vars.action_type == "show" and 
+				(	is_granted('ROLE_PROJECT') or 
+					(	is_granted('ROLE_COLLABORATION') and 
+						edit_form.vars.data.userCre == app.user.id)) 
+		%}
+		<a href="{{ app.request.pathinfo }}/edit" class="btn btn-sm btn-success">
+			<i class="fas fa-edit"></i>
+			{{'Edit' | trans}}
+		</a>
+	{% endif %}
+{% endblock %}
+
+
 {% block body %}
-	{% set formAction = action %}
-	{% set dateNow = 'now'|date('Y-m-d H:i:s', timezone = 'Europe/Paris') %}
-
 	{{ form_start(edit_form, {'disabled': false}) }}
-	{{ form_errors(edit_form) }} 
+	{{ form_errors(edit_form) }}
 
-	<input id="comptvalid" name="comptvalid" type="hidden" value="{{ comptvalid }}"/>
+		<input id="comptvalid" name="comptvalid" type="hidden" value="{{ comptvalid }}"/>
 
 	{% if nameFk is defined and action == 'new' and edit_form[nameFk] is defined %}
 		{{ form_row(attribute(edit_form, nameFk), {value: idFk}) }}
@@ -82,24 +99,12 @@ change of language: language passed in parameter of url? language = switch #}
 	{{ form_rest(edit_form) }}
 	<div class="row">
 		<div class="form-group offset-1 offset-sm-2 col-11 col-sm-10">
-			{% if action != 'show' %}
+			{% if edit_form.vars.action_type != 'show' %}
 				<button type="submit" class="btn btn-round btn-success" value="Create">
 					{{ "button.Valid" | trans }}
 				</button>
 			{% endif %}
-			{% if action == 'edit' %}
-				<a href="{{ path_route_index }}" class="btn btn-round btn-primary">
-					{{ "button.BackToTheList" | trans }}
-				</a>
-				{% if not flagvalid %}
-					<a
-						href="#"
-						onclick="window.history.go(-1); return false;"
-						class="btn btn-round btn-primary">
-						{{ "button.Back" | trans }}
-					</a>
-				{% endif %}
-			{% else %}
+			{% if edit_form.vars.action_type != 'edit' or not flagvalid %}
 				<a
 					href="#"
 					onclick="window.history.go(-1); return false;"
@@ -114,8 +119,7 @@ change of language: language passed in parameter of url? language = switch #}
 	{# Create form modals #}
 	{% for field in edit_form %}
 		{% if field.vars.attr['data-modal-controller'] is defined %}
-			<div id="{{ 'modal-' ~ field.vars.id }}" class="modal-container"
-						data-target="{{'#wrapper_' ~ field.vars.id}}">
+			<div id="{{ 'modal-' ~ field.vars.id }}" class="modal-container" data-target="{{'#wrapper_' ~ field.vars.id}}">
 				{{ render(controller(field.vars.attr["data-modal-controller"])) }}
 			</div>
 		{% endif %}
@@ -127,12 +131,4 @@ change of language: language passed in parameter of url? language = switch #}
 {% block scripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags("forms") }}
-	{% if action == 'show' %}
-		<script type="text/javascript">
-			$( document ).ready( function () {
-        $( "form :input" ).prop( "disabled", true );
-// $(  'input[id$="Typeahead"]' ).attr( "disabled", true ).css( "background-color", "WhiteSmoke" );
-      } );
-		</script>
-	{% endif %}
 {% endblock %}
