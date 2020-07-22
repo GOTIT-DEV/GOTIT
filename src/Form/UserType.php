@@ -2,41 +2,67 @@
 
 namespace App\Form;
 
+use App\Form\EventListener\AddUserDateFields;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
-class UserType extends AbstractType
+class UserType extends ActionFormType
 {
+    private $addUserDate;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, Security $security)
+    {
+      $this->addUserDate = new AddUserDateFields($tokenStorage);
+      $this->security = $security;
+    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $action_type = $options['action_type'];
+        $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
+
+        $isAdminForm = $builder->getData()->getRole() == "ROLE_ADMIN";
+
         $builder->add('username')
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
             ))
-            ->add('email', EmailType::class, array('required' => false,))
+            ->add('email', EmailType::class, array(
+                'required' => false,
+                ))
             ->add('name')
             ->add('institution')
             ->add('role', ChoiceType::class, array(
-                'choices'  => array('ADMIN' => 'ROLE_ADMIN', 'PROJECT' => 'ROLE_PROJECT', 'COLLABORATION' => 'ROLE_COLLABORATION', 'INVITED' => 'ROLE_INVITED', 'LOCKED' => 'ROLE_LOCKED',), 'required' => true,
-                'choice_translation_domain' => false, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'),
+                'disabled' => $editAdminOnly || $isAdminForm,
+                'choices'  => array(
+                    'ADMIN' => 'ROLE_ADMIN', 
+                    'PROJECT' => 'ROLE_PROJECT', 
+                    'COLLABORATION' => 'ROLE_COLLABORATION', 
+                    'INVITED' => 'ROLE_INVITED', 
+                    'LOCKED' => 'ROLE_LOCKED',
+                ), 
+                'required' => true,
+                'choice_translation_domain' => false, 
+                'multiple' => false, 
+                'expanded' => true, 
+                'label_attr' => array('class' => 'radio-inline'),
             ))
             ->add('commentaireUser')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());;
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -44,6 +70,7 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\User'
         ));

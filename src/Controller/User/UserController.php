@@ -18,6 +18,7 @@
 namespace App\Controller\User;
 
 use App\Entity\User;
+use App\Form\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,17 +61,17 @@ class UserController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
         $user = $this->getUser();
-        return new JSONResponse(array(
+        return new JSONResponse([
             "username" => $user->getUsername(),
             "role" => $user->getRole(),
             "name" => $user->getName(),
             "institution" => $user->getInstitution(),
             "email" => $user->getEmail(),
-        ));
+        ]);
     }
 
-    
-     /**
+
+    /**
      * Return to json format a list of fields to show  tab_station_toshow with the following criterion :  
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
      * b) the number of lines to display ($ request-> get ('rowCount'))
@@ -79,52 +80,56 @@ class UserController extends AbstractController
      * @Route("/indexjson", name="user_indexjson", methods={"POST"})
      */
     public function indexjsonAction(Request $request)
-    {   
+    {
         $em = $this->getDoctrine()->getManager();
-        
-        $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('user.dateMaj' => 'desc', 'user.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount;      
-        $tab_toshow =[];
-        $entities_toshow = $em->getRepository("App:User")->createQueryBuilder('user')
+
+        $rowCount = ($request->get('rowCount')  !== NULL)
+            ? $request->get('rowCount') : 10;
+        $orderBy = ($request->get('sort')  !== NULL)
+            ? $request->get('sort')
+            : array('user.dateMaj' => 'desc', 'user.id' => 'desc');
+        $minRecord = intval($request->get('current') - 1) * $rowCount;
+        $maxRecord = $rowCount;
+        $tab_toshow = [];
+        $entities_toshow = $em->getRepository("App:User")
+            ->createQueryBuilder('user')
             ->where('LOWER(user.username) LIKE :criteriaLower')
-            ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')).'%')
+            ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
             ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
             ->getQuery()
             ->getResult();
         $nb_entities = count($entities_toshow);
-        $entities_toshow = array_slice($entities_toshow, $minRecord, $rowCount); 
-        
-        foreach($entities_toshow as $entity)
-        {
-            $id = $entity->getId();
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $tab_toshow[] = array("id" => $id, "user.id" => $id, "user.username" => $entity->getUsername(),
-             "user.password" => $entity->getPassword(),
-             "user.email" => $entity->getEmail(),
-             "user.role" => $entity->getRole(),
-             "user.name" => $entity->getName(), 
-             "user.institution" => $entity->getInstitution(),
-             "user.commentaireUser" => $entity->getCommentaireUser(), 
-             "user.dateCre" => $DateCre, "user.dateMaj" => $DateMaj,
-             );
-        }                
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
-            "total"    => $nb_entities // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+        $entities_toshow = array_slice($entities_toshow, $minRecord, $rowCount);
 
-        return $response;          
+        foreach ($entities_toshow as $entity) {
+            $id = $entity->getId();
+            $DateCre = ($entity->getDateCre() !== null)
+                ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DateMaj = ($entity->getDateMaj() !== null)
+                ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $tab_toshow[] = array(
+                "id" => $id,
+                "user.id" => $id,
+                "user.username" => $entity->getUsername(),
+                "user.password" => $entity->getPassword(),
+                "user.email" => $entity->getEmail(),
+                "user.role" => $entity->getRole(),
+                "user.name" => $entity->getName(),
+                "user.institution" => $entity->getInstitution(),
+                "user.commentaireUser" => $entity->getCommentaireUser(),
+                "user.dateCre" => $DateCre,
+                "user.dateMaj" => $DateMaj,
+            );
+        }
+        return new JsonResponse([
+            "current"    => intval($request->get('current')),
+            "rowCount"  => $rowCount,
+            "rows"     => $tab_toshow,
+            "total"    => $nb_entities // total data array				
+        ]);
     }
 
-    
+
     /**
      * Creates a new user entity.
      *
@@ -134,7 +139,9 @@ class UserController extends AbstractController
     public function newAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $form = $this->createForm('App\Form\UserType', $user);
+        $form = $this->createForm('App\Form\UserType', $user, [
+            'action_type' => Action::create()
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -148,19 +155,22 @@ class UserController extends AbstractController
             $em->persist($user);
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('user/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId(), 'valid' => 1));           
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+                return $this->render(
+                    'user/index.html.twig',
+                    array('exception_message' =>  explode("\n", $exception_message)[0])
+                );
+            }
+            return $this->redirectToRoute('user_edit', array(
+                'id' => $user->getId(), 'valid' => 1
+            ));
         }
 
         return $this->render('user/edit.html.twig', array(
             'user' => $user,
             'edit_form' => $form->createView(),
         ));
-        
     }
 
     /**
@@ -172,13 +182,14 @@ class UserController extends AbstractController
     {
         $deleteForm = $this->createDeleteForm($user);
 
-        $editForm = $this->createForm('App\Form\UserType', $user);
+        $editForm = $this->createForm('App\Form\UserType', $user, [
+            'action_type' => Action::show()
+        ]);
         return $this->render('show.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
-        
     }
 
     /**
@@ -191,15 +202,20 @@ class UserController extends AbstractController
     {
         //  access control for user type  : ROLE_COLLABORATION
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if ($user->getRole() ==  'ROLE_COLLABORATION' && $user->getUserCre() != $user->getId() ) {
-                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+        if (
+            $user->getRole() ==  'ROLE_COLLABORATION' &&
+            $user->getUserCre() != $user->getId()
+        ) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
         }
         //
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('App\Form\UserType', $user);
+        $editForm = $this->createForm('App\Form\UserType', $user, [
+            'action_type' => Action::edit()
+        ]);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) { 
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             // password encoding
             $plainPassword = $user->getPlainPassword();
             $encoded = $encoder->encodePassword($user, $plainPassword);
@@ -208,18 +224,17 @@ class UserController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             try {
                 $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('user/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
+            }
             return $this->render('user/edit.html.twig', array(
-            'user' => $user,
-            'edit_form' => $editForm->createView(),
-            'valid' => 1,
+                'user' => $user,
+                'edit_form' => $editForm->createView(),
+                'valid' => 1,
             ));
         }
-        
+
         return $this->render('user/edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
@@ -239,22 +254,21 @@ class UserController extends AbstractController
 
         $submittedToken = $request->request->get('token');
         //var_dump($request->request->get('role'));
-        
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
+
+        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();
-            if ($user->getRole() != 'ROLE_ADMIN' ) {
+            if ($user->getRole() != 'ROLE_ADMIN') {
                 try {
                     $em->remove($user);
                     $em->flush();
-                } 
-                catch(\Doctrine\DBAL\DBALException $e) {
-                    $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
+                } catch (\Doctrine\DBAL\DBALException $e) {
+                    $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                     return $this->render('user/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-                } 
+                }
             } else {
-                return $this->render('user/index.html.twig', array('exception_message' =>  'You can\'t delete this Admin user compt') );
+                return $this->render('user/index.html.twig', array('exception_message' =>  'You can\'t delete this Admin user compt'));
             }
-        }       
+        }
 
         return $this->redirectToRoute('user_index');
     }
@@ -271,7 +285,6 @@ class UserController extends AbstractController
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }
