@@ -23,6 +23,18 @@ $(() => {
   $(".modal-dialog form").submit(modalFormSubmitCallback)
 })
 
+function addEntryBtnCallback(event) {
+  let wrapper_id = $(event.currentTarget).data("target")
+  let $wrapper = $(document.getElementById(wrapper_id))
+  addEntry($wrapper)
+}
+
+function deleteEntryBtnCallback(event) {
+  let entry_wrapper_id = $(event.currentTarget).data("target")
+  let entry_wrapper = document.getElementById(entry_wrapper_id)
+  $(entry_wrapper).remove()
+}
+
 function modalFormSubmitCallback(event) {
 
   event.preventDefault()
@@ -132,17 +144,6 @@ function addEntry($wrapper, value = undefined) {
   $("button.btn-entry-delete").off().click(deleteEntryBtnCallback)
 }
 
-function addEntryBtnCallback(event) {
-  let wrapper_id = $(event.currentTarget).data("target")
-  let $wrapper = $(document.getElementById(wrapper_id))
-  addEntry($wrapper)
-}
-
-function deleteEntryBtnCallback(event) {
-  let entry_wrapper_id = $(event.currentTarget).data("target")
-  let entry_wrapper = document.getElementById(entry_wrapper_id)
-  $(entry_wrapper).remove()
-}
 
 
 

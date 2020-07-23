@@ -54,7 +54,7 @@ $(() => {
     var $this = $(this);
     if ($.trim($this.val()) === '') {
       $this.val('');
-      $station = $this.parents('.form-group').find('input.bbees_e3sbundle_collecte[stationId]');
+      let $station = $this.parents('.form-group').find('input.bbees_e3sbundle_collecte[stationId]');
       if ($station.length === 1) {
         $station.val('');
       }
@@ -88,5 +88,6 @@ function generateSamplingCode(station, date_str, precision) {
     else
       dateCode = date.format('Ymm')
   }
+  console.log(`${station}_${dateCode}`)
   return `${station}_${dateCode}`
 }
