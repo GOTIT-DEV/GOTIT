@@ -1,11 +1,23 @@
-.card.collection-wrapper{
-  .card-header{
-    padding: 5px;
+@input-max-width : 700px;
+
+form {
+  .card.collection-wrapper {
+    max-width:@input-max-width;
+    .card-header {
+      padding: 5px;
+    }
+    .card-body.entry-list {
+      padding: 5px 20px 0 20px;
+    }
+    .form-group {
+      margin-bottom: 5px;
+    }
   }
-  .card-body.entry-list{
-    padding: 5px 20px 0 20px;
-  }
-  .form-group{
-    margin-bottom: 5px;
+
+  input,
+  select,
+  textarea,
+  .bootstrap-select {
+    max-width: @input-max-width;
   }
 }
