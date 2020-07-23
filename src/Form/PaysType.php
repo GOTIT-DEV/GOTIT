@@ -17,25 +17,27 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\UppercaseType;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
-class PaysType extends AbstractType
+class PaysType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codePays')
-            ->add('nomPays')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+        $builder
+            ->add('nomPays', UppercaseType::class)
+            ->add('codePays', UppercaseType::class, [
+                'attr' => [
+                    'readonly' => $options['action_type'] == Action::create()
+                ]
+            ])
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -43,6 +45,7 @@ class PaysType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Pays'
         ));

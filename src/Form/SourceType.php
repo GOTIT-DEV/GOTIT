@@ -17,21 +17,30 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\EmbedTypes\SourceAEteIntegreParEmbedType;
+use App\Form\ActionFormType;
 
-class SourceType extends AbstractType
+class SourceType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codeSource')->add('anneeSource')->add('libelleSource')->add('commentaireSource')
+        $builder
+            ->add('codeSource', null, [
+                'disabled' => $this->canEditAdminOnly($options)
+            ])
+            ->add('anneeSource', null, [
+                'attr' => [
+                    'min' => 1900
+                ]
+            ])
+            ->add('libelleSource')
+            ->add('commentaireSource')
             ->add('sourceAEteIntegrePars', CollectionType::class, array(
                 'entry_type' => SourceAEteIntegreParEmbedType::class,
                 'allow_add' => true,
@@ -39,12 +48,13 @@ class SourceType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__name__',
                 'by_reference' => false,
-                'entry_options' => array('label' => false)
+                'entry_options' => array('label' => false),
+                'attr' => [
+                    "data-allow-new" => true,
+                    "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction'
+                ],
             ))
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -52,6 +62,7 @@ class SourceType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Source'
         ));

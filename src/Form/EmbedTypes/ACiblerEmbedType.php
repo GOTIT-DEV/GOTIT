@@ -15,7 +15,7 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
 use App\Form\Type\TaxnameType;
 use Symfony\Component\Form\AbstractType;

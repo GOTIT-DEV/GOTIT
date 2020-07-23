@@ -17,53 +17,29 @@
 
 namespace App\Form;
 
-use App\Form\DataTransformer\UppercaseTransformer;
-use App\Form\EventListener\AddUserDateFields;
-use App\Form\Type\CountryVocType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Security;
+use App\Form\Type\UppercaseType;
+use App\Form\Type\CountryVocType;
+use App\Form\ActionFormType;
 
 class StationType extends ActionFormType
 {
-    private $addUserDate;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(TokenStorageInterface $tokenStorage, Security $security)
-    {
-        $this->addUserDate = new AddUserDateFields($tokenStorage);
-        $this->security = $security;
-        $this->uppercaseTrans = new UppercaseTransformer();
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $action_type = $options['action_type'];
-        $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
-
         $builder
-            ->add('codeStation', null, [
+            ->add('codeStation', UppercaseType::class, [
                 'attr' => [
-                    'class' => 'text-uppercase',
-                    'readonly' => $editAdminOnly,
+                    'readonly' => $this->canEditAdminOnly($options),
                 ],
             ])
-            ->add('nomStation', null, [
-                'attr' => ['class' => 'text-uppercase'],
-            ])
+            ->add('nomStation', UppercaseType::class)
             ->add('infoDescription')
             ->add('paysFk', CountryVocType::class)
             ->add('communeFk', EntityType::class, array(
@@ -130,9 +106,6 @@ class StationType extends ActionFormType
             ->add('altitudeM')
             ->add('commentaireStation')
             ->addEventSubscriber($this->addUserDate);
-
-        $builder->get('codeStation')->addModelTransformer($this->uppercaseTrans);
-        $builder->get('nomStation')->addModelTransformer($this->uppercaseTrans);
     }
 
     /**

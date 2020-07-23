@@ -15,31 +15,32 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\TaxnameType;
+use App\Form\UserDateTraceType;
 
-class EspeceIdentifieeEmbedType extends AbstractType
+class EspeceIdentifieeEmbedType extends UserDateTraceType
 {
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('referentielTaxonFk', TaxnameType::class, [
-            'choice_label' => $options['refTaxonLabel']
-        ])
+        $builder
+            ->add('referentielTaxonFk', TaxnameType::class, [
+                'choice_label' => $options['refTaxonLabel']
+            ])
             ->add('critereIdentificationVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
                 'query_builder' => function (EntityRepository $er) {
@@ -52,6 +53,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                 'choice_label' => 'libelle',
                 'multiple' => false,
                 'expanded' => true,
+                'attr' => ["class" => "stacked"],
                 'label_attr' => array('class' => 'radio-inline'),
                 'required' => true,
             ))
@@ -82,8 +84,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
                 'by_reference' => false,
                 'entry_options' => array('label' => false)
             ))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -91,6 +92,7 @@ class EspeceIdentifieeEmbedType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\EspeceIdentifiee',
             'refTaxonLabel' => 'taxname',

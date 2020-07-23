@@ -18,6 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\Pcr;
+use App\Form\Enums\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ use App\Services\Core\GenericFunctionE3s;
 class PcrController extends AbstractController
 {
     const MAX_RESULTS_TYPEAHEAD   = 20;
-    
+
     /**
      * Lists all pcr entities.
      *
@@ -54,7 +55,7 @@ class PcrController extends AbstractController
         ));
     }
 
-    
+
     /**
      * @Route("/search/{q}", requirements={"q"=".+"}, name="pcr_search")
      */
@@ -64,23 +65,21 @@ class PcrController extends AbstractController
         $qb->select('pcr.id, pcr.codePcr as code')
             ->from('App:Pcr', 'pcr');
         $query = explode(' ', strtolower(trim(urldecode($q))));
-        $and = [];
-        for($i=0; $i<count($query); $i++) {
-            $and[] = '(LOWER(pcr.codePcr) like :q'.$i.')';
+        for ($i = 0; $i < count($query); $i++) {
+            $qb->andWhere('(LOWER(pcr.codePcr) like :q' . $i . ')');
         }
-        $qb->where(implode(' and ', $and));
-        for($i=0; $i<count($query); $i++) {
-            $qb->setParameter('q'.$i, $query[$i].'%');
+        for ($i = 0; $i < count($query); $i++) {
+            $qb->setParameter('q' . $i, $query[$i] . '%');
         }
         $qb->addOrderBy('code', 'ASC');
         $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
-        $results = $qb->getQuery()->getResult();         
+        $results = $qb->getQuery()->getResult();
         // Ajax answer
         return $this->json(
             $results
         );
     }
-    
+
     /**
      * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
      * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
@@ -94,14 +93,20 @@ class PcrController extends AbstractController
         // load Doctrine Manager
         $em = $this->getDoctrine()->getManager();
         //
-        $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('pcr.dateMaj' => 'desc', 'pcr.id' => 'desc');
+        $rowCount = ($request->get('rowCount')  !== NULL)
+            ? $request->get('rowCount') : 10;
+        $orderBy = ($request->get('sort')  !== NULL)
+            ? $request->get('sort') : array('pcr.dateMaj' => 'desc', 'pcr.id' => 'desc');
         $minRecord = intval($request->get('current') - 1) * $rowCount;
         $maxRecord = $rowCount;
         // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
         $where = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
         $searchPhrase = $request->get('searchPhrase');
-        if ($request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
+        if (
+            $request->get('searchPattern') !== null &&
+            $request->get('searchPattern') !== '' &&
+            $searchPhrase == ''
+        ) {
             $searchPhrase = $request->get('searchPattern');
         }
         if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
@@ -109,7 +114,8 @@ class PcrController extends AbstractController
         }
         // Search for the list to show
         $tab_toshow = [];
-        $entities_toshow = $em->getRepository("App:Pcr")->createQueryBuilder('pcr')
+        $entities_toshow = $em->getRepository("App:Pcr")
+            ->createQueryBuilder('pcr')
             ->where($where)
             ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
             ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
@@ -121,18 +127,29 @@ class PcrController extends AbstractController
             ->getQuery()
             ->getResult();
         $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord);
+        $entities_toshow = ($request->get('rowCount') > 0)
+            ? array_slice($entities_toshow, $minRecord, $rowCount)
+            : array_slice($entities_toshow, $minRecord);
         $lastTaxname = '';
         foreach ($entities_toshow as $entity) {
             $id = $entity->getId();
-            $DatePcr = ($entity->getDatePcr() !== null) ?  $entity->getDatePcr()->format('Y-m-d') : null;
-            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+            $DatePcr = ($entity->getDatePcr() !== null)
+                ?  $entity->getDatePcr()->format('Y-m-d') : null;
+            $DateMaj = ($entity->getDateMaj() !== null)
+                ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+            $DateCre = ($entity->getDateCre() !== null)
+                ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
             // Search chromatograms associated to a PCR
-            $query = $em->createQuery('SELECT chromato.id FROM App:Chromatogramme chromato WHERE chromato.pcrFk = ' . $id . '')->getResult();
+            $query = $em->createQuery(
+                'SELECT chromato.id FROM App:Chromatogramme chromato 
+                WHERE chromato.pcrFk = ' . $id
+            )->getResult();
             $linkChromatogramme = (count($query) > 0) ? $id : '';
             // concatenated list of people 
-            $query = $em->createQuery('SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id . '')->getResult();
+            $query = $em->createQuery(
+                'SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp 
+                JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id
+            )->getResult();
             $arrayListePersonne = array();
             foreach ($query as $taxon) {
                 $arrayListePersonne[] = $taxon['nom'];
@@ -150,21 +167,22 @@ class PcrController extends AbstractController
                 "pcr.datePcr" => $DatePcr,
                 "vocQualitePcr.code" => $entity->getQualitePcrVocFk()->getCode(),
                 "vocSpecificite.code" => $entity->getSpecificiteVocFk()->getCode(),
-                "pcr.dateCre" => $DateCre, "pcr.dateMaj" => $DateMaj,
-                "userCreId" => $service->GetUserCreId($entity), "pcr.userCre" => $service->GetUserCreUsername($entity), "pcr.userMaj" => $service->GetUserMajUsername($entity),
+                "pcr.dateCre" => $DateCre,
+                "pcr.dateMaj" => $DateMaj,
+                "userCreId" => $service->GetUserCreId($entity),
+                "pcr.userCre" => $service->GetUserCreUsername($entity),
+                "pcr.userMaj" => $service->GetUserMajUsername($entity),
                 "linkChromatogramme" => $linkChromatogramme,
             );
         }
-        // Ajax answer
-        $response = new JsonResponse([
+
+        return new JsonResponse([
             "current"    => intval($request->get('current')),
             "rowCount"  => $rowCount,
             "rows"     => $tab_toshow,
             "searchPhrase" => $searchPhrase,
             "total"    => $nb // total data array
         ]);
-
-        return $response;
     }
 
 
@@ -184,10 +202,15 @@ class PcrController extends AbstractController
             $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId);
             $pcr->setAdnFk($RelEntity);
         }
-        $form = $this->createForm('App\Form\PcrType', $pcr);
+        $form = $this->createForm('App\Form\PcrType', $pcr, [
+            'action_type' => Action::create()
+        ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->get('adnId')->getData() !== null) {
+        if (
+            $form->isSubmitted() && $form->isValid() &&
+            $form->get('adnId')->getData() !== null
+        ) {
             // (i) load the id of relational Entity (Adn) from typeahead input field and (ii) set the foreign key
             $RelEntityId = $form->get('adnId');
             $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId->getData());
@@ -200,7 +223,11 @@ class PcrController extends AbstractController
                 $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
                 return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
             }
-            return $this->redirectToRoute('pcr_edit', array('id' => $pcr->getId(), 'valid' => 1, 'idFk' => $request->get('idFk') ));
+            return $this->redirectToRoute('pcr_edit', array(
+                'id' => $pcr->getId(),
+                'valid' => 1,
+                'idFk' => $request->get('idFk')
+            ));
         }
 
         return $this->render('Core/pcr/edit.html.twig', array(
@@ -217,7 +244,9 @@ class PcrController extends AbstractController
     public function showAction(Pcr $pcr)
     {
         $deleteForm = $this->createDeleteForm($pcr);
-        $editForm = $this->createForm('App\Form\PcrType', $pcr);
+        $editForm = $this->createForm('App\Form\PcrType', $pcr, [
+            'action_type' => Action::show()
+        ]);
 
         return $this->render('Core/pcr/edit.html.twig', array(
             'pcr' => $pcr,
@@ -247,7 +276,9 @@ class PcrController extends AbstractController
         $pcrEstRealisePars = $service->setArrayCollection('PcrEstRealisePars', $pcr);
         //
         $deleteForm = $this->createDeleteForm($pcr);
-        $editForm = $this->createForm('App\Form\PcrType', $pcr);
+        $editForm = $this->createForm('App\Form\PcrType', $pcr, $pcr, [
+            'action_type' => Action::edit()
+        ]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

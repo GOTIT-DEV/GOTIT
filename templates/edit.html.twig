@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% form_theme edit_form 'form-theme.html.twig' %}
+{% form_theme edit_form 'Form/form-theme.html.twig' %}
 {# initialization of TWIG general variables #}
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
@@ -98,7 +98,7 @@ change of language: language passed in parameter of url? language = switch #}
 	{% endif %}
 	{{ form_rest(edit_form) }}
 	<div class="row">
-		<div class="form-group offset-1 offset-sm-2 col-11 col-sm-10">
+		<div class="form-group offset-lg-3 col-lg-9 offset-xl-2 col-xl-10">
 			{% if edit_form.vars.action_type != 'show' %}
 				<button type="submit" class="btn btn-round btn-success" value="Create">
 					{{ "button.Valid" | trans }}
@@ -131,4 +131,9 @@ change of language: language passed in parameter of url? language = switch #}
 {% block scripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags("forms") }}
+	{% if exception_message is defined %} 
+    <script type="text/javascript"> 
+        alert("{{exception_message|raw}}"); 
+    </script> 
+{% endif %}
 {% endblock %}

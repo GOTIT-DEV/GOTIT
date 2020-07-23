@@ -18,12 +18,14 @@
 namespace App\Controller\Core;
 
 use App\Entity\Pays;
+use App\Form\Enums\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Pay controller.
@@ -34,205 +36,221 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class PaysController extends AbstractController
 {
-    /**
-     * Lists all pay entities.
-     *
-     * @Route("/", name="pays_index", methods={"GET"})
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Lists all pay entities.
+	 *
+	 * @Route("/", name="pays_index", methods={"GET"})
+	 */
+	public function indexAction()
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        $pays = $em->getRepository('App:Pays')->findAll();
+		$pays = $em->getRepository('App:Pays')->findAll();
 
-        return $this->render('Core/pays/index.html.twig', array(
-            'pays' => $pays,
-        ));
-    }
+		return $this->render('Core/pays/index.html.twig', array(
+			'pays' => $pays,
+		));
+	}
 
-    /**
-     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
-     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
-     * b) the number of lines to display ($ request-> get ('rowCount'))
-     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-     *
-     * @Route("/indexjson", name="pays_indexjson", methods={"POST"})
-     */
-    public function indexjsonAction(Request $request, GenericFunctionE3s $service)
-    {
-        // load Doctrine Manager      
-        $em = $this->getDoctrine()->getManager();
-        //
-        $rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL) ? $request->get('sort') : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');  
-        $minRecord = intval($request->get('current')-1)*$rowCount;
-        $maxRecord = $rowCount; 
-        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-        $where = 'LOWER(pays.codePays) LIKE :criteriaLower';
-        $searchPhrase = $request->get('searchPhrase');
-        if ( $request->get('searchPattern') !== null && $request->get('searchPattern') !== '' && $searchPhrase == '') {
-            $searchPhrase = $request->get('searchPattern');
-        }
-        // Search for the list to show
-        $tab_toshow =[];
-        $entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
-            ->where($where)
-            ->setParameter('criteriaLower', strtolower($searchPhrase).'%')
-            ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
-            ->getQuery()
-            ->getResult();
-        $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0 ) ? array_slice($entities_toshow, $minRecord, $rowCount) : array_slice($entities_toshow, $minRecord); 
-        foreach($entities_toshow as $entity)
-        {
-            $id = $entity->getId();
-            $DateMaj = ($entity->getDateMaj() !== null) ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-            $DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-            //
-            $tab_toshow[] = array("id" => $id, "pays.id" => $id, 
-             "pays.codePays" => $entity->getCodePays(),
-             "pays.nomPays" => $entity->getNomPays(),
-             "pays.dateCre" => $DateCre, "pays.dateMaj" => $DateMaj,
-             "userCreId" => $service->GetUserCreId($entity), "pays.userCre" => $service->GetUserCreUsername($entity) ,"pays.userMaj" => $service->GetUserMajUsername($entity),
-            );
-        }     
-        // Ajax answer
-        $response = new Response ();
-        $response->setContent ( json_encode ( array (
-            "current"    => intval( $request->get('current') ), 
-            "rowCount"  => $rowCount,            
-            "rows"     => $tab_toshow, 
-            "searchPhrase" => $searchPhrase,
-            "total"    => $nb // total data array				
-            ) ) );
-        // If it is an Ajax request: returns the content in json format
-        $response->headers->set('Content-Type', 'application/json');
+	/**
+	 * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+	 * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+	 * b) the number of lines to display ($ request-> get ('rowCount'))
+	 * c) 1 sort criterion on a collone ($ request-> get ('sort'))
+	 *
+	 * @Route("/indexjson", name="pays_indexjson", methods={"POST"})
+	 */
+	public function indexjsonAction(Request $request, GenericFunctionE3s $service)
+	{
+		// load Doctrine Manager      
+		$em = $this->getDoctrine()->getManager();
+		//
+		$rowCount = ($request->get('rowCount')  !== NULL)
+			? $request->get('rowCount') : 10;
+		$orderBy = ($request->get('sort')  !== NULL)
+			? $request->get('sort')
+			: array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');
+		$minRecord = intval($request->get('current') - 1) * $rowCount;
+		$maxRecord = $rowCount;
+		// initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
+		$where = 'LOWER(pays.codePays) LIKE :criteriaLower';
+		$searchPhrase = $request->get('searchPhrase');
+		if (
+			$request->get('searchPattern') !== null &&
+			$request->get('searchPattern') !== '' &&
+			$searchPhrase == ''
+		) {
+			$searchPhrase = $request->get('searchPattern');
+		}
+		// Search for the list to show
+		$tab_toshow = [];
+		$entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
+			->where($where)
+			->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
+			->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
+			->getQuery()
+			->getResult();
+		$nb = count($entities_toshow);
+		$entities_toshow = ($request->get('rowCount') > 0)
+			? array_slice($entities_toshow, $minRecord, $rowCount)
+			: array_slice($entities_toshow, $minRecord);
+		foreach ($entities_toshow as $entity) {
+			$id = $entity->getId();
+			$DateMaj = ($entity->getDateMaj() !== null)
+				?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+			$DateCre = ($entity->getDateCre() !== null)
+				?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+			//
+			$tab_toshow[] = array(
+				"id" => $id, "pays.id" => $id,
+				"pays.codePays" => $entity->getCodePays(),
+				"pays.nomPays" => $entity->getNomPays(),
+				"pays.dateCre" => $DateCre,
+				"pays.dateMaj" => $DateMaj,
+				"userCreId" => $service->GetUserCreId($entity),
+				"pays.userCre" => $service->GetUserCreUsername($entity),
+				"pays.userMaj" => $service->GetUserMajUsername($entity),
+			);
+		}
+		return new JsonResponse([
+			"current"    => intval($request->get('current')),
+			"rowCount"  => $rowCount,
+			"rows"     => $tab_toshow,
+			"searchPhrase" => $searchPhrase,
+			"total"    => $nb // total data array				
+		]);
+	}
 
-        return $response;          
-    }
- 
-    
-    /**
-     * Creates a new pay entity.
-     *
-     * @Route("/new", name="pays_new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
-     */
-    public function newAction(Request $request)
-    {
-        $pays = new Pays();
-        $form = $this->createForm('App\Form\PaysType', $pays);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($pays);
-            try {
-                $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->redirectToRoute('pays_edit', array('id' => $pays->getId(), 'valid' => 1));                       
-        }
+	/**
+	 * Creates a new pay entity.
+	 *
+	 * @Route("/new", name="pays_new", methods={"GET", "POST"})
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
+	public function newAction(Request $request)
+	{
+		$pays = new Pays();
+		$form = $this->createForm('App\Form\PaysType', $pays, [
+			'action_type' => Action::create()
+		]);
+		$form->handleRequest($request);
 
-        return $this->render('Core/pays/edit.html.twig', array(
-            'pays' => $pays,
-            'edit_form' => $form->createView(),
-        ));
-    }
+		if ($form->isSubmitted() && $form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($pays);
+			try {
+				$em->flush();
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				$exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+				return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+			}
+			return $this->redirectToRoute('pays_edit', array(
+				'id' => $pays->getId(),
+				'valid' => 1
+			));
+		}
 
-    /**
-     * Finds and displays a pay entity.
-     *
-     * @Route("/{id}", name="pays_show", methods={"GET"})
-     */
-    public function showAction(Pays $pays)
-    {
-        $deleteForm = $this->createDeleteForm($pays);
-        $editForm = $this->createForm('App\Form\PaysType', $pays);
+		return $this->render('Core/pays/edit.html.twig', array(
+			'pays' => $pays,
+			'edit_form' => $form->createView(),
+		));
+	}
 
-        return $this->render('show.html.twig', array(
-            'pays' => $pays,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+	/**
+	 * Finds and displays a pay entity.
+	 *
+	 * @Route("/{id}", name="pays_show", methods={"GET"})
+	 */
+	public function showAction(Pays $pays)
+	{
+		$deleteForm = $this->createDeleteForm($pays);
+		$editForm = $this->createForm('App\Form\PaysType', $pays, [
+			'action_type' => Action::show()
+		]);
 
-    /**
-     * Displays a form to edit an existing pay entity.
-     *
-     * @Route("/{id}/edit", name="pays_edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_ADMIN')")
-     */
-    public function editAction(Request $request, Pays $pays)
-    {
-        $deleteForm = $this->createDeleteForm($pays);
-        $editForm = $this->createForm('App\Form\PaysType', $pays);
-        $editForm->handleRequest($request);
+		return $this->render('Core/pays/edit.html.twig', array(
+			'pays' => $pays,
+			'edit_form' => $editForm->createView(),
+			'delete_form' => $deleteForm->createView(),
+		));
+	}
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            try {
-                $this->getDoctrine()->getManager()->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            } 
-            return $this->render('Core/pays/edit.html.twig', array(
-                'pays' => $pays,
-                'edit_form' => $editForm->createView(),
-                'valid' => 1));
-        }
+	/**
+	 * Displays a form to edit an existing pay entity.
+	 *
+	 * @Route("/{id}/edit", name="pays_edit", methods={"GET", "POST"})
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
+	public function editAction(Request $request, Pays $pays)
+	{
+		$deleteForm = $this->createDeleteForm($pays);
+		$editForm = $this->createForm('App\Form\PaysType', $pays, [
+			'action_type' => Action::edit()
+		]);
+		$editForm->handleRequest($request);
 
-        return $this->render('Core/pays/edit.html.twig', array(
-            'pays' => $pays,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+		if ($editForm->isSubmitted() && $editForm->isValid()) {
+			try {
+				$this->getDoctrine()->getManager()->flush();
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				$exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+				return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+			}
+			return $this->render('Core/pays/edit.html.twig', array(
+				'pays' => $pays,
+				'edit_form' => $editForm->createView(),
+				'valid' => 1
+			));
+		}
 
-    /**
-     * Deletes a pay entity.
-     *
-     * @Route("/{id}", name="pays_delete", methods={"DELETE"})
-     * @Security("has_role('ROLE_ADMIN')")
-     */
-    public function deleteAction(Request $request, Pays $pays)
-    {
-        $form = $this->createDeleteForm($pays);
-        $form->handleRequest($request);
+		return $this->render('Core/pays/edit.html.twig', array(
+			'pays' => $pays,
+			'edit_form' => $editForm->createView(),
+			'delete_form' => $deleteForm->createView(),
+		));
+	}
 
-        $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken) ) {
-            $em = $this->getDoctrine()->getManager();
-            try {
-                $em->remove($pays);
-                $em->flush();
-            } 
-            catch(\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"',str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES , 'UTF-8')));
-                return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }   
-        }
-        
-        return $this->redirectToRoute('pays_index');
-    }
+	/**
+	 * Deletes a pay entity.
+	 *
+	 * @Route("/{id}", name="pays_delete", methods={"DELETE"})
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
+	public function deleteAction(Request $request, Pays $pays)
+	{
+		$form = $this->createDeleteForm($pays);
+		$form->handleRequest($request);
 
-    /**
-     * Creates a form to delete a pay entity.
-     *
-     * @param Pays $pay The pay entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Pays $pay)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('pays_delete', array('id' => $pay->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
+		$submittedToken = $request->request->get('token');
+		if (($form->isSubmitted() && $form->isValid()) ||
+			$this->isCsrfTokenValid('delete-item', $submittedToken)
+		) {
+			$em = $this->getDoctrine()->getManager();
+			try {
+				$em->remove($pays);
+				$em->flush();
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				$exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+				return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+			}
+		}
+
+		return $this->redirectToRoute('pays_index');
+	}
+
+	/**
+	 * Creates a form to delete a pay entity.
+	 *
+	 * @param Pays $pay The pay entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createDeleteForm(Pays $pay)
+	{
+		return $this->createFormBuilder()
+			->setAction($this->generateUrl('pays_delete', array('id' => $pay->getId())))
+			->setMethod('DELETE')
+			->getForm();
+	}
 }

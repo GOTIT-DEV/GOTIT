@@ -15,9 +15,9 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
-use App\Form\Type\PersonneEmbedType;
+use App\Form\EmbedTypes\PersonneEmbedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

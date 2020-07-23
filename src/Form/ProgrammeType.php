@@ -17,41 +17,37 @@
 
 namespace App\Form;
 
-use App\Form\DataTransformer\UppercaseTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\UppercaseType;
+use App\Form\ActionFormType;
 
-class ProgrammeType extends AbstractType
+class ProgrammeType extends ActionFormType
 {
 
-    public function __construct()
-    {
-        $this->uppercaseTrans = new UppercaseTransformer();
-    }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codeProgramme', TextType::class, [
-            'attr' => ["class" => "text-uppercase"]
-        ])
-            ->add('nomProgramme')
+        $builder->add('codeProgramme', UppercaseType::class)
+            ->add('nomProgramme', UppercaseType::class)
             ->add('nomsResponsables')
             ->add('typeFinanceur')
-            ->add('anneeDebut')
-            ->add('anneeFin')
+            ->add('anneeDebut', null, [
+                'attr' => [
+                    'min' => 1900,
+                    'max' => 3000
+                ],
+            ])
+            ->add('anneeFin', null, [
+                'attr' => [
+                    'min' => 1900,
+                    'max' => 3000
+                ],
+            ])
             ->add('commentaireProgramme')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
-
-        $builder->get('codeProgramme')->addModelTransformer($this->uppercaseTrans);
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -59,6 +55,7 @@ class ProgrammeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Programme'
         ));

@@ -2,29 +2,17 @@
 
 namespace App\Form;
 
-use App\Form\EventListener\AddUserDateFields;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\ActionFormType;
 
 class UserType extends ActionFormType
 {
-    private $addUserDate;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(TokenStorageInterface $tokenStorage, Security $security)
-    {
-      $this->addUserDate = new AddUserDateFields($tokenStorage);
-      $this->security = $security;
-    }
     /**
      * {@inheritdoc}
      */

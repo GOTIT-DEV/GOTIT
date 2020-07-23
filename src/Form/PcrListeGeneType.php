@@ -17,10 +17,10 @@
 
 namespace App\Form;
 
-use App\Form\Type\GeneType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Type\GeneType;
 
 class PcrListeGeneType extends AbstractType
 {

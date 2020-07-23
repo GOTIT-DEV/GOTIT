@@ -17,15 +17,19 @@
 
 namespace App\Form;
 
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\SequenceStatusType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Type\SequenceStatusType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\EmbedTypes\SqcEstPublieDansEmbedType;
+use App\Form\EmbedTypes\SequenceAssembleeEstRealiseParEmbedType;
+use App\Form\EmbedTypes\EstAligneEtTraiteEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 
 class SequenceAssembleeType extends AbstractType
 {

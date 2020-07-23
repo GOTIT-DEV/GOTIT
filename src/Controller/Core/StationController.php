@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\Station;
-use App\Form\Action;
+use App\Form\Enums\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,11 +63,9 @@ class StationController extends AbstractController
 		$qb->select('station.id, station.codeStation as code')
 			->from('App:Station', 'station');
 		$query = explode(' ', strtolower(trim(urldecode($q))));
-		$and = [];
 		for ($i = 0; $i < count($query); $i++) {
-			$and[] = '(LOWER(station.codeStation) like :q' . $i . ')';
+			$qb->andWhere('(LOWER(station.codeStation) like :q' . $i . ')');
 		}
-		$qb->where(implode(' and ', $and));
 		for ($i = 0; $i < count($query); $i++) {
 			$qb->setParameter('q' . $i, $query[$i] . '%');
 		}

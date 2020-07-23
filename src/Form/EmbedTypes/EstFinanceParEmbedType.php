@@ -15,7 +15,7 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,16 +30,20 @@ class EstFinanceParEmbedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('programmeFk', EntityType::class, array('class' => 'App:Programme', 
-                      'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('programme')
-                                    ->orderBy('programme.codeProgramme', 'ASC');
-                            }, 
-                       'choice_label' => 'code_programme', 'multiple' => false, 'expanded' => false, 'label' => false, 
-                       'placeholder' => 'Choose a Program',)
-            );
+        $builder->add('programmeFk', EntityType::class, array(
+            'class' => 'App:Programme',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('programme')
+                    ->orderBy('programme.codeProgramme', 'ASC');
+            },
+            'choice_label' => 'code_programme', 
+            'multiple' => false, 
+            'expanded' => false, 
+            'label' => false,
+            'placeholder' => 'Choose a Program',
+        ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +61,4 @@ class EstFinanceParEmbedType extends AbstractType
     {
         return 'bbees_e3sbundle_estfinancepar';
     }
-
-
 }

@@ -15,14 +15,12 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
-use App\Form\Type\PersonneEmbedType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\EmbedTypes\PersonneEmbedType;
 
 
 class SqcExtEstRealiseParEmbedType extends AbstractType

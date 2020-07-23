@@ -19,6 +19,18 @@
     {% endif %}       
 {% endif %}
 
+{% block action %}
+{{parent()}}
+{% if edit_form.vars.data.pcrFk is not null %}
+    <a
+        href="/{{app.request.locale}}/pcr/{{edit_form.vars.data.pcrFk.id}}"
+        class="btn btn-sm btn-info">
+        <i class="fas fa-link"></i>
+        {{'button.Back to pcr' | trans}}
+    </a>
+{% endif %}
+{% endblock %}
+
 {% block body %}
        
     {{ parent() }}  
@@ -28,40 +40,11 @@
 
 {% block scripts %}
 {{ parent() }}
-{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
-
  
 <script type="text/javascript">  
 // Form actions
     $(document).ready(function(){
-         {% if action == 'show'  %}  
-           // Adding a Back to Button to pcr
-            addBackToRelatedRecord('chromatogramme', 'pcr', "{{'button.Back to pcr'|trans}}", 1, 'show');
-         {% endif %}
-         {% if action == 'edit'  %}  
-           // Adding a Back to Button to pcr
-            addBackToRelatedRecord('chromatogramme', 'pcr', "{{'button.Back to pcr'|trans}}", 1);
-            // General action on form: form lock (default) / user role: app.user ...
-            {% if not is_granted('ROLE_ADMIN') %}  
-                // Locking fields: PCR; Code chromatogramme; numero YAS; Amorce chromatogramme
-                $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                    $('#bbees_e3sbundle_chromatogramme_pcrFk').attr("disabled", false); 
-                 }); 
-                $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                    $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
-                });                 
-                $('#bbees_e3sbundle_chromatogramme_numYas').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                    $('#bbees_e3sbundle_chromatogramme_numYas').attr("disabled", false); 
-                }); 
-                $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                    $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').attr("disabled", false); 
-                 });
-            {% endif %}
-        {% endif %}
+        
         {% if action == 'new'  %} 
             var CodeChromatoPlaceholder = {"numYAS" : "{{'Num yas'|trans}}"}; 
             // General action on form: form lock (default) / user role: app.user ...
@@ -70,10 +53,6 @@
                 // Unlocking fields to allow registration
                 $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
              }); 
-            // case where a pcr is yet selected : Lock individuTypeahead field
-            {% if app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not empty %}
-                $('#bbees_e3sbundle_chromatogramme_pcrTypeahead').attr("disabled", true).css("background-color", "WhiteSmoke");
-            {% endif %}
             // specific features: automatically generating codeChromato
             setCodeChromato(CodeChromatoPlaceholder);
             $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').change(function (e) { setCodeChromato(CodeChromatoPlaceholder);}) 

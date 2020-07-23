@@ -6,100 +6,122 @@
 1) The table of results should include a collumn of the type: <th data-column-id = "linkEntity" data-formatter = "linkEntity" data-sortable = "false"> Col. </ Th>
 2) the controller will have to return in the table rows the colloids of the type: "linkEntity1" => "patern1", "linkeEntity2" => "patern2" ... #}
 {% set links =  [] %}
-    
-    
-{% block titlepage %}
-    <h1>        
-        {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %} 
-                {{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
-            {% else %} 
-                {{['title.',entityname ]|join|trans}}
-        {% endif %} 
-    </h1>
-{% endblock %}  
+
+
+	{% block titlepage %}
+		<h1>
+			{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %}
+			{{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
+		{% else %}
+			{{['title.',entityname ]|join|trans}}
+		{% endif %}
+	</h1>
+{% endblock %}
 
 {% block action %}
-    {# url parameter management  #}       
-    {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
-        <a href="{{ path(route_index) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a> 
-     {% else %}
-         <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
-    {% endif %}
-    
-    {% if is_granted('ROLE_COLLABORATION') %} 
-        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">{{'button.exportToCSV'|trans}}</button>
-        {% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %} 
-             <a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>  
-        {% else %}
-             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a> 
-        {% endif %}
-    {% else %}
-        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
-    {% endif %}
-    
-    {# <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>#}
-    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LOT' %}         
-            {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import lot materiel range'|trans}}</a>
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel range'|trans}}</a>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
-            {% endif %}
-    {% endif %} 
-     {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LAME' %} 
-        
-            {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import individu lame range'|trans}}</a> 
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame range'|trans}}</a>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import individu lame deplace'|trans}}</a>
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame deplace'|trans}}</a>
-            {% endif %}
-    {% endif %} 
-    {% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'ADN' %} 
-            {% if is_granted('ROLE_COLLABORATION') %}
-                <a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import adn range'|trans}}</a>            
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn range'|trans}}</a>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-primary btn-sm" role="button">{{'button.Import adn deplace'|trans}}</a>
-            {% else %}
-                <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn deplace'|trans}}</a>
-            {% endif %}
-    {% endif %} 
+	{# url parameter management  #}
+	{% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %}
+		<a href="{{ path(route_index) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
+	{% else %}
+		<a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
+	{% endif %}
+
+	{% if is_granted('ROLE_COLLABORATION') %}
+		<button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">{{'button.exportToCSV'|trans}}</button>
+		{% if varUrl_typeBoite is defined and  varUrl_typeBoite != '' %}
+			<a href="{{ path( route_new ) }}?typeBoite={{varUrl_typeBoite}}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
+		{% else %}
+			<a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
+		{% endif %}
+	{% else %}
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
+	{% endif %}
+
+    <div class="btn-group btn-group-sm">
+    <div class="input-group-prepend">
+        <i class="input-group-text fas fa-upload"></i>
+    </div>
+	{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LOT' %}
+		{% if is_granted('ROLE_COLLABORATION') %}
+			<a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import lot materiel range'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel range'|trans}}</a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import lot materiel deplace'|trans}}</a>
+		{% endif %}
+	{% endif %}
+	{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'LAME' %}
+
+		{% if is_granted('ROLE_COLLABORATION') %}
+			<a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import individu lame range'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame range'|trans}}</a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import individu lame deplace'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import individu lame deplace'|trans}}</a>
+		{% endif %}
+	{% endif %}
+	{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') == 'ADN' %}
+		{% if is_granted('ROLE_COLLABORATION') %}
+			<a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import adn range'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn range'|trans}}</a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">{{'button.Import adn deplace'|trans}}</a>
+		{% else %}
+			<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{'button.Import adn deplace'|trans}}</a>
+		{% endif %}
+	{% endif %}
+    </div>
 
 {% endblock %}
 
-{% block body %}  
-    
-    {# definition of collones to display 
-     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
-    <div class="table-responsive">        
-    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
-        <thead>
-            <tr>
-                <th data-column-id="boite.id" data-type="numeric" data-visible="false" >Id</th>
-                <th data-column-id="boite.codeBoite" data-sortable="true">{{'Code boite'|trans}}</th> 
-                <th data-column-id="vocCodeCollection.code" data-sortable="true" data-visible="true">{{'Code collection voc fk'|trans}}</th> 
-                <th data-column-id="boite.libelleBoite" data-sortable="true">{{'Libelle boite'|trans}}</th> 
-                <th data-column-id="vocCodeCollection.libelle" data-sortable="true" data-visible="false">{{'Libelle collection'|trans}}</th> 
-                <th data-column-id="boite.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
-                <th data-column-id="boite.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
-                <th data-column-id="boite.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
-                <th data-column-id="boite.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
-                <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">{{'list.show'|trans}}</th>
-                <th data-column-id="edit" data-formatter="edit" data-sortable="false"  data-width="20">{{'list.edit'|trans}}</th>
-                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">{{'list.delete'|trans}}</th>
-            </tr>
-        </thead>
-    </table>
-    </div>       
+{% block body %}
+
+	{# definition of collones to display 
+	     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+	<div class="table-responsive">
+		<table id="grid-basic" class="table table-condensed table-hover table-striped">
+			<thead>
+				<tr>
+					<th data-column-id="boite.id" data-type="numeric" data-visible="false">Id</th>
+					<th data-column-id="boite.codeBoite" data-sortable="true">{{'Code boite'|trans}}</th>
+					<th
+						data-column-id="vocCodeCollection.code"
+						data-sortable="true"
+						data-visible="true">{{'Code collection voc fk'|trans}}</th>
+					<th data-column-id="boite.libelleBoite" data-sortable="true">{{'Libelle boite'|trans}}</th>
+					<th
+						data-column-id="vocCodeCollection.libelle"
+						data-sortable="true"
+						data-visible="false">{{'Libelle collection'|trans}}</th>
+					<th data-column-id="boite.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
+					<th data-column-id="boite.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
+					<th data-column-id="boite.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
+					<th data-column-id="boite.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
+					<th
+						data-column-id="show"
+						data-formatter="show"
+						data-sortable="false"
+						data-width="20">{{'list.show'|trans}}</th>
+					<th
+						data-column-id="edit"
+						data-formatter="edit"
+						data-sortable="false"
+						data-width="20">{{'list.edit'|trans}}</th>
+					<th
+						data-column-id="delete"
+						data-formatter="delete"
+						data-sortable="false"
+						data-width="20">{{'list.delete'|trans}}</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
 {% endblock %}

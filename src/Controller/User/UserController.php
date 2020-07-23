@@ -18,7 +18,7 @@
 namespace App\Controller\User;
 
 use App\Entity\User;
-use App\Form\Action;
+use App\Form\Enums\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -185,7 +185,7 @@ class UserController extends AbstractController
         $editForm = $this->createForm('App\Form\UserType', $user, [
             'action_type' => Action::show()
         ]);
-        return $this->render('show.html.twig', array(
+        return $this->render('user/edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

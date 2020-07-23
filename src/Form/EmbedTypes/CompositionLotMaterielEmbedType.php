@@ -15,16 +15,14 @@
  * 
  */
 
-namespace App\Form;
+namespace App\Form\EmbedTypes;
 
 use App\Form\Type\SpecimenVocType;
-use Symfony\Component\Form\AbstractType;
+use App\Form\UserDateTraceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class CompositionLotMaterielEmbedType extends AbstractType
+class CompositionLotMaterielEmbedType extends UserDateTraceType
 {
     /**
      * {@inheritdoc}
@@ -34,10 +32,7 @@ class CompositionLotMaterielEmbedType extends AbstractType
         $builder->add('nbIndividus')
             ->add('typeIndividuVocFk', SpecimenVocType::class)
             ->add('commentaireCompoLotMateriel')
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, 'data' =>  new \DateTime("now"), 'label' => false, 'attr' => array('style' => 'display:none;')))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -45,6 +40,7 @@ class CompositionLotMaterielEmbedType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\CompositionLotMateriel'
         ));

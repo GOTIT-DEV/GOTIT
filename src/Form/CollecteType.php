@@ -17,64 +17,53 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-use App\Form\APourSamplingMethodEmbedType;
-use App\Form\Type\DateFormattedType;
+use App\Form\Type\UppercaseType;
 use App\Form\Type\DatePrecisionType;
-use App\Form\EventListener\AddUserDateFields;
+use App\Form\Type\DateFormattedType;
 
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\EstFinanceParEmbedType;
+use App\Form\EmbedTypes\EstEffectueParEmbedType;
+use App\Form\EmbedTypes\APourSamplingMethodEmbedType;
+use App\Form\EmbedTypes\APourFixateurEmbedType;
+use App\Form\EmbedTypes\ACiblerEmbedType;
 use App\Form\ActionFormType;
-use Symfony\Component\Security\Core\Security;
 
 class CollecteType extends ActionFormType
 {
-
-  private $addUserDate;
-
-  /**
-   * {@inheritdoc}
-   */
-  public function __construct(TokenStorageInterface $tokenStorage, Security $security)
-  {
-    $this->addUserDate = new AddUserDateFields($tokenStorage);
-    $this->security = $security;
-  }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $action_type = $options['action_type'];
-    $editAdminOnly = ($action_type == "edit" && !$this->security->isGranted('ROLE_ADMIN'));
-
     $station = $builder->getData()->getStationFk();
     $codeStation = $station ? $station->getCodeStation() : null;
-    $idStation = $station ? $station->getId():null;
+    $idStation = $station ? $station->getId() : null;
 
     $builder
-      ->add('stationTypeahead', null, [
+      ->add('stationTypeahead', UppercaseType::class, [
         'mapped' => false,
         'attr' => [
-          'class' => 'typeahead typeahead-station text-uppercase',
-          'data-target_id' => "bbees_e3sbundle_collecte_stationId",
+          'class' => 'typeahead typeahead-station',
+          'data-target_id' => $this->getBlockPrefix() . "_stationId",
           'name' => "where",
           'placeholder' => "Station typeahead placeholder",
           "maxlength" => "255",
-          'readonly' => $editAdminOnly,
           'data-initial' => $codeStation
         ],
+        'disabled' => $this->canEditAdminOnly($options),
         'required' => true,
         'data' => $codeStation,
       ])
@@ -90,16 +79,16 @@ class CollecteType extends ActionFormType
       ->add('codeCollecte', null, [
         'attr' => [
           'class' => 'sampling-code',
-          'readonly' => $editAdminOnly || $action_type == Action::create()
+          // Using readonly instead of disabled so that generated code can be stored in DB
+          'readonly' => ($this->canEditAdminOnly($options) ||
+            $options['action_type'] == Action::create())
         ],
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class, [
-        /* Using mock readonly option to avoid overriding attr option
-          See DatePrecisionType definition */
-        'readonly' => $editAdminOnly
+        'disabled' => $this->canEditAdminOnly($options)
       ])
       ->add('dateCollecte', DateFormattedType::class, [
-        'attr' => ['readonly' => $editAdminOnly]
+        'disabled' => $this->canEditAdminOnly($options)
       ])
       ->add('aPourSamplingMethods', CollectionType::class, [
         'entry_type' => APourSamplingMethodEmbedType::class,
@@ -108,9 +97,6 @@ class CollecteType extends ActionFormType
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'attr' => [
-          "data-allow-new" => false
-        ],
         'entry_options' => [
           "label" => false,
         ]

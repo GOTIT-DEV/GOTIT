@@ -17,33 +17,36 @@
 
 namespace App\Form;
 
-use App\Form\EventListener\AddUserDateFields;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\GeneType;
-use App\Form\Type\SequenceStatusType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\SequenceStatusType;
+use App\Form\Type\GeneType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\EventListener\AddUserDateFields;
+use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
+use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 
 class SequenceAssembleeExtType extends AbstractType
 {
 
     private $addUserDate;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->addUserDate = new AddUserDateFields($tokenStorage);
-    }
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function __construct(AddUserDateFields $addUserDate)
+    // {
+    //     $this->addUserDate = $addUserDate;
+    // }
 
     /**
      * {@inheritdoc}
@@ -117,8 +120,8 @@ class SequenceAssembleeExtType extends AbstractType
                 'prototype_name' => '__name__',
                 'by_reference' => false,
                 'entry_options' => array('label' => false)
-            ))
-            ->addEventSubscriber($this->addUserDate);
+            ));
+            // ->addEventSubscriber($this->addUserDate);
     }
 
     /**

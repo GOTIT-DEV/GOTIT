@@ -17,40 +17,24 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Form\DataTransformer\UppercaseTransformer;
-use App\Form\EventListener\AddUserDateFields;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use App\Form\Type\UppercaseType;
+use App\Form\ActionFormType;
 
-class PersonneType extends AbstractType
+class PersonneType extends ActionFormType
 {
-    private $uppercaseTrans;
-    private $addUserDate;
-    
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->uppercaseTrans = new UppercaseTransformer();
-        $this->addUserDate = new AddUserDateFields($tokenStorage);
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nomPersonne', TextType::class, [
-            'attr' => ["class" => "text-uppercase"]
-        ])
-            ->add('nomComplet', TextType::class, [
-                'attr' => ["class" => "text-uppercase"],
+        $builder->add('nomPersonne', UppercaseType::class)
+            ->add('nomComplet', UppercaseType::class, [
                 'required' => false
             ])
-            ->add('nomPersonneRef',  TextType::class, [
-                'attr' => ["class" => "text-uppercase"],
+            ->add('nomPersonneRef',  UppercaseType::class, [
                 'required' => false
             ])
             ->add('etablissementFk', EntityType::class, array(
@@ -64,11 +48,6 @@ class PersonneType extends AbstractType
             ->add('commentairePersonne');
 
         $builder->addEventSubscriber($this->addUserDate);
-
-        // force uppercase on these fields
-        $builder->get('nomPersonne')->addModelTransformer($this->uppercaseTrans);
-        $builder->get('nomComplet')->addModelTransformer($this->uppercaseTrans);
-        $builder->get('nomPersonneRef')->addModelTransformer($this->uppercaseTrans);
     }
 
     /**
@@ -76,6 +55,7 @@ class PersonneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Personne'
         ));

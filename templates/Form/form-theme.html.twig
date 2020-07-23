@@ -1,0 +1,180 @@
+{% use "bootstrap_4_horizontal_layout.html.twig" %}
+
+
+{%- block form_start -%}
+{% set attr = attr | merge({
+		class:((attr.class|default('')) ~ ' container-fluid')|trim,
+		}) %}
+
+{% if form is rootform %}
+	{% set attr = attr | merge({
+			'data-action' : form.vars.action_type|default('unset')
+			}) %}
+{% endif %}
+{{parent()}}
+{% endblock %}
+
+
+{% block form_label_class %}
+{% if required|default(false) %}
+	text-danger
+{% endif %}
+col-lg-3 col-xl-2 font-weight-bold text-lg-right
+{% endblock %}
+
+
+{% block form_label_errors %}{% endblock %}
+
+{% block form_widget %}
+{{parent()}}
+{{ block('form_errors') }}
+{% endblock %}
+
+{# {% block form_widget_simple %}
+{% if attr['data-addon'] is defined %}
+	<div class="input-group-prepend">
+	<span class="input-group-text">
+	{{attr['data-addon']}}
+	</span>
+	</div>
+{% endif %}
+{{parent()}}
+{% endblock %} #}
+
+{%- block choice_widget_expanded -%}
+{% set extra_classes = ' form-check'%}
+{% if 'stacked' not in attr['class']|default('') %}
+{% set extra_classes = extra_classes ~ " form-check-inline" %}
+{% endif %}
+{% set attr =
+      attr|merge({
+        class: ((attr.class|default('')) ~ extra_classes)|trim
+      }) %}
+    {{parent()}}
+{%- endblock choice_widget_expanded -%}
+
+{% block form_group_class %}
+col-lg-9 col-xl-10 needs-validation input-group
+{% endblock %}
+
+{% block date_widget -%}
+{% if widget == 'single_text' %}
+	{% set attr =
+      attr|merge({
+        placeholder: 'DD-MM-YYYY',
+        class: ((attr.class|default('')) ~ ' date-autoformat')|trim
+      }) %}
+{% endif %}
+{{ parent() }}
+<div class="invalid-feedback">
+	Invalid date
+</div>
+{% endblock %}
+
+{% block choice_widget_collapsed -%}
+{% set attr =
+      attr|merge({
+        class: ((attr.class|default('')) ~ ' selectpicker border')|trim,
+				"data-live-search": true
+      }) %}
+{{ parent() }}
+{% endblock %}
+
+{% block widget_attributes %}
+{% set attr =
+    attr|merge({
+      class: ((attr.class|default('')) ~ ' form-control-sm')|trim,
+    }) %}
+{{ parent() }}
+{% endblock %}
+
+
+{% macro printCollectionEntry(entry, form_type, withDelete = true) %}
+
+{% set entry_id = "entry_" ~ entry.vars.id %}
+
+<div id="{{ entry_id }}" class="row collection-entry">
+	{% if (entry|length) > 1 %}
+		{% form_theme entry 'Form/collection-field-theme.html.twig' %}
+	{% else %}
+		{% form_theme entry 'Form/collection-entry-single-field.html.twig' %}
+	{% endif %}
+	{{ form_widget(entry) }}
+	<div class="col-1 delete-btn-container">
+		{% if form_type != 'show' and withDelete %}
+			<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
+				<i class="fas fa-times"></i>
+			</button>
+		{% else %}
+			<template class="delete-btn-template">
+				<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
+					<i class="fas fa-times"></i>
+				</button>
+			</template>
+		{% endif %}
+	</div>
+</div>{% endmacro %}
+
+{% block collection_row %}
+<div class="form-group row">
+	{{form_label(form)}}
+	<div class="col-lg-9">
+		{{form_widget(form)}}
+	</div>
+</div>
+{% endblock %}
+
+
+{% block collection_widget %}
+{% import _self as formMacros %}
+
+{# Find rootform type #}
+{% set form_type = form.vars.action_type|default(null) %}
+{% set current = form %}
+{% for i in 1..4 %}
+	{% if form_type is null %}
+		{% set current = form_parent(current) %}
+		{% set form_type = current.vars.action_type | default(null) %}
+	{% endif %}
+{% endfor %}
+
+{% set wrapper_id = "wrapper_" ~ form.vars.id %}
+{% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
+<div id="{{ wrapper_id }}" 
+			class="card collection-wrapper" 
+			data-prototype="{{ prototype | spaceless |e('html_attr') }}" 
+			data-index={{ form.count }}>
+
+
+	{% if form_type != 'show' %}
+
+		{# include card header with buttons #}
+
+		<div class="card-header">
+			{% if allow_add %}
+				<div class="btn-group flex-wrap btn-group-sm">
+					<button type="button" class="btn-entry-add btn btn-primary" data-target="{{ wrapper_id }}">
+						{{ ('button.add.' ~ name)|trans }}
+					</button>
+					{% if attr['data-allow-new']|default(false) %}
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
+							{{ ('button.add.new.' ~ name)|trans }}
+						</button>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	<div class="card-body entry-list">
+		{% if form.count %}
+			{# {% form_theme form 'Form/collection-entry-theme.html.twig' %} #}
+			{% for entry in form %}
+				{{ formMacros.printCollectionEntry(entry, form_type, loop.index > 1 or not form.vars.required) }}
+				{% if (entry|length) > 1 %}
+					<hr/>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>{% endblock %}

@@ -17,36 +17,49 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\Type\UppercaseType;
+use App\Form\ActionFormType;
 
-class ReferentielTaxonType extends AbstractType
+class ReferentielTaxonType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('taxname')->add('taxon_full_name')->add('rank')->add('subclass')->add('ordre')->add('family')->add('genus')->add('species')->add('subspecies')->add('codeTaxon')->add('clade')->add('taxnameRef')
-                 ->add('validity', ChoiceType::class, array('choices'  => array('No' => 0, 'Yes' => 1,), 'required' => true,
-                       'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'), 
-                    ))
-                ->add('commentaireRef')
-                ->add('dateCre', DateTimeType::class, array( 'required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('dateMaj', DateTimeType::class, array( 'required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false, ))
-                ->add('userCre', HiddenType::class, array())
-                ->add('userMaj', HiddenType::class, array());
+        $builder
+            ->add('taxname', UppercaseType::class)
+            ->add('taxon_full_name')
+            ->add('rank', UppercaseType::class)
+            ->add('subclass', UppercaseType::class)
+            ->add('ordre', UppercaseType::class)
+            ->add('family', UppercaseType::class)
+            ->add('genus', UppercaseType::class)
+            ->add('species', UppercaseType::class)
+            ->add('subspecies', UppercaseType::class)
+            ->add('codeTaxon')
+            ->add('clade', UppercaseType::class)
+            ->add('taxnameRef', UppercaseType::class)
+            ->add('validity', ChoiceType::class, array(
+                'choices'  => array('No' => 0, 'Yes' => 1,),
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline'),
+            ))
+            ->add('commentaireRef')
+            ->addEventSubscriber($this->addUserDate);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\ReferentielTaxon'
         ));
@@ -59,6 +72,4 @@ class ReferentielTaxonType extends AbstractType
     {
         return 'bbees_e3sbundle_referentieltaxon';
     }
-
-
 }

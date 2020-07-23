@@ -19,118 +19,29 @@
     {% endif %}       
 {% endif %}
 
+{% block action %}
+{{parent()}}
+{% if edit_form.vars.data.adnFk is not null %}
+    <a
+        href="/{{app.request.locale}}/adn/{{edit_form.vars.data.adnFk.id}}"
+        class="btn btn-sm btn-info">
+        <i class="fas fa-link"></i>
+        {{'button.Back to adn' | trans}}
+    </a>
+{% endif %}
+{% endblock %}
+
 {% block body %}
-       
-    {{ parent() }}   
-           
-    <!-- Modal : myModalPersonne -->
-     <div id="myModalPersonne" class="modal" role="dialog">
-     <div class="modal-dialog modal-lg">
-     <div class="modal-content">
-          <div class="modal-header">
-             <h1 class="modal-title">{{'title.Personne'|trans}}</h1>
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <div id='content_to_change_personne'>
-                    {{ render(controller('App\\Controller\\Core\\PersonneController::newmodalAction')) }}
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light border" data-dismiss="modal">{{'button.Close'|trans}}</button>
-          </div>
-        </div>
-      </div>
-     </div>
- 
+{{ parent() }}   
 {% endblock %}
 
 {% block scripts %}
 {{ parent() }}
-{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
-{% if action != 'show'  %}
-<script type="text/javascript">  
-// Person Modal Actions
-    $('#myModalPersonne').on('show.bs.modal', function (e) {
-        var modal = $(this);
-         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonne = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
-        })
-        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
-            var modal = $(this);
-            var nomComplet = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
-        })
-        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonneRef = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
-        })
-    })
-// Actions Jquery     
-    $(document).ready(function(){         
-        // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
-        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
-                    ev.preventDefault();		
-                    var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_pcr_pcrEstRealisePars');
-                    var index = getLastIndex('bbees_e3sbundle_pcr_pcrEstRealisePars');
-                    callAjax(form, $container, index);		
-	}); 
-             
-        // Collection lotMaterielEstRealisePars (Personne)
-        addCollectionButtons('bbees_e3sbundle_pcr_pcrEstRealisePars',"Personne",true);
 
-    });
- </script>
- {% endif %}
- 
 <script type="text/javascript">  
 // Form actions
     $(document).ready(function(){ 
-        // features of date & date_precision fields 
-        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
-        $('#bbees_e3sbundle_pcr_datePcr').change(function (e) { 
-            dateFormat('bbees_e3sbundle_pcr', 'datePcr', message);
-        })
-        $('[for^=bbees_e3sbundle_pcr_datePrecisionVocFk]').click(function (e) { 
-             dateDateprecision('bbees_e3sbundle_pcr', 'datePcr', message);
-        }) 
-        {% if action == 'show'  %}  
-           // Adding a Back to Button to DNA
-            addBackToRelatedRecord('pcr', 'adn', "{{'button.Back to adn'|trans}}", 1, 'show');
-        {% endif %}
-        {% if action == 'edit'  %}  
-            // Adding a Back to Button to DNA
-            addBackToRelatedRecord('pcr', 'adn', "{{'button.Back to adn'|trans}}", 1); 
-            // General action on form: form lock (default) / user role: app.user ...
-            {% if not is_granted('ROLE_ADMIN') %}  
-                // Locking fields: ADN; Code PCR; Numero PCR; Amorce PCR sens; Amorce PCR antisens 
-                $('#bbees_e3sbundle_pcr_adnTypeahead').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                    $('#bbees_e3sbundle_pcr_adnTypeahead').attr("disabled", false); 
-                 }); 
-                $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                    $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", false); 
-                });   
-                $('#bbees_e3sbundle_pcr_numPcr').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                    $('#bbees_e3sbundle_pcr_numPcr').attr("disabled", false); 
-                }); 
-                $('#bbees_e3sbundle_pcr_primerPcrStartVocFk').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                    $('#bbees_e3sbundle_pcr_primerPcrStartVocFk').attr("disabled", false); 
-                }); 
-                $('#bbees_e3sbundle_pcr_primerPcrEndVocFk').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                    $('#bbees_e3sbundle_pcr_primerPcrEndVocFk').attr("disabled", false); 
-                }); 
-            {% endif %}
-        {% endif %}
         {% if action == 'new'  %}
             var CodePcrPlaceholder = {"numPcr" : "{{'Num pcr'|trans}}"};
             // General action on form: form lock (default) / user role: app.user ...
@@ -139,10 +50,7 @@
                 // Unlocking fields to allow registration
                 $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", false); 
              }); 
-            // case where a dna is yet selected : Locked field: individuTypeahead
-            {% if app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not empty %}
-                $('#bbees_e3sbundle_pcr_adnTypeahead').attr("disabled", true).css("background-color", "WhiteSmoke");
-            {% endif %}
+
             // specific features: automatically generating codePcr
             setCodePcr(CodePcrPlaceholder);
             //$('#bbees_e3sbundle_pcr_adnFk').change(function (e) { setCodePcr(CodePcrPlaceholder);})

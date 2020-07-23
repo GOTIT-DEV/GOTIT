@@ -17,22 +17,26 @@
 
 namespace App\Form;
 
-use App\Form\Type\DateFormattedType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Type\DateFormattedType;
+use App\Form\EmbedTypes\MotuEstGenereParEmbedType;
+use App\Form\ActionFormType;
+use App\Controller\Core\PersonneController;
 
-class MotuType extends AbstractType
+class MotuType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nomFichierCsv')
+        $builder
+            ->add('nomFichierCsv')
             ->add('libelleMotu')
             ->add('dateMotu', DateFormattedType::class, ['required' => true])
             ->add('commentaireMotu')
@@ -43,12 +47,13 @@ class MotuType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__name__',
                 'by_reference' => false,
-                'entry_options' => array('label' => false)
+                'entry_options' => array('label' => false),
+                'attr' => [
+                    "data-allow-new" => true,
+                    "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction'
+                  ],
             ))
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -56,6 +61,7 @@ class MotuType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Motu'
         ));

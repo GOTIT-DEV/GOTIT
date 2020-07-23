@@ -18,7 +18,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\Collecte;
-use App\Form\Action;
+use App\Form\Enums\Action;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,11 +62,9 @@ class CollecteController extends AbstractController
     $qb->select('collecte.id, collecte.codeCollecte as code')
       ->from('App:Collecte', 'collecte');
     $query = explode(' ', strtolower(trim(urldecode($q))));
-    $and = [];
     for ($i = 0; $i < count($query); $i++) {
-      $and[] = '(LOWER(collecte.codeCollecte) like :q' . $i . ')';
+      $qb->andWhere('(LOWER(collecte.codeCollecte) like :q' . $i . ')');
     }
-    $qb->where(implode(' and ', $and));
     for ($i = 0; $i < count($query); $i++) {
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }

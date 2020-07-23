@@ -1,0 +1,22 @@
+
+
+{% block form_label_class %}
+{% if required|default(false) %}
+	text-danger
+{% endif %}
+col-lg-3 font-weight-bold text-lg-right
+{% endblock %}
+
+{% block form_widget %}
+	<div class="col-11">
+		{% for field in form %}
+				<div class="row form-group">
+					{{ form_label(field) }}
+			{# {% form_theme field 'Form/form-theme.html.twig' %} #}
+					<div class="col-lg-9 {% if field.count > 1 %} input-group {% endif%}">
+						{{ form_widget(field) }}
+					</div>
+				</div>
+		{% endfor %}
+	</div>
+{% endblock %}

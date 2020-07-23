@@ -17,28 +17,53 @@
 
 namespace App\Form;
 
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
+use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
+use App\Form\ActionFormType;
 
-class LotMaterielType extends AbstractType
+class LotMaterielType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('collecteTypeahead', null, ['mapped' => false, 'attr' => ['class' => 'typeahead typeahead-collecte', 'data-target_id' => "bbees_e3sbundle_lotmateriel_collecteId", 'name' => "where", 'placeholder' => "Collecte typeahead placeholder",  "maxlength" => "255"], 'required' => true,])
-            ->add('collecteId', HiddenType::class, array('mapped' => false, 'required' => true,))
-            ->add('codeLotMateriel')
+        $sampling = $builder->getData()->getCollecteFk();
+
+        $builder->add('collecteTypeahead', null, [
+            'mapped' => false,
+            'attr' => [
+                'class' => 'typeahead typeahead-collecte',
+                'data-target_id' => "bbees_e3sbundle_lotmateriel_collecteId",
+                'name' => "where",
+                'placeholder' => "Collecte typeahead placeholder",
+                "maxlength" => "255"
+            ],
+            'required' => true,
+            'disabled' => $this->canEditAdminOnly($options) || $sampling != null
+        ])
+            ->add('collecteId', HiddenType::class, array(
+                'mapped' => false,
+                'required' => true,
+            ))
+            ->add('codeLotMateriel', null, [
+                'attr' => [
+                    'readonly' => $options['action_type'] == Action::create()
+                ],
+                'disabled' => $this->canEditAdminOnly($options)
+            ])
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('dateLotMateriel', DateFormattedType::class)
             ->add('lotMaterielEstRealisePars', CollectionType::class, array(
@@ -48,7 +73,11 @@ class LotMaterielType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__name__',
                 'by_reference' => false,
-                'entry_options' => array('label' => false)
+                'entry_options' => array('label' => false),
+                'attr' => [
+                    "data-allow-new" => true,
+                    "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction'
+                ],
             ))
             ->add('especeIdentifiees', CollectionType::class, array(
                 'entry_type' => EspeceIdentifieeEmbedType::class,
@@ -67,7 +96,11 @@ class LotMaterielType extends AbstractType
                         ->setParameter('parent', 'yeux')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Eye'
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false,
+                'placeholder' => 'Choose a Eye'
             ))
             ->add('pigmentationVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
@@ -77,11 +110,19 @@ class LotMaterielType extends AbstractType
                         ->setParameter('parent', 'pigmentation')
                         ->orderBy('voc.libelle', 'ASC');
                 },
-                'choice_translation_domain' => true, 'choice_label' => 'libelle', 'multiple' => false, 'expanded' => false, 'placeholder' => 'Choose a Pigmentation'
+                'choice_translation_domain' => true,
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded' => false,
+                'placeholder' => 'Choose a Pigmentation'
             ))
             ->add('aFaire', ChoiceType::class, array(
-                'choices'  => array('NO' => 0, 'YES' => 1,), 'required' => true,
-                'choice_translation_domain' => true, 'multiple' => false, 'expanded' => true, 'label_attr' => array('class' => 'radio-inline'),
+                'choices'  => array('NO' => 0, 'YES' => 1,),
+                'required' => true,
+                'choice_translation_domain' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'label_attr' => array('class' => 'radio-inline'),
             ))
             ->add('commentaireConseilSqc')
             ->add('commentaireLotMateriel')
@@ -94,7 +135,11 @@ class LotMaterielType extends AbstractType
                         ->setParameter('codetype', 'LOT')
                         ->orderBy('LOWER(boite.codeBoite)', 'ASC');
                 },
-                'placeholder' => 'Choose a Box', 'choice_label' => 'codeBoite', 'multiple' => false, 'expanded' => false, 'required' => false,
+                'placeholder' => 'Choose a Box',
+                'choice_label' => 'codeBoite',
+                'multiple' => false,
+                'expanded' => false,
+                'required' => false,
             ))
             ->add('compositionLotMateriels', CollectionType::class, array(
                 'entry_type' => CompositionLotMaterielEmbedType::class,
@@ -114,11 +159,7 @@ class LotMaterielType extends AbstractType
                 'by_reference' => false,
                 'required' => false,
                 'entry_options' => array('label' => false)
-            ))
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ));
     }
 
     /**
@@ -126,6 +167,7 @@ class LotMaterielType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\LotMateriel'
         ));

@@ -9,22 +9,12 @@
 
 {% block scripts %}
 {{ parent() }}
-{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
 <script type="text/javascript">  
 
     $(document).ready(function(){
-        // MAJ du codeStation, nomStation
-        forceUppercase($('#bbees_e3sbundle_commune_codeCommune'));
-        forceUppercase($('#bbees_e3sbundle_commune_nomCommune')); 
-        forceUppercase($('#bbees_e3sbundle_commune_nomRegion')); 
-
-        {% if action == 'edit'  %}  
-            // General action on form: form lock (default) / user role: app.user ... 
-        {% endif %}
         {% if action == 'new'  %} 
             // General action on form: form lock (default) / user role: app.user ...        
-            $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", true);
             $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
                 var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
                 $(this).val(nomCommune);
@@ -48,13 +38,7 @@
                 var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
                 $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
-            // 3) Actions after the creation of a new municipality
-            $(document).on('submit','form[name="bbees_e3sbundle_commune"]',function(ev){
-                $('#bbees_e3sbundle_commune_codeCommune').attr("disabled", false);             
-            }); 
         {% endif %}
-            
-          
     });
  </script>
 {% endblock %}

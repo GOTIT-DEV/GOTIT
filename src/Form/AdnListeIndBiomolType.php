@@ -17,12 +17,11 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AdnListeIndBiomolType extends AbstractType
 {
@@ -38,9 +37,9 @@ class AdnListeIndBiomolType extends AbstractType
                     ->where('ind.codeIndBiomol IS NOT NULL')
                     ->orderBy('ind.codeIndBiomol', 'ASC');
             },
-            'placeholder' => 'Choose an individu', 
-            'choice_label' => 'code_ind_biomol', 
-            'multiple' => false, 
+            'placeholder' => 'Choose an individu',
+            'choice_label' => 'code_ind_biomol',
+            'multiple' => false,
             'expanded' => false
         ));
     }

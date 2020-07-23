@@ -17,20 +17,26 @@
 
 namespace App\Form;
 
-use App\Form\Type\SpecimenVocType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\Type\SpecimenVocType;
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\ActionFormType;
 
-class IndividuType extends AbstractType
+class IndividuType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
+        $bioMat = $builder->getData()->getLotMaterielFk();
+
         $builder->add('lotmaterielTypeahead', null, [
             'mapped' => false,
             'attr' => [
@@ -38,19 +44,38 @@ class IndividuType extends AbstractType
                 'data-target_id' => "bbees_e3sbundle_individu_lotmaterielId",
                 'name' => "where",
                 'placeholder' => "Lotmateriel typeahead placeholder",
-                "maxlength" => "255"
+                "maxlength" => "255",
+                'readonly' => ($options['action_type'] == Action::create() && $bioMat != null)
             ],
             'required' => true,
+            'disabled' => $this->canEditAdminOnly($options)
         ])
             ->add('lotmaterielId', HiddenType::class, array(
                 'mapped' => false,
                 'required' => true,
             ))
-            ->add('codeTube')
-            ->add('codeIndTriMorpho')
-            ->add('typeIndividuVocFk', SpecimenVocType::class)
-            ->add('numIndBiomol')
-            ->add('codeIndBiomol')
+            ->add('codeTube', null, [
+                'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+            ])
+            ->add('codeIndTriMorpho', null, [
+                'attr' => [
+                    'readonly' => $options['action_type'] == Action::create()
+                ],
+                'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+            ])
+            ->add('typeIndividuVocFk', SpecimenVocType::class);
+
+        if ($options['action_type'] != Action::create()) {
+            $builder
+                ->add('numIndBiomol', null, [
+                    'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+                ])
+                ->add('codeIndBiomol', null, [
+                    'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+                ]);
+        }
+        
+        $builder
             ->add('commentaireInd')
             ->add('especeIdentifiees', CollectionType::class, array(
                 'entry_type' => EspeceIdentifieeEmbedType::class,
@@ -64,8 +89,7 @@ class IndividuType extends AbstractType
                     'refTaxonLabel' => $options['refTaxonLabel']
                 )
             ))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -73,6 +97,7 @@ class IndividuType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Individu',
             'refTaxonLabel' => 'taxname',

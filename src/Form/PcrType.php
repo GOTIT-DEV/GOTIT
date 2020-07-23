@@ -17,25 +17,27 @@
 
 namespace App\Form;
 
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\GeneType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use App\Form\Type\GeneType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\PcrEstRealiseParEmbedType;
+use App\Form\ActionFormType;
 
-class PcrType extends AbstractType
+class PcrType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $adn = $builder->getData()->getAdnFk();
         // $id = !is_null($builder->getData()->getAdnFk()) ? $builder->getData()->getAdnFk()->getId() : null;
         $builder->add('adnTypeahead', null, [
             'mapped' => false,
@@ -47,13 +49,26 @@ class PcrType extends AbstractType
                 'placeholder' =>
                 "Adn typeahead placeholder",
                 "maxlength" =>
-                "255"
+                "255",
+                'readonly' => $options['action_type'] == Action::create() && $adn != null
+
             ],
             'required' => true,
+            'disabled' => $this->canEditAdminOnly($options)
         ])
-            ->add('adnId', HiddenType::class, array('mapped' => false, 'required' => true,))
-            ->add('codePcr')
-            ->add('numPcr')
+            ->add('adnId', HiddenType::class, array(
+                'mapped' => false,
+                'required' => true,
+            ))
+            ->add('codePcr', null, [
+                'disabled' => $this->canEditAdminOnly($options),
+                'attr' => [
+                    'readonly' => $options['action_type'] == Action::create()
+                ]
+            ])
+            ->add('numPcr', null, [
+                'disabled' => $this->canEditAdminOnly($options)
+            ])
             ->add('geneVocFk', GeneType::class)
             ->add('primerPcrStartVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
@@ -66,7 +81,8 @@ class PcrType extends AbstractType
                 'choice_label' => 'libelle',
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Choose a primer start'
+                'placeholder' => 'Choose a primer start',
+                'disabled' => $this->canEditAdminOnly($options)
             ))
             ->add('primerPcrEndVocFk', EntityType::class, array(
                 'class' => 'App:Voc',
@@ -79,7 +95,8 @@ class PcrType extends AbstractType
                 'choice_label' => 'libelle',
                 'multiple' => false,
                 'expanded' => false,
-                'placeholder' => 'Choose a primer end'
+                'placeholder' => 'Choose a primer end',
+                'disabled' => $this->canEditAdminOnly($options)
             ))
             ->add('datePrecisionVocFk', DatePrecisionType::class)
             ->add('datePcr', DateFormattedType::class)
@@ -120,22 +137,13 @@ class PcrType extends AbstractType
                 'prototype' => true,
                 'prototype_name' => '__name__',
                 'by_reference' => false,
-                'entry_options' => array('label' => false)
+                'entry_options' => array('label' => false),
+                'attr' => [
+                    "data-allow-new" => true,
+                    "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction'
+                ],
             ))
-            ->add('dateCre', DateTimeType::class, array(
-                'required' => false,
-                'widget' => 'single_text',
-                'format' => 'Y-MM-dd HH:mm:ss',
-                'html5' => false,
-            ))
-            ->add('dateMaj', DateTimeType::class, array(
-                'required' => false,
-                'widget' => 'single_text',
-                'format' => 'Y-MM-dd HH:mm:ss',
-                'html5' => false,
-            ))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -143,6 +151,7 @@ class PcrType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Pcr'
         ));

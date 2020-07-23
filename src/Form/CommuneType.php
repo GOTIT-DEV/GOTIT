@@ -17,28 +17,30 @@
 
 namespace App\Form;
 
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
+use App\Form\Type\UppercaseType;
 use App\Form\Type\CountryVocType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class CommuneType extends AbstractType
+class CommuneType extends ActionFormType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('codeCommune')
-            ->add('nomCommune')
-            ->add('nomRegion')
+        $builder
+            ->add('codeCommune', UppercaseType::class, [
+                'attr' => [
+                    'readonly' => $options['action_type'] == Action::create(),
+                ]
+            ])
+            ->add('nomCommune', UppercaseType::class)
+            ->add('nomRegion', UppercaseType::class)
             ->add('paysFk', CountryVocType::class)
-            ->add('dateCre', DateTimeType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('dateMaj', DateTimeType::class, array('required' => false,  'widget' => 'single_text', 'format' => 'Y-MM-dd HH:mm:ss', 'html5' => false,))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -46,6 +48,7 @@ class CommuneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\Commune',
             'id_pays' => null,
