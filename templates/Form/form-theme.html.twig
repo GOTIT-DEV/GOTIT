@@ -91,29 +91,36 @@ col-lg-9 col-xl-10 needs-validation input-group
 
 {% macro printCollectionEntry(entry, form_type, withDelete = true) %}
 
-{% set entry_id = "entry_" ~ entry.vars.id %}
+	{% set entry_id = "entry_" ~ entry.vars.id %}
 
-<div id="{{ entry_id }}" class="row collection-entry">
-	{% if (entry|length) > 1 %}
-		{% form_theme entry 'Form/collection-field-theme.html.twig' %}
-	{% else %}
-		{% form_theme entry 'Form/collection-entry-single-field.html.twig' %}
-	{% endif %}
-	{{ form_widget(entry) }}
-	<div class="col-1 delete-btn-container">
-		{% if form_type != 'show' and withDelete %}
-			<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
-				<i class="fas fa-times"></i>
-			</button>
+	<div id="{{ entry_id }}" class="row collection-entry">
+		{% if (entry|length) > 1 %}
+			{% form_theme entry 'Form/collection-field-theme.html.twig' %}
 		{% else %}
-			<template class="delete-btn-template">
-				<button type="button" class="btn-entry-delete btn btn-danger btn-sm" data-target="{{ entry_id }}">
+			{% form_theme entry 'Form/collection-entry-single-field.html.twig' %}
+		{% endif %}
+		{{ form_widget(entry) }}
+		<div class="col-1 delete-btn-container">
+			{% if form_type != 'show' and withDelete %}
+				<button type="button" 
+					class="btn-entry-delete btn btn-danger btn-sm" 
+					data-target="{{ entry_id }}">
 					<i class="fas fa-times"></i>
 				</button>
-			</template>
-		{% endif %}
+			{% else %}
+				<template class="delete-btn-template">
+					<button type="button" 
+						class="btn-entry-delete btn btn-danger btn-sm" 
+						data-target="{{ entry_id }}">
+						<i class="fas fa-times"></i>
+					</button>
+				</template>
+			{% endif %}
+		</div>
 	</div>
-</div>{% endmacro %}
+
+{% endmacro %}
+
 
 {% block collection_row %}
 <div class="form-group row">
@@ -139,30 +146,36 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% endfor %}
 
 {% set wrapper_id = "wrapper_" ~ form.vars.id %}
+{% set prototype = null %}
+{% if form.vars.allow_add %}
 {% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
+{% endif %}
 <div id="{{ wrapper_id }}" 
 			class="card collection-wrapper" 
 			data-prototype="{{ prototype | spaceless |e('html_attr') }}" 
 			data-index={{ form.count }}>
 
 
-	{% if form_type != 'show' %}
+	{% if form_type != 'show' and allow_add %}
 
 		{# include card header with buttons #}
 
 		<div class="card-header">
-			{% if allow_add %}
+			{# {% if allow_add %} #}
 				<div class="btn-group flex-wrap btn-group-sm">
-					<button type="button" class="btn-entry-add btn btn-primary" data-target="{{ wrapper_id }}">
+					<button type="button" class="btn-entry-add btn btn-primary" 
+							data-target="{{ wrapper_id }}">
 						{{ ('button.add.' ~ name)|trans }}
 					</button>
 					{% if attr['data-allow-new']|default(false) %}
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
+						<button type="button" class="btn btn-info" 
+								data-toggle="modal" 
+								data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
 							{{ ('button.add.new.' ~ name)|trans }}
 						</button>
 					{% endif %}
 				</div>
-			{% endif %}
+			{# {% endif %} #}
 		</div>
 	{% endif %}
 
@@ -170,7 +183,9 @@ col-lg-9 col-xl-10 needs-validation input-group
 		{% if form.count %}
 			{# {% form_theme form 'Form/collection-entry-theme.html.twig' %} #}
 			{% for entry in form %}
-				{{ formMacros.printCollectionEntry(entry, form_type, loop.index > 1 or not form.vars.required) }}
+			{# {{form_widget(entry)}} #}
+				{% set withDeleteBtn = (loop.index > 1 or not form.vars.required) and allow_delete %}
+				{{ formMacros.printCollectionEntry(entry, form_type, withDeleteBtn) }}
 				{% if (entry|length) > 1 %}
 					<hr/>
 				{% endif %}

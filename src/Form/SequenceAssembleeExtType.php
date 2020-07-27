@@ -17,37 +17,22 @@
 
 namespace App\Form;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SequenceStatusType;
 use App\Form\Type\GeneType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
-use App\Form\EventListener\AddUserDateFields;
 use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
 use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 
-class SequenceAssembleeExtType extends AbstractType
+class SequenceAssembleeExtType extends ActionFormType
 {
-
-    private $addUserDate;
-
-    // /**
-    //  * {@inheritdoc}
-    //  */
-    // public function __construct(AddUserDateFields $addUserDate)
-    // {
-    //     $this->addUserDate = $addUserDate;
-    // }
-
     /**
      * {@inheritdoc}
      */
@@ -120,8 +105,8 @@ class SequenceAssembleeExtType extends AbstractType
                 'prototype_name' => '__name__',
                 'by_reference' => false,
                 'entry_options' => array('label' => false)
-            ));
-            // ->addEventSubscriber($this->addUserDate);
+            ))
+            ->addEventSubscriber($this->addUserDate);
     }
 
     /**
@@ -129,6 +114,7 @@ class SequenceAssembleeExtType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\SequenceAssembleeExt',
             'refTaxonLabel' => 'taxname',

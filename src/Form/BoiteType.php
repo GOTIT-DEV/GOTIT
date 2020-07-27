@@ -17,14 +17,16 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\AdnEmbedType;
-use App\Form\EmbedTypes\IndividuLameEmbedType;
-use App\Form\EmbedTypes\LotMaterielEmbedType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\LotMaterielEmbedType;
+use App\Form\EmbedTypes\IndividuLameEmbedType;
+use App\Form\EmbedTypes\AdnEmbedType;
 
 class BoiteType extends ActionFormType
 {
@@ -33,7 +35,13 @@ class BoiteType extends ActionFormType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
-		$builder->add('codeBoite')
+
+		$boxType = $builder->getData()->getTypeBoiteVocFk();
+
+		$builder
+			->add('codeBoite', null, [
+				'disabled' => $this->canEditAdminOnly($options)
+			])
 			->add('libelleBoite')
 			->add('commentaireBoite')
 			->add('typeCollectionVocFk', EntityType::class, array(
@@ -74,39 +82,60 @@ class BoiteType extends ActionFormType
 				'choice_label' => 'code',
 				'multiple' => false,
 				'expanded' => false,
-				'placeholder' => 'Choose a typeBoite'
-			))
-			->add('adns', CollectionType::class, array(
-				'entry_type' => AdnEmbedType::class,
-				'allow_add' => true,
-				'allow_delete' => true,
-				'prototype' => true,
-				'prototype_name' => '__name__',
-				'by_reference' => false,
-				'required' => false,
-				'entry_options' => array('label' => false)
-			))
-			->add('lotMateriels', CollectionType::class, array(
-				'entry_type' => LotMaterielEmbedType::class,
-				'allow_add' => true,
-				'allow_delete' => true,
-				'prototype' => true,
-				'prototype_name' => '__name__',
-				'by_reference' => false,
-				'required' => false,
-				'entry_options' => array('label' => false)
-			))
-			->add('individuLames', CollectionType::class, array(
-				'entry_type' => IndividuLameEmbedType::class,
-				'allow_add' => true,
-				'allow_delete' => true,
-				'prototype' => true,
-				'prototype_name' => '__name__',
-				'by_reference' => false,
-				'required' => false,
-				'entry_options' => array('label' => false)
-			))
-			->addEventSubscriber($this->addUserDate);
+				'placeholder' => 'Choose a typeBoite',
+				'disabled' => ($boxType != null)
+			));
+			
+		if ($boxType != null and $options["action_type"] != Action::create()) {
+			switch ($boxType->getCode()) {
+				case 'LOT':
+					$builder->add('lotMateriels', CollectionType::class, array(
+						'entry_type' => LotMaterielEmbedType::class,
+						// 'allow_add' => true,
+						// 'allow_delete' => true,
+						'prototype' => true,
+						'prototype_name' => '__name__',
+						'by_reference' => false,
+						'required' => false,
+						'entry_options' => array('label' => false),
+						'disabled' => true,
+					));
+					break;
+
+				case 'ADN':
+					$builder->add('adns', CollectionType::class, array(
+						'entry_type' => AdnEmbedType::class,
+						// 'allow_add' => true,
+						// 'allow_delete' => true,
+						'prototype' => true,
+						'prototype_name' => '__name__',
+						'by_reference' => false,
+						'required' => false,
+						'entry_options' => array('label' => false),
+						'disabled' => true
+					));
+					break;
+
+				case 'LAME':
+					$builder->add('individuLames', CollectionType::class, array(
+						'entry_type' => IndividuLameEmbedType::class,
+						// 'allow_add' => true,
+						// 'allow_delete' => true,
+						'prototype' => true,
+						'prototype_name' => '__name__',
+						'by_reference' => false,
+						'required' => false,
+						'entry_options' => array('label' => false),
+						'disabled' => true
+					));
+				break;
+				default:
+					throw new InvalidArgumentException("Unknown box type : " . $boxType->getCode());
+					break;
+			}
+		}
+
+		$builder->addEventSubscriber($this->addUserDate);
 	}
 
 	/**

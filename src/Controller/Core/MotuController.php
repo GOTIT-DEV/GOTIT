@@ -17,15 +17,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Motu;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Motu;
 
 /**
  * Motu controller.
@@ -186,7 +186,7 @@ class MotuController extends AbstractController
 			'action_type' => Action::show()
 		]);
 
-		return $this->render('show.html.twig', array(
+		return $this->render('Core/motu/edit.html.twig', array(
 			'motu' => $motu,
 			'edit_form' => $editForm->createView(),
 			'delete_form' => $deleteForm->createView(),

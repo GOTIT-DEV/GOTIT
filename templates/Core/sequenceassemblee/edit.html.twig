@@ -4,9 +4,7 @@
 {# EDIT : INTERNAL SEQUENCE #}
 
 {% block body %}
-    
-
-    <div class="row">
+               <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">           
         <div class="x-content"> 
@@ -15,105 +13,19 @@
         </div>
       </div>
     </div>
-            
     {{ parent() }}    
-    
-    <!-- Modal : myModalPersonne -->
-     <div id="myModalPersonne" class="modal" role="dialog">
-     <div class="modal-dialog modal-lg">
-     <div class="modal-content">
-          <div class="modal-header">
-             <h1 class="modal-title">{{'title.Personne'|trans}}</h1>
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <div id='content_to_change_personne'>
-                    {{ render(controller('App\\Controller\\Core\\PersonneController::newmodalAction')) }}
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light border" data-dismiss="modal">{{'button.Close'|trans}}</button>
-          </div>
-        </div>
-      </div>
-     </div>
+
  
 {% endblock %}
 
 {% block scripts %}
 {{ parent() }}
-{% if exception_message is defined %} <script type="text/javascript"> alert("{{exception_message|raw}}"); </script> {% endif %}
 
-<script type="text/javascript">  
-// Personne Modal Action spécifiques
-    $('#myModalPersonne').on('show.bs.modal', function (e) {
-        var modal = $(this);
-         $('#bbees_e3sbundle_personne_nomPersonne').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonne = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonne').val(nomPersonne);
-        })
-        $('#bbees_e3sbundle_personne_nomComplet').keyup(function (e) {
-            var modal = $(this);
-            var nomComplet = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomComplet').val(nomComplet);
-        })
-        $('#bbees_e3sbundle_personne_nomPersonneRef').keyup(function (e) {
-            var modal = $(this);
-            var nomPersonneRef = modal.val().toUpperCase();        
-            $('#bbees_e3sbundle_personne_nomPersonneRef').val(nomPersonneRef);
-        })
-    })
- // Actions Jquery     
-    $(document).ready(function(){         
-        // Modal myModalPersonne : Manage new Personne for lotMaterielEstRealisePars
-        $(document).on('submit','form[name="bbees_e3sbundle_personne"]',function(ev){
-                    ev.preventDefault();		
-                    var form = $(this);
-                    var $container = $('div#bbees_e3sbundle_sequenceassemblee_sequenceAssembleeEstRealisePars');
-                    var index = getLastIndex('bbees_e3sbundle_sequenceassemblee_sequenceAssembleeEstRealisePars');
-                    callAjax(form, $container, index);		
-	});         
-        // Collection $sqcEstPublieDanss (Source)
-        addCollectionButtons('bbees_e3sbundle_sequenceassemblee_sqcEstPublieDanss',"Source",false,false);                
-        // Collection sequenceAssembleeEstRealisePars (Personne)
-        addCollectionButtons('bbees_e3sbundle_sequenceassemblee_sequenceAssembleeEstRealisePars',"Personne",true);  
-        // Collection estAligneEtTraites (Chromatogramme)
-        addCollectionButtons('bbees_e3sbundle_sequenceassemblee_estAligneEtTraites',"Chromatogramme",false);
-        // Collection especeIdentifiees (EspeceIdentifiee)  
-        addCollectionButtonsEmbed('bbees_e3sbundle_sequenceassemblee_especeIdentifiees','EspeceIdentifiee',false,true,'estIdentifiePars','Personne');        
-    });
- </script>
  
 <script type="text/javascript">  
 // Form actions
     $(document).ready(function(){
-        // features of date & date_precision fields 
-        var message = {"INCONNU":"{{'alert.datePrecisionINCONNU'|trans}}", "ANNEE":"{{'alert.datePrecisionANNEE'|trans}}","MOIS":"{{'alert.datePrecisionMOIS'|trans}}","JOUR":"{{'alert.datePrecisionJOUR'|trans}}", "BAD-FORMAT-DATE":"{{'alert.BadFormatDate'|trans}}"};
-        $('#bbees_e3sbundle_sequenceassemblee_dateCreationSqcAss').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee', 'dateCreationSqcAss', message);
-        }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee', 'dateCreationSqcAss', message);
-        }) 
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0', 'dateIdentification', message);
-        }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_0', 'dateIdentification', message);
-        })
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1', 'dateIdentification', message);
-        }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_1', 'dateIdentification', message);
-        })
-        $('#bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2_dateIdentification').change(function (e) { 
-            dateFormat('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2', 'dateIdentification', message);
-        }) 
-        $('[for^=bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2_datePrecisionVocFk]').click(function (e) { 
-            dateDateprecision('bbees_e3sbundle_sequenceassemblee_especeIdentifiees_2', 'dateIdentification', message);
-        })
+
         {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
             {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) %}
                 $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}&idFk={{app.request.query.get('idFk')}}');
@@ -135,7 +47,8 @@
                 });                       
                 $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                    $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", false); 
+                    $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]')
+                    .attr("disabled", false); 
                 });
                 $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", true); 
                 $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
@@ -163,23 +76,14 @@
             if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
             $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
             $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();})
-            $('#delete_Chromatogramme').on('change', function(){alert('Test click on delete_Chromatogramme');});
             {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
             {% else %} 
                 $('form[name="bbees_e3sbundle_sequenceassemblee"] :input').prop("disabled", true);
             {% endif %} 
-            // General action on form: form lock (default) / user role: app.user ...
-            $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                // Unlocking fields to allow registration
-                $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", false); 
-             }); 
             $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').val("{{'Auto generated code'|trans}}");
-            $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", true); 
             $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
                 // Unlocking fields to allow registration
                 setCodeSqcAss();
-                $('bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", false); 
             });
         {% endif %}   
 

@@ -17,14 +17,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\SequenceAssembleeExt;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\SequenceAssembleeExt;
 
 /**
  * Sequenceassembleeext controller.
@@ -198,7 +199,10 @@ class SequenceAssembleeExtController extends AbstractController
     $form = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
       $sequenceAssembleeExt,
-      ['refTaxonLabel' => 'codeTaxon']
+      [
+        'refTaxonLabel' => 'codeTaxon',
+        'action_type' => Action::create()
+      ]
     );
     $form->handleRequest($request);
 
@@ -245,7 +249,8 @@ class SequenceAssembleeExtController extends AbstractController
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
-      $sequenceAssembleeExt
+      $sequenceAssembleeExt,
+      ['action_type' => Action::show()]
     );
 
     return $this->render('Core/sequenceassembleeext/edit.html.twig', [
@@ -275,19 +280,47 @@ class SequenceAssembleeExtController extends AbstractController
     $em = $this->getDoctrine()->getManager();
 
     // store ArrayCollection       
-    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $sequenceAssembleeExt);
-    $sqcExtEstReferenceDanss = $service->setArrayCollection('SqcExtEstReferenceDanss', $sequenceAssembleeExt);
-    $sqcExtEstRealisePars = $service->setArrayCollection('SqcExtEstRealisePars', $sequenceAssembleeExt);
+    $especeIdentifiees = $service->setArrayCollectionEmbed(
+      'EspeceIdentifiees',
+      'EstIdentifiePars',
+      $sequenceAssembleeExt
+    );
+    $sqcExtEstReferenceDanss = $service->setArrayCollection(
+      'SqcExtEstReferenceDanss',
+      $sequenceAssembleeExt
+    );
+    $sqcExtEstRealisePars = $service->setArrayCollection(
+      'SqcExtEstRealisePars',
+      $sequenceAssembleeExt
+    );
 
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
-    $editForm = $this->createForm('App\Form\SequenceAssembleeExtType', $sequenceAssembleeExt);
+    $editForm = $this->createForm(
+      'App\Form\SequenceAssembleeExtType',
+      $sequenceAssembleeExt,
+      ['action_type' => Action::edit()]
+    );
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $sequenceAssembleeExt, $especeIdentifiees);
-      $service->DelArrayCollection('SqcExtEstReferenceDanss', $sequenceAssembleeExt, $sqcExtEstReferenceDanss);
-      $service->DelArrayCollection('SqcExtEstRealisePars', $sequenceAssembleeExt, $sqcExtEstRealisePars);
+      $service->DelArrayCollectionEmbed(
+        'EspeceIdentifiees',
+        'EstIdentifiePars',
+        $sequenceAssembleeExt,
+        $especeIdentifiees
+      );
+      $service->DelArrayCollection(
+        'SqcExtEstReferenceDanss',
+        $sequenceAssembleeExt,
+        $sqcExtEstReferenceDanss
+      );
+      $service->DelArrayCollection(
+        'SqcExtEstRealisePars',
+        $sequenceAssembleeExt,
+        $sqcExtEstRealisePars
+      );
+
       // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
       $em = $this->getDoctrine()->getManager();
       $RelEntityId = $editForm->get('collecteId');;
@@ -300,7 +333,10 @@ class SequenceAssembleeExtController extends AbstractController
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/sequenceassembleeext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        return $this->render(
+          'Core/sequenceassembleeext/index.html.twig',
+          array('exception_message' =>  explode("\n", $exception_message)[0])
+        );
       }
       $editForm = $this->createForm('App\Form\SequenceAssembleeExtType', $sequenceAssembleeExt);
 
@@ -337,7 +373,10 @@ class SequenceAssembleeExtController extends AbstractController
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/sequenceassembleeext/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        return $this->render(
+          'Core/sequenceassembleeext/index.html.twig',
+          array('exception_message' =>  explode("\n", $exception_message)[0])
+        );
       }
     }
 
@@ -376,17 +415,20 @@ class SequenceAssembleeExtController extends AbstractController
       $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
-        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] = $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
+          $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       reset($arrayReferentielTaxon);
       $firstTaxname = current($arrayReferentielTaxon);
-      $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID') ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
+      $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
+        ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
       $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
       $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
-      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numIndividuSqcAssExt . '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
+      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numIndividuSqcAssExt .
+        '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
       //var_dump($nbEspeceIdentifiees);var_dump($codeSqc); exit; 
@@ -411,7 +453,8 @@ class SequenceAssembleeExtController extends AbstractController
       $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
-        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] = $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
+          $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       end($arrayReferentielTaxon);

@@ -1,13 +1,11 @@
 
-{% block form_label %}
-{% endblock %}
 
 {% block form_widget %}
   <div class="col-11">
     {% for field in form %}
       <div class="row form-group">
-        {{ form_label(field) }}
-        {{ form_widget(field, {'attr': {'class': 'form-control-sm'}}) }}
+      {% form_theme field "Form/form-theme.html.twig"%}
+        {{ form_widget(field) }}
       </div>
     {% endfor %}
   </div>

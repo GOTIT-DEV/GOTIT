@@ -7,166 +7,88 @@
 2) the controller will have to return in the table rows the colloids of the type: "linkEntity1" => "patern1", "linkeEntity2" => "patern2" ... #}
 {% set links =  [] %}
 
-{% block action %}
-    <a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">{{'button.showAllRecord'|trans}}</a>
-    {% if is_granted('ROLE_COLLABORATION') %} 
-        <button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">{{'button.exportToCSV'|trans}}</button>
-    {% endif %}    
-    {% if is_granted('ROLE_ADMIN') %}
-        {% if varUrl_nameFk is defined and  varUrl_nameFk != '' %} 
-            <a href="{{ path( route_new ) }}?nameFk={{varUrl_nameFk}}&idFk={{varUrl_idFk}}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>  
-         {% else %}
-             <a href="{{ path( route_new ) }}" class="btn btn-info btn-sm" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a> 
-        {% endif %}
-    {% else %}
-        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.New',entityname|capitalize]|join|trans}}</a>
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
-    {% else %}
-        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
-    {% endif %}
-{% endblock %} 
+	{% block action %}
 
-{% block body %}     
-    {# definition of collones to display 
-    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #} 
-    <div class="table-responsive">        
-    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
-        <thead>
-            <tr>
-                <th data-column-id="motu.id" data-type="numeric" data-visible="false">Id</th>
-                <th data-column-id="motu.libelleMotu" data-visible="true">{{'Libelle motu'|trans}}</th>
-                <th data-column-id="motu.nomFichierCsv" data-visible="true">{{'Nom fichier csv'|trans}}</th>
-                <th data-column-id="motu.dateMotu" data-sortable="true" data-visible="true">{{'Date motu'|trans}}</th> 
-                <th data-column-id="motu.commentaireMotu" data-sortable="true" data-visible="true">{{'Commentaire motu'|trans}}</th>
-                <th data-column-id="listePersonne" data-sortable="false" data-visible="true">{{'list.Liste personnes'|trans}}</th>                 
-                <th data-column-id="motu.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
-                <th data-column-id="motu.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
-                <th data-column-id="motu.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
-                <th data-column-id="motu.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
-                <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">{{'list.show'|trans}}</th>
-                <th data-column-id="edit" data-formatter="edit" data-sortable="false"  data-width="20">{{'list.edit'|trans}}</th>
-                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">{{'list.delete'|trans}}</th>
-            </tr>
-        </thead>
-    </table>
-    </div>       
+		<a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button"> <i class="fas fa-list"></i>
+		{{'button.showAllRecord'|trans}}
+	</a>
+
+	{% if is_granted('ROLE_ADMIN') %}
+		{% if varUrl_nameFk is defined and  varUrl_nameFk != '' %}
+			<a href="{{ path( route_new ) }}?nameFk={{varUrl_nameFk}}&idFk={{varUrl_idFk}}" class="btn btn-success btn-sm" role="button">
+				<i class="fa fa-plus"></i>
+				{{['button.New',entityname|capitalize]|join|trans}}
+			</a>
+		{% else %}
+			<a href="{{ path( route_new ) }}" class="btn btn-success btn-sm" role="button">
+				<i class="fa fa-plus"></i>
+				{{['button.New',entityname|capitalize]|join|trans}}
+			</a>
+		{% endif %}
+	{% else %}
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
+			<i class="fa fa-plus"></i>
+			{{['button.New',entityname|capitalize]|join|trans}}
+		</a>
+	{% endif %}
+	{% if is_granted('ROLE_COLLABORATION') %}
+		<button class="btn btn-primary btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">
+			{{'button.exportToCSV'|trans}}</button>
+	{% endif %}
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path( route_importfiles ) }}" class="btn btn-light border btn-sm" role="button">
+			<i class="fas fa-upload"></i>
+			{{['button.Import',entityname|capitalize]|join|trans}}</a>
+	{% else %}
+		<i class="fas fa-upload"></i>
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
+			{{['button.Import',entityname|capitalize]|join|trans}}</a>
+	{% endif %}
 {% endblock %}
 
-{% block templatescripts %}  
-  
-{# display of the error message on Delete if there are related records #}
-{% if exception_message is defined %} 
-                {% if  varUrl_typeBoite != ''  %} 
-                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";</script> 
-                {% else %} 
-                    <script type="text/javascript"> alert("{{exception_message|raw}}"); window.location = "http://" + location.hostname + "{{path(route_index)}}";</script> 
-                {% endif %}
-{% endif %}
-
-{# bootgrid list management #} 
-<script type="text/javascript">    
-console.log("{{ path( route_indexjson ) }}");
-$(document).ready(function(){
-    $("#grid-basic").bootgrid({
-        ajax: true,
-        url: "{{ path( route_indexjson ) }}",
-        post: function ()
-        {        
-            return {
-                searchPattern: "{{ app.request.query.get('searchPattern') }}",
-                idFk: "{{ app.request.query.get('idFk') }}",
-                typeBoite: "{{ app.request.query.get('typeBoite') }}"
-            };
-        },
-        labels: {
-            noResults: "There are no results for the selection",
-            search: "{{ app.request.query.get('searchPattern') }}"
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        },
-        complete: function() {
-        },
-        formatters: {
-            {% for link in links %}
-                {% set linkname =  ['link',link|capitalize]|join  %}
-                {% set linknameFk =  [linkname,'Fk']|join  %}
-                {% set link_tabname =  link|split('_')[0]  %}
-                {% set link_index =  [link_tabname,'_index']|join  %}
-                {% set link_new=  [link_tabname,'_new']|join  %}                   
-            "{{linkname}}" : function(column, row, value)
-            {   
-                if (row.{{linkname}} !== undefined && row.{{linkname}} != '') {
-                    {# Match integer #}
-                    var is_num = row.{{linkname}};
-                    is_num = is_num.match(/^\d+$/);
-                    if( is_num > 0) {
-                        return "<a href=\"{{ path(link_index)}}?nameFk={{nameOfEntity}}Fk&idFk=" + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\" style=\"color:steelblue\"></span></a>";
-                    } else {
-                        return "<a href=\"{{ path(link_index)}}?searchPattern="  + row.{{linkname}} + "\" class=\"btn btn-sm\" ><span class=\"fas fa-list\"></span></a>";
-                    }                 
-                 } else {                                  
-                    {% if is_granted('ROLE_COLLABORATION') %}
-                      return "<a href=\"{{ path(link_new)}}?nameFk={{nameOfEntity}}Fk&idFk="  + row.id + "\" class=\"btn btn-sm\" ><span class=\"fas fa-plus-circle\"></span></a>";
-                    {% else %}
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-plus-circle\" style=\"color:lightgrey\"></span></a>";
-                    {% endif %}                      
-                 }
-            },
-            {% endfor %}
-
-            "show": function(column, row, value)
-            {   
-                 if ( '{{varUrl_typeBoite}}' != '' ) {
-                    return "<a href=\""  + row.id + "?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"fas fa-eye\"></span></a>";
-                 } else {
-                    return "<a href=\""  + row.id + "\" class=\"btn btn-sm\" ><span class=\"fas fa-eye\"></span></a>";
-                }
-            },
-            "edit": function(column, row, value)
-            {
-                {% if is_granted('ROLE_ADMIN') %}
-                    if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\""  + row.id + "/edit?idFk={{varUrl_idFk}}\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";                  
-                    } 
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\""  + row.id + "/edit?typeBoite={{varUrl_typeBoite}}\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";                  
-                    } 
-                    if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\""  + row.id + "/edit\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\"></span></a>";
-                    }                    
-                {% else %}
-                    if ( {{varUrl_idFk}} != 0 ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";                  
-                    } 
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";                  
-                    } 
-                    if ( {{varUrl_idFk}} == 0 && '{{varUrl_typeBoite}}' == '' ) {
-                      return "<a href=\"#\" class=\"btn btn-sm\" ><span class=\"fas fa-edit\" style=\"color:lightgrey\"></span></a>";
-                    }                   
-                {% endif %}              
-            },
-            "delete": function(column, row, value)
-            {
-                {% if is_granted('ROLE_ADMIN') %}
-                    if ( '{{varUrl_typeBoite}}' != '' ) {
-                       return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "?typeBoite={{varUrl_typeBoite}}\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <button type='submit' class=\"btn btn-sm\"><i class=\"fas fa-trash\" style=\"color:grey\"></i></button> </form>";                 
-                    } else {
-                        return "<form  onsubmit=\"return confirm('Do you really want to delete this record?');\" name=\"form\" method=\"post\" action=\"" + row.id + "\"><input type=\"hidden\" name=\"token\" value=\"{{ csrf_token('delete-item') }}\" /><input name=\"_method\" value=\"DELETE\" type=\"hidden\" /> <button type='submit' class=\"btn btn-sm\"><i class=\"fas fa-trash\" style=\"color:grey\"></i></button> </form>";
-                    }                  
-                {% else %}
-                    return "<button class='btn btn-sm' type='submit'><i class=\"fas fa-trash\" style=\"color:grey\"></i></button>"
-                {% endif %}                    
-            }
-        }
-    }); 
- }); 
- </script>
-
+{% block body %}
+	<div class="table-responsive">
+		<table id="grid-basic" class="table table-condensed table-hover table-striped">
+			<thead>
+				<tr>
+					<th data-column-id="motu.id" data-type="numeric" data-visible="false">Id</th>
+					<th data-column-id="motu.libelleMotu" data-visible="true">
+						{{'Libelle motu'|trans}}</th>
+					<th data-column-id="motu.nomFichierCsv" data-visible="true">
+						{{'Nom fichier csv'|trans}}</th>
+					<th data-column-id="motu.dateMotu" data-sortable="true" data-visible="true">
+						{{'Date motu'|trans}}</th>
+					<th
+						data-column-id="motu.commentaireMotu"
+						data-sortable="true"
+						data-visible="true">{{'Commentaire motu'|trans}}</th>
+					<th data-column-id="listePersonne" data-sortable="false" data-visible="true">
+						{{'list.Liste personnes'|trans}}</th>
+					<th data-column-id="motu.dateMaj" data-width="100">
+						{{'list.Date maj'|trans}}</th>
+					<th data-column-id="motu.dateCre" data-width="100" data-visible="false">
+						{{'list.Date cre'|trans}}</th>
+					<th data-column-id="motu.userCre" data-width="10" data-visible="false">
+						{{'list.User cre'|trans}}</th>
+					<th data-column-id="motu.userMaj" data-width="10" data-visible="false">
+						{{'list.User maj'|trans}}</th>
+					<th
+						data-column-id="show"
+						data-formatter="show"
+						data-sortable="false"
+						data-width="20">{{'list.show'|trans}}</th>
+					<th
+						data-column-id="edit"
+						data-formatter="edit"
+						data-sortable="false"
+						data-width="20">{{'list.edit'|trans}}</th>
+					<th
+						data-column-id="delete"
+						data-formatter="delete"
+						data-sortable="false"
+						data-width="20">{{'list.delete'|trans}}</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
 {% endblock %}
-

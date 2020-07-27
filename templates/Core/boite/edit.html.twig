@@ -3,76 +3,30 @@
 {# EDIT : BOX #}
 {% block titlepage %}
 	<h1>
+		{{[
+				'title.',
+				entityname, 
+				app.request.query.get('typeBoite')|default('') 
+			]|join|trans}}
 		{% if  flagvalid == 1 and actioncontroller != 'new'%}
 			<i class="fas fa-check-circle"></i>
-		{% endif %}
-		{% if app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != '' %}
-			{{ [ ['title.',entityname]|join , app.request.query.get('typeBoite')]|join|trans}}
-		{% else %}
-			{{['title.',entityname ]|join|trans}}
 		{% endif %}
 	</h1>
 {% endblock %}
 
 
 {% block body %}
-    
-    {{ parent() }}       
- 
+
+	{{ parent() }}
+
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
+	{{ parent() }}
 
 <script type="text/javascript">  
 
     $(document).ready(function(){
-    // Actions Jquery                        
-        // Collection $sqcEstPublieDanss (Source)        
-        $('div#bbees_e3sbundle_boite_adns :input').attr("disabled", true); 
-        $('div#bbees_e3sbundle_boite_lotMateriels :input').attr("disabled", true);
-        $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", true);
-        $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
-                // Unlocking fields to allow registration
-                $('div#bbees_e3sbundle_boite_adns :input').attr("disabled", false); 
-                $('div#bbees_e3sbundle_boite_lotMateriels :input').attr("disabled", false);
-                $('div#bbees_e3sbundle_boite_individuLames :input').attr("disabled", false);
-        }); 
-        // Automatic selection of the typeBox field if it is passed as a URL parameter
-        {% if  app.request.query.get('typeBoite') is defined and  app.request.query.get('typeBoite') != ''  %}  
-            var typeBoite = "{{app.request.query.get('typeBoite')}}";
-            $("#bbees_e3sbundle_boite_typeBoiteVocFk option").filter(function() {
-                return this.text == typeBoite; 
-            }).attr('selected', true);
-            $('#bbees_e3sbundle_boite_typeBoiteVocFk').attr("disabled", true)
-            $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
-                    // Unlocking fields to allow registration
-                    $('#bbees_e3sbundle_boite_typeBoiteVocFk').attr("disabled", false); 
-            });
-            if (typeBoite == 'LOT') {
-                $('#bbees_e3sbundle_boite_adns').parent().parent().hide();
-                $('#bbees_e3sbundle_boite_individuLames').parent().parent().hide();                
-            }
-            if (typeBoite == 'LAME') {
-                $('#bbees_e3sbundle_boite_adns').parent().parent().hide();
-                $('#bbees_e3sbundle_boite_lotMateriels').parent().parent().hide();              
-            }
-            if (typeBoite == 'ADN') {
-                $('#bbees_e3sbundle_boite_lotMateriels').parent().parent().hide();
-                $('#bbees_e3sbundle_boite_individuLames').parent().parent().hide();                
-            }
-        {% endif %}
-        //
-        {% if action == 'edit'  %}  
-            // General action on form: form lock (default) / user role: app.user ...
-            {% if not is_granted('ROLE_ADMIN') %}  
-                // Locking fields: Station; Code collecte; Date collecte
-                $('#bbees_e3sbundle_boite_codeBoite').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_boite"]',function(ev){
-                    $('#bbees_e3sbundle_boite_codeBoite').attr("disabled", false); 
-                });                 
-            {% endif %}
-        {% endif %}
         {% if action == 'new'  %} 
             $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
                     var codeBoite = $(this).val().replace(/ /g, '_');

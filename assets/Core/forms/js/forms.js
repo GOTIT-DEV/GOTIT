@@ -139,6 +139,9 @@ function addEntry($wrapper, value = undefined) {
   let $form_container = $wrapper.find(".card-body:first")
   // if (index > 0) $form_container.append("<hr/>")
   $form_container.append($newForm)
+  if ($newForm.find(".form-group").length > 1) {
+    $form_container.append("<hr/>")
+  }
   $wrapper.data('index', index + 1)
 
   $("button.btn-entry-delete").off().click(deleteEntryBtnCallback)

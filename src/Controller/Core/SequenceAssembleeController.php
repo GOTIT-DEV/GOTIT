@@ -17,16 +17,18 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\SequenceAssemblee;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Services\Core\GenericFunctionE3s;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Doctrine\ORM\EntityRepository;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Type\GeneType;
+use App\Form\Enums\Action;
+use App\Entity\SequenceAssemblee;
 
 /**
  * Sequenceassemblee controller.
@@ -76,7 +78,8 @@ class SequenceAssembleeController extends AbstractController
 		// load Doctrine Manager       
 		$em = $this->getDoctrine()->getManager();
 		//
-		$rowCount = ($request->get('rowCount')  !== NULL) ? $request->get('rowCount') : 10;
+		$rowCount = ($request->get('rowCount')  !== NULL)
+			? $request->get('rowCount') : 10;
 		$orderBy = ($request->get('sort')  !== NULL)
 			? $request->get('sort')
 			: array('sequenceAssemblee.dateMaj' => 'desc', 'sequenceAssemblee.id' => 'desc');
@@ -391,30 +394,28 @@ class SequenceAssembleeController extends AbstractController
 		$sequenceAssemblee = new Sequenceassemblee();
 
 		// management of the form GeneIndbiomolForm
-		$this->geneVocFk = ($request->get('geneVocFk') !== null &&
-			$request->get('geneVocFk') != '')
+		$this->geneVocFk = ($request->get('geneVocFk'))
 			? $request->get('geneVocFk') : null;
-		$this->individuFk = ($request->get('individuFk') !== null &&
-			$request->get('individuFk') != '')
+		$this->individuFk = ($request->get('individuFk'))
 			? $request->get('individuFk') : null;
+
+
 		$form_gene_indbiomol = $this->createGeneIndbiomolForm(
 			$sequenceAssemblee,
 			$this->geneVocFk,
 			$this->individuFk
 		);
 		$form_gene_indbiomol->handleRequest($request);
+
+
 		if ($form_gene_indbiomol->isSubmitted() && $form_gene_indbiomol->isValid()) {
-			$this->geneVocFk = $form_gene_indbiomol->get('geneVocFk')
-				->getData()->getId();
-			$this->individuFk = $form_gene_indbiomol->get('individuFk')
-				->getData()->getId();
-			$sequenceAssemblee->setGeneVocFk($form_gene_indbiomol
-				->get('geneVocFk')->getData()->getId());
-			$sequenceAssemblee->setIndividuFk($form_gene_indbiomol
-				->get('individuFk')->getData()->getId());
+			$this->geneVocFk = $form_gene_indbiomol->get('geneVocFk')->getData()->getId();
+			$this->individuFk = $form_gene_indbiomol->get('individuFk')->getData()->getId();
+			$sequenceAssemblee->setGeneVocFk($this->geneVocFk);
+			$sequenceAssemblee->setIndividuFk($this->individuFk);
 		}
 		// case where the idFk url parameter is not null 
-		if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+		if ($request->get('idFk')) {
 			$where = ' chromatogramme.id = ' . $request->get('idFk');
 			// Search for the list to show EstAligneEtTraite
 			$tab_toshow = [];
@@ -453,7 +454,8 @@ class SequenceAssembleeController extends AbstractController
 			$sequenceAssemblee,
 			[
 				'geneVocFk' => $this->geneVocFk,
-				'individuFk' => $this->individuFk
+				'individuFk' => $this->individuFk,
+				'action_type' => Action::create()
 			]
 		);
 		$form->handleRequest($request);
@@ -516,7 +518,11 @@ class SequenceAssembleeController extends AbstractController
 		$editForm = $this->createForm(
 			'App\Form\SequenceAssembleeType',
 			$sequenceAssemblee,
-			['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]
+			[
+				'geneVocFk' => $this->geneVocFk,
+				'individuFk' => $this->individuFk,
+				'action_type' => Action::show()
+			]
 		);
 		//
 		$form_gene_indbiomol = $this->createGeneIndbiomolForm(
@@ -524,8 +530,7 @@ class SequenceAssembleeController extends AbstractController
 			$this->geneVocFk,
 			$this->individuFk
 		);
-
-		return $this->render('show.html.twig', array(
+		return $this->render('Core/sequenceassemblee/edit.html.twig', array(
 			'sequenceAssemblee' => $sequenceAssemblee,
 			'edit_form' => $editForm->createView(),
 			'delete_form' => $deleteForm->createView(),
@@ -600,7 +605,11 @@ class SequenceAssembleeController extends AbstractController
 		$editForm = $this->createForm(
 			'App\Form\SequenceAssembleeType',
 			$sequenceAssemblee,
-			['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]
+			[
+				'geneVocFk' => $this->geneVocFk,
+				'individuFk' => $this->individuFk,
+				'action_type' => Action::edit()
+			]
 		);
 		$editForm->handleRequest($request);
 
@@ -722,19 +731,7 @@ class SequenceAssembleeController extends AbstractController
 		if ($sequenceAssemblee->getId() == null && $geneVocFk == null) {
 			return $this->createFormBuilder()
 				->setMethod('POST')
-				->add('geneVocFk', EntityType::class, array(
-					'class' => 'App:Voc',
-					'query_builder' => function (EntityRepository $er) {
-						return $er->createQueryBuilder('voc')
-							->where('voc.parent LIKE :parent')
-							->setParameter('parent', 'gene')
-							->orderBy('voc.libelle', 'ASC');
-					},
-					'choice_label' => 'libelle',
-					'multiple' => false,
-					'expanded' => false,
-					'placeholder' => 'Choose a gene'
-				))
+				->add('geneVocFk', GeneType::class)
 				->add('individuFk', EntityType::class, array(
 					'class' => 'App:Individu',
 					'query_builder' => function (EntityRepository $er) {
@@ -755,19 +752,16 @@ class SequenceAssembleeController extends AbstractController
 		}
 		if ($geneVocFk != null && $individuFk != null) {
 			$options = ['geneVocFk' => $geneVocFk, 'individuFk' => $individuFk];
+
 			return $this->createFormBuilder()
 				->setMethod('POST')
-				->add('geneVocFk', EntityType::class, array(
-					'class' => 'App:Voc',
+				->add('geneVocFk', GeneType::class, array(
 					'query_builder' => function (EntityRepository $er) use ($options) {
 						return $er->createQueryBuilder('voc')
 							->where('voc.id = :geneVocFk')
 							->setParameter('geneVocFk', $options['geneVocFk'])
 							->orderBy('voc.libelle', 'ASC');
 					},
-					'choice_label' => 'libelle',
-					'multiple' => false,
-					'expanded' => false,
 					'placeholder' => false
 				))
 				->add('individuFk', EntityType::class, array(

@@ -58,11 +58,11 @@
 
 				{% block titlepage %}{% endblock %}
 
-				<ul class="page-actions">
+				<div class="page-actions {% block action_bar_class %}{% endblock %}">
 					{% block action %}
 						{# Page action buttons #}
 					{% endblock %}
-				</ul>
+				</div>
 
 				<div class="collapse" id="page-help">
 					<div class="card card-body">

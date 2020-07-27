@@ -18,14 +18,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Boite;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Voc;
+use App\Entity\Boite;
 
 /**
  * Boite controller.
@@ -150,7 +151,20 @@ class BoiteController extends AbstractController
 	 */
 	public function newAction(Request $request)
 	{
+
+
+
 		$boite = new Boite();
+
+		if ($request->get("typeBoite")) {
+			$boxTypeRepo = $this->getDoctrine()->getRepository(Voc::class);
+			$boxType = $boxTypeRepo->findOneBy([
+				'code' => $request->get('typeBoite'),
+				'parent' => 'typeBoite'
+			]);
+			$boite->setTypeBoiteVocFk($boxType);
+		}
+
 		$form = $this->createForm('App\Form\BoiteType', $boite, [
 			'action_type' => Action::create()
 		]);
@@ -193,7 +207,7 @@ class BoiteController extends AbstractController
 			'action_type' => Action::show()
 		]);
 
-		return $this->render('show.html.twig', array(
+		return $this->render('Core/boite/edit.html.twig', array(
 			'boite' => $boite,
 			'edit_form' => $editForm->createView(),
 			'delete_form' => $deleteForm->createView(),
