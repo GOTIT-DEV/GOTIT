@@ -1,6 +1,6 @@
 <template>
-  <div class="card panel-default">
-    <div class="card-header">
+  <b-card>
+    <template v-slot:header>
       <strong>
         {{ trans_title }}
       </strong>
@@ -10,14 +10,18 @@
         v-bind:height="20"
         v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
       />
-    </div>
-    <div class="card-body" ref="content">
+    </template>
+
+    <div ref="content">
       <slot></slot>
     </div>
-    <div class="card-footer" v-if="hasFooter">
+
+    <!-- <b-card-footer v-if="hasFooter"> -->
+    <template v-slot:footer v-if="hasFooter">
       <slot name="footer"></slot>
-    </div>
-  </div>
+    </template>
+    <!-- </b-card-footer> -->
+  </b-card>
 </template>
 
 <script>
@@ -28,17 +32,17 @@ import { ToggleButton } from "vue-js-toggle-button";
 
 export default {
   components: {
-    ToggleButton
+    ToggleButton,
   },
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     withTaxname: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     trans_title() {
@@ -46,33 +50,27 @@ export default {
     },
     hasFooter() {
       return this.$slots.footer !== undefined;
-    }
+    },
   },
   data() {
     return {
-      enabled: true
+      enabled: true,
     };
   },
   watch: {
-    enabled: function(newValue, oldValue) {
+    enabled: function (newValue, oldValue) {
       this.toggleActive(newValue);
-    }
+    },
   },
   methods: {
-    submit() {
-      this.$refs.button.toggle(true);
-    },
     toggleActive(value) {
-      $(this.$refs.content)
-        .find(":input")
-        .prop("disabled", !value);
-    }
-  }
+      $(this.$refs.content).find(":input").prop("disabled", !value);
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-
 .card {
   min-width: 250px;
 }
@@ -85,9 +83,8 @@ export default {
   justify-content: space-between;
   flex-wrap: nowrap;
   word-wrap: nowrap;
-  .toggle-btn{
+  .toggle-btn {
     margin: 0;
   }
 }
-
 </style>

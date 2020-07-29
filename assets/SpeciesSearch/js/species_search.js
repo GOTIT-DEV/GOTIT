@@ -26,3 +26,6 @@ import "bootstrap-select"
 $.fn.selectpicker.Constructor.DEFAULTS.style = 'btn-light border';
 import "bootstrap-toggle"
 
+import Vue from 'vue'
+import { BootstrapVue } from "bootstrap-vue"
+Vue.use(BootstrapVue)

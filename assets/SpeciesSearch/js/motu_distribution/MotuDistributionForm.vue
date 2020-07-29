@@ -24,7 +24,7 @@
     <ButtonLoading
       id="submit"
       ref="submit"
-      v-bind:loading="loading"
+      :loading="loading"
       @click="submit"
     >
       Search

@@ -46,5 +46,5 @@ $(document).ready(_ => {
   /** When selectors are initialized and user info are retrieved : 
      *  init result table
      * */
-  vue_form.ready.then(() => initDataTable("#result-table"))
+  vue_form.ready.then(() => initDataTable("#result-table", _ => vue_form.$refs.motuForm.loading = false))
 })

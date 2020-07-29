@@ -13,76 +13,35 @@
  * 
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
-import { SpeciesSelector } from '../form_elements/species_select.js'
-import { MethodSelector } from '../form_elements/method_select.js'
+// import { SpeciesSelector } from '../form_elements/species_select.js'
+// import { MethodSelector } from '../form_elements/method_select.js'
 import { initDataTable } from './results.js'
 
+import SpeciesHypothesesForm from './SpeciesHypothesesForm'
+
+import Vue from "vue"
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+
+const vue_form = new Vue({
+  el: "#species-hypotheses-form",
+  ...SpeciesHypothesesForm
+  // ...MotuDistributionForm
+})
 
 /* **************************
  *  Document ready
  **************************** */
 $(document).ready(function () {
-
-  // Init form elements
-  let speciesSelector = new SpeciesSelector("#main-form")
-  let methodSelector = new MethodSelector("#main-form")
-
-  // Radio button Reference event
-  $('input[name="reference"]')
-    .click(toggleFormSelect)
-    .filter(':checked')
-    .trigger('click')
-
-  $("#target-dataset").on('loaded.bs.select', event => {
-    $(event.target).parent().tooltip({
-      title: $(event.target).data('originalTitle'),
-      placement: 'auto top'
-    })
+  vue_form.ready.then(_ => {
+    function ajaxCallback() {
+      vue_form.loading = false;
+    }
+    initDataTable("#result-table-recto", ajaxCallback)
+    initDataTable("#result-table-verso", ajaxCallback)
+    $(".result-collapse.recto").addClass('show')
   })
-
-  // Sync target and reference dataset <select> inputs
-  $("#main-form select#dataset").change(event => {
-    $("#target-dataset").val(event.target.value).selectpicker('refresh')
-  }).trigger('change')
-
-
-  // Init datatable when form ready
-  Promise.all([speciesSelector.promise, methodSelector.promise])
-    .then(_ => {
-      initDataTable("#result-table-recto")
-      initDataTable("#result-table-verso")
-    })
 })
-
-/**
- * Toggles form parts relative to current reference
- * @param {Object} event Reference radio button click event
- */
-function toggleFormSelect(event) {
-  $(event.target).tooltip('hide')
-  switch (event.target.value) {
-    // Morpho
-    case "0":
-      $(".method-select").prop('disabled', true)
-      $(".taxa-select").prop('disabled', true)
-      $("#target-dataset").prop('disabled', false)
-      break
-    // Taxon
-    case "1":
-      $(".method-select").prop('disabled', true)
-      $(".taxa-select").prop('disabled', false)
-      $("#target-dataset").prop('disabled', false)
-      break
-    // Molecular 
-    case "2":
-      $(".method-select").prop('disabled', false)
-      $(".taxa-select").prop('disabled', true)
-      $("#target-dataset")
-        .prop('disabled', true)
-        .val(
-          $("select#dataset").val()
-        )
-      break
-  }
-  $(".selectpicker").selectpicker('refresh')
-}

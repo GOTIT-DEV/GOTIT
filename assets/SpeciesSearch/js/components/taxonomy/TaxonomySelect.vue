@@ -5,8 +5,7 @@
   >
     <div class="select-container">
       <!-- Genus select -->
-      <div class="form-group">
-        <label class="col-form-label" for="genus">{{ labels.genus }}</label>
+      <b-form-group :label="labels.genus" label-for="genus">
         <select
           name="genus"
           id="genus"
@@ -15,15 +14,15 @@
           data-size="10"
           v-model="genus"
           v-select-picker
+          :disabled="disabled"
         >
           <option v-for="genus in genusList" :value="genus" :key="genus">
             {{ genus }}
           </option>
         </select>
-      </div>
+      </b-form-group>
       <!-- Species select -->
-      <div class="form-group">
-        <label class="col-form-label" for="species">{{ labels.species }}</label>
+      <b-form-group :label="labels.species" label-for="species">
         <select
           name="species"
           id="species"
@@ -32,6 +31,7 @@
           data-size="10"
           v-model="species"
           v-select-picker
+          :disabled="disabled"
         >
           <option
             v-for="species in speciesList"
@@ -41,15 +41,19 @@
             {{ species }}
           </option>
         </select>
-      </div>
+      </b-form-group>
       <!-- Taxname select -->
-      <div class="form-group" v-if="withTaxname">
-        <label class="col-form-label" for="taxname">{{ labels.taxname }} </label>
+      <b-form-group
+        v-if="withTaxname"
+        :label="labels.taxname"
+        label-for="taxname"
+      >
         <select
           name="taxname"
           id="taxname"
           class="form-control"
           v-select-picker
+          :disabled="disabled"
         >
           <option
             v-for="taxon in taxnameList"
@@ -59,7 +63,7 @@
             {{ taxon.taxname }}
           </option>
         </select>
-      </div>
+      </b-form-group>
     </div>
     <i class="fas fa-spinner fa-spin"> </i>
   </div>
@@ -72,31 +76,34 @@ import { SelectPicker } from "../directives/SelectPickerDirective";
 
 export default {
   directives: {
-    SelectPicker
+    SelectPicker,
   },
   props: {
     withTaxname: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false
     }
   },
   computed: {
     genusList() {
-      return [...new Set(this.taxonomy.map(taxon => taxon.genus))];
+      return [...new Set(this.taxonomy.map((taxon) => taxon.genus))];
     },
     speciesList() {
       let species = this.taxonomy
         .filter(({ genus }) => genus === this.genus)
-        .map(taxon => taxon.species);
+        .map((taxon) => taxon.species);
       return [...new Set(species)];
     },
     taxnameList() {
-      let taxnames = this.taxonomy
-        .filter(
-          ({ genus, species }) => species == this.species && genus == this.genus
-        );
+      let taxnames = this.taxonomy.filter(
+        ({ genus, species }) => species == this.species && genus == this.genus
+      );
       return [...new Set(taxnames)];
-    }
+    },
   },
   data() {
     return {
@@ -109,33 +116,33 @@ export default {
       labels: {
         genus: Translator.trans("label.genre"),
         species: Translator.trans("label.espece"),
-        taxname: Translator.trans("label.taxon")
-      }
+        taxname: Translator.trans("label.taxon"),
+      },
     };
   },
   methods: {
     fetch() {
       this.ready = fetch(this.url)
-        .then(response => response.json())
-        .then(json => {
+        .then((response) => response.json())
+        .then((json) => {
           this.taxonomy = json;
           this.genus = this.taxonomy[0].genus;
           this.loading = false;
         });
       return this.ready;
-    }
+    },
   },
   watch: {
-    genus: function(newVal, oldVal) {
+    genus: function (newVal, oldVal) {
       this.species = this.speciesList[0];
     },
-    species: function(newVal, oldVal) {
+    species: function (newVal, oldVal) {
       if (this.withTaxname) this.taxname = this.taxnameList[0];
-    }
+    },
   },
   created() {
     this.fetch();
-  }
+  },
 };
 </script>
 

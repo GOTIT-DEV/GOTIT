@@ -37,6 +37,7 @@ Encore
     .addEntry('co1-sampling', './assets/SpeciesSearch/js/co1_sampling/main.js')
     .addEntry('spsearch/motu', './assets/SpeciesSearch/js/motus/main.js')
     .addEntry('spsearch/distribution', './assets/SpeciesSearch/js/motu_distribution/main.js')
+    .addEntry('spsearch/species-hypotheses', './assets/SpeciesSearch/js/species_hypotheses/main.js')
     .addEntry('querybuilder', './assets/QueryBuilder/js/main.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

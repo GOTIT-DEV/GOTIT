@@ -1,36 +1,26 @@
 <template>
-  <button
-    type="submit"
-    class="btn btn-primary btn-block"
+  <b-button
     id="submit-button"
-    data-loading-text="<i class='fas fa-spinner fa-spin'></i>"
+    type="submit"
+    variant="primary"
+    v-bind="$props"
     v-on:click="$emit('click')"
   >
     <slot></slot>
-  </button>
+    <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+  </b-button>
 </template>
 
 <script>
+import {BButton} from "bootstrap-vue"
 export default {
   props: {
+    ...BButton.options.props,
     loading: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  mounted(){
-    this.toggle(this.loading)
-  },
-  watch:{
-    loading: function(newValue, oldValue){
-      this.toggle(newValue)
-    }
-  },
-  methods:{
-    toggle(loading){
-      $(this.$el).button(loading === true ? "loading" : "reset")
-    }
-  }
 };
 </script>
 

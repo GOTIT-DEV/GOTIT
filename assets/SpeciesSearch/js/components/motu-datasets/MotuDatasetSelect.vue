@@ -1,30 +1,22 @@
 <template>
   <div class="motu-select requires-loading" v-bind:class="{ loading: loading }">
     <div class="select-container">
-      <div class="form-group">
-        <label class="col-form-label" for="dataset">
-          {{ labels.dataset }}
-        </label>
+      <b-form-group :label="labels.dataset" label-for="dataset">
+
         <select
           v-model="dataset"
           name="dataset"
           id="dataset"
           class="form-control"
           v-select-picker
+          @change="$emit('update:dataset', $event)"
         >
-          <option
-            v-for="motu in motuList"
-            :value="motu.id"
-            :key="motu.id"
-          >
+          <option v-for="motu in motuList" :value="motu.id" :key="motu.id">
             {{ motu.name }}
           </option>
         </select>
-      </div>
-      <div class="form-group">
-        <label class="col-form-label" :for="methodInputName">
-          {{ labels.methods }}
-        </label>
+      </b-form-group>
+      <b-form-group :label="labels.methods" label-for="methods-select">
         <select
           v-bind:multiple="multiple"
           v-model="methods"
@@ -32,6 +24,7 @@
           id="methods-select"
           class="form-control"
           v-select-picker
+          
         >
           <option
             v-for="method in methodList"
@@ -41,7 +34,7 @@
             {{ method.method_code }}
           </option>
         </select>
-      </div>
+      </b-form-group>
     </div>
     <i class="fas fa-spinner fa-spin"> </i>
   </div>
@@ -54,13 +47,13 @@ import { SelectPicker } from "../directives/SelectPickerDirective";
 
 export default {
   directives: {
-    SelectPicker
+    SelectPicker,
   },
   props: {
     multiple: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   created() {
     this.fetch();
@@ -70,24 +63,24 @@ export default {
       url: Routing.generate("methods-list"),
       labels: {
         dataset: Translator.trans("label.dataset"),
-        methods: Translator.trans("methode.label")
+        methods: Translator.trans("methode.label"),
       },
       ready: false,
       loading: true,
       motuMethodList: [],
       dataset: undefined,
-      methods: this.multiple ? [] : undefined
+      methods: this.multiple ? [] : undefined,
     };
   },
   computed: {
-    methodInputName(){
-      return this.multiple ? "methods[]" : "methods"
+    methodInputName() {
+      return this.multiple ? "methods[]" : "methods";
     },
     motuList() {
       let uniqueDatasets = this.motuMethodList.reduce((acc, record) => {
         acc[record.dataset_id] = {
           id: record.dataset_id,
-          name: record.dataset_name
+          name: record.dataset_name,
         };
         return acc;
       }, {});
@@ -98,27 +91,28 @@ export default {
         ({ dataset_id }) => dataset_id == this.dataset
       );
       return methods;
-    }
+    },
   },
   methods: {
     fetch() {
       this.ready = fetch(this.url)
-        .then(response => response.json())
-        .then(json => {
+        .then((response) => response.json())
+        .then((json) => {
           this.motuMethodList = json;
           this.dataset = json[0].dataset_id;
           this.loading = false;
+          this.$emit("update:motuList", this.motuList);
         });
       return this.ready;
-    }
+    },
   },
   watch: {
-    dataset: function(newDataset, oldDataset) {
+    dataset: function (newDataset, oldDataset) {
       this.methods = this.multiple
-        ? this.methodList.map(record => record.method_id)
+        ? this.methodList.map((record) => record.method_id)
         : this.methodList[0].method_id;
-    }
-  }
+    },
+  },
 };
 </script>
 

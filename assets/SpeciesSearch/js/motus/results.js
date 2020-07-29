@@ -30,7 +30,7 @@ let detailsFormData = null
  * Initialize result table
  * @param {String} tableId DOM table ID
  */
-export function initDataTable(tableId) {
+export function initDataTable(tableId, ajaxCallback) {
   uiWaitResponse()
   // Don't try to initialize if already init
   if (!$.fn.DataTable.isDataTable(tableId)) {
@@ -76,7 +76,7 @@ export function initDataTable(tableId) {
           }],
           drawCallback: _ => {
             // Toggle UI loading done
-            uiReceivedResponse()
+            ajaxCallback()
             // Init tooltips
             $('[data-toggle="tooltip"]').tooltip()
             // Init detail forms
@@ -109,7 +109,6 @@ export function initDataTable(tableId) {
         // Init form submit event
         $(ids.form).submit(event => {
           event.preventDefault()
-          uiWaitResponse()
           dataTable.ajax.reload()
         })
       })

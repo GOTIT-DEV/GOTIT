@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Services\SpeciesSearch;
-use App\Services\SpeciesSearch\SpeciesQueryService;
-use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Services\SpeciesSearch\SpeciesQueryService;
 
 /**
  * Species hypotheses rearrangements service
  */
-class SpeciesHypothesesService {
+class SpeciesHypothesesService
+{
   private $entityManager; // database manager
 
   // Parameters
@@ -26,14 +28,16 @@ class SpeciesHypothesesService {
   /**
    * Constructeur
    */
-  public function __construct(EntityManagerInterface $manager, SpeciesQueryService $qbservice) {
+  public function __construct(EntityManagerInterface $manager, SpeciesQueryService $qbservice)
+  {
     $this->entityManager = $manager;
     $this->qbservice     = $qbservice;
     $this->fwdCounter    = [];
     $this->revCounter    = [];
   }
 
-  public function processQuery(ParameterBag $parameters) {
+  public function processQuery(ParameterBag $parameters)
+  {
     $this->setParameters($parameters);
     $this->fetch();
     if (!$this->rawResults) {
@@ -45,10 +49,11 @@ class SpeciesHypothesesService {
     return $this->getResults();
   }
 
-  public function setParameters(ParameterBag $parameters) {
+  public function setParameters(ParameterBag $parameters)
+  {
     $this->parameters = $parameters;
     $this->reference  = $parameters->get('reference');
-    if ($this->reference < 2) {
+    if ($this->reference != "motu") {
       $this->target = $parameters->get('target-dataset');
     } else {
       $this->target = $parameters->get('dataset');
@@ -60,7 +65,8 @@ class SpeciesHypothesesService {
   /**
    * Initialize les compteurs de réarrangement par méthode
    */
-  public function initCounter(&$counter) {
+  public function initCounter(&$counter)
+  {
     $methodes = $this->qbservice->getMethodsByDate($this->target); // liste des méthodes
     $keys     = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
     foreach ($methodes as $m) {
@@ -78,7 +84,8 @@ class SpeciesHypothesesService {
   /**
    * Compte les séquences et les stations par méthode sur la base des listes
    */
-  public function countSeqSta() {
+  public function countSeqSta()
+  {
     foreach ($this->rawResults as &$row) {
       $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq'][]     = $row['seq'];
       $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq_ext'][] = $row['seq_ext'];
@@ -90,8 +97,8 @@ class SpeciesHypothesesService {
     foreach ($this->fwdCounter as $date => &$methodes) {
       foreach ($methodes as $method => &$counts) {
         $counts['nb_seq'] =
-        count(array_filter(array_unique($counts['seq']))) +
-        count(array_filter(array_unique($counts['seq_ext'])));
+          count(array_filter(array_unique($counts['seq']))) +
+          count(array_filter(array_unique($counts['seq_ext'])));
         $counts['nb_sta'] = count(array_filter(array_unique($counts['sta'])));
         unset($counts['seq']);
         unset($counts['seq_ext']);
@@ -105,17 +112,21 @@ class SpeciesHypothesesService {
   /**
    * Supprime les lignes en double générées par les stations/séquences
    */
-  public function simplify() {
-    $this->rawResults = array_intersect_key($this->rawResults,
+  public function simplify()
+  {
+    $this->rawResults = array_intersect_key(
+      $this->rawResults,
       array_unique(array_map(function ($row) {
         return $row['motu_number'] . ":" . $row['id_ref'] . ":" . $row['id_dataset'] . ":" . $row['id_methode'];
-      }, $this->rawResults)));
+      }, $this->rawResults))
+    );
   }
 
   /**
    * Comparer les références par méthode à toutes les autres méthodes
    */
-  public function compare() {
+  public function compare()
+  {
     foreach ($this->refIndex as $date => $methodes) {
       foreach ($methodes as $methode => $motus) {
         // Comptage
@@ -137,7 +148,8 @@ class SpeciesHypothesesService {
    * Comptage des réarrangements entre l'ensemble de référence pour une méthode
    * et l'ensemble à comparer, pour une méthode
    */
-  public function compareSets($refSet, $targetSet) {
+  public function compareSets($refSet, $targetSet)
+  {
     $fwd = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     $rev = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     foreach ($refSet as $ref_id => $ref_rows) {
@@ -189,14 +201,17 @@ class SpeciesHypothesesService {
   /**
    * Filtre les résultats de comptage en fonction de la référence
    */
-  public function filterCounts($counter) {
+  public function filterCounts($counter)
+  {
     $filtered = [];
     foreach ($counter as $date => $methodes) {
       foreach ($methodes as $methode => $counts) {
         // Retenir les résultats du même dataset et méthode différente de la référence
-        if ($this->parameters->get('reference') < 2 || // pas de filtre si ref morpho
+        if (
+          $this->parameters->get('reference') < 2 || // pas de filtre si ref morpho
           ($date == $this->parameters->get('dataset') &&
-            $methode != $this->parameters->get('methode'))) {
+            $methode != $this->parameters->get('methode'))
+        ) {
           $filtered[] = $counts;
         }
       }
@@ -207,7 +222,8 @@ class SpeciesHypothesesService {
   /**
    * Construit le contenu de la référence JSON
    */
-  public function getResults() {
+  public function getResults()
+  {
     // Filtrage des comptages
     return array(
       'recto' => $this->filterCounts($this->fwdCounter),
@@ -218,10 +234,11 @@ class SpeciesHypothesesService {
   /**
    * Execute la requête pour obtenir les résultats bruts sur les séquences et leur MOTU
    */
-  public function fetch() {
+  public function fetch()
+  {
     $pdo = $this->entityManager->getConnection();
 
-    if ($this->reference < 2) {
+    if ($this->reference != 'motu') {
       // morpho
       $rawSql = "SELECT distinct motu_nb.motu_number,
                 vocabulary.code AS methode,
@@ -259,12 +276,12 @@ class SpeciesHypothesesService {
 
                 WHERE vocabulary.code != 'HAPLO'
                 AND motu.id = :target_dataset";
-      if ($this->reference == 1) {
+      if ($this->reference == 'taxonomy') {
         // taxa filter
         $rawSql .= " AND R.id = :tax_id";
         $stmt = $pdo->prepare($rawSql);
         $stmt->execute(array(
-          'tax_id'         => $this->parameters->get('taxon_name'),
+          'tax_id'         => $this->parameters->get('taxname'),
           'target_dataset' => $this->target,
         ));
       } else {
@@ -273,11 +290,10 @@ class SpeciesHypothesesService {
           'target_dataset' => $this->target,
         ));
       }
-
     } else {
       //molecular
       $id_dataset = $this->parameters->get('dataset');
-      $id_methode = $this->parameters->get('methode');
+      $id_methode = $this->parameters->get('methods');
       $rawSql     = "SELECT distinct
                 a1.motu_number as id_ref,
                 a2.motu_number as motu_number,
@@ -333,7 +349,8 @@ class SpeciesHypothesesService {
   /**
    * Indexation des résultats bruts selon la référence et selon chaque méthode
    */
-  public function indexResults() {
+  public function indexResults()
+  {
     foreach ($this->rawResults as $row) {
       $this->refIndex[$row['id_dataset']][$row['id_methode']][$row['id_ref']][]       = $row;
       $this->compareIndex[$row['id_dataset']][$row['id_methode']][$row['motu_number']][] = $row;

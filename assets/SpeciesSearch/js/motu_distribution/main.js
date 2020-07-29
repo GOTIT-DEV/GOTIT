@@ -65,7 +65,7 @@ function toggleTabs(activeMap) {
  * @param {Object} response JSON response
  */
 function uiReceivedResponse(response) {
-  $(formId).find("button[type='submit']").button('reset')
+  vue_form.loading=false
   let showGeo = ('taxname' in response.query && response.rows.length)
   map.resetMarkers()
   let plotParams = map.prepareGeoMarkers(response.rows)

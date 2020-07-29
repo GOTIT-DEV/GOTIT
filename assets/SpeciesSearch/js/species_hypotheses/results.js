@@ -16,25 +16,27 @@
 
 import { fetchCurrentUser } from '../utils.js'
 import { dtconfig } from '../datatables_utils.js'
-import { BarPlot } from '../plots.js'
+import Vue from "vue"
+import BarPlot from "./BarPlot"
 
 /**
  * Initialize result table
  * @param {String} tableId DOM table ID
  */
-export function initDataTable(tableId) {
+export function initDataTable(tableId, ajaxCallback) {
   if (!$.fn.DataTable.isDataTable(tableId)) {
+    const table = $(tableId)
+    const side = table.data('target')
+
+    const vue_barplot = new Vue({
+      el: table.data('barplot'),
+      ...BarPlot
+    })
+
     fetchCurrentUser().then(response => response.json())
       .then(user => {
         const dtbuttons = (user.role === 'ROLE_INVITED') ? [] : dtconfig.buttons
-        const table = $(tableId)
-        const side = table.data('target')
 
-        // Init barplot 
-        let barplot = new BarPlot(table.data('barplot'))
-        $('.nav-tabs li a').on('shown.bs.tab', _ => {
-          barplot.resize()
-        })
 
         // Init result table
         let dataTable = table.DataTable({
@@ -70,14 +72,15 @@ export function initDataTable(tableId) {
             data: 'nb_sta'
           }],
           drawCallback: _ => {
+            // $(".result-collapse:first").addClass('show')
             $('[data-toggle="tooltip"]').tooltip()
           }
         })
 
         dataTable.on('xhr', _ => {
           let response = dataTable.ajax.json()
-          barplot.refresh(response[side])
-          uiReceivedResponse()
+          vue_barplot.setData(response[side])
+          ajaxCallback()
         })
 
         /****************
@@ -85,26 +88,9 @@ export function initDataTable(tableId) {
          */
         $("#main-form").submit(event => {
           event.preventDefault();
-          uiWaitResponse()
           table.DataTable().ajax.reload()
         });
       })
   }
 }
 
-function uiWaitResponse() {
-  $("#main-form").find("button[type='submit']").button('loading')
-  tabsDisabled(true)
-}
-
-function uiReceivedResponse() {
-  $("#main-form").find("button[type='submit']").button('reset')
-  tabsDisabled(false)
-}
-
-function tabsDisabled(stateDisabled) {
-  $(".nav-tabs li")
-    .toggleClass("disabled", stateDisabled)
-    .find('a')
-    .attr('data-toggle', stateDisabled ? '' : 'tab')
-}

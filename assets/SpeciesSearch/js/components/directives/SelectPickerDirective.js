@@ -8,7 +8,7 @@ export const SelectPicker = {
     $(() => {
       $(el).selectpicker({
         style: 'btn-light border'
-      });
+      })
     })
   },
 

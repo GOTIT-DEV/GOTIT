@@ -3,120 +3,75 @@
 {% trans_default_domain 'queries' %}
 
 <fieldset id="results">
-  <legend>
-    <h3>
-      {% trans %}
-      label.resultats
-      {% endtrans %}
-    </h3>
-  </legend>
+	<legend>
+		<h3>
+			{% trans %} label.resultats {% endtrans %}
+		</h3>
+	</legend>
 
-  <ul class="nav nav-tabs" role="tablist" id="result-tabs">
-    <li role="presentation" class="active disabled" id="recto-tab">
-      <a href="#result-pane-recto" aria-controls="result-pane" role="tab" data-side='recto' data-toggle="tab">
-        <strong>
-          {% trans %}
-          label.reference
-          {% endtrans %}
-          <i class="fas fa-arrow-circle-right "></i>
-          {% trans %}
-          label.target
-          {% endtrans %}
-        </strong>
-      </a>
-    </li>
-    <li role="presentation" class="disabled" id="verso-tab">
-      <a href="#result-pane-verso" aria-controls="result-pane" role="tab" data-side='verso' data-toggle="tab">
-        <strong>
-          {% trans %}
-          label.target
-          {% endtrans %}
-          <i class="fas fa-arrow-circle-right "></i>
-          {% trans %}
-          label.reference
-          {% endtrans %}
-        </strong>
-      </a>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="result-pane-recto">
-      <div class="card card-body well-sm">
-        <div
-          id="barplot-recto"
-          class="collapse barplot"></div>
-        <div class="collapse plot-overlay">
-          <center>
-            <i class="fas fa-chart-bar fa-4x" style="margin:5vh"></i><br>
-            <strong>
-              {% trans %}
-              plots.noresult
-              {% endtrans %}
-            </strong>
-          </center>
-        </div>
-        <hr>
-        <div class="table-responsive" style='width:100%'>
-          <table
-            id="result-table-recto"
-            class="table table-condensed table-hover table-striped"
-            data-barplot="#barplot-recto"
-            data-target="recto">
-            <thead>
-              <tr>
-                <th>{{"columns.method" | trans}}</th>
-                <th>{{"columns.dataset" | trans}}</th>
-                <th>{{"columns.match" | trans}}</th>
-                <th>{{"columns.split" | trans}}</th>
-                <th>{{"columns.lump" | trans}}</th>
-                <th>{{"columns.reshuffling" | trans}}</th>
-                <th>{{"columns.nbseq" | trans}}</th>
-                <th>{{"columns.nbsta" | trans}}</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="result-pane-verso">
-      <div class="card card-body well-sm">
-        <div
-          id="barplot-verso"
-          class="collapse barplot"></div>
-        <div class="collapse plot-overlay">
-          <center>
-            <i class="fas fa-chart-bar fa-4x" style="margin:5vh"></i><br>
-            <strong>
-              {% trans %}
-              plots.noresult
-              {% endtrans %}
-            </strong>
-          </center>
-        </div>
-        <hr>
-        <div class="table-responsive" style='width:100%'>
-          <table
-            id="result-table-verso"
-            class="table table-condensed table-hover table-striped"
-            data-barplot="#barplot-verso"
-            data-target="verso">
-            <thead>
-              <tr>
-                <th>{{"columns.method" | trans}}</th>
-                <th>{{"columns.dataset" | trans}}</th>
-                <th>{{"columns.match" | trans}}</th>
-                <th>{{"columns.split" | trans}}</th>
-                <th>{{"columns.lump" | trans}}</th>
-                <th>{{"columns.reshuffling" | trans}}</th>
-                <th>{{"columns.nbseq" | trans}}</th>
-                <th>{{"columns.nbsta" | trans}}</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div id="result-accordion">
+		<div
+			class="collapse result-collapse row recto show"
+			data-parent="#result-accordion">
+			<div class="col-12 col-xl-8 offset-xl-2">
+				<div id="barplot-recto" class="barplot">
+					<center>
+						<i class="fas fa-spin fa-spinner fa-4x m-5"></i>
+					</center>
+				</div>
+			</div>
+			<hr>
+			<div class="table-responsive col-12">
+				<table
+					id="result-table-recto"
+					class="table table-condensed table-hover table-striped"
+					data-barplot="#barplot-recto"
+					data-target="recto">
+					<thead>
+						<tr>
+							<th>{{"columns.method" | trans}}</th>
+							<th>{{"columns.dataset" | trans}}</th>
+							<th>{{"columns.match" | trans}}</th>
+							<th>{{"columns.split" | trans}}</th>
+							<th>{{"columns.lump" | trans}}</th>
+							<th>{{"columns.reshuffling" | trans}}</th>
+							<th>{{"columns.nbseq" | trans}}</th>
+							<th>{{"columns.nbsta" | trans}}</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		<div class="collapse result-collapse" data-parent="#result-accordion">
+			<div class="col-12 col-xl-8 offset-xl-2">
+				<div id="barplot-verso" class="barplot">
+				<center>
+						<i class="fas fa-spin fa-spinner fa-4x m-5"></i>
+					</center></div>
+			</div>
+			<hr>
+			<div class="table-responsive col-12">
+				<table
+					id="result-table-verso"
+					class="table table-condensed table-hover table-striped"
+					data-barplot="#barplot-verso"
+					data-target="verso">
+					<thead>
+						<tr>
+							<th>{{"columns.method" | trans}}</th>
+							<th>{{"columns.dataset" | trans}}</th>
+							<th>{{"columns.match" | trans}}</th>
+							<th>{{"columns.split" | trans}}</th>
+							<th>{{"columns.lump" | trans}}</th>
+							<th>{{"columns.reshuffling" | trans}}</th>
+							<th>{{"columns.nbseq" | trans}}</th>
+							<th>{{"columns.nbsta" | trans}}</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </fieldset>
