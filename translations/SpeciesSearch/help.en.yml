@@ -1,11 +1,11 @@
 # Header help messages
 co1-sampling: |
-    INFO : Use this request to explore the availability and distribution of COI sequences for a species taxon as well as the distribution of that species taxon. See section 12.1 in GOTIT HELP for more details about the functionalities of this request.
+    Use this request to explore the availability and distribution of COI sequences for a species taxon as well as the distribution of that species taxon. See section 12.1 in GOTIT HELP for more details about the functionalities of this request.
 assign-motu : |
-    INFO : Use this request to explore the number of molecular operational taxonomic units (MOTU) within a species taxon as well as the list of COI sequences attributed to MOTUs for that species taxon. See section 12.2 in GOTIT HELP for more details about the functionalities of this request.
+    Use this request to explore the number of molecular operational taxonomic units (MOTU) within a species taxon as well as the list of COI sequences attributed to MOTUs for that species taxon. See section 12.2 in GOTIT HELP for more details about the functionalities of this request.
 species-hypotheses: |
-    INFO : Use this request to find out the nature of molecular operational taxonomic units (MOTU), in particular, whether a MOTU is a match, a split, a lump, or a reshuffling of species taxa delimited using morphological criteria. See section 12.3 in GOTIT HELP for more details about the functionalities of this request.
+    Use this request to find out the nature of molecular operational taxonomic units (MOTU), in particular, whether a MOTU is a match, a split, a lump, or a reshuffling of species taxa delimited using morphological criteria. See section 12.3 in GOTIT HELP for more details about the functionalities of this request.
 distribution: |
-    INFO : Use this request to explore the spatial distribution of molecular operational taxonomic units (MOTU) within a species taxon. See section 12.4 in GOTIT HELP for more details about the functionalities of this request.
+    Use this request to explore the spatial distribution of molecular operational taxonomic units (MOTU) within a species taxon. See section 12.4 in GOTIT HELP for more details about the functionalities of this request.
 consistency: |
-    INFO : Use this request to select among different correspondence cases among species names attributed to biological materials, specimens, and DNA sequences. See section 12.5 in GOTIT HELP for more details about the functionalities of this request.
+    Use this request to select among different correspondence cases among species names attributed to biological materials, specimens, and DNA sequences. See section 12.5 in GOTIT HELP for more details about the functionalities of this request.

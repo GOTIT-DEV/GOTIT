@@ -1,9 +1,9 @@
 <template>
-  <TogglablePanel class="species-select" title="label.search.espece">
+  <TogglablePanel class="species-select" title="queries.label.search.espece">
     <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
     <template v-slot:footer>
-      <ButtonLoading ref="submit" v-bind:loading="loading" @click="submit">
-        Search
+      <ButtonLoading ref="submit" v-bind:loading="loading" @click="submit" block>
+        {{$t('ui.search')}}
       </ButtonLoading>
     </template>
   </TogglablePanel>
@@ -14,8 +14,10 @@
 import ButtonLoading from "../components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
+import i18n from "../i18n"
 
 export default {
+  i18n,
   components: {
     TogglablePanel,
     TaxonomySelect,

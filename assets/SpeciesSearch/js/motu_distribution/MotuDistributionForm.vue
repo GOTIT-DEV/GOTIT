@@ -1,34 +1,26 @@
 <template>
-  <div class="form-component">
-    <!-- <slot> </slot> -->
-    <div id="taxonomy-select" class="card panel-default">
-      <div class="card-header">
-        <strong>
-          {{ taxoPanelLabel }}
-        </strong>
-      </div>
-      <div class="card-body">
-        <TaxonomySelect ref="taxonomy" withTaxname> </TaxonomySelect>
-      </div>
-    </div>
-    <div id="motu-select" class="card panel-default">
-      <div class="card-header">
-        <strong>
-          {{ motuPanelLabel }}
-        </strong>
-      </div>
-      <div class="card-body">
-        <MotuDatasetSelect ref="motu" />
-      </div>
-    </div>
-    <ButtonLoading
-      id="submit"
-      ref="submit"
-      :loading="loading"
-      @click="submit"
+  <div class="form-component col-xl-8 offset-xl-2">
+
+    <b-card
+      id="taxonomy-select"
+      :header="$t('queries.label.search.espece')"
+      header-class="font-weight-bold"
     >
-      Search
+      <TaxonomySelect ref="taxonomy" withTaxname> </TaxonomySelect>
+    </b-card>
+
+    <b-card
+      id="motu-select"
+      :header="$t('queries.identification.label')"
+      header-class="font-weight-bold"
+    >
+      <MotuDatasetSelect ref="motu" />
+    </b-card>
+
+    <ButtonLoading id="submit" ref="submit" :loading="loading" @click="submit">
+      {{ $t("ui.search") }}
     </ButtonLoading>
+    
   </div>
 </template>
 
@@ -44,25 +36,23 @@ export default {
     TogglablePanel,
     TaxonomySelect,
     MotuDatasetSelect,
-    ButtonLoading
+    ButtonLoading,
   },
   computed: {
     ready() {
       return Promise.all([this.$refs.taxonomy.ready, this.$refs.motu.ready]);
-    }
+    },
   },
   data() {
     return {
       loading: true,
-      motuPanelLabel: Translator.trans("identification.label"),
-      taxoPanelLabel: Translator.trans("label.search.espece")
     };
   },
   methods: {
     submit() {
       this.loading = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

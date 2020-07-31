@@ -3,7 +3,7 @@
     <fieldset class="col-lg-5">
       <legend>
         <h3>
-          label.reference
+          {{$t('queries.label.reference')}}
         </h3>
       </legend>
       <b-card no-body class="mb-1">
@@ -14,7 +14,7 @@
             value="morpho"
             size=""
           >
-            Morpho
+            {{$t('queries.label.morpho')}}
           </b-form-radio>
         </b-card-header>
       </b-card>
@@ -27,7 +27,7 @@
             value="taxonomy"
             size=""
           >
-            Taxonomy
+            {{$t('queries.label.morphotaxon')}}
           </b-form-radio>
         </b-card-header>
         <b-collapse
@@ -55,7 +55,7 @@
             value="motu"
             size=""
           >
-            Motu
+            {{$t('queries.methode.label')}}
           </b-form-radio>
         </b-card-header>
         <b-collapse
@@ -97,7 +97,7 @@
     <div class="col-lg-5">
       <fieldset class="mb-3">
         <legend>
-          <h3>"label.target"</h3>
+          <h3>{{$t('queries.label.target')}}</h3>
         </legend>
         <b-card>
           <b-form-group label="label.dataset" label-for="target-dataset">
@@ -121,7 +121,7 @@
           </b-form-group>
         </b-card>
       </fieldset>
-      <center class="offset-3 col-6 offset-lg-4 col-lg-4">
+      <center class="col-12 offset-sm-3 col-sm-6 offset-lg-0 col-lg-12 offset-xl-3 col-xl-6">
         <ButtonLoading
           id="submit"
           ref="submit"
@@ -130,7 +130,7 @@
           v-bind:loading="loading"
           @click="submit"
         >
-          Search
+          {{$t('ui.search')}}
         </ButtonLoading>
       </center>
     </div>

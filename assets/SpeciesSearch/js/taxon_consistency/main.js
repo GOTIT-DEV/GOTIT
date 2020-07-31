@@ -49,9 +49,11 @@ function updateChoiceColor(event) {
       break
     case "0":
       target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-light border')
       break
     case "1":
       target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
+        .selectpicker('setStyle', 'btn-light border')
       break
   }
 

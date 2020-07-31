@@ -2,8 +2,6 @@ import "bootstrap-select/dist/css/bootstrap-select.min.css"
 import "../css/forms.less"
 
 import "bootstrap-select"
-import Mustache from "mustache"
-import moment from "moment"
 
 
 import { initDateMask } from "./date-mask"
@@ -11,7 +9,6 @@ import { initDateMask } from "./date-mask"
 
 
 $(() => {
-  // $("*[readonly] input[type='radio']").click(() => { return false })
   initDateMask(document.querySelector("form"))
 
   $("button.btn-entry-add").click(addEntryBtnCallback)

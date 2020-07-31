@@ -1,13 +1,13 @@
 <template>
   <div class="form-component">
     <!-- <slot> </slot> -->
-    <TogglablePanel class="species-select" title="label.search.espece">
+    <TogglablePanel class="species-select" title="queries.label.search.espece">
       <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
     </TogglablePanel>
     <div id="motu-select" class="card panel-default">
       <div class="card-header">
         <strong>
-          {{ motuPanelLabel }}
+          {{ $t('queries.identification.label') }}
         </strong>
       </div>
       <div class="card-body">
@@ -23,7 +23,7 @@
       v-bind:loading="loading"
       @click="submit"
     >
-      Search
+      {{$t('ui.search')}}
     </ButtonLoading>
   </div>
 </template>
@@ -34,8 +34,10 @@ import ButtonLoading from "../components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
+import i18n from "../i18n"
 
 export default {
+  i18n,
   components: {
     TogglablePanel,
     TaxonomySelect,
@@ -50,7 +52,6 @@ export default {
   data() {
     return {
       loading: true,
-      motuPanelLabel: Translator.trans("identification.label")
     };
   },
   methods: {

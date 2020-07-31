@@ -38,6 +38,7 @@ Encore
     .addEntry('spsearch/motu', './assets/SpeciesSearch/js/motus/main.js')
     .addEntry('spsearch/distribution', './assets/SpeciesSearch/js/motu_distribution/main.js')
     .addEntry('spsearch/species-hypotheses', './assets/SpeciesSearch/js/species_hypotheses/main.js')
+    .addEntry('spsearch/consistency', './assets/SpeciesSearch/js/taxon_consistency/main.js')
     .addEntry('querybuilder', './assets/QueryBuilder/js/main.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
@@ -76,6 +77,9 @@ Encore
 
     // enables VueJS
     .enableVueLoader()
+    
+    // YAML loader
+    .addLoader({test:/\.ya?ml$/, loader:'js-yaml-loader'})
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -114,3 +118,17 @@ config.module.rules.unshift({
 });
 
 module.exports = config;
+
+//     chainWebpack: config => {
+//         config.module
+//             .rule("i18n")
+//             .resourceQuery(/blockType=i18n/)
+//             .type('javascript/auto')
+//             .use("i18n")
+//             .loader("@intlify/vue-i18n-loader")
+//             .end()
+//             .use('yaml')
+//             .loader('yaml-loader')
+//             .end()
+//     }
+// }

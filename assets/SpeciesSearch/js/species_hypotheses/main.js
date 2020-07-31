@@ -22,12 +22,14 @@ import SpeciesHypothesesForm from './SpeciesHypothesesForm'
 import Vue from "vue"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import i18n from '../i18n'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 
 const vue_form = new Vue({
   el: "#species-hypotheses-form",
+  i18n,
   ...SpeciesHypothesesForm
   // ...MotuDistributionForm
 })

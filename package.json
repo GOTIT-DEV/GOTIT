@@ -1,16 +1,20 @@
 {
     "devDependencies": {
+        "@intlify/vue-i18n-loader": "^1.0.0",
         "@symfony/webpack-encore": "^0.30.0",
         "core-js": "^3.0.0",
         "imports-loader": "^1.1.0",
+        "js-yaml-loader": "^1.2.2",
         "less-loader": "^6.2.0",
         "node-sass": "^4.14.1",
         "prettier": "^2.0.5",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^8.0.0",
+        "vue-cli-plugin-i18n": "^1.0.1",
         "vue-loader": "^15",
         "vue-template-compiler": "^2.6.11",
-        "webpack-notifier": "^1.6.0"
+        "webpack-notifier": "^1.6.0",
+        "yaml-loader": "^0.6.0"
     },
     "license": "UNLICENSED",
     "private": true,

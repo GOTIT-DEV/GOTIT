@@ -21,13 +21,14 @@ import { scrollToElement } from '../utils.js'
 import MotuDistributionForm from "./MotuDistributionForm"
 
 import Vue from "vue"
+import i18n from '../i18n'
 
 const vue_form = new Vue({
   el: "#distribution-form",
+  i18n,
   ...MotuDistributionForm
 })
 
-const formId = "#main-form"
 let map = initMap("motu-geo-map")
 
 $(document).ready(_ => {

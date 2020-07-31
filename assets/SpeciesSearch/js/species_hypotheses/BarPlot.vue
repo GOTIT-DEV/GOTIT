@@ -14,7 +14,7 @@
 
 <script>
 import { Plotly } from "vue-plotly";
-import {layout} from "./barplot-config"
+import {layout} from "./barplot.config"
 export default {
   components: { Plotly },
   data() {
@@ -51,6 +51,9 @@ export default {
             y: data[key], // counts
             name: key, // counters.key
             type: "bar",
+            text: data[key].map(String),
+            hoverinfo:'none',
+            textposition: 'auto',
           };
         });
     },

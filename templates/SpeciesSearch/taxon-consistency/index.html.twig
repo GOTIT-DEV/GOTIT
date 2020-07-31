@@ -1,6 +1,10 @@
 {% extends 'SpeciesSearch/base.queries.html.twig' %}
 
 {% trans_default_domain 'queries' %}
+{% block stylesheets %}
+	{{parent()}}
+	{{ encore_entry_link_tags('spsearch/consistency') }}
+{% endblock %}
 
 {% block titlepage %}
 	<h1>
@@ -9,15 +13,12 @@
 {% endblock %}
 
 {% block body %}
-	<div
-		class='row' style='padding:10px'>
 		{# Formulaire #}
 		{% include 'SpeciesSearch/taxon-consistency/form.html.twig' %}
-	</div>
 
 	<fieldset>
 		<legend>
-			<h2 style='margin-bottom:18px'>
+			<h2>
 				{{"label.resultats" | trans }}
 			</h2>
 		</legend>
@@ -28,5 +29,5 @@
 
 {% block scripts %}
 	{{ parent() }}
-	<script type="module" src="{{asset('bundles/lehnaspeciessearch/js/taxon_consistency/main.js')}}"></script>
+	{{ encore_entry_script_tags('spsearch/consistency') }}
 {% endblock %}

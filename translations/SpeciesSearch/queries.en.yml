@@ -2,7 +2,7 @@ label:
   genre: Genus
   espece: Species
   taxon: Taxon
-  dataset: Data set
+  dataset: Dataset
   search:
     param: Search fields
     espece: Search by species
@@ -11,7 +11,7 @@ label:
   resultats: Results
   reference: Reference method
   morpho: Morphology
-  morphotaxon: Taxon
+  morphotaxon: 'Morphology : taxon'
   target: Target dataset
 tabs:
   reference: Reference

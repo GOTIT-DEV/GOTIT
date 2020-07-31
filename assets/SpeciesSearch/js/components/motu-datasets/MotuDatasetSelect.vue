@@ -1,7 +1,7 @@
 <template>
   <div class="motu-select requires-loading" v-bind:class="{ loading: loading }">
     <div class="select-container">
-      <b-form-group :label="labels.dataset" label-for="dataset">
+      <b-form-group :label="$t('queries.label.dataset')" label-for="dataset">
 
         <select
           v-model="dataset"
@@ -16,7 +16,7 @@
           </option>
         </select>
       </b-form-group>
-      <b-form-group :label="labels.methods" label-for="methods-select">
+      <b-form-group :label="$t('queries.methode.label')" label-for="methods-select">
         <select
           v-bind:multiple="multiple"
           v-model="methods"
@@ -44,8 +44,9 @@
 // import { createNamespacedHelpers } from "vuex";
 // const { mapState, mapMutations, mapActions } = createNamespacedHelpers("motu");
 import { SelectPicker } from "../directives/SelectPickerDirective";
-
+import i18n from '../../i18n'
 export default {
+  i18n,
   directives: {
     SelectPicker,
   },
@@ -61,10 +62,6 @@ export default {
   data() {
     return {
       url: Routing.generate("methods-list"),
-      labels: {
-        dataset: Translator.trans("label.dataset"),
-        methods: Translator.trans("methode.label"),
-      },
       ready: false,
       loading: true,
       motuMethodList: [],

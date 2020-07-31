@@ -11,7 +11,7 @@ label:
   resultats: Résultats
   reference: Méthode de référence
   morpho: Morphologie
-  morphotaxon: Taxon
+  morphotaxon: "Morphologie : taxon"
   target: Jeu de données à comparer
 tabs:
   reference: Référence

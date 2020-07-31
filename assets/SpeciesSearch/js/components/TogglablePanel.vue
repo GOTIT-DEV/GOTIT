@@ -2,7 +2,7 @@
   <b-card>
     <template v-slot:header>
       <strong>
-        {{ trans_title }}
+        {{ $t(title) }}
       </strong>
       <ToggleButton
         class="toggle-btn"
@@ -29,8 +29,9 @@
 
 // import ButtonLoading from "../ButtonLoading";
 import { ToggleButton } from "vue-js-toggle-button";
-
+import i18n from '../i18n'
 export default {
+  i18n,
   components: {
     ToggleButton,
   },

@@ -5,7 +5,7 @@
   >
     <div class="select-container">
       <!-- Genus select -->
-      <b-form-group :label="labels.genus" label-for="genus">
+      <b-form-group :label="$t('queries.label.genre')" label-for="genus">
         <select
           name="genus"
           id="genus"
@@ -22,7 +22,7 @@
         </select>
       </b-form-group>
       <!-- Species select -->
-      <b-form-group :label="labels.species" label-for="species">
+      <b-form-group :label="$t('queries.label.espece')" label-for="species">
         <select
           name="species"
           id="species"
@@ -45,7 +45,7 @@
       <!-- Taxname select -->
       <b-form-group
         v-if="withTaxname"
-        :label="labels.taxname"
+        :label="$t('queries.label.taxon')"
         label-for="taxname"
       >
         <select
@@ -73,8 +73,10 @@
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
+import i18n from "../../i18n"
 
 export default {
+  i18n,
   directives: {
     SelectPicker,
   },
@@ -113,11 +115,6 @@ export default {
       taxonomy: [],
       genus: undefined,
       species: undefined,
-      labels: {
-        genus: Translator.trans("label.genre"),
-        species: Translator.trans("label.espece"),
-        taxname: Translator.trans("label.taxon"),
-      },
     };
   },
   methods: {

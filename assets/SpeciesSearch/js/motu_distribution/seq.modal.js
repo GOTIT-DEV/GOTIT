@@ -34,7 +34,7 @@ export function initModalTable(tableId) {
         columns: [{
           data: 'code',
           render: (data, type, row) => {
-            let route = row.type ?
+            let route = row.seq_type ?
               'sequenceassembleeext_show' :
               'sequenceassemblee_show'
             return linkify(route,
@@ -46,7 +46,7 @@ export function initModalTable(tableId) {
             { col: 'accession_number', ellipsis: false, generateRoute: false })
         },
         {
-          data: 'type',
+          data: 'seq_type',
           render: seqType => {
             return seqType ?
               Translator.trans("entity.seq.type.externe") :
