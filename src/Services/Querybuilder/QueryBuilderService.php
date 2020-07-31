@@ -2,158 +2,49 @@
 
 namespace App\Services\Querybuilder;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Bundle\DoctrineBundle\Mapping\DisconnectedMetadataFactory;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
-
-use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 
 /**
  * Service QueryBuilderService
  */
 class QueryBuilderService
 {
-  private $doctrineManagerRegistry;
-  private $metadataManager;
-  private $container;
-
-  public function __construct(EntityManagerInterface $em, ManagerRegistry $manager, ContainerInterface $container)
+  /** 
+   * Create the query. 
+   * 
+   * @param mixed $data $query all the info from the form and the state of the query. 
+   * @return array $query the full query.  
+   */
+  public function makeQuery($data, $query)
   {
-    $this->container = $container;
-    $this->doctrineManagerRegistry = $manager;
-    $this->em = $em;
-    $this->metadataManager =
-      new DisconnectedMetadataFactory($this->doctrineManagerRegistry);
-  }
 
-  public function make_qbuilder_config()
-  {
-    // $em = $this->getDoctrine()->getManager();
-    $meta = $this->em->getMetadataFactory()->getAllMetadata();
-    // dump($meta);
-    // $metadata = $this->metadataManager
-      // ->getNamespaceMetadata("App\Entity\Core")
-      // ->getAllMetadata()
-      // ->getMetadata();
-    return $this->parse_entities_metadata($meta);
-  }
-
-  private function parse_entity_name($entity)
-  {
-    $entity = explode('\\', $entity);
-    return array_pop($entity);
-  }
-
-  public function parse_entities_metadata($metadata_array)
-  {
-    $res = [];
-    $relations = [];
-    foreach ($metadata_array as $m) {
-      $entity = $this->parse_entity_name($m->getName());
-      $res[$entity] = $this->parse_metadata($m);
-      $relations[$entity] = [];
-      foreach ($m->getAssociationMappings() as $field => $mapping) {
-        if (array_key_exists("joinColumns", $mapping)) {
-          $target = $this->parse_entity_name($mapping['targetEntity']);
-          if (array_key_exists($target, $relations[$entity])) {
-            $relations[$entity][$target][] = $this->parse_associated($mapping);
-          } else {
-            $relations[$entity][$target] = [$this->parse_associated($mapping)];
-          }
-        }
-      }
+    $this->parseFirstBlock($data["initial"], $query);
+    // If the user decided to make joins
+    if (array_key_exists('joins', $data)) {
+      $this->parseJoinsBlocks($data["joins"], $query);
     }
 
-    foreach ($relations as $sourceEntity => $targets) {
-      foreach ($targets as $targetEntity => $data) {
-        $reverse_relation = function($d) use ($sourceEntity) {
-          return [
-            "entity" => $sourceEntity,
-            "from" => $d["to"],
-            "to" => $d["from"]
-          ];
-        };
-        $relations[$targetEntity][$sourceEntity] = array_map(
-          $reverse_relation,
-          $data
-        );
-      }
-    }
-    foreach ($res as $entity => $data) {
-      $res[$entity]["relations"] = $relations[$entity];
-    }
-    return $res;
+    return $query;
   }
-
-  private function parse_associated($mapping)
-  {
-    return [
-      "entity" => $this->parse_entity_name($mapping["targetEntity"]),
-      "from" => $mapping["fieldName"],
-      "to" => "id"
-    ];
-  }
-
-  private function parse_metadata(ClassMetadata $metadata)
-  {
-    $make_filter = function ($field) {
-      return [
-        "id" => $field['fieldName'],
-        "label" => $field['fieldName'],
-        "type" => $this->convert_field_type($field['type'])
-      ];
-    };
-    $entity = $metadata->getName();
-    $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
-    return [
-      "class" => $entity,
-      "filters" => $filters,
-      "human_readable_name" => $this->parse_entity_name($entity),
-      "table" => $metadata->table["name"]
-    ];
-  }
-
-  private function convert_field_type($type)
-  {
-    if (strpos($type, "int") != false) {
-      $type = "integer";
-    } elseif ($type == "float") {
-      $type = "double";
-    } elseif ($type == "text") {
-      $type = "string";
-    } elseif (strpos($type, "bool") != false) {
-      $type = "boolean";
-    }
-    // $valid_types = ["string", "integer", "double", "date", "time", "datetime", "boolean"];
-    // assert(in_array($type, $valid_types));
-    return $type;
-  }
-
-
-  /************************************************
-   * BUILDING QUERY UTILITIES
-   ************************************************/
 
   /** 
-   * Get the selected fields of the query to create a tamplate table for the results. 
+   * Get the selected fields of the query to create a template table for the results. 
    * 
    * @param mixed $data the array containing the info for the query. 
-   * @return array the array with the initial tables and the adjacent tables as keys and the corresponding fields as values.  
+   * @return array $resultsTab the array with the initial tables and the adjacent tables as keys and the corresponding fields as values.  
    */
   public function getSelectFields($data)
   {
-    $initialTable = $data["initial"]["initialTable"];
+    $initialTableAlias = $data["initial"]["initialAlias"];
     $initialFields = $data["initial"]["initialFields"];
-    $resultsTab = [$initialTable => $initialFields]; // Init the array with the first fields
+    $resultsTab = [$initialTableAlias => $initialFields]; // Init the array with the first fields
     if (array_key_exists("joins", $data)) { // If there are join blocks in the query
       $joins = $data["joins"];
       foreach ($joins as $j) {
-        if (count($j) == 7) {
-          $adjTable = $j["adjacent_table"];
+        if (array_key_exists('fields', $j)) {
+          $alias = $j["alias"];
           $joinsFields = $j["fields"];
-          $resultsTab[$adjTable] = $joinsFields; // Adding the selected fields for each join block
+          $resultsTab[$alias] = $joinsFields; // Adding the selected fields for each join block
         }
       }
     }
@@ -161,261 +52,187 @@ class QueryBuilderService
     return $resultsTab;
   }
 
-
   /**
-   * Get the current level in the block of constraints for the querybuilder. 
+   * Parse the first block of querybuilder.
    * 
-   * @param mixed $level, $query, $data, $table, $condition : the current level in the array, the current state of the query, all info, 
-   *              the current table and the condition to apply on the constraints.
-   * @return mixed $query : the query with the constraints added to it. 
-   * 
-   * Warning : doesn't work properly when clicking ond the 'add-group' on the form.    
-   */
-  private function constraintsOfLevel($level, $query, $data, $table, $condition)
-  {
-
-    if (strlen($level == 1)) { // If we are on the first level, we can use the 'simple' function to get the constraints. 
-      $query = $this->getConstraints($constraints, $data, $query, $table, $condition);
-    } elseif (strlen($level > 1)) { // If we are on a deeper level : 
-      foreach ($level as $r) {
-        if (count($r) == 6) { // If there are no more constraints after, we use the 'simple' function. 
-          $query = $this->getConstraints($r, $data, $query, $table, $condition);
-        } elseif (count($r) == 2) { // If there are multiple constraints, we call this function on itself. 
-          $query = $this->constraintsOfLevel($r["rules"], $query, $data, $table, $r["condition"]);
-        }
-      }
-    }
-
-    return $query;
-  }
-
-
-  /**
-   * Get the full first block of querybuilder.
-   * 
-   * @param mixed $data, query : the full array containing the info in the form, the current state of the query.
+   * @param mixed $initial, $qb : the info from the first block, the current state of the query.
    * @return mixed $query : the query with the added chosen table, the fields and the constraints if the user choses to apply some constraints
    * 
-   * Warning : by default, all fields are checked for the first table, please keep at least one box checked.   
+   * Warning : by default, all fields are checked for the first table, please keep at least one field selected.   
    */
-  public function getBlocks($data, $query)
+  private function parseFirstBlock($initial, $qb)
   {
-
-    $initial = $data["initial"];
-    $table = $initial["initialTable"];
-    $query = $query->from('App:' . $table, $table); // Adding the initial table to the query
-    $fields = $initial["initialFields"];
-    foreach ($fields as $value) {
-      $query = $query->addSelect($table . "." . $value); // Adding every field selected for the initial table
+    $firstTable = $initial["initialTable"];
+    $initAlias = $initial["initialAlias"];
+    // Adding the initial table to the query
+    $query = $qb->from('BbeesE3sBundle:' . $firstTable, $initAlias);
+    foreach ($initial["initialFields"] as $value) {
+      // Adding every field selected for the initial table with their alias
+      $query = $query->addSelect($initAlias . "." . $value . " AS " . $initAlias . "_" . $value);
     };
-
-    if ($initial["constraintsTable1"] != "") { // If the user decided to add some constraints
-      $condition = $initial["constraintsTable1"]["condition"];
-      $constraints = $initial["constraintsTable1"]["rules"];
-      $query = $this->constraintsOfLevel($constraints, $query, $data, $table, $condition); // Adding the constraints to the query
+    // If there are some constraints addedby the user
+    if (array_key_exists('rules', $initial)) {
+      $query->andWhere($this->parseGroup($initial['rules'], $qb, $initAlias));
     }
 
-    if (count($data) > 1) { // If the user decided to make some joins
-      if (strlen($data["joins"] >= 1)) {
-        $joins = $data["joins"];
-        foreach ($joins as $j) { // For each block added
-          $joinDqlParts = $query->getDQLParts()['join'];
-          $fromDqlParts = $query->getDQLParts()['from'][0];
-          $aliasATAlreadyExists = false;
-          $aliasFTAlreadyExists = false;
-          $aliasAT = 1; // Creating Aliases to avoid issue with already defined tables
-          $aliasFT = 1;
-          foreach ($joinDqlParts as $joinsDql) {
-            foreach ($joinsDql as $joinDql) {
-              if ($joinDql->getAlias() === $j["adjacent_table"]) {
-                $aliasATAlreadyExists = true;
-              }
-            }
-          }
-          if ($fromDqlParts->getAlias() === $j["formerTable"]) {
-            $aliasFTAlreadyExists = true;
-          }
-          if ($aliasATAlreadyExists === true or $j["adjacent_table"] == $initial["initialTable"]) {
-            $adjTableAlias = $j["adjacent_table"] . $aliasAT;
-            $formerTable = $j["formerTable"] . $aliasFT;
-            $adjTable = $j["adjacent_table"];
-            $aliasFT += 1;
-            $aliasAT += 1;
-          } else {
-            $adjTableAlias = $j["adjacent_table"];
-            $adjTable = $j["adjacent_table"];
-            $formerTable = $j["formerTable"];
-          }
-          if ($aliasFTAlreadyExists === true and $j["formerTable"] != $initial["initialTable"]) {
-            $formerTable = $j["formerTable"] . $aliasFT;
-            $aliasFT += 1;
-          } else $formerTable = $j["formerTable"];
-          $jointype = $j["join"];
-          $srcField = $j["sourceField"];
-          $tgtField = $j["targetField"];
-
-          if (count($j) == 7) { // If the user chooses to return some fields.
-            $newFields = $j["fields"];
-            foreach ($newFields as $newValue) {
-              $query = $query->addSelect($adjTable . "." . $newValue);
-            };
-          }
-          $query = $this->makeJoin($joins, $query, $formerTable, $jointype, $adjTable, $adjTableAlias, $srcField, $tgtField);
-
-          if ($j["constraints"] != "") { // If the user chooses to apply constraints on some fields in the JOIN part. 
-            $constraints = $j["constraints"]["rules"];
-            $condition = $j["constraints"]["condition"];
-            $table = $j["adjacent_table"];
-            $query = $this->constraintsOfLevel($constraints, $query, $data, $table, $condition);
-          }
-        }
-      }
-    }
     return $query;
   }
 
 
   /**
-   * Get the first constraints (simple function that is used on each constraint). 
+   * Get the info contained in each block of JOIN. 
    * 
-   * @param mixed $constrains, $data, $query, $table, $condition : the array containing the constraints in the form, all info, 
-   *              the current state of the query, the current chosen table and the condition to apply on the constraints. 
-   * @return mixed $query : the query with the 'WHERE' constraints added. 
+   * @param mixed $joins, $query : the info contained on each block in the form, the current state of the query.
+   * @return mixed $query : the query with the added chosen table, the fields and the constraints if the user choses to apply some constraints.
+   * 
+   * Warning : by default, no fields are checked for the chosen adjacent table, the user is free to keep it that way or choose some fields to return.   
    */
-  private function getConstraints($constraints, $data, $query, $table, $condition)
+  private function parseJoinsBlocks($joins, $query)
   {
-
-    $field = $constraints["field"];
-    $operator = $constraints["operator"];
-    $value = $constraints["value"];
-    $tableField = $table . "." . $field;
-    if ((preg_match('#^date#', $field) === 1)) {
-      $value = \DateTime::createFromFormat("Y-m-d", $value)->format("Y-m-d");
-      $value = "'" . $value . "'";
-    }
-
-    if ($operator == "equal") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " = " . " '" . $value . "'");
-      } else {
-        $query = $query->andWhere($tableField . " = " . " '" . $value . "'");
+    foreach ($joins as $j) {
+      // Adding the fields to the query if the user chooses to return some.
+      if (array_key_exists('fields', $j)) {
+        foreach ($j["fields"] as $newValue) {
+          $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " .  $j["alias"] . "_" . $newValue);;
+        };
       }
-    } elseif ($operator == "not_equal") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . "!=" . " '" . $value . "'");
-      } else {
-        $query = $query->andWhere($tableField . "!=" . " '" . $value . "'");
-      }
-    } elseif ($operator == "less") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . "<" . $value);
-      } else {
-        $query = $query->andWhere($tableField . "<" . $value);
-      }
-    } elseif ($operator == "less_or_equal") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . "<=" . $value);
-      } else {
-        $query = $query->andWhere($tableField . "<=" . $value);
-      }
-    } elseif ($operator == "greater") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . ">" . $value);
-      } else {
-        $query = $query->andWhere($tableField . ">" . $value);
-      }
-    } elseif ($operator == "greater_or_equal") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . ">=" . $value);
-      } else {
-        $query = $query->andWhere($tableField . ">=" . $value);
-      }
-    } elseif ($operator == "begins_with") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " LIKE" . " '" . $value . "%'");
-      } else {
-        $query = $query->andWhere($tableField . " LIKE" . " '" . $value . "%'");
-      }
-    } elseif ($operator == "not_begins_with") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " NOT LIKE" . " '" . $value . "%'");
-      } else {
-        $query = $query->andWhere($tableField . " NOT LIKE" . " '" . $value . "%'");
-      }
-    } elseif ($operator == "is_null") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " " . $value . " IS NULL");
-      } else {
-        $query = $query->andWhere($tableField . " " . $value . " IS NULL");
-      }
-    } elseif ($operator == "is_not_null") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " " . $value . " IS NOT NULL");
-      } else {
-        $query = $query->andWhere($tableField . " " . $value . " IS NOT NULL");
-      }
-    } elseif ($operator == "between") {
-      $lowVal = $value[0];
-      $highVal = $value[1];
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " BETWEEN " . $lowVal . " AND " . $highVal);
-      } else {
-        $query = $query->andWhere($tableField . " BETWEEN " . $lowVal . " AND " . $highVal);
-      }
-    } elseif ($operator == "not_between") {
-      $lowVal = $value[0];
-      $highVal = $value[1];
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " NOT BETWEEN " . $lowVal . " AND " . $highVal);
-      } else {
-        $query = $query->andWhere($tableField . " NOT BETWEEN " . $lowVal . " AND " . $highVal);
-      }
-    } elseif ($operator == "ends_with") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " LIKE" . " '%" . $value . "'");
-      } else {
-        $query = $query->andWhere($tableField . " LIKE" . " '%" . $value . "'");
-      }
-    } elseif ($operator == "not_ends_with") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " NOT LIKE" . " '%" . $value . "'");
-      } else {
-        $query = $query->andWhere($tableField . " NOT LIKE" . " '%" . $value . "'");
-      }
-    } elseif ($operator == "contains") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " LIKE" . " '%" . $value . "%'");
-      } else {
-        $query = $query->andWhere($tableField . " LIKE" . " '%" . $value . "%'");
-      }
-    } elseif ($operator == "not_contains") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " NOT LIKE" . " '%" . $value . "%'");
-      } else {
-        $query = $query->andWhere($tableField . " NOT LIKE" . " '%" . $value . "%'");
-      }
-    } elseif ($operator == "is_empty") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " " . $value . "= ''");
-      } else {
-        $query = $query->andWhere($tableField . " " . $value . "= ''");
-      }
-    } elseif ($operator == "is_not_empty") {
-      if ($condition == "OR") {
-        $query = $query->orWhere($tableField . " " . $value . "!=''");
-      } else {
-        $query = $query->andWhere($tableField . " " . $value . "!=''");
-      }
-    } else {
-      try {
-        throw new Exception('Impossible operation; try another operator');
-      } catch (\Exception $e) {
-        var_dump($e->getMessage());
+      // Join tables
+      $query = $this->makeJoin($j, $query);
+      // Parse constraints if the user chooses to apply some.
+      if (array_key_exists('rules', $j)) {
+        $query->andWhere($this->parseGroup($j['rules'], $query,  $j["alias"]));
       }
     }
 
     return $query;
   }
+
+  /**
+   * Parse each rule contained in a group. 
+   * 
+   * @param mixed $rule, $qb, $tableAlias : the rule, the qb object and the alias of the table.
+   * @return mixed $qb : the qb updated with  the constraint.
+   *    
+   */
+  private function parseRule($rule, $qb, $tableAlias)
+  {
+    // If we are on a rule, we create the constraint
+    if (array_key_exists("operator", $rule)) {
+      $value = $rule['value'];
+      if (in_array($rule["operator"], ["between", "not_between", "in", "not_in"])) {
+        $value = array_map(function ($v) use ($rule) {
+          $v = trim($v);
+          if (in_array($rule['operator'], ['between', 'not_between'])) {
+            return "'" . $v . "'";
+          } else {
+            return $v;
+          }
+        }, $value);
+      } else {
+        $value = trim($value);
+        if (in_array($rule["operator"], ['begins_with', 'not_begins_with', 'contains', 'not_contains'])) {
+          $value = $value . "%";
+        }
+        if (in_array($rule["operator"], ['ends_with', 'not_ends_with', 'contains', 'not_contains'])) {
+          $value = '%' . $value;
+        }
+        $value = "'" . $value . "'";
+      }
+      $column = $tableAlias . "." . $rule["field"];
+
+      // Find the right operator
+      switch ($rule["operator"]) {
+        case 'equal':
+          return $qb->expr()->eq($column, $value);
+          break;
+        case 'not_equal':
+          return $qb->expr()->neq($column,  $value);
+          break;
+        case 'in':
+          return $qb->expr()->in($column,  $value);
+          break;
+        case 'not_in':
+          return $qb->expr()->notIn($column, $value);
+          break;
+        case 'less':
+          return $qb->expr()->lt($column,  $value);
+          break;
+        case 'less_or_equal':
+          return $qb->expr()->lte($column,  $value);
+          break;
+        case 'greater':
+          return $qb->expr()->gt($column,  $value);
+          break;
+        case 'greater_or_equal':
+          return $qb->expr()->gte($column,  $value);
+          break;
+        case 'between':
+          return $qb->expr()->between($column,  ...$value);
+          break;
+        case 'not_between':
+          return $qb->expr()->not($qb->expr()->between($column,  ...$value));
+          break;
+        case 'is_null':
+          return $qb->expr()->isNull($column);
+          break;
+        case 'is_not_null':
+          return $qb->expr()->not($qb->expr()->isNull($column));
+          break;
+        case 'begins_with':
+        case 'ends_with':
+        case 'contains':
+          return $qb->expr()->like($column,  $value);
+          break;
+        case 'not_begins_with':
+        case 'not contains':
+        case 'not_ends_with':
+          return $qb->expr()->not($qb->expr()->like($column,  $value));
+          break;
+        case 'is_empty':
+          return $qb->expr()->eq($column, "''");
+          break;
+        case 'is_not_empty':
+          return $qb->expr()->not($qb->expr()->eq($column, "''"));
+          break;
+
+        default:
+          throw new InvalidArgumentException("Querybuilder : Unknown operator " . $rule['operator']);
+          break;
+      }
+
+      // If we are on a new group, we parse it with the dedicated function
+    } else if (array_key_exists("condition", $rule)) {
+      return $this->parseGroup($rule, $qb, $tableAlias);
+    } else {
+      throw new InvalidArgumentException("Querybuilder : Invalid rule encountered");
+    }
+  }
+
+  /**
+   * Parse each group contained in the full constraints object. 
+   * 
+   * @param mixed $group, $qb, $tableAlias : the group, the qb object and the alias of the table.
+   * @return mixed $qb : the qb updated with  the constraint.
+   *    
+   */
+  private function parseGroup($group, $qb, $tableAlias)
+  {
+    // Make sure parseRule has the correct arguments
+    $parseRule = function ($rule) use (&$qb, &$tableAlias) {
+      return $this->parseRule($rule, $qb, $tableAlias);
+    };
+    // Create an array with all the rules
+    $constraints = array_map($parseRule, $group["rules"]);
+    $condition = $group["condition"];
+    // Create the constraint with the appropriate condition
+    if ($condition === "AND") {
+      return $qb->expr()->andX(...$constraints);
+    } else if ($condition === "OR") {
+      return $qb->expr()->orX(...$constraints);
+    } else
+      throw new InvalidArgumentException("Querybuilder : Invalid operator " . $condition);
+  }
+
 
   /**
    * Get the type of JOIN and makes the appropriate query.
@@ -426,12 +243,26 @@ class QueryBuilderService
    * @return mixed $query : the query with the JOIN added
    * 
    */
-  private function makeJoin($joins, $query, $formerTable, $jointype, $adjTable, $adjTableAlias, $srcField, $tgtField)
+  private function makeJoin($joinBlock, $query)
   {
-    if ($jointype == "Inner Join") {
-      $query = $query->innerJoin('App:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
-    } elseif ($jointype == "Left Join") {
-      $query = $query->leftJoin('App:' . $adjTable, $adjTableAlias, 'WITH', $formerTable . '.' . $srcField . " = " . $adjTableAlias . '.' . $tgtField);
+    $source = $joinBlock["formerTableAlias"] . '.' . $joinBlock["sourceField"];
+    $target = $joinBlock["alias"] . '.' . $joinBlock["targetField"];
+    $joinFields =  $source . " = " . $target;
+
+    if ($joinBlock["join"] == "Inner Join") {
+      $query = $query->innerJoin(
+        'BbeesE3sBundle:' . $joinBlock["adjacent_table"],
+        $joinBlock["alias"],
+        'WITH',
+        $joinFields
+      );
+    } elseif ($joinBlock["join"] == "Left Join") {
+      $query = $query->leftJoin(
+        'BbeesE3sBundle:' . $joinBlock["adjacent_table"],
+        $joinBlock["alias"],
+        'WITH',
+        $joinFields
+      );
     }
 
     return $query;

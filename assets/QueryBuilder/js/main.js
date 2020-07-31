@@ -23,7 +23,6 @@ require('datatables.net-responsive-bs4')(window, $);
 
 import "bootstrap-select"
 import "bootstrap-toggle"
-import "jQuery-QueryBuilder"
 import "ez-plus"
 
 // Internal imports

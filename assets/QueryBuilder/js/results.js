@@ -22,8 +22,11 @@ export function initResults(data) {
     let data_initial = get_form_initial();
     let data_join_blocks = get_form_block_data(data);
 
+    if ([data_initial, data_join_blocks].some(data => data === null))
+      return false
+
     // Formatting the data
-    let jsonData = { initial: data_initial, joins: data_join_blocks};
+    let jsonData = { initial: data_initial, joins: data_join_blocks };
 
     // Enabling the "Get SQL" button after the query is successful 
     document.getElementById("getSqlButton").disabled = false;
@@ -39,7 +42,7 @@ export function initResults(data) {
         $("#contentModalQuerySql").html(response.sql);
         $("#result-container").html(response.results);
         $("#result-table").DataTable(
-          Object.assign({ 
+          Object.assign({
             dom: "lfrtipB",
             responsive: {
               orthogonal: "responsive"
@@ -58,9 +61,9 @@ export function initResults(data) {
  */
 export function copySQLFunction() {
   // Init a new hidden textarea
-  let hiddenSQL = document.createElement("textarea"); 
+  let hiddenSQL = document.createElement("textarea");
   // Setting the value of the textarea to the SQL Query
-  hiddenSQL.value = document.getElementById("contentModalQuerySql").innerHTML; 
+  hiddenSQL.value = document.getElementById("contentModalQuerySql").innerHTML;
 
   // Making sure we won't see the textarea on the page and making sure we cannot write in it anyway
   hiddenSQL.setAttribute("readonly", "");
@@ -69,10 +72,10 @@ export function copySQLFunction() {
 
   document.querySelector("body").appendChild(hiddenSQL);
   // Selecting the text
-  hiddenSQL.select(); 
+  hiddenSQL.select();
   // Copying what is in the textarea
-  document.execCommand("copy"); 
+  document.execCommand("copy");
   document.body.removeChild(hiddenSQL);
-   // Alert showing just to check we copied the right text
+  // Alert showing just to check we copied the right text
   alert("COPIED TO CLIPBOARD:\n" + hiddenSQL.value);
 }

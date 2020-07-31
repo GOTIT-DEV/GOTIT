@@ -17,10 +17,11 @@
 			<tr>
 				{% for table, fields in selectedFields %}
 					{% for f in fields %}
-						{% set value = attribute(row, f)%}
+						{% set fieldAlias = table ~ "_" ~ f %}
+						{% set value = attribute(row, fieldAlias)%}
 						<td>
 							{% if value.timestamp is defined %}
-								{{value|date("Y-m-d")}}
+								{{value|date("Y-m-d H:i:s")}}
 							{% else %}
 								{{value}}
 							{% endif %}
