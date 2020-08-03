@@ -17,8 +17,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Pays
@@ -56,6 +57,11 @@ class Pays
     private $nomPays;
 
     /**
+     * @ORM\OneToMany(targetEntity="Commune", mappedBy="paysFk")
+     */
+    private $communes;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
@@ -84,6 +90,13 @@ class Pays
     private $userMaj;
 
 
+    /**
+     * @inheritdoc
+     */
+    public function __construct()
+    {
+        $this->communes = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -142,6 +155,12 @@ class Pays
     {
         return $this->nomPays;
     }
+
+    public function getCommunes()
+    {
+        return $this->communes;
+    }
+
 
     /**
      * Set dateCre

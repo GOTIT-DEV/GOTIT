@@ -17,15 +17,16 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Pays;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Pays;
 
 /**
  * Pay controller.
@@ -246,11 +247,22 @@ class PaysController extends AbstractController
 	 *
 	 * @return \Symfony\Component\Form\Form The form
 	 */
-	private function createDeleteForm(Pays $pay)
+	private function createDeleteForm(Pays $pays)
 	{
 		return $this->createFormBuilder()
-			->setAction($this->generateUrl('pays_delete', array('id' => $pay->getId())))
+			->setAction($this->generateUrl('pays_delete', array('id' => $pays->getId())))
 			->setMethod('DELETE')
 			->getForm();
+	}
+
+	/**
+	 * List all municipalities in a country
+	 * 
+	 * @Route("/{id}/municipalities", name="country_municipalities", methods={"GET"})
+	 */
+	public function listMunicipalities(Pays $country, SerializerInterface $serializer)
+	{
+		$json = $serializer->serialize($country->getCommunes(),"json", ['groups' => "own"]);
+		return JsonResponse::fromJsonString($json);
 	}
 }

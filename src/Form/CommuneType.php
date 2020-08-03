@@ -17,12 +17,12 @@
 
 namespace App\Form;
 
-use App\Form\Enums\Action;
-use App\Form\ActionFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\Type\UppercaseType;
 use App\Form\Type\CountryVocType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
 class CommuneType extends ActionFormType
 {
@@ -60,6 +60,6 @@ class CommuneType extends ActionFormType
      */
     public function getBlockPrefix()
     {
-        return 'bbees_e3sbundle_commune';
+        return 'commune';
     }
 }

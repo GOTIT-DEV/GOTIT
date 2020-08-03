@@ -25,11 +25,47 @@ col-lg-3 col-xl-2 font-weight-bold text-lg-right
 
 {% block form_label_errors %}{% endblock %}
 
+
 {% block form_widget %}
 {{parent()}}
 {{ block('form_errors') }}
 {% endblock %}
 
+{%- block button_row -%}
+    {% with {row_attr: row_attr|merge({class:"row"})} %}
+		{{parent()}}
+		{% endwith %}
+{%- endblock button_row -%}
+
+{% block button_widget %}
+<div class="offset-lg-3 offset-xl-2 col-lg-9 col-xl-10">
+	{% if attr['data-toggle']|default('') == "modal" %}
+		{% set target = attr['data-target'] |default(null) 
+				?	attr['data-target']  
+				: '#modal-' ~ form.vars.id ~ ' .modal' %}
+		{% set attr = attr|merge({
+			'data-target': target
+		}) %}
+	{% endif %}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- elseif label is not same as(false) -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+		 <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+		 {% if icon_class|default(null) %}
+			<i class="fas {{icon_class}}"></i>
+			{% endif %}
+		 {{ translation_domain is same as(false) or label is same as(false) 
+		 ? label : label|trans(label_translation_parameters, translation_domain) }}
+		 </button>
+</div>
+{% endblock %}
 {# {% block form_widget_simple %}
 {% if attr['data-addon'] is defined %}
 	<div class="input-group-prepend">

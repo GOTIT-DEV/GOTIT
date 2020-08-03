@@ -17,8 +17,9 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Commune
@@ -34,7 +35,8 @@ class Commune
 {
     /**
      * @var integer
-     *
+     * 
+     * @Groups("own")
      * @ORM\Column(name="id", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -45,6 +47,7 @@ class Commune
     /**
      * @var string
      *
+     * @Groups("own")
      * @ORM\Column(name="municipality_code", type="string", length=255, nullable=false)
      */
     private $codeCommune;
@@ -52,6 +55,7 @@ class Commune
     /**
      * @var string
      *
+     * @Groups("own")
      * @ORM\Column(name="municipality_name", type="string", length=1024, nullable=false)
      */
     private $nomCommune;
@@ -59,6 +63,7 @@ class Commune
     /**
      * @var string
      *
+     * @Groups("own")
      * @ORM\Column(name="region_name", type="string", length=1024, nullable=false)
      */
     private $nomRegion;
@@ -66,6 +71,7 @@ class Commune
     /**
      * @var \DateTime
      *
+     * @Groups("own")
      * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
      */
     private $dateCre;
@@ -73,6 +79,7 @@ class Commune
     /**
      * @var \DateTime
      *
+     * @Groups("own")
      * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
      */
     private $dateMaj;
@@ -80,6 +87,7 @@ class Commune
     /**
      * @var integer
      *
+     * @Groups("own")
      * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
      */
     private $userCre;
@@ -87,6 +95,7 @@ class Commune
     /**
      * @var integer
      *
+     * @Groups("own")
      * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
     private $userMaj;
@@ -94,7 +103,7 @@ class Commune
     /**
      * @var \Pays
      *
-     * @ORM\ManyToOne(targetEntity="Pays")
+     * @ORM\ManyToOne(targetEntity="Pays", inversedBy="communes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
      * })

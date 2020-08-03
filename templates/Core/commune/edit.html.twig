@@ -15,28 +15,28 @@
     $(document).ready(function(){
         {% if action == 'new'  %} 
             // General action on form: form lock (default) / user role: app.user ...        
-            $('#bbees_e3sbundle_commune_nomCommune').keyup(function (e) {
+            $('#commune_nomCommune').keyup(function (e) {
                 var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
                 $(this).val(nomCommune);
-                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                var nomPays = $('#commune_paysFk option:selected').text();
                 nomPays = nomPays.split(' ').join('_');
-                var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
-                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+                var nomRegion = $('#commune_nomRegion').val();
+                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
-            $('#bbees_e3sbundle_commune_nomRegion').keyup(function (e) {
+            $('#commune_nomRegion').keyup(function (e) {
                 var nomRegion = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
                 $(this).val(nomRegion);
-                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+                var nomPays = $('#commune_paysFk option:selected').text();
                 nomPays = nomPays.split(' ').join('_');
-                var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
-                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+                var nomCommune = $('#commune_nomCommune').val();
+                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
-            $('#bbees_e3sbundle_commune_paysFk').change(function (e) {  
-                var nomPays = $('#bbees_e3sbundle_commune_paysFk option:selected').text();
+            $('#commune_paysFk').change(function (e) {  
+                var nomPays = $('#commune_paysFk option:selected').text();
                 nomPays = nomPays.split(' ').join('_');
-                var nomRegion = $('#bbees_e3sbundle_commune_nomRegion').val();
-                var nomCommune = $('#bbees_e3sbundle_commune_nomCommune').val();
-                $('#bbees_e3sbundle_commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
+                var nomRegion = $('#commune_nomRegion').val();
+                var nomCommune = $('#commune_nomCommune').val();
+                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
             })
         {% endif %}
     });
