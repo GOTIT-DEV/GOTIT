@@ -10159,6 +10159,11 @@ vue-loader@^15:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-multiselect@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.6.tgz#5be5d811a224804a15c43a4edbb7485028a89c7f"
+  integrity sha512-s7jmZPlm9FeueJg1RwJtnE9KNPtME/7C8uRWSfp9/yEN4M8XcS/d+bddoyVwVnvFyRh9msFo0HWeW0vTL8Qv+w==
+
 vue-plotly@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vue-plotly/-/vue-plotly-1.1.0.tgz#2ba9e2735c9124dde4de3eb2658fe7f6c07ce5ec"

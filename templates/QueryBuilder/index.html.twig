@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
 	{{parent()}}
-		{{ encore_entry_link_tags('querybuilder') }}
+	{{ encore_entry_link_tags('querybuilder') }}
 {% endblock %}
 
 {% block titlepage %}
@@ -17,22 +17,24 @@
 
 	<legend>
 		<h2 id="query-fields-title">
-			{% trans %}
-			Query fields
-			{% endtrans %}
+			{% trans %} Query fields {% endtrans %}
 		</h2>
 	</legend>
-	<div class='row'>
-		<div
-			class="col-12">
-			{#Form #}
-			{% include 'QueryBuilder/form.html.twig' %}
+
+	<div id="form-container"></div>
+
+	<hr class="m-5">
+
+	{# <div class='row'>
+			<div
+				class="col-12">
+				{% include 'QueryBuilder/form.html.twig' %}
+			</div>
 		</div>
-	</div>
-	<hr>
+		<hr> #}
 	<div>
 		{% include 'QueryBuilder/results.html.twig' %}
-		<button class="help-btn btn btn-info pull-right" id="myBtn" title="Go to top">
+		<button class="help-btn btn btn-info float-right" id="myBtn" title="Go to top">
 			<i class="fas fa-chevron-up" style="font-size:20px"></i>
 		</button>
 	</div>

@@ -31,6 +31,7 @@ Encore
     // Core forms assets
     .addEntry('forms', './assets/Core/forms/js/forms.js')
     .addEntry('sampling-form', './assets/Core/forms/js/sampling.js')
+    .addEntry('site-form', './assets/Core/forms/js/site.js')
 
     // Species Search assets
     .addEntry('species-search', './assets/SpeciesSearch/js/species_search.js')
@@ -118,17 +119,3 @@ config.module.rules.unshift({
 });
 
 module.exports = config;
-
-//     chainWebpack: config => {
-//         config.module
-//             .rule("i18n")
-//             .resourceQuery(/blockType=i18n/)
-//             .type('javascript/auto')
-//             .use("i18n")
-//             .loader("@intlify/vue-i18n-loader")
-//             .end()
-//             .use('yaml')
-//             .loader('yaml-loader')
-//             .end()
-//     }
-// }

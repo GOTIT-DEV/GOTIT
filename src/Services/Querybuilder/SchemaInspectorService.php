@@ -63,8 +63,17 @@ class SchemaInspectorService
     }
     foreach ($res as $entity => $data) {
       $res[$entity]["relations"] = $relations[$entity];
+      $res[$entity]['type'] = $this->guess_type($entity);
     }
     return $res;
+  }
+
+  private function guess_type($entity)
+  {
+    if (preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|ACibler)/', $entity)){
+      return 1;
+    }
+    return 0;
   }
 
   private function parse_associated($mapping)

@@ -40,31 +40,53 @@ import {
   topFunction,
 } from "./form.js";
 
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { BootstrapVue } from "bootstrap-vue"
+Vue.use(BootstrapVue)
+Vue.use(Vuex)
+// import VueI18n from 'vue-i18n'
+// Vue.use(VueI18n)
+import QueryForm from './QueryForm'
+import QueryBlock from "./QueryBlock"
+import QBStore from './store'
+
+const store = new Vuex.Store(QBStore)
+
+const vue_form = new Vue({
+  el: "#form-container",
+  ...QueryForm
+})
+
+
+
+
+
 const joinType = ["Inner Join", "Left Join"];
 
 $((_) => {
-  $.getJSON("init", function (init_data) {
-    // Making sure these buttons are disabled on reload
-    document.getElementById("add-join").disabled = true;
-    document.getElementById("submit-button").disabled = true;
-    document.getElementById("getSqlButton").disabled = true;
+  // $.getJSON("init", function (init_data) {
+  //   // Making sure these buttons are disabled on reload
+  //   document.getElementById("add-join").disabled = true;
+  //   document.getElementById("submit-button").disabled = true;
+  //   document.getElementById("getSqlButton").disabled = true;
 
-    $("#initial-constraints-switchbox").bootstrapToggle("off");
+  //   $("#initial-constraints-switchbox").bootstrapToggle("off");
 
-    initFirstTable(init_data);
-    initFirstQueryBuilder();
-    initFirstFields(init_data);
+  //   initFirstTable(init_data);
+  //   initFirstQueryBuilder();
+  //   initFirstFields(init_data);
 
-    // Hiding what's in the div, then showing it when the switchbox is triggered
-    document.getElementById("initial-query-builder").style.display = "none";
-    $("#initial-constraints-switchbox").change((_) => {
-      $("#initial-query-builder").slideToggle("fast");
-      $("#initial-cc-reset").slideToggle("fast");
-    });
+  //   // Hiding what's in the div, then showing it when the switchbox is triggered
+  //   document.getElementById("initial-query-builder").style.display = "none";
+  //   $("#initial-constraints-switchbox").change((_) => {
+  //     $("#initial-query-builder").slideToggle("fast");
+  //     $("#initial-cc-reset").slideToggle("fast");
+  //   });
 
-    initJoinBlock(joinType, init_data);
-    initResults(init_data);
-  });
+  //   initJoinBlock(joinType, init_data);
+  //   initResults(init_data);
+  // });
 
   // Zoom in the image, scroll in / out to adjust zoom
   $("#logical-db-img").ezPlus({
@@ -80,17 +102,17 @@ $((_) => {
   })
 
 
-  // To enable the copy SQL button after the search button is clicked
-  $("#copySQL").click(copySQLFunction)
+  // // To enable the copy SQL button after the search button is clicked
+  // $("#copySQL").click(copySQLFunction)
 
-  // When the user scrolls down 30px from the top of the document, the "scroll to the top" button is displayed
-  window.onscroll = function () {
-    scrollFunction();
-  };
+  // // When the user scrolls down 30px from the top of the document, the "scroll to the top" button is displayed
+  // window.onscroll = function () {
+  //   scrollFunction();
+  // };
 
-  // Button to scroll back to the top the page
-  $("#myBtn").click(topFunction)
+  // // Button to scroll back to the top the page
+  // $("#myBtn").click(topFunction)
 
-  // Button to reload the page / clear the form
-  $("#clear").click(() => location.reload(true))
+  // // Button to reload the page / clear the form
+  // $("#clear").click(() => location.reload(true))
 });
