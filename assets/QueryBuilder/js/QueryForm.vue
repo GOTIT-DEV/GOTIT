@@ -4,8 +4,8 @@
     <QueryBlock
       class="mb-3"
       :schema="schema"
-      @aliasChanged="initialAliasUpdated($event)"
-      @tableChanged="initialTable = $event"
+      @update:alias="initialAliasUpdated($event)"
+      @update:table="initialTable = $event"
     >
     </QueryBlock>
 
@@ -16,9 +16,9 @@
       class="mb-3"
       :schema="schema"
       v-bind:availableTables="availableTables.slice(0, index + 1)"
-      @aliasChanged="joinAliasUpdated(index, $event)"
-      @tableChanged="$set(joins, index, { ...$event, id: joins[index].id })"
-      @deleteJoin="joins.splice(index, 1)"
+      @update:alias="joinAliasUpdated(index, $event)"
+      @update:table="$set(joins, index, { ...$event, id: joins[index].id })"
+      @delete-join="joins.splice(index, 1)"
       join
     >
     </QueryBlock>

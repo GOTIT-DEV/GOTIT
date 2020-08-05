@@ -41,17 +41,10 @@ import {
 } from "./form.js";
 
 import Vue from 'vue'
-import Vuex from 'vuex'
 import { BootstrapVue } from "bootstrap-vue"
 Vue.use(BootstrapVue)
-Vue.use(Vuex)
-// import VueI18n from 'vue-i18n'
-// Vue.use(VueI18n)
-import QueryForm from './QueryForm'
-import QueryBlock from "./QueryBlock"
-import QBStore from './store'
 
-const store = new Vuex.Store(QBStore)
+import QueryForm from './QueryForm'
 
 const vue_form = new Vue({
   el: "#form-container",

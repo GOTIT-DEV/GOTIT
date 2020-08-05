@@ -77,7 +77,7 @@
         <b-button
           variant="danger"
           class="remove-join"
-          @click="$emit('deleteJoin')"
+          @click="$emit('delete-join')"
         >
           <i class="fas fa-times"></i>
         </b-button>
@@ -294,14 +294,14 @@ export default {
   },
   methods: {
     tableChanged() {
-      this.$emit("tableChanged", {
+      this.$emit("update:table", {
         from: this.from,
         table: this.table,
         alias: this.alias,
       });
     },
     aliasChanged() {
-      this.$emit("aliasChanged", {
+      this.$emit("update:alias", {
         from: this.from,
         table: this.table,
         alias: this.alias,
