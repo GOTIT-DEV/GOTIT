@@ -1,13 +1,13 @@
 <template>
-  <form action="">
+  <form action @submit.prevent="getForm">
     <!-- Initial block -->
     <QueryBlock
       class="mb-3"
       :schema="schema"
+      ref="initForm"
       @update:alias="initialAliasUpdated($event)"
       @update:table="initialTable = $event"
-    >
-    </QueryBlock>
+    ></QueryBlock>
 
     <!-- Join blocks -->
     <QueryBlock
@@ -15,20 +15,20 @@
       :key="block.id"
       class="mb-3"
       :schema="schema"
+      ref="joinForm"
       v-bind:availableTables="availableTables.slice(0, index + 1)"
       @update:alias="joinAliasUpdated(index, $event)"
       @update:table="$set(joins, index, { ...$event, id: joins[index].id })"
       @delete-join="joins.splice(index, 1)"
       join
-    >
-    </QueryBlock>
+    ></QueryBlock>
 
     <div class="form-buttons">
       <b-button variant="success" @click="addJoin">
         <i class="fas fa-plus-circle"></i>
         Join new table
       </b-button>
-      <b-button id="search-btn" variant="primary" size="lg">Search</b-button>
+      <b-button type="submit" id="search-btn" variant="primary" size="lg">Search</b-button>
       <b-button variant="warning" @dblclick="reset">Clear</b-button>
     </div>
   </form>
@@ -36,6 +36,8 @@
 
 <script>
 import QueryBlock from "./QueryBlock";
+import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
+
 export default {
   components: { QueryBlock },
   computed: {
@@ -53,9 +55,7 @@ export default {
       joinsCount: 0,
       schema: {},
       initialTable: { table: undefined, alias: undefined },
-      joins: [
-        // { from : {table, alias}, table, alias, id }
-      ],
+      joins: [],
     };
   },
   methods: {
@@ -77,6 +77,43 @@ export default {
     },
     reset() {
       this.joins = [];
+    },
+    getForm() {
+      let initData = this.$refs.initForm.getFormData();
+      var joinsData = [];
+      if (this.$refs.joinForm !== undefined) {
+        for (let j of this.$refs.joinForm) {
+          joinsData.push(j.getFormData());
+        }
+      }
+
+      let jsonData = { initial: initData, joins: joinsData };
+
+      $.ajax({
+        url: "query",
+        type: "POST",
+        data: jsonData,
+        dataType: "json",
+        success: (response) => {
+          $("#contentModalQuery").html(response.dql);
+          $("#contentModalQuerySql").html(response.sql);
+          $("#result-container").html(response.results);
+          $("#result-table").DataTable(
+            Object.assign(
+              {
+                dom: "lfrtipB",
+                responsive: {
+                  orthogonal: "responsive",
+                },
+                autoWidth: false,
+              },
+              dtconfig
+            )
+          );
+        },
+      });
+      
+      document.getElementById("getSqlButton").disabled = false;
     },
   },
   async created() {

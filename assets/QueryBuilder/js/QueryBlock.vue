@@ -16,12 +16,14 @@
             required
             v-model="from"
           >
-            <template slot="singleLabel" slot-scope="{ option }">
-              {{ option.table }} | {{ option.alias }}
-            </template>
-            <template slot="option" slot-scope="props">
-              {{ props.option.table }} | {{ props.option.alias }}
-            </template>
+            <template
+              slot="singleLabel"
+              slot-scope="{ option }"
+            >{{ option.table }} | {{ option.alias }}</template>
+            <template
+              slot="option"
+              slot-scope="props"
+            >{{ props.option.table }} | {{ props.option.alias }}</template>
           </multiselect>
         </div>
 
@@ -31,13 +33,12 @@
             id="join-type"
             required
             v-model="joinType"
-            :options="['Inner join', 'Left join']"
+            :options="['Inner Join', 'Left Join']"
             :allowEmpty="false"
             :preselectFirst="true"
             :searchable="false"
             :show-labels="false"
-          >
-          </multiselect>
+          ></multiselect>
         </div>
         <div>
           <label>TO</label>
@@ -50,8 +51,7 @@
             required
             :disabled="from == undefined"
             :show-labels="false"
-          >
-          </multiselect>
+          ></multiselect>
         </div>
         <div v-if="joinPathList.length > 1">
           <label>BY</label>
@@ -65,46 +65,23 @@
             :show-labels="false"
           >
             <template slot="singleLabel" slot-scope="{ option }">
-              {{ option.from }} <i class="fas fa-long-arrow-alt-right"></i>
+              {{ option.from }}
+              <i class="fas fa-long-arrow-alt-right"></i>
               {{ option.to }}
             </template>
             <template slot="option" slot-scope="props">
               {{ props.option.from }}
-              <i class="fas fa-long-arrow-alt-right"></i> {{ props.option.to }}
+              <i class="fas fa-long-arrow-alt-right"></i>
+              {{ props.option.to }}
             </template>
           </multiselect>
         </div>
-        <b-button
-          variant="danger"
-          class="remove-join"
-          @click="$emit('delete-join')"
-        >
+        <b-button variant="danger" class="remove-join" @click="$emit('delete-join')">
           <i class="fas fa-times"></i>
         </b-button>
       </template>
 
-      <!-- Initial Block header -->
-      <template v-else v-slot:header class="header-container">
-        <div>
-          <label>TABLE</label>
-          <multiselect
-            id="table-select"
-            ref="table"
-            :options="groupedTableList"
-            v-model="table"
-            required
-            group-values="entities"
-            group-label="type"
-            :allowEmpty="false"
-            :show-labels="false"
-            @change="tableChanged"
-          >
-          </multiselect>
-        </div>
-      </template>
-
       <!-- Block content -->
-
       <div>
         <label>SELECT</label>
         <multiselect
@@ -121,8 +98,7 @@
           trackBy="label"
           :searchable="false"
           :disabled="table === undefined"
-        >
-        </multiselect>
+        ></multiselect>
       </div>
 
       <div>
@@ -142,31 +118,18 @@
         label="Constraints"
         label-for="toggle-constraints"
       >
-        <ToggleButton
-          id="toggle-constraints"
-          class="toggle-btn"
-          v-model="hasConstraints"
-        ></ToggleButton>
+        <ToggleButton id="toggle-constraints" class="toggle-btn" v-model="hasConstraints"></ToggleButton>
       </b-form-group>
 
-      <b-collapse
-        id="querybuilder-collapse"
-        class="qb-container"
-        v-model="hasConstraints"
-      >
-        <div
-          id="query-builder"
-          ref="querybuilder"
-          class="collapsed-query-builder qb-form"
-        ></div>
+      <b-collapse id="querybuilder-collapse" class="qb-container" v-model="hasConstraints">
+        <div id="query-builder" ref="querybuilder" class="collapsed-query-builder qb-form"></div>
 
         <b-button
           variant="warning"
           class="qb-reset"
           data-target="#query-builder"
           @click="resetQueryBuilder"
-          >Reset</b-button
-        >
+        >Reset</b-button>
       </b-collapse>
     </b-card>
   </div>
@@ -324,9 +287,50 @@ export default {
     resetQueryBuilder() {
       $(this.$refs.querybuilder).queryBuilder("reset");
     },
+    getFormData() {
+      let table = this.table;
+      let alias = this.alias;
+      let selectedFields = this.fields;
+      let fields = [];
+      for (let field of selectedFields) {
+        fields.push(field.label);
+      }
+      if (this.hasConstraints) {
+        var constraints = $(this.$refs.querybuilder)
+          .eq(0)
+          .queryBuilder("getRules");
+      } else {
+        var constraints = {};
+      }
+
+      if (this.join) {
+        let from = this.from.table;
+        let fromAlias = this.from.alias;
+        let joinType = this.joinType;
+        let sourceField = this.path.from;
+        let targetField = this.path.to;
+
+        return {
+          formerTable: from,
+          formerTableAlias: fromAlias,
+          join: joinType,
+          adjacent_table: table,
+          alias: alias,
+          sourceField: sourceField,
+          targetField: targetField,
+          fields: fields,
+          rules: constraints,
+        };
+      } else
+        return {
+          initialTable: table,
+          initialAlias: alias,
+          initialFields: fields,
+          rules: constraints,
+        };
+    },
   },
   mounted() {
-    // Init query-builder with fields and filters
     $(this.$refs.querybuilder).queryBuilder({
       plugins: [
         // "bt-tooltip-errors",
@@ -351,9 +355,6 @@ select {
   width: auto;
 }
 
-// span.multiselect__option{
-//   padding: 6px 12px;
-// }
 .multiselect--disabled .multiselect__current,
 .multiselect--disabled .multiselect__select {
   background: none;

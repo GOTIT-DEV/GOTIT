@@ -65,7 +65,7 @@ class QueryBuilderService
     $firstTable = $initial["initialTable"];
     $initAlias = $initial["initialAlias"];
     // Adding the initial table to the query
-    $query = $qb->from('BbeesE3sBundle:' . $firstTable, $initAlias);
+    $query = $qb->from('App:' . $firstTable, $initAlias);
     foreach ($initial["initialFields"] as $value) {
       // Adding every field selected for the initial table with their alias
       $query = $query->addSelect($initAlias . "." . $value . " AS " . $initAlias . "_" . $value);
@@ -93,7 +93,7 @@ class QueryBuilderService
       // Adding the fields to the query if the user chooses to return some.
       if (array_key_exists('fields', $j)) {
         foreach ($j["fields"] as $newValue) {
-          $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " .  $j["alias"] . "_" . $newValue);;
+          $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " .  $j["alias"] . "_" . $newValue);
         };
       }
       // Join tables
@@ -251,14 +251,14 @@ class QueryBuilderService
 
     if ($joinBlock["join"] == "Inner Join") {
       $query = $query->innerJoin(
-        'BbeesE3sBundle:' . $joinBlock["adjacent_table"],
+        'App:' . $joinBlock["adjacent_table"],
         $joinBlock["alias"],
         'WITH',
         $joinFields
       );
     } elseif ($joinBlock["join"] == "Left Join") {
       $query = $query->leftJoin(
-        'BbeesE3sBundle:' . $joinBlock["adjacent_table"],
+        'App:' . $joinBlock["adjacent_table"],
         $joinBlock["alias"],
         'WITH',
         $joinFields

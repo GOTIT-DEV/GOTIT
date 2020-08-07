@@ -51,9 +51,7 @@ class QueryBuilderController extends AbstractController
     $selectedFields = $service->getSelectFields($data);
     $em = $this->getDoctrine()->getManager();
     $qb = $em->createQueryBuilder();
-
     $query = $service->makeQuery($data, $qb);
-
     $q = $query->getQuery();
     $dqlresults = $q->getDql();
     $sqlresults = $q->getSql();
@@ -62,7 +60,7 @@ class QueryBuilderController extends AbstractController
       "dql" => $dqlresults,
       "sql" => $sqlresults,
       "results" => $this->renderView(
-        '@LehnaQueryBuilder/resultQuery.html.twig',
+        'QueryBuilder/resultQuery.html.twig',
         ["results" => $results, "selectedFields" => $selectedFields]
       )
     ]);
