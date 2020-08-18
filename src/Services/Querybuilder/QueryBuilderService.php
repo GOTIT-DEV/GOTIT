@@ -35,16 +35,19 @@ class QueryBuilderService
    */
   public function getSelectFields($data)
   {
-    $initialTableAlias = $data["initial"]["initialAlias"];
-    $initialFields = $data["initial"]["initialFields"];
-    $resultsTab = [$initialTableAlias => $initialFields]; // Init the array with the first fields
-    if (array_key_exists("joins", $data)) { // If there are join blocks in the query
+    $initial = $data["initial"];
+    // Init the array with the first fields
+    $resultsTab = [$initial['alias'] => $initial['fields']];
+
+    // If there are join blocks in the query
+    if (array_key_exists("joins", $data)) {
       $joins = $data["joins"];
       foreach ($joins as $j) {
         if (array_key_exists('fields', $j)) {
           $alias = $j["alias"];
           $joinsFields = $j["fields"];
-          $resultsTab[$alias] = $joinsFields; // Adding the selected fields for each join block
+          // Adding the selected fields for each join block
+          $resultsTab[$alias] = $joinsFields;
         }
       }
     }
@@ -62,17 +65,17 @@ class QueryBuilderService
    */
   private function parseFirstBlock($initial, $qb)
   {
-    $firstTable = $initial["initialTable"];
-    $initAlias = $initial["initialAlias"];
+    $table = $initial["table"];
+    $alias = $initial["alias"];
     // Adding the initial table to the query
-    $query = $qb->from('App:' . $firstTable, $initAlias);
-    foreach ($initial["initialFields"] as $value) {
+    $query = $qb->from('App:' . $table, $alias);
+    foreach ($initial["fields"] as $value) {
       // Adding every field selected for the initial table with their alias
-      $query = $query->addSelect($initAlias . "." . $value . " AS " . $initAlias . "_" . $value);
+      $query = $query->addSelect($alias . "." . $value . " AS " . $alias . "_" . $value);
     };
     // If there are some constraints addedby the user
     if (array_key_exists('rules', $initial)) {
-      $query->andWhere($this->parseGroup($initial['rules'], $qb, $initAlias));
+      $query->andWhere($this->parseGroup($initial['rules'], $qb, $alias));
     }
 
     return $query;
@@ -138,14 +141,16 @@ class QueryBuilderService
         }
         $value = "'" . $value . "'";
       }
-      $column = $tableAlias . "." . $rule["field"];
+      $column = $tableAlias . "." . $rule["operand"];
 
       // Find the right operator
       switch ($rule["operator"]) {
-        case 'equal':
+        case 'equals':
+        case '=':
           return $qb->expr()->eq($column, $value);
           break;
-        case 'not_equal':
+        case 'does not equal':
+        case '<>':
           return $qb->expr()->neq($column,  $value);
           break;
         case 'in':
@@ -219,18 +224,19 @@ class QueryBuilderService
   {
     // Make sure parseRule has the correct arguments
     $parseRule = function ($rule) use (&$qb, &$tableAlias) {
-      return $this->parseRule($rule, $qb, $tableAlias);
+      return $this->parseRule($rule["query"], $qb, $tableAlias);
     };
     // Create an array with all the rules
-    $constraints = array_map($parseRule, $group["rules"]);
-    $condition = $group["condition"];
-    // Create the constraint with the appropriate condition
-    if ($condition === "AND") {
+    $constraints = array_map($parseRule, $group["children"]);
+    $operator = $group["logicalOperator"];
+    // Create the constraint with the appropriate operator
+    if ($operator === "and") {
       return $qb->expr()->andX(...$constraints);
-    } else if ($condition === "OR") {
+    } else if ($operator === "or") {
       return $qb->expr()->orX(...$constraints);
-    } else
-      throw new InvalidArgumentException("Querybuilder : Invalid operator " . $condition);
+    } else {
+      throw new InvalidArgumentException("Querybuilder : Invalid operator " . $operator);
+    }
   }
 
 
@@ -245,24 +251,18 @@ class QueryBuilderService
    */
   private function makeJoin($joinBlock, $query)
   {
-    $source = $joinBlock["formerTableAlias"] . '.' . $joinBlock["sourceField"];
-    $target = $joinBlock["alias"] . '.' . $joinBlock["targetField"];
+    $source = $joinBlock["from"]["alias"] . '.' . $joinBlock["joinColumns"]["from"];
+    $target = $joinBlock["alias"] . '.' . $joinBlock["joinColumns"]["to"];
     $joinFields =  $source . " = " . $target;
 
+    $joinArgs = ['App:' . $joinBlock["table"], $joinBlock["alias"], 'WITH', $joinFields];
+
     if ($joinBlock["join"] == "Inner Join") {
-      $query = $query->innerJoin(
-        'App:' . $joinBlock["adjacent_table"],
-        $joinBlock["alias"],
-        'WITH',
-        $joinFields
-      );
+      $query = $query->innerJoin(...$joinArgs);
     } elseif ($joinBlock["join"] == "Left Join") {
-      $query = $query->leftJoin(
-        'App:' . $joinBlock["adjacent_table"],
-        $joinBlock["alias"],
-        'WITH',
-        $joinFields
-      );
+      $query = $query->leftJoin(...$joinArgs);
+    } else {
+      throw new InvalidArgumentException("Querybuilder : Invalid join type " . $joinBlock["join"]);
     }
 
     return $query;

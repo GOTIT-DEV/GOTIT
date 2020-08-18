@@ -1,5 +1,5 @@
 <template>
-  <form action @submit.prevent="getForm">
+  <form action @submit.prevent="submit">
     <!-- Initial block -->
     <QueryBlock
       class="mb-3"
@@ -28,7 +28,9 @@
         <i class="fas fa-plus-circle"></i>
         Join new table
       </b-button>
-      <b-button type="submit" id="search-btn" variant="primary" size="lg">Search</b-button>
+      <ButtonLoading id="submit" ref="submit" v-bind:loading="loading">
+        Search
+      </ButtonLoading>
       <b-button variant="warning" @dblclick="reset">Clear</b-button>
     </div>
   </form>
@@ -37,9 +39,10 @@
 <script>
 import QueryBlock from "./QueryBlock";
 import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
+import ButtonLoading from "../../SpeciesSearch/js/components/ButtonLoading";
 
 export default {
-  components: { QueryBlock },
+  components: { QueryBlock, ButtonLoading },
   computed: {
     availableTables() {
       return [this.initialTable, ...this.joins]
@@ -56,6 +59,7 @@ export default {
       schema: {},
       initialTable: { table: undefined, alias: undefined },
       joins: [],
+      loading: true,
     };
   },
   methods: {
@@ -78,16 +82,14 @@ export default {
     reset() {
       this.joins = [];
     },
-    getForm() {
-      let initData = this.$refs.initForm.getFormData();
-      var joinsData = [];
-      if (this.$refs.joinForm !== undefined) {
-        for (let j of this.$refs.joinForm) {
-          joinsData.push(j.getFormData());
-        }
-      }
-
-      let jsonData = { initial: initData, joins: joinsData };
+    submit() {
+      this.loading = true;
+      const joinBlocks = this.$refs.joinForm || [];
+      const jsonData = {
+        initial: this.$refs.initForm.getFormData(),
+        joins: joinBlocks.map((block) => block.getFormData()),
+      };
+      console.log(jsonData)
 
       $.ajax({
         url: "query",
@@ -98,21 +100,16 @@ export default {
           $("#contentModalQuery").html(response.dql);
           $("#contentModalQuerySql").html(response.sql);
           $("#result-container").html(response.results);
-          $("#result-table").DataTable(
-            Object.assign(
-              {
-                dom: "lfrtipB",
-                responsive: {
-                  orthogonal: "responsive",
-                },
-                autoWidth: false,
-              },
-              dtconfig
-            )
-          );
+          $("#result-table").DataTable({
+            ...dtconfig,
+            dom: "lfrtipB",
+            responsive: { orthogonal: "responsive" },
+            autoWidth: false,
+          });
+          this.loading = false;
         },
       });
-      
+
       document.getElementById("getSqlButton").disabled = false;
     },
   },
@@ -120,6 +117,7 @@ export default {
     let response = await fetch("init");
     let json = await response.json();
     this.schema = json;
+    this.loading = false;
   },
 };
 </script>

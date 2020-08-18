@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card header-tag="header" footer-tag="footer">
+    <b-card class="query-block mb-5" header-tag="header" footer-tag="footer">
       <!-- Join Block header -->
       <template v-if="join" v-slot:header class="header-container">
         <div>
@@ -16,14 +16,12 @@
             required
             v-model="from"
           >
-            <template
-              slot="singleLabel"
-              slot-scope="{ option }"
-            >{{ option.table }} | {{ option.alias }}</template>
-            <template
-              slot="option"
-              slot-scope="props"
-            >{{ props.option.table }} | {{ props.option.alias }}</template>
+            <template slot="singleLabel" slot-scope="{ option }">
+              {{ option.table }} | {{ option.alias }}
+            </template>
+            <template slot="option" slot-scope="props">
+              {{ props.option.table }} | {{ props.option.alias }}
+            </template>
           </multiselect>
         </div>
 
@@ -76,13 +74,49 @@
             </template>
           </multiselect>
         </div>
-        <b-button variant="danger" class="remove-join" @click="$emit('delete-join')">
+        <b-button
+          variant="danger"
+          class="remove-join"
+          @click="$emit('delete-join')"
+        >
           <i class="fas fa-times"></i>
         </b-button>
       </template>
 
+      <!-- Initial Block header -->
+      <template v-else v-slot:header class="header-container">
+        <div>
+          <label>TABLE</label>
+          <multiselect
+            id="table-select"
+            ref="table"
+            :options="groupedTableList"
+            v-model="table"
+            required
+            group-values="entities"
+            group-label="type"
+            :allowEmpty="false"
+            :show-labels="false"
+            @change="tableChanged"
+          >
+          </multiselect>
+        </div>
+      </template>
       <!-- Block content -->
-      <div>
+
+      <div class="alias">
+        <label>ALIAS</label>
+        <b-input
+          id="alias"
+          type="text"
+          v-model="alias"
+          required
+          :disabled="table === undefined"
+          @input="aliasChanged"
+        ></b-input>
+      </div>
+
+      <div class="fields-select">
         <label>SELECT</label>
         <multiselect
           id="fields-select"
@@ -101,35 +135,34 @@
         ></multiselect>
       </div>
 
-      <div>
-        <label>ALIAS</label>
-        <b-input
-          id="alias"
-          type="text"
-          v-model="alias"
-          required
-          :disabled="table === undefined"
-          @input="aliasChanged"
-        ></b-input>
-      </div>
-
-      <b-form-group
+      <!-- <b-form-group
         class="constraints-container"
         label="Constraints"
         label-for="toggle-constraints"
+      > -->
+      <div class="filter-switch">
+        <label class="mr-2"> FILTER </label>
+        <ToggleButton
+          id="toggle-constraints"
+          class="toggle-btn float-right"
+          v-model="hasConstraints"
+          :labels="true"
+          :width="60"
+          :height="25"
+        ></ToggleButton>
+      </div>
+      <!-- </b-form-group> -->
+
+      <b-collapse
+        id="querybuilder-collapse"
+        class="qbuilder"
+        v-model="hasConstraints"
       >
-        <ToggleButton id="toggle-constraints" class="toggle-btn" v-model="hasConstraints"></ToggleButton>
-      </b-form-group>
-
-      <b-collapse id="querybuilder-collapse" class="qb-container" v-model="hasConstraints">
-        <div id="query-builder" ref="querybuilder" class="collapsed-query-builder qb-form"></div>
-
-        <b-button
-          variant="warning"
-          class="qb-reset"
-          data-target="#query-builder"
-          @click="resetQueryBuilder"
-        >Reset</b-button>
+        <QueryBuilder :rules="fieldList">
+          <template v-slot:default="slotProps">
+            <QueryBuilderGroup v-bind="slotProps" :query.sync="query" />
+          </template>
+        </QueryBuilder>
       </b-collapse>
     </b-card>
   </div>
@@ -138,11 +171,13 @@
 <script>
 import Multiselect from "vue-multiselect";
 import { ToggleButton } from "vue-js-toggle-button";
+import QueryBuilder from "./QueryBuilder";
+import QueryBuilderGroup from "./QueryBuilderGroup";
 import "jQuery-QueryBuilder";
 import "./plugins.js";
 
 export default {
-  components: { ToggleButton, Multiselect },
+  components: { ToggleButton, Multiselect, QueryBuilder, QueryBuilderGroup },
   props: {
     join: { type: Boolean, default: false },
     schema: { type: Object, required: true },
@@ -207,6 +242,10 @@ export default {
       path: undefined,
       alias: "",
       fields: [],
+      query: {
+        logicalOperator: "and",
+        children: [],
+      },
     };
   },
   watch: {
@@ -226,11 +265,13 @@ export default {
     },
     fieldList: function (newList, _) {
       if (!this.join) {
-        this.fields = newList;
+        this.fields = newList.filter(
+          (field) => !(field.id.endsWith("Maj") || field.id.endsWith("Cre"))
+        );
       }
-      if (newList.length) {
-        $(this.$refs.querybuilder).queryBuilder("setFilters", true, newList);
-      }
+      // if (newList.length) {
+      //   $(this.$refs.querybuilder).queryBuilder("setFilters", true, newList);
+      // }
     },
     tableList: function (newList, oldList) {
       if (this.join) {
@@ -287,59 +328,27 @@ export default {
     resetQueryBuilder() {
       $(this.$refs.querybuilder).queryBuilder("reset");
     },
-    getFormData() {
-      let table = this.table;
-      let alias = this.alias;
-      let selectedFields = this.fields;
-      let fields = [];
-      for (let field of selectedFields) {
-        fields.push(field.label);
-      }
-      if (this.hasConstraints) {
-        var constraints = $(this.$refs.querybuilder)
-          .eq(0)
-          .queryBuilder("getRules");
-      } else {
-        var constraints = {};
-      }
 
-      if (this.join) {
-        let from = this.from.table;
-        let fromAlias = this.from.alias;
-        let joinType = this.joinType;
-        let sourceField = this.path.from;
-        let targetField = this.path.to;
-
-        return {
-          formerTable: from,
-          formerTableAlias: fromAlias,
-          join: joinType,
-          adjacent_table: table,
-          alias: alias,
-          sourceField: sourceField,
-          targetField: targetField,
-          fields: fields,
-          rules: constraints,
-        };
-      } else
-        return {
-          initialTable: table,
-          initialAlias: alias,
-          initialFields: fields,
-          rules: constraints,
-        };
+    getBaseFormData() {
+      return {
+        table: this.table,
+        alias: this.alias,
+        fields: this.fields.map((f) => f.label),
+        rules: this.hasConstraints ? this.query : [],
+      };
     },
-  },
-  mounted() {
-    $(this.$refs.querybuilder).queryBuilder({
-      plugins: [
-        // "bt-tooltip-errors",
-        "bt-selectpicker",
-        // "date-inputmask",
-      ],
-      filters: [{ id: "empty", label: "empty", type: "integer" }],
-      lang: { delete_rule: " ", delete_group: " " },
-    });
+    getJoinFormData() {
+      return {
+        from: this.from,
+        join: this.joinType,
+        joinColumns: this.path,
+      };
+    },
+    getFormData() {
+      let data = this.getBaseFormData();
+      if (this.join) data = { ...data, ...this.getJoinFormData() };
+      return data
+    },
   },
 };
 </script>
@@ -361,66 +370,73 @@ select {
   color: #a6a6a6;
 }
 
-.card-header {
-  padding: 0.5rem 1rem;
-  display: grid;
-  align-items: start;
-  grid-template-columns: 1.2fr auto 1fr 1fr 0fr;
-  grid-template-areas: "table join target path delete";
-  gap: 10px;
-
-  label {
-    font-weight: bold;
-  }
-  .remove-join {
-    grid-area: delete;
-    justify-self: end;
-  }
-}
-
-.card-body {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 2fr 1fr 0fr;
-  padding: 10px 20px;
-  grid-template-rows: auto;
-  gap: 10px;
-  grid-template-areas:
-    "f-container a-container c-container"
-    "qb-container qb-container qb-container";
-
-  .fields-container {
-    grid-area: f-container;
-    justify-self: start;
-    width: 100%;
-  }
-
-  .alias-container {
-    grid-area: a-container;
-    justify-self: start;
-  }
-
-  .constraints-container {
-    grid-area: c-container;
-    justify-self: end;
-  }
-
-  .qb-container {
+.card.query-block {
+  > .card-header {
+    padding: 0.5rem 1rem;
     display: grid;
-    grid-area: qb-container;
-    justify-content: stretch;
     align-items: start;
-    grid-template-columns: 1fr 0fr;
-    grid-template-rows: auto;
-    grid-template-areas: "qb-form qb-reset";
+    grid-template-columns: 1.2fr auto 1fr 1fr 0fr;
+    grid-template-areas: "table join target path delete";
     gap: 10px;
-    .qb-form {
-      grid-area: qb-form;
+
+    label {
+      font-weight: bold;
+    }
+    .remove-join {
+      grid-area: delete;
+      justify-self: end;
+    }
+  }
+
+  > .card-body {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 2fr;
+    padding: 10px 20px;
+    grid-template-rows: auto;
+    gap: 10px;
+    grid-template-areas:
+      "alias select"
+      "filter-switch select"
+      "qbuilder qbuilder";
+
+    .fields-select {
+      grid-area: select;
+      justify-self: start;
+      width: 100%;
     }
 
-    .qb-reset {
-      grid-area: qb-reset;
+    .alias {
+      grid-area: alias;
+      justify-self: start;
     }
+
+    .filter-switch {
+      grid-area: filter-switch;
+      justify-self: start;
+      align-self: end;
+      display: flex;
+      align-items: center;
+    }
+
+    .qbuilder {
+      grid-area: qbuilder;
+    }
+    //   display: grid;
+    //   justify-content: stretch;
+    //   align-items: start;
+    //   grid-template-columns: 1fr 0fr;
+    //   grid-template-rows: auto;
+    //   grid-template-areas: "qb-form qb-reset";
+    //   gap: 10px;
+    //   .qb-form {
+    //     grid-area: qb-form;
+    //   }
+
+    //   .qb-reset {
+    //     grid-area: qb-reset;
+    //   }
+    // }
   }
 }
 </style>
