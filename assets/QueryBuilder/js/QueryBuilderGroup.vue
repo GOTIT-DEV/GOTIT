@@ -68,7 +68,7 @@
         v-else
         variant="light"
         class="ml-auto text-secondary"
-        @click="reset">
+        @click="$emit('reset')">
         <i class="fas fa-redo-alt"></i>
         Reset
         </b-button>
@@ -91,11 +91,6 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     QueryBuilderRule,
     QueryBuilderChildren
-  },
-  methods: {
-    reset() {
-      this.query = {logicalOperator: 'and', children: []}
-    }
   },
   extends: QueryBuilderGroup,
 };

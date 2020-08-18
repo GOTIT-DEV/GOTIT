@@ -44,6 +44,7 @@
             id="adjtables-select"
             v-model="table"
             :options="tableList"
+            label="label"
             :searchable="false"
             @change="tableChanged"
             required
@@ -51,6 +52,7 @@
             :show-labels="false"
           ></multiselect>
         </div>
+
         <div v-if="joinPathList.length > 1">
           <label>BY</label>
           <multiselect
@@ -91,6 +93,7 @@
             id="table-select"
             ref="table"
             :options="groupedTableList"
+            label="name"
             v-model="table"
             required
             group-values="entities"
@@ -111,7 +114,7 @@
           type="text"
           v-model="alias"
           required
-          :disabled="table === undefined"
+          :disabled="!table.name"
           @input="aliasChanged"
         ></b-input>
       </div>
@@ -131,7 +134,7 @@
           label="label"
           trackBy="label"
           :searchable="false"
-          :disabled="table === undefined"
+          :disabled="!table.name"
         ></multiselect>
       </div>
 
@@ -149,6 +152,7 @@
           :labels="true"
           :width="60"
           :height="25"
+          :disabled="!table.name"
         ></ToggleButton>
       </div>
       <!-- </b-form-group> -->
@@ -158,9 +162,13 @@
         class="qbuilder"
         v-model="hasConstraints"
       >
-        <QueryBuilder :rules="fieldList">
+        <QueryBuilder :rules="fieldList" :query.sync="query">
           <template v-slot:default="slotProps">
-            <QueryBuilderGroup v-bind="slotProps" :query.sync="query" />
+            <QueryBuilderGroup
+              v-bind="slotProps"
+              :query.sync="query"
+              @reset="resetQuery"
+            />
           </template>
         </QueryBuilder>
       </b-collapse>
@@ -179,6 +187,7 @@ import "./plugins.js";
 export default {
   components: { ToggleButton, Multiselect, QueryBuilder, QueryBuilderGroup },
   props: {
+    id: { type: Number },
     join: { type: Boolean, default: false },
     schema: { type: Object, required: true },
     availableTables: { type: Array, default: () => [] },
@@ -187,33 +196,59 @@ export default {
     relations() {
       return this.from == undefined
         ? {}
-        : this.schema[this.from.table].relations;
+        : this.schema[this.from.table].relations || {};
     },
     tableList() {
-      return this.join
-        ? Object.keys(this.relations).sort()
-        : Object.keys(this.schema).sort();
+      return this.join ? this.joinTableList : this.groupedTableList;
+    },
+    joinTableList() {
+      return Object.values(this.schema)
+        .filter(({ name }) => name in this.relations)
+        .map((table) => {
+          if (table.type === 1) {
+            const related = []
+              .concat(...Object.values(table.relations))
+              .filter(({ entity }) => entity != this.from.table)
+              .shift();
+            const through = {
+              table: table.name,
+              alias: `${table.name}_${this.id}`,
+              in: this.schema[this.from.table].relations[table.name][0],
+              out: table.relations[related.entity][0],
+            };
+            
+            table = {
+              ...this.schema[related.entity],
+              through,
+              get label() {
+                return `[${this.through.table}] ${this.name}`;
+              },
+            };
+          } else {
+            table.label = table.name;
+          }
+          return table;
+        });
     },
     groupedTableList() {
-      if (!this.joins)
-        return Object.values(this.schema)
-          .reduce(
-            (acc, entity) => {
-              acc[entity.type].entities.push(entity.human_readable_name);
-              return acc;
-            },
-            [
-              { type: "Primary", entities: [] },
-              { type: "Secondary", entities: [] },
-            ]
-          )
-          .map((grp) => {
-            grp.entities.sort();
-            return grp;
-          });
+      return Object.values(this.schema)
+        .reduce(
+          (acc, entity) => {
+            acc[entity.type].entities.push(entity);
+            return acc;
+          },
+          [
+            { type: "Primary", entities: [] },
+            { type: "Secondary", entities: [] },
+          ]
+        )
+        .map((grp) => {
+          grp.entities.sort((a, b) => a.name.localeCompare(b.name));
+          return grp;
+        });
     },
     fieldList() {
-      return this.table in this.schema ? this.schema[this.table].filters : [];
+      return this.table.filters || [];
     },
     groupedFieldList() {
       return this.fieldList.reduce(
@@ -229,8 +264,7 @@ export default {
       );
     },
     joinPathList() {
-      if (this.join) return this.relations[this.table] || [];
-      else [];
+      return this.join ? this.relations[this.table.name] || [] : [];
     },
   },
   data() {
@@ -238,7 +272,7 @@ export default {
       hasConstraints: false,
       from: undefined,
       joinType: undefined,
-      table: undefined,
+      table: {},
       path: undefined,
       alias: "",
       fields: [],
@@ -263,58 +297,51 @@ export default {
         }
       },
     },
-    fieldList: function (newList, _) {
-      if (!this.join) {
-        this.fields = newList.filter(
-          (field) => !(field.id.endsWith("Maj") || field.id.endsWith("Cre"))
-        );
-      }
-      // if (newList.length) {
-      //   $(this.$refs.querybuilder).queryBuilder("setFilters", true, newList);
-      // }
+    fieldList: function (newList) {
+      this.resetQuery();
+      this.fields = this.join
+        ? []
+        : newList.filter(
+            (field) => !(field.id.endsWith("Maj") || field.id.endsWith("Cre"))
+          );
     },
-    tableList: function (newList, oldList) {
-      if (this.join) {
-        this.table =
-          oldList.length == 0 && newList.length > 0 ? newList[0] : undefined;
-        this.tableChanged();
-      }
+    tableList: function (newList) {
+      if (this.join) this.table = newList[0] || {};
     },
-    groupedTableList: function (newList, _) {
+    groupedTableList: function (newList) {
       if (!this.join) {
         this.table = newList[0].entities[0];
         this.tableChanged();
       }
     },
-    table: function (newTable, oldTable) {
-      this.alias = this.generateAlias(newTable);
+    table: function (newTable) {
+      this.alias = this.generateAlias(newTable.name);
       this.tableChanged();
     },
-    joinPathList: function (newList, oldList) {
-      if (this.join) {
-        this.path = newList[0];
-      }
+    joinPathList: function (newList) {
+      if (this.join) this.path = newList[0];
     },
   },
   methods: {
+    resetQuery() {
+      this.query = { logicalOperator: "and", children: [] };
+    },
     tableChanged() {
       this.$emit("update:table", {
         from: this.from,
-        table: this.table,
+        table: this.table.name,
         alias: this.alias,
       });
     },
     aliasChanged() {
       this.$emit("update:alias", {
         from: this.from,
-        table: this.table,
+        table: this.table.name,
         alias: this.alias,
       });
     },
     generateAlias(table) {
-      if (table === undefined) {
-        return undefined;
-      }
+      if (!table) return undefined;
       const aliases = this.availableTables
         .filter((item) => item.table == table && item.alias)
         .map((item) => item.alias);
@@ -331,23 +358,56 @@ export default {
 
     getBaseFormData() {
       return {
-        table: this.table,
+        table: this.table.name,
         alias: this.alias,
         fields: this.fields.map((f) => f.label),
-        rules: this.hasConstraints ? this.query : [],
+        rules:
+          this.hasConstraints && this.query.children.length ? this.query : [],
       };
     },
     getJoinFormData() {
+      const assoc = this.table.through;
+      return assoc
+        ? {
+            from: {
+              table: assoc.table,
+              alias: assoc.alias,
+              column: assoc.out.from,
+            },
+            type: this.joinType,
+            column: assoc.out.to,
+          }
+        : {
+            from: { ...this.from, column: this.path.from },
+            type: this.joinType,
+            column: this.path.to,
+          };
+    },
+    getJoinAssocData() {
+      const assoc = this.table.through;
       return {
-        from: this.from,
-        join: this.joinType,
-        joinColumns: this.path,
+        table: assoc.table,
+        alias: assoc.alias,
+        join: {
+          from: { ...this.from, column: assoc.in.from },
+          type: this.joinType,
+          column: assoc.in.to,
+        },
       };
     },
     getFormData() {
-      let data = this.getBaseFormData();
-      if (this.join) data = { ...data, ...this.getJoinFormData() };
-      return data
+      if (this.join) {
+        let data = [
+          {
+            ...this.getBaseFormData(),
+            join: this.join ? this.getJoinFormData() : null,
+          },
+        ];
+        if (this.table.through) data.unshift(this.getJoinAssocData());
+        return data;
+      } else {
+        return this.getBaseFormData();
+      }
     },
   },
 };

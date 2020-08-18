@@ -19,10 +19,7 @@ class QueryBuilderService
   {
 
     $this->parseFirstBlock($data["initial"], $query);
-    // If the user decided to make joins
-    if (array_key_exists('joins', $data)) {
-      $this->parseJoinsBlocks($data["joins"], $query);
-    }
+    $this->parseJoinsBlocks($data["joins"] ?? [], $query);
 
     return $query;
   }
@@ -94,11 +91,9 @@ class QueryBuilderService
   {
     foreach ($joins as $j) {
       // Adding the fields to the query if the user chooses to return some.
-      if (array_key_exists('fields', $j)) {
-        foreach ($j["fields"] as $newValue) {
-          $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " .  $j["alias"] . "_" . $newValue);
-        };
-      }
+      foreach ($j["fields"] ?? [] as $newValue) {
+        $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " .  $j["alias"] . "_" . $newValue);
+      };
       // Join tables
       $query = $this->makeJoin($j, $query);
       // Parse constraints if the user chooses to apply some.
@@ -119,6 +114,7 @@ class QueryBuilderService
    */
   private function parseRule($rule, $qb, $tableAlias)
   {
+    $rule['operator'] = str_replace(" ", "_", $rule['operator']);
     // If we are on a rule, we create the constraint
     if (array_key_exists("operator", $rule)) {
       $value = $rule['value'];
@@ -251,18 +247,22 @@ class QueryBuilderService
    */
   private function makeJoin($joinBlock, $query)
   {
-    $source = $joinBlock["from"]["alias"] . '.' . $joinBlock["joinColumns"]["from"];
-    $target = $joinBlock["alias"] . '.' . $joinBlock["joinColumns"]["to"];
+    $table = $joinBlock['table'];
+    $alias = $joinBlock['alias'];
+    $source = $joinBlock['join']['from']['alias'] . '.' . $joinBlock['join']['from']['column'];
+    $target = $alias . '.' . $joinBlock['join']["column"];
+
     $joinFields =  $source . " = " . $target;
 
-    $joinArgs = ['App:' . $joinBlock["table"], $joinBlock["alias"], 'WITH', $joinFields];
+    $joinArgs = ['App:' . $table, $alias, 'WITH', $joinFields];
 
-    if ($joinBlock["join"] == "Inner Join") {
+    $joinType = $joinBlock["join"]['type'];
+    if ($joinType == "Inner Join") {
       $query = $query->innerJoin(...$joinArgs);
-    } elseif ($joinBlock["join"] == "Left Join") {
+    } elseif ($joinType == "Left Join") {
       $query = $query->leftJoin(...$joinArgs);
     } else {
-      throw new InvalidArgumentException("Querybuilder : Invalid join type " . $joinBlock["join"]);
+      throw new InvalidArgumentException("Querybuilder : Invalid join type " . $joinType);
     }
 
     return $query;

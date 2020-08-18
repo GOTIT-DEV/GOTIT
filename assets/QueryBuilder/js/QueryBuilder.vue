@@ -29,11 +29,15 @@ export default {
   },
   data() {
     return {
+      query: {
+        logicalOperator: this.labels.matchTypes[0].id,
+        children: []
+      },
       ruleTypes: {
         text: {
           operators: [
-            "equal",
-            "not equal",
+            "equals",
+            "does not equal",
             "contains",
             "does not contain",
             "is empty",

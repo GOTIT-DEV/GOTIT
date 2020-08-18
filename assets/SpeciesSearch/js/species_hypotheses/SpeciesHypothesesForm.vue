@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import ButtonLoading from "../components/ButtonLoading";
+import ButtonLoading from "../../../components/ButtonLoading";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
 import { SelectPicker } from "../components/directives/SelectPickerDirective";

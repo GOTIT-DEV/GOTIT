@@ -11,7 +11,7 @@
 
 <script>
 // Components
-import ButtonLoading from "../components/ButtonLoading";
+import ButtonLoading from "../../../components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import i18n from "../i18n"

@@ -28,10 +28,10 @@ class SchemaInspectorService
         $target = $this->parse_entity_name($relation['targetEntity']);
         $acc[$target] = $acc[$target] ?? [];
         $acc[$target][] = $this->parse_associated($relation);
-        return $acc;
       }
+      return $acc;
     };
-    
+
     $res = [];
     $relations = [];
     foreach ($metadata_array as $m) {
@@ -62,7 +62,7 @@ class SchemaInspectorService
   private function reverse_relations(&$relations)
   {
     foreach ($relations as $sourceEntity => $targets) {
-      foreach ($targets ?? [] as $targetEntity => $data) {
+      foreach ($targets as $targetEntity => $data) {
         $reverse_relation = function (&$d) use (&$sourceEntity) {
           return [
             "entity" => $sourceEntity,
@@ -107,7 +107,7 @@ class SchemaInspectorService
     return [
       "class" => $entity,
       "filters" => $filters,
-      "human_readable_name" => $this->parse_entity_name($entity),
+      "name" => $this->parse_entity_name($entity),
       "table" => $metadata->table["name"]
     ];
   }

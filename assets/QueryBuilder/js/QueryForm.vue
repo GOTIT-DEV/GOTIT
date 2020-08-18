@@ -13,6 +13,7 @@
     <QueryBlock
       v-for="(block, index) in joins"
       :key="block.id"
+      :id="block.id"
       class="mb-3"
       :schema="schema"
       ref="joinForm"
@@ -39,7 +40,7 @@
 <script>
 import QueryBlock from "./QueryBlock";
 import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
-import ButtonLoading from "../../SpeciesSearch/js/components/ButtonLoading";
+import ButtonLoading from "../../components/ButtonLoading";
 
 export default {
   components: { QueryBlock, ButtonLoading },
@@ -87,9 +88,8 @@ export default {
       const joinBlocks = this.$refs.joinForm || [];
       const jsonData = {
         initial: this.$refs.initForm.getFormData(),
-        joins: joinBlocks.map((block) => block.getFormData()),
+        joins: joinBlocks.map((block) => block.getFormData()).flat(),
       };
-      console.log(jsonData)
 
       $.ajax({
         url: "query",
@@ -123,6 +123,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+#submit{
+  width: 200px;
+}
+
 div.form-buttons {
   display: flex;
   justify-content: space-between;
