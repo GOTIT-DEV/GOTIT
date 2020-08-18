@@ -2,6 +2,7 @@
 <script>
 /* eslint-disable vue/require-default-prop */
 import VueQueryBuilder from "vue-query-builder";
+import MultiSelect from "vue-multiselect"
 
 var defaultLabels = {
   matchType: "Operator",
@@ -103,10 +104,11 @@ export default {
           inputType: "select",
           id: "select-field",
         },
-        "multi-select": {
-          operators: ["="],
+        "custom-component": {
+          operators: ["=", "in"],
           choices: [],
-          inputType: "select",
+          component:MultiSelect,
+          // inputType: "select",
           id: "multi-select-field",
         },
       },

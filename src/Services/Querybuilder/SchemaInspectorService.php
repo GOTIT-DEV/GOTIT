@@ -4,19 +4,22 @@ namespace App\Services\Querybuilder;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 class SchemaInspectorService
 {
 
-  public function __construct(EntityManagerInterface $em, ManagerRegistry $manager)
+  public function __construct(EntityManagerInterface $em)
   {
     $this->em = $em;
   }
   public function make_qbuilder_config()
   {
     $meta = $this->em->getMetadataFactory()->getAllMetadata();
-    return $this->parse_entities_metadata($meta);
+    $schema = $this->parse_entities_metadata($meta);
+    $schema['Voc']['content'] = $this->em
+      ->createQuery('select v.id, v.code, v.libelle, v.parent from App:Voc v')
+      ->getArrayResult();
+    return $schema;
   }
 
 
@@ -94,20 +97,31 @@ class SchemaInspectorService
 
   private function parse_metadata(ClassMetadata $metadata)
   {
-    $make_filter = function ($field) {
-      return [
+    $entity = $metadata->getName();
+    $name = $this->parse_entity_name($entity);
+
+    $make_filter = function ($field) use ($name) {
+      $res = [
         "id" => $field['fieldName'],
         "label" => $field['fieldName'],
         "type" => $this->convert_field_type($field['type']),
       ];
+
+      if ($name == "Voc" && $field['fieldName'] == "parent") {
+        $res['choices'] = array_map('current', $this->em
+          ->createQuery('select distinct v.parent from App:Voc v')
+          ->getArrayResult());
+        $res['type'] = 'custom-component';
+      }
+
+      return $res;
     };
 
-    $entity = $metadata->getName();
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
     return [
       "class" => $entity,
       "filters" => $filters,
-      "name" => $this->parse_entity_name($entity),
+      "name" => $name,
       "table" => $metadata->table["name"]
     ];
   }

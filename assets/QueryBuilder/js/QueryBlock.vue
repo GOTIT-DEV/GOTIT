@@ -38,7 +38,7 @@
             :show-labels="false"
           ></multiselect>
         </div>
-        <div>
+        <div id="join-target">
           <label>TO</label>
           <multiselect
             id="adjtables-select"
@@ -143,7 +143,7 @@
         label="Constraints"
         label-for="toggle-constraints"
       > -->
-      <div class="filter-switch">
+      <!-- <div class="filter-switch">
         <label class="mr-2"> FILTER </label>
         <ToggleButton
           id="toggle-constraints"
@@ -154,24 +154,25 @@
           :height="25"
           :disabled="!table.name"
         ></ToggleButton>
-      </div>
+      </div> -->
       <!-- </b-form-group> -->
 
-      <b-collapse
+      <!-- <b-collapse
         id="querybuilder-collapse"
         class="qbuilder"
         v-model="hasConstraints"
-      >
-        <QueryBuilder :rules="fieldList" :query.sync="query">
+      > -->
+        <QueryBuilder id="querybuilder" :rules="rules" :query.sync="query">
           <template v-slot:default="slotProps">
             <QueryBuilderGroup
               v-bind="slotProps"
               :query.sync="query"
+              :active.sync="hasConstraints"
               @reset="resetQuery"
             />
           </template>
         </QueryBuilder>
-      </b-collapse>
+      <!-- </b-collapse> -->
     </b-card>
   </div>
 </template>
@@ -216,7 +217,7 @@ export default {
               in: this.schema[this.from.table].relations[table.name][0],
               out: table.relations[related.entity][0],
             };
-            
+
             table = {
               ...this.schema[related.entity],
               through,
@@ -246,6 +247,49 @@ export default {
           grp.entities.sort((a, b) => a.name.localeCompare(b.name));
           return grp;
         });
+    },
+    rules() {
+      return this.join && this.table.name == "Voc"
+        ? this.fieldList
+            .filter((rule) => rule.id != "parent")
+            .map((rule) => {
+              if (rule.id == "code" || rule.id == "libelle") {
+                return {
+                  ...rule,
+                  type: "custom-component",
+                  component: Multiselect,
+                  operators: [
+                    "=",
+                    "!=",
+                    "in",
+                    "not in",
+                    "is null",
+                    "is not null",
+                  ],
+                  props: {
+                    options: [
+                      ...new Set(
+                        this.table.content
+                          .filter((voc) => {
+                            const match = this.path.from.match(
+                              /(?<parent>\w+)VocFk/
+                            );
+                            return match && match.groups.parent == voc.parent;
+                          })
+                          .map((voc) => voc[rule.id])
+                      ),
+                    ].sort(),
+                    searchable: true,
+                    allowEmpty: false,
+                    required: true,
+                    showLabels: false,
+                  },
+                };
+              } else {
+                return rule;
+              }
+            })
+        : this.fieldList;
     },
     fieldList() {
       return this.table.filters || [];
@@ -361,8 +405,7 @@ export default {
         table: this.table.name,
         alias: this.alias,
         fields: this.fields.map((f) => f.label),
-        rules:
-          this.hasConstraints && this.query.children.length ? this.query : [],
+        rules: this.hasConstraints && this.query.children.length ? this.query : [],
       };
     },
     getJoinFormData() {
@@ -439,6 +482,11 @@ select {
     grid-template-areas: "table join target path delete";
     gap: 10px;
 
+    #join-target{
+      grid-area: target;
+      min-width: 150px;
+    }
+
     label {
       font-weight: bold;
     }
@@ -471,15 +519,15 @@ select {
       justify-self: start;
     }
 
-    .filter-switch {
-      grid-area: filter-switch;
-      justify-self: start;
-      align-self: end;
-      display: flex;
-      align-items: center;
-    }
+    // .filter-switch {
+    //   grid-area: filter-switch;
+    //   justify-self: start;
+    //   align-self: end;
+    //   display: flex;
+    //   align-items: center;
+    // }
 
-    .qbuilder {
+    #querybuilder {
       grid-area: qbuilder;
     }
     //   display: grid;

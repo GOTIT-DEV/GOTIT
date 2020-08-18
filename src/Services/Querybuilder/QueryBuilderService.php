@@ -117,25 +117,28 @@ class QueryBuilderService
     $rule['operator'] = str_replace(" ", "_", $rule['operator']);
     // If we are on a rule, we create the constraint
     if (array_key_exists("operator", $rule)) {
-      $value = $rule['value'];
-      if (in_array($rule["operator"], ["between", "not_between", "in", "not_in"])) {
-        $value = array_map(function ($v) use ($rule) {
-          $v = trim($v);
-          if (in_array($rule['operator'], ['between', 'not_between'])) {
-            return "'" . $v . "'";
-          } else {
-            return $v;
+      $value = $rule['value'] ?? null;
+      if ($value) {
+        if (in_array($rule["operator"], ["between", "not_between", "in", "not_in"])) {
+          // dump($value);
+          $value = array_map(function ($v) use ($rule) {
+            $v = trim($v);
+            if (in_array($rule['operator'], ['between', 'not_between'])) {
+              return "'" . $v . "'";
+            } else {
+              return $v;
+            }
+          }, $value);
+        } else {
+          $value = trim($value);
+          if (in_array($rule["operator"], ['begins_with', 'not_begins_with', 'contains', 'not_contains'])) {
+            $value = $value . "%";
           }
-        }, $value);
-      } else {
-        $value = trim($value);
-        if (in_array($rule["operator"], ['begins_with', 'not_begins_with', 'contains', 'not_contains'])) {
-          $value = $value . "%";
+          if (in_array($rule["operator"], ['ends_with', 'not_ends_with', 'contains', 'not_contains'])) {
+            $value = '%' . $value;
+          }
+          $value = "'" . $value . "'";
         }
-        if (in_array($rule["operator"], ['ends_with', 'not_ends_with', 'contains', 'not_contains'])) {
-          $value = '%' . $value;
-        }
-        $value = "'" . $value . "'";
       }
       $column = $tableAlias . "." . $rule["operand"];
 

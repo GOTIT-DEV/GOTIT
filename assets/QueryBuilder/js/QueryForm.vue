@@ -41,6 +41,7 @@
 import QueryBlock from "./QueryBlock";
 import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
 import ButtonLoading from "../../components/ButtonLoading";
+import MultiSelect from "vue-multiselect"
 
 export default {
   components: { QueryBlock, ButtonLoading },
@@ -116,6 +117,26 @@ export default {
   async created() {
     let response = await fetch("init");
     let json = await response.json();
+    json.Voc.filters = json.Voc.filters.map((rule) => {
+      if (rule.id == "parent") {
+        return {
+          ...rule,
+          component: MultiSelect,
+          operators: ['=', "!=", "in", "not in", 'is null', 'is not null'],
+          props: {
+            options: [
+              ...new Set(json.Voc.content.map((voc) => voc.parent)),
+            ].sort(),
+            searchable: true,
+            allowEmpty: false,
+            required: true,
+            showLabels: false,
+          },
+        };
+      } else {
+        return rule;
+      }
+    });
     this.schema = json;
     this.loading = false;
   },
@@ -123,8 +144,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-#submit{
+#submit {
   width: 200px;
 }
 

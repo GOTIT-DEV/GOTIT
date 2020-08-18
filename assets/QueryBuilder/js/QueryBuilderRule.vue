@@ -33,8 +33,13 @@
       </select>
 
       <div
-        v-if="!['is null', 'is not null'].includes(query.operator)"
-        class="mr-1"
+        v-if="
+          !['is null', 'is not null', 'in', 'not in'].includes(query.operator)
+        "
+        :class="[
+          'mr-1 input-group',
+          query.operator.includes('between') ? 'col-5' : 'col-5',
+        ]"
       >
         <!-- Basic text input -->
         <input
@@ -65,8 +70,8 @@
         <div v-if="isCustomComponent" class="vqb-custom-component-wrap">
           <component
             :is="rule.component"
-            :value="value[0]"
-            @input="updateQuery"
+            v-bind="rule.props"
+            v-model="value[0]"
           />
         </div>
 
@@ -190,25 +195,40 @@
             </option>
           </optgroup>
         </select>
+
+        <!-- Paired input -->
+        <span v-if="query.operator.includes('between')">
+          <strong>&mdash; </strong>
+          <!-- Basic number input -->
+          <input
+            v-if="rule.inputType === 'number'"
+            v-model="value[1]"
+            :min="value[0]"
+            class="form-control form-control-sm"
+            type="number"
+          />
+          <input
+            v-if="rule.inputType === 'date'"
+            v-model="value[1]"
+            :min="value[0]"
+            class="form-control form-control-sm"
+            type="date"
+          />
+        </span>
       </div>
 
-      <!-- Paired input -->
-      <div v-if="query.operator.includes('between')" class="">
-        <strong>&mdash; </strong>
-        <!-- Basic number input -->
-        <input
-          v-if="rule.inputType === 'number'"
-          v-model="value[1]"
-          :min="value[0]"
-          class="form-control form-control-sm"
-          type="number"
-        />
-        <input
-          v-if="rule.inputType === 'date'"
-          v-model="value[1]"
-          :min="value[0]"
-          class="form-control form-control-sm"
-          type="date"
+      <!-- Multiple select with tags -->
+      <div v-else-if="query.operator.endsWith('in')" class="col-6">
+        <multiselect
+          :options="rule.choices.length ? rule.choices : rule.props.options"
+          required
+          multiple
+          searchable
+          taggable
+          @tag="addTag"
+          v-bind="rule.props"
+          v-model="value"
+          :closeOnSelect="false"
         />
       </div>
 
@@ -225,28 +245,40 @@
 
 <script>
 import QueryBuilderRule from "vue-query-builder/src/components/QueryBuilderRule";
+import MultiSelect from "vue-multiselect";
 
 export default {
   extends: QueryBuilderRule,
+  components: { multiselect: MultiSelect },
+  computed: {
+    isMultiple() {
+      return (
+        this.query.operator.endsWith("between") ||
+        this.query.operator.endsWith("in")
+      );
+    },
+  },
   data() {
     return {
-      value: [null],
+      value: [],
     };
+  },
+  methods: {
+    addTag(tag) {
+      this.rule.choices.push(tag);
+      this.value.push(tag);
+    },
   },
   watch: {
     query: {
       deep: true,
       handler(val, oldVal) {
-        this.query.value = this.query.operator.includes("between")
-          ? this.value
-          : this.value[0];
+        this.query.value = this.isMultiple ? this.value : this.value[0];
       },
     },
 
     value(val) {
-      this.query.value = this.query.operator.includes("between")
-        ? this.value
-        : this.value[0];
+      this.query.value = this.isMultiple ? this.value : this.value[0];
     },
   },
 };
