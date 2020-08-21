@@ -1,7 +1,0 @@
-@import "datatables.fa.css";
-table.dataTable .border-right {
-  border-right: 2px dotted lightgrey;
-}
-table.dataTable:not(.collapsed) .control {
-  display: none;
-}

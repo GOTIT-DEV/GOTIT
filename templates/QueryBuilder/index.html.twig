@@ -17,27 +17,14 @@
 
 	<legend>
 		<h2 id="query-fields-title">
-			{% trans %} Query fields {% endtrans %}
+			{% trans %} Query {% endtrans %}
 		</h2>
 	</legend>
 
 	<div id="form-container"></div>
 
-	<hr class="m-5">
+	<hr class="m-5"> {% include 'QueryBuilder/results.html.twig' %}
 
-	{# <div class='row'>
-			<div
-				class="col-12">
-				{% include 'QueryBuilder/form.html.twig' %}
-			</div>
-		</div>
-		<hr> #}
-	<div>
-		{% include 'QueryBuilder/results.html.twig' %}
-		<button class="help-btn btn btn-info float-right" id="myBtn" title="Go to top">
-			<i class="fas fa-chevron-up" style="font-size:20px"></i>
-		</button>
-	</div>
 
 {% endblock %}
 

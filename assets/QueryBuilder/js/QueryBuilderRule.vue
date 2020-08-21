@@ -32,14 +32,12 @@
         </option>
       </select>
 
-      <div
+      <b-input-group
         v-if="
           !['is null', 'is not null', 'in', 'not in'].includes(query.operator)
         "
-        :class="[
-          'mr-1 input-group',
-          query.operator.includes('between') ? 'col-5' : 'col-5',
-        ]"
+        size="sm"
+        class="mr-1 col-5"
       >
         <!-- Basic text input -->
         <input
@@ -63,7 +61,10 @@
           v-if="rule.inputType === 'date'"
           v-model="value[0]"
           class="form-control form-control-sm"
-          type="date"
+          type="text"
+          placeholder="YYYY-MM-DD"
+          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
+          required
         />
 
         <!-- Custom component input -->
@@ -72,6 +73,7 @@
             :is="rule.component"
             v-bind="rule.props"
             v-model="value[0]"
+            width="100%"
           />
         </div>
 
@@ -197,36 +199,46 @@
         </select>
 
         <!-- Paired input -->
-        <span v-if="query.operator.includes('between')">
-          <strong>&mdash; </strong>
-          <!-- Basic number input -->
-          <input
-            v-if="rule.inputType === 'number'"
-            v-model="value[1]"
-            :min="value[0]"
-            class="form-control form-control-sm"
-            type="number"
-          />
-          <input
-            v-if="rule.inputType === 'date'"
-            v-model="value[1]"
-            :min="value[0]"
-            class="form-control form-control-sm"
-            type="date"
-          />
-        </span>
-      </div>
+        <b-input-group-addon v-if="query.operator.includes('between')" is-text>
+          &mdash;
+        </b-input-group-addon>
+        <input
+          v-if="
+            query.operator.includes('between') && rule.inputType === 'number'
+          "
+          v-model="value[1]"
+          :min="value[0]"
+          class="form-control form-control-sm"
+          type="number"
+        />
+        <input
+          v-if="query.operator.includes('between') && rule.inputType === 'date'"
+          v-model="value[1]"
+          :min="value[0]"
+          class="form-control form-control-sm"
+          type="text"
+          placeholder="YYYY-MM-DD"
+          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
+          required
+        />
+      </b-input-group>
 
       <!-- Multiple select with tags -->
       <div v-else-if="query.operator.endsWith('in')" class="col-6">
         <multiselect
-          :options="rule.choices.length ? rule.choices : rule.props.options"
+          :options="
+            rule.choices && rule.choices.length
+              ? rule.choices
+              : rule.props
+              ? rule.props.options
+              : []
+          "
           required
           multiple
           searchable
           taggable
           @tag="addTag"
-          v-bind="rule.props"
+          v-bind="rule.props || {}"
           v-model="value"
           :closeOnSelect="false"
         />
@@ -246,9 +258,11 @@
 <script>
 import QueryBuilderRule from "vue-query-builder/src/components/QueryBuilderRule";
 import MultiSelect from "vue-multiselect";
+import Mask from "../../directives/InputMask";
 
 export default {
   extends: QueryBuilderRule,
+  directives: { Mask },
   components: { multiselect: MultiSelect },
   computed: {
     isMultiple() {

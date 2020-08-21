@@ -120,7 +120,6 @@ class QueryBuilderService
       $value = $rule['value'] ?? null;
       if ($value) {
         if (in_array($rule["operator"], ["between", "not_between", "in", "not_in"])) {
-          // dump($value);
           $value = array_map(function ($v) use ($rule) {
             $v = trim($v);
             if (in_array($rule['operator'], ['between', 'not_between'])) {

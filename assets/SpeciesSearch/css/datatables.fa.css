@@ -23,7 +23,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th:first-child:before 
   box-shadow: none;
   /*box-sizing: content-box;
   content: '+';*/
-  background-color: white;
+  /* background-color: white; */
   display: block;
   position: absolute;
   font-family: "Font Awesome 5 Free";

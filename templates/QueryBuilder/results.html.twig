@@ -2,40 +2,43 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="modal-sql" role="dialog">
 	<div
 		class="modal-dialog modal-lg">
 
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
+				<h4 class="modal-title">Query as SQL</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Your query</h4>
 			</div>
-			<div class="modal-body" id="contentModalQuery"></div>
-			<div class="modal-body" id="contentModalQuerySql"></div>
+			<pre class="mb-0"><code id="contentModalQuerySql" class="lang-sql pl-5"></code></pre>
+			{# <h5>DQL</h5><pre id="contentModalQuery"></pre> #}
+
 			<div class="modal-footer">
-				<button type="button" class="btn btn-light border" id="copySQL">Copy SQL</button>
-				<button type="button" class="btn btn-light border" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-light border" id="copySQL">
+					<i class="fas fa-copy"></i>
+					<span>Copy</span>
+				</button>
 			</div>
 		</div>
 
 	</div>
 </div>
 
-
-<div class="col-12">
+<div id="results" class="collapse">
 	<legend>
 		<h3>
 			Results
-			<div class="btn-group">
-				<button
-					class="btn btn-primary parse-json"
-					id="getSqlButton"
-					data-toggle="modal"
-					data-target="#myModal"
-					disabled>Get SQL</button>
-			</div>
+			<button
+				class="btn btn-primary"
+				id="getSqlButton"
+				type="button"
+				disabled
+				data-toggle="modal"
+				data-target="#modal-sql">
+				Get SQL
+			</button>
 		</h3>
 	</legend>
 	<div id="result-container"></div>

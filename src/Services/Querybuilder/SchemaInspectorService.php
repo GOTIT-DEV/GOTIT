@@ -105,6 +105,7 @@ class SchemaInspectorService
         "id" => $field['fieldName'],
         "label" => $field['fieldName'],
         "type" => $this->convert_field_type($field['type']),
+        "choices" => []
       ];
 
       if ($name == "Voc" && $field['fieldName'] == "parent") {

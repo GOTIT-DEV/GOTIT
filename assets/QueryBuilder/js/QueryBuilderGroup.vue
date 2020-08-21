@@ -135,6 +135,11 @@ export default {
 
 <style lang="less">
 .vue-query-builder .vqb-group {
+
+  .vqb-custom-component-wrap{
+    width: 100%;
+  }
+
   .vqb-group {
     margin: 15px;
   }

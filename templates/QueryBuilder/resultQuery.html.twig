@@ -1,8 +1,11 @@
-<table class="table table-condensed table-hover table-striped" id="result-table">
+<table
+	class="table table-condensed table-hover table-striped responsive"
+	id="result-table">
 
 	<thead>
 		{# selectedFields #}
 		<tr>
+			<th></th>
 			{% for table, fields in selectedFields %}
 				{% for f in fields %}
 					<th>{{table}}.{{f}}</th>
@@ -15,13 +18,18 @@
 		{# results #}
 		{% for row in results %}
 			<tr>
+				<td class="sorting_1 dtr-control"></td>
 				{% for table, fields in selectedFields %}
 					{% for f in fields %}
 						{% set fieldAlias = table ~ "_" ~ f %}
 						{% set value = attribute(row, fieldAlias)%}
 						<td>
 							{% if value.timestamp is defined %}
-								{{value|date("Y-m-d H:i:s")}}
+								{% if value|date("H:i:s") == "00:00:00" %}
+									{{value|date("Y-m-d")}}
+								{% else %}
+									{{value|date("Y-m-d H:i:s")}}
+								{% endif %}
 							{% else %}
 								{{value}}
 							{% endif %}

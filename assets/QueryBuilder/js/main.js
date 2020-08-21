@@ -10,35 +10,20 @@
 
 
 // Vendor imports
-import 'bootstrap-select/dist/css/bootstrap-select.css'
-import 'bootstrap-toggle/css/bootstrap-toggle.css'
-import "jQuery-QueryBuilder/dist/css/query-builder.default.css"
-
 require('jszip');
 import dt from 'datatables.net-bs4';
 dt(window, $);
 require('datatables.net-buttons-bs4')(window, $);
 require('datatables.net-buttons/js/buttons.html5.js')(window, $);
 require('datatables.net-responsive-bs4')(window, $);
+import "../../SpeciesSearch/css/datatables-custom.less";
 
-import "bootstrap-select"
-import "bootstrap-toggle"
 import "ez-plus"
 
 // Internal imports
 import "../css/main.less"
 import "../../SpeciesSearch/css/datatables-custom.less"
 import "../../SpeciesSearch/css/common.less"
-
-import { initResults, copySQLFunction } from "./results.js";
-import {
-  initFirstTable,
-  initFirstQueryBuilder,
-  initFirstFields,
-  initJoinBlock,
-  scrollFunction,
-  topFunction,
-} from "./form.js";
 
 import Vue from 'vue'
 import { BootstrapVue } from "bootstrap-vue"
@@ -51,40 +36,11 @@ const vue_form = new Vue({
   ...QueryForm
 })
 
-
-
-
-
-const joinType = ["Inner Join", "Left Join"];
-
 $((_) => {
-  // $.getJSON("init", function (init_data) {
-  //   // Making sure these buttons are disabled on reload
-  //   document.getElementById("add-join").disabled = true;
-  //   document.getElementById("submit-button").disabled = true;
-  //   document.getElementById("getSqlButton").disabled = true;
-
-  //   $("#initial-constraints-switchbox").bootstrapToggle("off");
-
-  //   initFirstTable(init_data);
-  //   initFirstQueryBuilder();
-  //   initFirstFields(init_data);
-
-  //   // Hiding what's in the div, then showing it when the switchbox is triggered
-  //   document.getElementById("initial-query-builder").style.display = "none";
-  //   $("#initial-constraints-switchbox").change((_) => {
-  //     $("#initial-query-builder").slideToggle("fast");
-  //     $("#initial-cc-reset").slideToggle("fast");
-  //   });
-
-  //   initJoinBlock(joinType, init_data);
-  //   initResults(init_data);
-  // });
-
   // Zoom in the image, scroll in / out to adjust zoom
   $("#logical-db-img").ezPlus({
     scrollZoom: true,
-    responsive:true,
+    responsive: true,
     zoomWindowWidth: 420,
     zoomWindowHeight: 345,
     zoomWindowPosition: 0,
@@ -94,18 +50,27 @@ $((_) => {
     cursor: "crosshair"
   })
 
-
   // // To enable the copy SQL button after the search button is clicked
-  // $("#copySQL").click(copySQLFunction)
+  const copyBtn = document.getElementById("copySQL")
+  copyBtn.addEventListener('click', () => {
+    const selection = window.getSelection()
+    const range = document.createRange()
+    const sqlElt = document.querySelector("#contentModalQuerySql")
+    range.selectNodeContents(sqlElt)
+    selection.removeAllRanges()
+    selection.addRange(range)
+    document.execCommand('copy')
+    selection.removeAllRanges()
 
-  // // When the user scrolls down 30px from the top of the document, the "scroll to the top" button is displayed
-  // window.onscroll = function () {
-  //   scrollFunction();
-  // };
-
-  // // Button to scroll back to the top the page
-  // $("#myBtn").click(topFunction)
-
-  // // Button to reload the page / clear the form
-  // $("#clear").click(() => location.reload(true))
+    // copyBtn.classList.remove('btn-light');
+    copyBtn.classList.add("btn-outline-success")
+    const btnText = copyBtn.querySelector("span")
+    const original = btnText.textContent
+    btnText.textContent = "Copied !"
+    setTimeout(() => {
+      btnText.textContent = original;
+      copyBtn.classList.remove('btn-outline-success');
+      // copyBtn.classList.add("btn-light")
+    }, 1200);
+  })
 });

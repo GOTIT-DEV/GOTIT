@@ -138,41 +138,16 @@
         ></multiselect>
       </div>
 
-      <!-- <b-form-group
-        class="constraints-container"
-        label="Constraints"
-        label-for="toggle-constraints"
-      > -->
-      <!-- <div class="filter-switch">
-        <label class="mr-2"> FILTER </label>
-        <ToggleButton
-          id="toggle-constraints"
-          class="toggle-btn float-right"
-          v-model="hasConstraints"
-          :labels="true"
-          :width="60"
-          :height="25"
-          :disabled="!table.name"
-        ></ToggleButton>
-      </div> -->
-      <!-- </b-form-group> -->
-
-      <!-- <b-collapse
-        id="querybuilder-collapse"
-        class="qbuilder"
-        v-model="hasConstraints"
-      > -->
-        <QueryBuilder id="querybuilder" :rules="rules" :query.sync="query">
-          <template v-slot:default="slotProps">
-            <QueryBuilderGroup
-              v-bind="slotProps"
-              :query.sync="query"
-              :active.sync="hasConstraints"
-              @reset="resetQuery"
-            />
-          </template>
-        </QueryBuilder>
-      <!-- </b-collapse> -->
+      <QueryBuilder id="querybuilder" :rules="rules" :query.sync="query">
+        <template v-slot:default="slotProps">
+          <QueryBuilderGroup
+            v-bind="slotProps"
+            :query.sync="query"
+            :active.sync="hasConstraints"
+            @reset="resetQuery"
+          />
+        </template>
+      </QueryBuilder>
     </b-card>
   </div>
 </template>
@@ -180,10 +155,9 @@
 <script>
 import Multiselect from "vue-multiselect";
 import { ToggleButton } from "vue-js-toggle-button";
+
 import QueryBuilder from "./QueryBuilder";
 import QueryBuilderGroup from "./QueryBuilderGroup";
-import "jQuery-QueryBuilder";
-import "./plugins.js";
 
 export default {
   components: { ToggleButton, Multiselect, QueryBuilder, QueryBuilderGroup },
@@ -405,7 +379,8 @@ export default {
         table: this.table.name,
         alias: this.alias,
         fields: this.fields.map((f) => f.label),
-        rules: this.hasConstraints && this.query.children.length ? this.query : [],
+        rules:
+          this.hasConstraints && this.query.children.length ? this.query : [],
       };
     },
     getJoinFormData() {
@@ -482,7 +457,7 @@ select {
     grid-template-areas: "table join target path delete";
     gap: 10px;
 
-    #join-target{
+    #join-target {
       grid-area: target;
       min-width: 150px;
     }

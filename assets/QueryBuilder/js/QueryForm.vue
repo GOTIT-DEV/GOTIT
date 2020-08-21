@@ -40,8 +40,15 @@
 <script>
 import QueryBlock from "./QueryBlock";
 import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
+
 import ButtonLoading from "../../components/ButtonLoading";
-import MultiSelect from "vue-multiselect"
+import MultiSelect from "vue-multiselect";
+
+import SQLFormat from "sql-formatter";
+import hljs from "highlight.js/lib/core";
+import sql from "highlight.js/lib/languages/sql";
+import "highlight.js/styles/monokai.css";
+hljs.registerLanguage("sql", sql);
 
 export default {
   components: { QueryBlock, ButtonLoading },
@@ -92,26 +99,32 @@ export default {
         joins: joinBlocks.map((block) => block.getFormData()).flat(),
       };
 
+      document.getElementById("getSqlButton").disabled = true;
       $.ajax({
         url: "query",
         type: "POST",
         data: jsonData,
         dataType: "json",
         success: (response) => {
-          $("#contentModalQuery").html(response.dql);
-          $("#contentModalQuerySql").html(response.sql);
+          // $("#contentModalQuery").html(SQLFormat.format(response.dql));
+          const sqlContainer = document.getElementById("contentModalQuerySql");
+          sqlContainer.textContent = SQLFormat.format(response.sql);
+          hljs.highlightBlock(sqlContainer);
+
           $("#result-container").html(response.results);
+
           $("#result-table").DataTable({
             ...dtconfig,
             dom: "lfrtipB",
-            responsive: { orthogonal: "responsive" },
             autoWidth: false,
+            responsive: true,
+            language: dtconfig.language[Translator.locale]
           });
           this.loading = false;
+          $("#results").collapse("show");
+          document.getElementById("getSqlButton").disabled = false;
         },
       });
-
-      document.getElementById("getSqlButton").disabled = false;
     },
   },
   async created() {
@@ -122,7 +135,7 @@ export default {
         return {
           ...rule,
           component: MultiSelect,
-          operators: ['=', "!=", "in", "not in", 'is null', 'is not null'],
+          operators: ["=", "!=", "in", "not in", "is null", "is not null"],
           props: {
             options: [
               ...new Set(json.Voc.content.map((voc) => voc.parent)),

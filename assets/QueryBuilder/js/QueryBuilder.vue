@@ -2,7 +2,7 @@
 <script>
 /* eslint-disable vue/require-default-prop */
 import VueQueryBuilder from "vue-query-builder";
-import MultiSelect from "vue-multiselect"
+import MultiSelect from "vue-multiselect";
 
 var defaultLabels = {
   matchType: "Operator",
@@ -15,6 +15,12 @@ var defaultLabels = {
   addGroup: "Add Group",
   removeGroup: "&times;",
   textInputPlaceholder: "",
+};
+
+const operators = {
+  numeric: ["=", "!=", "<", "<=", ">", ">="],
+  nullable: ["is null", "is not null"],
+  between: ["between", "not between"],
 };
 
 export default {
@@ -32,7 +38,7 @@ export default {
     return {
       query: {
         logicalOperator: this.labels.matchTypes[0].id,
-        children: []
+        children: [],
       },
       ruleTypes: {
         text: {
@@ -45,36 +51,46 @@ export default {
             "is not empty",
             "begins with",
             "ends with",
-            "is null",
-            "is not null",
+            ...operators.nullable,
+            "in",
+            "not in",
           ],
           inputType: "text",
           id: "text-field",
         },
         date: {
           operators: [
-            "=",
-            "!=",
-            "<",
-            "<=",
-            ">",
-            ">=",
-            "is null",
-            "is not null",
+            ...operators.numeric,
+            ...operators.nullable,
             "between",
             "not between",
+            "in",
+            "not in",
           ],
           inputType: "date",
           id: "date-field",
         },
+        get datetime() {
+          return {
+            operators: [
+              "on day",
+              "not on day",
+              "<",
+              "<=",
+              ">",
+              ">=",
+              ...operators.between,
+              ...operators.nullable,
+            ],
+            inputType: 'date',
+            id: "datetime-field",
+          };
+        },
         numeric: {
           operators: [
-            "=",
-            "!=",
-            "<",
-            "<=",
-            ">",
-            ">=",
+            ...operators.numeric,
+            ...operators.nullable,
+            ,
             "between",
             "not between",
           ],
@@ -103,13 +119,6 @@ export default {
           choices: [],
           inputType: "select",
           id: "select-field",
-        },
-        "custom-component": {
-          operators: ["=", "in"],
-          choices: [],
-          component:MultiSelect,
-          // inputType: "select",
-          id: "multi-select-field",
         },
       },
     };
