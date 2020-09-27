@@ -173,31 +173,31 @@ Nombre inconnu: NUMBER NOT KNOWN
 
 # 
 list.linkSequenceassemblee: Seq(s)
-alert.codeIndBiomol empty: specimen molecular code is empty. You have to enter first in the form Specimen
-alert.codeIndTriMorpho empty: specimen morphological code is empty. You have to enter first in the form Specimen
+alert.codeIndBiomol empty: specimen molecular code is empty. You have to enter it in the Specimen form
+alert.codeIndTriMorpho empty: specimen morphological code is empty. You have to enter it in the Specimen form
     
 # autocomplete field form
-Chromatogramme typeahead placeholder: Type the first letter of the Code chromatogram
+Chromatogramme typeahead placeholder: Type the first letters of the chromatogram Code
 Chromatogramme typeahead: Chromatogram
-Pcr typeahead placeholder: Type the first letter of the Code Pcr
+Pcr typeahead placeholder: Type the first letters of the PCR Code
 Pcr typeahead: Pcr
-Adn typeahead placeholder: Type the first letter of the Code DNA
+Adn typeahead placeholder: Type the first letters of the DNA Code
 Adn typeahead: DNA
-Individu typeahead placeholder: Type the first letter of the Code Specimen Biomol
+Individu typeahead placeholder: Type the first letters of the Specimen Molecular Code
 Individu codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
 Individu typeahead: Specimen 
-Lotmateriel typeahead placeholder: Type the first letter of the Code Internal biological material
+Lotmateriel typeahead placeholder: Type the first letters of the Internal biological material Code
 Lotmateriel typeahead: Internal biological material
-Lotmaterielext typeahead placeholder: Type the first letter of the Code External biological material
+Lotmaterielext typeahead placeholder: Type the first letters of the External biological material Code
 Lotmaterielext typeahead: External biological material
-Collecte typeahead placeholder: Type the first letter of the Code Sampling
+Collecte typeahead placeholder: Type the first letters of the Sampling Code
 Collecte typeahead: Sampling
-Station typeahead placeholder: Type the first letter of the Code Station 
-Station typeahead: Station
+Station typeahead placeholder: Type the first letters of the Site Code
+Station typeahead: Site
 
 # Class of vocabulary (table = Voc , field = parent)
 vocParent.typeMateriel: Material type
-vocParent.codeCollection: Code collection
+vocParent.codeCollection: Collection Code
 vocParent.critereIdentification:  Identification criteria
 vocParent.datePrecision: Date Precision
 vocParent.fixateur: Fixative
@@ -206,7 +206,7 @@ vocParent.habitatType: Habitat Type
 vocParent.leg: Donation
 vocParent.methodeExtractionAdn: DNA extraction method
 vocParent.methodeMotu: method Motu
-vocParent.nbIndividus:  Number of specimen
+vocParent.nbIndividus:  Number of specimens
 vocParent.origineSqcAssExt: External sequence origin
 vocParent.pigmentation: Pigmentation
 vocParent.pointAcces: Access type
@@ -241,6 +241,8 @@ list.linkIndividu_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Sam
 # Column titles 
+list.Parent libelle: Parent (label)
+list.Parent code: Parent (code)
 list.vocLibelle: Title (database)
 list.vocLibelleSecondLanguage: Title (En. translation)
 list.Date creation sqc ass ext: Date creation
@@ -400,7 +402,7 @@ importfileService.ERROR lot already store: ERROR - The material is already assig
 importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
 importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
 importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
-importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code lame coll 
+importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code Slide coll 
 importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
 importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
 importfileService.ERROR bad code: ERROR - UNKNOWN code

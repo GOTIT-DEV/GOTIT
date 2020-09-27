@@ -11,53 +11,53 @@ alert.codeIndBiomol empty: le code moléculaire est vide , vous devez le renseig
 alert.codeIndTriMorpho empty: le code morphologique est vide , vous devez le renseigner dans le formulaire Individu
 
 # autocomplete field form
-Chromatogramme typeahead placeholder: Taper les première lettres du Code chromatogramme
+Chromatogramme typeahead placeholder: Taper les premières lettres du Code chromatogramme
 Chromatogramme typeahead: Chromatogramme
-Pcr typeahead placeholder: Taper les première lettres du Code Pcr
+Pcr typeahead placeholder: Taper les premières lettres du Code PCR
 Pcr typeahead: Pcr
-Adn typeahead placeholder: Taper les première lettres du Code Adn
+Adn typeahead placeholder: Taper les premières lettres du Code ADN
 Adn typeahead: Adn
-Individu typeahead placeholder: Taper les première lettres du Code Ind Biomol
-Individu codeIndTriMorpho typeahead placeholder: Taper les première lettres du code morphologique individu
+Individu typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
+Individu codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
 Individu typeahead: Individu 
-Lotmateriel typeahead placeholder: Taper les première lettres du Code lot materiel
+Lotmateriel typeahead placeholder: Taper les premières lettres du Code lot matériel
 Lotmateriel typeahead: Lot
-Lotmaterielext typeahead placeholder: Taper les première lettres du Code lot materiel externe
+Lotmaterielext typeahead placeholder: Taper les premières lettres du Code lot matériel externe
 Lotmaterielext typeahead: Lot externe
-Collecte typeahead placeholder: Taper les première lettres du Code Collecte
+Collecte typeahead placeholder: Taper les premières lettres du Code Collecte
 Collecte typeahead: Collecte
-Station typeahead placeholder: Taper les première lettres du Code Station 
+Station typeahead placeholder: Taper les premières lettres du Code Station 
 Station typeahead: Station
 
 # class of vocabulary (table = Voc , field = parent)
-vocParent.typeMateriel: type Materiel
-vocParent.codeCollection: code Collection
-vocParent.critereIdentification: critère Identification
-vocParent.datePrecision: date Precision
-vocParent.fixateur: fixateur
-vocParent.gene: gene
-vocParent.habitatType: habitat Type
-vocParent.leg: leg
-vocParent.methodeExtractionAdn: methode Extraction Adn
-vocParent.methodeMotu: methode Motu
-vocParent.nbIndividus: nb Individus
-vocParent.origineSqcAssExt: origine Sqc Ass Ext
-vocParent.pigmentation: pigmentation
-vocParent.pointAcces: pointAcces
-vocParent.precisionLatLong: precision Lat Long
-vocParent.primerChromato: primer Chromato
-vocParent.primerPcrEnd: primer Pcr End
-vocParent.primerPcrStart: primer Pcr Start
-vocParent.qualiteAdn: qualite Adn
-vocParent.qualiteChromato: qualite Chromato
-vocParent.qualitePcr: qualite Pcr
-vocParent.samplingMethod: sampling Method
-vocParent.specificite: specificite
-vocParent.statutSqcAss: statut Sqc Ass
-vocParent.typeBoite: type Boite
-vocParent.typeCollection: type Collection
-vocParent.typeIndividu: type Individu
-vocParent.yeux: yeux
+vocParent.typeMateriel: Type matériel
+vocParent.codeCollection: Code Collection
+vocParent.critereIdentification: Critère Identification
+vocParent.datePrecision: Date Précision
+vocParent.fixateur: Fixateur
+vocParent.gene: Gène
+vocParent.habitatType: Type Habitat
+vocParent.leg: Don
+vocParent.methodeExtractionAdn: Méthode Extraction ADN
+vocParent.methodeMotu: Méthode Motu
+vocParent.nbIndividus: Nombre Individus
+vocParent.origineSqcAssExt: Origine Sqc Ass Ext
+vocParent.pigmentation: Pigmentation
+vocParent.pointAcces: Point d'accès
+vocParent.precisionLatLong: Précision Lat Long
+vocParent.primerChromato: Primer Chromato
+vocParent.primerPcrEnd: Primer PCR End
+vocParent.primerPcrStart: Primer PCR Start
+vocParent.qualiteAdn: Qualité ADN
+vocParent.qualiteChromato: Qualité Chromato
+vocParent.qualitePcr: Qualité PCR
+vocParent.samplingMethod: Méthode échantillonnage
+vocParent.specificite: Specificité
+vocParent.statutSqcAss: Statut Sqc Ass
+vocParent.typeBoite: Type Boite
+vocParent.typeCollection: Type Collection
+vocParent.typeIndividu: Type Individu
+vocParent.yeux: Yeux
 
 # SHORT TITLE OF COLUMNS IN CONTENT PAGES ######################################
 # Links
@@ -66,7 +66,7 @@ list.edit: Edit
 list.delete: Supp
 list.linkAdn: ADN
 list.linkIndividulame: Lame
-list.linkPcr: Pcr(s)
+list.linkPcr: PCR(s)
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: LotExt
 list.linkSequenceassembleeext: SqcExt
@@ -75,18 +75,20 @@ list.linkIndividu_codestation: Ind/St
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Col
 # Column titles
-list.vocLibelle: Libelle (bdd)
-list.vocLibelleSecondLanguage: Libelle (traduction fr)
-list.Date creation sqc ass ext: Date de creation
+list.Parent libelle: Parent (libelle)
+list.Parent code: Parent (code)
+list.vocLibelle: Libellé (bdd)
+list.vocLibelleSecondLanguage: Libellé (traduction FR)
+list.Date creation sqc ass ext: Date de création
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
 list.List source: Source(s)
 list.List code adn: Liste de codes ADN
-list.Date creation lot materiel: Date creation
-list.lastCodeSeqAss: Dernier code sequence assemblee
+list.Date creation lot materiel: Date création
+list.lastCodeSeqAss: Dernier code séquence assemblée
 list.lastStatutSeqAss: Dernier statut 
-list.lastCodeSeqAlignement: Dernier code sequence alignee
-list.lastDateSeqAss: Derniere date sequence assemblee
+list.lastCodeSeqAlignement: Dernier code séquence alignee
+list.lastDateSeqAss: Derniere date séquence assemblée
 list.Date maj: Date maj
 list.Date cre: Date cre
 list.Lat deg dec: Latitude
@@ -94,7 +96,7 @@ list.Long deg dec: Longitude
 list.Liste taxons: Liste de taxons
 list.Liste personnes: Liste de personne(s)
 list.Last taxname: Dernier nom de taxon
-list.Last identification date: Derniere date identification
+list.Last identification date: Dernière date identification
 list.Last identification critere: Dernier critere identification
 list.MotuAssigne: MOTU
 
@@ -131,8 +133,8 @@ button.Back to adn: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
 button.Back to chromatogramme: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
-button.Back to sequenceassemblee: Retour à la Sequence interne
-button.Back to sequenceassembleeext: Retour à la Sequence externe
+button.Back to sequenceassemblee: Retour à la Séquence interne
+button.Back to sequenceassembleeext: Retour à la Séquence externe
 button.Back to motu: Retour au MOTU
 button.Back to boite: Retour à la Boite
 button.Back to source: Retour à la Source
@@ -147,15 +149,15 @@ button.Back to the list of adn: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
 button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
 button.Back to the list of pcrchromato: Retour à la liste des PCR
-button.Back to the list of sequenceassemblee: Retour à la liste des Sequences internes
-button.Back to the list of sequenceassembleeext: Retour à la liste des Sequences externes
+button.Back to the list of sequenceassemblee: Retour à la liste des Séquences internes
+button.Back to the list of sequenceassembleeext: Retour à la liste des Séquences externes
 button.Back to the list of motu: Retour à la liste des MOTU
 button.Back to the list of boite: Retour à la liste des Boites
 button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
 button.Add a Chromatogramme: Ajouter un chromatogramme
 button.Add a Source: Ajouter une source
-button.Add a CompositionLotMateriel: Ajouter une composition de lot materiel
+button.Add a CompositionLotMateriel: Ajouter une composition de lot matériel
 button.Add a EspeceIdentifiee: Ajouter une espece identifiee
 button.Add a new Commune: Ajouter une nouvelle commune
 button.add:
@@ -170,11 +172,11 @@ button.Import adn deplace: Deplacer supprimer des boites ADN
 button.Import adn range: Stocker des boites ADN
 button.Import individu lame deplace: Deplacer supprimer des lames
 button.Import individu lame range: Stocker des lames
-button.Import lot materiel deplace: Deplacer supprimer des lots materiels
-button.Import lot materiel range: Stocker des lots materiels
+button.Import lot materiel deplace: Deplacer supprimer des lots matériels
+button.Import lot materiel range: Stocker des lots matériels
 button.NewBoite: Creer une nouvelle boite
-button.Import sqc assemblee publie: Referencer des sequences assemblees
-button.Import lot materiel publie: Referencer des lots materiels
+button.Import sqc assemblee publie: Referencer des séquences assemblées
+button.Import lot materiel publie: Referencer des lots matériels
 button.ImportSource: Importer des sources
 button.NewSource: Creer une source
 button.NewVoc: Creer un vocabulaire
@@ -185,19 +187,19 @@ button.NewProgramme: Creer un programme
 button.NewPays: Creer un Pays
 button.NewMotu: Creer un MOTU
 button.ImportMotu: Importer des MOTUs
-button.NewSequenceassembleeext: Creer une sequence externe assemblee
-button.ImportSequenceassembleeext: Importer des sequences externes assemblees
-button.NewSequenceassemblee: Creer une sequence assemblee
-button.ImportSequenceassemblee: Importer des sequences assemblees
+button.NewSequenceassembleeext: Creer une séquence externe assemblée
+button.ImportSequenceassembleeext: Importer des séquences externes assemblées
+button.NewSequenceassemblee: Creer une séquence assemblée
+button.ImportSequenceassemblee: Importer des séquences assemblées
 button.NewCommune: Creer une nouvelle commune
-button.NewLotmaterielext: Creer un lot materiel externe
-button.ImportLotmaterielext: Importer des lots materiels externes
+button.NewLotmaterielext: Creer un lot matériel externe
+button.ImportLotmaterielext: Importer des lots matériels externes
 button.NewStation: Creer une station
 button.ImportStation: Importer des stations
 button.NewCollecte: Creer une collecte
 button.ImportCollecte: Importer des collectes
-button.NewLotmateriel: Creer un lot materiel
-button.ImportLotmateriel: Importer des lots materiels
+button.NewLotmateriel: Creer un lot matériel
+button.ImportLotmateriel: Importer des lots matériels
 button.NewIndividu: Creer un individu
 button.ImportIndividu: Importer des individus
 button.NewIndividulame: Creer une lame
@@ -228,51 +230,51 @@ importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE
 importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( d / m / Y )
 importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
 importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
-importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affectée à la séquence assemblée
+importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affecté à la séquence assemblée
 importfileService.ERROR sqc already store: ERREUR - La séquence est déjà affectée à une boite
 importfileService.ERROR sqc already publish: ERREUR - La séquence est déjà affectée à une source
-importfileService.ERROR lot already publish: ERREUR - Lot materiel  déjà affectée à une source
-importfileService.ERROR lot already store: ERREUR - Lot materiel  déjà affectée à une boite
+importfileService.ERROR lot already publish: ERREUR - Lot matériel  déjà affectée à une source
+importfileService.ERROR lot already store: ERREUR - Lot matériel  déjà affectée à une boite
 importfileService.ERROR slide already store: ERREUR - Lame  déjà affectée à une boite
 importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à une boite
-importfileService.ERROR no box code for material: ERREUR - le code boite  n a pas été renseigné pour le code lot materiel
+importfileService.ERROR no box code for material: ERREUR - le code boite  n a pas été renseigné pour le code lot matériel
 importfileService.ERROR no box code: ERREUR - le code boite  n a pas été renseigné pour le code lame coll 
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la bdd
 importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la bdd
 importfileService.ERROR bad code: ERREUR - Code INCONNU
 importfileService.Date of data set import: Date import
-importfileService.Problem of FLUSH: PROBLEME de FLUSH ! la procédure d import est stoppé, vous devez corriger le fichier CSV. Le message d erreur est
+importfileService.Problem of FLUSH: Problème de FLUSH ! la procédure d'import est stoppée, vous devez corriger le fichier CSV. Le message d'erreur est
 importfileService.Import OK: Procédure d importation terminée. Nombre d enregistrements insérés
 
 # BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
 import.liste: Importer des fichiers 
-import.boite.lotmaterielrange: Stocker des lots materiels par fichier
+import.boite.lotmaterielrange: Stocker des lots matériels par fichier
 import.boite.individulamerange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
 import.station: Importer fichier(s) station
 import.collecte: Importer fichier(s) collecte
-import.lotmateriel: Importer fichier(s) lot materiel
+import.lotmateriel: Importer fichier(s) lot matériel
 import.individu: Importer fichier(s) individu
 import.individulame: Importer fichier(s) lame
-import.lotmaterielext: Importer fichier(s) lot materiel externe
+import.lotmaterielext: Importer fichier(s) lot matériel externe
 import.adn: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
 import.chromatogramme: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
-import.sequenceassemblee: Importer fichier(s) sequence
-import.sequenceassembleeext: Importer fichier(s) sequence externe
+import.sequenceassemblee: Importer fichier(s) séquence
+import.sequenceassembleeext: Importer fichier(s) séquence externe
 import.motu: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
-import.boite.lotmaterieldeplace: Deplacer supprimer des lots materiels
+import.boite.lotmaterieldeplace: Deplacer supprimer des lots matériels
 import.boite.individulamedeplace: Deplacer supprimer des lames
 import.boite.adndeplace: Deplacer supprimer des ADN
-import.source.lotmaterielpublie:  Referencer des lots materiels
-import.source.sequencepublie: Referencer des sequences assemblées
+import.source.lotmaterielpublie:  Referencer des lots matériels
+import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-assigne: MOTU
 
 # TITLES OF CONTENT PAGES  #####################################################
 title.Import Files CSV: Import des fichiers CSV
-title.boiteLOT: Boite lot materiel
+title.boiteLOT: Boite lot matériel
 title.boiteLAME: Boite lame
 title.boiteADN: Boite ADN
 title.boite: Boite
@@ -281,17 +283,17 @@ title.Terrain: Donnees de terrain
 title.station: Station
 title.collecte: Collecte
 title.Analyse morphologique: Analyse morphologique
-title.lotmateriel: Lot materiel
+title.lotmateriel: Lot matériel
 title.individu: Individu
 title.individulame: Lame
-title.lotmaterielext: Lot materiel externe
+title.lotmaterielext: Lot matériel externe
 title.Analyses génétiques: Analyse moleculaire
 title.adn: ADN
 title.pcr: PCR
 title.chromatogramme: Chromatogramme
-title.Etude séquençage: Sequences ADN
-title.sequenceassemblee: Sequences internes
-title.sequenceassembleeext: Sequences externes
+title.Etude séquençage: Séquences ADN
+title.sequenceassemblee: Séquences internes
+title.sequenceassembleeext: Séquences externes
 title.motu: MOTU
 title.Stock: Stock
 title.source: Source
@@ -339,13 +341,13 @@ Choose a Pigmentation: Selectionner pigmentation
 Choose a Eye: Selectionner vision
 Choose a Box: Selectionner une boite
 Choose a Type: Selectionner un type
-Choose a Lot Materiel: Selectionner un lot materiel
+Choose a Lot Materiel: Selectionner un lot matériel
 Choose a Source: Selectionner une source
 Choose an individu: Selectionner un individu
 Choose a method: Sélectionner une méthode
 Choose a PCR: Selectionner une PCR
 Choose a primer: Selectionner une amorce
-Choose a society: Selectionner un etablissement
+Choose a society: Selectionner un établissement
 
 # DASHBOARD ####################################################################
 Dashboard.Gene Occurence et Taxa en Taxonomie Integrative: Gene, Occurence et Taxa en Taxonomie Integrative
@@ -393,7 +395,7 @@ alert.BadFormatDate:  mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ
 # GOTIT DATABASE  ##############################################################
 # GOTIT Database Field Titles
 # db v2
-Type materiel voc fk: Type materiel
+Type materiel voc fk: Type matériel
 Taxon full name: Nom Taxon de référence
 # db v1
 A faire: Etat
@@ -417,16 +419,16 @@ Code commune: Code commune
 Code ind biomol: Code moleculaire individu
 Code ind tri morpho: Code morphologique individu
 Code lame coll: Code lame
-Code lot materiel: Code lot materiel
-Code lot materiel ext: Code lot materiel externe
+Code lot materiel: Code lot matériel
+Code lot materiel ext: Code lot matériel externe
 Code pays: Code pays
 Code pcr: Code PCR
 Code programme: Code programme
 Code source: Code source
-Code sqc alignement: Code sequence alignee
-Code sqc ass: Code sequence assemblee
-Code sqc ass ext: Code sequence externe assemblee 
-Code sqc ass ext alignement: Code sequence externe alignee 
+Code sqc alignement: Code séquence alignee
+Code sqc ass: Code séquence assemblée
+Code sqc ass ext: Code séquence externe assemblée 
+Code sqc ass ext alignement: Code séquence externe alignee 
 Code station: Code station
 Code taxon: Code taxon
 Code tube: Code tube
@@ -436,22 +438,22 @@ Commentaire adn: Commentaire ADN
 Commentaire boite: Commentaire boite
 Commentaire chromato: Commentaire chromatogramme
 Commentaire collecte: Commentaire collecte
-Commentaire compo lot materiel: Commentaire composition lot materiel
+Commentaire compo lot materiel: Commentaire composition lot matériel
 Commentaire conseil sqc: Conseil sequencage
 Commentaire esp id: Commentaire espece identifiee
 Commentaire etablissement: Commentaire etablissement
 Commentaire ind: Commentaire individu
 Commentaire lame: Commentaire lame
-Commentaire lot materiel: Commentaire lot materiel
-Commentaire lot materiel ext: Commentaire lot materiel externe
+Commentaire lot materiel: Commentaire lot matériel
+Commentaire lot materiel ext: Commentaire lot matériel externe
 Commentaire motu: Commentaire MOTU
 Commentaire nb individus: Commentaire nombre d individus
 Commentaire personne: Commentaire personne
 Commentaire programme: Commentaire programme
 Commentaire ref: Commentaire taxon
 Commentaire source: Commentaire source
-Commentaire sqc ass: Commentaire sequence assemblee
-Commentaire sqc ass ext: Commentaire sequence externe assemblee
+Commentaire sqc ass: Commentaire séquence assemblée
+Commentaire sqc ass ext: Commentaire séquence externe assemblée
 Commentaire station: Commentaire station
 Commune fk: Commune 
 Concentration ng microlitre: Concentration ng microlitre
@@ -459,13 +461,13 @@ Conductivite micro sie cm: Conductivité (µS/cm)
 Critere identification voc fk: Critere identification
 Date adn: Date ADN
 Date collecte: Date collecte
-Date cre: Date creation
-Date creation lot materiel ext: Date creation lot materiel externe
-Date creation sqc ass: Date creation sequence assemblee
-Date creation sqc ass ext: Date creation sequence externe assemblee
+Date cre: Date création
+Date creation lot materiel ext: Date création lot matériel externe
+Date creation sqc ass: Date création séquence assemblée
+Date creation sqc ass ext: Date création séquence externe assemblée
 Date identification: Date identification
 Date lame: Date lame
-Date lot materiel: Date lot materiel
+Date lot materiel: Date lot matériel
 Date maj: Date mise a jour
 Date motu: Date MOTU
 Date pcr: Date PCR
@@ -493,8 +495,8 @@ Libelle lame: Libelle lame
 Libelle motu: libelle MOTU
 Libelle source: Libelle source
 Long deg dec: Longitude degre decimal
-Lot materiel ext fk: Lot materiel externe
-Lot materiel fk: Lot materiel
+Lot materiel ext fk: Lot matériel externe
+Lot materiel fk: Lot matériel
 Methode extraction adn voc fk: Methode extraction ADN
 Methode motu voc fk: Methode MOTU
 Motu fk: MOTU
@@ -513,12 +515,12 @@ Nom region: Nom region
 Nom station: Nom station
 Noms responsables: Nom responsables
 Num ind biomol: Numero moleculaire individu
-Num individu sqc ass ext: Numero moleculaire individu sequence externe assemblee
+Num individu sqc ass ext: Numero moleculaire individu séquence externe assemblée
 Num motu: Numero MOTU
 Num pcr: Numero PCR
 Num yas: Numero YAS
 Ordre: Ordre
-Origine sqc ass ext voc fk: Origine sequence externe assemblee
+Origine sqc ass ext voc fk: Origine séquence externe assemblée
 Parent: Parent
 Pays fk: Pays
 Pcr fk: PCR
@@ -537,55 +539,55 @@ Rank: Rang
 Referentiel taxon fk: Referentiel taxon
 Remarque pcr: Remarque PCR
 Sampling method voc fk: Methode echantillonnage
-Sequence assemblee ext fk: Sequence externe assemblee
-Sequence assemblee fk: Sequence assemblee
+Sequence assemblee ext fk: Séquence externe assemblée
+Sequence assemblee fk: Séquence assemblée
 Source fk: Source
 Species: Espece
-Specificite voc fk: Specificite
+Specificite voc fk: Spécificité
 Station fk: Station
-Statut sqc ass voc fk: Statut sequence assemblee
+Statut sqc ass voc fk: Statut séquence assemblée
 Subclass: Sous classe
 Subspecies: Sous espece
 Taxname: Nom taxon
 Taxname ref: Nom synonyme
-Taxon origine sqc ass ext: Taxon origine sequence externe assemblee
+Taxon origine sqc ass ext: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
 Type boite voc fk: Type boite
 Type collection voc fk: Type collection
 Type financeur: Type financeur
 Type individu voc fk: Type individu
-User cre: Utilisateur creation
-User maj: Utilisateur mise a jour
+User cre: Utilisateur création
+User maj: Utilisateur mise à jour
 Validity: Validite
 Yeux voc fk: Vision
 # titles of collections or N-N type relational tables
-Source a ete integre pars: Est integree par
+Source a ete integre pars: Est integrée par
 Adns: ADN
-Lot materiels: Lot materiel
+Lot materiels: Lot matériel
 Individu lames: Lames
-Motu est genere pars: Est generee par
-Auto generated code: Code Auto genere
-Code Chromato | Specificite : Code chromatogramme | specificite
-Sqc ext est reference danss: Est publiee dans
-Sqc ext est realise pars: Est realisee par
-Sqc est publie danss: Est publiee dans
-Sequence assemblee est realise pars: Est assemblee par
+Motu est genere pars: Est générée par
+Auto generated code: Code Auto généré
+Code Chromato | Specificite : Code chromatogramme | spécificité
+Sqc ext est reference danss: Est publiée dans
+Sqc ext est realise pars: Est realisée par
+Sqc est publie danss: Est publiée dans
+Sequence assemblee est realise pars: Est assemblée par
 Est aligne et traites: Provient de
-Lot materiel ext est realise pars: Est realise par
-Lot materiel ext est reference danss: Est publie dans
+Lot materiel ext est realise pars: Est réalisé par
+Lot materiel ext est reference danss: Est publié dans
 Adn est realise pars: Est extrait par
-Individu lame est realise pars: Est monte par
-Lot materiel est realise pars: Est realise par
-Espece identifiees: Espece identifiee
-Composition lot materiels: Composition du lot materiel
-Est identifie pars: Est identifie par
-Lot est publie danss: Est publie dans
-Pcr est realise pars: Est realisee par
+Individu lame est realise pars: Est monté par
+Lot materiel est realise pars: Est realisé par
+Espece identifiees: Espèce identifiée
+Composition lot materiels: Composition du lot matériel
+Est identifie pars: Est identifié par
+Lot est publie danss: Est publié dans
+Pcr est realise pars: Est realisée par
 A pour sampling methods: Méthode échantillonnage
 A pour fixateurs: Fixateur
 Est finance pars: Programme
-Est effectue pars: Est realise par
-A ciblers: Taxa cibles par collecte
+Est effectue pars: Est realisé par
+A ciblers: Taxa ciblés par collecte
 
 # USER BUNDLE  #################################################################
 # table User_db
@@ -595,7 +597,7 @@ Repeat Password: Confirmez le Mot de passe
 Email: Adresse electronique
 Role: Role
 Name: Nom complet de l'utilisateur
-Institution: Etablissement
+Institution: Établissement
 Commentaire user: Commentaires utilisateur
 Locale: Version
 button.NewUser: Créer un nouvel utilisateur
