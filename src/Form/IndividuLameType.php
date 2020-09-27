@@ -47,7 +47,7 @@ class IndividuLameType extends ActionFormType
                     'class' => 'typeahead typeahead-individu',
                     'data-target_id' => $this->getBlockPrefix() . "_individuId",
                     'name' => "where",
-                    'placeholder' => "Individu typeahead placeholder",
+                    'placeholder' => "Individu codeIndTriMorpho typeahead placeholder",
                     "maxlength" => "255",
                     'readonly' => $options['action_type'] == Action::create()
                 ],

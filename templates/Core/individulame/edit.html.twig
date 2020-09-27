@@ -30,7 +30,7 @@
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-           url : '{{ path("individu_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
+           url : '{{ path("individu_search_by_codeindmorpho", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
            wildcard: '%QUERY'
         }
     });

@@ -184,6 +184,7 @@ Pcr typeahead: Pcr
 Adn typeahead placeholder: Type the first letter of the Code DNA
 Adn typeahead: DNA
 Individu typeahead placeholder: Type the first letter of the Code Specimen Biomol
+Individu codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
 Individu typeahead: Specimen 
 Lotmateriel typeahead placeholder: Type the first letter of the Code Internal biological material
 Lotmateriel typeahead: Internal biological material
