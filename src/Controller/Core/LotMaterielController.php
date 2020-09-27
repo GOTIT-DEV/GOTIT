@@ -117,7 +117,7 @@ class LotMaterielController extends AbstractController
     $rawSql = "SELECT  lot.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code,
         lot.internal_biological_material_status,lot.sequencing_advice, lot.internal_biological_material_date, lot.date_of_creation, lot.date_of_update, voc_lot_identification_criterion.code as code_lot_identification_criterion,
 	lot.internal_biological_material_code, rt_lot.taxon_name as last_taxname_lot, ei_lot.identification_date as last_date_identification_lot,
-        lot.creation_user_name, user_cre.username as user_cre_username , user_maj.username as user_maj_username,
+        lot.creation_user_name, user_cre.user_name as user_cre_username , user_maj.user_name as user_maj_username,
         string_agg(DISTINCT person.person_name , ' ; ') as list_person, string_agg(cast( sp.id as character varying) , ' ;') as list_specimen
 	FROM internal_biological_material lot 
                 LEFT JOIN user_db user_cre ON user_cre.id = lot.creation_user_name
@@ -139,7 +139,7 @@ class LotMaterielController extends AbstractController
         GROUP BY lot.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code,
         lot.internal_biological_material_status,lot.sequencing_advice, lot.internal_biological_material_date, lot.date_of_creation, lot.date_of_update, voc_lot_identification_criterion.code ,
 	lot.internal_biological_material_code, rt_lot.taxon_name, ei_lot.identification_date,
-        lot.creation_user_name, user_cre.username, user_maj.username"
+        lot.creation_user_name, user_cre.user_name, user_maj.user_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -171,8 +171,8 @@ class LotMaterielController extends AbstractController
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.username" => $val['user_cre_username'],
-        "user_maj.username" => $val['user_maj_username'],
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username'],
         "linkIndividu" => $linkIndividu,
         "linkIndividu_codestation" => "%|" . $val['site_code'] . "_%"
       );

@@ -114,8 +114,8 @@ class SequenceAssembleeController extends AbstractController
       rt_sq.taxon_name as last_taxname_sq,
       ei_sq.identification_date as last_date_identification_sq,
       voc_sq_identification_criterion.code as code_sq_identification_criterion,
-      user_cre.username as user_cre_username,
-      user_maj.username as user_maj_username,
+      user_cre.user_name as user_cre_username,
+      user_maj.user_name as user_maj_username,
       voc_gene.code as voc_internal_sequence_gene_code,
       string_agg(DISTINCT sp.specimen_molecular_code, ' ;') as list_specimen_molecular_code,
       string_agg(DISTINCT source.source_title, ' ; ') as list_source,
@@ -155,7 +155,7 @@ class SequenceAssembleeController extends AbstractController
         voc_internal_sequence_status.code,
         sq.internal_sequence_creation_date, sq.internal_sequence_alignment_code, sq.internal_sequence_accession_number,
         rt_sq.taxon_name, ei_sq.identification_date, voc_sq_identification_criterion.code,            
-        user_cre.username, user_maj.username,
+        user_cre.user_name, user_maj.user_name,
         voc_gene.code"
       . $having
       . " ORDER BY " . $orderBy;
@@ -189,8 +189,8 @@ class SequenceAssembleeController extends AbstractController
         "code_sq_identification_criterion" => $val['code_sq_identification_criterion'],
         "motu_flag" => $val['motu_flag'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.username" => $val['user_cre_username'],
-        "user_maj.username" => $val['user_maj_username']
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username']
       );
     }
 

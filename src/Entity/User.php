@@ -17,10 +17,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
@@ -46,7 +46,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255, nullable=false, unique=true)
+     * @ORM\Column(name="user_name", type="string", length=255, nullable=false, unique=true)
      */
     private $username;
 
@@ -64,21 +64,21 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @ORM\Column(name="user_password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @ORM\Column(name="user_email", type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string")
+     * @ORM\Column(name="user_role", type="string")
      */
     private $role;
 
@@ -93,14 +93,14 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="user_full_name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="institution", type="string", length=255, nullable=true)
+     * @ORM\Column(name="user_institution", type="string", length=255, nullable=true)
      */
     private $institution;
 
@@ -135,7 +135,7 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="is_active", type="smallint")
+     * @ORM\Column(name="user_is_active", type="smallint")
      */
     private $isActive;
 

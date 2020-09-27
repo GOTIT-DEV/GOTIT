@@ -100,7 +100,7 @@ class IndividuLameController extends AbstractController
         voc_sp_specimen_type.code as voc_sp_specimen_type_code, 
         lot.internal_biological_material_code,
         ss.creation_user_name, ss.date_of_creation, ss.date_of_update,
-        user_cre.username as user_cre_username , user_maj.username as user_maj_username      
+        user_cre.user_name as user_cre_username , user_maj.user_name as user_maj_username      
 	FROM specimen_slide ss
                 LEFT JOIN user_db user_cre ON user_cre.id = ss.creation_user_name
                 LEFT JOIN user_db user_maj ON user_maj.id = ss.update_user_name 
@@ -153,8 +153,8 @@ class IndividuLameController extends AbstractController
         "ss.date_of_creation" => $val['date_of_creation'],
         "ss.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.username" => $val['user_cre_username'],
-        "user_maj.username" => $val['user_maj_username']
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username']
       );
     }
 

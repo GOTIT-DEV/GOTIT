@@ -117,7 +117,7 @@ class IndividuController extends AbstractController
     $rawSql = "SELECT  sp.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code, st.site_code,
         sp.specimen_molecular_code, sp.specimen_morphological_code, sp.specimen_molecular_number, sp.tube_code, sp.date_of_creation, sp.date_of_update,
         rt_sp.taxon_name as last_taxname_sp, ei_sp.identification_date as last_date_identification_sp, voc_sp_identification_criterion.code as code_sp_identification_criterion,
-        voc_sp_specimen_type.code as voc_sp_specimen_type_code, sp.creation_user_name, user_cre.username as user_cre_username , user_maj.username as user_maj_username,
+        voc_sp_specimen_type.code as voc_sp_specimen_type_code, sp.creation_user_name, user_cre.user_name as user_cre_username , user_maj.user_name as user_maj_username,
         string_agg(cast( dna.id as character varying) , ' ;') as list_dna, string_agg(cast( specimen_slide.id as character varying) , ' ;') as list_specimen_slide
 	FROM  specimen sp
                 LEFT JOIN user_db user_cre ON user_cre.id = sp.creation_user_name
@@ -140,7 +140,7 @@ class IndividuController extends AbstractController
         GROUP BY sp.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code, st.site_code,
         sp.specimen_molecular_code, sp.specimen_morphological_code, sp.specimen_molecular_number, sp.tube_code, sp.date_of_creation, sp.date_of_update,
         rt_sp.taxon_name, ei_sp.identification_date, voc_sp_identification_criterion.code,
-        voc_sp_specimen_type.code, sp.creation_user_name, user_cre.username , user_maj.username"
+        voc_sp_specimen_type.code, sp.creation_user_name, user_cre.user_name , user_maj.user_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -172,8 +172,8 @@ class IndividuController extends AbstractController
         "sp.date_of_creation" => $val['date_of_creation'],
         "sp.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.username" => $val['user_cre_username'],
-        "user_maj.username" => $val['user_maj_username'],
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username'],
         "linkAdn" => $linkAdn,
         "linkIndividulame" => $linkIndividulame
       );
