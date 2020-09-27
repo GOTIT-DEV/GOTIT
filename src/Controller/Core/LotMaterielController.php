@@ -129,7 +129,7 @@ class LotMaterielController extends AbstractController
                 LEFT JOIN internal_biological_material_is_treated_by ibmitb ON ibmitb.internal_biological_material_fk = lot.id
                     LEFT JOIN person ON ibmitb.person_fk = person.id
 		LEFT JOIN identified_species ei_lot ON ei_lot.internal_biological_material_fk = lot.id
-			LEFT JOIN (SELECT MAX(ei_loti.id) AS maxei_loti 
+			INNER JOIN (SELECT MAX(ei_loti.id) AS maxei_loti 
 				FROM identified_species ei_loti 
 				GROUP BY ei_loti.internal_biological_material_fk) ei_lot2 ON (ei_lot.id = ei_lot2.maxei_loti)
 			LEFT JOIN taxon rt_lot ON ei_lot.taxon_fk = rt_lot.id

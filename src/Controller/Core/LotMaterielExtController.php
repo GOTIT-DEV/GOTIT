@@ -17,16 +17,16 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\LotMaterielExt;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Form\Enums\Action;
+use App\Entity\LotMaterielExt;
 
 /**
  * Lotmaterielext controller.
@@ -104,7 +104,7 @@ class LotMaterielExtController extends AbstractController
                 LEFT JOIN external_biological_material_is_processed_by ebmip ON ebmip.external_biological_material_fk = lot.id
                     LEFT JOIN person ON ebmip.person_fk = person.id
 		LEFT JOIN identified_species ei_lot ON ei_lot.external_biological_material_fk = lot.id
-			LEFT JOIN (SELECT MAX(ei_loti.id) AS maxei_loti 
+			INNER JOIN (SELECT MAX(ei_loti.id) AS maxei_loti 
 				FROM identified_species ei_loti 
 				GROUP BY ei_loti.external_biological_material_fk) ei_lot2 ON (ei_lot.id = ei_lot2.maxei_loti)
 			LEFT JOIN taxon rt_lot ON ei_lot.taxon_fk = rt_lot.id

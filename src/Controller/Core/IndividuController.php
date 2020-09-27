@@ -17,15 +17,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EspeceIdentifiee;
-use App\Entity\Individu;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Individu;
+use App\Entity\EspeceIdentifiee;
 
 /**
  * Individu controller.
@@ -129,7 +129,7 @@ class IndividuController extends AbstractController
                         LEFT JOIN municipality ON st.municipality_fk = municipality.id 
                 LEFT JOIN vocabulary voc_sp_specimen_type ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
 		LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
-			LEFT JOIN (SELECT MAX(ei_spi.id) AS maxei_spi 
+			INNER JOIN (SELECT MAX(ei_spi.id) AS maxei_spi 
 				FROM identified_species ei_spi 
 				GROUP BY ei_spi.specimen_fk) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
 			LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
