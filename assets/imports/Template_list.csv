@@ -1,0 +1,29 @@
+Section in GOTIT HELP LIBRARY;Name of template file
+13.1. Upload Site;site
+13.2. Upload sampling;sampling
+13.3. Upload biological material (internal);internal_biological_material
+13.4. Upload specimen;specimen
+13.5. Upload specimen slide;specimen_slide
+13.6. Upload external biological material;external_biological_material
+13.7. Upload DNA;DNA
+13.8. Upload PCR;PCR
+13.9. Upload chromatogram;chromatogram
+13.10. Upload internal sequence;internal_sequence
+13.11. Upload external sequence;external_sequence
+13.12. Upload MOTU;MOTU
+13.13. Store biological material as file;biological_material_store
+13.14. Move or delete biological material as file;biological_material_move
+13.15. Store slides as file;slide_store
+13.16. Move or delete slides as file;slide_move
+13.17. Store DNA boxes as file;DNA_store
+13.18. Move or delete DNA boxes as file;DNA_move
+13.19. Import new set of sources;source
+13.20. Source to biological material as file;source_attribute_to_lot
+13.21. Source to sequence as file;source_attribute_to_sequence
+13.22. Upload person names;person
+13.23. Upload institutions;institution
+13.24. Upload program;program
+13.25. Upload taxon;taxon
+13.26. Upload vocabulary;vocabulary
+13.27. Upload box;box
+13.29. Upload country;country

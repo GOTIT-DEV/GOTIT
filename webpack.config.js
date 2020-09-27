@@ -108,6 +108,11 @@ Encore
         from: './assets/images',
         to: 'images/[name].[ext]'
     })
+    // Copy import templates directory
+    .copyFiles({
+        from: './assets/imports',
+        to: 'imports/[name].[ext]'
+    })
     ;
 
 var config = Encore.getWebpackConfig();

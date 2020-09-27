@@ -19,7 +19,7 @@ namespace App\Controller\Core\Import;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpKernel\KernelInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -53,7 +53,7 @@ class ImportFilesChromatogrammeController extends AbstractController
     ImportFileE3s $importFileE3sService,
     ImportFileCsv $service,
     TranslatorInterface $translator,
-    KernelInterface $kernel
+    Packages $assetManager
   ) {
     $message = "";
     //creation of the form with a drop-down list
@@ -109,7 +109,7 @@ class ImportFilesChromatogrammeController extends AbstractController
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
       $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
-      $pathToTemplate = $kernel->getRootDir() . '/../web/template/' . $this->type_csv . '.csv';
+      $pathToTemplate = $service->getCsvPath($this->type_csv);
       // 
       $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate, $fichier));
       $message .= $checkName;
