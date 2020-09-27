@@ -31,8 +31,8 @@ class VocType extends ActionFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('code', UppercaseType::class)
-            ->add('libelle', UppercaseType::class)
+            ->add('code')
+            ->add('libelle')
             ->add('parent', ChoiceType::class, array(
                 'choices' => [
                     'vocParent.codeCollection' => 'codeCollection',
