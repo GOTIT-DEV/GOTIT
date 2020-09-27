@@ -17,9 +17,9 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Collecte
@@ -56,7 +56,7 @@ class Collecte
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_collecte", type="date", nullable=true)
+     * @ORM\Column(name="sampling_date", type="date", nullable=true)
      */
     private $dateCollecte;
 
