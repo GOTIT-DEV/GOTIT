@@ -79,7 +79,7 @@ class StationController extends AbstractController
   }
 
   /**
-   * Retourne au format json un ensemble de champs à afficher tab_station_toshow avec les critères suivant :  
+   * Returns in json format a set of fields to display (tab_toshow) with the following criteria:  
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
