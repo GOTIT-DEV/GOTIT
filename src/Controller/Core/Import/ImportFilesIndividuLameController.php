@@ -47,8 +47,12 @@ class ImportFilesIndividuLameController extends AbstractController
    * @Route("/", name="importfilesindividulame_index")
    *    
    */
-  public function indexAction(Request $request, ImportFileE3s $importFileE3sService, TranslatorInterface $translator, ImportFileCsv $service)
-  {
+  public function indexAction(
+    Request $request,
+    ImportFileE3s $importFileE3sService,
+    TranslatorInterface $translator,
+    ImportFileCsv $service
+  ) {
     $message = "";
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

@@ -52,8 +52,7 @@ class ImportFilesChromatogrammeController extends AbstractController
     Request $request,
     ImportFileE3s $importFileE3sService,
     ImportFileCsv $service,
-    TranslatorInterface $translator,
-    Packages $assetManager
+    TranslatorInterface $translator
   ) {
     $message = "";
     //creation of the form with a drop-down list

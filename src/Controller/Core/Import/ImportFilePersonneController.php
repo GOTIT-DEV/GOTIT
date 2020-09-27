@@ -42,8 +42,12 @@ class ImportFilePersonneController extends AbstractController
    * @Route("/", name="importfilespersonne_index")
    * @Security("has_role('ROLE_COLLABORATION')")   
    */
-  public function indexAction(Request $request, ImportFileE3s $importFileE3sService, TranslatorInterface $translator, ImportFileCsv $service)
-  {
+  public function indexAction(
+    Request $request,
+    ImportFileE3s $importFileE3sService,
+    TranslatorInterface $translator,
+    ImportFileCsv $service
+  ) {
     $message = "";
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
