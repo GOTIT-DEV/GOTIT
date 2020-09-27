@@ -17,16 +17,16 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\LotMateriel;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Form\Enums\Action;
+use App\Entity\LotMateriel;
 
 /**
  * Lotmateriel controller.
@@ -37,84 +37,84 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class LotMaterielController extends AbstractController
 {
-    const MAX_RESULTS_TYPEAHEAD   = 20;
+  const MAX_RESULTS_TYPEAHEAD   = 20;
 
-    /**
-     * Lists all lotMateriel entities.
-     *
-     * @Route("/", name="lotmateriel_index", methods={"GET"})
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+  /**
+   * Lists all lotMateriel entities.
+   *
+   * @Route("/", name="lotmateriel_index", methods={"GET"})
+   */
+  public function indexAction()
+  {
+    $em = $this->getDoctrine()->getManager();
 
-        $lotMateriels = $em->getRepository('App:LotMateriel')->findAll();
+    $lotMateriels = $em->getRepository('App:LotMateriel')->findAll();
 
-        return $this->render('Core/lotmateriel/index.html.twig', array(
-            'lotMateriels' => $lotMateriels,
-        ));
+    return $this->render('Core/lotmateriel/index.html.twig', array(
+      'lotMateriels' => $lotMateriels,
+    ));
+  }
+
+  /**
+   * @Route("/search/{q}", requirements={"q"=".+"}, name="lotmateriel_search")
+   */
+  public function searchAction($q)
+  {
+    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb->select('lot.id, lot.codeLotMateriel as code')
+      ->from('App:LotMateriel', 'lot');
+    $query = explode(' ', strtolower(trim(urldecode($q))));
+    for ($i = 0; $i < count($query); $i++) {
+      $qb->andWhere('(LOWER(lot.codeLotMateriel) like :q' . $i . ')');
     }
-
-    /**
-     * @Route("/search/{q}", requirements={"q"=".+"}, name="lotmateriel_search")
-     */
-    public function searchAction($q)
-    {
-        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $qb->select('lot.id, lot.codeLotMateriel as code')
-            ->from('App:LotMateriel', 'lot');
-        $query = explode(' ', strtolower(trim(urldecode($q))));
-        for ($i = 0; $i < count($query); $i++) {
-            $qb->andWhere('(LOWER(lot.codeLotMateriel) like :q' . $i . ')');
-        }
-        for ($i = 0; $i < count($query); $i++) {
-            $qb->setParameter('q' . $i, $query[$i] . '%');
-        }
-        $qb->addOrderBy('code', 'ASC');
-        $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
-        $results = $qb->getQuery()->getResult();
-        // Ajax answer
-        return $this->json(
-            $results
-        );
+    for ($i = 0; $i < count($query); $i++) {
+      $qb->setParameter('q' . $i, $query[$i] . '%');
     }
+    $qb->addOrderBy('code', 'ASC');
+    $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
+    $results = $qb->getQuery()->getResult();
+    // Ajax answer
+    return $this->json(
+      $results
+    );
+  }
 
 
-    /**
-     * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
-     * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
-     * b) the number of lines to display ($ request-> get ('rowCount'))
-     * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-     *
-     * @Route("/indexjson", name="lotmateriel_indexjson", methods={"POST"})
-     */
-    public function indexjsonAction(Request $request, GenericFunctionE3s $service)
-    {
-        // load Doctrine Manager     
-        $em = $this->getDoctrine()->getManager();
-        //
-        $rowCount = ($request->get('rowCount')  !== NULL)
-            ? $request->get('rowCount') : 10;
-        $orderBy = ($request->get('sort')  !== NULL)
-            ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0] : "lot.date_of_update DESC, lot.id DESC";
-        $minRecord = intval($request->get('current') - 1) * $rowCount;
-        $maxRecord = $rowCount;
-        // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-        $where = ' WHERE LOWER(lot.internal_biological_material_code) LIKE :criteriaLower';
-        $searchPhrase = $request->get('searchPhrase');
-        if (
-            $request->get('searchPattern') !== null &&
-            $request->get('searchPattern') !== '' &&
-            $searchPhrase == ''
-        ) {
-            $searchPhrase = $request->get('searchPattern');
-        }
-        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $where .= ' AND lot.sampling_fk = ' . $request->get('idFk');
-        }
-        // Search for the list to show
-        $tab_toshow = [];
-        $rawSql = "SELECT  lot.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code,
+  /**
+   * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+   * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
+   * b) the number of lines to display ($ request-> get ('rowCount'))
+   * c) 1 sort criterion on a collone ($ request-> get ('sort'))
+   *
+   * @Route("/indexjson", name="lotmateriel_indexjson", methods={"POST"})
+   */
+  public function indexjsonAction(Request $request, GenericFunctionE3s $service)
+  {
+    // load Doctrine Manager     
+    $em = $this->getDoctrine()->getManager();
+    //
+    $rowCount = ($request->get('rowCount')  !== NULL)
+      ? $request->get('rowCount') : 10;
+    $orderBy = ($request->get('sort')  !== NULL)
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0] : "lot.date_of_update DESC, lot.id DESC";
+    $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
+    // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
+    $where = ' WHERE LOWER(lot.internal_biological_material_code) LIKE :criteriaLower';
+    $searchPhrase = $request->get('searchPhrase');
+    if (
+      $request->get('searchPattern') !== null &&
+      $request->get('searchPattern') !== '' &&
+      $searchPhrase == ''
+    ) {
+      $searchPhrase = $request->get('searchPattern');
+    }
+    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+      $where .= ' AND lot.sampling_fk = ' . $request->get('idFk');
+    }
+    // Search for the list to show
+    $tab_toshow = [];
+    $rawSql = "SELECT  lot.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code,
         lot.internal_biological_material_status,lot.sequencing_advice, lot.internal_biological_material_date, lot.date_of_creation, lot.date_of_update, voc_lot_identification_criterion.code as code_lot_identification_criterion,
 	lot.internal_biological_material_code, rt_lot.taxon_name as last_taxname_lot, ei_lot.identification_date as last_date_identification_lot,
         lot.creation_user_name, user_cre.username as user_cre_username , user_maj.username as user_maj_username,
@@ -135,230 +135,230 @@ class LotMaterielController extends AbstractController
 			LEFT JOIN taxon rt_lot ON ei_lot.taxon_fk = rt_lot.id
                         LEFT JOIN vocabulary voc_lot_identification_criterion ON ei_lot.identification_criterion_voc_fk = voc_lot_identification_criterion.id
 		LEFT JOIN specimen sp ON sp.internal_biological_material_fk = lot.id"
-            . $where . " 
+      . $where . " 
         GROUP BY lot.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code,
         lot.internal_biological_material_status,lot.sequencing_advice, lot.internal_biological_material_date, lot.date_of_creation, lot.date_of_update, voc_lot_identification_criterion.code ,
 	lot.internal_biological_material_code, rt_lot.taxon_name, ei_lot.identification_date,
         lot.creation_user_name, user_cre.username, user_maj.username"
-            . " ORDER BY " . $orderBy;
-        // execute query and fill tab to show in the bootgrid list (see index.htm)
-        $stmt = $em->getConnection()->prepare($rawSql);
-        $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-        $stmt->execute();
-        $entities_toshow = $stmt->fetchAll();
-        $nb = count($entities_toshow);
-        $entities_toshow = ($request->get('rowCount') > 0)
-            ? array_slice($entities_toshow, $minRecord, $rowCount)
-            : array_slice($entities_toshow, $minRecord);
+      . " ORDER BY " . $orderBy;
+    // execute query and fill tab to show in the bootgrid list (see index.htm)
+    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
+    $stmt->execute();
+    $entities_toshow = $stmt->fetchAll();
+    $nb = count($entities_toshow);
+    $entities_toshow = ($request->get('rowCount') > 0)
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
-        foreach ($entities_toshow as $key => $val) {
-            $linkIndividu = ($val['list_specimen'] !== null)
-                ? strval($val['id']) : '';
-            $tab_toshow[] = array(
-                "id" => $val['id'],
-                "lot.id" => $val['id'],
-                "lot.internal_biological_material_code" => $val['internal_biological_material_code'],
-                "lot.internal_biological_material_status" => $val['internal_biological_material_status'],
-                "last_taxname_lot" => $val['last_taxname_lot'],
-                "last_date_identification_lot" => $val['last_date_identification_lot'],
-                "code_lot_identification_criterion" => $val['code_lot_identification_criterion'],
-                "lot.sequencing_advice" => $val['sequencing_advice'],
-                "lot.internal_biological_material_date" => $val['internal_biological_material_date'],
-                "lot.date_of_creation" => $val['date_of_creation'],
-                "lot.date_of_update" => $val['date_of_update'],
-                "list_person" => $val['list_person'],
-                "sampling.sample_code" => $val['sample_code'],
-                "country.country_name" => $val['country_name'],
-                "municipality.municipality_code" => $val['municipality_code'],
-                "creation_user_name" => $val['creation_user_name'],
-                "user_cre.username" => $val['user_cre_username'],
-                "user_maj.username" => $val['user_maj_username'],
-                "linkIndividu" => $linkIndividu,
-                "linkIndividu_codestation" => "%|" . $val['site_code'] . "_%"
-            );
-        }
-
-        return new JsonResponse([
-            "current"    => intval($request->get('current')),
-            "rowCount"  => $rowCount,
-            "rows"     => $tab_toshow,
-            "searchPhrase" => $searchPhrase,
-            "total"    => $nb // total data array				
-        ]);
+    foreach ($entities_toshow as $key => $val) {
+      $linkIndividu = ($val['list_specimen'] !== null)
+        ? strval($val['id']) : '';
+      $tab_toshow[] = array(
+        "id" => $val['id'],
+        "lot.id" => $val['id'],
+        "lot.internal_biological_material_code" => $val['internal_biological_material_code'],
+        "lot.internal_biological_material_status" => $val['internal_biological_material_status'],
+        "last_taxname_lot" => $val['last_taxname_lot'],
+        "last_date_identification_lot" => $val['last_date_identification_lot'],
+        "code_lot_identification_criterion" => $val['code_lot_identification_criterion'],
+        "lot.sequencing_advice" => $val['sequencing_advice'],
+        "lot.internal_biological_material_date" => $val['internal_biological_material_date'],
+        "lot.date_of_creation" => $val['date_of_creation'],
+        "lot.date_of_update" => $val['date_of_update'],
+        "list_person" => $val['list_person'],
+        "sampling.sample_code" => $val['sample_code'],
+        "country.country_name" => $val['country_name'],
+        "municipality.municipality_code" => $val['municipality_code'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.username" => $val['user_cre_username'],
+        "user_maj.username" => $val['user_maj_username'],
+        "linkIndividu" => $linkIndividu,
+        "linkIndividu_codestation" => "%|" . $val['site_code'] . "_%"
+      );
     }
 
-    /**
-     * Creates a new lotMateriel entity.
-     *
-     * @Route("/new", name="lotmateriel_new", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_COLLABORATION')")
-     */
-    public function newAction(Request $request)
-    {
-        $lotMateriel = new Lotmateriel();
-        $em = $this->getDoctrine()->getManager();
-        // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
-        if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
-            $RelEntityId = $request->get('idFk');
-            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
-            $lotMateriel->setCollecteFk($RelEntity);
-        }
-        $form = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
-            'action_type' => Action::create()
-        ]);
-        $form->handleRequest($request);
+    return new JsonResponse([
+      "current"    => intval($request->get('current')),
+      "rowCount"  => $rowCount,
+      "rows"     => $tab_toshow,
+      "searchPhrase" => $searchPhrase,
+      "total"    => $nb // total data array				
+    ]);
+  }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // (i) load the id  the relational Entity (Collecte) from typeahead input field and (ii) set the foreign key 
-            $RelEntityId = $form->get('collecteId');
-            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
-            $lotMateriel->setCollecteFk($RelEntity);
-            // persist
-            $em->persist($lotMateriel);
-            try {
-                $em->flush();
-            } catch (\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }
-            return $this->redirectToRoute('lotmateriel_edit', array(
-                'id' => $lotMateriel->getId(),
-                'valid' => 1,
-                'idFk' => $request->get('idFk')
-            ));
-        }
+  /**
+   * Creates a new lotMateriel entity.
+   *
+   * @Route("/new", name="lotmateriel_new", methods={"GET", "POST"})
+   * @Security("has_role('ROLE_COLLABORATION')")
+   */
+  public function newAction(Request $request)
+  {
+    $lotMateriel = new Lotmateriel();
+    $em = $this->getDoctrine()->getManager();
+    // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
+    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+      $RelEntityId = $request->get('idFk');
+      $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId);
+      $lotMateriel->setCollecteFk($RelEntity);
+    }
+    $form = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+      'action_type' => Action::create()
+    ]);
+    $form->handleRequest($request);
 
-        return $this->render('Core/lotmateriel/edit.html.twig', array(
-            'lotMateriel' => $lotMateriel,
-            'edit_form' => $form->createView(),
-        ));
+    if ($form->isSubmitted() && $form->isValid()) {
+      // (i) load the id  the relational Entity (Collecte) from typeahead input field and (ii) set the foreign key 
+      $RelEntityId = $form->get('collecteId');
+      $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
+      $lotMateriel->setCollecteFk($RelEntity);
+      // persist
+      $em->persist($lotMateriel);
+      try {
+        $em->flush();
+      } catch (\Doctrine\DBAL\DBALException $e) {
+        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+      }
+      return $this->redirectToRoute('lotmateriel_edit', array(
+        'id' => $lotMateriel->getId(),
+        'valid' => 1,
+        'idFk' => $request->get('idFk')
+      ));
     }
 
-    /**
-     * Finds and displays a lotMateriel entity.
-     *
-     * @Route("/{id}", name="lotmateriel_show", methods={"GET"})
-     */
-    public function showAction(LotMateriel $lotMateriel)
-    {
-        $deleteForm = $this->createDeleteForm($lotMateriel);
-        $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
-            'action_type' => Action::create()
-        ]);
+    return $this->render('Core/lotmateriel/edit.html.twig', array(
+      'lotMateriel' => $lotMateriel,
+      'edit_form' => $form->createView(),
+    ));
+  }
 
-        return $this->render('Core/lotmateriel/edit.html.twig', array(
-            'lotMateriel' => $lotMateriel,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+  /**
+   * Finds and displays a lotMateriel entity.
+   *
+   * @Route("/{id}", name="lotmateriel_show", methods={"GET"})
+   */
+  public function showAction(LotMateriel $lotMateriel)
+  {
+    $deleteForm = $this->createDeleteForm($lotMateriel);
+    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+      'action_type' => Action::create()
+    ]);
+
+    return $this->render('Core/lotmateriel/edit.html.twig', array(
+      'lotMateriel' => $lotMateriel,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    ));
+  }
+
+  /**
+   * Displays a form to edit an existing lotMateriel entity.
+   *
+   * @Route("/{id}/edit", name="lotmateriel_edit", methods={"GET", "POST"})
+   * @Security("has_role('ROLE_COLLABORATION')")
+   */
+  public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service)
+  {
+    //  access control for user type  : ROLE_COLLABORATION
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    $user = $this->getUser();
+    if (
+      $user->getRole() ==  'ROLE_COLLABORATION' &&
+      $lotMateriel->getUserCre() != $user->getId()
+    ) {
+      $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
+    }
+    // load service  generic_function_e3s
+    // 
+
+    // store ArrayCollection       
+    $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
+    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel);
+    $lotEstPublieDanss = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
+    $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
+
+    // 
+    $deleteForm = $this->createDeleteForm($lotMateriel);
+    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+      'action_type' => Action::create()
+    ]);
+    $editForm->handleRequest($request);
+
+    if ($editForm->isSubmitted() && $editForm->isValid()) {
+      // delete ArrayCollection
+      $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
+      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel, $especeIdentifiees);
+      $service->DelArrayCollection('LotEstPublieDanss', $lotMateriel, $lotEstPublieDanss);
+      $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
+      // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
+      $em = $this->getDoctrine()->getManager();
+      $RelEntityId = $editForm->get('collecteId');;
+      $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
+      $lotMateriel->setCollecteFk($RelEntity);
+      // flush
+      $this->getDoctrine()->getManager()->persist($lotMateriel);
+      try {
+        $this->getDoctrine()->getManager()->flush();
+      } catch (\Doctrine\DBAL\DBALException $e) {
+        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+      }
+      return $this->render('Core/lotmateriel/edit.html.twig', array(
+        'lotMateriel' => $lotMateriel,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1
+      ));
     }
 
-    /**
-     * Displays a form to edit an existing lotMateriel entity.
-     *
-     * @Route("/{id}/edit", name="lotmateriel_edit", methods={"GET", "POST"})
-     * @Security("has_role('ROLE_COLLABORATION')")
-     */
-    public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service)
-    {
-        //  access control for user type  : ROLE_COLLABORATION
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-        if (
-            $user->getRole() ==  'ROLE_COLLABORATION' &&
-            $lotMateriel->getUserCre() != $user->getId()
-        ) {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
-        }
-        // load service  generic_function_e3s
-        // 
+    return $this->render('Core/lotmateriel/edit.html.twig', array(
+      'lotMateriel' => $lotMateriel,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    ));
+  }
 
-        // store ArrayCollection       
-        $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
-        $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel);
-        $lotEstPublieDanss = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
-        $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
+  /**
+   * Deletes a lotMateriel entity.
+   *
+   * @Route("/{id}", name="lotmateriel_delete", methods={"DELETE"})
+   * @Security("has_role('ROLE_COLLABORATION')")
+   */
+  public function deleteAction(Request $request, LotMateriel $lotMateriel)
+  {
+    $form = $this->createDeleteForm($lotMateriel);
+    $form->handleRequest($request);
 
-        // 
-        $deleteForm = $this->createDeleteForm($lotMateriel);
-        $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
-            'action_type' => Action::create()
-        ]);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // delete ArrayCollection
-            $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
-            $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel, $especeIdentifiees);
-            $service->DelArrayCollection('LotEstPublieDanss', $lotMateriel, $lotEstPublieDanss);
-            $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
-            // (i) load the id of relational Entity (Collecte) from typeahead input field  (ii) set the foreign key
-            $em = $this->getDoctrine()->getManager();
-            $RelEntityId = $editForm->get('collecteId');;
-            $RelEntity = $em->getRepository('App:Collecte')->find($RelEntityId->getData());
-            $lotMateriel->setCollecteFk($RelEntity);
-            // flush
-            $this->getDoctrine()->getManager()->persist($lotMateriel);
-            try {
-                $this->getDoctrine()->getManager()->flush();
-            } catch (\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }
-            return $this->render('Core/lotmateriel/edit.html.twig', array(
-                'lotMateriel' => $lotMateriel,
-                'edit_form' => $editForm->createView(),
-                'valid' => 1
-            ));
-        }
-
-        return $this->render('Core/lotmateriel/edit.html.twig', array(
-            'lotMateriel' => $lotMateriel,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+    $submittedToken = $request->request->get('token');
+    if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
+      $em = $this->getDoctrine()->getManager();
+      try {
+        $em->remove($lotMateriel);
+        $em->flush();
+      } catch (\Doctrine\DBAL\DBALException $e) {
+        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+      }
     }
 
-    /**
-     * Deletes a lotMateriel entity.
-     *
-     * @Route("/{id}", name="lotmateriel_delete", methods={"DELETE"})
-     * @Security("has_role('ROLE_COLLABORATION')")
-     */
-    public function deleteAction(Request $request, LotMateriel $lotMateriel)
-    {
-        $form = $this->createDeleteForm($lotMateriel);
-        $form->handleRequest($request);
+    return $this->redirectToRoute('lotmateriel_index');
+  }
 
-        $submittedToken = $request->request->get('token');
-        if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-            $em = $this->getDoctrine()->getManager();
-            try {
-                $em->remove($lotMateriel);
-                $em->flush();
-            } catch (\Doctrine\DBAL\DBALException $e) {
-                $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-                return $this->render('Core/lotmateriel/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
-            }
-        }
-
-        return $this->redirectToRoute('lotmateriel_index');
-    }
-
-    /**
-     * Creates a form to delete a lotMateriel entity.
-     *
-     * @param LotMateriel $lotMateriel The lotMateriel entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(LotMateriel $lotMateriel)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('lotmateriel_delete', array(
-                'id' => $lotMateriel->getId()
-            )))
-            ->setMethod('DELETE')
-            ->getForm();
-    }
+  /**
+   * Creates a form to delete a lotMateriel entity.
+   *
+   * @param LotMateriel $lotMateriel The lotMateriel entity
+   *
+   * @return \Symfony\Component\Form\Form The form
+   */
+  private function createDeleteForm(LotMateriel $lotMateriel)
+  {
+    return $this->createFormBuilder()
+      ->setAction($this->generateUrl('lotmateriel_delete', array(
+        'id' => $lotMateriel->getId()
+      )))
+      ->setMethod('DELETE')
+      ->getForm();
+  }
 }

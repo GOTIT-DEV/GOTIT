@@ -17,14 +17,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Collecte;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Collecte;
 
 /**
  * Collecte controller.
@@ -204,7 +204,7 @@ class CollecteController extends AbstractController
       $RelEntity = $em->getRepository('App:Station')->find($RelEntityId);
       $collecte->setStationFk($RelEntity);
     }
-    
+
     $form = $this->createForm('App\Form\CollecteType', $collecte, [
       'action_type' => Action::create()
     ]);
@@ -217,7 +217,7 @@ class CollecteController extends AbstractController
       $RelEntityId = $form->get('stationId');
       $RelEntity = $em->getRepository('App:Station')->find($RelEntityId->getData());
       $collecte->setStationFk($RelEntity);
-      
+
       // persist Entity
       $em->persist($collecte);
       try {
