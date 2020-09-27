@@ -7,42 +7,88 @@
 2) the controller will have to return in the table rows the colloids of the type: "linkEntity1" => "patern1", "linkeEntity2" => "patern2" ... #}
 {% set links =  [] %}
 
-{% block action %}
-    {{ parent() }}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
-    {% else %}
-        <a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
-    {% endif %}
+	{% block action %}
+	{{ parent() }}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button"> 
+      {{ ['button.Import',entityname|capitalize]|join|trans }}
+		</a>
+	{% else %}
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
+			{{['button.Import',entityname|capitalize]|join|trans}}
+		</a>
+	{% endif %}
 {% endblock %}
 
-{% block body %}         
-    {# definition of collones to display 
-     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
-    <div class="table-responsive">        
-    <table id="grid-basic" class="table table-condensed table-hover table-striped" >           
-        <thead>
-            <tr>
-                <th data-column-id="voc.id" data-type="numeric" data-visible="false" >Id</th>
-                <th data-column-id="voc.code" data-sortable="true">{{'Code'|trans}}</th> 
-                <th data-column-id="voc.libelle" data-sortable="true">{{'list.vocLibelle'|trans}}</th> 
-                {% set locale = app.request.getLocale() %}
-                {% set defaultLocale = app.request.getDefaultLocale() %}
-                {% if second_language != '' %}
-                    {% if locale != defaultLocale %} 
-                        <th data-column-id="voc.libelleSecondLanguage" data-sortable="false" data-visible="true">{{'list.vocLibelleSecondLanguage'|trans}}</th>
-                    {% endif %}
-                {% endif %}
-                <th data-column-id="voc.parent" data-sortable="true">{{'Parent'|trans}}</th> 
-                <th data-column-id="voc.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
-                <th data-column-id="voc.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
-                <th data-column-id="voc.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
-                <th data-column-id="voc.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
-                <th data-column-id="show" data-formatter="show" data-sortable="false"   data-width="20">{{'list.show'|trans}}</th>
-                <th data-column-id="edit" data-formatter="edit" data-sortable="false"  data-width="20">{{'list.edit'|trans}}</th>
-                <th data-column-id="delete" data-formatter="delete" data-sortable="false" data-width="20">{{'list.delete'|trans}}</th>
-            </tr>
-        </thead>
-    </table>
-    </div>       
+{% block body %}
+	{# definition of collones to display 
+								     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+	<div class="table-responsive">
+		<table id="grid-basic" class="table table-condensed table-hover table-striped">
+			<thead>
+				<tr>
+					<th data-column-id="voc.id" data-type="numeric" data-visible="false">
+						Id
+					</th>
+					<th data-column-id="voc.code" data-sortable="true">
+						{{'Code'|trans}}
+					</th>
+					<th data-column-id="voc.libelle" data-sortable="true">
+						{{'list.vocLibelle'|trans}}
+					</th>
+					{% set locale = app.request.getLocale() %}
+					{% set defaultLocale = app.request.getDefaultLocale() %}
+					{% if second_language != '' %}
+						{% if locale != defaultLocale %}
+							<th
+								data-column-id="voc.libelleSecondLanguage"
+								data-sortable="false"
+								data-visible="true">
+								{{'list.vocLibelleSecondLanguage'|trans}}
+							</th>
+						{% endif %}
+					{% endif %}
+					<th data-column-id="voc.parent" data-sortable="true">
+						{{'list.Parent libelle'|trans}}
+					</th>
+					<th data-column-id="voc.parentCode" data-sortable="false">
+						{{'list.Parent code'|trans}}
+					</th>
+					<th data-column-id="voc.dateMaj" data-width="100">
+						{{'list.Date maj'|trans}}
+					</th>
+					<th data-column-id="voc.dateCre" data-width="100" data-visible="false">
+						{{'list.Date cre'|trans}}
+					</th>
+					<th data-column-id="voc.userCre" data-width="10" data-visible="false">
+						{{'list.User cre'|trans}}
+					</th>
+					<th data-column-id="voc.userMaj" data-width="10" data-visible="false">
+						{{'list.User maj'|trans}}
+					</th>
+					<th
+						data-column-id="show"
+						data-formatter="show"
+						data-sortable="false"
+						data-width="20">
+						{{'list.show'|trans}}
+					</th>
+					<th
+						data-column-id="edit"
+						data-formatter="edit"
+						data-sortable="false"
+						data-width="20">
+						{{'list.edit'|trans}}
+					</th>
+					<th
+						data-column-id="delete"
+						data-formatter="delete"
+						data-sortable="false"
+						data-width="20">
+						{{'list.delete'|trans}}
+					</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
 {% endblock %}

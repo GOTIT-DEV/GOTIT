@@ -109,6 +109,7 @@ class VocController extends AbstractController
         "voc.libelle" => $entity->getLibelle(),
         "voc.libelleSecondLanguage" => $translator->trans($entity->getLibelle()),
         "voc.parent" => $translator->trans('vocParent.' . $entity->getParent()),
+        "voc.parentCode" => $entity->getParent(),
         "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
         "voc.userCre" => $service->GetUserCreUsername($entity),
