@@ -60,7 +60,7 @@ class VocType extends ActionFormType
                     'vocParent.typeBoite' => 'typeBoite',
                     'vocParent.typeCollection' => 'typeCollection',
                     'vocParent.typeIndividu' => 'typeIndividu',
-                    'vocParent.typeMaterial' => 'typeMaterial',
+                    'vocParent.typeMateriel' => 'typeMateriel',
                     'vocParent.yeux' => 'yeux',
                 ],
                 'placeholder' => 'Choose a Parent',

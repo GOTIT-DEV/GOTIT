@@ -29,7 +29,7 @@ Station typeahead placeholder: Taper les première lettres du Code Station
 Station typeahead: Station
 
 # class of vocabulary (table = Voc , field = parent)
-vocParent.typeMaterial: type Materiel
+vocParent.typeMateriel: type Materiel
 vocParent.codeCollection: code Collection
 vocParent.critereIdentification: critère Identification
 vocParent.datePrecision: date Precision

@@ -195,7 +195,7 @@ Station typeahead placeholder: Type the first letter of the Code Station
 Station typeahead: Station
 
 # Class of vocabulary (table = Voc , field = parent)
-vocParent.typeMaterial: Material type
+vocParent.typeMateriel: Material type
 vocParent.codeCollection: Code collection
 vocParent.critereIdentification:  Identification criteria
 vocParent.datePrecision: Date Precision
