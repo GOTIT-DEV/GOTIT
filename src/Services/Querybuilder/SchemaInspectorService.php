@@ -101,21 +101,24 @@ class SchemaInspectorService
     $name = $this->parse_entity_name($entity);
 
     $make_filter = function ($field) use ($name) {
-      $res = [
+
+      $filter = [
         "id" => $field['fieldName'],
         "label" => $field['fieldName'],
-        "type" => $this->convert_field_type($field['type']),
+        "type" => null,
+        "attrs" => [],
         "choices" => []
       ];
+      $filter = $this->parse_field_type($field['type'], $filter);
 
       if ($name == "Voc" && $field['fieldName'] == "parent") {
-        $res['choices'] = array_map('current', $this->em
+        $filter['choices'] = array_map('current', $this->em
           ->createQuery('select distinct v.parent from App:Voc v')
           ->getArrayResult());
-        $res['type'] = 'custom-component';
+        $filter['type'] = 'custom-component';
       }
 
-      return $res;
+      return $filter;
     };
 
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
@@ -127,18 +130,23 @@ class SchemaInspectorService
     ];
   }
 
-  private function convert_field_type($type)
+  private function parse_field_type(String $type, array $filter)
   {
+    $t = $type;
     if (strpos($type, "int") != false) {
-      $type = "numeric";
+      $t = "numeric";
     } elseif ($type == "float") {
-      $type = "numeric";
+      $t = "numeric";
+      $filter['attrs']['step'] = 0.0001;
     } elseif ($type == "string") {
-      // $type = "string";
-      $type = "text";
+      //$t = "string";
+      $t = "text";
     } elseif (strpos($type, "bool") != false) {
-      $type = "boolean";
+      $t = "boolean";
     }
-    return $type;
+
+    $filter['type'] = $t;
+
+    return $filter;
   }
 }

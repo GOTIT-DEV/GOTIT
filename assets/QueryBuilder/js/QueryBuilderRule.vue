@@ -54,6 +54,7 @@
           v-model="value[0]"
           class="form-control form-control-sm"
           type="number"
+          v-bind="rule.attrs"
         />
 
         <!-- Datepicker -->
