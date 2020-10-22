@@ -21,7 +21,7 @@ $(() => {
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: Routing.generate("station_search", { 'q': "QUERY" }).replace("QUERY", "%QUERY"),
+      url: Routing.generate("station_search", { 'q': "%QUERY" }),
       wildcard: '%QUERY'
     }
   });
@@ -88,6 +88,5 @@ function generateSamplingCode(station, date_str, precision) {
     else
       dateCode = date.format('Ymm')
   }
-  console.log(`${station}_${dateCode}`)
   return `${station}_${dateCode}`
 }

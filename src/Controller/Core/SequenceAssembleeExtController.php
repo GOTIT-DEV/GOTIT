@@ -449,7 +449,6 @@ class SequenceAssembleeExtController extends AbstractController
         '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
-      //var_dump($nbEspeceIdentifiees);var_dump($codeSqc); exit; 
     }
     return $codeSqc;
   }

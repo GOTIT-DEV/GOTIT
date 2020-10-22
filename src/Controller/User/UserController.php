@@ -17,15 +17,15 @@
 
 namespace App\Controller\User;
 
-use App\Entity\User;
-use App\Form\Enums\Action;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Form\Enums\Action;
+use App\Entity\User;
 
 /**
  * User controller.
@@ -148,7 +148,7 @@ class UserController extends AbstractController
             // encodage du password
             $plainPassword = $user->getPlainPassword();
             $encoded = $encoder->encodePassword($user, $plainPassword);
-            //var_dump($plainPassword); var_dump($encoded);exit;
+            
             $user->setPassword($encoded);
             //
             $em = $this->getDoctrine()->getManager();
@@ -219,7 +219,7 @@ class UserController extends AbstractController
             // password encoding
             $plainPassword = $user->getPlainPassword();
             $encoded = $encoder->encodePassword($user, $plainPassword);
-            //var_dump($plainPassword); var_dump($encoded);exit;
+            
             $user->setPassword($encoded);
             $em = $this->getDoctrine()->getManager();
             try {
@@ -253,7 +253,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('token');
-        //var_dump($request->request->get('role'));
+        
 
         if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
             $em = $this->getDoctrine()->getManager();

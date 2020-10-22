@@ -92,7 +92,6 @@ class ImportFilesMotuController extends AbstractController
           case 'MOTU':
             if ($form->get('fichier')->getData() !== NULL) {
               // suppression des donnéee assignées 
-              //var_dump($form->get('motuFk')->getData()); exit;
               $message .= $importFileE3sService->importCSVDataMotuFile($fichier, $form->get('motuFk')->getData(), $user->getId());
             } else {
               $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";

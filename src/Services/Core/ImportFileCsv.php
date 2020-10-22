@@ -39,7 +39,8 @@ class ImportFileCsv
    * getCsvPath
    * returns the path of CSV file given its type
    */
-  public function getCsvPath(string $type_csv){
+  public function getCsvPath(string $type_csv)
+  {
     return $this->assetsManager->getUrl('imports/' . $type_csv . '.csv');
   }
 
@@ -205,7 +206,6 @@ class ImportFileCsv
       for ($c = 0; $c < $nbColumnTemplate; $c++) {
         if ($column_name_template[$c] != $column_name[$c]) {
           $output = 'importfileService.ERROR bad column in CSV file';
-          //var_dump($column_name_template[$c]);var_dump('<->');var_dump($column_name[$c]);
         }
       }
     } else {
@@ -342,7 +342,8 @@ class ImportFileCsv
       'photo_folder_name' => 'nom_dossier_photos',
       'pigmentation_voc_fk' => 'pigmentation_voc_fk',
       'program_code' => 'code_programme',
-      'program_comments' => 'commentaire_programme',
+      'program_comments' => 'if ($db_version == 2) {
+        commentaire_programme',
       'program_fk' => 'programme_fk',
       'program_name' => 'nom_programme',
       'region_name' => 'nom_region',
@@ -401,10 +402,10 @@ class ImportFileCsv
       'vocabulary_title' => 'libelle'
     ];
     // test to know if the version of the database is 2
-    //var_dump($type); var_dump($field_name_csv);
+    
     if ($db_version == 2) {
       $field_name_csv = $array_fieldnameV2_fielnameV1[$field_name_csv];
-      //var_dump($field_name_csv ); 
+      
     }
 
     // the type can be 'field' or 'table'
@@ -425,7 +426,7 @@ class ImportFileCsv
     if ($type == 'get') {
       $field_name_symfony = 'get' . $field_name_symfony;
     }
-    //var_dump($field_name_symfony ); 
+    
     return $field_name_symfony;
   }
 

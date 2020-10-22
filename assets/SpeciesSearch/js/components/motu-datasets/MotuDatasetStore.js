@@ -58,7 +58,6 @@ export default {
       // if (value === false) state.ready.resolve()
     },
     setMultiple(state, value) {
-      console.log("Multiple = ", state.multiple)
       state.multiple = value
     }
   }

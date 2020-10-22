@@ -1559,7 +1559,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -2144,7 +2144,7 @@ class ImportFileE3s
                                        $dataColCsv = NULL; 
                                    }
                                }
-                               //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                               
                            } 
                        }
                        // save the values ​​of the field
@@ -2409,7 +2409,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -2647,7 +2647,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -2776,7 +2776,7 @@ class ImportFileE3s
         $compt = 0;
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
-        //var_dump($csvData);
+        
         $entity = $motu;            
         foreach($csvDataMotu as $l2 => $data2){ // 1- Line-to-line data processing ($ l)
                 $flagSeq = 0 ;
@@ -2811,7 +2811,7 @@ class ImportFileE3s
                     $method = "setMethodeMotuVocFk";
                     $entityRel->$method($foreign_record);
                 }  
-                //var_dump($l2); var_dump($flagSeqExt); var_dump($flagSeq);  var_dump($data2); 
+                
                 $entityRel->setDateCre($DateImport);
                 $entityRel->setDateMaj($DateImport);
                 $entityRel->setUserCre($userId);
@@ -2854,7 +2854,7 @@ class ImportFileE3s
         $compt = 0;
         $message = '';
         $info = $this->translator->trans('importfileService.Date of data set import').' : '.$DateImport->format('Y-m-d H:i:s');
-        //var_dump($csvData);
+        
         foreach($csvData as $l => $data){ // 1- Line-to-line data processing ($ l)
             $compt++;
             # Enregistrement des données de motu
@@ -2889,7 +2889,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -3022,7 +3022,7 @@ class ImportFileE3s
                         $method = "setMethodeMotuVocFk";
                         $entityRel->$method($foreign_record);
                     }  
-                    //var_dump($l2); var_dump($flagSeqExt); var_dump($flagSeq);  var_dump($data2);
+                    
                     $entityRel->setDateCre($DateImport);
                     $entityRel->setDateMaj($DateImport);
                     $entityRel->setUserCre($userId);
@@ -3240,7 +3240,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -3421,7 +3421,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -3591,7 +3591,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -3772,7 +3772,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
@@ -4301,7 +4301,7 @@ class ImportFileE3s
                                     $dataColCsv = NULL; 
                                 }
                             }
-                            //var_dump($ColCsv); var_dump($eventDate); var_dump($dataColCsv);
+                            
                         } else {
                           $dataColCsv = NULL;  
                         }
