@@ -1,93 +1,25 @@
-{% extends 'edit.html.twig' %}
-{% form_theme form_gene_indbiomol 'Form/form-theme.html.twig'   %}
-
 {# EDIT : INTERNAL SEQUENCE #}
 
+{% extends 'edit.html.twig' %}
+
+{% set route = app.request.attributes.get('_route') %}
+{% form_theme form_gene_indbiomol 'Form/form-theme.html.twig' %}
+
 {% block body %}
-               <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">           
-        <div class="x-content"> 
-            {{ form(form_gene_indbiomol)}} 
-          </div>            
-        </div>
-      </div>
-    </div>
-    {{ parent() }}    
 
- 
-{% endblock %}
+	{{ form(form_gene_indbiomol) }}
 
-{% block scripts %}
-{{ parent() }}
+		<hr>
 
- 
-<script type="text/javascript">  
-// Form actions
-    $(document).ready(function(){
+		{% if edit_form.vars.action_type != 'new' or 
+    (geneVocFk|default(null) and individuFk|default(null)) %}
+			{{ parent() }}
+		{% endif %}
 
-        {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
-            {% if (app.request.query.get('idFk') is defined) and (app.request.query.get('idFk') is not null) %}
-                $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}&idFk={{app.request.query.get('idFk')}}');
-            {% else %} 
-                $('form[name="bbees_e3sbundle_sequenceassemblee"]').attr('action','{{path('sequenceassemblee_new')}}?geneVocFk={{geneVocFk}}&individuFk={{individuFk}}');
-            {% endif %} 
-            $("form[name=form] :input").prop("disabled", true);
-        {% endif %}      
+	{% endblock %}
 
-        {% if action == 'edit'  %}  
-            // General action on form: form lock (default) / user role: app.user ...
-            // unlock the form sequence 
-            $("form[name=form] :input").prop("disabled", true);
-            {% if not is_granted('ROLE_PROJECT') %}                   
-                // ROLE COLLABORATION :Locking fields:Gene; Individu; Code sequence assemblee; Statut sequence assemblee; Bouton "Ajouter un chromatogramme" et le champs "Code chromatogramme | specificite"; Code sequence alignee
-                $('#add_Chromatogramme').attr("style", "display:none");
-                $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites div').children('a').each(function() {
-                    $(this).attr("style", "display:none"); 
-                });                       
-                $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                    $('select[id^="bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_"]')
-                    .attr("disabled", false); 
-                });
-                $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                    $('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').attr("disabled", false); 
-                }); 
-                $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                    $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').attr("disabled", false); 
-                });
-                $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", true); 
-                $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                    $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').attr("disabled", false); 
-                    });                    
-            {% endif %}
-        {% endif %}
-        {% if action == 'new'  %}
-            // set the code chromatogram if the url parameter idFk is not null
-            {% if ( app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not null and  app.request.query.get('idFk') !='')%}
-                {% set idFk = app.request.query.get('idFk') %}
-                var chromatogrammeFk = {{idFk}};
-                $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites_0_chromatogrammeFk').val(chromatogrammeFk);
-                setCodeSqcAss();
-            {% endif %}
-            //
-            if($('#bbees_e3sbundle_sequenceassemblee_codeSqcAss').val() == '') setCodeSqcAss();
-            $('#bbees_e3sbundle_sequenceassemblee_statutSqcAssVocFk').change(function (e) { setCodeSqcAss();}) 
-            $('#bbees_e3sbundle_sequenceassemblee_estAligneEtTraites').change(function (e) { setCodeSqcAss();})
-            {% if (geneVocFk is defined) and (geneVocFk is not null) and  (individuFk is defined) and (individuFk is not null) %}
-            {% else %} 
-                $('form[name="bbees_e3sbundle_sequenceassemblee"] :input').prop("disabled", true);
-            {% endif %} 
-            $('#bbees_e3sbundle_sequenceassemblee_codeSqcAlignement').val("{{'Auto generated code'|trans}}");
-            $(document).on('submit','form[name="bbees_e3sbundle_sequenceassemblee"]',function(ev){
-                // Unlocking fields to allow registration
-                setCodeSqcAss();
-            });
-        {% endif %}   
 
-    });
-</script>
-
-{% endblock %}
+	{% block scripts %}
+		{{ parent() }}
+		{{encore_entry_script_tags("sequence-form")}}
+	{% endblock %}

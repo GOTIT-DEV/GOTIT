@@ -13,6 +13,7 @@ $(() => {
 
   $("button.btn-entry-add").click(addEntryBtnCallback)
   $("button.btn-entry-delete").click(deleteEntryBtnCallback)
+  
   // Create initial entry in each embed collection if empty
   $(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
 
@@ -24,12 +25,15 @@ function addEntryBtnCallback(event) {
   let wrapper_id = $(event.currentTarget).data("target")
   let $wrapper = $(document.getElementById(wrapper_id))
   addEntry($wrapper)
+  $wrapper.trigger('change')
 }
 
 function deleteEntryBtnCallback(event) {
   let entry_wrapper_id = $(event.currentTarget).data("target")
   let entry_wrapper = document.getElementById(entry_wrapper_id)
+  let $wrapper = $(event.currentTarget).closest(".collection-wrapper")
   $(entry_wrapper).remove()
+  $wrapper.trigger('change')
 }
 
 function modalFormSubmitCallback(event) {

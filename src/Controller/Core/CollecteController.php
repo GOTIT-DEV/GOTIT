@@ -198,10 +198,9 @@ class CollecteController extends AbstractController
     $em = $this->getDoctrine()->getManager();
 
     // check if the relational Entity (Station) is given
-    $RelEntityId = $request->get('idFk');
-    if ($RelEntityId !== null && $RelEntityId !== '') {
+    if ($relatedId = $request->get('idFk')) {
       // set the RelationalEntityFk for the new Entity
-      $RelEntity = $em->getRepository('App:Station')->find($RelEntityId);
+      $RelEntity = $em->getRepository('App:Station')->find($relatedId);
       $collecte->setStationFk($RelEntity);
     }
 

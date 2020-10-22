@@ -49,9 +49,9 @@ class IndividuController extends AbstractController
 
     $individus = $em->getRepository('App:Individu')->findAll();
 
-    return $this->render('Core/individu/index.html.twig', array(
+    return $this->render('Core/individu/index.html.twig', [
       'individus' => $individus,
-    ));
+    ]);
   }
 
   /**
@@ -72,10 +72,31 @@ class IndividuController extends AbstractController
     $qb->addOrderBy('code', 'ASC');
     $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $results = $qb->getQuery()->getResult();
-    // Ajax answer
-    return $this->json(
-      $results
-    );
+
+    return $this->json($results);
+  }
+
+  /**
+   * @Route("/search_with_gene/{query}/{gene}", name="individu_search_with_gene")
+   */
+  public function searchWithGeneAction(String $query, int $gene)
+  {
+    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb->select('ind.id, ind.codeIndBiomol as code')
+      ->from('App:Individu', 'ind')
+      ->leftJoin('App:Adn', 'adn', 'WITH', 'adn.individuFk = ind.id')
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = adn.id')
+      ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
+      ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
+      ->andWhere('vocgene.id = :idvocgene ')
+      ->setParameter('searchcode', strtolower($query) . '%')
+      ->setParameter('idvocgene', (int)$gene)
+      ->addOrderBy('code', 'ASC')
+      ->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
+
+    $results = $qb->getQuery()->getResult();
+
+    return $this->json($results);
   }
 
 
@@ -86,7 +107,7 @@ class IndividuController extends AbstractController
   {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndTriMorpho as code')
-      ->from('BbeesE3sBundle:Individu', 'ind');
+      ->from('App:Individu', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     $and = [];
     for ($i = 0; $i < count($query); $i++) {

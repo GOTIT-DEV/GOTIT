@@ -2,24 +2,32 @@
 
 namespace App\Form;
 
-use App\Form\Enums\Action;
-use App\Form\EventListener\AddUserDateFields;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\UserDateTraceType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\UserDateTraceType;
+use App\Form\EventListener\AddUserDateFields;
+use App\Form\Enums\Action;
 
 class ActionFormType extends UserDateTraceType
 {
   /**
    * {@inheritdoc}
    */
-  public function __construct(AddUserDateFields $addUserDate, Security $security)
-  {
-      parent::__construct($addUserDate);
-      $this->security = $security;
+  public function __construct(
+    AddUserDateFields $addUserDate,
+    Security $security,
+    EntityManagerInterface $em,
+    TranslatorInterface $translator
+  ) {
+    parent::__construct($addUserDate);
+    $this->security = $security;
+    $this->er = $em;
+    $this->translator = $translator;
   }
 
   public function buildView(FormView $view, FormInterface $form, array $options)

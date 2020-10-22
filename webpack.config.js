@@ -32,6 +32,7 @@ Encore
     .addEntry('forms', './assets/Core/forms/js/forms.js')
     .addEntry('sampling-form', './assets/Core/forms/js/sampling.js')
     .addEntry('site-form', './assets/Core/forms/js/site.js')
+    .addEntry('sequence-form', './assets/Core/forms/js/sequence.js')
 
     // Species Search assets
     .addEntry('species-search', './assets/SpeciesSearch/js/species_search.js')

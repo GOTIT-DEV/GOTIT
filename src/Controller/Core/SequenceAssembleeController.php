@@ -24,11 +24,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\EntityRepository;
 use App\Services\Core\GenericFunctionE3s;
 use App\Form\Type\GeneType;
 use App\Form\Enums\Action;
 use App\Entity\SequenceAssemblee;
+use App\Entity\EstAligneEtTraite;
 
 /**
  * Sequenceassemblee controller.
@@ -199,7 +201,7 @@ class SequenceAssembleeController extends AbstractController
       "rowCount"  => $rowCount,
       "rows"     => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"    => $nb // total data array				
+      "total"    => $nb,
     ]);
   }
 
@@ -213,102 +215,110 @@ class SequenceAssembleeController extends AbstractController
   public function newAction(Request $request)
   {
 
-    $sequenceAssemblee = new Sequenceassemblee();
+    $sequence = new Sequenceassemblee();
 
-    // management of the form GeneIndbiomolForm
-    $this->geneVocFk = ($request->get('geneVocFk'))
-      ? $request->get('geneVocFk') : null;
-    $this->individuFk = ($request->get('individuFk'))
-      ? $request->get('individuFk') : null;
+    $chromatoFk = $request->get('idFk');
+    $specimenFk = $request->get('individuFk');
+    $geneFk = $request->get('geneVocFk');
 
+    $chromatoRepo = $this->getDoctrine()
+      ->getManager()
+      ->getRepository("App:Chromatogramme");
 
-    $form_gene_indbiomol = $this->createGeneIndbiomolForm(
-      $sequenceAssemblee,
-      $this->geneVocFk,
-      $this->individuFk
-    );
-    $form_gene_indbiomol->handleRequest($request);
-
-
-    if ($form_gene_indbiomol->isSubmitted() && $form_gene_indbiomol->isValid()) {
-      $this->geneVocFk = $form_gene_indbiomol->get('geneVocFk')->getData()->getId();
-      $this->individuFk = $form_gene_indbiomol->get('individuFk')->getData()->getId();
-      $sequenceAssemblee->setGeneVocFk($this->geneVocFk);
-      $sequenceAssemblee->setIndividuFk($this->individuFk);
-    }
-    // case where the idFk url parameter is not null 
-    if ($request->get('idFk')) {
-      $where = ' chromatogramme.id = ' . $request->get('idFk');
-      // Search for the list to show EstAligneEtTraite
-      $tab_toshow = [];
-      $entities_toshow = $this->getDoctrine()->getManager()
-        ->getRepository("App:Chromatogramme")
-        ->createQueryBuilder('chromatogramme')
-        ->where($where)
+    if ($chromatoFk) {
+      $chromato = $chromatoRepo->find($chromatoFk);
+      $pcr = $chromato->getPcrFk();
+      $gene = $pcr->getGeneVocFk();
+      $specimen = $pcr->getAdnFk()->getIndividuFk();
+    } elseif ($specimenFk && $geneFk) {
+      $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
         ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
         ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
         ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+        ->andWhere('individu.id = :individuId')
+        ->andWhere('vocGene.id = :geneFk')
+        ->setParameter(':individuId', $specimenFk)
+        ->setParameter(':geneFk', $geneFk)
+        ->setMaxResults(1)
         ->getQuery()
-        ->getResult();
-      // set the geneVocFk and individuFk parameteres
-      foreach ($entities_toshow as $entity) {
-        $this->geneVocFk = $entity->getPcrFk()->getGeneVocFk()->getId();
-        $this->individuFk = $entity->getPcrFk()->getAdnFk()->getIndividuFk()->getId();
-        $form_gene_indbiomol = $this->createGeneIndbiomolForm(
-          $sequenceAssemblee,
-          $this->geneVocFk,
-          $this->individuFk
-        );
-        $sequenceAssemblee->setGeneVocFk($this->geneVocFk);
-        $sequenceAssemblee->setIndividuFk($this->individuFk);
-      }
+        ->getOneOrNullResult();
+      $pcr = $chromato->getPcrFk();
+      $gene = $pcr->getGeneVocFk();
+      $specimen = $pcr->getAdnFk()->getIndividuFk();
+    } else {
+      $gene = null;
+      $specimen = null;
+      $chromato = null;
     }
 
-    // management of the form SequenceAssembleeType
-    $form_gene_indbiomol = $this->createGeneIndbiomolForm(
-      $sequenceAssemblee,
-      $this->geneVocFk,
-      $this->individuFk
-    );
-    $form = $this->createForm(
-      'App\Form\SequenceAssembleeType',
-      $sequenceAssemblee,
+    if ($chromato) {
+      $processing = new EstAligneEtTraite();
+      $processing->setChromatogrammeFk($chromato);
+      $sequence->addEstAligneEtTraite($processing);
+    }
+
+
+    $geneSpecimenForm = $this->createForm(
+      'App\Form\Type\GeneSpecimenType',
       [
-        'geneVocFk' => $this->geneVocFk,
-        'individuFk' => $this->individuFk,
-        'action_type' => Action::create()
-      ]
+        "gene" => $gene,
+        "specimen" => $specimen,
+      ],
+      ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
     );
+
+    $geneSpecimenForm->handleRequest($request);
+    if ($geneSpecimenForm->isSubmitted() && $geneSpecimenForm->isValid()) {
+      $gene = $geneSpecimenForm->get('geneVocFk')->getData();
+      $specimen = $geneSpecimenForm->get('individuFk')->getData();
+      return $this->redirectToRoute('sequenceassemblee_new', [
+        'individuFk' => $specimen,
+        'geneVocFk' => $gene->getId(),
+      ]);
+    }
+
+
+    // Main form
+    $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
+      'action_type' => $gene && $specimen ? Action::create() : Action::show(),
+      'gene' => $gene,
+      'specimen' => $specimen,
+      'attr' => ['id' => "sequence-form"],
+      "action" => $this->generateUrl('sequenceassemblee_new', [
+        'geneVocFk' => $gene ? $gene->getId() : null,
+        'individuFk' => $specimen ? $specimen->getId() : null,
+        'idFk' => $chromato ? $chromato->getId() : null,
+      ])
+    ]);
+
     $form->handleRequest($request);
+
     if ($form->isSubmitted() && $form->isValid()) {
+      $sequence->generateAlignmentCode();
       $em = $this->getDoctrine()->getManager();
-      $em->persist($sequenceAssemblee);
-      // on initialise le code sqcAlignement : setCodeSqcAlignement($codeSqcAlignement)
-      $CodeSqcAlignement = $this->createCodeSqcAlignement($sequenceAssemblee);
-      $sequenceAssemblee->setCodeSqcAlignement($CodeSqcAlignement);
-      $em->persist($sequenceAssemblee);
+      $em->persist($sequence);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
         return $this->render(
           'Core/sequenceassemblee/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('sequenceassemblee_edit', array(
-        'id' => $sequenceAssemblee->getId(),
+        'id' => $sequence->getId(),
+        'idFk' => $chromatoFk,
         'valid' => 1,
-        'idFk' => $request->get('idFk')
       ));
     }
     return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee' => $sequenceAssemblee,
+      'sequenceAssemblee' => $sequence,
       'edit_form' => $form->createView(),
-      'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
-      'geneVocFk' => $this->geneVocFk,
-      'individuFk' => $this->individuFk,
+      'form_gene_indbiomol' => $geneSpecimenForm->createView(),
+      'geneVocFk' => $gene,
+      'individuFk' => $specimen,
     ));
   }
 
@@ -317,46 +327,35 @@ class SequenceAssembleeController extends AbstractController
    *
    * @Route("/{id}", name="sequenceassemblee_show", methods={"GET"})
    */
-  public function showAction(SequenceAssemblee $sequenceAssemblee)
+  public function showAction(SequenceAssemblee $sequence)
   {
-    // Recherche du gene et de l'individu pour la sequenceAssemblee
-    $em = $this->getDoctrine()->getManager();
-    $id = $sequenceAssemblee->getId();
-    $query = $em->createQuery(
-      'SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk 
-            FROM App:EstAligneEtTraite eaet 
-            JOIN eaet.chromatogrammeFk chromato 
-            JOIN chromato.pcrFk pcr 
-            JOIN pcr.geneVocFk voc 
-            JOIN pcr.adnFk adn 
-            JOIN adn.individuFk individu 
-            WHERE eaet.sequenceAssembleeFk = ' . $id .
-        ' ORDER BY eaet.id DESC'
-    )->getResult();
-    $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
-    $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';
-    //
-    $deleteForm = $this->createDeleteForm($sequenceAssemblee);
+    $gene  = $sequence->getGeneVocFk();
+    $specimen  = $sequence->getIndividuFk();
+
+    $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeType',
-      $sequenceAssemblee,
+      $sequence,
       [
-        'geneVocFk' => $this->geneVocFk,
-        'individuFk' => $this->individuFk,
-        'action_type' => Action::show()
+        'action_type' => Action::show(),
+        'attr' => ['id' => "sequence-form"],
       ]
     );
-    //
-    $form_gene_indbiomol = $this->createGeneIndbiomolForm(
-      $sequenceAssemblee,
-      $this->geneVocFk,
-      $this->individuFk
-    );
-    return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee' => $sequenceAssemblee,
+    $form_gene_indbiomol = $this
+      ->createForm(
+        'App\Form\Type\GeneSpecimenType',
+        [
+          'gene' => $gene,
+          'specimen' => $specimen,
+        ],
+        ["action_type" => Action::show()]
+      );
+    return $this->render('Core/sequenceassemblee/edit.html.twig', [
+      'sequenceAssemblee' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+      'form_gene_indbiomol' => $form_gene_indbiomol->createView()
+    ]);
   }
 
   /**
@@ -367,69 +366,58 @@ class SequenceAssembleeController extends AbstractController
    */
   public function editAction(
     Request $request,
-    SequenceAssemblee $sequenceAssemblee,
+    SequenceAssemblee $sequence,
     GenericFunctionE3s $service
   ) {
+
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if (
       $user->getRole() ==  'ROLE_COLLABORATION' &&
-      $sequenceAssemblee->getUserCre() != $user->getId()
+      $sequence->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
-    // load service  generic_function_e3s
-    // 
 
     // Recherche du gene et de l'individu pour la sequence
     $em = $this->getDoctrine()->getManager();
-    $id = $sequenceAssemblee->getId();
-    $query = $em->createQuery(
-      'SELECT eaet.id, voc.id as geneVocFk, individu.id as individuFk 
-            FROM App:EstAligneEtTraite eaet 
-            JOIN eaet.chromatogrammeFk chromato 
-            JOIN chromato.pcrFk pcr 
-            JOIN pcr.geneVocFk voc 
-            JOIN pcr.adnFk adn 
-            JOIN adn.individuFk individu 
-            WHERE eaet.sequenceAssembleeFk = ' . $id .
-        ' ORDER BY eaet.id DESC'
-    )->getResult();
-    $this->geneVocFk  = (count($query) > 0) ? $query[0]['geneVocFk'] : '';
-    $this->individuFk  = (count($query) > 0) ? $query[0]['individuFk'] : '';
-    $form_gene_indbiomol = $this->createGeneIndbiomolForm(
-      $sequenceAssemblee,
-      $this->geneVocFk,
-      $this->individuFk
-    );
+    $id = $sequence->getId();
+    $gene = $sequence->getGeneVocFk();
+    $specimen = $sequence->getIndividuFk();
+
+    $form_gene_indbiomol = $this
+      ->createForm(
+        'App\Form\Type\GeneSpecimenType',
+        ['gene' => $gene, 'specimen' => $specimen],
+        ["action_type" => Action::show()]
+      );
 
     // store ArrayCollection       
     $estAligneEtTraites = $service->setArrayCollection(
       'EstAligneEtTraites',
-      $sequenceAssemblee
+      $sequence
     );
     $especeIdentifiees = $service->setArrayCollectionEmbed(
       'EspeceIdentifiees',
       'EstIdentifiePars',
-      $sequenceAssemblee
+      $sequence
     );
     $sqcEstPublieDanss = $service->setArrayCollection(
       'SqcEstPublieDanss',
-      $sequenceAssemblee
+      $sequence
     );
     $sequenceAssembleeEstRealisePars = $service->setArrayCollection(
       'SequenceAssembleeEstRealisePars',
-      $sequenceAssemblee
+      $sequence
     );
 
-    $deleteForm = $this->createDeleteForm($sequenceAssemblee);
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeType',
-      $sequenceAssemblee,
+      $sequence,
       [
-        'geneVocFk' => $this->geneVocFk,
-        'individuFk' => $this->individuFk,
+        'gene' => $gene,
+        'specimen' => $specimen,
         'action_type' => Action::edit()
       ]
     );
@@ -439,26 +427,26 @@ class SequenceAssembleeController extends AbstractController
       // delete ArrayCollection
       $service->DelArrayCollection(
         'EstAligneEtTraites',
-        $sequenceAssemblee,
+        $sequence,
         $estAligneEtTraites
       );
       $service->DelArrayCollectionEmbed(
         'EspeceIdentifiees',
         'EstIdentifiePars',
-        $sequenceAssemblee,
+        $sequence,
         $especeIdentifiees
       );
       $service->DelArrayCollection(
         'SqcEstPublieDanss',
-        $sequenceAssemblee,
+        $sequence,
         $sqcEstPublieDanss
       );
       $service->DelArrayCollection(
         'SequenceAssembleeEstRealisePars',
-        $sequenceAssemblee,
+        $sequence,
         $sequenceAssembleeEstRealisePars
       );
-      $em->persist($sequenceAssemblee);
+      $em->persist($sequence);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -470,11 +458,15 @@ class SequenceAssembleeController extends AbstractController
       }
       $editForm = $this->createForm(
         'App\Form\SequenceAssembleeType',
-        $sequenceAssemblee,
-        ['geneVocFk' => $this->geneVocFk, 'individuFk' => $this->individuFk]
+        $sequence,
+        [
+          'geneVocFk' => $this->geneVocFk,
+          'individuFk' => $this->individuFk,
+          'attr' => ['id' => 'sequence-form'],
+        ]
       );
       return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-        'sequenceAssemblee' => $sequenceAssemblee,
+        'sequenceAssemblee' => $sequence,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
         'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
@@ -482,9 +474,9 @@ class SequenceAssembleeController extends AbstractController
     }
 
     return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee' => $sequenceAssemblee,
+      'sequenceAssemblee' => $sequence,
       'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
+      'delete_form' => $this->createDeleteForm($sequence)->createView(),
       'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
     ));
   }
@@ -536,123 +528,5 @@ class SequenceAssembleeController extends AbstractController
       ))
       ->setMethod('DELETE')
       ->getForm();
-  }
-
-  /**
-   * Creates a form  : createGeneIndbiomolForm(SequenceAssemblee $sequenceAssemblee = null, $geneVocFk = null, $individuFk = null)
-   *
-   * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
-   *
-   * @return \Symfony\Component\Form\Form The form
-   */
-  private function createGeneIndbiomolForm(
-    SequenceAssemblee $sequenceAssemblee = null,
-    $geneVocFk = null,
-    $individuFk = null
-  ) {
-    if ($sequenceAssemblee->getId() == null && $geneVocFk == null) {
-      return $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('geneVocFk', GeneType::class)
-        ->add('individuFk', EntityType::class, array(
-          'class' => 'App:Individu',
-          'query_builder' => function (EntityRepository $er) {
-            return $er->createQueryBuilder('ind')
-              ->where('ind.codeIndBiomol IS NOT NULL')
-              ->orderBy('ind.codeIndBiomol', 'ASC');
-          },
-          'placeholder' => 'Choose an individu',
-          'choice_label' => 'code_ind_biomol',
-          'multiple' => false,
-          'expanded' => false
-        ))
-        ->add('button.Valid', SubmitType::class, array(
-          'label' => 'button.Valid',
-          'attr' => array('class' => 'btn btn-round btn-success')
-        ))
-        ->getForm();
-    }
-    if ($geneVocFk != null && $individuFk != null) {
-      $options = ['geneVocFk' => $geneVocFk, 'individuFk' => $individuFk];
-
-      return $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('geneVocFk', GeneType::class, array(
-          'query_builder' => function (EntityRepository $er) use ($options) {
-            return $er->createQueryBuilder('voc')
-              ->where('voc.id = :geneVocFk')
-              ->setParameter('geneVocFk', $options['geneVocFk'])
-              ->orderBy('voc.libelle', 'ASC');
-          },
-          'placeholder' => false
-        ))
-        ->add('individuFk', EntityType::class, array(
-          'class' => 'App:Individu',
-          'query_builder' => function (EntityRepository $er) use ($options) {
-            return $er->createQueryBuilder('ind')
-              ->where('ind.id = :individuFk')
-              ->setParameter('individuFk', $options['individuFk'])
-              ->orderBy('ind.codeIndBiomol', 'ASC');
-          },
-          'placeholder' => false,
-          'choice_label' => 'code_ind_biomol',
-          'multiple' => false,
-          'expanded' => false
-        ))
-        ->add('button.Valid', SubmitType::class, array(
-          'label' => 'button.Valid',
-          'attr' => array('class' => 'btn btn-round btn-success')
-        ))
-        ->getForm();
-    }
-  }
-
-  /**
-   * Creates a createCodeSqcAlignement
-   *
-   * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
-   *
-   */
-  private function createCodeSqcAlignement(
-    SequenceAssemblee $sequenceAssemblee = null,
-    $geneVocFk = null,
-    $individuFk = null
-  ) {
-    $codeSqcAlignement = '';
-    $em = $this->getDoctrine()->getManager();
-    $EspeceIdentifiees =  $sequenceAssemblee->getEspeceIdentifiees();
-    $nbEspeceIdentifiees = count($EspeceIdentifiees);
-    $eaetId = $sequenceAssemblee->getEstAligneEtTraites()[0]->getId();
-    $nbChromato = count($sequenceAssemblee->getEstAligneEtTraites());
-
-    if ($nbChromato > 0 && $nbEspeceIdentifiees > 0) {
-      // The status of the sequence DNA the referential Taxon = to the last taxname attributed
-      $codeStatutSqcAss = $sequenceAssemblee->getStatutSqcAssVocFk()->getCode();
-      $lastCodeTaxon = $EspeceIdentifiees[$nbEspeceIdentifiees - 1]
-        ->getReferentielTaxonFk()->getCodeTaxon();
-      $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
-        ? $lastCodeTaxon : $codeStatutSqcAss . '_' . $lastCodeTaxon;
-      $Chromatogramme1 = $sequenceAssemblee
-        ->getEstAligneEtTraites()[0]->getChromatogrammeFk();
-      $numIndBiomol = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()
-        ->getNumIndBiomol();
-      $codeCollecte = $Chromatogramme1->getPcrFk()->getAdnFk()->getIndividuFk()
-        ->getLotMaterielFk()->getCollecteFk()->getCodeCollecte();
-      $codeSqcAlignement = $codeSqcAlignement . '_' . $codeCollecte . '_' . $numIndBiomol;
-      //  the concaténation [chromatogramme.code_chromato|pcr.specificite_voc_fk(voc.code)]
-      $arrayCodeChromato = array();
-      foreach ($sequenceAssemblee->getEstAligneEtTraites() as $entityEstAligneEtTraites) {
-        $codeChromato = $entityEstAligneEtTraites->getChromatogrammeFk()->getCodeChromato();
-        $specificite = $entityEstAligneEtTraites->getChromatogrammeFk()
-          ->getPcrFk()->getSpecificiteVocFk()->getCode();
-        $arrayCodeChromato[] = $codeChromato . '|' . $specificite;
-      }
-      sort($arrayCodeChromato);
-      $listeCodeChromato = implode("-", $arrayCodeChromato);
-      $codeSqcAlignement = $codeSqcAlignement . '_' . $listeCodeChromato;
-    } else {
-      $codeSqcAlignement = null;
-    }
-    return $codeSqcAlignement;
   }
 }
