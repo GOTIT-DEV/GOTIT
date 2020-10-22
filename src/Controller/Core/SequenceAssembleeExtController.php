@@ -45,11 +45,13 @@ class SequenceAssembleeExtController extends AbstractController
   {
     $em = $this->getDoctrine()->getManager();
 
-    $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')->findAll();
+    $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')
+      ->findAll();
 
-    return $this->render('Core/sequenceassembleeext/index.html.twig', array(
-      'sequenceAssembleeExts' => $sequenceAssembleeExts,
-    ));
+    return $this->render(
+      'Core/sequenceassembleeext/index.html.twig',
+      ['sequenceAssembleeExts' => $sequenceAssembleeExts]
+    );
   }
 
   /**
@@ -177,7 +179,7 @@ class SequenceAssembleeExtController extends AbstractController
         "last_date_identification_sq" => $val['last_date_identification_sq'],
         "voc_sq_identification_criterion.code" => $val['code_sq_identification_criterion'],
         "list_source" => $val['list_source'],
-        "motu" => $val['motu'],
+        "motu_flag" => $val['motu_flag'],
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
