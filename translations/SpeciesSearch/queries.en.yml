@@ -81,7 +81,7 @@ queries:
       sampling: Superpose COI sampling data
   sampling:
     title: COI sampling sites
-    nav: COI data set
+    nav: COI dataset
     biomaterial:
       internal: Bio. material (Internal)
       external: Bio. material (External)
