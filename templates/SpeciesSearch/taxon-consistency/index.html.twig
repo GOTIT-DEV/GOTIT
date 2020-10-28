@@ -7,9 +7,8 @@
 {% endblock %}
 
 {% block titlepage %}
-	<h1>
-		{{"queries.concordance.title" | trans }}
-	</h1>
+	{% set title = "queries.concordance.title" %}
+  {{parent()}}
 {% endblock %}
 
 {% block body %}
@@ -19,7 +18,7 @@
 	<fieldset>
 		<legend>
 			<h2>
-				{{"label.resultats" | trans }}
+				{{"label.resultats"|trans }}
 			</h2>
 		</legend>
 		{% include 'SpeciesSearch/taxon-consistency/results.html.twig' %}

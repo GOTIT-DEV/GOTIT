@@ -9,9 +9,8 @@
 
 
 {% block titlepage %}
-	<h1>
-		{% trans %} queries.specieshypotheses.title {% endtrans %}
-	</h1>
+	{% set title= "queries.specieshypotheses.title" %}
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}

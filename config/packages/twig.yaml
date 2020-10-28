@@ -20,98 +20,97 @@ twig:
 
       - route: default_index
         icon: fas fa-home
-        text: title.Dashboard
+        text: core.Dashboard
         children: []
       - route: ~
         icon: fas fa-edit
-        text: title.Terrain
+        text: core.Terrain
         children:
           - route: station_index
-            text: title.station
+            text: core.station
           - route: collecte_index
-            text: title.collecte
+            text: core.collecte
       - route: ~
         icon: fas fa-microscope
-        text: title.Analyse morphologique
+        text: core.Analyse morphologique
         children:
           - route: lotmateriel_index
-            text: title.lotmateriel
+            text: core.lotmateriel
           - route: individu_index
-            text: title.individu
+            text: core.individu
           - route: individulame_index
-            text: title.individulame
+            text: core.individulame
           - route: lotmaterielext_index
-            text: title.lotmaterielext
+            text: core.lotmaterielext
       - route: ~
         icon: fas fa-flask
-        text: title.Analyses génétiques
+        text: core.Analyses génétiques
         children:
           - route: adn_index
-            text: title.adn
+            text: core.adn
           - route: pcr_index
-            text: title.pcr
+            text: core.pcr
           - route: chromatogramme_index
-            text: title.chromatogramme
+            text: core.chromatogramme
       - route: ~
-        text: title.Etude séquençage
+        text: core.Etude séquençage
         icon: fas fa-dna
         children:
           - route: sequenceassemblee_index
-            text: title.sequenceassemblee
+            text: core.sequenceassemblee
           - route: sequenceassembleeext_index
-            text: title.sequenceassembleeext
+            text: core.sequenceassembleeext
           - route: motu_index
-            text: title.motu
+            text: core.motu
       - route: ~
-        text: title.Stock
+        text: core.Stock
         icon: fas fa-tasks
         children:
           - route: boite_index
             route_args:
               typeBoite: LOT
-            text: title.lotmateriel
+            text: core.lotmateriel
           - route: boite_index
             route_args:
               typeBoite: LAME
-            text: title.individulame
+            text: core.individulame
           - route: boite_index
             route_args:
               typeBoite: ADN
-            text: title.adn
+            text: core.adn
       - route: source_index
-        text: title.Source bibliographique
+        text: core.source
         icon: far fa-newspaper
         children: []
       - route: ~
-        text: title.Référentiels
+        text: core.Référentiels
         icon: fas fa-lock
         auth_required: ROLE_ADMIN
         children:
           - route: voc_index
-            text: title.voc
+            text: core.voc
           - route: referentieltaxon_index
-            text: title.referentieltaxon
+            text: core.referentieltaxon
           - route: pays_index
-            text: title.pays
+            text: core.pays
           - route: commune_index
-            text: title.commune
+            text: core.commune
           - route: personne_index
-            text: title.personne
+            text: core.personne
             auth_required: ROLE_COLLABORATION
           - route: programme_index
-            text: title.programme
+            text: core.programme
             auth_required: ROLE_PROJECT
           - route: etablissement_index
-            text: title.etablissement
+            text: core.etablissement
             auth_required: ROLE_PROJECT
       - route: user_index
-        text: title.users
+        text: core.users
         icon: fas fa-users
         auth_required: ROLE_ADMIN
         children: []
       - route: ~
-        text: queries.navtitle
-        trans: queries
+        text: queries.species search
         icon: fas fa-bug
         auth_required: ROLE_INVITED
         children:
@@ -126,7 +125,7 @@ twig:
           - route: consistency
             text: queries.concordance.nav
       - route: query_builder_index
-        text: Query Builder
+        text: queries.querybuilder.nav
         icon: fas fa-search
         auth_required: ROLE_COLLABORATION
         children: []

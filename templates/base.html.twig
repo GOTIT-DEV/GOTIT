@@ -32,16 +32,13 @@
 	</head>
 	<body>
 		<div class="main-container">
+
 			{% block leftnav %}
 				{% include "nav.html.twig" %}
 			{% endblock %}
-			{# top navigation #}
 			{% block topnav %}
 				{% include "nav-top.html.twig" %}
 			{% endblock %}
-			{# top navigation #}
-
-			{# page content #}
 
 			<header class="main-header">
 				{% block helpbutton %}
@@ -77,45 +74,47 @@
 				</div>
 			</header>
 
-			<div class="main-content container" role="main"> 
-			{% block body %}{% endblock %}
-			
-
-			{% block link %}{% endblock %}
+			<div class="main-content container" role="main">
+				{% block body %}
+					{# Main content body #}
+				{% endblock %}
+				{% block link %}{% endblock %}
 			</div>
 
-				{# footer content #}
-				{% block footer %}
-					<footer>
-						<div class="pull-right">
-							©
-							<a href="http://bbees.mnhn.fr">BBEES</a>
-							2020 - GOTIT 2 -
-							<a href="{{ asset(['doc/legal_notices_', app.request.getLocale(), '.pdf']|join) }}" target="_blank">{{'legales_mentions'|trans}}</a>
-						</div>
-					</footer>
-				{% endblock %}
-				{# footer content #}
+			{# footer content #}
+			{% block footer %}
+				<footer>
+					<div class="pull-right">
+						©
+						<a href="http://bbees.mnhn.fr">BBEES</a>
+						2020 - GOTIT 2 -
+						<a href="{{ asset('doc/legal_notices_' ~ app.request.getLocale() ~ '.pdf') }}" target="_blank">
+							{{'legales_mentions'|trans}}
+						</a>
+					</div>
+				</footer>
+			{% endblock %}
 
-				{# General Scripts #}
-				{% block scripts %}
-					{# Legacy code include #}
-					<script src="{{asset('js/e3s.js')}}"></script>
-					{# Main JS #}
-					{{ encore_entry_script_tags('core') }}
-					<!-- Symfony javascript routing bundle -->
-					<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-					<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-					{# Symfony translation in JS #}
-					<script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-					<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'queries', 'locales': 'fr,en' }) }}"></script>
-					<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) }}"></script>
+			{# General Scripts #}
+			{% block scripts %}
+				{# Legacy code include #}
+				<script src="{{asset('js/e3s.js')}}"></script>
+				{# Main JS #}
+				{{ encore_entry_script_tags('core') }}
+				<!-- Symfony javascript routing bundle -->
+				<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+				<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+				{# Symfony translation in JS #}
+				<script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+				<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'queries', 'locales': 'fr,en' }) }}"></script>
+				<script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages', 'locales': 'fr,en' }) }}"></script>
 
-				{% endblock %}
-				{#  Templates Scripts #}
-				{% block templatescripts %}
-					{#  Templates Scripts : index.html.twig / edit.html.twig ... #}
-				{% endblock %}
-			</body>
-		</body>
-	</html>
+			{% endblock %}
+
+			{#  Templates Scripts #}
+			{% block templatescripts %}
+				{#  Templates Scripts : index.html.twig / edit.html.twig ... #}
+			{% endblock %}
+		</div>
+	</body>
+</html>

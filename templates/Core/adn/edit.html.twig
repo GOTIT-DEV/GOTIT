@@ -2,42 +2,42 @@
 
 {# EDIT : DNA #}
 
-{#  Typehead : initialisation of typeahead EntityRelationalId field  #} 
+{#  Typehead : initialisation of typeahead EntityRelationalId field  #}
 {% set route = app.request.attributes.get('_route') %}
 {% set action = route|split('_')[1] %}
 {% set codeIndBiomol = '' %}
 {% set idIndividu = '' %}
-{% if (adn.individuFk.codeIndBiomol is defined )%}
-    {#  case of an existing record #} 
-    {% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
-    {% set idIndividu = adn.individuFk.id %}
+	{% if (adn.individuFk.codeIndBiomol is defined )%}
+	{#  case of an existing record #}
+	{% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
+	{% set idIndividu = adn.individuFk.id %}
 {% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-    {#  case of a new record with  a preselected relational entity #} 
-    {% set idIndividu = app.request.query.get('idFk') %}
-    {% if app.request.query.get('idFk') is not empty %}
-            {# {% set codeIndBiomol = ['typehead placeholder auto loading code'|trans, idIndividu ]|join %} #}
-            {% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
-    {% endif %}       
+	{#  case of a new record with  a preselected relational entity #}
+	{% set idIndividu = app.request.query.get('idFk') %}
+	{% if app.request.query.get('idFk') is not empty %}
+		{% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
+	{% endif %}
 {% endif %}
 
 {% block action %}
-{{parent()}}
-{% if edit_form.vars.data.individuFk is not null %}
-    <a
-        href="/{{app.request.locale}}/individu/{{edit_form.vars.data.individuFk.id}}"
-        class="btn btn-sm btn-info">
-        <i class="fas fa-link"></i>
-        {{'button.Back to individu' | trans}}
-    </a>
-{% endif %}
+	{{parent()}}
+	{% if edit_form.vars.data.individuFk is not null %}
+		<a
+			href="/{{app.request.locale}}/individu/{{edit_form.vars.data.individuFk.id}}"
+			class="btn btn-sm btn-info">
+			<i class="fas fa-link"></i>
+			{{'button.Back to individu'|trans}}
+		</a>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-    {{ parent() }}   
+	{{ parent() }}
 {% endblock %}
 
+
 {% block scripts %}
-{{ parent() }}
+	{{ parent() }}
 
 <script>
 //// Typeahead 

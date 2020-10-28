@@ -1,5 +1,5 @@
 {% form_theme form 'Form/form-theme.html.twig' %}
-{% set route_newmodal = [entityname, '_newmodal']|join %}
+{% set route_newmodal = entityname ~ '_newmodal' %}
 
 {{form_start(form,{action: path(route_newmodal)})}}
 {{ form_rest(form) }}

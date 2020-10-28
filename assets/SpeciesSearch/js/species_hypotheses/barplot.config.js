@@ -15,7 +15,7 @@ export const layout = {
     title: Translator.trans(
       "queries.specieshypotheses.short",
       {},
-      "queries"
+      "sections"
     ),
     titlefont: {
       family: "sans serif",

@@ -17,6 +17,7 @@ import Mustache from "mustache"
 import "leaflet"
 import "leaflet-fullscreen"
 import "leaflet-svg-shape-markers"
+import chroma from "chroma-js"
 
 import { initBaseMap, updateBounds } from '../map_settings.js'
 import { initModalTable } from './seq.modal.js'
@@ -44,8 +45,8 @@ export function initMap(dom_id) {
   let locale = $("html").attr("lang")
 
   map.markerLayers = {}
-  map.resetFilterBtn = L.easyButton('fa-eye', _=> {
-    Object.entries(map.markerLayers).forEach(([motu, layer]) =>{
+  map.resetFilterBtn = L.easyButton('fa-eye', _ => {
+    Object.entries(map.markerLayers).forEach(([motu, layer]) => {
       if (!map.hasLayer(layer)) map.addLayer(layer)
     })
   }, Translator.trans("maps.controls.filter.reset")).addTo(map)
@@ -123,8 +124,8 @@ export function initMap(dom_id) {
         let marker = L.shapeMarker([lat, lon], style).bindPopup(popupContent)
         map.markerLayers[motu].addLayer(marker)
 
-        $(popupContent).find(".btn-marker-isolate").click(_=>{
-          Object.entries(map.markerLayers).forEach(([targetMotu, layer])=> {
+        $(popupContent).find(".btn-marker-isolate").click(_ => {
+          Object.entries(map.markerLayers).forEach(([targetMotu, layer]) => {
             if (motu !== targetMotu && map.hasLayer(layer))
               map.removeLayer(layer)
           })

@@ -40,7 +40,7 @@
 			<select name="criteres[]" id="select-identification" class="form-control selectpicker" data-selected-text-format="count" multiple>
 				{% for critere in criteres %}
 					<option value="{{critere.id}}" selected>
-						{{critere.libelle | trans}}
+						{{critere.libelle|trans}}
 					</option>
 				{% endfor %}
 			</select>

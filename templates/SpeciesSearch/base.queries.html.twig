@@ -11,24 +11,20 @@
 {% endblock %}
 
 {% block titlepage %}
-	<div class="clearfix"></div>
+	<h1>
+		{{ title|trans({}, 'sections') }}
+	</h1>
 {% endblock %}
 
 {% block action %}
 	{{ parent() }}
 {% endblock %}
 
-{% block body %}
-	<div class="clearfix"></div>
-{% endblock %}
+{% block body %}{% endblock %}
 
-{% block link %}
-	<div class="clearfix"></div>
-{% endblock %}
+{% block link %}{% endblock %}
 
 {% block scripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('species-search') }}
-
-
 {% endblock %}

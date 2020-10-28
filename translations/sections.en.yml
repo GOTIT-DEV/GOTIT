@@ -1,0 +1,57 @@
+core:
+  Dashboard: Dashboard
+  Terrain: Field data
+  station: Site
+  collecte: Sampling
+  Analyse morphologique: Morphological analysis
+  lotmateriel: Biological material
+  individu: Specimen
+  individulame: Specimen slide
+  lotmaterielext: External biological material
+  Etude séquençage: DNA Sequences
+  sequenceassemblee: Internal sequences
+  sequenceassembleeext: External sequences
+  motu: MOTU
+  Stock: Storage
+  boiteLOT: "Box : biological material"
+  boiteLAME: "Box : specimen slide"
+  boiteADN: "Box : DNA"
+  boite: Box
+  Analyses génétiques: Molecular analysis
+  adn: DNA
+  pcr: PCR
+  chromatogramme: Chromatogram
+  source: Source
+  Référentiels: Repositories
+  voc: Vocabulary
+  referentieltaxon: Taxon
+  personne: Person
+  pays: Country
+  commune: Municipality
+  etablissement: Institution
+  programme: Program
+  users: Users
+  user: User
+  Import Files CSV: Import CSV files
+
+queries:
+  species search: Species search
+  motu:
+    title: Molecular Operational Taxonomic Unit (MOTU)
+    nav: MOTU
+  specieshypotheses:
+    title: Correspondance among species hypotheses
+    nav: Species hypotheses
+    short: Correspondances
+  distribution:
+    title: MOTU distribution data
+    nav: Distribution data
+  sampling:
+    title: COI sampling sites
+    nav: COI dataset
+  concordance:
+    nav: Species names
+    title: Compare species name attribution
+  querybuilder: 
+    nav: Querybuilder
+    title: Querybuilder

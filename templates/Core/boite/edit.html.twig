@@ -3,11 +3,7 @@
 {# EDIT : BOX #}
 {% block titlepage %}
 	<h1>
-		{{[
-				'title.',
-				entityname, 
-				app.request.query.get('typeBoite')|default('') 
-			]|join|trans}}
+		{{('title.' ~ entityname ~ app.request.query.get('typeBoite')|default(''))|trans}}
 		{% if  flagvalid == 1 and actioncontroller != 'new'%}
 			<i class="fas fa-check-circle"></i>
 		{% endif %}

@@ -1,11 +1,8 @@
 {% extends 'SpeciesSearch/base.queries.html.twig' %}
 
 {% block titlepage %}
-  <h1>
-    {% trans from 'queries' %}
-    queries.motu.title
-    {% endtrans %}
-  </h1>
+  {% set title="queries.motu.title" %}
+	{{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}

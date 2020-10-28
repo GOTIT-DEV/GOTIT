@@ -272,40 +272,6 @@ import.source.lotmaterielpublie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-assigne: MOTU
 
-# TITLES OF CONTENT PAGES  #####################################################
-title.Import Files CSV: Import des fichiers CSV
-title.boiteLOT: Boite lot matériel
-title.boiteLAME: Boite lame
-title.boiteADN: Boite ADN
-title.boite: Boite
-title.Dashboard: Tableau de bord
-title.Terrain: Donnees de terrain
-title.station: Station
-title.collecte: Collecte
-title.Analyse morphologique: Analyse morphologique
-title.lotmateriel: Lot matériel
-title.individu: Individu
-title.individulame: Lame
-title.lotmaterielext: Lot matériel externe
-title.Analyses génétiques: Analyse moléculaire
-title.adn: ADN
-title.pcr: PCR
-title.chromatogramme: Chromatogramme
-title.Etude séquençage: Séquences ADN
-title.sequenceassemblee: Séquences internes
-title.sequenceassembleeext: Séquences externes
-title.motu: MOTU
-title.Stock: Stock
-title.source: Source
-title.Source bibliographique: Source
-title.Référentiels: Référentiels
-title.voc: Vocabulaire
-title.referentieltaxon: Taxon
-title.personne: Personne
-title.pays: Pays
-title.commune: Commune
-title.etablissement: Établissement
-title.programme: Programme
 
 # HEADINGS OF SCROLLING LISTS ##################################################
 Choose a Parent: Sélectionner une classe de vocabulaire

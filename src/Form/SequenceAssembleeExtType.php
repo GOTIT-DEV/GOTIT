@@ -49,16 +49,16 @@ class SequenceAssembleeExtType extends ActionFormType
             ],
             'required' => true,
         ])
-            ->add('collecteId', HiddenType::class, array(
+            ->add('collecteId', HiddenType::class, [
                 'mapped' => false,
                 'required' => true,
-            ))
+            ])
             ->add('codeSqcAssExt')
             ->add('codeSqcAssExtAlignement')
             ->add('accessionNumberSqcAssExt')
             ->add('numIndividuSqcAssExt')
             ->add('taxonOrigineSqcAssExt')
-            ->add('origineSqcAssExtVocFk', EntityType::class, array(
+            ->add('origineSqcAssExtVocFk', EntityType::class, [
                 'class' => 'App:Voc',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('voc')
@@ -70,7 +70,7 @@ class SequenceAssembleeExtType extends ActionFormType
                 'multiple' => false,
                 'expanded' => false,
                 'placeholder' => 'Choose a origineSqcAssExt'
-            ))
+            ])
             ->add('geneVocFk', GeneType::class)
             ->add('statutSqcAssVocFk', SequenceStatusType::class)
             ->add('datePrecisionVocFk', DatePrecisionType::class)

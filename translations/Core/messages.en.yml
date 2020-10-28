@@ -436,40 +436,6 @@ import.source.lotmaterielpublie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
 import.motu-assigne: MOTU
 
-# TITLES OF CONTENT PAGES  #####################################################
-title.Import Files CSV: Import Files CSV
-title.boiteLOT: Box biological material
-title.boiteLAME: Box specimen slide
-title.boiteADN: Box DNA
-title.boite: Box
-title.Dashboard: Dashboard
-title.Terrain: Field data
-title.station: Site
-title.collecte: Sampling
-title.Analyse morphologique: Morphological analysis
-title.lotmateriel: Biological material
-title.individu: Specimen
-title.individulame: Specimen slide
-title.lotmaterielext: External biological material
-title.Analyses génétiques: Molecular analysis
-title.adn: DNA
-title.pcr: PCR
-title.chromatogramme: Chromatogram
-title.Etude séquençage: DNA Sequence
-title.sequenceassemblee: Internal sequence
-title.sequenceassembleeext: External sequence
-title.motu: MOTU
-title.Stock: Storage
-title.source: Source
-title.Source bibliographique: Source
-title.Référentiels: Repositories
-title.voc: Vocabulary
-title.referentieltaxon: Taxon
-title.personne: Person
-title.pays: Country
-title.commune: Municipality
-title.etablissement: Institution
-title.programme: Program
 
 # HEADINGS OF SCROLLING LISTS ##################################################
 Choose a Parent: Select a class of vocabulary

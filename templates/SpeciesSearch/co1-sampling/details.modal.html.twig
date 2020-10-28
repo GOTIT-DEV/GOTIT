@@ -2,74 +2,87 @@
 
 {% extends "SpeciesSearch/base.modal.html.twig" %}
 {% block modal_title %}
-  {{ taxname }}
+	{{ taxname }}
 {% endblock %}
 
 {% block modal_body %}
-  <div class="geo-container">
-    <div id="station-geo-map"></div>
-  </div>
+	<div class="geo-container">
+		<div id="station-geo-map"></div>
+	</div>
 {% endblock %}
 
 {% block modal_footer %}{% endblock %}
 
 {% block extra_templates %}
-  <template id="details-modal-title">
-    {% trans from 'queries' %}
-    queries.sampling.title
-    {% endtrans %}
-    :
-    {{"{{taxname}}"}}
-  </template>
+	<template id="details-modal-title">
+		{% trans from 'sections' %} queries.sampling.title {% endtrans %} :
+		{{"{{taxname}}"}}
+	</template>
 
 
-  <template id="leaflet-popup-template">
-    {% verbatim %}
-      <div class="station-popup">
-        <label style="grid-column: 1 / span 2;">
-          <a href={{station_url}}>
-            <b>{{station_code}}</b>
-          </a>
-        </label>
-        <label>Lat:</label>
-        <span>{{latitude}}</span>
-        <label>Lon:</label>
-        <span>{{longitude}}</span>
-        <label>Alt:</label>
-        <span>{{altitude}}
-          m</span>
-        <span style="grid-column: 1 / span 2;text-align:right">{{municipality}}</span>
-        <span style="grid-column: 1 / span 2;text-align:right">{{country}}</span>
-      </div>
-    {% endverbatim %}
-  </template>
+	<template id="leaflet-popup-template">
+		{% verbatim %}
+			<div class="station-popup">
+				<label style="grid-column: 1 / span 2;">
+					<a href={{station_url}}>
+						<b>{{station_code}}</b>
+					</a>
+				</label>
+				<label>Lat:</label>
+				<span>{{latitude}}</span>
+				<label>Lon:</label>
+				<span>{{longitude}}</span>
+				<label>Alt:</label>
+				<span>{{altitude}} m</span>
+				<span style="grid-column: 1 / span 2;text-align:right">
+					{{municipality}}
+				</span>
+				<span style="grid-column: 1 / span 2;text-align:right">
+					{{country}}
+				</span>
+			</div>
+		{% endverbatim %}
+	</template>
 
-  <template id="bio-mat-ext-legend">
-    <span>{{ "queries.sampling.biomaterial.external" |trans }}</span>
-    <svg height="16px" width="16px">
-      <circle cx="8" cy="8" fill="none" r="5" stroke-dasharray="3" stroke-width="3" stroke="cyan"/>
-    </svg>
-  </template>
+	<template id="bio-mat-ext-legend">
+		<span>{{ "maps.sampling.biomaterial.external"|trans }}</span>
+		<svg height="16px" width="16px">
+			<circle
+				cx="8"
+				cy="8"
+				fill="none"
+				r="5"
+				stroke-dasharray="3"
+				stroke-width="3"
+				stroke="cyan"/>
+		</svg>
+	</template>
 
-  <template id="bio-mat-legend">
-    <span>{{ "queries.sampling.biomaterial.internal" |trans }}</span>
-    <svg height="16px" width="16px">
-      <circle cx="8" cy="8" fill="none" r="5" stroke-width="3" stroke="orangered"/>
-    </svg>
-  </template>
+	<template id="bio-mat-legend">
+		<span>{{ "maps.sampling.biomaterial.internal"|trans }}</span>
+		<svg height="16px" width="16px">
+			<circle cx="8" cy="8" fill="none" r="5" stroke-width="3" stroke="orangered"/>
+		</svg>
+	</template>
 
-  <template id="co1-legend">
-    <span>{{ "queries.sampling.co1" |trans }}</span>
-    <svg height="16px" width="16px">
-      <circle cx="8" cy="8" fill="lime" r="5" stroke-width="1" stroke="black"/>
-    </svg>
-  </template>
+	<template id="co1-legend">
+		<span>{{ "maps.sampling.co1"|trans }}</span>
+		<svg height="16px" width="16px">
+			<circle cx="8" cy="8" fill="lime" r="5" stroke-width="1" stroke="black"/>
+		</svg>
+	</template>
 
-  <template id="lmp-legend">
-    <span>{{ "queries.sampling.lmp" |trans }}</span>
-    <svg height="18" version="1.1" width="30" xmlns="http://www.w3.org/2000/svg">
-      <line stroke-dasharray="4, 4" style="stroke-width: 1px;stroke:white" x1="0" x2="30" y1="9" y2="9"></line>
-    </svg>
+	<template id="lmp-legend">
+		<span>{{ "maps.sampling.lmp"|trans }}</span>
+		<svg height="18" version="1.1" width="30" xmlns="http://www.w3.org/2000/svg">
+			<line
+				stroke-dasharray="4, 4"
+				style="stroke-width: 1px;stroke:white"
+				x1="0"
+				x2="30"
+				y1="9"
+				y2="9"></line>
+		</svg>
 
-  </template>
+	</template>
 {% endblock %}

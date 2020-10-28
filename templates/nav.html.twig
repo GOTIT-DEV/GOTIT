@@ -35,7 +35,7 @@
 				{% endif %}
 
 				{# Translation domain to be used #}
-				{% set trans_domain = menu_entry.trans|default(null) %}
+				{% set trans_domain = menu_entry.trans|default('sections') %}
 
 				{# Check for nested menu entries #}
 				{% set children = menu_entry.children|default([]) %}
@@ -43,7 +43,7 @@
 				<li class="menu-entry nav-item {{link_access ? '' : 'disabled'}} {{active_flag}}">
 					<a href="{{href}}">
 						<i class="{{menu_entry.icon}}"></i>
-						{{ menu_entry.text | trans(domain=trans_domain) }}
+						{{ menu_entry.text|trans(domain=trans_domain) }}
 
 						{% if children is not empty %}
 							<span class="fas fa-chevron-down nav-collapse-control"></span>
@@ -66,11 +66,10 @@
 
 								{# Allow overriding parent translation domain for each child #}
 								{% set trans_domain = subentry.trans|default(trans_domain) %}
-								
-									<li class="menu-sub-entry nav-item {{active_flag_sub}}"> 
-									<i class="fas fa-circle timeline-point"></i>
+
+									<li class="menu-sub-entry nav-item {{active_flag_sub}}"> <i class="fas fa-circle timeline-point"></i>
 									<a class="nav-link" href="{{path(subentry.route, route_args)}}">
-										{{ subentry.text | trans(domain=trans_domain)}}
+										{{ subentry.text|trans(domain=trans_domain)}}
 									</a>
 								</li>
 							{% endfor %}

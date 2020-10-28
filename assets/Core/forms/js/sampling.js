@@ -7,8 +7,10 @@ import moment from "moment"
 const urlParams = new URLSearchParams(window.location.search);
 
 $(() => {
-  if ($("form :first").data('action') === "new" &&
-    urlParams.get('idFk') > 0) {
+  if (
+    $("form :first").data('action') === "new" &&
+    urlParams.get('idFk') > 0
+  ) {
     $(".typeahead-station").prop('readonly', true)
   }
 
@@ -21,13 +23,13 @@ $(() => {
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
-      url: Routing.generate("station_search", { 'q': "%QUERY" }),
-      wildcard: '%QUERY'
+      url: Routing.generate("station_search", { 'q': "QUERY" }),
+      wildcard: 'QUERY'
     }
   });
   // Initializing the typeahead fields
   var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-  
+
   $('.typeahead-station').typeahead({
     hint: true, highlight: false, /* Enable substring highlighting */
     minLength: 1 /* Specify minimum characters required for showing result */

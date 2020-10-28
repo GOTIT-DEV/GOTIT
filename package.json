@@ -33,6 +33,7 @@
         "bootstrap-select": "^1.13.18",
         "bootstrap-toggle": "^2.2.2",
         "bootstrap-vue": "^2.15.0",
+        "chroma-js": "^2.1.0",
         "datatables.net-bs4": "^1.10.21",
         "datatables.net-buttons-bs4": "^1.6.2",
         "datatables.net-responsive-bs4": "^2.2.5",

@@ -64,32 +64,13 @@ maps:
     filter:
       reset: Show all stations
       motu: Filter on this MOTU
-
-queries:
-  navtitle: Species search # Dropdown menu label in navbar
-  motu:
-    title: Molecular Operational Taxonomic Unit (MOTU)
-    nav: MOTU
-  specieshypotheses:
-    title: Correspondance among species hypotheses
-    nav: Species hypotheses
-    short: Correspondances
-  distribution:
-    title: MOTU distribution data
-    nav: Distribution data
-    param:
-      sampling: Superpose COI sampling data
-  sampling:
-    title: COI sampling sites
-    nav: COI dataset
+  sampling: 
     biomaterial:
       internal: Bio. material (Internal)
       external: Bio. material (External)
     co1: CO1 sample
-    lmp: Latitudinal midpoint (LMP)
-  concordance:
-    nav: Species names
-    title: Compare species name attribution
+    lmp: Latitudinal midpoint (LMP) 
+
 columns:
   id: ID
   code: Code

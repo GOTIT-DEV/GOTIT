@@ -4,16 +4,16 @@
 {% set Urlcontroller = app.request.attributes.get('_controller') %}
 {% set controllerInArray = Urlcontroller|split('Controller') %}
 {% set controllerName = controllerInArray[1][1:] %}
-{% set nameOfEntity = [controllerName[:1]|lower, controllerName[1:]]|join %}
+{% set nameOfEntity = (controllerName[:1]|lower) ~ controllerName[1:] %}
 {# initialise la variable entityname à partir de la variable globale _route : 'entityname_index' #}
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
 {% set actioncontroller = route|split('_')[1] %}
 {# initialise les routes : 'importfilesentityname_index' et entityname_new #}
-{% set route_index = [entityname, '_index']|join %}
-{% set route_importfiles = ['importfiles', entityname, '_index']|join %}
-{% set route_new = [entityname, '_new']|join %}
-{% set route_indexjson = [entityname, '_indexjson']|join %}
+{% set route_index = entityname ~ '_index' %}
+{% set route_importfiles = 'importfiles' ~ entityname ~ '_index' %}
+{% set route_new = entityname ~ '_new' %}
+{% set route_indexjson = entityname ~ '_indexjson' %}
 
 {% set varUrl_idFk = app.request.query.get('idFk') %}
 {% set varUrl_nameFk = app.request.query.get('nameFk') | default('') %}
@@ -21,7 +21,7 @@
 
 {% block titlepage %}
   <h1>
-    {{ ['title.', entityname]|join|trans }}
+    {{ ('core.' ~ entityname)|trans({}, 'sections') }}
   </h1>
 {% endblock %}
 
@@ -116,11 +116,11 @@ $(document).ready(function(){
         },
         formatters: {
             {% for link in links %}
-                {% set linkname =  ['link',link|capitalize]|join  %}
-                {% set linknameFk =  [linkname,'Fk']|join  %}
+                {% set linkname =  'link' ~ (link|capitalize) %}
+                {% set linknameFk =  linkname ~ 'Fk' %}
                 {% set link_tabname =  link|split('_')[0]  %}
-                {% set link_index =  [link_tabname,'_index']|join  %}
-                {% set link_new=  [link_tabname,'_new']|join  %}                   
+                {% set link_index =  link_tabname  ~ '_index' %}
+                {% set link_new=  link_tabname ~ '_new' %}                   
             "{{linkname}}" : function(column, row, value)
             {   
                 if (row.{{linkname}} !== undefined && row.{{linkname}} != '') {

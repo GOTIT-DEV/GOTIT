@@ -3,47 +3,46 @@
 {% trans_default_domain 'queries' %}
 
 {% block stylesheets %}
-  {{parent()}}
-  {{ encore_entry_link_tags('co1-sampling') }}
+	{{parent()}}
+	{{ encore_entry_link_tags('co1-sampling') }}
 {% endblock %}
 
 {% block titlepage %}
-    <h1>
-        {{"queries.sampling.title" | trans }}
-    </h1>
+	{% set title="queries.sampling.title" %}
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <div class='row'>
-        <div class="col-12 col-lg-4 col-xl-3">
-            {% include 'SpeciesSearch/co1-sampling/form.html.twig' %}
-        </div>
+	<div class='row'>
+		<div class="col-12 col-lg-4 col-xl-3">
+			{% include 'SpeciesSearch/co1-sampling/form.html.twig' %}
+		</div>
 
-        <div class=" col-12 col-lg-8 col-xl-9">
-            <fieldset>
-                <legend>
-                    <h2 style='margin-bottom:18px'>
-                        {{"label.resultats" | trans }}
-                    </h2>
-                </legend>
-                {% include 'SpeciesSearch/co1-sampling/results.html.twig' %}
-            </div>
-        </fieldset>
+		<div class=" col-12 col-lg-8 col-xl-9">
+			<fieldset>
+				<legend>
+					<h2 style='margin-bottom:18px'>
+						{{"label.resultats"|trans }}
+					</h2>
+				</legend>
+				{% include 'SpeciesSearch/co1-sampling/results.html.twig' %}
+			</div>
+		</fieldset>
 
-    </div>
+	</div>
 
-    {% include 'SpeciesSearch/co1-sampling/details.form.html.twig' %}
+	{% include 'SpeciesSearch/co1-sampling/details.form.html.twig' %}
 
-    {# Modal #}
-    <div class="modal-co1" id="modal-container">
-        {% include 'SpeciesSearch/co1-sampling/details.modal.html.twig' with {
+	{# Modal #}
+	<div class="modal-co1" id="modal-container">
+		{% include 'SpeciesSearch/co1-sampling/details.modal.html.twig' with {
       'taxname' : '',
       'class' : 'map'
     } %}
-    </div>
+	</div>
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('co1-sampling') }}
+	{{ parent() }}
+	{{ encore_entry_script_tags('co1-sampling') }}
 {% endblock %}

@@ -58,11 +58,12 @@ col-lg-3 col-xl-2 font-weight-bold text-lg-right
         {%- endif -%}
     {%- endif -%}
 		 <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
-		 {% if icon_class|default(null) %}
+		{% if icon_class|default(null) %}
 			<i class="fas {{icon_class}}"></i>
-			{% endif %}
+		{% endif %}
 		 {{ translation_domain is same as(false) or label is same as(false) 
-		 ? label : label|trans(label_translation_parameters, translation_domain) }}
+		    ? label 
+        : label|trans(label_translation_parameters, translation_domain) }}
 		 </button>
 </div>
 {% endblock %}
@@ -201,17 +202,18 @@ col-lg-9 col-xl-10 needs-validation input-group
 				<div class="btn-group flex-wrap btn-group-sm">
 					<button type="button" class="btn-entry-add btn btn-primary" 
 							data-target="{{ wrapper_id }}">
-						{{ ('button.add.' ~ name)|trans }}
+              {{'add'|trans(domain='ui')|capitalize}}
+						  {{ name|trans }}
 					</button>
 					{% if attr['data-allow-new']|default(false) %}
 						<button type="button" class="btn btn-info" 
 								data-toggle="modal" 
 								data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
-							{{ ('button.add.new.' ~ name)|trans }}
+                {{'create'|trans(domain='ui')|capitalize}}
+							  {{name|trans }}
 						</button>
 					{% endif %}
 				</div>
-			{# {% endif %} #}
 		</div>
 	{% endif %}
 

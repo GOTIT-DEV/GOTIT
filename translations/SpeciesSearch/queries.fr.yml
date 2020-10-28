@@ -64,32 +64,12 @@ maps:
     filter:
       reset: Afficher tout
       motu: "Afficher ce MOTU uniquement"
-
-queries:
-  navtitle: Recherche taxonomique
-  motu:
-    title: Molecular Operational Taxonomic Unit (MOTU)
-    nav: MOTU
-  specieshypotheses:
-    title: Réarrangements taxonomiques entre méthodes
-    nav: Réarrangements taxonomiques
-    short: Réarrangements
-  distribution:
-    title: 'Carte de richesse : distribution des MOTUs'
-    nav: Carte de richesse
-    param:
-      sampling: Superposer les données d'échantillonnage COI
-  sampling:
-    title: Données d'échantillonnage COI
-    nav: Echantillonnage COI
+  sampling: 
     biomaterial:
       internal: Lot matériel (Interne)
       external: Lot matériel (Externe)
     co1: Echantillon CO1
     lmp: Point médian latitudinal (LMP)
-  concordance:
-    nav: Comparaison d'espèces
-    title: Comparer les attributions d'espèces 
 
 columns:
   id: ID
@@ -111,8 +91,8 @@ columns:
   seqs: Séquences
   details: Détails
   sampling:
-    specimen: Echantillons individus
-    co1: Echantillons COI
+    specimen: Échantillons individus
+    co1: Échantillons COI
   lmp: LMP (Deg)
   mle: MLE (km)
   loc: Loc.

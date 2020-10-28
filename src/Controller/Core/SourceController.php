@@ -175,11 +175,11 @@ class SourceController extends AbstractController
       'action_type' => Action::show()
     ]);
 
-    return $this->render('show.html.twig', array(
+    return $this->render('Core/source/edit.html.twig', [
       'source' => $source,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**

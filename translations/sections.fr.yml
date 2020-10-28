@@ -1,0 +1,57 @@
+core:
+  Dashboard: Tableau de bord
+  Terrain: Données de terrain
+  station: Station
+  collecte: Collecte
+  Analyse morphologique: Analyse morphologique
+  lotmateriel: Lot matériel
+  individu: Individu
+  individulame: Lame
+  lotmaterielext: Lot matériel externe
+  Etude séquençage: Séquences ADN
+  sequenceassemblee: Séquences internes
+  sequenceassembleeext: Séquences externes
+  motu: MOTU
+  Stock: Stock
+  boiteLOT: Boite lot matériel
+  boiteLAME: Boite lame
+  boiteADN: Boite ADN
+  boite: Boite
+  Analyses génétiques: Analyse moléculaire
+  adn: ADN
+  pcr: PCR
+  chromatogramme: Chromatogramme
+  source: Source
+  Référentiels: Référentiels
+  voc: Vocabulaire
+  referentieltaxon: Taxon
+  personne: Personne
+  pays: Pays
+  commune: Commune
+  etablissement: Établissement
+  programme: Programme
+  users: Utilisateurs
+  user: Utilisateur
+  Import Files CSV: Import des fichiers CSV
+
+queries:
+  species search: Recherche taxonomique
+  motu:
+    title: Molecular Operational Taxonomic Unit (MOTU)
+    nav: MOTU
+  specieshypotheses:
+    title: Réarrangements taxonomiques entre méthodes
+    nav: Réarrangements taxonomiques
+    short: Réarrangements
+  distribution:
+    title: 'Carte de richesse : distribution des MOTUs'
+    nav: Carte de richesse
+  sampling:
+    title: Données d'échantillonnage COI
+    nav: Echantillonnage COI
+  concordance:
+    nav: Comparaison d'espèces
+    title: Comparer les attributions d'espèces 
+  querybuilder: 
+    nav: Requêtes
+    title: Constructeur de requêtes

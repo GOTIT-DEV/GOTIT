@@ -4,15 +4,15 @@
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
 {% set action = route|split('_')[1] %}
-{% set route_new = [entityname, '_new']|join %}
-{% set route_index = [entityname, '_index']|join %}
+{% set route_new = entityname ~ '_new' %}
+{% set route_index = entityname ~ '_index' %}
 {# initialize the url attached to the BackToTheList button #}
 {% set path_route_index = path(route_index) %}
 {% if app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not null and app.request.query.get('idFk') != '' %}
 	{% set idFk = app.request.query.get('idFk') %}
 	{% if app.request.query.get('nameFk') is defined %}
 		{% set nameFk = app.request.query.get('nameFk') %}
-		{% set formNameFk = ['edit_form.', app.request.query.get('nameFk')]|join %}
+		{% set formNameFk = 'edit_form.' ~ app.request.query.get('nameFk') %}
 		{% set path_route_index = path( route_index, { nameFk: nameFk, idFk: idFk } ) %}
 	{% else %}
 		{% set path_route_index = path( route_index, { idFk: idFk } ) %}
@@ -61,7 +61,7 @@ change of language: language passed in parameter of url? language = switch #}
 
 {% block titlepage %}
 	<h1>
-		{{ ["title.", entityname] | join | trans }}
+		{{ ("core." ~ entityname)|trans({}, 'sections') }}
 		{% if flagvalid != 0 %}
 			<i class="fas fa-check-circle"></i>
 		{% endif %}
@@ -72,7 +72,7 @@ change of language: language passed in parameter of url? language = switch #}
 {% block action %}
 	<a href="{{ path_route_index }}" class="btn btn-sm btn-light border">
 		<i class="fas fa-list"></i>
-		{{ "button.BackToTheList" | trans }}
+		{{ "button.BackToTheList"|trans }}
 	</a>
 	{% if 
 			edit_form.vars.action_type == "show" and 
@@ -82,7 +82,7 @@ change of language: language passed in parameter of url? language = switch #}
 		%}
 		<a href="{{ app.request.pathinfo }}/edit" class="btn btn-sm btn-success">
 			<i class="fas fa-edit"></i>
-			{{'Edit' | trans}}
+			{{'Edit'|trans}}
 		</a>
 	{% endif %}
 {% endblock %}
@@ -102,7 +102,7 @@ change of language: language passed in parameter of url? language = switch #}
 		<div class="form-group offset-lg-3 col-lg-9 offset-xl-2 col-xl-10">
 			{% if edit_form.vars.action_type != 'show' %}
 				<button type="submit" class="btn btn-round btn-success" value="Create">
-					{{ "button.Valid" | trans }}
+					{{ "button.Valid"|trans }}
 				</button>
 			{% endif %}
 			{% if edit_form.vars.action_type != 'edit' or not flagvalid %}
@@ -110,7 +110,7 @@ change of language: language passed in parameter of url? language = switch #}
 					href="#"
 					onclick="window.history.go(-1); return false;"
 					class="btn btn-round btn-primary">
-					{{ "button.Back" | trans }}
+					{{ "button.Back"|trans }}
 				</a>
 			{% endif %}
 		</div>
@@ -132,9 +132,9 @@ change of language: language passed in parameter of url? language = switch #}
 {% block scripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags("forms") }}
-	{% if exception_message is defined %} 
-    <script type="text/javascript"> 
-        alert("{{exception_message|raw}}"); 
-    </script> 
-{% endif %}
+	{% if exception_message is defined %}
+		<script type="text/javascript">
+			alert("{{ exception_message|raw }}");
+		</script>
+	{% endif %}
 {% endblock %}
