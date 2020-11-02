@@ -204,7 +204,7 @@ class SequenceAssembleeExtController extends AbstractController {
     $sequenceAssembleeExt = new Sequenceassembleeext();
     $em                   = $this->getDoctrine()->getManager();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
-    if ($sampling_id->get('idFk')) {
+    if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
       $sequenceAssembleeExt->setCollecteFk($sampling);
     }
