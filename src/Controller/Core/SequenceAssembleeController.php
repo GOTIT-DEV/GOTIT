@@ -17,15 +17,15 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
-use App\Entity\SequenceAssemblee;
 use App\Entity\EstAligneEtTraite;
+use App\Entity\SequenceAssemblee;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Sequenceassemblee controller.
@@ -88,7 +88,7 @@ class SequenceAssembleeController extends AbstractController {
     ) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+    if ($request->get('idFk')) {
       $where .= ' AND chromato.id = ' . $request->get('idFk');
     }
 

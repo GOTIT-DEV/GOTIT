@@ -7,26 +7,24 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Doctrine\Common\Collections\ArrayCollection;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Source;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Source controller.
@@ -35,15 +33,13 @@ use App\Entity\Source;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SourceController extends AbstractController
-{
+class SourceController extends AbstractController {
   /**
    * Lists all source entities.
    *
    * @Route("/", name="source_index", methods={"GET"})
    */
-  public function indexAction()
-  {
+  public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
     $sources = $em->getRepository('App:Source')->findAll();
@@ -54,27 +50,25 @@ class SourceController extends AbstractController
   }
 
   /**
-   * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+   * Returns in json format a set of fields to display (tab_toshow) with the following criteria:
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
    * @Route("/indexjson", name="source_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service)
-  {
-    // load Doctrine Manager       
+  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
+    // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
     //
-    $rowCount = ($request->get('rowCount')  !== NULL)
-      ? $request->get('rowCount') : 10;
-    $orderBy = ($request->get('sort')  !== NULL)
-      ? $request->get('sort')
-      : array('source.dateMaj' => 'desc', 'source.id' => 'desc');
+    $rowCount = $request->get('rowCount') ?: 10;
+    $orderBy  = ($request->get('sort') !== NULL)
+    ? $request->get('sort')
+    : array('source.dateMaj' => 'desc', 'source.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(source.codeSource) LIKE :criteriaLower';
+    $where        = 'LOWER(source.codeSource) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -84,7 +78,7 @@ class SourceController extends AbstractController
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow = [];
+    $tab_toshow      = [];
     $entities_toshow = $em
       ->getRepository("App:Source")
       ->createQueryBuilder('source')
@@ -93,40 +87,39 @@ class SourceController extends AbstractController
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb = count($entities_toshow);
+    $nb              = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+    ? array_slice($entities_toshow, $minRecord, $rowCount)
+    : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id = $entity->getId();
+      $id      = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-        ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-        ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id,
-        "source.id" => $id,
-        "source.codeSource" => $entity->getCodeSource(),
-        "source.anneeSource" => $entity->getAnneeSource(),
+        "id"                   => $id,
+        "source.id"            => $id,
+        "source.codeSource"    => $entity->getCodeSource(),
+        "source.anneeSource"   => $entity->getAnneeSource(),
         "source.libelleSource" => $entity->getLibelleSource(),
-        "source.dateCre" => $DateCre,
-        "source.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "source.userCre" => $service->GetUserCreUsername($entity),
-        "source.userMaj" => $service->GetUserMajUsername($entity),
+        "source.dateCre"       => $DateCre,
+        "source.dateMaj"       => $DateMaj,
+        "userCreId"            => $service->GetUserCreId($entity),
+        "source.userCre"       => $service->GetUserCreUsername($entity),
+        "source.userMaj"       => $service->GetUserMajUsername($entity),
       );
     }
 
     return new JsonResponse([
-      "current"    => intval($request->get('current')),
-      "rowCount"  => $rowCount,
-      "rows"     => $tab_toshow,
+      "current"      => intval($request->get('current')),
+      "rowCount"     => $rowCount,
+      "rows"         => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"    => $nb // total data array				
+      "total"        => $nb, // total data array
     ]);
   }
-
 
   /**
    * Creates a new source entity.
@@ -134,11 +127,10 @@ class SourceController extends AbstractController
    * @Route("/new", name="source_new", methods={"GET", "POST"})
    * @Security("has_role('ROLE_COLLABORATION')")
    */
-  public function newAction(Request $request)
-  {
+  public function newAction(Request $request) {
     $source = new Source();
-    $form = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::create()
+    $form   = $this->createForm('App\Form\SourceType', $source, [
+      'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
@@ -148,20 +140,20 @@ class SourceController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/source/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('source_edit', array('id' => $source->getId(), 'valid' => 1));
     }
 
     return $this->render('Core/source/edit.html.twig', array(
-      'source' => $source,
+      'source'    => $source,
       'edit_form' => $form->createView(),
     ));
   }
@@ -171,16 +163,15 @@ class SourceController extends AbstractController
    *
    * @Route("/{id}", name="source_show", methods={"GET"})
    */
-  public function showAction(Source $source)
-  {
+  public function showAction(Source $source) {
     $deleteForm = $this->createDeleteForm($source);
-    $editForm = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::show()
+    $editForm   = $this->createForm('App\Form\SourceType', $source, [
+      'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/source/edit.html.twig', [
-      'source' => $source,
-      'edit_form' => $editForm->createView(),
+      'source'      => $source,
+      'edit_form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
@@ -191,22 +182,21 @@ class SourceController extends AbstractController
    * @Route("/{id}/edit", name="source_edit", methods={"GET", "POST"})
    * @Security("has_role('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Source $source, GenericFunctionE3s $service)
-  {
+  public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() ==  'ROLE_COLLABORATION' && $source->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $source->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load service  generic_function_e3s
-    //        
-    // store ArrayCollection       
+    //
+    // store ArrayCollection
     $sourceAEteIntegrePars = $service->setArrayCollection('SourceAEteIntegrePars', $source);
     //
     $deleteForm = $this->createDeleteForm($source);
-    $editForm = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::edit()
+    $editForm   = $this->createForm('App\Form\SourceType', $source, [
+      'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
@@ -217,25 +207,25 @@ class SourceController extends AbstractController
         // flush
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/source/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->render('Core/source/edit.html.twig', array(
-        'source' => $source,
+        'source'    => $source,
         'edit_form' => $editForm->createView(),
-        'valid' => 1
+        'valid'     => 1,
       ));
     }
 
     return $this->render('Core/source/edit.html.twig', array(
-      'source' => $source,
-      'edit_form' => $editForm->createView(),
+      'source'      => $source,
+      'edit_form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -246,8 +236,7 @@ class SourceController extends AbstractController
    * @Route("/{id}", name="source_delete", methods={"DELETE"})
    * @Security("has_role('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Source $source)
-  {
+  public function deleteAction(Request $request, Source $source) {
     $form = $this->createDeleteForm($source);
     $form->handleRequest($request);
 
@@ -260,13 +249,13 @@ class SourceController extends AbstractController
         $em->remove($source);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/source/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
@@ -281,8 +270,7 @@ class SourceController extends AbstractController
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Source $source)
-  {
+  private function createDeleteForm(Source $source) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl('source_delete', array('id' => $source->getId())))
       ->setMethod('DELETE')

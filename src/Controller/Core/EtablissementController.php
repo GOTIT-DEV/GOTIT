@@ -7,25 +7,24 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Etablissement;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Etablissement controller.
@@ -34,15 +33,13 @@ use App\Entity\Etablissement;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EtablissementController extends AbstractController
-{
+class EtablissementController extends AbstractController {
   /**
    * Lists all etablissement entities.
    *
    * @Route("/", name="etablissement_index", methods={"GET"})
    */
-  public function indexAction()
-  {
+  public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
     $etablissements = $em->getRepository('App:Etablissement')->findAll();
@@ -53,27 +50,25 @@ class EtablissementController extends AbstractController
   }
 
   /**
-   * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+   * Returns in json format a set of fields to display (tab_toshow) with the following criteria:
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
    * @Route("/indexjson", name="etablissement_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service)
-  {
-    // load Doctrine Manager        
+  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
+    // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
     //
-    $rowCount = ($request->get('rowCount')  !== NULL)
-      ? $request->get('rowCount') : 10;
-    $orderBy = ($request->get('sort')  !== NULL)
-      ? $request->get('sort')
-      : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');
+    $rowCount = $request->get('rowCount') ?: 10;
+    $orderBy  = ($request->get('sort') !== NULL)
+    ? $request->get('sort')
+    : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
+    $where        = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -83,7 +78,7 @@ class EtablissementController extends AbstractController
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow = [];
+    $tab_toshow      = [];
     $entities_toshow = $em
       ->getRepository("App:Etablissement")
       ->createQueryBuilder('etablissement')
@@ -92,38 +87,37 @@ class EtablissementController extends AbstractController
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb = count($entities_toshow);
+    $nb              = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+    ? array_slice($entities_toshow, $minRecord, $rowCount)
+    : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id = $entity->getId();
+      $id      = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-        ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-        ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id,
-        "etablissement.id" => $id,
+        "id"                             => $id,
+        "etablissement.id"               => $id,
         "etablissement.nomEtablissement" => $entity->getNomEtablissement(),
-        "etablissement.dateCre" => $DateCre,
-        "etablissement.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "etablissement.userCre" => $service->GetUserCreUsername($entity),
-        "etablissement.userMaj" => $service->GetUserMajUsername($entity),
+        "etablissement.dateCre"          => $DateCre,
+        "etablissement.dateMaj"          => $DateMaj,
+        "userCreId"                      => $service->GetUserCreId($entity),
+        "etablissement.userCre"          => $service->GetUserCreUsername($entity),
+        "etablissement.userMaj"          => $service->GetUserMajUsername($entity),
       );
     }
 
     return new JsonResponse([
-      "current"    => intval($request->get('current')),
-      "rowCount"  => $rowCount,
-      "rows"     => $tab_toshow,
+      "current"      => intval($request->get('current')),
+      "rowCount"     => $rowCount,
+      "rows"         => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"    => $nb // total data array				
+      "total"        => $nb, // total data array
     ]);
   }
-
 
   /**
    * Creates a new etablissement entity.
@@ -131,11 +125,10 @@ class EtablissementController extends AbstractController
    * @Route("/new", name="etablissement_new", methods={"GET", "POST"})
    * @Security("has_role('ROLE_PROJECT')")
    */
-  public function newAction(Request $request)
-  {
+  public function newAction(Request $request) {
     $etablissement = new Etablissement();
-    $form = $this->createForm('App\Form\EtablissementType', $etablissement, [
-      'action_type' => Action::create()
+    $form          = $this->createForm('App\Form\EtablissementType', $etablissement, [
+      'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
@@ -145,24 +138,24 @@ class EtablissementController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/etablissement/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('etablissement_edit', array(
-        'id' => $etablissement->getId(),
-        'valid' => 1
+        'id'    => $etablissement->getId(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form' => $form->createView(),
+      'edit_form'     => $form->createView(),
     ));
   }
 
@@ -171,10 +164,9 @@ class EtablissementController extends AbstractController
    *
    * @Route("/{id}", name="etablissement_show", methods={"GET"})
    */
-  public function showAction(Etablissement $etablissement)
-  {
+  public function showAction(Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
-    $editForm = $this->createForm(
+    $editForm   = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
       ['action_type' => Action::show()]
@@ -182,8 +174,8 @@ class EtablissementController extends AbstractController
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
+      'edit_form'     => $editForm->createView(),
+      'delete_form'   => $deleteForm->createView(),
     ));
   }
 
@@ -193,10 +185,9 @@ class EtablissementController extends AbstractController
    * @Route("/{id}/edit", name="etablissement_edit", methods={"GET", "POST"})
    * @Security("has_role('ROLE_PROJECT')")
    */
-  public function editAction(Request $request, Etablissement $etablissement)
-  {
+  public function editAction(Request $request, Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
-    $editForm = $this->createForm(
+    $editForm   = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
       ['action_type' => Action::edit()]
@@ -207,26 +198,26 @@ class EtablissementController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/etablissement/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->render('Core/etablissement/edit.html.twig', array(
         'etablissement' => $etablissement,
-        'edit_form' => $editForm->createView(),
-        'valid' => 1
+        'edit_form'     => $editForm->createView(),
+        'valid'         => 1,
       ));
     }
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form' => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
+      'edit_form'     => $editForm->createView(),
+      'delete_form'   => $deleteForm->createView(),
     ));
   }
 
@@ -236,8 +227,7 @@ class EtablissementController extends AbstractController
    * @Route("/{id}", name="etablissement_delete", methods={"DELETE"})
    * @Security("has_role('ROLE_PROJECT')")
    */
-  public function deleteAction(Request $request, Etablissement $etablissement)
-  {
+  public function deleteAction(Request $request, Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);
     $form->handleRequest($request);
 
@@ -250,13 +240,13 @@ class EtablissementController extends AbstractController
         $em->remove($etablissement);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/etablissement/index.html.twig',
 
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
@@ -271,8 +261,7 @@ class EtablissementController extends AbstractController
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Etablissement $etablissement)
-  {
+  private function createDeleteForm(Etablissement $etablissement) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl(
         'etablissement_delete',

@@ -7,26 +7,25 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Pays;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Pay controller.
@@ -35,15 +34,13 @@ use App\Entity\Pays;
  * @Security("has_role('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PaysController extends AbstractController
-{
+class PaysController extends AbstractController {
   /**
    * Lists all pay entities.
    *
    * @Route("/", name="pays_index", methods={"GET"})
    */
-  public function indexAction()
-  {
+  public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
     $pays = $em->getRepository('App:Pays')->findAll();
@@ -54,27 +51,25 @@ class PaysController extends AbstractController
   }
 
   /**
-   * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
+   * Returns in json format a set of fields to display (tab_toshow) with the following criteria:
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
    * @Route("/indexjson", name="pays_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service)
-  {
-    // load Doctrine Manager      
+  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
+    // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
     //
-    $rowCount = ($request->get('rowCount')  !== NULL)
-      ? $request->get('rowCount') : 10;
-    $orderBy = ($request->get('sort')  !== NULL)
-      ? $request->get('sort')
-      : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');
+    $rowCount = $request->get('rowCount') ?: 10;
+    $orderBy  = ($request->get('sort') !== NULL)
+    ? $request->get('sort')
+    : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(pays.codePays) LIKE :criteriaLower';
+    $where        = 'LOWER(pays.codePays) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -84,44 +79,43 @@ class PaysController extends AbstractController
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow = [];
+    $tab_toshow      = [];
     $entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb = count($entities_toshow);
+    $nb              = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+    ? array_slice($entities_toshow, $minRecord, $rowCount)
+    : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id = $entity->getId();
+      $id      = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-        ?  $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-        ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id, "pays.id" => $id,
+        "id"            => $id, "pays.id" => $id,
         "pays.codePays" => $entity->getCodePays(),
-        "pays.nomPays" => $entity->getNomPays(),
-        "pays.dateCre" => $DateCre,
-        "pays.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "pays.userCre" => $service->GetUserCreUsername($entity),
-        "pays.userMaj" => $service->GetUserMajUsername($entity),
+        "pays.nomPays"  => $entity->getNomPays(),
+        "pays.dateCre"  => $DateCre,
+        "pays.dateMaj"  => $DateMaj,
+        "userCreId"     => $service->GetUserCreId($entity),
+        "pays.userCre"  => $service->GetUserCreUsername($entity),
+        "pays.userMaj"  => $service->GetUserMajUsername($entity),
       );
     }
     return new JsonResponse([
-      "current"    => intval($request->get('current')),
-      "rowCount"  => $rowCount,
-      "rows"     => $tab_toshow,
+      "current"      => intval($request->get('current')),
+      "rowCount"     => $rowCount,
+      "rows"         => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"    => $nb // total data array				
+      "total"        => $nb, // total data array
     ]);
   }
-
 
   /**
    * Creates a new pay entity.
@@ -129,11 +123,10 @@ class PaysController extends AbstractController
    * @Route("/new", name="pays_new", methods={"GET", "POST"})
    * @Security("has_role('ROLE_ADMIN')")
    */
-  public function newAction(Request $request)
-  {
+  public function newAction(Request $request) {
     $pays = new Pays();
     $form = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::create()
+      'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
@@ -143,22 +136,22 @@ class PaysController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/pays/index.html.twig',
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('pays_edit', array(
-        'id' => $pays->getId(),
-        'valid' => 1
+        'id'    => $pays->getId(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
+      'pays'      => $pays,
       'edit_form' => $form->createView(),
     ));
   }
@@ -168,16 +161,15 @@ class PaysController extends AbstractController
    *
    * @Route("/{id}", name="pays_show", methods={"GET"})
    */
-  public function showAction(Pays $pays)
-  {
+  public function showAction(Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
-    $editForm = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::show()
+    $editForm   = $this->createForm('App\Form\PaysType', $pays, [
+      'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
-      'edit_form' => $editForm->createView(),
+      'pays'        => $pays,
+      'edit_form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -188,11 +180,10 @@ class PaysController extends AbstractController
    * @Route("/{id}/edit", name="pays_edit", methods={"GET", "POST"})
    * @Security("has_role('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, Pays $pays)
-  {
+  public function editAction(Request $request, Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
-    $editForm = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::edit()
+    $editForm   = $this->createForm('App\Form\PaysType', $pays, [
+      'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
@@ -200,24 +191,24 @@ class PaysController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/pays/index.html.twig',
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->render('Core/pays/edit.html.twig', array(
-        'pays' => $pays,
+        'pays'      => $pays,
         'edit_form' => $editForm->createView(),
-        'valid' => 1
+        'valid'     => 1,
       ));
     }
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
-      'edit_form' => $editForm->createView(),
+      'pays'        => $pays,
+      'edit_form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -228,8 +219,7 @@ class PaysController extends AbstractController
    * @Route("/{id}", name="pays_delete", methods={"DELETE"})
    * @Security("has_role('ROLE_ADMIN')")
    */
-  public function deleteAction(Request $request, Pays $pays)
-  {
+  public function deleteAction(Request $request, Pays $pays) {
     $form = $this->createDeleteForm($pays);
     $form->handleRequest($request);
 
@@ -242,12 +232,12 @@ class PaysController extends AbstractController
         $em->remove($pays);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  addslashes(
+        $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
           'Core/pays/index.html.twig',
-          ['exception_message' =>  explode("\n", $exception_message)[0]]
+          ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
@@ -262,8 +252,7 @@ class PaysController extends AbstractController
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Pays $pays)
-  {
+  private function createDeleteForm(Pays $pays) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl('pays_delete', array('id' => $pays->getId())))
       ->setMethod('DELETE')
@@ -272,11 +261,10 @@ class PaysController extends AbstractController
 
   /**
    * List all municipalities in a country
-   * 
+   *
    * @Route("/{id}/municipalities", name="country_municipalities", methods={"GET"})
    */
-  public function listMunicipalities(Pays $country, SerializerInterface $serializer)
-  {
+  public function listMunicipalities(Pays $country, SerializerInterface $serializer) {
     $json = $serializer->serialize($country->getCommunes(), "json", ['groups' => "own"]);
     return JsonResponse::fromJsonString($json);
   }

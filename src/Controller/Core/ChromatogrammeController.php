@@ -17,14 +17,14 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Chromatogramme;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Chromatogramme controller.
@@ -78,7 +78,7 @@ class ChromatogrammeController extends AbstractController {
     ) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+    if ($request->get('idFk')) {
       $where .= ' AND chromato.pcr_fk = ' . $request->get('idFk');
     }
 
