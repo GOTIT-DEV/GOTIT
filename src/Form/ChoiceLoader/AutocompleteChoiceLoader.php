@@ -50,8 +50,7 @@ class AutocompleteChoiceLoader implements ChoiceLoaderInterface {
 
   public function loadChoicesForValues(array $values, $value = null) {
 
-    $choices = $this->repository->findBy([$this->choice_value => $values]);
-    dump('CHOICES', $choices);
+    $choices          = $this->repository->findBy([$this->choice_value => $values]);
     $this->choiceList = new ArrayChoiceList($choices, $value);
     return $choices;
   }
