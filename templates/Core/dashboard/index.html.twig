@@ -2,8 +2,7 @@
 
 {# DASHBOARD #}
 
-{% block headincl %}
-{% endblock %}
+{% block headincl %}{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -11,7 +10,7 @@
 {% endblock %}
 
 {% block titlepage %}
-		<h1>{{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}</h1>
+	<h1>{{'Dashboard.Gene Occurence et Taxa en Taxonomie Integrative'|trans}}</h1>
 {% endblock %}
 
 {% block body %}
@@ -516,7 +515,9 @@
 				</div>
 				<div id="stations" class="x_content">
 					<div class="table-responsive">
-						<table id="last-updates-table" class="table table-condensed table-hover table-striped">
+						<table
+							id="last-updates-table"
+							class="table table-condensed table-hover table-striped">
 							<thead>
 								<tr>
 									<th data-column-id="id" data-type="numeric" data-visible="false">Id</th>
@@ -525,7 +526,11 @@
 									<th data-column-id="code">Code</th>
 									<th data-column-id="dateMaj" data-type="date" data-sortable="true">{{'list.Date maj'|trans}}</th>
 									<th data-column-id="userMaj">{{'User maj'|trans}}</th>
-									<th data-column-id="showEntity" data-formatter="showEntity" data-sortable="false" data-visible="true">Show</th>
+									<th
+										data-column-id="showEntity"
+										data-formatter="showEntity"
+										data-sortable="false"
+										data-visible="true">Show</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -533,7 +538,7 @@
 									<tr>
 										<td>{{entity.id }}</td>
 										<td>{{entity.name}}</td>
-										<td>{{['title.',entity.name]|join|trans|capitalize}}</td>
+										<td>{{('core.' ~ entity.name)|trans(domain="sections")|capitalize}}</td>
 										<td>{{entity.code }}</td>
 										<td>{{entity.dateMaj}}</td>
 										<td>{{entity.userMaj }}</td>
