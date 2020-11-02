@@ -11,7 +11,7 @@ $(() => {
   const $codeMorpho = $("#bbees_e3sbundle_individu_codeIndTriMorpho")
   const $codeMol = $("#bbees_e3sbundle_individu_codeIndBiomol")
 
-  initSearchSelect($biomat, "lotmaterial_search")
+  initSearchSelect($biomat, "lotmateriel_search")
 
   if ($form.data('action') == 'new') {
     $biomat.change(updateSpecimenMorphoCode)
