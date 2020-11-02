@@ -350,10 +350,13 @@ class SequenceAssembleeExtController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/sequenceassembleeext/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       $editForm = $this->createForm('App\Form\SequenceAssembleeExtType', $sequenceAssembleeExt);
@@ -390,10 +393,13 @@ class SequenceAssembleeExtController extends AbstractController
         $em->remove($sequenceAssembleeExt);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/sequenceassembleeext/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
     }

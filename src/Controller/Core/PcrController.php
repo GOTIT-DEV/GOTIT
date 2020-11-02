@@ -197,7 +197,7 @@ class PcrController extends AbstractController
     $pcr = new Pcr();
     $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+    if ($request->get('idFk')) {
       $RelEntityId = $request->get('idFk');
       $RelEntity = $em->getRepository('App:Adn')->find($RelEntityId);
       $pcr->setAdnFk($RelEntity);
@@ -220,8 +220,13 @@ class PcrController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pcr/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->redirectToRoute('pcr_edit', array(
         'id' => $pcr->getId(),
@@ -294,8 +299,13 @@ class PcrController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pcr/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       //return $this->redirectToRoute('lotmateriel_edit', array('id' => $lotMateriel->getId()));
       // return $this->redirectToRoute('lotmateriel_index');
@@ -332,8 +342,13 @@ class PcrController extends AbstractController
         $em->remove($pcr);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pcr/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pcr/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
     }
 

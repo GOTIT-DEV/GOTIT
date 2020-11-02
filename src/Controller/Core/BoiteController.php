@@ -176,10 +176,13 @@ class BoiteController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/boite/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('boite_edit', array(
@@ -246,10 +249,13 @@ class BoiteController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/boite/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       $editForm = $this->createForm('App\Form\BoiteType', $boite, [
@@ -290,10 +296,13 @@ class BoiteController extends AbstractController
         $em->remove($boite);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/boite/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
     }

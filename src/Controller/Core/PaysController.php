@@ -143,8 +143,13 @@ class PaysController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pays/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->redirectToRoute('pays_edit', array(
         'id' => $pays->getId(),
@@ -195,8 +200,13 @@ class PaysController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pays/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->render('Core/pays/edit.html.twig', array(
         'pays' => $pays,
@@ -232,8 +242,13 @@ class PaysController extends AbstractController
         $em->remove($pays);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/pays/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/pays/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
     }
 

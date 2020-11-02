@@ -148,10 +148,13 @@ class SourceController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/source/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('source_edit', array('id' => $source->getId(), 'valid' => 1));
@@ -214,10 +217,13 @@ class SourceController extends AbstractController
         // flush
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/source/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->render('Core/source/edit.html.twig', array(
@@ -254,10 +260,13 @@ class SourceController extends AbstractController
         $em->remove($source);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/source/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
     }

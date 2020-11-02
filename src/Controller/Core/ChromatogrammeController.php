@@ -213,8 +213,13 @@ class ChromatogrammeController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/chromatogramme/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->redirectToRoute('chromatogramme_edit', array(
         'id' => $chromatogramme->getId(),
@@ -283,8 +288,13 @@ class ChromatogrammeController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/chromatogramme/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->render('Core/chromatogramme/edit.html.twig', array(
         'chromatogramme' => $chromatogramme,
@@ -318,8 +328,13 @@ class ChromatogrammeController extends AbstractController
         $em->remove($chromatogramme);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/chromatogramme/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/chromatogramme/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
     }
 

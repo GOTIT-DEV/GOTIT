@@ -149,8 +149,13 @@ class ReferentielTaxonController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/referentieltaxon/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->redirectToRoute('referentieltaxon_edit', array(
         'id' => $referentielTaxon->getId(),
@@ -206,8 +211,13 @@ class ReferentielTaxonController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/referentieltaxon/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
       return $this->render('Core/referentieltaxon/edit.html.twig', array(
         'referentielTaxon' => $referentielTaxon,
@@ -241,8 +251,13 @@ class ReferentielTaxonController extends AbstractController
         $em->remove($referentielTaxon);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/referentieltaxon/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/referentieltaxon/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
     }
 

@@ -145,10 +145,13 @@ class EtablissementController extends AbstractController
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/etablissement/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute('etablissement_edit', array(
@@ -204,10 +207,13 @@ class EtablissementController extends AbstractController
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/etablissement/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
       return $this->render('Core/etablissement/edit.html.twig', array(
@@ -244,10 +250,13 @@ class EtablissementController extends AbstractController
         $em->remove($etablissement);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/etablissement/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
     }
