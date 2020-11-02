@@ -104,7 +104,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -172,7 +174,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -243,7 +247,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -311,7 +317,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -382,7 +390,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -450,7 +460,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -525,7 +537,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielPublie) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -600,7 +614,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataSqcAssembleePublie) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -748,7 +764,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -982,7 +1000,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -1144,7 +1164,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -1236,7 +1258,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -1408,7 +1432,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -1470,7 +1496,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -1562,7 +1590,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -1840,7 +1867,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2012,7 +2041,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2146,7 +2177,6 @@ class ImportFileE3s
                     $dataColCsv = NULL;
                   }
                 }
-                
               }
             }
             // save the values ​​of the field
@@ -2254,7 +2284,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2340,7 +2372,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2410,7 +2444,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -2651,7 +2684,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -2753,7 +2785,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2779,7 +2813,7 @@ class ImportFileE3s
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    
+
     $entity = $motu;
     foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
       $flagSeq = 0;
@@ -2814,7 +2848,7 @@ class ImportFileE3s
         $method = "setMethodeMotuVocFk";
         $entityRel->$method($foreign_record);
       }
-      
+
       $entityRel->setDateCre($DateImport);
       $entityRel->setDateMaj($DateImport);
       $entityRel->setUserCre($userId);
@@ -2829,7 +2863,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -2857,7 +2893,7 @@ class ImportFileE3s
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    
+
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       # Enregistrement des données de motu
@@ -2894,7 +2930,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -3027,7 +3062,7 @@ class ImportFileE3s
             $method = "setMethodeMotuVocFk";
             $entityRel->$method($foreign_record);
           }
-          
+
           $entityRel->setDateCre($DateImport);
           $entityRel->setDateMaj($DateImport);
           $entityRel->setUserCre($userId);
@@ -3046,7 +3081,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -3114,7 +3151,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -3176,7 +3215,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -3245,7 +3286,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -3426,7 +3466,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -3528,7 +3567,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -3596,7 +3637,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -3777,7 +3817,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -3879,7 +3918,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4011,7 +4052,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4310,7 +4353,6 @@ class ImportFileE3s
                   $dataColCsv = NULL;
                 }
               }
-              
             } else {
               $dataColCsv = NULL;
             }
@@ -4412,7 +4454,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4483,7 +4527,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4548,7 +4594,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4651,7 +4699,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
@@ -4758,7 +4808,9 @@ class ImportFileE3s
         $flush = $em->flush();
         return  $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         $message = $this->translator->trans('importfileService.Problem of FLUSH') . ' : </br>' . explode("\n", $exception_message)[0];
         if (count(explode("\n", $exception_message)) > 1) $message .= ' : </br>' . explode("\n", $exception_message)[1];
         return $message;
