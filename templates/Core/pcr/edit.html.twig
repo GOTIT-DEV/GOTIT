@@ -2,125 +2,21 @@
 
 {# EDIT : PCR #}
 
-{#  Typehead : initialisation of typeahead EntityRelationalId field  #} 
-{% set route = app.request.attributes.get('_route') %}
-{% set action = route|split('_')[1] %}
-{% set codeAdn = '' %}
-{% set idAdn = '' %}
-{% if (pcr.adnFk.codeAdn is defined )%}
-    {#  case of an existing record #} 
-    {% set codeAdn = pcr.adnFk.codeAdn %}
-    {% set idAdn = pcr.adnFk.id %}
-{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-    {#  case of a new record with  a preselected relational entity #} 
-    {% set idAdn = app.request.query.get('idFk') %}
-    {% if app.request.query.get('idFk') is not empty %}
-            {% set codeAdn = pcr.adnFk.codeAdn %}
-    {% endif %}       
-{% endif %}
-
 {% block action %}
-{{parent()}}
-{% if edit_form.vars.data.adnFk is not null %}
-    <a
-        href="/{{app.request.locale}}/adn/{{edit_form.vars.data.adnFk.id}}"
-        class="btn btn-sm btn-info">
-        <i class="fas fa-link"></i>
-        {{'button.Back to adn'|trans}}
-    </a>
-{% endif %}
+	{{parent()}}
+	{% if edit_form.vars.data.adnFk is not null %}
+		<a href="{{path('adn_show', {id:edit_form.vars.data.adnFk.id})}}" class="btn btn-sm btn-info">
+			<i class="fas fa-link"></i>
+			{{'button.Back to adn'|trans}}
+		</a>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-{{ parent() }}   
+	{{ parent() }}
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
-
-
-<script type="text/javascript">  
-// Form actions
-    $(document).ready(function(){ 
-        {% if action == 'new'  %}
-            var CodePcrPlaceholder = {"numPcr" : "{{'Num pcr'|trans}}"};
-            // General action on form: form lock (default) / user role: app.user ...
-            $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_pcr"]',function(ev){
-                // Unlocking fields to allow registration
-                $('#bbees_e3sbundle_pcr_codePcr').attr("disabled", false); 
-             }); 
-
-            // specific features: automatically generating codePcr
-            setCodePcr(CodePcrPlaceholder);
-            //$('#bbees_e3sbundle_pcr_adnFk').change(function (e) { setCodePcr(CodePcrPlaceholder);})
-            // $('#bbees_e3sbundle_pcr_adnTypeahead').mouseup(function (e) { setCodePcr(CodePcrPlaceholder);})
-            $('#bbees_e3sbundle_pcr_primerPcrStartVocFk').change(function (e) { setCodePcr(CodePcrPlaceholder);})
-            $('#bbees_e3sbundle_pcr_primerPcrEndVocFk').change(function (e) { setCodePcr(CodePcrPlaceholder);}) 
-            $('#bbees_e3sbundle_pcr_numPcr').keyup(function (e) { setCodePcr(CodePcrPlaceholder);}) 
-        {% endif %}         
-    });
-</script>
-
-<script>
-//// Typeahead 
-// Constructing the suggestion engine
-    var adns = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-           url : '{{ path("adn_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
-           wildcard: '%QUERY'
-        }
-    });
-
-    // Initializing the typeahead bbees_e3sbundle_pcr_adnId
-    var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-    $('input.typeahead').val( "{{codeAdn}}" );
-    $('#bbees_e3sbundle_pcr_adnId').val( {{idAdn}} );
-    $('.typeahead-adn').typeahead(
-        {
-            hint: true,
-            highlight: false, /* Enable substring highlighting */
-            minLength: 1 /* Specify minimum characters required for showing result */
-        },
-        {
-            name: 'adns',
-            source: adns,
-            displayKey: "code",
-            limit: 40
-        }
-    ).on('keyup', this, function (event) {
-        selectedTypeahead = 0;
-    }
-    ).bind('typeahead:select', function(ev, item) {
-        var $this = $(this);
-        var codeTypeaheadSelect = item.code;
-        var idTypeaheadSelect = item.id;
-        $('#'+$this.attr('data-target_id')).val(item.id);
-        $adn = $this.parents('.form-group').find('input.bbees_e3sbundle_pcr[adnId]');
-        if ($adn.length===1) {
-            $adn.val(item.id);
-        }
-        setCodePcr({"numPcr" : "{{'Num pcr'|trans}}"});
-        selectedTypeahead = 1;
-    }
-    ).bind('typeahead:close', function(ev, item) {
-        if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
-           $('input.typeahead').val( "{{codeAdn}}" ) ;
-           $('#bbees_e3sbundle_pcr_adnId').val( {{idAdn}} ) ;
-           setCodePcr({"numPcr" : "{{'Num pcr'|trans}}"});
-        }
-        var $this = $(this);
-        if ($.trim($this.val())==='') {
-            $this.val('');
-            $adn = $this.parents('.form-group').find('input.bbees_e3sbundle_pcr[adnId]');
-            if ($adn.length===1) {
-                $adn.val('');
-            }
-        }
-    }
-    );
-</script>
-
+	{{ parent() }}
+	{{encore_entry_script_tags("pcr-form")}}
 {% endblock %}

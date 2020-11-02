@@ -1,30 +1,10 @@
 {% extends 'edit.html.twig' %}
 
 {# EDIT : DNA #}
-
-{#  Typehead : initialisation of typeahead EntityRelationalId field  #}
-{% set route = app.request.attributes.get('_route') %}
-{% set action = route|split('_')[1] %}
-{% set codeIndBiomol = '' %}
-{% set idIndividu = '' %}
-	{% if (adn.individuFk.codeIndBiomol is defined )%}
-	{#  case of an existing record #}
-	{% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
-	{% set idIndividu = adn.individuFk.id %}
-{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-	{#  case of a new record with  a preselected relational entity #}
-	{% set idIndividu = app.request.query.get('idFk') %}
-	{% if app.request.query.get('idFk') is not empty %}
-		{% set codeIndBiomol = adn.individuFk.codeIndBiomol %}
-	{% endif %}
-{% endif %}
-
 {% block action %}
 	{{parent()}}
 	{% if edit_form.vars.data.individuFk is not null %}
-		<a
-			href="/{{app.request.locale}}/individu/{{edit_form.vars.data.individuFk.id}}"
-			class="btn btn-sm btn-info">
+		<a href="{{path('individu_show', {id:edit_form.vars.data.individuFk.id})}}" class="btn btn-sm btn-info">
 			<i class="fas fa-link"></i>
 			{{'button.Back to individu'|trans}}
 		</a>
@@ -38,66 +18,5 @@
 
 {% block scripts %}
 	{{ parent() }}
-
-<script>
-//// Typeahead 
-// Constructing the suggestion engine
-    var individus = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-           url : '{{ path("individu_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
-           // url: 'http://datahost/e3s-www/e3s-GOTIT2-0/web/app_dev.php/fr/individu/search/%QUERY',
-           wildcard: '%QUERY'
-        }
-    });
-
-    // Initializing the typeahead
-    var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-    $('input.typeahead').val( "{{codeIndBiomol}}" );
-    $('#bbees_e3sbundle_adn_individuId').val( {{idIndividu}} );
-    $('.typeahead-individu').typeahead(
-        {
-            hint: true,
-            highlight: true, /* Enable substring highlighting */
-            minLength: 1 /* Specify minimum characters required for showing result */
-        },
-        {
-            name: 'individus',
-            source: individus,
-            displayKey: "code",
-            limit: 40
-        }
-    ).on('keyup', this, function (event) {
-        selectedTypeahead = 0;
-    }
-    ).bind('typeahead:select', function(ev, item) {
-        var $this = $(this);
-        var codeTypeaheadSelect = item.code;
-        var idTypeaheadSelect = item.id;
-        //alert(item.code);
-        $('#'+$this.attr('data-target_id')).val(item.id);
-        $individu = $this.parents('.form-group').find('input.bbees_e3sbundle_adn[individuId]');
-        if ($individu.length===1) {
-            $individu.val(item.id);
-        }
-        selectedTypeahead = 1;
-    }
-    ).bind('typeahead:close', function(ev, item) {
-        if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
-           $('input.typeahead').val( "{{codeIndBiomol}}" ) ;
-           $('#bbees_e3sbundle_adn_individuId').val( {{idIndividu}} ) ;
-        }
-        var $this = $(this);
-        if ($.trim($this.val())==='') {
-            $this.val('');
-            $individu = $this.parents('.form-group').find('input.bbees_e3sbundle_adn[individuId]');
-            if ($individu.length===1) {
-                $individu.val('');
-            }
-        }
-    }
-    );
-</script>
-
+	{{ encore_entry_script_tags("dna-form") }}
 {% endblock %}

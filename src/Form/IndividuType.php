@@ -22,93 +22,86 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\Type\SpecimenVocType;
+use App\Form\Type\SearchableSelectType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\ActionFormType;
 
 class IndividuType extends ActionFormType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(FormBuilderInterface $builder, array $options)
+  {
 
-        $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
-        $bioMat = $builder->getData()->getLotMaterielFk();
+    $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
+    $bioMat = $builder->getData()->getLotMaterielFk();
 
-        $builder->add('lotmaterielTypeahead', null, [
-            'mapped' => false,
-            'attr' => [
-                'class' => 'typeahead typeahead-lotmateriel',
-                'data-target_id' => "bbees_e3sbundle_individu_lotmaterielId",
-                'name' => "where",
-                'placeholder' => "Lotmateriel typeahead placeholder",
-                "maxlength" => "255",
-                'readonly' => ($options['action_type'] == Action::create() && $bioMat != null)
-            ],
-            'required' => true,
-            'disabled' => $this->canEditAdminOnly($options)
+    $builder
+      ->add('lotMaterielFk', SearchableSelectType::class, [
+        'class' => 'App:LotMateriel',
+        'choice_label' => 'codeLotMateriel',
+        'placeholder' => $this->translator->trans("Lotmateriel typeahead placeholder"),
+        'attr' => [
+          'readonly' => $this->canEditAdminOnly($options) || $bioMat != null
+        ]
+      ])
+      ->add('codeTube', null, [
+        'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+      ])
+      ->add('codeIndTriMorpho', null, [
+        'attr' => [
+          'readonly' => $options['action_type'] == Action::create()
+        ],
+        'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+      ])
+      ->add('typeIndividuVocFk', SpecimenVocType::class);
+
+    if ($options['action_type'] != Action::create()) {
+      $builder
+        ->add('numIndBiomol', null, [
+          'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
         ])
-            ->add('lotmaterielId', HiddenType::class, array(
-                'mapped' => false,
-                'required' => true,
-            ))
-            ->add('codeTube', null, [
-                'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
-            ])
-            ->add('codeIndTriMorpho', null, [
-                'attr' => [
-                    'readonly' => $options['action_type'] == Action::create()
-                ],
-                'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
-            ])
-            ->add('typeIndividuVocFk', SpecimenVocType::class);
-
-        if ($options['action_type'] != Action::create()) {
-            $builder
-                ->add('numIndBiomol', null, [
-                    'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
-                ])
-                ->add('codeIndBiomol', null, [
-                    'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
-                ]);
-        }
-        
-        $builder
-            ->add('commentaireInd')
-            ->add('especeIdentifiees', CollectionType::class, array(
-                'entry_type' => EspeceIdentifieeEmbedType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => true,
-                'prototype_name' => '__name__',
-                'by_reference' => false,
-                'entry_options' => array(
-                    'label' => false,
-                    'refTaxonLabel' => $options['refTaxonLabel']
-                )
-            ))
-            ->addEventSubscriber($this->addUserDate);
+        ->add('codeIndBiomol', null, [
+          'disabled' => $hasBioMol && $this->canEditAdminOnly($options)
+        ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-        $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Individu',
-            'refTaxonLabel' => 'taxname',
-        ));
-    }
+    $builder
+      ->add('commentaireInd')
+      ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'prototype_name' => '__name__',
+        'by_reference' => false,
+        'entry_options' => array(
+          'label' => false,
+          'refTaxonLabel' => $options['refTaxonLabel']
+        )
+      ))
+      ->addEventSubscriber($this->addUserDate);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'bbees_e3sbundle_individu';
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function configureOptions(OptionsResolver $resolver)
+  {
+    parent::configureOptions($resolver);
+    $resolver->setDefaults(array(
+      'data_class' => 'App\Entity\Individu',
+      'refTaxonLabel' => 'taxname',
+    ));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBlockPrefix()
+  {
+    return 'bbees_e3sbundle_individu';
+  }
 }

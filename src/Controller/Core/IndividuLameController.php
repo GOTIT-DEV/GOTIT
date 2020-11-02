@@ -48,9 +48,10 @@ class IndividuLameController extends AbstractController
 
     $individuLames = $em->getRepository('App:IndividuLame')->findAll();
 
-    return $this->render('Core/individulame/index.html.twig', array(
-      'individuLames' => $individuLames,
-    ));
+    return $this->render(
+      'Core/individulame/index.html.twig',
+      ['individuLames' => $individuLames,]
+    );
   }
 
 
@@ -58,11 +59,11 @@ class IndividuLameController extends AbstractController
    * Returns in json format a set of fields to display (tab_toshow) with the following criteria: 
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
-   * c) 1 sort criterion on a collone ($ request-> get ('sort'))
+   * c) 1 sort criterion on a column ($ request-> get ('sort'))
    *
    * @Route("/indexjson", name="individulame_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service)
+  public function indexjsonAction(Request $request)
   {
     // load Doctrine Manager      
     $em = $this->getDoctrine()->getManager();
@@ -77,11 +78,7 @@ class IndividuLameController extends AbstractController
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(sp.specimen_morphological_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
-    if (
-      $request->get('searchPattern') !== null &&
-      $request->get('searchPattern') !== '' &&
-      $searchPhrase == ''
-    ) {
+    if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
@@ -100,28 +97,30 @@ class IndividuLameController extends AbstractController
         voc_sp_specimen_type.code as voc_sp_specimen_type_code, 
         lot.internal_biological_material_code,
         ss.creation_user_name, ss.date_of_creation, ss.date_of_update,
-        user_cre.user_name as user_cre_username , user_maj.user_name as user_maj_username      
-	FROM specimen_slide ss
-                LEFT JOIN user_db user_cre ON user_cre.id = ss.creation_user_name
-                LEFT JOIN user_db user_maj ON user_maj.id = ss.update_user_name 
-                LEFT JOIN storage_box box ON box.id = ss.storage_box_fk 
-                JOIN specimen sp ON ss.specimen_fk = sp.id
-                JOIN internal_biological_material lot 
-                    ON sp.internal_biological_material_fk = lot.id
-		JOIN sampling ON sampling.id = lot.sampling_fk
+        user_cre.user_name as user_cre_username , 
+        user_maj.user_name as user_maj_username      
+	    FROM specimen_slide ss
+      LEFT JOIN user_db user_cre ON user_cre.id = ss.creation_user_name
+      LEFT JOIN user_db user_maj ON user_maj.id = ss.update_user_name 
+      LEFT JOIN storage_box box ON box.id = ss.storage_box_fk 
+      JOIN specimen sp ON ss.specimen_fk = sp.id
+      JOIN internal_biological_material lot 
+        ON sp.internal_biological_material_fk = lot.id
+	  	JOIN sampling ON sampling.id = lot.sampling_fk
 			JOIN site st ON st.id = sampling.site_fk
-                        LEFT JOIN country ON st.country_fk = country.id
-                        LEFT JOIN municipality ON st.municipality_fk = municipality.id 
-                LEFT JOIN vocabulary voc_sp_specimen_type 
-                    ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
-		LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
-			INNER JOIN (SELECT MAX(ei_spi.id) AS maxei_spi 
+      LEFT JOIN country ON st.country_fk = country.id
+      LEFT JOIN municipality ON st.municipality_fk = municipality.id 
+      LEFT JOIN vocabulary voc_sp_specimen_type 
+        ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
+	  	LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
+			INNER JOIN (
+        SELECT MAX(ei_spi.id) AS maxei_spi 
 				FROM identified_species ei_spi 
 				GROUP BY ei_spi.specimen_fk) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
 			LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
-                        LEFT JOIN vocabulary voc_sp_identification_criterion 
-                            ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id
-		LEFT JOIN dna ON dna.specimen_fk = sp.id"
+      LEFT JOIN vocabulary voc_sp_identification_criterion 
+        ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id
+		  LEFT JOIN dna ON dna.specimen_fk = sp.id"
       . " WHERE " . $where . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -176,45 +175,47 @@ class IndividuLameController extends AbstractController
   public function newAction(Request $request)
   {
     $individuLame = new Individulame();
+
     $em = $this->getDoctrine()->getManager();
-    // check if the relational Entity (Individu) is given and set the RelationalEntityFk for the new Entity
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
-      $RelEntityId = $request->get('idFk');
-      $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId);
-      $individuLame->setIndividuFk($RelEntity);
+
+    if ($specimen_id = $request->get('idFk')) {
+      $specimen = $em->getRepository('App:Individu')->find($specimen_id);
+      $individuLame->setIndividuFk($specimen);
     }
+
     $form = $this->createForm('App\Form\IndividuLameType', $individuLame, [
       'action_type' => Action::create()
     ]);
+
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      // (i) load the id of relational Entity (Individu) from typeahead input field and (ii) set the foreign key
-      $RelEntityId = $form->get('individuId');
-      $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
-      $individuLame->setIndividuFk($RelEntity);
-      // persist
+
       $em->persist($individuLame);
+
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/individulame/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('individulame_edit', array(
+
+      return $this->redirectToRoute('individulame_edit', [
         'id' => $individuLame->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk')
-      ));
+      ]);
     }
 
-    return $this->render('Core/individulame/edit.html.twig', array(
+    return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
       'edit_form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -229,11 +230,11 @@ class IndividuLameController extends AbstractController
       'action_type' => Action::show()
     ]);
 
-    return $this->render('Core/individulame/edit.html.twig', array(
+    return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -257,9 +258,6 @@ class IndividuLameController extends AbstractController
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    // load service  generic_function_e3s
-    //        
-    // store ArrayCollection       
     $individuLameEstRealisePars = $service->setArrayCollection(
       'IndividuLameEstRealisePars',
       $individuLame
@@ -272,40 +270,37 @@ class IndividuLameController extends AbstractController
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      // delete ArrayCollection
       $service->DelArrayCollection(
         'IndividuLameEstRealisePars',
         $individuLame,
         $individuLameEstRealisePars
       );
-      // (i) load the id of relational Entity (Individu) from typeahead input field  (ii) set the foreign key
+
       $em = $this->getDoctrine()->getManager();
-      $RelEntityId = $editForm->get('individuId');
-      $RelEntity = $em->getRepository('App:Individu')->find($RelEntityId->getData());
-      $individuLame->setIndividuFk($RelEntity);
-      // flush
-      $this->getDoctrine()->getManager()->persist($individuLame);
+      $em->persist($individuLame);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/individulame/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/individulame/edit.html.twig', array(
+      return $this->render('Core/individulame/edit.html.twig', [
         'individuLame' => $individuLame,
         'edit_form' => $editForm->createView(),
         'valid' => 1
-      ));
+      ]);
     }
 
-    return $this->render('Core/individulame/edit.html.twig', array(
+    return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -328,10 +323,13 @@ class IndividuLameController extends AbstractController
         $em->remove($individuLame);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/individulame/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
     }
@@ -348,10 +346,9 @@ class IndividuLameController extends AbstractController
   private function createDeleteForm(IndividuLame $individuLame)
   {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl(
-        'individulame_delete',
-        array('id' => $individuLame->getId())
-      ))
+      ->setAction(
+        $this->generateUrl('individulame_delete', ['id' => $individuLame->getId()])
+      )
       ->setMethod('DELETE')
       ->getForm();
   }

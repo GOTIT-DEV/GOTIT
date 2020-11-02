@@ -2,139 +2,21 @@
 
 {# EDIT : SPECIMEN #}
 
-{#  Typehead : initialisation of typeahead EntityRelationalId field  #} 
-{% set route = app.request.attributes.get('_route') %}
-{% set action = route|split('_')[1] %}
-    {% set codeLotMateriel = '' %}
-    {% set idLotMateriel = '' %}
-{% if (individu.lotMaterielFk.codeLotMateriel is defined )%}
-    {#  case of an existing record #} 
-    {% set codeLotMateriel = individu.lotMaterielFk.codeLotMateriel %}
-    {% set idLotMateriel = individu.lotMaterielFk.id %}
-{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-    {#  case of a new record with  a preselected relational entity #} 
-    {% set idLotMateriel = app.request.query.get('idFk') %}
-    {% if app.request.query.get('idFk') is not empty %}
-            {% set codeLotMateriel = individu.lotMaterielFk.codeLotMateriel %}
-    {% endif %}       
-{% endif %}
-
 {% block action %}
-{{parent()}}
-{% if edit_form.vars.data.lotMaterielFk is not null %}
-    <a
-        href="/{{app.request.locale}}/lotmateriel/{{edit_form.vars.data.lotMaterielFk.id}}"
-        class="btn btn-sm btn-info">
-        <i class="fas fa-link"></i>
-        {{'button.Back to lotmateriel'|trans}}
-    </a>
-{% endif %}
+	{{parent()}}
+	{% if edit_form.vars.data.lotMaterielFk is not null %}
+		<a href="{{path('lotmateriel_show', {id: edit_form.vars.data.lotMaterielFk.id})}}" class="btn btn-sm btn-info">
+			<i class="fas fa-link"></i>
+			{{'button.Back to lotmateriel'|trans}}
+		</a>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
-
-<script type="text/javascript">  
-// Form actions
-    $(document).ready(function(){ 
-
-        {% if action == 'edit'  %}  
-            // General action on form: form lock (default) / user role: app.user ...           
-            {% if not edit_form.vars.data.codeIndBiomol %} 
-                // flag_indbiomol = 1 : cas ou l'individu biomol reste à créer 
-                $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { 
-                    setCodeIndBiomol({"RefTaxonSelected" : "{{'Choose a Taxon'|trans}}"});
-                    })
-                // $('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndBiomol({"RefTaxonSelected" : "{{'Choose a Taxon'|trans}}"});})
-                $('#bbees_e3sbundle_individu_numIndBiomol').keyup(function (e) { 
-                    setCodeIndBiomol({"RefTaxonSelected" : "{{'Choose a Taxon'|trans}}"});
-                    }) 
-
-            {% endif %}
-        {% endif %}
-        {% if action == 'new'  %}  
-            // $('#bbees_e3sbundle_individu_numIndBiomol').hide();
-            // $('#bbees_e3sbundle_individu_codeIndBiomol').hide();
-            // specific features: automatically generating codeIndividualTriMorpho
-            setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"});
-            $('#bbees_e3sbundle_individu_especeIdentifiees').change(function (e) { 
-                setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"}); 
-                })
-            //$('#bbees_e3sbundle_individu_lotMaterielFk').change(function (e) {  setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"}); })
-            $('#bbees_e3sbundle_individu_codeTube').keyup(function (e) { 
-                setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"}); 
-                }) 
-        {% endif %}
-
-    });
-</script>
-
-
-<script>
-//// Typeahead 
-// Constructing the suggestion engine
-    var lotmateriels = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-           url : '{{ path("lotmateriel_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
-           wildcard: '%QUERY'
-        }
-    });
-
-    // Initializing the typeahead fields
-    var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-    $('input.typeahead').val( "{{codeLotMateriel}}" );
-    $('#bbees_e3sbundle_individu_lotmaterielId').val( {{idLotMateriel}} );
-    $('.typeahead-lotmateriel').typeahead(
-        {
-            hint: true,
-            highlight: false, /* Enable substring highlighting */
-            minLength: 1 /* Specify minimum characters required for showing result */
-        },
-        {
-            name: 'lotmateriels',
-            source: lotmateriels,
-            displayKey: "code",
-            limit: 40
-        }
-    ).on('keyup', this, function (event) {
-        selectedTypeahead = 0;
-    }
-    ).bind('typeahead:select', function(ev, item) {
-        var $this = $(this);
-        var codeTypeaheadSelect = item.code;
-        var idTypeaheadSelect = item.id;
-        //alert(codeTypeaheadSelect);
-        $('#'+$this.attr('data-target_id')).val(item.id);
-        $lotmateriel = $this.parents('.form-group').find('input.bbees_e3sbundle_individu[lotmaterielId]');
-        if ($lotmateriel.length===1) {
-            $lotmateriel.val(item.id);
-        }
-        selectedTypeahead = 1;
-        // set auto-generated code if needed
-        setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"});
-    }
-    ).bind('typeahead:close', function(ev, item) {
-        if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
-           $('input.typeahead').val( "{{codeLotMateriel}}" ) ;
-           $('#bbees_e3sbundle_individu_lotmaterielId').val( {{idLotMateriel}} ) ;
-           setCodeIndTriMorpho({"codeTube" : "{{'Code tube'|trans}}", "RefTaxonSelected":"{{'Choose a Taxon'|trans}}"});
-        }
-        var $this = $(this);
-        if ($.trim($this.val())==='') {
-            $this.val('');
-            $lotmateriel = $this.parents('.form-group').find('input.bbees_e3sbundle_individu[lotmaterielId]');
-            if ($lotmateriel.length===1) {
-                $lotmateriel.val('');
-            }
-        }
-    }
-    );
-</script>
-
+	{{ parent() }}
+	{{ encore_entry_script_tags("specimen-form") }}
 {% endblock %}

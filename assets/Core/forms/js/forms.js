@@ -2,18 +2,22 @@ import "bootstrap-select/dist/css/bootstrap-select.min.css"
 import "../css/forms.less"
 
 import "bootstrap-select"
+import select2 from "select2/dist/js/select2.full"
 
+select2($)
+require('select2/src/scss/core.scss');
+require('@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css');
 
 import { initDateMask } from "./date-mask"
 
 
 
 $(() => {
-  initDateMask(document.querySelector("form"))
+  document.querySelectorAll("form").forEach(initDateMask)
 
   $("button.btn-entry-add").click(addEntryBtnCallback)
   $("button.btn-entry-delete").click(deleteEntryBtnCallback)
-  
+
   // Create initial entry in each embed collection if empty
   $(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
 

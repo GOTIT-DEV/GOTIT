@@ -7,133 +7,105 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Form;
 
-use App\Form\Enums\Action;
-use App\Form\ActionFormType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\SearchableSelectType;
+use App\Form\ActionFormType;
 
-class ChromatogrammeType extends ActionFormType
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $pcr = $builder->getData()->getPcrFk();
+class ChromatogrammeType extends ActionFormType {
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $pcr = $builder->getData()->getPcrFk();
 
-        $builder->add('pcrTypeahead', null, [
-            'mapped' => false,
-            'attr' => [
-                'class' => 'typeahead typeahead-pcr',
-                'data-target_id' => "bbees_e3sbundle_chromatogramme_pcrId",
-                'name' => "where",
-                'placeholder' => "Pcr typeahead placeholder",
-                "maxlength" => "255",
-                'readonly' => $options["action_type"] == Action::create() && $pcr != null
-            ],
-            'required' => true,
-            'disabled' => $this->canEditAdminOnly($options)
-        ])
-            ->add('pcrId', HiddenType::class, array(
-                'mapped' => false,
-                'required' => true,
-            ))
-            ->add('codeChromato', null, [
-                'disabled' => $this->canEditAdminOnly($options)
-            ])
-            ->add('numYas',  TextType::class, array(
-                'required' => true,
-                'disabled' => $this->canEditAdminOnly($options)
-            ))
-            ->add('primerChromatoVocFk', EntityType::class, array(
-                'class' => 'App:Voc',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                        ->where('voc.parent LIKE :parent')
-                        ->setParameter('parent', 'primerChromato')
-                        ->orderBy('voc.libelle', 'ASC');
-                },
-                'choice_translation_domain' => true,
-                'choice_label' => 'libelle',
-                'multiple' => false,
-                'expanded' => false,
-                'placeholder' => 'Choose a primer',
-                'disabled' => $this->canEditAdminOnly($options)
-            ))
-            ->add('qualiteChromatoVocFk', EntityType::class, array(
-                'class' => 'App:Voc',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('voc')
-                        ->where('voc.parent LIKE :parent')
-                        ->setParameter('parent', 'qualiteChromato')
-                        ->orderBy('voc.libelle', 'ASC');
-                },
-                'choice_translation_domain' => true,
-                'choice_label' => 'libelle',
-                'multiple' => false,
-                'expanded' => false,
-                'placeholder' => 'Choose a quality'
-            ))
-            ->add('etablissementFk', EntityType::class, array(
-                'class' => 'App:Etablissement',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('etablissement')
-                        ->orderBy('etablissement.nomEtablissement', 'ASC');
-                },
-                'placeholder' => 'Choose a society',
-                'choice_label' => 'nom_etablissement',
-                'multiple' => false,
-                'expanded' => false
-            ))
-            ->add('commentaireChromato')
-            ->add('dateCre', DateTimeType::class, array(
-                'required' => false,
-                'widget' => 'single_text',
-                'format' => 'Y-MM-dd HH:mm:ss',
-                'html5' => false,
-            ))
-            ->add('dateMaj', DateTimeType::class, array(
-                'required' => false,
-                'widget' => 'single_text',
-                'format' => 'Y-MM-dd HH:mm:ss',
-                'html5' => false,
-            ))
-            ->add('userCre', HiddenType::class, array())
-            ->add('userMaj', HiddenType::class, array());
-    }
+    $builder
+      ->add('pcrFk', SearchableSelectType::class, [
+        'class'        => 'App:Pcr',
+        'choice_label' => 'codePcr',
+        'placeholder'  => $this->translator->trans("Pcr typeahead placeholder"),
+        'attr'         => [
+          'readonly' => $this->canEditAdminOnly($options) || $pcr != null,
+        ],
+      ])
+      ->add('codeChromato', null, [
+        'disabled' => $this->canEditAdminOnly($options),
+      ])
+      ->add('numYas', TextType::class, array(
+        'required' => true,
+        'disabled' => $this->canEditAdminOnly($options),
+      ))
+      ->add('primerChromatoVocFk', EntityType::class, array(
+        'class'                     => 'App:Voc',
+        'query_builder'             => function (EntityRepository $er) {
+          return $er->createQueryBuilder('voc')
+            ->where('voc.parent LIKE :parent')
+            ->setParameter('parent', 'primerChromato')
+            ->orderBy('voc.libelle', 'ASC');
+        },
+        'choice_translation_domain' => true,
+        'choice_label'              => 'libelle',
+        'multiple'                  => false,
+        'expanded'                  => false,
+        'placeholder'               => 'Choose a primer',
+        'disabled'                  => $this->canEditAdminOnly($options),
+      ))
+      ->add('qualiteChromatoVocFk', EntityType::class, array(
+        'class'                     => 'App:Voc',
+        'query_builder'             => function (EntityRepository $er) {
+          return $er->createQueryBuilder('voc')
+            ->where('voc.parent LIKE :parent')
+            ->setParameter('parent', 'qualiteChromato')
+            ->orderBy('voc.libelle', 'ASC');
+        },
+        'choice_translation_domain' => true,
+        'choice_label'              => 'libelle',
+        'multiple'                  => false,
+        'expanded'                  => false,
+        'placeholder'               => 'Choose a quality',
+      ))
+      ->add('etablissementFk', EntityType::class, array(
+        'class'         => 'App:Etablissement',
+        'query_builder' => function (EntityRepository $er) {
+          return $er->createQueryBuilder('etablissement')
+            ->orderBy('etablissement.nomEtablissement', 'ASC');
+        },
+        'placeholder'   => 'Choose a society',
+        'choice_label'  => 'nom_etablissement',
+        'multiple'      => false,
+        'expanded'      => false,
+      ))
+      ->add('commentaireChromato')
+      ->addEventsubscriber($this->addUserDate);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-        $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Chromatogramme'
-        ));
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function configureOptions(OptionsResolver $resolver) {
+    parent::configureOptions($resolver);
+    $resolver->setDefaults(array(
+      'data_class' => 'App\Entity\Chromatogramme',
+    ));
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'bbees_e3sbundle_chromatogramme';
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function getBlockPrefix() {
+    return 'bbees_e3sbundle_chromatogramme';
+  }
 }

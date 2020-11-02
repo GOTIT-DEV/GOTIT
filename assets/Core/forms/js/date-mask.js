@@ -37,9 +37,9 @@ export function initDateMask(formBlockElement) {
   const dateMasker = new Inputmask(dateMaskConfig)
   const precisionWidget = formBlockElement.querySelector(".date-precision")
   const dateWidget = formBlockElement.querySelector('.date-autoformat')
-  
+
   if (dateWidget && dateWidget.value) validateDate(dateWidget)
-  
+
   $(dateWidget).change(event => {
     const dateInput = event.target
     validateDate(dateInput)
@@ -54,6 +54,7 @@ export function initDateMask(formBlockElement) {
       const $dateWidget = $(event.currentTarget)
         .closest(".form-group").parent()
         .find(".date-autoformat:first")
+      console.log($dateWidget)
       if (precision !== -1)
         setPrecision($dateWidget, precision, dateMasker)
     })
@@ -97,6 +98,10 @@ function setPrecision($dateWidget, precision, dateMasker) {
     .prop('disabled', precision === 3)
     .prop('required', precision !== 3)
     .prop("placeholder", dateMasks[precision].placeholder)
+
+  $(`label[for='${$dateWidget.attr('id')}']`)
+    .toggleClass('required text-danger', precision !== 3)
+
   const currentValue = $dateWidget.val()
   if (precision === 3) {
     $dateWidget.val('NA')

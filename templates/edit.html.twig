@@ -8,7 +8,7 @@
 {% set route_index = entityname ~ '_index' %}
 {# initialize the url attached to the BackToTheList button #}
 {% set path_route_index = path(route_index) %}
-{% if app.request.query.get('idFk') is defined and app.request.query.get('idFk') is not null and app.request.query.get('idFk') != '' %}
+{% if app.request.query.get('idFk')|default(null) %}
 	{% set idFk = app.request.query.get('idFk') %}
 	{% if app.request.query.get('nameFk') is defined %}
 		{% set nameFk = app.request.query.get('nameFk') %}
@@ -18,12 +18,10 @@
 		{% set path_route_index = path( route_index, { idFk: idFk } ) %}
 	{% endif %}
 {% endif %}
-{% if app.request.query.get('searchPattern') is defined and app.request.query.get('searchPattern') is not null and app.request.query.get('searchPattern') != '' %}
+{% if app.request.query.get('searchPattern')|default(null) %}
 	{% set path_route_index = path(route_index, { searchPattern: app.request.query.get('searchPattern') } ) %}
 {% endif %}
-{% if app.request.query.get('typeBoite') is defined and
-      app.request.query.get('typeBoite') is not null and
-      app.request.query.get('typeBoite') != '' %}
+{% if app.request.query.get('typeBoite')|default(null) %}
 	{% set path_route_index = path(route_index,{typeBoite: app.request.query.get('typeBoite')}) %}
 {% endif %}
 {# initializes and manages the variables that are valid for validation and the BackToTheList button #}
@@ -47,7 +45,7 @@ is defined and app.request.query.get('valid') == '1' %}
 {% endif %}
 {# case of a
 change of language: language passed in parameter of url? language = switch #}
-{% if app.request.query.get('langage') is defined and app.request.query.get('langage') != '' %}
+{% if app.request.query.get('langage')|default(null) %}
 	{% set backbutton = 0 %}
 	{% set comptvalid = 1 %}
 {% endif %}

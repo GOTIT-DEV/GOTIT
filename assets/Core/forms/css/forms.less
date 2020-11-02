@@ -1,8 +1,8 @@
-@input-max-width : 700px;
+@input-max-width: 700px;
 
 form {
   .card.collection-wrapper {
-    max-width:@input-max-width;
+    max-width: @input-max-width;
     .card-header {
       padding: 5px;
     }
@@ -17,14 +17,30 @@ form {
   input,
   select,
   textarea,
+  .select2-container,
   .bootstrap-select {
     max-width: @input-max-width;
   }
 
-  .form-group{
+  select[readonly].select2-hidden-accessible + .select2-container {
+    pointer-events: none;
+    touch-action: none;
+
+    .select2-selection {
+      background: #eee;
+      box-shadow: none;
+    }
+
+    .select2-selection__arrow,
+    .select2-selection__clear {
+      display: none;
+    }
+  }
+
+  .form-group {
     align-items: center;
 
-    .col-form-label{
+    .col-form-label {
       padding-top: 0.35rem;
       padding-bottom: 0.35rem;
     }

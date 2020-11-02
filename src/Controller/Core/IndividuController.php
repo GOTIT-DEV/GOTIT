@@ -65,8 +65,6 @@ class IndividuController extends AbstractController
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(ind.codeIndBiomol) like :q' . $i . ')');
-    }
-    for ($i = 0; $i < count($query); $i++) {
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
@@ -137,12 +135,9 @@ class IndividuController extends AbstractController
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service)
   {
-    // load Doctrine Manager       
     $em = $this->getDoctrine()->getManager();
-    //
-    $rowCount = ($request->get('rowCount')  !== NULL)
-      ? $request->get('rowCount') : 10;
-    $orderBy = ($request->get('sort')  !== NULL)
+    $rowCount = $request->get('rowCount') ?: 10;
+    $orderBy = $request->get('sort')
       ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
       : "sp.date_of_update DESC, sp.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
@@ -150,46 +145,64 @@ class IndividuController extends AbstractController
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = ' LOWER(sp.specimen_morphological_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
-    if (
-      $request->get('searchPattern') !== null &&
-      $request->get('searchPattern') !== '' &&
-      $searchPhrase == ''
-    ) {
+    if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
+    if ($request->get('idFk')) {
       $where .= ' AND sp.internal_biological_material_fk = ' . $request->get('idFk');
     }
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql = "SELECT  sp.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code, st.site_code,
-        sp.specimen_molecular_code, sp.specimen_morphological_code, sp.specimen_molecular_number, sp.tube_code, sp.date_of_creation, sp.date_of_update,
-        rt_sp.taxon_name as last_taxname_sp, ei_sp.identification_date as last_date_identification_sp, voc_sp_identification_criterion.code as code_sp_identification_criterion,
-        voc_sp_specimen_type.code as voc_sp_specimen_type_code, sp.creation_user_name, user_cre.user_name as user_cre_username , user_maj.user_name as user_maj_username,
-        string_agg(cast( dna.id as character varying) , ' ;') as list_dna, string_agg(cast( specimen_slide.id as character varying) , ' ;') as list_specimen_slide
-	FROM  specimen sp
-                LEFT JOIN user_db user_cre ON user_cre.id = sp.creation_user_name
-                LEFT JOIN user_db user_maj ON user_maj.id = sp.update_user_name               
-                JOIN internal_biological_material lot ON sp.internal_biological_material_fk = lot.id
+    $rawSql = "SELECT sp.id, 
+      st.site_code, st.latitude, st.longitude, 
+      sampling.sample_code, 
+      country.country_name, 
+      municipality.municipality_code, 
+      st.site_code,
+      sp.specimen_molecular_code, sp.specimen_morphological_code, 
+      sp.specimen_molecular_number, sp.tube_code, 
+      sp.date_of_creation, sp.date_of_update,
+      rt_sp.taxon_name as last_taxname_sp, 
+      ei_sp.identification_date as last_date_identification_sp, 
+      voc_sp_identification_criterion.code as code_sp_identification_criterion,
+      voc_sp_specimen_type.code as voc_sp_specimen_type_code, 
+      sp.creation_user_name, user_cre.user_name as user_cre_username,
+      user_maj.user_name as user_maj_username,
+      string_agg(cast( dna.id as character varying) , ' ;') as list_dna, 
+      string_agg(cast( specimen_slide.id as character varying) , ' ;') as list_specimen_slide
+	  FROM  specimen sp
+    LEFT JOIN user_db user_cre ON user_cre.id = sp.creation_user_name
+    LEFT JOIN user_db user_maj ON user_maj.id = sp.update_user_name               
+    JOIN internal_biological_material lot 
+      ON sp.internal_biological_material_fk = lot.id
 		JOIN sampling ON sampling.id = lot.sampling_fk
-			JOIN site st ON st.id = sampling.site_fk
-                        LEFT JOIN country ON st.country_fk = country.id
-                        LEFT JOIN municipality ON st.municipality_fk = municipality.id 
-                LEFT JOIN vocabulary voc_sp_specimen_type ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
+    JOIN site st ON st.id = sampling.site_fk
+    LEFT JOIN country ON st.country_fk = country.id
+    LEFT JOIN municipality ON st.municipality_fk = municipality.id 
+    LEFT JOIN vocabulary voc_sp_specimen_type 
+      ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
 		LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
-			INNER JOIN (SELECT MAX(ei_spi.id) AS maxei_spi 
-				FROM identified_species ei_spi 
-				GROUP BY ei_spi.specimen_fk) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
-			LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
-                        LEFT JOIN vocabulary voc_sp_identification_criterion ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id
+    INNER JOIN (
+      SELECT MAX(ei_spi.id) AS maxei_spi 
+      FROM identified_species ei_spi 
+      GROUP BY ei_spi.specimen_fk
+    ) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
+    LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
+    LEFT JOIN vocabulary voc_sp_identification_criterion 
+      ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id
 		LEFT JOIN dna ON dna.specimen_fk = sp.id
-                LEFT JOIN specimen_slide ON specimen_slide.specimen_fk = sp.id"
+    LEFT JOIN specimen_slide ON specimen_slide.specimen_fk = sp.id"
       . " WHERE " . $where . " 
-        GROUP BY sp.id, st.site_code, st.latitude, st.longitude, sampling.sample_code, country.country_name, municipality.municipality_code, st.site_code,
-        sp.specimen_molecular_code, sp.specimen_morphological_code, sp.specimen_molecular_number, sp.tube_code, sp.date_of_creation, sp.date_of_update,
-        rt_sp.taxon_name, ei_sp.identification_date, voc_sp_identification_criterion.code,
-        voc_sp_specimen_type.code, sp.creation_user_name, user_cre.user_name , user_maj.user_name"
+      GROUP BY sp.id, st.site_code, st.latitude, st.longitude, 
+        sampling.sample_code, country.country_name, 
+        municipality.municipality_code, st.site_code,
+        sp.specimen_molecular_code, sp.specimen_morphological_code, 
+        sp.specimen_molecular_number, sp.tube_code, 
+        sp.date_of_creation, sp.date_of_update,
+        rt_sp.taxon_name, ei_sp.identification_date, 
+        voc_sp_identification_criterion.code, voc_sp_specimen_type.code, 
+        sp.creation_user_name, user_cre.user_name , user_maj.user_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -202,10 +215,8 @@ class IndividuController extends AbstractController
       : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
-      $linkAdn = ($val['list_dna'] !== null)
-        ? strval($val['id']) : '';
-      $linkIndividulame = ($val['list_specimen_slide'] !== null)
-        ? strval($val['id']) : '';
+      $linkAdn = $val['list_dna'] ? strval($val['id']) : '';
+      $linkIndividulame = $val['list_specimen_slide'] ? strval($val['id']) : '';
       $tab_toshow[] = array(
         "id" => $val['id'],
         "sp.id" => $val['id'],
@@ -247,12 +258,11 @@ class IndividuController extends AbstractController
   {
     $individu = new Individu();
     $individu->addEspeceIdentifiee(new EspeceIdentifiee());
+
     $em = $this->getDoctrine()->getManager();
-    // check if the relational Entity (LotMateriel) is given and set the RelationalEntityFk for the new Entity
-    if ($request->get('idFk') !== null && $request->get('idFk') !== '') {
-      $RelEntityId = $request->get('idFk');
-      $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId);
-      $individu->setLotMaterielFk($RelEntity);
+    if ($biomat_id = $request->get('idFk')) {
+      $biomat = $em->getRepository('App:LotMateriel')->find($biomat_id);
+      $individu->setLotMaterielFk($biomat);
     }
     $form = $this->createForm('App\Form\IndividuType', $individu, [
       'action_type' => Action::create()
@@ -260,32 +270,29 @@ class IndividuController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      // (i) load the id  the relational Entity (LotMateriel) from typeahead input field and (ii) set the foreign key 
-      $RelEntityId = $form->get('lotmaterielId');
-      $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId->getData());
-      $individu->setLotMaterielFk($RelEntity);
-      // persist Entity
       $em->persist($individu);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
         return $this->render(
           'Core/individu/index.html.twig',
-          array('exception_message' =>  explode("\n", $exception_message)[0])
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('individu_edit', array(
+      return $this->redirectToRoute('individu_edit', [
         'id' => $individu->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk')
-      ));
+      ]);
     }
 
-    return $this->render('Core/individu/edit.html.twig', array(
+    return $this->render('Core/individu/edit.html.twig', [
       'individu' => $individu,
       'edit_form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -300,11 +307,11 @@ class IndividuController extends AbstractController
       'action_type' => Action::show()
     ]);
 
-    return $this->render('Core/individu/edit.html.twig', array(
+    return $this->render('Core/individu/edit.html.twig', [
       'individu' => $individu,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -322,18 +329,15 @@ class IndividuController extends AbstractController
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    // store ArrayCollection       
     $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu);
 
     $deleteForm = $this->createDeleteForm($individu);
-    if ($individu->getCodeIndBiomol()  === NULL || $individu->getCodeIndBiomol() == '') {
-      $flag_indbiomol = 1;
+    if ($individu->getCodeIndBiomol()) {
       $editForm = $this->createForm('App\Form\IndividuType', $individu, [
         'refTaxonLabel' => 'codeTaxon',
         'action_type' => Action::edit()
       ]);
     } else {
-      $flag_indbiomol = 0;
       $editForm = $this->createForm('App\Form\IndividuType', $individu, [
         'action_type' => Action::edit()
       ]);
@@ -341,40 +345,31 @@ class IndividuController extends AbstractController
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      // delete ArrayCollection
       $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu, $especeIdentifiees);
-      // (i) load the id of relational Entity (LotMateriel) from typeahead input field  (ii) set the foreign key
-      $em = $this->getDoctrine()->getManager();
-      $RelEntityId = $editForm->get('lotmaterielId');;
-      $RelEntity = $em->getRepository('App:LotMateriel')->find($RelEntityId->getData());
-      $individu->setLotMaterielFk($RelEntity);
-      // flush
       $this->getDoctrine()->getManager()->persist($individu);
       try {
         $this->getDoctrine()->getManager()->flush();
-        if ($individu->getCodeIndBiomol()  === NULL || $individu->getCodeIndBiomol() == '') {
-          $flag_indbiomol = 1;
-        } else {
-          $flag_indbiomol = 0;
-        }
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/individu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/individu/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
-      return $this->render('Core/individu/edit.html.twig', array(
+      return $this->render('Core/individu/edit.html.twig', [
         'individu' => $individu,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
-        'flag_indbiomol' => $flag_indbiomol,
-      ));
+      ]);
     }
 
-    return $this->render('Core/individu/edit.html.twig', array(
+    return $this->render('Core/individu/edit.html.twig', [
       'individu' => $individu,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-      'flag_indbiomol' => $flag_indbiomol,
-    ));
+    ]);
   }
 
   /**
@@ -395,8 +390,13 @@ class IndividuController extends AbstractController
         $em->remove($individu);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message =  str_replace('"', '\"', str_replace("'", "\'", html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')));
-        return $this->render('Core/individu/index.html.twig', array('exception_message' =>  explode("\n", $exception_message)[0]));
+        $exception_message =  addslashes(
+          html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
+        );
+        return $this->render(
+          'Core/individu/index.html.twig',
+          ['exception_message' =>  explode("\n", $exception_message)[0]]
+        );
       }
     }
 
@@ -413,7 +413,9 @@ class IndividuController extends AbstractController
   private function createDeleteForm(Individu $individu)
   {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('individu_delete', array('id' => $individu->getId())))
+      ->setAction(
+        $this->generateUrl('individu_delete', ['id' => $individu->getId()])
+      )
       ->setMethod('DELETE')
       ->getForm();
   }

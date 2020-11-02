@@ -9,10 +9,6 @@ global.$ = $;
 import '@fortawesome/fontawesome-free';
 import 'bootstrap';
 import 'jquery-bootgrid/dist/jquery.bootgrid.js';
-require("typeahead.js")
-window.Bloodhound = require("bloodhound-js")
-
-
 
 import './nav.js';
 import './options.js';
@@ -51,8 +47,8 @@ Object.assign($.fn.bootgrid.Constructor.defaults.templates, {
 
 // Progressbar
 if ($(".progress .progress-bar")[0]) {
-	$('.progress .progress-bar').progressbar();
+  $('.progress .progress-bar').progressbar();
 }
 $(document).ready(function () {
-	$('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+  $('[data-toggle="tooltip"]').tooltip({ container: 'body' });
 });

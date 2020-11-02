@@ -2,122 +2,23 @@
 
 {# EDIT : CHROMATOGRAM #}
 
-{#  Typehead : initialisation of typeahead EntityRelationalId field  #}
-{% set route = app.request.attributes.get('_route') %}
-{% set action = route|split('_')[1] %}
-{% set codePcr = '' %}
-{% set idPcr = '' %}
-{% if (chromatogramme.pcrFk.codePcr is defined )%}
-    {#  case of an existing record #} 
-    {% set codePcr = chromatogramme.pcrFk.codePcr %}
-    {% set idPcr = chromatogramme.pcrFk.id %}
-{% elseif app.request.query.get('idFk') is defined  and action == 'new'  %}
-    {#  case of a new record with  a preselected relational entity #} 
-    {% set idPcr = app.request.query.get('idFk') %}
-    {% if app.request.query.get('idFk') is not empty %}
-            {% set codePcr = chromatogramme.pcrFk.codePcr %}
-    {% endif %}       
-{% endif %}
-
 {% block action %}
-{{parent()}}
-{% if edit_form.vars.data.pcrFk is not null %}
-    <a
-        href="/{{app.request.locale}}/pcr/{{edit_form.vars.data.pcrFk.id}}"
-        class="btn btn-sm btn-info">
-        <i class="fas fa-link"></i>
-        {{'button.Back to pcr'|trans}}
-    </a>
-{% endif %}
+	{{parent()}}
+	{% if edit_form.vars.data.pcrFk is not null %}
+		<a
+			href="/{{app.request.locale}}/pcr/{{edit_form.vars.data.pcrFk.id}}"
+			class="btn btn-sm btn-info">
+			<i class="fas fa-link"></i>
+			{{'button.Back to pcr'|trans}}
+		</a>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
-       
-    {{ parent() }}  
-    
- 
+	{{ parent() }}
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
- 
-<script type="text/javascript">  
-// Form actions
-    $(document).ready(function(){
-        
-        {% if action == 'new'  %} 
-            var CodeChromatoPlaceholder = {"numYAS" : "{{'Num yas'|trans}}"}; 
-            // General action on form: form lock (default) / user role: app.user ...
-            $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", true); 
-            $(document).on('submit','form[name="bbees_e3sbundle_chromatogramme"]',function(ev){
-                // Unlocking fields to allow registration
-                $('#bbees_e3sbundle_chromatogramme_codeChromato').attr("disabled", false); 
-             }); 
-            // specific features: automatically generating codeChromato
-            setCodeChromato(CodeChromatoPlaceholder);
-            $('#bbees_e3sbundle_chromatogramme_primerChromatoVocFk').change(function (e) { setCodeChromato(CodeChromatoPlaceholder);}) 
-            $('#bbees_e3sbundle_chromatogramme_numYas').keyup(function (e) { setCodeChromato(CodeChromatoPlaceholder);}) 
-        {% endif %}           
-    });
-</script>
-
-<script>
-//// Typeahead 
-// Constructing the suggestion engine
-    var pcrs = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.whitespace,
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-           url : '{{ path("pcr_search", { 'q':"QUERY"}) |replace({"QUERY": "%QUERY"}) }}',
-           wildcard: '%QUERY'
-        }
-    });
-
-    // Initializing the typeahead bbees_e3sbundle_chromatogramme_pcrId
-    var selectedTypeahead = 0; /* flag to know if there is a Typeahead selected value  */
-    $('input.typeahead').val( "{{codePcr}}" );
-    $('#bbees_e3sbundle_chromatogramme_pcrId').val( {{idPcr}} );
-    $('.typeahead-pcr').typeahead(
-        {
-            hint: true,
-            highlight: false, /* Enable substring highlighting */
-            minLength: 1 /* Specify minimum characters required for showing result */
-        },
-        {
-            name: 'pcrs',
-            source: pcrs,
-            displayKey: "code",
-            limit: 40
-        }
-    ).on('keyup', this, function (event) {
-        selectedTypeahead = 0;
-    }
-    ).bind('typeahead:select', function(ev, item) {
-        var $this = $(this);
-        var codeTypeaheadSelect = item.code;
-        var idTypeaheadSelect = item.id;
-        $('#'+$this.attr('data-target_id')).val(item.id);
-        $pcr = $this.parents('.form-group').find('input.bbees_e3sbundle_chromatogramme[pcrId]');
-        if ($pcr.length===1) {
-            $pcr.val(item.id);
-        }
-        selectedTypeahead = 1;
-    }
-    ).bind('typeahead:close', function(ev, item) {
-        if (selectedTypeahead == 0) { /* if there is no Typeahead selected value fields are reinitialized */
-           $('input.typeahead').val( "{{codePcr}}" ) ;
-           $('#bbees_e3sbundle_chromatogramme_pcrId').val( {{idPcr}} ) ;
-        }
-        var $this = $(this);
-        if ($.trim($this.val())==='') {
-            $this.val('');
-            $pcr = $this.parents('.form-group').find('input.bbees_e3sbundle_chromatogramme[pcrId]');
-            if ($pcr.length===1) {
-                $pcr.val('');
-            }
-        }
-    }
-    );
-</script>
-
+	{{ parent() }}
+	{{encore_entry_script_tags("chromato-form")}}
 {% endblock %}
