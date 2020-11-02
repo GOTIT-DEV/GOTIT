@@ -109,11 +109,13 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% endblock %}
 
 {% block choice_widget_collapsed -%}
+{% if 'remote-source' not in attr['class']|default('') %}
 {% set attr =
       attr|merge({
         class: ((attr.class|default('')) ~ ' selectpicker border')|trim,
 				"data-live-search": true
       }) %}
+{% endif %}
 {{ parent() }}
 {% endblock %}
 
