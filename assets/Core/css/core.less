@@ -1,16 +1,14 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
-@import '~@fortawesome/fontawesome-free/css/all.css';
-@import '~jquery-bootgrid/dist/jquery.bootgrid.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~jquery-bootgrid/dist/jquery.bootgrid.css";
 
-@import './custom.css';
-@import './typeaheadjs.css';
+@import "./custom.css";
+@import "./typeaheadjs.css";
 
-@import './tables.less';
+@import "./tables.less";
 
 @import "./navbars/nav.less";
 @import "./navbars/top-nav.less";
-
-
 
 body {
   color: #4c5b6b;
@@ -18,19 +16,18 @@ body {
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.471
+  line-height: 1.471;
 }
 
 a {
-  color: #5A738E;
+  color: #5a738e;
   text-decoration: none;
-  
-  &:hover, &:focus {
-    text-decoration: none
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
   }
 }
-
-
 
 body .main-container {
   max-width: 100vw;
@@ -65,10 +62,9 @@ body .main-container {
     grid-area: main-content;
     padding: 0 10px;
     max-width: 100%;
-
   }
 
-  >header.main-header {
+  > header.main-header {
     grid-area: header;
     padding: 0 10px;
     // sub-grid definition
@@ -79,14 +75,15 @@ body .main-container {
     grid-template-columns: auto 0fr;
     grid-template-areas:
       "title  help-btn"
-      "actions  actions"
-      "help  help";
+      "help  help"
+      "actions  actions";
 
-    >h1 {
+    > h1 {
       grid-area: title;
+      margin: 0;
     }
 
-    >div.page-actions {
+    > div.page-actions {
       grid-area: actions;
       // padding: 0;
       // margin: 0;
@@ -102,15 +99,20 @@ body .main-container {
       // }
     }
 
-    >button.help-btn {
+    > button.help-btn {
       grid-area: help-btn;
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      padding: 0;
+      // color: aquamarine;
+      > i {
+        width: 100%;
+      }
     }
 
-    >#page-help {
+    > #page-help {
       grid-area: help;
     }
   }
-
 }
