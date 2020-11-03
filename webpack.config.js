@@ -10,9 +10,9 @@ Encore
   // directory where compiled assets will be stored
   .setOutputPath('public/build/')
   // public path used by the web server to access the output path
-  .setPublicPath('/build')
+  .setPublicPath('/public/build')
   // only needed for CDN's or sub-directory deploy
-  //.setManifestKeyPrefix('build/')
+  .setManifestKeyPrefix(Encore.isProduction() ? 'public/build' : 'build')
 
   /*
    * ENTRY CONFIG
@@ -30,17 +30,17 @@ Encore
   .addStyleEntry('login', './assets/Core/css/login.less')
   // Core forms assets
   .addEntry('forms', './assets/Core/forms/js/forms.js')
-  .addEntry('sampling-form', './assets/Core/forms/js/sampling.js')
   .addEntry('biomaterial-form', './assets/Core/forms/js/biomaterial.js')
   .addEntry('biomaterial-ext-form', './assets/Core/forms/js/biomaterial-ext.js')
   .addEntry('chromato-form', './assets/Core/forms/js/chromato.js')
   .addEntry('dna-form', './assets/Core/forms/js/dna.js')
+  .addEntry('pcr-form', './assets/Core/forms/js/pcr.js')
+  .addEntry('sampling-form', './assets/Core/forms/js/sampling.js')
   .addEntry('site-form', './assets/Core/forms/js/site.js')
   .addEntry('sequence-form', './assets/Core/forms/js/sequence.js')
   .addEntry('sequence-ext-form', './assets/Core/forms/js/sequence-ext.js')
   .addEntry('specimen-form', './assets/Core/forms/js/specimen.js')
   .addEntry('specimen-slide-form', './assets/Core/forms/js/specimen-slide.js')
-  .addEntry('pcr-form', './assets/Core/forms/js/pcr.js')
 
   // Species Search assets
   .addEntry('species-search', './assets/SpeciesSearch/js/species_search.js')
