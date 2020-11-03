@@ -1,14 +1,17 @@
 {
+  "name": "gotit/gotit",
+  "description": "Gene, Occurence and Taxa in Integrative Taxonomy",
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": "7.*",
+    "php": "7.2.*",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "doctrine/annotations": "^1.10",
     "friendsofsymfony/jsrouting-bundle": "^2.6",
     "myclabs/php-enum": "^1.7",
     "sensio/framework-extra-bundle": "^5.5",
+    "symfony/apache-pack": "^1.0",
     "symfony/asset": "4.4.*",
     "symfony/console": "4.4.*",
     "symfony/dotenv": "4.4.*",
