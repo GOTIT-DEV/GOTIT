@@ -1,4 +1,23 @@
 {
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.2",
+            "ref": "baaa439e3e3179e69e3da84b671f0a3e4a2f56ad"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
+        ]
+    },
+    "doctrine/migrations": {
+        "version": "3.0.1"
+    },
+    "ocramius/proxy-manager": {
+        "version": "2.2.3"
+    },
     "symfony/flex": {
         "version": "1.0",
         "recipe": {
@@ -10,5 +29,14 @@
         "files": [
             ".env"
         ]
+    },
+    "symfony/orm-pack": {
+        "version": "v2.0.0"
+    },
+    "zendframework/zend-code": {
+        "version": "3.4.1"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.2.1"
     }
 }

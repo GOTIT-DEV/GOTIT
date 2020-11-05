@@ -15,7 +15,6 @@ import "../css/datatables-custom.less"
 import "../css/leaflet-maps.less"
 
 
-require('jszip');
 import dt from 'datatables.net-bs4';
 dt(window, $);
 require('datatables.net-buttons-bs4')(window, $);

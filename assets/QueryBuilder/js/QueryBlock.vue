@@ -434,7 +434,6 @@ export default {
 
 
 <style lang="less">
-@import "~jQuery-QueryBuilder/dist/css/query-builder.default.css";
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
 
 input,

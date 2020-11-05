@@ -10,7 +10,6 @@
 
 
 // Vendor imports
-require('jszip');
 import dt from 'datatables.net-bs4';
 dt(window, $);
 require('datatables.net-buttons-bs4')(window, $);
