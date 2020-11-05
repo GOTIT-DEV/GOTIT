@@ -205,14 +205,14 @@ col-lg-9 col-xl-10 needs-validation input-group
 					<button type="button" class="btn-entry-add btn btn-primary" 
 							data-target="{{ wrapper_id }}">
               {{'add'|trans(domain='ui')|capitalize}}
-						  {{ name|trans }}
+						  {# {{ name|trans }} #}
 					</button>
 					{% if attr['data-allow-new']|default(false) %}
 						<button type="button" class="btn btn-info" 
 								data-toggle="modal" 
 								data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
                 {{'create'|trans(domain='ui')|capitalize}}
-							  {{name|trans }}
+							  {# {{name|trans }} #}
 						</button>
 					{% endif %}
 				</div>
