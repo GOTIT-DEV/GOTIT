@@ -171,9 +171,7 @@ class ImportFileCsv {
    *
    */
   public function checkNameCSVfile2Template($pathToTemplate, $pathToFileImport) {
-    $output = '';
-    dump($pathToTemplate);
-    dump($pathToFileImport);
+    $output           = '';
     $arrayTemplateCsv = $this->readCSV($pathToTemplate);
     $arrayFileImport  = $this->readCSV($pathToFileImport);
 
