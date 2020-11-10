@@ -4,9 +4,6 @@
 {% block titlepage %}
 	<h1>
 		{{('core.' ~ entityname ~ app.request.query.get('typeBoite')|default(''))|trans(domain="sections")}}
-		{% if  flagvalid == 1 and actioncontroller != 'new'%}
-			<i class="fas fa-check-circle"></i>
-		{% endif %}
 	</h1>
 {% endblock %}
 

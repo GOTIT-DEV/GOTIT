@@ -8,7 +8,6 @@
 {# initialise la variable entityname à partir de la variable globale _route : 'entityname_index' #}
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
-{% set actioncontroller = route|split('_')[1] %}
 {# initialise les routes : 'importfilesentityname_index' et entityname_new #}
 {% set route_index = entityname ~ '_index' %}
 {% set route_importfiles = 'importfiles' ~ entityname ~ '_index' %}
@@ -17,7 +16,6 @@
 
 {% set varUrl_idFk = app.request.query.get('idFk') %}
 {% set varUrl_nameFk = app.request.query.get('nameFk') | default('') %}
-{% set varUrl_typeBoite = app.request.query.get('typeBoite') | default('') %}
 
 {% block titlepage %}
   <h1>
@@ -26,7 +24,6 @@
 {% endblock %}
 
 {% block action %}
-  {# url parameter management #}
   {{ parent() }}
   <a href="{{ path(route_index) }}"
     class="btn btn-primary btn-sm"
@@ -36,7 +33,14 @@
   </a>
 
   {% if is_granted('ROLE_COLLABORATION') %}
-    <button class="btn btn-primary btn-sm"
+    {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
+        <a href="{{ path_action_new }}"
+          class="btn btn-success btn-sm"
+          role="button">
+          <i class="fas fa-plus"></i>
+          {{ ['button.New', entityname|capitalize]|join|trans }}
+        </a>
+    <button class="btn btn-light border btn-sm"
       id="export"
       data-export="export"
       data-toggle="tooltip"
@@ -45,13 +49,6 @@
       <i class="fas fa-file-export"></i>
       {{ 'button.exportToCSV'|trans }}
     </button>
-    {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
-        <a href="{{ path_action_new }}"
-          class="btn btn-success btn-sm"
-          role="button">
-          <i class="fas fa-plus"></i>
-          {{ ['button.New', entityname|capitalize]|join|trans }}
-        </a>
   {% else %}
     <a href="#"
       class="btn btn-secondary btn-sm disabled"
@@ -67,11 +64,6 @@
 {% if exception_message is defined %} 
 <script type="text/javascript"> 
     alert("{{exception_message|raw}}"); 
-    if (urlParams.get("typeBoite")){
-        window.location = "http://" + location.hostname + "{{path(route_index, {'typeBoite':varUrl_typeBoite})}}";
-    } else {
-        window.location = "http://" + location.hostname + "{{path(route_index)}}";
-    }
 </script> 
 {% endif %}
 
@@ -117,7 +109,6 @@ $(document).ready(function(){
         formatters: {
             {% for link in links %}
                 {% set linkname =  'link' ~ (link|capitalize) %}
-                {% set linknameFk =  linkname ~ 'Fk' %}
                 {% set link_tabname =  link|split('_')[0]  %}
                 {% set link_index =  link_tabname  ~ '_index' %}
                 {% set link_new=  link_tabname ~ '_new' %}                   

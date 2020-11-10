@@ -9,15 +9,21 @@
 
 	{% block action %}
 	{{ parent() }}
-		{% if is_granted('ROLE_COLLABORATION') %}<a href="{{ path( route_importfiles ) }}" class="btn btn-primary btn-sm" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
+		{% if is_granted('ROLE_COLLABORATION') %}
+			<a href="{{ path( route_importfiles ) }}" class="btn btn-light border btn-sm" role="button"> <i class="fas fa-upload"></i>
+			{{['button.Import',entityname|capitalize]|join|trans}}
+		</a>
 	{% else %}
-		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">{{['button.Import',entityname|capitalize]|join|trans}}</a>
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
+			<i class="fas fa-upload"></i>
+			{{['button.Import',entityname|capitalize]|join|trans}}
+		</a>
 	{% endif %}
 {% endblock %}
 
 {% block body %}
 	{# definition of collones to display  Num individu sqc ass ext
-			RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+						RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
