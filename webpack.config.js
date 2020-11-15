@@ -28,6 +28,9 @@ Encore
   .addEntry('core', './assets/Core/js/core.js')
   .addEntry('dashboard', './assets/Core/js/dashboard.js')
   .addStyleEntry('login', './assets/Core/css/login.less')
+  // Index pages assets
+  .addEntry('index', './assets/Core/js/index.js')
+
   // Core forms assets
   .addEntry('forms', './assets/Core/forms/js/forms.js')
   .addEntry('biomaterial-form', './assets/Core/forms/js/biomaterial.js')

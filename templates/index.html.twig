@@ -59,6 +59,7 @@
 {% endblock %}
 
 {% block templatescripts %}  
+{{ encore_entry_script_tags("index") }}
   
 {# display of the error message on Delete if there are related records #}
 {% if exception_message is defined %} 
