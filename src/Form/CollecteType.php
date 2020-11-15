@@ -95,8 +95,8 @@ class CollecteType extends ActionFormType {
         'prototype_name' => '__name__',
         'by_reference'   => false,
         'attr'           => [
-          "data-allow-new"    => true,
-          "render_controller" => 'App\\Controller\\Core\\ProgrammeController::newmodalAction',
+          "data-allow-new"        => true,
+          "data-modal-controller" => 'App\\Controller\\Core\\ProgrammeController::newmodalAction',
         ],
         'entry_options'  => array('label' => false),
       ])
