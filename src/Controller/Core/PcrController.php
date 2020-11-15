@@ -254,7 +254,7 @@ class PcrController extends AbstractController {
 
     $pcrEstRealisePars = $service->setArrayCollection('PcrEstRealisePars', $pcr);
     $deleteForm        = $this->createDeleteForm($pcr);
-    $editForm          = $this->createForm('App\Form\PcrType', $pcr, $pcr, [
+    $editForm          = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
     ]);
 
