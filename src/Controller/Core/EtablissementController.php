@@ -70,11 +70,7 @@ class EtablissementController extends AbstractController {
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where        = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
-    if (
-      $request->get('searchPattern') !== null &&
-      $request->get('searchPattern') !== '' &&
-      $searchPhrase == ''
-    ) {
+    if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show

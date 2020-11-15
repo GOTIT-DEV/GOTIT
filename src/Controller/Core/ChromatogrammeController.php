@@ -71,11 +71,7 @@ class ChromatogrammeController extends AbstractController {
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where        = 'LOWER(chromato.chromatogram_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
-    if (
-      $request->get('searchPattern') !== null &&
-      $request->get('searchPattern') !== '' &&
-      $searchPhrase == ''
-    ) {
+    if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk')) {
