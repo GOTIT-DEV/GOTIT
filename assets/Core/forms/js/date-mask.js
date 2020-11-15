@@ -54,7 +54,6 @@ export function initDateMask(formBlockElement) {
       const $dateWidget = $(event.currentTarget)
         .closest(".form-group").parent()
         .find(".date-autoformat:first")
-      console.log($dateWidget)
       if (precision !== -1)
         setPrecision($dateWidget, precision, dateMasker)
     })
@@ -71,7 +70,9 @@ export function initDateMask(formBlockElement) {
 }
 
 function validateDate(dateInput) {
-  const dateValid = moment(dateInput.value, 'DD-MM-YYYY').isValid()
+  const dateValid = (
+    moment(dateInput.value, 'DD-MM-YYYY').isValid() || dateInput.disabled
+  )
   if (dateValid) {
     $(dateInput).addClass('is-valid').removeClass('is-invalid')
   }
@@ -112,7 +113,8 @@ function setPrecision($dateWidget, precision, dateMasker) {
       $dateWidget.val("01-".repeat(precision) + paddedDate.slice(3 * precision))
     }
   }
+  validateDate($dateWidget[0])
   dateMasker.option(dateMasks[precision])
-  dateMasker.mask($dateWidget)
+  dateMasker.mask($dateWidget[0])
 }
 
