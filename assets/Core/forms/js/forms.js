@@ -110,7 +110,7 @@ function addCategoryForNewRecord($wrapper, id, name) {
 
 function updatePrototype($wrapper, optionElt) {
   let newPrototype = $wrapper.data("prototype")
-    .replace(/<select>/, `<select>${optionElt}`)
+    .replace(/(<select[^>]*>)/, `$1${optionElt}`)
   $wrapper.data('prototype', newPrototype)
 }
 
