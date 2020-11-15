@@ -32,6 +32,7 @@ Encore
   .addEntry('forms', './assets/Core/forms/js/forms.js')
   .addEntry('biomaterial-form', './assets/Core/forms/js/biomaterial.js')
   .addEntry('biomaterial-ext-form', './assets/Core/forms/js/biomaterial-ext.js')
+  .addEntry('box-form', './assets/Core/forms/js/box.js')
   .addEntry('chromato-form', './assets/Core/forms/js/chromato.js')
   .addEntry('dna-form', './assets/Core/forms/js/dna.js')
   .addEntry('pcr-form', './assets/Core/forms/js/pcr.js')

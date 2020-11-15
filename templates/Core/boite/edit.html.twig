@@ -1,5 +1,9 @@
 {% extends 'edit.html.twig' %}
 
+{% block action %}
+	{% set path_route_index = path(route_index,{typeBoite: app.request.query.get('typeBoite')|default(null)}) %}
+	{{parent()}}
+{% endblock %}
 {# EDIT : BOX #}
 {% block titlepage %}
 	<h1>
@@ -16,18 +20,5 @@
 
 {% block scripts %}
 	{{ parent() }}
-
-<script type="text/javascript">  
-
-    $(document).ready(function(){
-        {% if action == 'new'  %} 
-            $('#bbees_e3sbundle_boite_codeBoite').keyup(function (e) {
-                    var codeBoite = $(this).val().replace(/ /g, '_');
-                    $('#bbees_e3sbundle_boite_codeBoite').val(codeBoite);
-            })
-        {% endif %}
-    });
- </script>
-
-
+	{{encore_entry_script_tags('box-form')}}
 {% endblock %}

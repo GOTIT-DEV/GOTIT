@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% form_theme edit_form 'Form/form-theme.html.twig' %}
+
 {# initialization of TWIG general variables #}
 {% set route = app.request.attributes.get('_route') %}
 {% set entityname = route|split('_')[0] %}
@@ -7,47 +8,19 @@
 {% set route_new = entityname ~ '_new' %}
 {% set route_index = entityname ~ '_index' %}
 {# initialize the url attached to the BackToTheList button #}
-{% set path_route_index = path(route_index) %}
-{% if app.request.query.get('idFk')|default(null) %}
-	{% set idFk = app.request.query.get('idFk') %}
-	{% if app.request.query.get('nameFk') is defined %}
-		{% set nameFk = app.request.query.get('nameFk') %}
-		{% set formNameFk = 'edit_form.' ~ app.request.query.get('nameFk') %}
-		{% set path_route_index = path( route_index, { nameFk: nameFk, idFk: idFk } ) %}
-	{% else %}
-		{% set path_route_index = path( route_index, { idFk: idFk } ) %}
-	{% endif %}
-{% endif %}
-{% if app.request.query.get('searchPattern')|default(null) %}
-	{% set path_route_index = path(route_index, { searchPattern: app.request.query.get('searchPattern') } ) %}
-{% endif %}
-{% if app.request.query.get('typeBoite')|default(null) %}
-	{% set path_route_index = path(route_index,{typeBoite: app.request.query.get('typeBoite')}) %}
-{% endif %}
+{% set idFk = app.request.query.get('idFk')|default(null) %}
+{% set nameFk = app.request.query.get('nameFk')|default(null) %}
+
 {# initializes and manages the variables that are valid for validation and the BackToTheList button #}
-{% set backbutton = 1 %}
 {% set flagvalid = 0 %}
-{% set comptvalid = 1 %}
-{# case of the UPDATE / edit mode: valid is passed in
-form_edit form parameter after validation #}
+
+{# case of the UPDATE / edit mode: valid is passed in form_edit form parameter after validation #}
 {% if valid is defined and valid == 1 %}
 	{% set flagvalid = 1 %}
-	{% set backbutton = 1 %}
-	{% set comptvalid = app.request.get('comptvalid') + 1 %}
 {% endif %}
-{# case of CREATE / new: valid
-mode passed in url parameter? valid = 1 #}
-{% if app.request.query.get('valid')
-is defined and app.request.query.get('valid') == '1' %}
+{# case of CREATE / new: valid mode passed in url parameter? valid = 1 #}
+{% if app.request.query.get('valid')|default(null) == '1' %}
 	{% set flagvalid = 1 %}
-	{% set backbutton = 0 %}
-	{% set comptvalid = 1 %}
-{% endif %}
-{# case of a
-change of language: language passed in parameter of url? language = switch #}
-{% if app.request.query.get('langage')|default(null) %}
-	{% set backbutton = 0 %}
-	{% set comptvalid = 1 %}
 {% endif %}
 
 
@@ -68,6 +41,7 @@ change of language: language passed in parameter of url? language = switch #}
 
 {% block action_bar_class %}offset-xl-2 offset-lg-3 col-xl-10 col-lg-9{% endblock %}
 {% block action %}
+	{% set path_route_index = path( route_index, { nameFk: nameFk, idFk: idFk } ) %}
 	<a href="{{ path_route_index }}" class="btn btn-sm btn-light border">
 		<i class="fas fa-list"></i>
 		{{ "button.BackToTheList"|trans }}
@@ -89,8 +63,6 @@ change of language: language passed in parameter of url? language = switch #}
 {% block body %}
 	{{ form_start(edit_form, {'disabled': false}) }}
 	{{ form_errors(edit_form) }}
-
-		<input id="comptvalid" name="comptvalid" type="hidden" value="{{ comptvalid }}"/>
 
 	{% if nameFk is defined and action == 'new' and edit_form[nameFk] is defined %}
 		{{ form_row(attribute(edit_form, nameFk), {value: idFk}) }}
