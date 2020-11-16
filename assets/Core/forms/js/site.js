@@ -11,7 +11,7 @@ $(() => {
         const options = json.map(item =>
           `<option value="${item.id}">${item.codeCommune}</option>`
         )
-        $("#station_communeFk").empty().append(options).selectpicker('refresh')
+        $("#station_communeFk").empty().append(options).val('').selectpicker('refresh')
       })
   })
 
