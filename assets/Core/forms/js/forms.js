@@ -40,7 +40,12 @@ function deleteEntryBtnCallback(event) {
   $wrapper.trigger('change')
 }
 
-function modalFormSubmitCallback(event) {
+function modalFormResponseCallback(response) {
+  let $wrapper = $($form.closest(".modal-container").data('target'))
+  addCategoryForNewRecord($wrapper, response.select_id, response.select_name)
+}
+
+export function modalFormSubmitCallback(event, responseCallback = modalFormResponseCallback) {
 
   event.preventDefault()
   let $form = $(event.target)
@@ -69,7 +74,11 @@ function modalFormSubmitCallback(event) {
       if (response.valid === false) {
         // Invalid form
         let $newForm = $(response.form)
-        $newForm.submit(modalFormSubmitCallback)
+        $newForm.find("select").selectpicker()
+        $newForm.submit(event => {
+          event.preventDefault()
+          modalFormSubmitCallback(event, responseCallback)
+        })
         $form.replaceWith($newForm)
       } else if (response.exception === true) {
         // Ajax or server error
@@ -80,8 +89,7 @@ function modalFormSubmitCallback(event) {
       } else {
         // Everything is fine
         $form.find(".form-status").addClass("fa-check-circle")
-        let $wrapper = $($form.closest(".modal-container").data('target'))
-        addCategoryForNewRecord($wrapper, response.select_id, response.select_name)
+        responseCallback(response)
         setTimeout(() => {
           $('.modal').modal('hide');
           $form.get(0).reset();

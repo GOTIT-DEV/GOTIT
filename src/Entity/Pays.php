@@ -58,6 +58,7 @@ class Pays
 
     /**
      * @ORM\OneToMany(targetEntity="Commune", mappedBy="paysFk")
+     * @ORM\OrderBy({"codeCommune" = "asc"})
      */
     private $communes;
 

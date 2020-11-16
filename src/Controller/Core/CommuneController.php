@@ -17,14 +17,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Commune;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Commune;
 
 /**
  * Commune controller.
@@ -166,43 +166,35 @@ class CommuneController extends AbstractController {
     ]);
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      // flush des données du formulaire
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($commune);
-
-      try {
-        $flush = $em->flush();
-        // mémorize the id and the name of Municipality created
-        $select_id   = $commune->getId();
-        $select_name = $commune->getCodeCommune();
-        // load a new empty Municipality entity
-        $commune_new = new Commune();
-        $form        = $this->createForm('App\Form\CommuneType', $commune_new, [
-          'action_type' => Action::create(),
-          'id_pays'     => $id_pays,
-        ]);
-        // returns an empty form and the parameters of the new record created
-        return new JsonReponse([
-          'html_form'         => $this->render('modal.html.twig', array('entityname' => 'commune', 'form' => $form->createView()))->getContent(),
-          'select_id'         => $select_id,
-          'select_name'       => $select_name,
-          'exception_message' => "",
-          'entityname'        => 'personne',
-        ]);
-      } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message = strval($e);
-        // load a new empty Municipality entity
-        $commune_new = new Commune();
-        $form        = $this->createForm('App\Form\CommuneType', $commune_new, array('id_pays' => $id_pays));
-        // returns a form with the error message
+    if ($form->isSubmitted()) {
+      if (!$form->isValid()) {
         return new JsonResponse([
-          'html_form'         => $this->render('modal.html.twig', array('entityname' => 'commune', 'form' => $form->createView()))->getContent(),
-          'select_id'         => 0,
-          'select_name'       => "",
-          'exception_message' => $exception_message,
-          'entityname'        => 'personne',
+          'valid' => false,
+          "form"  => $this->render('modal-form.html.twig', [
+            'entityname' => 'commune',
+            'form'       => $form->createView(),
+          ])->getContent(),
         ]);
+      } else {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($commune);
+
+        try {
+          $flush       = $em->flush();
+          $select_id   = $commune->getId();
+          $select_name = $commune->getCodeCommune();
+          return new JsonResponse([
+            'select_id'   => $select_id,
+            'select_name' => $select_name,
+            'entityname'  => 'commune',
+          ]);
+        } catch (\Doctrine\DBAL\DBALException $e) {
+          return new JsonResponse([
+            'exception'         => true,
+            'exception_message' => $e->getMessage(),
+            'entityname'        => 'commune',
+          ]);
+        }
       }
     }
 
