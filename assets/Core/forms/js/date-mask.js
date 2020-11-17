@@ -103,9 +103,13 @@ function setPrecision($dateWidget, precision, dateMasker) {
   $(`label[for='${$dateWidget.attr('id')}']`)
     .toggleClass('required text-danger', precision !== 3)
 
-  $dateWidget.val(precision === 3 ? 'NA' : '')
   validateDate($dateWidget[0])
   dateMasker.option(dateMasks[precision])
   dateMasker.mask($dateWidget[0])
+  if (precision === 3) {
+    $dateWidget.val('NA')
+  } else if (!$dateWidget[0].inputmask.isComplete()) {
+    $dateWidget.val('')
+  }
 }
 
