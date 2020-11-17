@@ -17,15 +17,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EstAligneEtTraite;
-use App\Entity\SequenceAssemblee;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\SequenceAssemblee;
+use App\Entity\EstAligneEtTraite;
 
 /**
  * Sequenceassemblee controller.
@@ -38,7 +38,7 @@ class SequenceAssembleeController extends AbstractController {
   /**
    * @var integer
    */
-  private $geneVocFk  = null;
+  private $geneVocFk = null;
   private $individuFk = null;
   /**
    * constante
@@ -79,8 +79,8 @@ class SequenceAssembleeController extends AbstractController {
     : "sq.date_of_update DESC, sq.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(sq.internal_sequence_code) LIKE :criteriaLower';
-    $having       = ' ';
+    $where = 'LOWER(sq.internal_sequence_code) LIKE :criteriaLower';
+    $having = ' ';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -94,7 +94,7 @@ class SequenceAssembleeController extends AbstractController {
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT
+    $rawSql = "SELECT
       sq.id,
       sq.internal_sequence_code,
       sq.internal_sequence_creation_date,
@@ -158,42 +158,42 @@ class SequenceAssembleeController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
-        "id"                                 => $val['id'], "sq.id" => $val['id'],
-        "internal_sequence_code"             => $val['internal_sequence_code'],
-        "internal_sequence_alignment_code"   => $val['internal_sequence_alignment_code'],
+        "id" => $val['id'], "sq.id" => $val['id'],
+        "internal_sequence_code" => $val['internal_sequence_code'],
+        "internal_sequence_alignment_code" => $val['internal_sequence_alignment_code'],
         "internal_sequence_accession_number" => $val['internal_sequence_accession_number'],
-        "voc_internal_sequence_gene_code"    => $val['voc_internal_sequence_gene_code'],
-        "voc_internal_sequence_status.code"  => $val['code_voc_internal_sequence_status'],
+        "voc_internal_sequence_gene_code" => $val['voc_internal_sequence_gene_code'],
+        "voc_internal_sequence_status.code" => $val['code_voc_internal_sequence_status'],
         "sq.internal_sequence_creation_date" => $val['internal_sequence_creation_date'],
-        "list_specimen_molecular_code"       => $val['list_specimen_molecular_code'],
-        "list_source"                        => $val['list_source'],
-        "list_chromato"                      => $val['list_chromato'],
-        "internal_sequence_creation_date"    => $val['internal_sequence_creation_date'],
-        "sq.date_of_creation"                => $val['date_of_creation'],
-        "sq.date_of_update"                  => $val['date_of_update'],
-        "last_taxname_sq"                    => $val['last_taxname_sq'],
-        "last_date_identification_sq"        => $val['last_date_identification_sq'],
-        "code_sq_identification_criterion"   => $val['code_sq_identification_criterion'],
-        "motu_flag"                          => $val['motu_flag'],
-        "creation_user_name"                 => $val['creation_user_name'],
-        "user_cre.user_name"                 => $val['user_cre_username'],
-        "user_maj.user_name"                 => $val['user_maj_username'],
+        "list_specimen_molecular_code" => $val['list_specimen_molecular_code'],
+        "list_source" => $val['list_source'],
+        "list_chromato" => $val['list_chromato'],
+        "internal_sequence_creation_date" => $val['internal_sequence_creation_date'],
+        "sq.date_of_creation" => $val['date_of_creation'],
+        "sq.date_of_update" => $val['date_of_update'],
+        "last_taxname_sq" => $val['last_taxname_sq'],
+        "last_date_identification_sq" => $val['last_date_identification_sq'],
+        "code_sq_identification_criterion" => $val['code_sq_identification_criterion'],
+        "motu_flag" => $val['motu_flag'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username'],
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb,
+      "total" => $nb,
     ]);
   }
 
@@ -209,7 +209,7 @@ class SequenceAssembleeController extends AbstractController {
 
     $chromatoFk = $request->get('idFk');
     $specimenFk = $request->get('individuFk');
-    $geneFk     = $request->get('geneVocFk');
+    $geneFk = $request->get('geneVocFk');
 
     $chromatoRepo = $this->getDoctrine()
       ->getManager()
@@ -217,8 +217,8 @@ class SequenceAssembleeController extends AbstractController {
 
     if ($chromatoFk) {
       $chromato = $chromatoRepo->find($chromatoFk);
-      $pcr      = $chromato->getPcrFk();
-      $gene     = $pcr->getGeneVocFk();
+      $pcr = $chromato->getPcrFk();
+      $gene = $pcr->getGeneVocFk();
       $specimen = $pcr->getAdnFk()->getIndividuFk();
     } elseif ($specimenFk && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
@@ -233,11 +233,11 @@ class SequenceAssembleeController extends AbstractController {
         ->setMaxResults(1)
         ->getQuery()
         ->getOneOrNullResult();
-      $pcr      = $chromato->getPcrFk();
-      $gene     = $pcr->getGeneVocFk();
+      $pcr = $chromato->getPcrFk();
+      $gene = $pcr->getGeneVocFk();
       $specimen = $pcr->getAdnFk()->getIndividuFk();
     } else {
-      $gene     = null;
+      $gene = null;
       $specimen = null;
       $chromato = null;
     }
@@ -251,7 +251,7 @@ class SequenceAssembleeController extends AbstractController {
     $geneSpecimenForm = $this->createForm(
       'App\Form\Type\GeneSpecimenType',
       [
-        "geneVocFk"  => $gene,
+        "geneVocFk" => $gene,
         "individuFk" => $specimen,
       ],
       ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
@@ -260,24 +260,24 @@ class SequenceAssembleeController extends AbstractController {
     $geneSpecimenForm->handleRequest($request);
 
     if ($geneSpecimenForm->isSubmitted() && $geneSpecimenForm->isValid()) {
-      $gene     = $geneSpecimenForm->get('geneVocFk')->getData();
+      $gene = $geneSpecimenForm->get('geneVocFk')->getData();
       $specimen = $geneSpecimenForm->get('individuFk')->getData();
       return $this->redirectToRoute('sequenceassemblee_new', [
         'individuFk' => $specimen->getId(),
-        'geneVocFk'  => $gene->getId(),
+        'geneVocFk' => $gene->getId(),
       ]);
     }
 
     // Main form
     $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
       'action_type' => $gene && $specimen ? Action::create() : Action::show(),
-      'gene'        => $gene,
-      'specimen'    => $specimen,
-      'attr'        => ['id' => "sequence-form"],
-      "action"      => $this->generateUrl('sequenceassemblee_new', [
-        'geneVocFk'  => $gene ? $gene->getId() : null,
+      'gene' => $gene,
+      'specimen' => $specimen,
+      'attr' => ['id' => "sequence-form"],
+      "action" => $this->generateUrl('sequenceassemblee_new', [
+        'geneVocFk' => $gene ? $gene->getId() : null,
         'individuFk' => $specimen ? $specimen->getId() : null,
-        'idFk'       => $chromato ? $chromato->getId() : null,
+        'idFk' => $chromato ? $chromato->getId() : null,
       ]),
     ]);
 
@@ -299,17 +299,17 @@ class SequenceAssembleeController extends AbstractController {
         );
       }
       return $this->redirectToRoute('sequenceassemblee_edit', array(
-        'id'    => $sequence->getId(),
-        'idFk'  => $chromatoFk,
+        'id' => $sequence->getId(),
+        'idFk' => $chromatoFk,
         'valid' => 1,
       ));
     }
     return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee'   => $sequence,
-      'edit_form'           => $form->createView(),
+      'sequenceAssemblee' => $sequence,
+      'edit_form' => $form->createView(),
       'form_gene_indbiomol' => $geneSpecimenForm->createView(),
-      'geneVocFk'           => $gene,
-      'individuFk'          => $specimen,
+      'geneVocFk' => $gene,
+      'individuFk' => $specimen,
     ));
   }
 
@@ -319,32 +319,32 @@ class SequenceAssembleeController extends AbstractController {
    * @Route("/{id}", name="sequenceassemblee_show", methods={"GET"})
    */
   public function showAction(SequenceAssemblee $sequence) {
-    $gene     = $sequence->getGeneVocFk();
+    $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
 
     $deleteForm = $this->createDeleteForm($sequence);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\SequenceAssembleeType',
       $sequence,
       [
         'action_type' => Action::show(),
-        'attr'        => ['id' => "sequence-form"],
+        'attr' => ['id' => "sequence-form"],
       ]
     );
-    $form_gene_indbiomol = $this
+    $geneSpecimenForm = $this
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
         [
-          'geneVocFk'  => $gene,
+          'geneVocFk' => $gene,
           'individuFk' => $specimen,
         ],
         ["action_type" => Action::show()]
       );
     return $this->render('Core/sequenceassemblee/edit.html.twig', [
-      'sequenceAssemblee'   => $sequence,
-      'edit_form'           => $editForm->createView(),
-      'delete_form'         => $deleteForm->createView(),
-      'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
+      'sequenceAssemblee' => $sequence,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+      'form_gene_indbiomol' => $geneSpecimenForm->createView(),
     ]);
   }
 
@@ -371,9 +371,9 @@ class SequenceAssembleeController extends AbstractController {
     }
 
     // Recherche du gene et de l'individu pour la sequence
-    $em       = $this->getDoctrine()->getManager();
-    $id       = $sequence->getId();
-    $gene     = $sequence->getGeneVocFk();
+    $em = $this->getDoctrine()->getManager();
+    $id = $sequence->getId();
+    $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
 
     $form_gene_indbiomol = $this
@@ -406,8 +406,8 @@ class SequenceAssembleeController extends AbstractController {
       'App\Form\SequenceAssembleeType',
       $sequence,
       [
-        'gene'        => $gene,
-        'specimen'    => $specimen,
+        'gene' => $gene,
+        'specimen' => $specimen,
         'action_type' => Action::edit(),
       ]
     );
@@ -449,27 +449,19 @@ class SequenceAssembleeController extends AbstractController {
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      $editForm = $this->createForm(
-        'App\Form\SequenceAssembleeType',
-        $sequence,
-        [
-          'geneVocFk'  => $this->geneVocFk,
-          'individuFk' => $this->individuFk,
-          'attr'       => ['id' => 'sequence-form'],
-        ]
-      );
+
       return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-        'sequenceAssemblee'   => $sequence,
-        'edit_form'           => $editForm->createView(),
-        'valid'               => 1,
+        'sequenceAssemblee' => $sequence,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
         'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
       ));
     }
 
     return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee'   => $sequence,
-      'edit_form'           => $editForm->createView(),
-      'delete_form'         => $this->createDeleteForm($sequence)->createView(),
+      'sequenceAssemblee' => $sequence,
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $this->createDeleteForm($sequence)->createView(),
       'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
     ));
   }
