@@ -40,7 +40,7 @@
     "esri-leaflet": "2.x",
     "ez-plus": "1.x",
     "highlight.js": "10.x",
-    "inputmask": "5.x",
+    "inputmask": "5.0.3",
     "jquery": "3.x",
     "jquery-bootgrid": "1.x",
     "js-cookie": "2.x",

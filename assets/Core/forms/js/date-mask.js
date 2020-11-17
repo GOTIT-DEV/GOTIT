@@ -6,7 +6,7 @@ const dateMaskConfig = {
   tabThrough: true,
   regex: "[0-3]\\d-[0-1]\\d-[1-2]\\d{3}",
   mask: "99-99-9999",
-  placeholder: "DD-MM-YYYY"
+  placeholder: 'NA',
 }
 
 const dateMasks = [
@@ -22,7 +22,7 @@ const dateMasks = [
   },
   //YEAR
   {
-    mask: "\\0\\1-\\0\\1-9999",
+    mask: "\\0\\1-\\0\\1-9{4}",
     placeholder: "01-01-YYYY",
   },
   //DISABLED
@@ -34,6 +34,7 @@ const dateMasks = [
 
 
 export function initDateMask(formBlockElement) {
+
   const dateMasker = new Inputmask(dateMaskConfig)
   const precisionWidget = formBlockElement.querySelector(".date-precision")
   const dateWidget = formBlockElement.querySelector('.date-autoformat')
@@ -45,22 +46,20 @@ export function initDateMask(formBlockElement) {
     validateDate(dateInput)
   })
 
-  if (dateWidget !== null)
-    dateMasker.mask(dateWidget)
+  if (precisionWidget) {
+    const $dateWidget = $(precisionWidget)
+      .closest(".form-group").parent()
+      .find(".date-autoformat:first")
+    $dateWidget.data("precision", getPrecisionOf(precisionWidget))
 
-  if (precisionWidget !== null) {
     $(precisionWidget).change(event => {
       const precision = getPrecisionOf(event.currentTarget)
-      const $dateWidget = $(event.currentTarget)
-        .closest(".form-group").parent()
-        .find(".date-autoformat:first")
       if (precision !== -1)
         setPrecision($dateWidget, precision, dateMasker)
     })
 
     if ($(precisionWidget).find(':checked').length === 0)
-      $(precisionWidget).closest(".form-group").parent()
-        .find(".date-autoformat:first").prop("disabled", true)
+      $dateWidget.prop("disabled", "disabled")
         .prop("placeholder", "Precision is not set")
     else
       $(precisionWidget).change()
@@ -71,13 +70,15 @@ export function initDateMask(formBlockElement) {
 
 function validateDate(dateInput) {
   const dateValid = (
-    moment(dateInput.value, 'DD-MM-YYYY').isValid() || dateInput.disabled
+    moment(dateInput.value, 'DD-MM-YYYY', true).isValid() || dateInput.disabled
   )
   if (dateValid) {
     $(dateInput).addClass('is-valid').removeClass('is-invalid')
+    $(dateInput)[0].setCustomValidity("");
   }
   else {
     $(dateInput).addClass('is-invalid').removeClass('is-valid')
+    $(dateInput)[0].setCustomValidity("Invalid date.");
   }
   // $(dateInput).closest("form")
   //   .find("button[type='submit']")
@@ -95,21 +96,20 @@ export function getPrecisionOf(precisionFormElt) {
 }
 
 function setPrecision($dateWidget, precision, dateMasker) {
-  $dateWidget
-    .prop('readonly', precision === 3)
-    .prop('required', precision !== 3)
-    .prop("placeholder", dateMasks[precision].placeholder)
 
   $(`label[for='${$dateWidget.attr('id')}']`)
     .toggleClass('required text-danger', precision !== 3)
+  $dateWidget
+    .prop('disabled', precision === 3 ? "disabled" : false)
+    .prop('required', precision !== 3)
+    .prop("placeholder", dateMasks[precision].placeholder)
 
-  validateDate($dateWidget[0])
   dateMasker.option(dateMasks[precision])
   dateMasker.mask($dateWidget[0])
-  if (precision === 3) {
-    $dateWidget.val('NA')
-  } else if (!$dateWidget[0].inputmask.isComplete()) {
-    $dateWidget.val('')
+  if (precision === 3 || $dateWidget.data('precision') !== precision) {
+    $dateWidget.val(null)
   }
+  validateDate($dateWidget[0])
+  $dateWidget.data("precision", precision)
 }
 
