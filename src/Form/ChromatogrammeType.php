@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Enums\Action;
 use App\Form\ActionFormType;
 
 class ChromatogrammeType extends ActionFormType {
@@ -34,59 +35,64 @@ class ChromatogrammeType extends ActionFormType {
 
     $builder
       ->add('pcrFk', SearchableSelectType::class, [
-        'class'        => 'App:Pcr',
+        'class' => 'App:Pcr',
         'choice_label' => 'codePcr',
-        'placeholder'  => $this->translator->trans("Pcr typeahead placeholder"),
-        'attr'         => [
-          'readonly' => $this->canEditAdminOnly($options) || $pcr != null,
+        'placeholder' => $this->translator->trans("Pcr typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $pcr != null,
         ],
       ])
+
       ->add('codeChromato', null, [
         'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $options['action_type'] == Action::create(),
+        ],
       ])
       ->add('numYas', TextType::class, array(
         'required' => true,
         'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('primerChromatoVocFk', EntityType::class, array(
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'primerChromato')
             ->orderBy('voc.libelle', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => false,
-        'placeholder'               => 'Choose a primer',
-        'disabled'                  => $this->canEditAdminOnly($options),
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a primer',
+        'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('qualiteChromatoVocFk', EntityType::class, array(
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'qualiteChromato')
             ->orderBy('voc.libelle', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => false,
-        'placeholder'               => 'Choose a quality',
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a quality',
       ))
       ->add('etablissementFk', EntityType::class, array(
-        'class'         => 'App:Etablissement',
+        'class' => 'App:Etablissement',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('etablissement')
             ->orderBy('etablissement.nomEtablissement', 'ASC');
         },
-        'placeholder'   => 'Choose a society',
-        'choice_label'  => 'nom_etablissement',
-        'multiple'      => false,
-        'expanded'      => false,
+        'placeholder' => 'Choose a society',
+        'choice_label' => 'nom_etablissement',
+        'multiple' => false,
+        'expanded' => false,
       ))
       ->add('commentaireChromato')
       ->addEventsubscriber($this->addUserDate);

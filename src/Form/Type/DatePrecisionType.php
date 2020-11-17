@@ -2,18 +2,15 @@
 
 namespace App\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
-class DatePrecisionType extends AbstractType
-{
+class DatePrecisionType extends AbstractType {
 
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App\Entity\Voc',
       'query_builder' => function (EntityRepository $er) {
@@ -28,19 +25,18 @@ class DatePrecisionType extends AbstractType
       'expanded' => true,
       'label_attr' => array('class' => 'radio-inline'),
       'required' => true,
-      'readonly' => false
+      'readonly' => false,
     ]);
-    $resolver->setNormalizer('attr', function(Options $options, $value){
+    $resolver->setNormalizer('attr', function (Options $options, $value) {
       $attrs = $value;
       $attrs['class'] = array_key_exists("class", $value)
-        ?  $value['class'] . " date-precision"
-        : 'date-precision';
+      ? $value['class'] . " date-precision"
+      : 'date-precision';
       return $attrs;
     });
   }
 
-  public function getParent()
-  {
+  public function getParent() {
     return EntityType::class;
   }
 }

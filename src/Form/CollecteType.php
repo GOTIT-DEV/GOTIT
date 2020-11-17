@@ -44,21 +44,20 @@ class CollecteType extends ActionFormType {
     $sampling = $builder->getData();
     $builder
       ->add('stationFk', SearchableSelectType::class, [
-        'class'        => 'App:Station',
+        'class' => 'App:Station',
         'choice_label' => 'codeStation',
-        'placeholder'  => $this->translator->trans("Station typeahead placeholder"),
-        'attr'         => [
+        'placeholder' => $this->translator->trans("Station typeahead placeholder"),
+        'attr' => [
           "maxlength" => "255",
-          'readonly'  => ($options['action_type'] == Action::create() &&
+          'readonly' => ($options['action_type'] == Action::create() &&
             $sampling->getStationFk()),
         ],
       ])
       ->add('codeCollecte', null, [
+        'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'class'    => 'sampling-code',
-          // Using readonly instead of disabled so that generated code can be stored in DB
-          'readonly' => ($this->canEditAdminOnly($options) ||
-            $options['action_type'] == Action::create()),
+          'class' => 'sampling-code',
+          'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class, [
@@ -68,91 +67,91 @@ class CollecteType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('aPourSamplingMethods', CollectionType::class, [
-        'entry_type'     => APourSamplingMethodEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => APourSamplingMethodEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => [
+        'by_reference' => false,
+        'entry_options' => [
           "label" => false,
         ],
       ])
       ->add('aPourFixateurs', CollectionType::class, [
-        'entry_type'     => APourFixateurEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => APourFixateurEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => ['label' => false],
+        'by_reference' => false,
+        'entry_options' => ['label' => false],
       ])
       ->add('estFinancePars', CollectionType::class, [
-        'entry_type'     => EstFinanceParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => EstFinanceParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\ProgrammeController::newmodalAction',
         ],
-        'entry_options'  => array('label' => false),
+        'entry_options' => array('label' => false),
       ])
       ->add('estEffectuePars', CollectionType::class, [
-        'entry_type'     => EstEffectueParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => EstEffectueParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
-        'entry_options'  => array('label' => false),
+        'entry_options' => array('label' => false),
       ])
       ->add('aCiblers', CollectionType::class, [
-        'entry_type'     => ACiblerEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => ACiblerEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
       ])
       ->add('dureeEchantillonnageMn', IntegerType::class, [
-        'attr'     => ["min" => "0"],
+        'attr' => ["min" => "0"],
         'required' => false,
       ])
       ->add('temperatureC')
       ->add('conductiviteMicroSieCm', IntegerType::class, [
-        'attr'     => ["min" => "0"],
+        'attr' => ["min" => "0"],
         'required' => false,
       ])
       ->add('aFaire', ChoiceType::class, [
-        'choices'                   => ['YES' => 1, 'NO' => 0],
-        'required'                  => true,
+        'choices' => ['YES' => 1, 'NO' => 0],
+        'required' => true,
         'choice_translation_domain' => true,
-        'multiple'                  => false,
-        'expanded'                  => true,
-        'label_attr'                => ['class' => 'radio-inline'],
+        'multiple' => false,
+        'expanded' => true,
+        'label_attr' => ['class' => 'radio-inline'],
       ])
       ->add('commentaireCollecte')
       ->add('legVocFk', EntityType::class, [
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'leg')
             ->orderBy('voc.libelle', 'DESC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => true,
-        'label_attr'                => ['class' => 'radio-inline'],
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => true,
+        'label_attr' => ['class' => 'radio-inline'],
       ])
       ->addEventSubscriber($this->addUserDate);
   }

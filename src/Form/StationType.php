@@ -35,9 +35,7 @@ class StationType extends ActionFormType {
     $station = $builder->getData();
     $builder
       ->add('codeStation', UppercaseType::class, [
-        'attr' => [
-          'readonly' => $this->canEditAdminOnly($options),
-        ],
+        "disabled" => $this->canEditAdminOnly($options),
       ])
       ->add('nomStation', UppercaseType::class)
       ->add('infoDescription')

@@ -2,18 +2,14 @@
 
 namespace App\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
+class SequenceStatusType extends AbstractType {
 
-class SequenceStatusType extends AbstractType
-{
-
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App:Voc',
       'query_builder' => function (EntityRepository $er) {
@@ -25,12 +21,11 @@ class SequenceStatusType extends AbstractType
       'choice_label' => 'code',
       'multiple' => false,
       'expanded' => false,
-      'placeholder' => 'Choose a statut'
+      'placeholder' => 'Choose a statut',
     ]);
   }
 
-  public function getParent()
-  {
+  public function getParent() {
     return EntityType::class;
   }
 }

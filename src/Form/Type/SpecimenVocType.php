@@ -2,18 +2,14 @@
 
 namespace App\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
+class SpecimenVocType extends AbstractType {
 
-class SpecimenVocType extends AbstractType
-{
-
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App:Voc',
       'query_builder' => function (EntityRepository $er) {
@@ -26,12 +22,11 @@ class SpecimenVocType extends AbstractType
       'choice_label' => 'libelle',
       'multiple' => false,
       'expanded' => false,
-      'placeholder' => 'Choose a Type'
+      'placeholder' => 'Choose a Type',
     ]);
   }
 
-  public function getParent()
-  {
+  public function getParent() {
     return EntityType::class;
   }
 }

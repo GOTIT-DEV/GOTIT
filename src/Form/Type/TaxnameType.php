@@ -2,17 +2,14 @@
 
 namespace App\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class TaxnameType extends AbstractType
-{
+class TaxnameType extends AbstractType {
 
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App:ReferentielTaxon',
       'query_builder' => function (EntityRepository $er) {
@@ -23,12 +20,11 @@ class TaxnameType extends AbstractType
       'multiple' => false,
       'expanded' => false,
       'required' => true,
-      'placeholder' => 'Choose a Taxon'
+      'placeholder' => 'Choose a Taxon',
     ]);
   }
 
-  public function getParent()
-  {
+  public function getParent() {
     return EntityType::class;
   }
 }

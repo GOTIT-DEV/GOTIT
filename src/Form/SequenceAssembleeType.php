@@ -35,68 +35,73 @@ class SequenceAssembleeType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sequence = $builder->getData();
-    $gene     = $options['gene'] ?: $sequence->getGeneVocFk();
+    $gene = $options['gene'] ?: $sequence->getGeneVocFk();
     $specimen = $options['specimen'] ?: $sequence->getIndividuFk();
 
     $builder
       ->add('codeSqcAss', null, [
+        'disabled' => $this->canEditAdminOnly($options),
         'attr' => ['readonly' => Action::create() == $options['action_type']],
       ])
       ->add('accessionNumber')
       ->add('codeSqcAlignement', null, [
-        'attr' => ['readonly' => Action::create() == $options['action_type']],
-        'data' => $options['action_type'] == Action::create()
-        ? $this->translator->trans('Auto generated code')
-        : $sequence->getCodeSqcAlignement(),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => Action::create() == $options['action_type'],
+          'placeholder' => $this->translator->trans('Auto generated code'),
+        ],
       ])
       ->add('commentaireSqcAss')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAss', DateFormattedType::class)
-      ->add('statutSqcAssVocFk', SequenceStatusType::class)
+      ->add('statutSqcAssVocFk', SequenceStatusType::class, [
+        'disabled' => $this->canEditAdminOnly($options),
+      ])
       ->add('estAligneEtTraites', CollectionType::class, array(
-        'entry_type'     => EstAligneEtTraiteEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'disabled' => $this->canEditAdminOnly($options),
+        'entry_type' => EstAligneEtTraiteEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array(
-          'label'      => false,
-          'geneVocFk'  => $gene,
+        'by_reference' => false,
+        'entry_options' => array(
+          'label' => false,
+          'geneVocFk' => $gene,
           'individuFk' => $specimen,
         ),
       ))
       ->add('sequenceAssembleeEstRealisePars', CollectionType::class, array(
-        'entry_type'     => SequenceAssembleeEstRealiseParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => SequenceAssembleeEstRealiseParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))
       ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type'     => EspeceIdentifieeEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
       ))
       ->add('sqcEstPublieDanss', CollectionType::class, array(
-        'entry_type'     => SqcEstPublieDansEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => SqcEstPublieDansEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'required'       => false,
-        'entry_options'  => array('label' => false),
+        'by_reference' => false,
+        'required' => false,
+        'entry_options' => array('label' => false),
       ))
       ->addEventsubscriber($this->addUserDate);
   }
@@ -108,8 +113,8 @@ class SequenceAssembleeType extends ActionFormType {
     parent::configureOptions($resolver);
     $resolver->setDefaults([
       'data_class' => 'App\Entity\SequenceAssemblee',
-      'gene'       => null,
-      'specimen'   => null,
+      'gene' => null,
+      'specimen' => null,
     ]);
   }
 

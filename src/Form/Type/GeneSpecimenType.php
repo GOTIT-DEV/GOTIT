@@ -32,8 +32,8 @@ class GeneSpecimenType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $form_data = $builder->getData();
-    $gene      = $form_data['geneVocFk'];
-    $specimen  = $form_data['individuFk'];
+    $gene = $form_data['geneVocFk'];
+    $specimen = $form_data['individuFk'];
 
     $builder
       ->add('geneVocFk', GeneType::class, [
@@ -52,10 +52,10 @@ class GeneSpecimenType extends ActionFormType {
         },
       ])
       ->add('individuFk', SearchableSelectType::class, [
-        'class'        => 'App:Individu',
+        'class' => 'App:Individu',
         'choice_label' => 'codeIndBiomol',
-        'placeholder'  => $this->translator->trans("Individu typeahead placeholder"),
-        'attr'         => [
+        'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
+        'attr' => [
           'readonly' => $this->canEditAdminOnly($options) || $specimen != null,
         ],
       ]);
@@ -63,7 +63,7 @@ class GeneSpecimenType extends ActionFormType {
     if ($options['action_type'] != Action::show()) {
       $builder->add('button.Valid', SubmitType::class, array(
         'label' => 'button.Valid',
-        'attr'  => ['class' => 'btn btn-round btn-success'],
+        'attr' => ['class' => 'btn btn-round btn-success'],
       ));
     }
 

@@ -40,94 +40,87 @@ class SequenceAssembleeExtType extends ActionFormType {
     $sampling = $builder->getData()->getCollecteFk();
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
-        'class'        => 'App:Collecte',
+        'class' => 'App:Collecte',
         'choice_label' => 'codeCollecte',
-        'placeholder'  => $this->translator->trans("Collecte typeahead placeholder"),
-        'attr'         => [
-          'readonly' => $this->canEditAdminOnly($options) || $sampling != null,
+        'placeholder' => $this->translator->trans("Collecte typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $sampling != null,
         ],
       ])
       ->add('codeSqcAssExt', null, [
+        'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => (Action::create() == $options['action_type'] ||
-            $this->canEditAdminOnly($options)),
+          'readonly' => Action::create() == $options['action_type'],
         ],
       ])
       ->add('codeSqcAssExtAlignement', null, [
+        'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => (Action::create() == $options['action_type'] ||
-            $this->canEditAdminOnly($options)),
+          'readonly' => Action::create() == $options['action_type'],
         ],
       ])
       ->add('accessionNumberSqcAssExt', null, [
-        'attr' => [
-          'readonly' => $this->canEditAdminOnly($options),
-        ],
+        'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('numIndividuSqcAssExt', null, [
-        'attr' => [
-          'readonly' => $this->canEditAdminOnly($options),
-        ],
+        'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('taxonOrigineSqcAssExt')
       ->add('origineSqcAssExtVocFk', EntityType::class, [
-        'class'         => 'App:Voc',
+        'class' => 'App:Voc',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'origineSqcAssExt')
             ->orderBy('voc.libelle', 'ASC');
         },
-        'choice_label'  => 'code',
-        'multiple'      => false,
-        'expanded'      => false,
-        'placeholder'   => 'Choose a origineSqcAssExt',
-        'attr'          => [
-          'readonly' => $this->canEditAdminOnly($options),
-        ],
+        'choice_label' => 'code',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a origineSqcAssExt',
+        'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)
       ->add('statutSqcAssVocFk', SequenceStatusType::class, [
-        'attr' => [
-          'readonly' => $this->canEditAdminOnly($options),
-        ],
+        'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAssExt', DateFormattedType::class)
       ->add('commentaireSqcAssExt')
       ->add('sqcExtEstRealisePars', CollectionType::class, array(
-        'entry_type'     => SqcExtEstRealiseParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => SqcExtEstRealiseParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))
       ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type'     => EspeceIdentifieeEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array(
-          'label'         => false,
+        'by_reference' => false,
+        'entry_options' => array(
+          'label' => false,
           'refTaxonLabel' => $options['refTaxonLabel'],
         ),
       ))
       ->add('sqcExtEstReferenceDanss', CollectionType::class, array(
-        'entry_type'     => SqcExtEstReferenceDansEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => SqcExtEstReferenceDansEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
       ))
       ->addEventSubscriber($this->addUserDate);
   }
@@ -138,7 +131,7 @@ class SequenceAssembleeExtType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class'    => 'App\Entity\SequenceAssembleeExt',
+      'data_class' => 'App\Entity\SequenceAssembleeExt',
       'refTaxonLabel' => 'taxname',
     ));
   }

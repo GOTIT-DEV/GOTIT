@@ -13,8 +13,7 @@ use App\Form\UserDateTraceType;
 use App\Form\EventListener\AddUserDateFields;
 use App\Form\Enums\Action;
 
-class ActionFormType extends UserDateTraceType
-{
+class ActionFormType extends UserDateTraceType {
   /**
    * {@inheritdoc}
    */
@@ -30,27 +29,24 @@ class ActionFormType extends UserDateTraceType
     $this->translator = $translator;
   }
 
-  public function buildView(FormView $view, FormInterface $form, array $options)
-  {
+  public function buildView(FormView $view, FormInterface $form, array $options) {
     parent::buildView($view, $form, $options);
 
     // Expose action_type in form templates
     $view->vars['action_type'] = $options['action_type'];
   }
 
-  public function canEditAdminOnly(array $options)
-  {
+  public function canEditAdminOnly(array $options) {
     return $options['action_type'] == "edit" && !$this->security->isGranted('ROLE_ADMIN');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setRequired([
-      'action_type'
+      'action_type',
     ]);
     $resolver->setDefault('disabled', function (Options $options) {
       return $options['action_type'] == Action::show();

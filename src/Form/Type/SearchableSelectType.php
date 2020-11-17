@@ -21,9 +21,9 @@ class SearchableSelectType extends AbstractType {
     $resolver->setRequired(["choice_label", "class"]);
 
     $resolver->setDefaults([
-      'multiple'      => false,
-      'expanded'      => false,
-      'choice_value'  => 'id',
+      'multiple' => false,
+      'expanded' => false,
+      'choice_value' => 'id',
       /* Load choices using preset data
        * Also add choices generated from autocompletion on client side
        */
@@ -39,7 +39,7 @@ class SearchableSelectType extends AbstractType {
 
     $resolver->setNormalizer('attr', function (Options $options, $value) {
       return array_merge($value, [
-        'class'                     => ($attrs['class'] ?? "") . " remote-source",
+        'class' => ($attrs['class'] ?? "") . " remote-source",
         'data-minimum-input-length' => 1,
       ]);
     });

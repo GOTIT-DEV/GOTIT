@@ -38,16 +38,17 @@ class PcrType extends ActionFormType {
     $adn = $builder->getData()->getAdnFk();
     $builder
       ->add('adnFk', SearchableSelectType::class, [
-        'class'        => 'App:Adn',
+        'class' => 'App:Adn',
         'choice_label' => 'codeAdn',
-        'placeholder'  => $this->translator->trans("Adn typeahead placeholder"),
-        'attr'         => [
-          'readonly' => $this->canEditAdminOnly($options) || $adn != null,
+        'placeholder' => $this->translator->trans("Adn typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $adn != null,
         ],
       ])
       ->add('codePcr', null, [
         'disabled' => $this->canEditAdminOnly($options),
-        'attr'     => [
+        'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
@@ -56,75 +57,75 @@ class PcrType extends ActionFormType {
       ])
       ->add('geneVocFk', GeneType::class)
       ->add('primerPcrStartVocFk', EntityType::class, array(
-        'class'         => 'App:Voc',
+        'class' => 'App:Voc',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'primerPcrStart')
             ->orderBy('voc.libelle', 'ASC');
         },
-        'choice_label'  => 'libelle',
-        'multiple'      => false,
-        'expanded'      => false,
-        'placeholder'   => 'Choose a primer start',
-        'disabled'      => $this->canEditAdminOnly($options),
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a primer start',
+        'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('primerPcrEndVocFk', EntityType::class, array(
-        'class'         => 'App:Voc',
+        'class' => 'App:Voc',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'primerPcrEnd')
             ->orderBy('voc.libelle', 'ASC');
         },
-        'choice_label'  => 'libelle',
-        'multiple'      => false,
-        'expanded'      => false,
-        'placeholder'   => 'Choose a primer end',
-        'disabled'      => $this->canEditAdminOnly($options),
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a primer end',
+        'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('datePcr', DateFormattedType::class)
       ->add('qualitePcrVocFk', EntityType::class, array(
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'qualitePcr')
             ->orderBy('voc.libelle', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => false,
-        'placeholder'               => 'Choose a quality',
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a quality',
       ))
       ->add('specificiteVocFk', EntityType::class, array(
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'specificite')
             ->orderBy('voc.libelle', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => false,
-        'placeholder'               => 'Choose a specificity',
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a specificity',
       ))
       ->add('detailPcr')
       ->add('remarquePcr')
       ->add('pcrEstRealisePars', CollectionType::class, array(
-        'entry_type'     => PcrEstRealiseParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => PcrEstRealiseParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))

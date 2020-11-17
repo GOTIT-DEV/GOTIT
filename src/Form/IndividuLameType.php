@@ -37,12 +37,13 @@ class IndividuLameType extends ActionFormType {
 
     $builder
       ->add('individuFk', SearchableSelectType::class, [
-        'class'        => 'App:Individu',
+        'class' => 'App:Individu',
         'choice_label' => 'codeIndTriMorpho',
-        'placeholder'  =>
-        $this->translator->trans("Individu codeIndTriMorpho typeahead placeholder"),
-        'attr'         => [
-          'readonly' => $this->canEditAdminOnly($options) || $specimen != null,
+        'placeholder' => $this->translator
+          ->trans("Individu codeIndTriMorpho typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $specimen != null,
         ],
       ])
       ->add('codeLameColl', null, [
@@ -54,7 +55,7 @@ class IndividuLameType extends ActionFormType {
       ->add('nomDossierPhotos')
       ->add('commentaireLame')
       ->add('boiteFk', EntityType::class, array(
-        'class'         => 'App:Boite',
+        'class' => 'App:Boite',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('boite')
             ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
@@ -62,20 +63,20 @@ class IndividuLameType extends ActionFormType {
             ->setParameter('codetype', 'LAME')
             ->orderBy('LOWER(boite.codeBoite)', 'ASC');
         },
-        'placeholder'   => 'Choose a Box',
-        'choice_label'  => 'codeBoite',
-        'multiple'      => false,
-        'expanded'      => false,
-        'required'      => false,
+        'placeholder' => 'Choose a Box',
+        'choice_label' => 'codeBoite',
+        'multiple' => false,
+        'expanded' => false,
+        'required' => false,
       ))
       ->add('individuLameEstRealisePars', CollectionType::class, array(
-        'entry_type'     => IndividuLameEstRealiseParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => IndividuLameEstRealiseParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
       ))
       ->addEventSubscriber($this->addUserDate);
   }

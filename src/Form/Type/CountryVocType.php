@@ -2,18 +2,14 @@
 
 namespace App\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
+class CountryVocType extends AbstractType {
 
-class CountryVocType extends AbstractType
-{
-
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App:Pays',
       'query_builder' => function (EntityRepository $er) {
@@ -23,12 +19,11 @@ class CountryVocType extends AbstractType
       'placeholder' => 'Choose a Country',
       'choice_label' => 'nom_pays',
       'multiple' => false,
-      'expanded' => false
+      'expanded' => false,
     ]);
   }
 
-  public function getParent()
-  {
+  public function getParent() {
     return EntityType::class;
   }
 }

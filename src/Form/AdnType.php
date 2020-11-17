@@ -39,13 +39,15 @@ class AdnType extends ActionFormType {
     $specimen = $builder->getData()->getIndividuFk();
     $builder
       ->add('individuFk', SearchableSelectType::class, [
-        'class'        => 'App:Individu',
+        'class' => 'App:Individu',
         'choice_label' => 'codeIndBioMol',
-        'placeholder'  => $this->translator->trans("Individu typeahead placeholder"),
-        'attr'         => [
-          'readonly' => $this->canEditAdminOnly($options) || $specimen != null,
+        'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
+        'attr' => [
+          'readonly' => $specimen != null,
         ],
       ])
+      # Is not auto-generated : editable in create mode
       ->add('codeAdn', null, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
@@ -53,26 +55,26 @@ class AdnType extends ActionFormType {
       ->add('dateAdn', DateFormattedType::class)
       ->add('methodeExtractionAdnVocFk', ExtractionMethodType::class)
       ->add('concentrationNgMicrolitre', NumberType::class, array(
-        'scale'    => 4,
+        'scale' => 4,
         'required' => false,
       ))
       ->add('commentaireAdn')
       ->add('qualiteAdnVocFk', EntityType::class, array(
-        'class'                     => 'App:Voc',
-        'query_builder'             => function (EntityRepository $er) {
+        'class' => 'App:Voc',
+        'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
             ->setParameter('parent', 'qualiteAdn')
             ->orderBy('voc.libelle', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label'              => 'libelle',
-        'multiple'                  => false,
-        'expanded'                  => false,
-        'placeholder'               => 'Choose a quality',
+        'choice_label' => 'libelle',
+        'multiple' => false,
+        'expanded' => false,
+        'placeholder' => 'Choose a quality',
       ))
       ->add('boiteFk', EntityType::class, array(
-        'class'         => 'App:Boite',
+        'class' => 'App:Boite',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('boite')
             ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
@@ -80,22 +82,22 @@ class AdnType extends ActionFormType {
             ->setParameter('codetype', 'ADN')
             ->orderBy('LOWER(boite.codeBoite)', 'ASC');
         },
-        'placeholder'   => 'Choose a Box',
-        'choice_label'  => 'codeBoite',
-        'multiple'      => false,
-        'expanded'      => false,
-        'required'      => false,
+        'placeholder' => 'Choose a Box',
+        'choice_label' => 'codeBoite',
+        'multiple' => false,
+        'expanded' => false,
+        'required' => false,
       ))
       ->add('adnEstRealisePars', CollectionType::class, [
-        'entry_type'     => AdnEstRealiseParEmbedType::class,
-        'allow_add'      => true,
-        'allow_delete'   => true,
-        'prototype'      => true,
+        'entry_type' => AdnEstRealiseParEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
         'prototype_name' => '__name__',
-        'by_reference'   => false,
-        'entry_options'  => array('label' => false),
-        'attr'           => [
-          "data-allow-new"        => true,
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
+        'attr' => [
+          "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ])

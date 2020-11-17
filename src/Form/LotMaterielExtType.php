@@ -7,12 +7,12 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Form;
@@ -31,13 +31,11 @@ use App\Form\EmbedTypes\LotMaterielExtEstRealiseParEmbedType;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\ActionFormType;
 
-class LotMaterielExtType extends ActionFormType
-{
+class LotMaterielExtType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
+  public function buildForm(FormBuilderInterface $builder, array $options) {
     $sampling = $builder->getData()->getCollecteFk();
 
     $builder
@@ -45,15 +43,16 @@ class LotMaterielExtType extends ActionFormType
         'class' => 'App:Collecte',
         'choice_label' => 'codeCollecte',
         'placeholder' => $this->translator->trans("Collecte typeahead placeholder"),
+        'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $this->canEditAdminOnly($options) || $sampling != null
-        ]
+          'readonly' => $sampling != null,
+        ],
       ])
       ->add('codeLotMaterielExt', null, [
         'disabled' => $this->canEditAdminOnly($options),
         "attr" => [
-          'readonly' => ($options['action_type'] == Action::create())
-        ]
+          'readonly' => ($options['action_type'] == Action::create()),
+        ],
       ])
       ->add('pigmentationVocFk', EntityType::class, [
         'class' => 'App:Voc',
@@ -67,7 +66,7 @@ class LotMaterielExtType extends ActionFormType
         'choice_label' => 'libelle',
         'multiple' => false,
         'expanded' => false,
-        'placeholder' => 'Choose a Pigmentation'
+        'placeholder' => 'Choose a Pigmentation',
       ])
       ->add('yeuxVocFk', EntityType::class, [
         'class' => 'App:Voc',
@@ -81,7 +80,7 @@ class LotMaterielExtType extends ActionFormType
         'choice_label' => 'libelle',
         'multiple' => false,
         'expanded' => false,
-        'placeholder' => 'Choose a Eye'
+        'placeholder' => 'Choose a Eye',
       ])
       ->add('commentaireLotMaterielExt')
       ->add('nbIndividusVocFk', EntityType::class, [
@@ -96,7 +95,7 @@ class LotMaterielExtType extends ActionFormType
         'choice_label' => 'libelle',
         'multiple' => false,
         'expanded' => false,
-        'placeholder' => 'Choose an option'
+        'placeholder' => 'Choose an option',
       ])
       ->add('commentaireNbIndividus')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
@@ -111,8 +110,8 @@ class LotMaterielExtType extends ActionFormType
         'entry_options' => ['label' => false],
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction'
-        ]
+          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
+        ],
       ])
       ->add('especeIdentifiees', CollectionType::class, [
         'entry_type' => EspeceIdentifieeEmbedType::class,
@@ -121,7 +120,7 @@ class LotMaterielExtType extends ActionFormType
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'entry_options' => ['label' => false]
+        'entry_options' => ['label' => false],
       ])
       ->add('lotMaterielExtEstReferenceDanss', CollectionType::class, [
         'entry_type' => LotMaterielExtEstReferenceDansEmbedType::class,
@@ -130,7 +129,7 @@ class LotMaterielExtType extends ActionFormType
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'entry_options' => ['label' => false]
+        'entry_options' => ['label' => false],
       ])
       ->addEventSubscriber($this->addUserDate);
   }
@@ -138,8 +137,7 @@ class LotMaterielExtType extends ActionFormType
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(['data_class' => 'App\Entity\LotMaterielExt']);
   }
@@ -147,8 +145,7 @@ class LotMaterielExtType extends ActionFormType
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix()
-  {
+  public function getBlockPrefix() {
     return 'bbees_e3sbundle_lotmaterielext';
   }
 }
