@@ -4,17 +4,19 @@ import moment from "moment"
 
 
 $(() => {
+  const $form = $("form[name='bbees_e3sbundle_collecte']")
   const $site = $("#bbees_e3sbundle_collecte_stationFk")
   const $date_precision = $("form:first .date-precision:first")
   const $date = $("form:first .date-autoformat")
 
   initSearchSelect($site, "station_search")
 
-  $site.change(updateSamplingCode)
-  $date.keyup(updateSamplingCode)
-  $date_precision.change(updateSamplingCode)
-
-  updateSamplingCode()
+  if ($form.data('action') == 'new') {
+    $site.change(updateSamplingCode)
+    $date.keyup(updateSamplingCode)
+    $date_precision.change(updateSamplingCode)
+    updateSamplingCode()
+  }
 
   function updateSamplingCode() {
     const code = generateSamplingCode(

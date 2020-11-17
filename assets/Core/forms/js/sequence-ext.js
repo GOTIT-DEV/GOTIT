@@ -31,7 +31,6 @@ $(() => {
       $accession.val() || undefined,
       $origin.val() ? $origin.find('option:selected') : undefined
     )
-    console.log(code)
     $assemblyCode.val(code)
     $alignmentCode.val(code)
     return code
