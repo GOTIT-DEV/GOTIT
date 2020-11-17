@@ -7,12 +7,12 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Controller\Core\Import;
@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Services\Core\ImportFileE3s;
@@ -36,8 +35,7 @@ use App\Services\Core\ImportFileCsv;
  * @Security("has_role('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSourceController extends AbstractController
-{
+class ImportFilesSourceController extends AbstractController {
   /**
    * @var string
    */
@@ -45,7 +43,7 @@ class ImportFilesSourceController extends AbstractController
 
   /**
    * @Route("/", name="importfilessource_index")
-   *    
+   *
    */
   public function indexAction(
     Request $request,
@@ -62,10 +60,10 @@ class ImportFilesSourceController extends AbstractController
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
-          'choices'  => [
-            ' ' => ['Source' => 'source',],
-            ' ' => ['Person' => 'person',],
-          ]
+          'choices' => [
+            'Source' => 'source',
+            ' ' => ['Person' => 'person'],
+          ],
         ))
         ->add('fichier', FileType::class)
         ->add('envoyer', SubmitType::class, ['label' => 'Envoyer'])
@@ -73,26 +71,26 @@ class ImportFilesSourceController extends AbstractController
     }
     $form->handleRequest($request);
 
-    if ($form->isSubmitted()) { //processing form request 
+    if ($form->isSubmitted()) { //processing form request
       $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
       $this->type_csv = $form->get('type_csv')->getData();
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
       $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
       $pathToTemplate = $service->getCsvPath($this->type_csv);
-      // 
+      //
       $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate, $fichier));
       $message .= $checkName;
-      if ($checkName  == '') {
+      if ($checkName == '') {
         switch ($this->type_csv) {
-          case 'source':
-            $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
-            break;
-          case 'person':
-            $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
-            break;
-          default:
-            $message .= "ERROR - Bad SELECTED choice ?";
+        case 'source':
+          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+          break;
+        default:
+          $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
     }
@@ -100,7 +98,7 @@ class ImportFilesSourceController extends AbstractController
       'Core/importfilecsv/importfiles.html.twig',
       [
         "message" => $message,
-        'form' => $form->createView()
+        'form' => $form->createView(),
       ]
     );
   }
