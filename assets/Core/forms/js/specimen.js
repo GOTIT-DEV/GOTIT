@@ -37,7 +37,7 @@ $(() => {
     const molNumber = $spMolNumber.val()
 
     const code = molNumber ? generateSpecimenMolCode(
-      $taxon.val() ? $taxon.find('option:selected').text() : undefined,
+      $taxon.val() ? $taxon.find('option:selected').data('code') : undefined,
       $biomat.val() ? $biomat.find('option:selected').text() : "",
       molNumber
     ) : ""

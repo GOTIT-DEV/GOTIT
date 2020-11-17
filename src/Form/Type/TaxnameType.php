@@ -21,6 +21,9 @@ class TaxnameType extends AbstractType {
       'expanded' => false,
       'required' => true,
       'placeholder' => 'Choose a Taxon',
+      'choice_attr' => function ($choice, $key, $value) {
+        return ['data-code' => $choice->getCodeTaxon()];
+      },
     ]);
   }
 
