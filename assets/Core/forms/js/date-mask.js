@@ -79,9 +79,9 @@ function validateDate(dateInput) {
   else {
     $(dateInput).addClass('is-invalid').removeClass('is-valid')
   }
-  $(dateInput).closest("form")
-    .find("button[type='submit']")
-    .prop('disabled', !dateValid)
+  // $(dateInput).closest("form")
+  //   .find("button[type='submit']")
+  //   .prop('disabled', !dateValid)
 }
 
 export function getPrecisionOf(precisionFormElt) {
@@ -96,7 +96,7 @@ export function getPrecisionOf(precisionFormElt) {
 
 function setPrecision($dateWidget, precision, dateMasker) {
   $dateWidget
-    .prop('disabled', precision === 3)
+    .prop('readonly', precision === 3)
     .prop('required', precision !== 3)
     .prop("placeholder", dateMasks[precision].placeholder)
 
