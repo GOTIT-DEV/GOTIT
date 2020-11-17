@@ -139,7 +139,7 @@ $(document).ready(function(){
             },
             "edit": function(column, row, value)
             {
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row.userCreId))) {
+                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
                     return `<a href="${row.id}/edit?${urlParams.toString()}" class="btn btn-sm">
                             <i class="fas fa-edit"></i></a>`;  
                 } else {
@@ -149,7 +149,7 @@ $(document).ready(function(){
             "delete": function(column, row, value)
             {
                 let form_action = `${row.id}?${urlParams.toString()}`
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row.userCreId))) {
+                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
                     return `<form  method="post" action="${form_action}"
                                 onsubmit="return confirm('Do you really want to delete this record?');" >
                             <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
