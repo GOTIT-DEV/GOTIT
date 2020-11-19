@@ -22,11 +22,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\EstFinanceParEmbedType;
 use App\Form\EmbedTypes\EstEffectueParEmbedType;
@@ -46,7 +45,8 @@ class CollecteType extends ActionFormType {
       ->add('stationFk', SearchableSelectType::class, [
         'class' => 'App:Station',
         'choice_label' => 'codeStation',
-        'placeholder' => $this->translator->trans("Station typeahead placeholder"),
+        'placeholder' =>
+        $this->translator->trans("Station typeahead placeholder"),
         'attr' => [
           "maxlength" => "255",
           'readonly' => ($options['action_type'] == Action::create() &&
@@ -95,7 +95,8 @@ class CollecteType extends ActionFormType {
         'by_reference' => false,
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\ProgrammeController::newmodalAction',
+          "data-modal-controller" =>
+          'App\\Controller\\Core\\ProgrammeController::newmodalAction',
         ],
         'entry_options' => array('label' => false),
       ])
@@ -108,7 +109,8 @@ class CollecteType extends ActionFormType {
         'by_reference' => false,
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
+          "data-modal-controller" =>
+          'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
         'entry_options' => array('label' => false),
       ])
@@ -139,17 +141,9 @@ class CollecteType extends ActionFormType {
         'label_attr' => ['class' => 'radio-inline'],
       ])
       ->add('commentaireCollecte')
-      ->add('legVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'leg')
-            ->orderBy('voc.libelle', 'DESC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
+      ->add('legVocFk', BaseVocType::class, [
+        'voc_parent' => 'leg',
+        'sort_by_id' => true,
         'expanded' => true,
         'label_attr' => ['class' => 'radio-inline'],
       ])

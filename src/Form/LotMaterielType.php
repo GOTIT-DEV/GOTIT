@@ -26,6 +26,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
@@ -80,32 +81,12 @@ class LotMaterielType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ))
-      ->add('yeuxVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'yeux')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('yeuxVocFk', BaseVocType::class, array(
+        'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
       ))
-      ->add('pigmentationVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'pigmentation')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('pigmentationVocFk', BaseVocType::class, array(
+        'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
       ))
       ->add('aFaire', ChoiceType::class, array(

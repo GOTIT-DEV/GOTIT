@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\ActionFormType;
 
@@ -54,33 +55,13 @@ class ChromatogrammeType extends ActionFormType {
         'required' => true,
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('primerChromatoVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'primerChromato')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('primerChromatoVocFk', BaseVocType::class, array(
+        'voc_parent' => 'primerChromato',
         'placeholder' => 'Choose a primer',
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('qualiteChromatoVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'qualiteChromato')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('qualiteChromatoVocFk', BaseVocType::class, array(
+        'voc_parent' => 'qualiteChromato',
         'placeholder' => 'Choose a quality',
       ))
       ->add('etablissementFk', EntityType::class, array(

@@ -24,9 +24,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
-use App\Form\Type\ExtractionMethodType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\EmbedTypes\AdnEstRealiseParEmbedType;
 use App\Form\ActionFormType;
 
@@ -53,26 +53,19 @@ class AdnType extends ActionFormType {
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateAdn', DateFormattedType::class)
-      ->add('methodeExtractionAdnVocFk', ExtractionMethodType::class)
+      ->add('methodeExtractionAdnVocFk', BaseVocType::class, [
+        'voc_parent' => "methodeExtractionAdn",
+        'placeholder' => 'Choose a method',
+      ])
       ->add('concentrationNgMicrolitre', NumberType::class, array(
         'scale' => 4,
         'required' => false,
       ))
       ->add('commentaireAdn')
-      ->add('qualiteAdnVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'qualiteAdn')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('qualiteAdnVocFk', BaseVocType::class, [
+        'voc_parent' => 'qualiteAdn',
         'placeholder' => 'Choose a quality',
-      ))
+      ])
       ->add('boiteFk', EntityType::class, array(
         'class' => 'App:Boite',
         'query_builder' => function (EntityRepository $er) {

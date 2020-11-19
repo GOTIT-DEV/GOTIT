@@ -20,9 +20,9 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\Type\SequenceStatusType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\SqcEstPublieDansEmbedType;
 use App\Form\EmbedTypes\SequenceAssembleeEstRealiseParEmbedType;
@@ -54,7 +54,10 @@ class SequenceAssembleeType extends ActionFormType {
       ->add('commentaireSqcAss')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAss', DateFormattedType::class)
-      ->add('statutSqcAssVocFk', SequenceStatusType::class, [
+      ->add('statutSqcAssVocFk', BaseVocType::class, [
+        'voc_parent' => 'statutSqcAss',
+        'choice_label' => 'code',
+        'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('estAligneEtTraites', CollectionType::class, array(
@@ -81,7 +84,8 @@ class SequenceAssembleeType extends ActionFormType {
         'entry_options' => array('label' => false),
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
+          "data-modal-controller" =>
+          'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))
       ->add('especeIdentifiees', CollectionType::class, array(

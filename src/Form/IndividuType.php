@@ -20,8 +20,8 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\Type\SpecimenVocType;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\ActionFormType;
@@ -39,7 +39,7 @@ class IndividuType extends ActionFormType {
       ->add('lotMaterielFk', SearchableSelectType::class, [
         'class' => 'App:LotMateriel',
         'choice_label' => 'codeLotMateriel',
-        'placeholder' => $this->translator->trans("Lotmateriel typeahead placeholder"),
+        'placeholder' => "Lotmateriel typeahead placeholder",
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $bioMat != null,
@@ -54,7 +54,10 @@ class IndividuType extends ActionFormType {
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('typeIndividuVocFk', SpecimenVocType::class);
+      ->add('typeIndividuVocFk', BaseVocType::class, [
+        'voc_parent' => 'typeIndividu',
+        'placeholder' => 'Choose a Type',
+      ]);
 
     if ($options['action_type'] != Action::create()) {
       $builder

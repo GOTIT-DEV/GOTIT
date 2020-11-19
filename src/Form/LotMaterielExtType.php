@@ -20,11 +20,10 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\LotMaterielExtEstReferenceDansEmbedType;
 use App\Form\EmbedTypes\LotMaterielExtEstRealiseParEmbedType;
@@ -54,47 +53,17 @@ class LotMaterielExtType extends ActionFormType {
           'readonly' => ($options['action_type'] == Action::create()),
         ],
       ])
-      ->add('pigmentationVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'pigmentation')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('pigmentationVocFk', BaseVocType::class, [
+        'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
       ])
-      ->add('yeuxVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'yeux')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('yeuxVocFk', BaseVocType::class, [
+        'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
       ])
       ->add('commentaireLotMaterielExt')
-      ->add('nbIndividusVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'nbIndividus')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('nbIndividusVocFk', BaseVocType::class, [
+        'voc_parent' => 'nbIndividus',
         'placeholder' => 'Choose an option',
       ])
       ->add('commentaireNbIndividus')

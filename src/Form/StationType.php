@@ -25,6 +25,7 @@ use Doctrine\ORM\EntityRepository;
 use App\Form\Type\UppercaseType;
 use App\Form\Type\ModalButtonType;
 use App\Form\Type\CountryVocType;
+use App\Form\Type\BaseVocType;
 use App\Form\ActionFormType;
 
 class StationType extends ActionFormType {
@@ -46,7 +47,8 @@ class StationType extends ActionFormType {
           $query = $er->createQueryBuilder('commune')
             ->orderBy('commune.codeCommune', 'ASC');
           if ($station->getPaysFk()) {
-            $query = $query->where('commune.paysFk = ' . $station->getPaysFk()->getId());
+            $query = $query->where('commune.paysFk = :country')
+              ->setParameter('country', $station->getPaysFk()->getId());
           }
           return $query;
         },
@@ -61,33 +63,13 @@ class StationType extends ActionFormType {
           "data-modal-controller" => 'App\\Controller\\Core\\CommuneController::newmodalAction',
         ],
       ])
-      ->add('habitatTypeVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
+      ->add('habitatTypeVocFk', BaseVocType::class, array(
+        'voc_parent' => 'habitatType',
         'placeholder' => 'Choose an Habitat Type',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'habitatType')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
       ))
-      ->add('pointAccesVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
+      ->add('pointAccesVocFk', BaseVocType::class, array(
+        'voc_parent' => 'pointAcces',
         'placeholder' => 'Choose an Access Point',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'pointAcces')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
       ))
       ->add('latDegDec', NumberType::class, array(
         'required' => true,
@@ -104,19 +86,10 @@ class StationType extends ActionFormType {
         ],
         'icon_class' => 'fa-crosshairs',
       ])
-      ->add('precisionLatLongVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
+      ->add('precisionLatLongVocFk', BaseVocType::class, array(
+        'voc_parent' => 'precisionLatLong',
         'placeholder' => 'Choose a GPS Distance Quality',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'precisionLatLong')
-            ->orderBy('voc.id', 'DESC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+        "sort_by_id" => true,
       ))
       ->add('altitudeM')
       ->add('commentaireStation')

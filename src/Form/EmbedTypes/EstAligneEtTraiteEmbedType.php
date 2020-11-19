@@ -7,12 +7,12 @@
  *
  * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
+ *
  */
 
 namespace App\Form\EmbedTypes;
@@ -23,18 +23,16 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class EstAligneEtTraiteEmbedType extends AbstractType
-{
+class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
+  public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('chromatogrammeFk', EntityType::class, [
       'class' => 'App:Chromatogramme',
       'query_builder' => function (EntityRepository $er) use ($options) {
         $qb = $er->createQueryBuilder('chromatogramme');
-        return  $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+        return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
           ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
           ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
           ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
@@ -42,7 +40,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType
           ->andwhere('individu.id = :individuFk')
           ->setParameters([
             'individuFk' => $options['individuFk'],
-            'geneVocFk' => $options['geneVocFk']
+            'geneVocFk' => $options['geneVocFk'],
           ]);
       },
       'choice_label' => 'codeChromatoSpecificite',
@@ -57,8 +55,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver)
-  {
+  public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\EstAligneEtTraite',
       'geneVocFk' => null,
@@ -69,8 +66,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix()
-  {
+  public function getBlockPrefix() {
     return 'estaligneettraite';
   }
 }

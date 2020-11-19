@@ -21,8 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\LotMaterielEmbedType;
 use App\Form\EmbedTypes\IndividuLameEmbedType;
@@ -43,45 +42,18 @@ class BoiteType extends ActionFormType {
     ])
       ->add('libelleBoite')
       ->add('commentaireBoite')
-      ->add('typeCollectionVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'typeCollection')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('typeCollectionVocFk', BaseVocType::class, array(
+        'voc_parent' => 'typeCollection',
         'placeholder' => 'Choose a typeCollection',
       ))
-      ->add('codeCollectionVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'codeCollection')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('codeCollectionVocFk', BaseVocType::class, array(
+        'voc_parent' => 'codeCollection',
         'placeholder' => 'Choose a Collection',
       ))
-      ->add('typeBoiteVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'typeBoite')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_label' => 'code',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('typeBoiteVocFk', BaseVocType::class, array(
+        'voc_parent' => 'typeBoite',
         'placeholder' => 'Choose a typeBoite',
+        'choice_label' => 'code',
         'disabled' => ($boxType != null),
       ));
 

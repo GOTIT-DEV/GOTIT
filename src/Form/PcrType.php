@@ -20,12 +20,11 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\GeneType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\PcrEstRealiseParEmbedType;
 use App\Form\ActionFormType;
@@ -56,62 +55,24 @@ class PcrType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)
-      ->add('primerPcrStartVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'primerPcrStart')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('primerPcrStartVocFk', BaseVocType::class, array(
+        'voc_parent' => 'primerPcrStart',
         'placeholder' => 'Choose a primer start',
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('primerPcrEndVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'primerPcrEnd')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('primerPcrEndVocFk', BaseVocType::class, array(
+        'voc_parent' => 'primerPcrEnd',
         'placeholder' => 'Choose a primer end',
         'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('datePcr', DateFormattedType::class)
-      ->add('qualitePcrVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'qualitePcr')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('qualitePcrVocFk', BaseVocType::class, array(
+        'voc_parent' => 'qualitePcr',
         'placeholder' => 'Choose a quality',
       ))
-      ->add('specificiteVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'specificite')
-            ->orderBy('voc.libelle', 'ASC');
-        },
-        'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
-        'multiple' => false,
-        'expanded' => false,
+      ->add('specificiteVocFk', BaseVocType::class, array(
+        'voc_parent' => 'specificite',
         'placeholder' => 'Choose a specificity',
       ))
       ->add('detailPcr')
@@ -126,7 +87,8 @@ class PcrType extends ActionFormType {
         'entry_options' => array('label' => false),
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
+          "data-modal-controller" =>
+          'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))
       ->addEventSubscriber($this->addUserDate);

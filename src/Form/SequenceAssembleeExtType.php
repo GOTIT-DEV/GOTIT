@@ -20,13 +20,11 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use App\Form\Type\SequenceStatusType;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\GeneType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
 use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
@@ -67,22 +65,17 @@ class SequenceAssembleeExtType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('taxonOrigineSqcAssExt')
-      ->add('origineSqcAssExtVocFk', EntityType::class, [
-        'class' => 'App:Voc',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('voc')
-            ->where('voc.parent LIKE :parent')
-            ->setParameter('parent', 'origineSqcAssExt')
-            ->orderBy('voc.libelle', 'ASC');
-        },
+      ->add('origineSqcAssExtVocFk', BaseVocType::class, [
+        'voc_parent' => 'origineSqcAssExt',
         'choice_label' => 'code',
-        'multiple' => false,
-        'expanded' => false,
         'placeholder' => 'Choose a origineSqcAssExt',
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)
-      ->add('statutSqcAssVocFk', SequenceStatusType::class, [
+      ->add('statutSqcAssVocFk', BaseVocType::class, [
+        'voc_parent' => 'statutSqcAss',
+        'choice_label' => 'code',
+        'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)

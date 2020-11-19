@@ -20,8 +20,7 @@ namespace App\Form\EmbedTypes;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
+use App\Form\Type\BaseVocType;
 
 class APourSamplingMethodEmbedType extends AbstractType {
   /**
@@ -29,20 +28,9 @@ class APourSamplingMethodEmbedType extends AbstractType {
    * @param array $options
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('samplingMethodVocFk', EntityType::class, [
-      'class'                     => 'App:Voc',
-      'query_builder'             => function (EntityRepository $er) {
-        return $er->createQueryBuilder('voc')
-          ->where('voc.parent LIKE :parent')
-          ->setParameter('parent', 'samplingMethod')
-          ->orderBy('voc.libelle', 'ASC');
-      },
-      'choice_translation_domain' => 'voc',
-      'choice_label'              => 'libelle',
-      'multiple'                  => false,
-      'expanded'                  => false,
-      'label'                     => false,
-      'placeholder'               => 'Choose a Sampling method',
+    $builder->add('samplingMethodVocFk', BaseVocType::class, [
+      'voc_parent' => 'samplingMethod',
+      'placeholder' => 'Choose a Sampling method',
     ]);
   }
 
