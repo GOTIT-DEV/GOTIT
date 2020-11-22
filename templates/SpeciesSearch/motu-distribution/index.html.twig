@@ -11,19 +11,12 @@
 {% endblock %}
 
 {% block body %}
-
-	{# Formulaire #}
-	{% include 'SpeciesSearch/motu-distribution/form.html.twig' %} <hr>
-	<div>
-		<h2 id="results-title">
-			<span>
-				{% trans from 'queries' %} label.resultats {% endtrans %}
-			</span>
-		</h2>
-		{% include 'SpeciesSearch/motu-distribution/results.html.twig' with methods_list %}
-	</div>
-	<div id="modal-container">
-		{% include 'SpeciesSearch/motu-distribution/seq.modal.html.twig' %}
+	<div id="motu-distribution-vue">
+		<motu-distribution>
+			<center>
+				<i class="fas fa-spin fa-spinner fa-6x"></i>
+			</center>
+		</motu-distribution>
 	</div>
 {% endblock %}
 

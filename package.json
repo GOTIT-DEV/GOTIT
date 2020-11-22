@@ -44,7 +44,7 @@
     "jquery": "3.x",
     "jquery-bootgrid": "1.x",
     "js-cookie": "2.x",
-    "leaflet": "1.x",
+    "leaflet": "^1.7.1",
     "leaflet-easybutton": "2.x",
     "leaflet-fullscreen": "1.x",
     "leaflet-svg-shape-markers": "1.x",
@@ -60,6 +60,10 @@
     "vue-multiselect": "2.x",
     "vue-plotly": "1.x",
     "vue-query-builder": "0.8.x",
+    "vue-slider-component": "^3.2.10",
+    "vue2-leaflet": "^2.6.0",
+    "vue2-leaflet-fullscreen": "^1.0.0",
     "vuex": "3.x"
-  }
+  },
+  "version": "0.0.0"
 }

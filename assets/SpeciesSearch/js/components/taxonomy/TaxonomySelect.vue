@@ -15,6 +15,7 @@
           v-model="genus"
           v-select-picker
           :disabled="disabled"
+          @change="$emit('update:genus', $event)"
         >
           <option v-for="genus in genusList" :value="genus" :key="genus">
             {{ genus }}
@@ -32,6 +33,7 @@
           v-model="species"
           v-select-picker
           :disabled="disabled"
+          @change="$emit('update:species', $event)"
         >
           <option
             v-for="species in speciesList"
@@ -54,6 +56,7 @@
           class="form-control"
           v-select-picker
           :disabled="disabled"
+          @change="$emit('update:taxname', $event)"
         >
           <option
             v-for="taxon in taxnameList"
@@ -73,7 +76,7 @@
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
-import i18n from "../../i18n"
+import i18n from "../../i18n";
 
 export default {
   i18n,
@@ -87,8 +90,8 @@ export default {
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     genusList() {
