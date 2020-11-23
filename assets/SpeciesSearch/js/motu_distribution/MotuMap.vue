@@ -32,7 +32,10 @@
           <a class="fas fa-eye"></a>
         </button>
       </l-control>
-      <leaflet-map-settings position="bottomright" v-bind.sync="markerSettings">
+      <leaflet-map-settings 
+      position="bottomright" 
+      :sliders="settingSliders"
+      :settings.sync="markerSettings">
       </leaflet-map-settings>
       <l-tile-layer
         v-bind="tileProviders[0]"
@@ -56,7 +59,7 @@
           v-for="(station, station_id) in motu.stations"
           :key="station_id"
           :lat-lng="[station.latitude, station.longitude]"
-          :radius="markerSettings.radius"
+          :radius="markerRadius(station.sequences.length)"
           :opacity="markerSettings.opacity"
           :fillOpacity="markerSettings.opacity"
           v-bind="markerStyle(index)"
@@ -71,25 +74,6 @@
             />
           </l-popup>
         </shape-marker>
-        <!-- <l-circle-marker
-          v-for="(station, station_id, index) in motu.stations"
-          :key="station_id"
-          :lat-lng="[station.latitude, station.longitude]"
-          :radius="markerSettings.radius"
-          :opacity="markerSettings.opacity"
-          color="red"
-          :weight="2"
-        >
-          <l-popup>
-            {{ index }}
-            <map-tooltip
-              :station="station"
-              :options="{ permanent: true }"
-              @show-seq-modal="showSequences(station)"
-              @filter-display="filterMotuDisplay($event)"
-            />
-          </l-popup>
-        </l-circle-marker> -->
       </l-layer-group>
       </shape-marker>
     </l-map>
@@ -157,6 +141,19 @@ export default {
     nScale() {
       return this.nShapes * this.nColors;
     },
+    maxGrowth() {
+      return Array.from(Object.values(this.indexedData)).reduce(
+        (acc, motu_data) => {
+          return Math.max(
+            acc,
+            ...Array.from(Object.values(motu_data.stations)).map(
+              (station) => station.sequences.length
+            )
+          );
+        },
+        0
+      );
+    },
   },
   props: {
     data: {
@@ -197,8 +194,33 @@ export default {
       minZoom: 2,
       maxZoom: 12,
       markerSettings: {
-        opacity: 1.0,
         radius: 6,
+        opacity: 1,
+        grow: 1,
+      },
+      settingSliders: {
+        grow: {
+          label: "Grow",
+          min: 1,
+          max: 5,
+          interval: 0.5,
+          adsorb: true,
+          tooltipFormatter: (val) => `×${val}`,
+        },
+        radius: {
+          label: "Radius",
+          min: 3,
+          max: 20,
+          interval: 0.5,
+          adsorb: true,
+        },
+        opacity: {
+          label: "Opacity",
+          min: 0,
+          max: 1,
+          interval: 0.1,
+          adsorb: true,
+        },
       },
       mapOptions: {
         // center: [0, 0],
@@ -242,10 +264,16 @@ export default {
       return legendShape.$el.outerHTML;
     },
     markerShape(layerIndex) {
-      return this.shapes[Math.floor(layerIndex / this.nColors)];
+      return this.shapes[layerIndex % this.nShapes];
     },
     markerColor(layerIndex) {
-      return this.colorBrewer[layerIndex % this.nColors];
+      return this.colorBrewer[Math.floor(layerIndex / this.nShapes)];
+    },
+    markerRadius(scale) {
+      const grow = this.markerSettings.grow;
+      return (
+        this.markerSettings.radius * (1 + (scale / this.maxGrowth) * (grow - 1))
+      );
     },
     markerStyle(layerIndex) {
       const color = this.markerColor(layerIndex);

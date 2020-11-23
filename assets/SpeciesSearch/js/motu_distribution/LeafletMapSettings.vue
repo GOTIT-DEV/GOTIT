@@ -7,31 +7,25 @@
     >
       <i v-if="!active" class="fas fa-cog fa-2x"></i>
       <div v-if="active" class="map-settings">
-        <div class="slider-control">
-          <label>Radius</label>
+        <div
+          v-for="(slider, name) in sliders"
+          :key="name"
+          class="slider-control"
+        >
+          <label>{{ slider.label }}</label>
           <vue-slider
-            direction="btt"
+            :direction="slider.direction || 'btt'"
             height="100px"
-            :min="3"
-            :max="20"
-            :interval="0.5"
-            :adsorb="true"
-            :value="radius"
-            @change="$emit('update:radius', $event)"
-          ></vue-slider>
-        </div>
-        <div class="slider-control">
-          <label>Opacity</label>
-          <vue-slider
-            direction="btt"
-            height="100px"
-            :min="0"
-            :max="1"
-            :interval="0.1"
-            :adsorb="true"
-            :value="opacity"
-            @change="$emit('update:opacity', $event)"
-          ></vue-slider>
+            v-bind="slider"
+            :value="settings[name]"
+            @change="
+              $emit(
+                'update:settings',
+                Object.assign(settings, { [name]: $event })
+              )
+            "
+          >
+          </vue-slider>
         </div>
       </div>
     </div>
@@ -48,13 +42,10 @@ export default {
     VueSlider,
   },
   props: {
-    radius: {
-      type: Number,
-      required: true,
-    },
-    opacity: {
-      type: Number,
-      required: true,
+    settings: Object,
+    sliders: {
+      type: Object,
+      default: [],
     },
     position: {
       type: String,
