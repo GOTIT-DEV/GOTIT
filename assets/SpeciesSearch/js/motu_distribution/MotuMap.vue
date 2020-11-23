@@ -323,7 +323,7 @@ export default {
             stations: {},
           };
 
-        if (!(item.id_sta in motuDict[item.motu]))
+        if (!(item.id_sta in motuDict[item.motu]["stations"]))
           motuDict[item.motu]["stations"][item.id_sta] = Object.assign(
             {
               sequences: [],
