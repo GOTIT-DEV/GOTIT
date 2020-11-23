@@ -8,20 +8,21 @@
         y="4"
         width="8"
         height="8"
-        v-bind="style"
+        v-bind="markerStyle"
+        :transform="shape == 'diamond' ? 'rotate(45, 8, 8)' : ''"
       ></rect>
       <circle
         v-if="shape == 'circle'"
         cx="8"
         cy="8"
         r="5"
-        v-bind="style"
+        v-bind="markerStyle"
       ></circle>
       <polygon
         v-if="shape == 'triangle'"
         points="8,2 14,14 2,14"
         r="5"
-        v-bind="style"
+        v-bind="markerStyle"
       ></polygon>
     </svg>
   </div>
@@ -40,9 +41,11 @@ export default {
       type: String,
       required: true,
     },
-    style: {
+    markerStyle: {
       type: Object,
-      default: {},
+      default: () => {
+        return {};
+      },
     },
   },
 };

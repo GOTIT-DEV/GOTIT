@@ -224,7 +224,7 @@ export default {
         propsData: {
           label: `Motu ${motu_id}`,
           shape: shape,
-          style:
+          markerStyle:
             index < this.nScale
               ? {
                   stroke: "black",
