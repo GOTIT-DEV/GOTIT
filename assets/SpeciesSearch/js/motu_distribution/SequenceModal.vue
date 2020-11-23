@@ -49,12 +49,15 @@ export default {
       fields: [
         {
           key: "code",
+          label: "Code",
         },
         {
           key: "accession_number",
+          label: "Accession",
         },
         {
           key: "seq_type",
+          label: "Type",
           formatter: (isExternal) =>
             this.$t(
               isExternal
@@ -64,6 +67,7 @@ export default {
         },
         {
           key: "motu",
+          label: "MOTU",
         },
       ],
     };
