@@ -13,7 +13,7 @@
     >
       <l-control-fullscreen
         position="topleft"
-        :options="{ title: { false: 'Fullscreen', true: 'Windowed' } }"
+        :options="{ title: { false: $t('fullscreen'), true: $t('windowed') } }"
       />
       <l-control-layers position="topright"></l-control-layers>
       <l-control position="topleft" class="leaflet-control leaflet-bar">
@@ -27,6 +27,7 @@
       <l-control position="topleft" class="leaflet-control leaflet-bar">
         <button
           class="btn btn-sm btn-light btn-map-control"
+          :title="$t('show_motus')"
           @click="filterMotuDisplay(null)"
         >
           <a class="fas fa-eye"></a>
@@ -56,23 +57,22 @@
         :name="layerName(motu_id, index)"
       >
         <shape-marker
-          v-for="(station, station_id) in motu.stations"
-          :key="station_id"
-          :lat-lng="[station.latitude, station.longitude]"
-          :radius="markerRadius(station.sequences.length)"
+          v-for="(site, site_id) in motu.sites"
+          :key="site_id"
+          :lat-lng="[site.latitude, site.longitude]"
+          :radius="markerRadius(site.sequences.length)"
           :opacity="markerSettings.opacity"
           :fillOpacity="markerSettings.opacity"
           v-bind="markerStyle(index)"
         >
-          <l-popup>
-            {{ index }}
-            <map-tooltip
-              :station="station"
+         
+            <site-popup
+              :site="site"
               :options="{ permanent: true }"
-              @show-seq-modal="showSequences(station)"
+              @show-seq-modal="showSequences(site)"
               @filter-display="filterMotuDisplay($event)"
+              @fit-motu="fitMotu($event)"
             />
-          </l-popup>
         </shape-marker>
       </l-layer-group>
       </shape-marker>
@@ -81,6 +81,23 @@
     
   </div>
 </template>
+
+<i18n>
+{
+  "fr": {
+    "show_motus": "Afficher tous les MOTUs",
+    "fit_bounds": "Cadrer la vue sur le contenu",
+    "fullscreen": "Plein écran",
+    "windowed": "Fenêtré"
+  },
+  "en": {
+    "show_motus": "Show all MOTUs",
+    "fit_bounds": "Fit view to content",
+    "fullscreen": "Fullscreen",
+    "windowed": "Windowed"
+  }
+}
+</i18n>
 
 <script>
 import L from "leaflet";
@@ -96,12 +113,12 @@ import {
 import { basemapLayer, Util } from "esri-leaflet";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import LeafletMapSettings from "./LeafletMapSettings";
-import MapTooltip from "./MapTooltip";
 import SequenceModal from "./SequenceModal";
 import ShapeMarker from "./ShapeMarker";
 import chroma from "chroma-js";
 import ShapeMarkerLegend from "./ShapeMarkerLegend";
 import Vue from "vue";
+import SitePopup from "./SitePopup.vue";
 
 const LegendShape = Vue.extend(ShapeMarkerLegend);
 
@@ -118,18 +135,18 @@ export default {
     LControlFullscreen,
     LControlLayers,
     LeafletMapSettings,
-    MapTooltip,
     SequenceModal,
     ShapeMarker,
+    SitePopup,
   },
   mounted() {
-    Util.setEsriAttribution(this.map);
+    Util.setEsriAttribution(this.mapObject);
     this._getAttributionData(this.tileProviders[0].attributionUrl);
     let attr = this._updateMapAttribution();
   },
   created() {},
   computed: {
-    map() {
+    mapObject() {
       return this.$refs.map.mapObject;
     },
     nShapes() {
@@ -146,7 +163,7 @@ export default {
         (acc, motu_data) => {
           return Math.max(
             acc,
-            ...Array.from(Object.values(motu_data.stations)).map(
+            ...Array.from(Object.values(motu_data.sites)).map(
               (station) => station.sequences.length
             )
           );
@@ -163,7 +180,6 @@ export default {
   },
   data() {
     return {
-      // url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       colorBrewer: chroma.brewer.Set1,
       shapes: ["circle", "triangle", "square", "diamond"],
       indexedData: {},
@@ -171,7 +187,7 @@ export default {
         {
           name: "Base Layer",
           visible: true,
-          opacity: 0.8,
+          opacity: 0.9,
           attribution: "",
           attributionUrl: "https://static.arcgis.com/attribution/World_Imagery",
           url:
@@ -179,7 +195,7 @@ export default {
         },
         {
           name: "Regions",
-          visible: true,
+          visible: false,
           opacity: 0.75,
           attribution: "",
           url:
@@ -220,6 +236,7 @@ export default {
           max: 1,
           interval: 0.1,
           adsorb: true,
+          tooltipFormatter: (val) => `${val * 100}%`,
         },
       },
       mapOptions: {
@@ -306,7 +323,14 @@ export default {
       this.currentZoom = zoom;
       this._updateMapAttribution();
     },
-    fitBounds(dataset) {
+    fitMotu(motu) {
+      this.mapObject.closePopup();
+      this.fitBounds(
+        Array.from(Object.values(this.indexedData[motu].sites)),
+        0.1
+      );
+    },
+    fitBounds(dataset, pad = 0) {
       const minMaxCoords = dataset.reduce((acc, item) => {
         return acc === null
           ? {
@@ -324,10 +348,22 @@ export default {
               ],
             };
       }, null);
-      this.bounds = L.latLngBounds([
-        [minMaxCoords.lat[0], minMaxCoords.lon[0]],
-        [minMaxCoords.lat[1], minMaxCoords.lon[1]],
-      ]);
+      const bounds = this.padBounds(
+        [
+          [minMaxCoords.lat[0], minMaxCoords.lon[0]],
+          [minMaxCoords.lat[1], minMaxCoords.lon[1]],
+        ],
+        pad
+      );
+      this.bounds = L.latLngBounds(bounds);
+    },
+    padBounds([bMin, bMax], perc) {
+      const padLon = (bMax[1] - bMin[1]) * perc;
+      const padLat = (bMax[0] - bMin[0]) * perc;
+      return [
+        [bMin[0] - padLat, bMin[1] - padLon],
+        [bMax[0] + padLat, bMax[1] + padLon],
+      ];
     },
     organizeByMotu(data) {
       function reduceOrganizer(motuDict, item) {
@@ -348,11 +384,11 @@ export default {
         if (!(item.motu in motuDict))
           motuDict[item.motu] = {
             visible: true,
-            stations: {},
+            sites: {},
           };
 
-        if (!(item.id_sta in motuDict[item.motu]["stations"]))
-          motuDict[item.motu]["stations"][item.id_sta] = Object.assign(
+        if (!(item.id_sta in motuDict[item.motu]["sites"]))
+          motuDict[item.motu]["sites"][item.id_sta] = Object.assign(
             {
               sequences: [],
               latitude: parseFloat(item.latitude),
@@ -361,20 +397,20 @@ export default {
             item
           );
         delete item.sequences;
-        motuDict[item.motu]["stations"][item.id_sta].sequences.push(item);
+        motuDict[item.motu]["sites"][item.id_sta].sequences.push(item);
         return motuDict;
       }
       return data.reduce(reduceOrganizer, {});
     },
     _updateMapAttribution() {
-      var oldAttributions = this.map._esriAttributions;
+      var oldAttributions = this.mapObject._esriAttributions;
 
       if (oldAttributions) {
         var wrappedBounds = L.latLngBounds(
           this.bounds.getSouthWest().wrap(),
           this.bounds.getNorthEast().wrap()
         );
-        var zoom = this.map.getZoom();
+        var zoom = this.mapObject.getZoom();
 
         const attribs = oldAttributions
           .filter((attribution) => {
@@ -407,7 +443,7 @@ export default {
       fetch(url)
         .then((response) => response.json())
         .then((attributions) => {
-          this.map._esriAttributions = attributions.contributors
+          this.mapObject._esriAttributions = attributions.contributors
             .reduce(reducer, [])
             .sort((a, b) => b.score - a.score);
           this._updateMapAttribution();

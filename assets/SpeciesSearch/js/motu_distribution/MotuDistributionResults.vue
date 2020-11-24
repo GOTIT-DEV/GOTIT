@@ -96,7 +96,7 @@
 <script>
 import MotuDistributionMap from "./MotuMap";
 import Multiselect from "vue-multiselect";
-import BDataTable from "./BDataTable";
+import BDataTable from "../../../components/BDataTable";
 
 export default {
   components: {
