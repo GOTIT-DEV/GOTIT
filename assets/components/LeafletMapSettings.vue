@@ -24,8 +24,7 @@
                 Object.assign(settings, { [name]: $event })
               )
             "
-          >
-          </vue-slider>
+          />
         </div>
       </div>
     </div>
@@ -36,7 +35,26 @@
 import { LControl } from "vue2-leaflet";
 import VueSlider from "vue-slider-component";
 
+const defaultSliders = {
+  radius: {
+    label: "Radius",
+    min: 3,
+    max: 20,
+    interval: 0.5,
+    adsorb: true,
+  },
+  opacity: {
+    label: "Opacity",
+    min: 0,
+    max: 1,
+    interval: 0.1,
+    adsorb: true,
+    tooltipFormatter: (val) => `${val * 100}%`,
+  },
+};
+
 export default {
+  defaultSliders: defaultSliders,
   components: {
     LControl,
     VueSlider,

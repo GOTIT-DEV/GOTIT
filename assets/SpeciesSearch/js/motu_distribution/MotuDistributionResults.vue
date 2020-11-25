@@ -1,22 +1,17 @@
 <template>
   <div class="distribution-results">
-    <h2 id="results-title">
-      {{ $t("queries.label.resultats") }}
-    </h2>
+    <h2>{{ $t("results") }}</h2>
     <b-tabs
       justified
       active-nav-item-class="font-weight-bold text-primary"
       content-class="mt-3"
     >
-      <b-tab active title-link-class="result-tab">
+      <b-tab active title-link-class="result-tab" @click="scrollToMap">
         <template #title>
           <i class="fas fa-map-marker"></i>
           {{ $t("map") }}
         </template>
-        <motu-distribution-map
-          ref="map"
-          :data="results"
-        ></motu-distribution-map>
+        <motu-distribution-map ref="map" :data="results" />
       </b-tab>
 
       <b-tab title-link-class="result-tab">
@@ -79,12 +74,14 @@
 <i18n>
 {
   "en": {
+    "results": "Results",
     "map": "MOTU map",
     "table": "Distribution data",
     "external": "external",
     "internal": "internal"
   },
   "fr": {
+    "results": "Résultats",
     "external": "externe",
     "internal": "interne",
     "map": "Carte des MOTUs",
@@ -97,8 +94,11 @@
 import MotuDistributionMap from "./MotuMap";
 import Multiselect from "vue-multiselect";
 import BDataTable from "../../../components/BDataTable";
+import i18n from "../../js/i18n";
+import Vue from "vue";
 
 export default {
+  i18n,
   components: {
     MotuDistributionMap,
     BDataTable,
@@ -133,7 +133,6 @@ export default {
           class: "text-capitalize",
           formatter: (isExternal, key, index) => {
             return this.$t(isExternal ? "external" : "internal");
-            // return type.charAt(0).toUpperCase() + type.slice(1);
           },
         },
         {
@@ -184,6 +183,15 @@ export default {
   methods: {
     generateRoute(route_name, args) {
       return Routing.generate(route_name, args);
+    },
+    scrollToMap() {
+      Vue.nextTick(() =>
+        this.$refs.map.$el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        })
+      );
     },
   },
 };

@@ -60,10 +60,11 @@
             size="sm"
             :placeholder="$t('search') | capitalize"
             @input="filter = new RegExp($event, 'i')"
-          ></b-input>
+          />
         </b-input-group>
       </div>
     </b-button-toolbar>
+
     <b-table
       responsive
       striped
@@ -82,6 +83,7 @@
         <slot :name="slotName" v-bind="slotScope"></slot>
       </template>
     </b-table>
+
     <b-button-toolbar :justify="true">
       <b-button v-if="allowExport" size="sm" variant="light" class="border">
         <i class="fas fa-download"></i>
@@ -102,7 +104,7 @@
         :total-rows="rows"
         :per-page="perPage"
         class="float-right mb-0"
-      ></b-pagination>
+      />
     </b-button-toolbar>
   </div>
 </template>

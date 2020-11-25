@@ -1,54 +1,23 @@
 <template>
   <div class="map-container">
-    <l-map
+    <leaflet-map
+      :data="data"
+      :markerSettings="markerSettings"
+      :addSliders="sliders"
       ref="map"
-      :zoom="zoom"
-      :center="center"
-      :options="mapOptions"
-      :minZoom="minZoom"
-      :maxZoom="maxZoom"
-      :maxBounds="maxBounds"
-      @update:zoom="zoomUpdate"
-      :bounds.sync="bounds"
     >
-      <l-control-fullscreen
-        position="topleft"
-        :options="{ title: { false: $t('fullscreen'), true: $t('windowed') } }"
-      />
-      <l-control-layers position="topright"></l-control-layers>
-      <l-control position="topleft" class="leaflet-control leaflet-bar">
-        <button
-          class="btn btn-sm btn-light btn-map-control"
-          @click="fitBounds(data)"
-        >
-          <a class="fas fa-crosshairs fa-1x"></a>
-        </button>
-      </l-control>
-      <l-control position="topleft" class="leaflet-control leaflet-bar">
-        <button
-          class="btn btn-sm btn-light btn-map-control"
-          :title="$t('show_motus')"
-          @click="filterMotuDisplay(null)"
-        >
-          <a class="fas fa-eye"></a>
-        </button>
-      </l-control>
-      <leaflet-map-settings 
-      position="bottomright" 
-      :sliders="settingSliders"
-      :settings.sync="markerSettings">
-      </leaflet-map-settings>
-      <l-tile-layer
-        v-bind="tileProviders[0]"
-        :subdomains="['server', 'services']"
-      >
-      </l-tile-layer>
-      <l-tile-layer
-        v-bind="tileProviders[1]"
-        layer-type="overlay"
-        :subdomains="['server', 'services']"
-      >
-      </l-tile-layer>
+      <template v-slot:controls>
+        <l-control position="topleft" class="leaflet-control leaflet-bar">
+          <button
+            class="btn btn-sm btn-light btn-map-control"
+            :title="$t('show_motus')"
+            @click="filterMotuDisplay(null)"
+          >
+            <a class="fas fa-eye"></a>
+          </button>
+        </l-control>
+      </template>
+
       <l-layer-group
         v-for="(motu, motu_id, index) in indexedData"
         :key="motu_id"
@@ -65,59 +34,43 @@
           :fillOpacity="markerSettings.opacity"
           v-bind="markerStyle(index)"
         >
-         
-            <site-popup
-              :site="site"
-              :options="{ permanent: true }"
-              @show-seq-modal="showSequences(site)"
-              @filter-display="filterMotuDisplay($event)"
-              @fit-motu="fitMotu($event)"
-            />
+          <site-popup
+            :site="site"
+            :options="{ permanent: true }"
+            @show-seq-modal="showSequences(site)"
+            @filter-display="filterMotuDisplay($event)"
+            @fit-motu="fitMotu($event)"
+          />
         </shape-marker>
       </l-layer-group>
-      </shape-marker>
-    </l-map>
-    <sequence-modal ref="seqModal"> </sequence-modal>
-    
+    </leaflet-map>
+
+    <sequence-modal ref="seqModal" />
   </div>
 </template>
 
 <i18n>
 {
   "fr": {
-    "show_motus": "Afficher tous les MOTUs",
-    "fit_bounds": "Cadrer la vue sur le contenu",
-    "fullscreen": "Plein écran",
-    "windowed": "Fenêtré"
+    "show_motus": "Afficher tout"
   },
   "en": {
-    "show_motus": "Show all MOTUs",
-    "fit_bounds": "Fit view to content",
-    "fullscreen": "Fullscreen",
-    "windowed": "Windowed"
+    "show_motus": "Show all"
   }
 }
 </i18n>
 
 <script>
-import L from "leaflet";
-import {
-  LMap,
-  LTileLayer,
-  LControl,
-  LControlLayers,
-  LLayerGroup,
-  LCircleMarker,
-  LPopup,
-} from "vue2-leaflet";
-import { basemapLayer, Util } from "esri-leaflet";
-import LControlFullscreen from "vue2-leaflet-fullscreen";
-import LeafletMapSettings from "./LeafletMapSettings";
-import SequenceModal from "./SequenceModal";
-import ShapeMarker from "./ShapeMarker";
-import chroma from "chroma-js";
-import ShapeMarkerLegend from "./ShapeMarkerLegend";
 import Vue from "vue";
+import L from "leaflet";
+import chroma from "chroma-js";
+import { LControl, LLayerGroup } from "vue2-leaflet";
+
+import LeafletMap from "../../../components/LeafletMap";
+
+import SequenceModal from "./SequenceModal";
+import ShapeMarker from "../../../components/ShapeMarker";
+import ShapeMarkerLegend from "../../../components/ShapeMarkerLegend";
 import SitePopup from "./SitePopup.vue";
 
 const LegendShape = Vue.extend(ShapeMarkerLegend);
@@ -125,26 +78,42 @@ const LegendShape = Vue.extend(ShapeMarkerLegend);
 export default {
   name: "MotuDistributionMap",
   components: {
-    ShapeMarker,
-    LMap,
-    LTileLayer,
-    LLayerGroup,
-    LPopup,
-    LCircleMarker,
     LControl,
-    LControlFullscreen,
-    LControlLayers,
-    LeafletMapSettings,
+    LeafletMap,
+    ShapeMarker,
+    LLayerGroup,
     SequenceModal,
     ShapeMarker,
     SitePopup,
   },
-  mounted() {
-    Util.setEsriAttribution(this.mapObject);
-    this._getAttributionData(this.tileProviders[0].attributionUrl);
-    let attr = this._updateMapAttribution();
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
   },
-  created() {},
+  data() {
+    return {
+      indexedData: {},
+      colorBrewer: chroma.brewer.Set1,
+      shapes: ["circle", "triangle", "square", "diamond"],
+      markerSettings: {
+        radius: 6,
+        opacity: 1,
+        grow: 1,
+      },
+      sliders: {
+        grow: {
+          label: "Grow",
+          min: 1,
+          max: 5,
+          interval: 0.5,
+          adsorb: true,
+          tooltipFormatter: (val) => `×${val}`,
+        },
+      },
+    };
+  },
   computed: {
     mapObject() {
       return this.$refs.map.mapObject;
@@ -159,98 +128,20 @@ export default {
       return this.nShapes * this.nColors;
     },
     maxGrowth() {
-      return Array.from(Object.values(this.indexedData)).reduce(
-        (acc, motu_data) => {
-          return Math.max(
-            acc,
-            ...Array.from(Object.values(motu_data.sites)).map(
-              (station) => station.sequences.length
-            )
-          );
-        },
-        0
-      );
+      function maxLengthReducer(acc, motu_data) {
+        return Math.max(
+          acc,
+          ...Array.from(Object.values(motu_data.sites)).map(
+            (station) => station.sequences.length
+          )
+        );
+      }
+      const motus = Object.values(this.indexedData);
+      return Array.from(motus).reduce(maxLengthReducer, 0);
     },
-  },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      colorBrewer: chroma.brewer.Set1,
-      shapes: ["circle", "triangle", "square", "diamond"],
-      indexedData: {},
-      tileProviders: [
-        {
-          name: "Base Layer",
-          visible: true,
-          opacity: 0.9,
-          attribution: "",
-          attributionUrl: "https://static.arcgis.com/attribution/World_Imagery",
-          url:
-            "https://{s}.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        },
-        {
-          name: "Regions",
-          visible: false,
-          opacity: 0.75,
-          attribution: "",
-          url:
-            "https://{s}.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-        },
-      ],
-      zoom: 1,
-      center: [0, 0],
-      currentZoom: 10,
-      bounds: L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360)),
-      maxBounds: L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360)),
-      minZoom: 2,
-      maxZoom: 12,
-      markerSettings: {
-        radius: 6,
-        opacity: 1,
-        grow: 1,
-      },
-      settingSliders: {
-        grow: {
-          label: "Grow",
-          min: 1,
-          max: 5,
-          interval: 0.5,
-          adsorb: true,
-          tooltipFormatter: (val) => `×${val}`,
-        },
-        radius: {
-          label: "Radius",
-          min: 3,
-          max: 20,
-          interval: 0.5,
-          adsorb: true,
-        },
-        opacity: {
-          label: "Opacity",
-          min: 0,
-          max: 1,
-          interval: 0.1,
-          adsorb: true,
-          tooltipFormatter: (val) => `${val * 100}%`,
-        },
-      },
-      mapOptions: {
-        // center: [0, 0],
-        // zoom: 10,
-        worldCopyJump: true,
-        wheelPxPerZoomLevel: 100,
-        zoomSnap: 0.5,
-      },
-    };
   },
   watch: {
     data: function (newData, _) {
-      if (newData) this.fitBounds(newData);
       this.indexedData = this.organizeByMotu(newData);
     },
   },
@@ -319,51 +210,10 @@ export default {
       this.$refs.seqModal.station = station;
       this.$refs.seqModal.$bvModal.show("modal-sequences");
     },
-    zoomUpdate(zoom) {
-      this.currentZoom = zoom;
-      this._updateMapAttribution();
-    },
     fitMotu(motu) {
+      const sites = Object.values(this.indexedData[motu].sites);
       this.mapObject.closePopup();
-      this.fitBounds(
-        Array.from(Object.values(this.indexedData[motu].sites)),
-        0.1
-      );
-    },
-    fitBounds(dataset, pad = 0) {
-      const minMaxCoords = dataset.reduce((acc, item) => {
-        return acc === null
-          ? {
-              lat: [item.latitude, item.latitude],
-              lon: [item.longitude, item.longitude],
-            }
-          : {
-              lat: [
-                Math.min(acc.lat[0], item.latitude),
-                Math.max(acc.lat[1], item.latitude),
-              ],
-              lon: [
-                Math.min(acc.lon[0], item.longitude),
-                Math.max(acc.lon[1], item.longitude),
-              ],
-            };
-      }, null);
-      const bounds = this.padBounds(
-        [
-          [minMaxCoords.lat[0], minMaxCoords.lon[0]],
-          [minMaxCoords.lat[1], minMaxCoords.lon[1]],
-        ],
-        pad
-      );
-      this.bounds = L.latLngBounds(bounds);
-    },
-    padBounds([bMin, bMax], perc) {
-      const padLon = (bMax[1] - bMin[1]) * perc;
-      const padLat = (bMax[0] - bMin[0]) * perc;
-      return [
-        [bMin[0] - padLat, bMin[1] - padLon],
-        [bMax[0] + padLat, bMax[1] + padLon],
-      ];
+      this.$refs.map.fitBounds(Array.from(sites), 0.1);
     },
     organizeByMotu(data) {
       function reduceOrganizer(motuDict, item) {
@@ -388,66 +238,18 @@ export default {
           };
 
         if (!(item.id_sta in motuDict[item.motu]["sites"]))
-          motuDict[item.motu]["sites"][item.id_sta] = Object.assign(
-            {
-              sequences: [],
-              latitude: parseFloat(item.latitude),
-              longitude: parseFloat(item.longitude),
-            },
-            item
-          );
+          motuDict[item.motu]["sites"][item.id_sta] = {
+            sequences: [],
+            latitude: parseFloat(item.latitude),
+            longitude: parseFloat(item.longitude),
+            ...item,
+          };
+
         delete item.sequences;
         motuDict[item.motu]["sites"][item.id_sta].sequences.push(item);
         return motuDict;
       }
       return data.reduce(reduceOrganizer, {});
-    },
-    _updateMapAttribution() {
-      var oldAttributions = this.mapObject._esriAttributions;
-
-      if (oldAttributions) {
-        var wrappedBounds = L.latLngBounds(
-          this.bounds.getSouthWest().wrap(),
-          this.bounds.getNorthEast().wrap()
-        );
-        var zoom = this.mapObject.getZoom();
-
-        const attribs = oldAttributions
-          .filter((attribution) => {
-            return (
-              attribution.bounds.intersects(wrappedBounds) &&
-              zoom >= attribution.minZoom &&
-              zoom <= attribution.maxZoom
-            );
-          })
-          .map((attribution) => attribution.attribution);
-        this.tileProviders[0].attribution = [...new Set(attribs)].join(", ");
-      }
-    },
-    _getAttributionData(url) {
-      function reducer(acc, contrib) {
-        contrib.coverageAreas.forEach((area) => {
-          acc.push({
-            attribution: contrib.attribution,
-            score: area.score,
-            minZoom: area.zoomMin,
-            maxZoom: area.zoomMax,
-            bounds: L.latLngBounds(
-              L.latLng(area.bbox[0], area.bbox[1]),
-              L.latLng(area.bbox[2], area.bbox[3])
-            ),
-          });
-        });
-        return acc;
-      }
-      fetch(url)
-        .then((response) => response.json())
-        .then((attributions) => {
-          this.mapObject._esriAttributions = attributions.contributors
-            .reduce(reducer, [])
-            .sort((a, b) => b.score - a.score);
-          this._updateMapAttribution();
-        });
     },
   },
 };
@@ -457,8 +259,5 @@ export default {
 .map-container {
   width: 100%;
   height: 80vh;
-}
-.btn-map-control {
-  padding: 0;
 }
 </style>

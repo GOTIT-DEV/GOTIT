@@ -1,0 +1,269 @@
+<template>
+  <l-map
+    ref="map"
+    :zoom.sync="zoom"
+    :center.sync="center"
+    :options="mapOptions"
+    :minZoom="minZoom"
+    :maxZoom="maxZoom"
+    :maxBounds="maxBounds"
+    @update:zoom="zoomUpdate"
+    :bounds.sync="bounds"
+  >
+    <l-control-fullscreen
+      position="topleft"
+      :options="{ title: { false: $t('fullscreen'), true: $t('windowed') } }"
+    />
+
+    <l-control-layers position="topright" />
+
+    <l-control position="topleft" class="leaflet-control leaflet-bar">
+      <button
+        class="btn btn-sm btn-light btn-map-control"
+        @click="fitBounds(data)"
+      >
+        <a class="fas fa-crosshairs fa-1x"></a>
+      </button>
+    </l-control>
+
+    <slot name="controls" />
+
+    <leaflet-map-settings
+      position="bottomright"
+      :sliders="settingSliders"
+      :settings.sync="markerSettings"
+    />
+
+    <l-tile-layer
+      v-bind="tileProviders[0]"
+      :subdomains="['server', 'services']"
+    />
+    <l-tile-layer
+      v-bind="tileProviders[1]"
+      layer-type="overlay"
+      :subdomains="['server', 'services']"
+    />
+
+    <slot></slot>
+  </l-map>
+</template>
+
+<i18n>
+{
+  "fr": {
+    "show_motus": "Afficher tout",
+    "fit_bounds": "Cadrer la vue sur le contenu",
+    "fullscreen": "Plein écran",
+    "windowed": "Fenêtré"
+  },
+  "en": {
+    "show_motus": "Show all",
+    "fit_bounds": "Fit view to content",
+    "fullscreen": "Fullscreen",
+    "windowed": "Windowed"
+  }
+}
+</i18n>
+
+<script>
+import L from "leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LControl,
+  LControlLayers,
+  LPopup,
+} from "vue2-leaflet";
+import { basemapLayer, Util } from "esri-leaflet";
+import LControlFullscreen from "vue2-leaflet-fullscreen";
+import LeafletMapSettings from "./LeafletMapSettings";
+
+export default {
+  name: "LeafletMap",
+  components: {
+    LMap,
+    LTileLayer,
+    LPopup,
+    LControl,
+    LControlFullscreen,
+    LControlLayers,
+    LeafletMapSettings,
+  },
+  mounted() {
+    Util.setEsriAttribution(this.mapObject);
+    this._getAttributionData(this.tileProviders[0].attributionUrl);
+    let attr = this._updateMapAttribution();
+  },
+  computed: {
+    mapObject() {
+      return this.$refs.map.mapObject;
+    },
+    settingSliders() {
+      return {
+        ...this.addSliders,
+        ...LeafletMapSettings.defaultSliders,
+      };
+    },
+  },
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+    markerSettings: {
+      type: Object,
+      default: () => {
+        return {
+          radius: 6,
+          opacity: 1,
+        };
+      },
+    },
+    addSliders: Object,
+    minZoom: {
+      type: Number,
+      default: 2,
+    },
+    maxZoom: {
+      type: Number,
+      default: 12,
+    },
+  },
+  data() {
+    return {
+      tileProviders: [
+        {
+          name: "Base Layer",
+          visible: true,
+          opacity: 0.9,
+          attribution: "",
+          attributionUrl: "https://static.arcgis.com/attribution/World_Imagery",
+          url:
+            "https://{s}.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        },
+        {
+          name: "Regions",
+          visible: false,
+          opacity: 0.75,
+          attribution: "",
+          url:
+            "https://{s}.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+        },
+      ],
+      zoom: 1,
+      center: [0, 0],
+      bounds: L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360)),
+      maxBounds: L.latLngBounds(L.latLng(90, -360), L.latLng(-90, 360)),
+      mapOptions: {
+        // center: [0, 0],
+        // zoom: 10,
+        worldCopyJump: true,
+        wheelPxPerZoomLevel: 100,
+        zoomSnap: 0.5,
+      },
+    };
+  },
+  watch: {
+    data: function (newData, _) {
+      if (newData) this.fitBounds(newData);
+    },
+  },
+  methods: {
+    zoomUpdate(zoom) {
+      this._updateMapAttribution();
+    },
+    fitBounds(dataset, pad = 0) {
+      const minMaxCoords = dataset.reduce((acc, item) => {
+        return acc === null
+          ? {
+              lat: [item.latitude, item.latitude],
+              lon: [item.longitude, item.longitude],
+            }
+          : {
+              lat: [
+                Math.min(acc.lat[0], item.latitude),
+                Math.max(acc.lat[1], item.latitude),
+              ],
+              lon: [
+                Math.min(acc.lon[0], item.longitude),
+                Math.max(acc.lon[1], item.longitude),
+              ],
+            };
+      }, null);
+      const bounds = this.padBounds(
+        [
+          [minMaxCoords.lat[0], minMaxCoords.lon[0]],
+          [minMaxCoords.lat[1], minMaxCoords.lon[1]],
+        ],
+        pad
+      );
+      this.bounds = L.latLngBounds(bounds);
+    },
+    padBounds([bMin, bMax], perc) {
+      const padLon = (bMax[1] - bMin[1]) * perc;
+      const padLat = (bMax[0] - bMin[0]) * perc;
+      return [
+        [bMin[0] - padLat, bMin[1] - padLon],
+        [bMax[0] + padLat, bMax[1] + padLon],
+      ];
+    },
+
+    _updateMapAttribution() {
+      var oldAttributions = this.mapObject._esriAttributions;
+
+      if (oldAttributions) {
+        var wrappedBounds = L.latLngBounds(
+          this.bounds.getSouthWest().wrap(),
+          this.bounds.getNorthEast().wrap()
+        );
+        var zoom = this.mapObject.getZoom();
+
+        const attribs = oldAttributions
+          .filter((attribution) => {
+            return (
+              attribution.bounds.intersects(wrappedBounds) &&
+              zoom >= attribution.minZoom &&
+              zoom <= attribution.maxZoom
+            );
+          })
+          .map((attribution) => attribution.attribution);
+        this.tileProviders[0].attribution = [...new Set(attribs)].join(", ");
+      }
+    },
+    _getAttributionData(url) {
+      function reducer(acc, contrib) {
+        contrib.coverageAreas.forEach((area) => {
+          acc.push({
+            attribution: contrib.attribution,
+            score: area.score,
+            minZoom: area.zoomMin,
+            maxZoom: area.zoomMax,
+            bounds: L.latLngBounds(
+              L.latLng(area.bbox[0], area.bbox[1]),
+              L.latLng(area.bbox[2], area.bbox[3])
+            ),
+          });
+        });
+        return acc;
+      }
+      fetch(url)
+        .then((response) => response.json())
+        .then((attributions) => {
+          this.mapObject._esriAttributions = attributions.contributors
+            .reduce(reducer, [])
+            .sort((a, b) => b.score - a.score);
+          this._updateMapAttribution();
+        });
+    },
+  },
+};
+</script>
+
+<style lang="less">
+.leaflet-control-layers-selector {
+  cursor: pointer;
+}
+.btn-map-control {
+  padding: 0;
+}
+</style>
