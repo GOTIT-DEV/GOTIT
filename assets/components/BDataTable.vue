@@ -1,11 +1,7 @@
 <template>
   <div class="table-container" :class="classes">
     <b-button-toolbar :justify="true" class="mb-1">
-      <b-form-group
-        label-cols="auto"
-        :label="$t('pageLength') | capitalize"
-        class="mb-0"
-      >
+      <b-form-group label-cols="auto" :label="$t('pageLength')" class="mb-0">
         <b-form-select v-model="perPage" size="sm">
           <b-form-select-option value="10">10</b-form-select-option>
           <b-form-select-option value="25">25</b-form-select-option>
@@ -15,15 +11,14 @@
       </b-form-group>
       <b-form-group
         label-cols="auto"
-        :label="$tc('field', 2) | capitalize"
-        class="mb-0 w-25"
+        :label="$tc('field', 2)"
+        class="fields-select mb-0 w-25"
       >
         <multiselect
           multiple
           v-model="selectedFields"
           :close-on-select="false"
           :options="fields"
-          label="label"
           track-by="key"
           :searchable="false"
           placeholder="Fields"
@@ -41,10 +36,12 @@
           </template>
           <template slot="option" slot-scope="props">
             <div class="option__desc">
-              <span class="option__title">{{ props.option.label }}</span>
+              <span class="option__title">
+                {{ props.option.label || capitalize(props.option.key) }}
+              </span>
               <i
                 v-if="isSelected(props.option)"
-                class="fas fa-check float-right fa-xs text-primary"
+                class="fas fa-check fa-xs text-primary"
               ></i>
             </div>
           </template>
@@ -58,7 +55,7 @@
             class="search-bar-input"
             type="text"
             size="sm"
-            :placeholder="$t('search') | capitalize"
+            :placeholder="$t('search')"
             @input="filter = new RegExp($event, 'i')"
           />
         </b-input-group>
@@ -111,8 +108,8 @@
 
 <script>
 import Multiselect from "vue-multiselect";
-import { useI18n } from "vue-i18n";
 export default {
+  name: "BDataTable",
   components: {
     Multiselect,
   },
@@ -122,7 +119,7 @@ export default {
     },
     displayedItemRange() {
       const first = (this.tablePage - 1) * this.perPage + 1;
-      return [first, first + this.perPage - 1];
+      return [first, Math.min(this.rows, first + this.perPage - 1)];
     },
     rows() {
       return this.items.length;
@@ -147,9 +144,6 @@ export default {
     fields: {
       type: Array,
       required: true,
-      // validator: function (value) {
-      //   return value.length > 0;
-      // },
     },
     classes: {
       type: String,
@@ -164,6 +158,9 @@ export default {
     };
   },
   methods: {
+    capitalize(str) {
+      return str[0].toUpperCase() + str.slice(1);
+    },
     isSelected(option) {
       return this.selectedFields.some((f) => f.key === option.key);
     },
@@ -175,17 +172,17 @@ export default {
 {
   "en": {
     "exportCSV": "Export to CSV",
-    "search": "search",
-    "pageLength": "page length",
-    "field": "field | fields",
+    "search": "Search",
+    "pageLength": "Page length",
+    "field": "Field | Fields",
     "visible" : "shown",
     "pagePosition": "Showing {first} to {last} out of {total} items"
   },
   "fr": {
     "exportCSV": "Exporter CSV",
-    "pageLength": "afficher",
-    "search": "rechercher",
-    "field": "champ | champs",
+    "pageLength": "Afficher",
+    "search": "Rechercher",
+    "field": "Champ | Champs",
     "visible" : "visible | visibles",
     "pagePosition": "Éléments {first} à {last} sur {total}"
   }
@@ -196,6 +193,9 @@ export default {
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
 
 .table-container {
+  .fields-select {
+    min-width: 200px;
+  }
   .btn-toolbar {
     display: flex;
     align-items: center;
@@ -212,10 +212,21 @@ export default {
         margin-bottom: 3px;
       }
     }
+    .multiselect__content-wrapper {
+      min-width: 100%;
+      width: auto;
+    }
     .multiselect__option {
       min-height: 30px;
       padding: 7px;
       font-weight: normal;
+      .option__desc {
+        display: flex;
+        justify-content: space-between;
+        > i {
+          margin-left: 5px;
+        }
+      }
     }
   }
 
@@ -223,7 +234,7 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 15em;
+    max-width: 20em;
   }
 
   .search-bar {
