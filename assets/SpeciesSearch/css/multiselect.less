@@ -1,0 +1,15 @@
+@import "~bootstrap-vue/dist/bootstrap-vue.css";
+
+.multiselect__option {
+  &.multiselect__option--selected {
+    font-weight: normal;
+    color: #007bff;
+  }
+  &.multiselect__option--highlight {
+    background-color: #007bff;
+    color: white;
+    &:after {
+      background-color: inherit;
+    }
+  }
+}
