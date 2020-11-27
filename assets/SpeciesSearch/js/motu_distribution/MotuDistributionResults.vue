@@ -20,11 +20,11 @@
           {{ $t("table") }}
         </template>
 
-        <b-data-table :items="results" :fields="fields">
+        <b-data-table ref="table" :items="results" :fields="fields">
           <template #cell(taxon_name)="data">
             <a
               :href="
-                generateRoute('referentieltaxon_show', {
+                $refs.table.generateRoute('referentieltaxon_show', {
                   id: data.item.taxon_id,
                 })
               "
@@ -37,7 +37,7 @@
             <a
               :id="`seq-code-${data.index}`"
               :href="
-                generateRoute(
+                $refs.table.generateRoute(
                   data.item.seq_type
                     ? 'sequenceassembleeext_show'
                     : 'sequenceassemblee_show',
@@ -61,7 +61,11 @@
           </template>
 
           <template #cell(station_code)="data">
-            <a :href="generateRoute('station_show', { id: data.item.id })">
+            <a
+              :href="
+                $refs.table.generateRoute('station_show', { id: data.item.id })
+              "
+            >
               {{ data.value }}
             </a>
           </template>
@@ -181,9 +185,6 @@ export default {
     };
   },
   methods: {
-    generateRoute(route_name, args) {
-      return Routing.generate(route_name, args);
-    },
     scrollToMap() {
       Vue.nextTick(() =>
         this.$refs.map.$el.scrollIntoView({

@@ -14,19 +14,11 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import MotuDistribution from "./MotuDistribution"
 import Vue from "vue"
-import i18n from '../i18n'
-import filters from '../vue-filters'
 
-Object.entries(filters).forEach(([key, filter]) => {
-  Vue.filter(key, filter)
-})
 
-const vue_form = new Vue({
-  delimiters: ['{|', '|}'],
-  components: { MotuDistribution },
+const app = new Vue({
   el: "#motu-distribution-vue",
-  i18n,
+  ...MotuDistribution,
 })

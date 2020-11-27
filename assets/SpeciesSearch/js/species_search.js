@@ -9,11 +9,12 @@ import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css';
 
 
+
 import "../css/common.less"
 import "../css/modal.less"
 import "../css/datatables-custom.less"
 import "../css/leaflet-maps.less"
-
+import "../css/multiselect.less"
 
 import dt from 'datatables.net-bs4';
 dt(window, $);
@@ -28,5 +29,21 @@ import "bootstrap-toggle"
 import Vue from 'vue'
 import { BootstrapVue } from "bootstrap-vue"
 import VueI18n from 'vue-i18n'
+import filters from './vue-filters'
+
+import i18n from "./i18n"
+
 Vue.use(BootstrapVue)
 Vue.use(VueI18n);
+Vue.mixin({
+  i18n,
+  methods: {
+    generateRoute(route, args) {
+      return Routing.generate(route, args)
+    }
+  }
+})
+
+Object.entries(filters).forEach(([key, filter]) => {
+  Vue.filter(key, filter)
+})

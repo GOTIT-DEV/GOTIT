@@ -5,11 +5,10 @@
         <b>{{ site.station_code }}</b>
       </a>
     </label>
-    <b-table
+    <b-table-lite
       small
       stacked
       dark
-      responsive
       tbody-tr-class="site-table"
       table-class="mb-0"
       :items="[site]"
@@ -20,11 +19,12 @@
           {{ data.value }}
         </b-badge>
       </template>
-    </b-table>
+    </b-table-lite>
     <span class="site-location text-capitalize">
       {{ site.municipality.toLowerCase() }}
     </span>
     <span class="site-location">{{ site.country }}</span>
+
     <b-button-group class="mt-3">
       <b-button
         size="sm"
@@ -55,20 +55,7 @@
   </l-popup>
 </template>
 
-<i18n>
-{
-  "fr" : {
-    "show_seqs": "Lister séquences",
-    "filter_motu" : "Filtrer MOTU",
-    "fit_motu" : "Cadrer MOTU"
-  }, 
-  "en" : {
-    "show_seqs": "Show sequences",
-    "filter_motu" : "Filter MOTU",
-    "fit_motu" : "Fit view to MOTU"
-  }
-}
-</i18n>
+
 
 <script>
 import { LPopup } from "vue2-leaflet";
@@ -103,7 +90,6 @@ export default {
   methods: {
     fitMotu(motu) {
       this.$refs.popup.mapObject.closePopup();
-      console.log(this.$refs.popup.mapObject);
       this.$emit("fit-motu", motu);
     },
   },

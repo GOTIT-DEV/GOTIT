@@ -36,7 +36,6 @@
         >
           <site-popup
             :site="site"
-            :options="{ permanent: true }"
             @show-seq-modal="showSequences(site)"
             @filter-display="filterMotuDisplay($event)"
             @fit-motu="fitMotu($event)"
@@ -52,10 +51,16 @@
 <i18n>
 {
   "fr": {
-    "show_motus": "Afficher tout"
+    "show_motus": "Afficher tout",
+    "show_seqs": "Lister séquences",
+    "filter_motu" : "Filtrer MOTU",
+    "fit_motu" : "Cadrer MOTU"
   },
   "en": {
-    "show_motus": "Show all"
+    "show_motus": "Show all",
+    "show_seqs": "Show sequences",
+    "filter_motu" : "Filter MOTU",
+    "fit_motu" : "Fit view to MOTU"
   }
 }
 </i18n>
@@ -72,12 +77,13 @@ import SequenceModal from "./SequenceModal";
 import ShapeMarker from "../../../components/ShapeMarker";
 import ShapeMarkerLegend from "../../../components/ShapeMarkerLegend";
 import SitePopup from "./SitePopup.vue";
-
+import { LPopup } from "vue2-leaflet";
 const LegendShape = Vue.extend(ShapeMarkerLegend);
 
 export default {
   name: "MotuDistributionMap",
   components: {
+    LPopup,
     LControl,
     LeafletMap,
     ShapeMarker,
@@ -146,6 +152,27 @@ export default {
     },
   },
   methods: {
+    trimSite({
+      station_url,
+      station_code,
+      municipality,
+      country,
+      motu,
+      latitude,
+      longitude,
+      altitude,
+    }) {
+      return {
+        station_url,
+        station_code,
+        municipality,
+        country,
+        motu,
+        latitude,
+        longitude,
+        altitude,
+      };
+    },
     layerName(motu_id, index) {
       const shape = this.markerShape(index);
       const color = this.markerColor(index);
@@ -206,8 +233,8 @@ export default {
         motuData.visible = motu == motuFilter || motuFilter === null;
       });
     },
-    showSequences(station) {
-      this.$refs.seqModal.station = station;
+    showSequences(site) {
+      this.$refs.seqModal.site = site;
       this.$refs.seqModal.$bvModal.show("modal-sequences");
     },
     fitMotu(motu) {
@@ -258,6 +285,6 @@ export default {
 <style lang="less" scoped>
 .map-container {
   width: 100%;
-  height: 80vh;
+  height: 85vh;
 }
 </style>

@@ -2,15 +2,9 @@
   <b-modal
     id="modal-sequences"
     size="xl"
-    :title="`${station.station_code} // MOTU ${station.motu}`"
+    :title="`${site.station_code} // MOTU ${site.motu}`"
   >
-    <b-table
-      striped
-      responsive
-      primary-key="id"
-      :fields="fields"
-      :items="station.sequences"
-    >
+    <b-data-table primary-key="id" :fields="fields" :items="site.sequences">
       <template #cell(code)="data">
         <a
           :id="`seq-code-${data.index}`"
@@ -37,27 +31,32 @@
           {{ data.value }}
         </a>
       </template>
-    </b-table>
+    </b-data-table>
   </b-modal>
 </template>
 
 <script>
+import BDataTable from "../../../components/BDataTable";
 export default {
+  components: { BDataTable },
   data() {
     return {
-      station: {},
+      site: {},
       fields: [
         {
           key: "code",
           label: "Code",
+          sortable: true,
         },
         {
           key: "accession_number",
           label: "Accession",
+          sortable: true,
         },
         {
           key: "seq_type",
           label: "Type",
+          sortable: true,
           formatter: (isExternal) =>
             this.$t(
               isExternal
@@ -68,6 +67,7 @@ export default {
         {
           key: "motu",
           label: "MOTU",
+          sortable: true,
         },
       ],
     };
