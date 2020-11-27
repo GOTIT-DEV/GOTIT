@@ -17,15 +17,16 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Voc;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Voc;
 
 /**
  * Voc controller.
@@ -51,6 +52,19 @@ class VocController extends AbstractController {
   }
 
   /**
+   * List voc in a parent category
+   * @Route("/{parent}", name="list_voc", methods={"GET"})
+   */
+  public function listVoc(String $parent, SerializerInterface $serializer) {
+    $voc = $this->getDoctrine()
+      ->getRepository(Voc::class)
+      ->findByParent($parent);
+    return JsonResponse::fromJsonString(
+      $serializer->serialize($voc, "json")
+    );
+  }
+
+  /**
    * Returns in json format a set of fields to display (tab_toshow) with the following criteria:
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
@@ -63,7 +77,7 @@ class VocController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('voc.dateMaj' => 'desc', 'voc.id' => 'desc');
 
@@ -75,44 +89,44 @@ class VocController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Voc")->createQueryBuilder('voc')
       ->where('LOWER(voc.libelle) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                        => $id, "voc.id"           => $id,
-        "voc.code"                  => $entity->getCode(),
-        "voc.libelle"               => $entity->getLibelle(),
+        "id" => $id, "voc.id" => $id,
+        "voc.code" => $entity->getCode(),
+        "voc.libelle" => $entity->getLibelle(),
         "voc.libelleSecondLanguage" => $translator->trans($entity->getLibelle()),
-        "voc.parent"                => $translator->trans('vocParent.' . $entity->getParent()),
-        "voc.parentCode"            => $entity->getParent(),
-        "voc.dateCre"               => $DateCre, "voc.dateMaj" => $DateMaj,
-        "userCreId"                 => $service->GetUserCreId($entity),
-        "voc.userCre"               => $service->GetUserCreUsername($entity),
-        "voc.userMaj"               => $service->GetUserMajUsername($entity),
+        "voc.parent" => $translator->trans('vocParent.' . $entity->getParent()),
+        "voc.parentCode" => $entity->getParent(),
+        "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "voc.userCre" => $service->GetUserCreUsername($entity),
+        "voc.userMaj" => $service->GetUserMajUsername($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -123,7 +137,7 @@ class VocController extends AbstractController {
    * @Security("has_role('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
-    $voc  = new Voc();
+    $voc = new Voc();
     $form = $this->createForm('App\Form\VocType', $voc, [
       'action_type' => Action::create(),
     ]);
@@ -148,7 +162,7 @@ class VocController extends AbstractController {
     }
 
     return $this->render('Core/voc/edit.html.twig', array(
-      'voc'       => $voc,
+      'voc' => $voc,
       'edit_form' => $form->createView(),
     ));
   }
@@ -160,13 +174,13 @@ class VocController extends AbstractController {
    */
   public function showAction(Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
-    $editForm   = $this->createForm('App\Form\VocType', $voc, [
+    $editForm = $this->createForm('App\Form\VocType', $voc, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/voc/edit.html.twig', array(
-      'voc'         => $voc,
-      'edit_form'   => $editForm->createView(),
+      'voc' => $voc,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -179,7 +193,7 @@ class VocController extends AbstractController {
    */
   public function editAction(Request $request, Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
-    $editForm   = $this->createForm('App\Form\VocType', $voc, [
+    $editForm = $this->createForm('App\Form\VocType', $voc, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -198,15 +212,15 @@ class VocController extends AbstractController {
         );
       }
       return $this->render('Core/voc/edit.html.twig', array(
-        'voc'       => $voc,
+        'voc' => $voc,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/voc/edit.html.twig', array(
-      'voc'         => $voc,
-      'edit_form'   => $editForm->createView(),
+      'voc' => $voc,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

@@ -1,32 +1,49 @@
 <template>
-  <div class="form-component">
-    <!-- <slot> </slot> -->
-    <TogglablePanel class="species-select" title="queries.label.search.espece">
-      <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
-    </TogglablePanel>
-    <div id="motu-select" class="card panel-default">
-      <div class="card-header">
-        <strong>
-          {{ $t('queries.identification.label') }}
-        </strong>
+  <form id="main-form" ref="form" action="#" @submit.prevent="submit">
+    <fieldset>
+      <legend>
+        <h2>{{ $t("ui.search") }}</h2>
+      </legend>
+      <div class="form-content">
+        <togglable-panel
+          class="species-select"
+          title="queries.label.search.espece"
+        >
+          <taxonomy-select ref="taxonomy" />
+        </togglable-panel>
+        <b-card
+          :header="$t('queries.identification.label')"
+          header-class="font-weight-bold"
+          class="motu-select"
+        >
+          <motu-dataset-select ref="motu" multiple />
+        </b-card>
+        <b-card
+          :header="$t('id_criteria')"
+          header-class="font-weight-bold"
+          class="criteria-select"
+        >
+          <identification-criteria ref="criteria" />
+        </b-card>
+
+        <button-loading id="submit" ref="submit" v-bind:loading="loading">
+          {{ $t("ui.search") }}
+        </button-loading>
       </div>
-      <div class="card-body">
-        <MotuDatasetSelect ref="motu" multiple />
-      </div>
-    </div>
-    <div id="slot-container">
-      <slot></slot>
-    </div>
-    <ButtonLoading
-      id="submit"
-      ref="submit"
-      v-bind:loading="loading"
-      @click="submit"
-    >
-      {{$t('ui.search')}}
-    </ButtonLoading>
-  </div>
+    </fieldset>
+  </form>
 </template>
+
+<i18n>
+{
+  "en": {
+    "id_criteria": "Identification criteria"
+  },
+  "fr": {
+    "id_criteria": "Critères d'identification"
+  }
+}
+</i18n>
 
 <script>
 // Components
@@ -34,7 +51,8 @@ import ButtonLoading from "../../../components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
-import i18n from "../i18n"
+import IdentificationCriteria from "./IdentificationCriteria.vue";
+import i18n from "../i18n";
 
 export default {
   i18n,
@@ -42,28 +60,47 @@ export default {
     TogglablePanel,
     TaxonomySelect,
     MotuDatasetSelect,
-    ButtonLoading
+    ButtonLoading,
+    IdentificationCriteria,
   },
   computed: {
     ready() {
-      return Promise.all([this.$refs.taxonomy.ready, this.$refs.motu.ready]);
-    }
+      return Promise.all([
+        this.$refs.taxonomy.ready,
+        this.$refs.motu.ready,
+        this.$refs.criteria.ready,
+      ]);
+    },
   },
   data() {
     return {
       loading: true,
+      url: Routing.generate("motu-query"),
     };
   },
+  async mounted() {
+    await this.ready;
+    this.submit();
+  },
   methods: {
-    submit() {
+    async submit() {
       this.loading = true;
-    }
-  }
+      const response = await fetch(this.url, {
+        method: "POST",
+        body: new FormData(this.$refs.form),
+      });
+      const data = await response.json();
+      this.loading = false;
+      this.$emit("update:results", data.rows);
+      this.$emit("update:query", data.query);
+      return data.rows;
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.form-component {
+.form-content {
   display: grid;
   grid-template-areas:
     "taxonomy motu id-level"
@@ -75,10 +112,10 @@ export default {
   .species-select {
     grid-area: taxonomy;
   }
-  #motu-select {
+  .motu-select {
     grid-area: motu;
   }
-  #slot-container {
+  .criteria-select {
     grid-area: id-level;
   }
 
@@ -93,7 +130,7 @@ export default {
 }
 
 @media (max-width: 1200px) {
-  .form-component {
+  .form-content {
     grid-template-areas:
       "taxonomy motu"
       "id-level id-level"
@@ -103,7 +140,7 @@ export default {
 }
 
 @media (max-width: 620px) {
-  .form-component {
+  .form-content {
     grid-template-areas:
       "taxonomy"
       "motu"

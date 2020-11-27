@@ -7,12 +7,10 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * Service SpeciesQueryService
  */
-class SpeciesQueryService
-{
+class SpeciesQueryService {
   private $entityManager;
 
-  public function __construct(EntityManagerInterface $manager)
-  {
+  public function __construct(EntityManagerInterface $manager) {
     $this->entityManager = $manager;
   }
 
@@ -20,9 +18,8 @@ class SpeciesQueryService
    * UTILITY QUERIES
    ***************************************************************************/
 
-  public function getGenusSet()
-  {
-    $qb    = $this->entityManager->createQueryBuilder();
+  public function getGenusSet() {
+    $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.genus')
       ->from('App:ReferentielTaxon', 'rt')
       ->where('rt.genus IS NOT NULL')
@@ -32,9 +29,8 @@ class SpeciesQueryService
     return $query->getResult();
   }
 
-  public function getMethodsByDate($id_dataset)
-  {
-    $qb    = $this->entityManager->createQueryBuilder();
+  public function getMethodsByDate($id_dataset) {
+    $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
       ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
@@ -47,9 +43,8 @@ class SpeciesQueryService
     return $query->getArrayResult();
   }
 
-  public function getMethod($id_methode, $id_dataset)
-  {
-    $qb    = $this->entityManager->createQueryBuilder();
+  public function getMethod($id_methode, $id_dataset) {
+    $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id as id_methode, v.code')
       ->addSelect('m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
@@ -66,9 +61,8 @@ class SpeciesQueryService
     return $query->getArrayResult();
   }
 
-  public function listMethodsByDate()
-  {
-    $qb    = $this->entityManager->createQueryBuilder();
+  public function listMethodsByDate() {
+    $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
       ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
@@ -84,8 +78,7 @@ class SpeciesQueryService
    * JOINERS
    ****************************************************************************/
 
-  private function joinIndivSeq($query, $indivAlias, $seqAlias)
-  {
+  private function joinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->join('App:Adn', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
       ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->join('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
@@ -95,8 +88,7 @@ class SpeciesQueryService
       ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
 
-  private function leftJoinIndivSeq($query, $indivAlias, $seqAlias)
-  {
+  private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->leftJoin('App:Adn', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->leftJoin('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
@@ -106,16 +98,14 @@ class SpeciesQueryService
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
 
-  private function joinEspeceStation($query, $aliasEsp, $aliasSta)
-  {
+  private function joinEspeceStation($query, $aliasEsp, $aliasSta) {
     return $query->leftJoin('App:LotMateriel', 'lm', 'WITH', $aliasEsp . '.lotMaterielFk=lm.id')
       ->leftJoin('App:LotMaterielExt', 'lmext', 'WITH', $aliasEsp . '.lotMaterielExtFk=lmext.id')
       ->join('App:Collecte', 'c', 'WITH', 'c.id=lm.collecteFk OR c.id=lmext.collecteFk')
       ->join('App:Station', $aliasSta, 'WITH', $aliasSta . '.id=c.stationFk');
   }
 
-  private function joinMotuCountMorpho($query, $alias = 'ass')
-  {
+  private function joinMotuCountMorpho($query, $alias = 'ass') {
     return $query->leftJoin('App:SequenceAssembleeExt', 'motu_sext', 'WITH', "motu_sext.id=$alias.sequenceAssembleExtFk")
       ->leftJoin('App:EstAligneEtTraite', 'motu_at', 'WITH', "motu_at.sequenceAssembleeFk = $alias.sequenceAssembleeFk")
       ->leftJoin('App:Chromatogramme', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogrammeFk")
@@ -130,39 +120,38 @@ class SpeciesQueryService
   /*****************************************************************************
    * QUERIES
    *****************************************************************************/
-  public function getMotuCountList($data)
-  {
+  public function getMotuCountList($data) {
 
-    $niveau   = $data->get('niveau');
-    $methodes = $data->get('methodes');
-    $dataset  = $data->get('dataset');
-    $criteres = $data->get('criteres');
+    $level = $data->get('level');
+    $methods = $data->get('methods');
+    $dataset = $data->get('dataset');
+    $criteria = $data->get('criteria');
 
-    $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('rt.taxname, rt.id')
-      ->addSelect('vocabulary.id as id_methode, vocabulary.code as methode')
-      ->addSelect('motu.id as id_dataset, motu.dateMotu as motu_date, motu.libelleMotu as motu_title')
-      ->addSelect('COUNT(DISTINCT ass.numMotu ) as nb_motus')
+    $qb = $this->entityManager->createQueryBuilder();
+    $query = $qb->select('rt.taxname as taxon, rt.id')
+      ->addSelect('vocabulary.id as id_method, vocabulary.code as method')
+      ->addSelect('motu.id as id_dataset, motu.dateMotu as dataset_date, motu.libelleMotu as dataset')
+      ->addSelect('COUNT(DISTINCT ass.numMotu ) as count_motus')
       ->from('App:ReferentielTaxon', 'rt')
       ->join('App:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
-    switch ($niveau) {
-      case 1: #lot matériel
-        $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-          ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-        $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
-        break;
+    switch ($level) {
+    case 1: #lot matériel
+      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
+        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
+      break;
 
-      case 2: #individu
-        $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-        $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as nb_seq');
-        break;
+    case 2: #individu
+      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
+      break;
 
-      case 3: # sequence
-        $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-          ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-          ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
-          ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as nb_seq');
-        break;
+    case 3: # sequence
+      $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
+        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
+        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
+      break;
     }
 
     $query = $query->join('App:Motu', 'motu', 'WITH', 'ass.motuFk = motu.id')
@@ -172,19 +161,19 @@ class SpeciesQueryService
       $query = $query->andWhere('rt.species = :species')
         ->andWhere('rt.genus = :genus')
         ->setParameters([
-          'genus'   => $data->get('genus'),
+          'genus' => $data->get('genus'),
           'species' => $data->get('species'),
         ]);
     }
 
-    if ($criteres) {
-      $query = $query->andWhere('e.critereIdentificationVocFk IN(:criteres)')
-        ->setParameter('criteres', $criteres);
+    if ($criteria) {
+      $query = $query->andWhere('e.critereIdentificationVocFk IN(:criteria)')
+        ->setParameter('criteria', $criteria);
     }
 
-    if ($methodes) {
-      $query = $query->andWhere('ass.methodeMotuVocFk IN(:methodes)')
-        ->setParameter('methodes', $methodes);
+    if ($methods) {
+      $query = $query->andWhere('ass.methodeMotuVocFk IN(:methods)')
+        ->setParameter('methods', $methods);
     }
 
     $query = $query->andWHere("vocabulary.code != 'HAPLO'")
@@ -197,12 +186,83 @@ class SpeciesQueryService
     return $query->getArrayResult();
   }
 
-  public function getSpeciesAssignment($data)
-  {
+  public function getMotuSeqList($data) {
+    $id_taxon = $data->get('taxon');
+    $id_method = $data->get('method');
+    $dataset = $data->get('dataset');
+    $level = $data->get('level');
+    $criteria = $data->get('criteria');
+
+    $qb = $this->entityManager->createQueryBuilder();
+    $query = $qb->select('rt.id as idesp, rt.taxname')
+      ->addSelect('vocabulary.code as method')
+      ->addSelect('m.dateMotu as motu_date')
+      ->addSelect('seq.id, seq.codeSqcAss as code, seq.accessionNumber as acc')
+      ->addSelect('ass.numMotu as motu')
+      ->addSelect('v.code as criterion')
+      ->addSelect('vocGene.code as gene')
+      ->from('App:ReferentielTaxon', 'rt')
+      ->join('App:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk')
+      ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
+    switch ($level) {
+    case 1: # Bio material
+      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
+        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+      $query = $this->joinIndivSeq($query, 'i', 'seq');
+      break;
+
+    case 2: # Specimen
+      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+      $query = $this->joinIndivSeq($query, 'i', 'seq');
+      break;
+
+    case 3: # Sequence
+      $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
+        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
+        ->leftJoin('App:EstAligneEtTraite', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
+        ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
+        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
+        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
+        ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
+      break;
+    }
+
+    $query = $query->join('App:Motu', 'm', 'WITH', 'ass.motuFk = m.id')
+      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.methodeMotuVocFk = vocabulary.id')
+      ->andWhere('rt.id = :id_taxon')
+      ->andWhere('vocabulary.id = :method')
+      ->andWhere('m.id = :dataset')
+      ->setParameters([
+        'id_taxon' => $id_taxon,
+        'method' => $id_method,
+        'dataset' => $dataset,
+      ]);
+
+    if ($criteria) {
+      $query = $query->andWhere('e.critereIdentificationVocFk IN (:criteria)')
+        ->setParameter('criteria', $criteria);
+    }
+
+    $query = $query->distinct()->getQuery();
+
+    $res = $query->getArrayResult();
+
+    # fusion des résultats séquences internes/externes
+    foreach ($res as $key => $row) {
+      $res[$key]['type'] = ($row['id']) ? 0 : 1;
+      $res[$key]['id'] = ($row['id']) ? $row['id'] : $row['id_ext'];
+      $res[$key]['acc'] = ($row['acc']) ? $row['acc'] : $row['acc_ext'];
+      $res[$key]['code'] = ($row['code']) ? $row['code'] : $row['codeExt'];
+    }
+    return $res;
+  }
+
+  public function getSpeciesAssignment($data) {
     $columnsMap = array(
       'lot-materiel' => 'lmrt',
-      'individu'     => 'indivrt',
-      'sequence'     => 'seqrt',
+      'individu' => 'indivrt',
+      'sequence' => 'seqrt',
     );
     $typeConstraints = array_fill_keys(
       ["A", "B", "C"],
@@ -215,7 +275,7 @@ class SpeciesQueryService
       }
     }
 
-    $qb    = $this->entityManager->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm') // lot matériel
       ->addSelect('lmrt.id as idtax_lm, lmrt.taxname as taxname_lm') // taxon lot matériel
       ->addSelect('lmvoc.code as critere_lm') // critere lot matériel
@@ -225,12 +285,12 @@ class SpeciesQueryService
       ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
       ->addSelect('seqvoc.code as critere_seq') // critere sequence
-      // JOIN lot matériel
+    // JOIN lot matériel
       ->from('App:LotMateriel', 'lm')
       ->join('App:EspeceIdentifiee', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
       ->join('App:ReferentielTaxon', 'lmrt', 'WITH', 'lmrt.id = eidlm.referentielTaxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
-      // JOIN individu
+    // JOIN individu
       ->join('App:Individu', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
       ->join('App:EspeceIdentifiee', 'eidindiv', 'WITH', 'indiv.id = eidindiv.individuFk')
       ->join('App:ReferentielTaxon', 'indivrt', 'WITH', 'indivrt.id = eidindiv.referentielTaxonFk')
@@ -247,7 +307,7 @@ class SpeciesQueryService
     $visited = [];
     foreach ($typeConstraints as $type => $identicals) {
       if ($identicals) {
-        $current  = [];
+        $current = [];
         $refTable = $identicals[0];
         foreach ($identicals as $tableAlias) {
           $current[] = $tableAlias;
@@ -262,85 +322,11 @@ class SpeciesQueryService
       }
     }
     $query = $query->distinct()->getQuery();
-    $res   = $query->getArrayResult();
-    return $res;
-  }
-
-  public function getMotuSeqList($data)
-  {
-    $id_taxon   = $data->get('taxon');
-    $id_methode = $data->get('methode');
-    $dataset    = $data->get('date_motu');
-    $niveau     = $data->get('niveau');
-    $criteres   = $data->get('criteres');
-
-    $qb    = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('rt.id as idesp, rt.taxname')
-      ->addSelect('vocabulary.code as methode')
-      ->addSelect('m.dateMotu as motu_date')
-      ->addSelect('seq.id, seq.codeSqcAss as code, seq.accessionNumber as acc')
-      ->addSelect('ass.numMotu as motu')
-      ->addSelect('v.code as critere')
-      ->addSelect('vocGene.code as gene')
-      ->from('App:ReferentielTaxon', 'rt')
-      ->join('App:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk')
-      ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
-    switch ($niveau) {
-      case 1: # Bio material
-        $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-          ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-        $query = $this->joinIndivSeq($query, 'i', 'seq');
-        break;
-
-      case 2: # Specimen
-        $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-        $query = $this->joinIndivSeq($query, 'i', 'seq');
-        break;
-
-      case 3: # Sequence
-        $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-          ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-          ->leftJoin('App:EstAligneEtTraite', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
-          ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
-          ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-          ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
-          ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
-          ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
-        break;
-    }
-
-    $query = $query->join('App:Motu', 'm', 'WITH', 'ass.motuFk = m.id')
-      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.methodeMotuVocFk = vocabulary.id')
-      ->andWhere('rt.id = :id_taxon')
-      ->andWhere('vocabulary.id = :method')
-      ->andWhere('m.id = :dataset')
-      ->setParameters([
-        'id_taxon'  => $id_taxon,
-        'method'   => $id_methode,
-        'dataset' => $dataset,
-      ]);
-
-    if ($criteres) {
-      $query = $query->andWhere('e.critereIdentificationVocFk IN (:criteres)')
-        ->setParameter('criteres', $criteres);
-    }
-
-    $query = $query->distinct()->getQuery();
-
     $res = $query->getArrayResult();
-
-    # fusion des résultats séquences internes/externes
-    foreach ($res as $key => $row) {
-      $res[$key]['type'] = ($row['id']) ? 0 : 1;
-      $res[$key]['id']   = ($row['id']) ? $row['id'] : $row['id_ext'];
-      $res[$key]['acc']  = ($row['acc']) ? $row['acc'] : $row['acc_ext'];
-      $res[$key]['code'] = ($row['code']) ? $row['code'] : $row['codeExt'];
-    }
     return $res;
   }
 
-  public function getSpeciesGeoDetails($id, $co1 = false)
-  {
+  public function getSpeciesGeoDetails($id, $co1 = false) {
 
     if ($co1) {
       $station_subquery = "SELECT DISTINCT
@@ -362,7 +348,7 @@ class SpeciesQueryService
             JOIN site sta ON co.site_fk = sta.id
             WHERE v1.code='COI' OR v2.code='COI'
             AND (
-              statut.code = 'SHORT' OR 
+              statut.code = 'SHORT' OR
               statut.code LIKE 'VALID%'
             )";
     } else {
@@ -403,8 +389,7 @@ class SpeciesQueryService
     return $stmt->fetchAll();
   }
 
-  public function getSpeciesGeoSummary($data, $co1 = false)
-  {
+  public function getSpeciesGeoSummary($data, $co1 = false) {
 
     // Prepare subquery to list stations depending on CO1 sampling events requested (or not)
     $FIELD_SUFFIX = $co1 ? "_co1" : "";
@@ -434,7 +419,7 @@ class SpeciesQueryService
             -- COI constraint
             WHERE v1.code='COI' OR v2.code='COI'
             AND (
-              statut.code = 'SHORT' OR 
+              statut.code = 'SHORT' OR
               statut.code LIKE 'VALID%'
             )";
     } else {
@@ -477,7 +462,7 @@ class SpeciesQueryService
       );
     }
 
-    $rawSql = "WITH esta AS ($station_subquery), 
+    $rawSql = "WITH esta AS ($station_subquery),
                     mle AS ($mle_subquery),
                     main AS ($main_subquery)";
     $rawSql .= " SELECT
@@ -494,7 +479,7 @@ class SpeciesQueryService
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     if ($data->get('species')) {
       $stmt->execute(array(
-        'genus'   => $data->get('genus'),
+        'genus' => $data->get('genus'),
         'species' => $data->get('species'),
       ));
     } else {
@@ -503,10 +488,9 @@ class SpeciesQueryService
     return $stmt->fetchAll(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
   }
 
-  public function getMotuGeoLocation($data)
-  {
+  public function getMotuGeoLocation($data) {
 
-    $taxid    = $data->get('taxname');
+    $taxid = $data->get('taxname');
     $subquery = "SELECT
             seq.id, type_seq,
             vocabulary.id as id_methode, vocabulary.code as methode,

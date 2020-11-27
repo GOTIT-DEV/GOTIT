@@ -14,37 +14,9 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 import Vue from "vue"
-import MotuForm from "./MotuForm"
-import { initDataTable } from './results.js'
+import MotuSearch from "./MotuSearch"
 
-const vue_form = new Vue({
-  el: '#main-form',
-  components: { "motuform": MotuForm },
-  computed: {
-    ready() {
-      return this.$refs.motuForm.ready
-    }
-  }
-})
-
-
-export let ids = {
-  form: "#main-form",
-  table: "#result-table",
-  details: "#details-table"
-}
-
-$(document).ready(_ => {
-  // Setup tooltip for "Table" select menu
-  $(ids.form).find("select#id-level").on('loaded.bs.select',
-    event => {
-      $(event.target).parent().tooltip({
-        title: $(event.target).data('originalTitle'),
-        placement: 'auto'
-      })
-    })
-  /** When selectors are initialized and user info are retrieved : 
-     *  init result table
-     * */
-  vue_form.ready.then(() => initDataTable("#result-table", _ => vue_form.$refs.motuForm.loading = false))
+const app = new Vue({
+  el: '#motus-vue',
+  ...MotuSearch,
 })

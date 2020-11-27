@@ -1,35 +1,27 @@
 {% extends 'SpeciesSearch/base.queries.html.twig' %}
 
 {% block titlepage %}
-  {% set title="queries.motu.title" %}
+	{% set title="queries.motu.title" %}
 	{{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
-  {{parent()}}
-  {{ encore_entry_link_tags('spsearch/motu') }}
+	{{parent()}}
+	{{ encore_entry_link_tags('spsearch/motu') }}
 {% endblock %}
 
 {% block body %}
-  {# Main form #}
-  {% include 'SpeciesSearch/assign-motu/form.html.twig' with criteres %}
-  <hr/>
-  {# Result table #}
-  {% include 'SpeciesSearch/assign-motu/results.html.twig' %}
-
-  {# Modal and templates #}
-  <div id="modal-container">
-    {% include 'SpeciesSearch/assign-motu/details.modal.html.twig' %}
-  </div>
-
-  {% include 'SpeciesSearch/assign-motu/details.form.html.twig' %}
-
+	<div id="motus-vue">
+		<center>
+			<i class="fas fa-spinner fa-spin fa-4x"></i>
+		</center>
+	</div>
 {% endblock %}
 
 {# Scripts #}
 {% block scripts %}
-  {{ parent() }}
+	{{ parent() }}
 
-    {{ encore_entry_script_tags('spsearch/motu') }}
+	{{ encore_entry_script_tags('spsearch/motu') }}
 
 {% endblock %}
