@@ -29,7 +29,7 @@ $(() => {
       $sampling.val() ? $sampling.find('option:selected').text() : undefined,
       $specimen.val() || undefined,
       $accession.val() || undefined,
-      $origin.val() ? $origin.find('option:selected') : undefined
+      $origin.val() ? $origin.find('option:selected').text() : undefined
     )
     $assemblyCode.val(code)
     $alignmentCode.val(code)
