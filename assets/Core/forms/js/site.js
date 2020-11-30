@@ -37,7 +37,7 @@ $(() => {
     modalFormSubmitCallback(event, modalCallback)
   })
 
-  function modalCallback(response) {
+  function modalCallback(_, response) {
     $modalCountry = $modal.find("select#commune_paysFk")
     $modalRegion = $modal.find("input#commune_nomRegion")
     $modalName = $modal.find("input#commune_nomCommune")

@@ -40,7 +40,7 @@ function deleteEntryBtnCallback(event) {
   $wrapper.trigger('change')
 }
 
-function modalFormResponseCallback(response) {
+function modalFormResponseCallback($form, response) {
   let $wrapper = $($form.closest(".modal-container").data('target'))
   addCategoryForNewRecord($wrapper, response.select_id, response.select_name)
 }
@@ -89,7 +89,7 @@ export function modalFormSubmitCallback(event, responseCallback = modalFormRespo
       } else {
         // Everything is fine
         $form.find(".form-status").addClass("fa-check-circle")
-        responseCallback(response)
+        responseCallback($form, response)
         setTimeout(() => {
           $('.modal').modal('hide');
           $form.get(0).reset();
