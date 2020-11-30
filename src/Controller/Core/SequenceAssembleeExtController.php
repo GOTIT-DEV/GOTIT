@@ -65,13 +65,13 @@ class SequenceAssembleeExtController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
     : "sq.date_of_update DESC, sq.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(sq.external_sequence_code) LIKE :criteriaLower';
+    $where = 'LOWER(sq.external_sequence_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -82,7 +82,7 @@ class SequenceAssembleeExtController extends AbstractController {
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT  sq.id,
+    $rawSql = "SELECT  sq.id,
         st.site_code,
         sampling.sample_code,
         country.country_name,
@@ -152,45 +152,45 @@ class SequenceAssembleeExtController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
-        "id"                                    => $val['id'], "sq.id" => $val['id'],
-        "sq.external_sequence_alignment_code"   => $val['external_sequence_alignment_code'],
-        "sq.external_sequence_code"             => $val['external_sequence_code'],
+        "id" => $val['id'], "sq.id" => $val['id'],
+        "sq.external_sequence_alignment_code" => $val['external_sequence_alignment_code'],
+        "sq.external_sequence_code" => $val['external_sequence_code'],
         "sq.external_sequence_accession_number" => $val['external_sequence_accession_number'],
-        "voc_gene.code"                         => $val['voc_external_sequence_gene_code'],
-        "voc_date_precision.vocabulary_title"   => $val['voc_date_precision_title'],
-        "sq.external_sequence_creation_date"    => $val['external_sequence_creation_date'],
-        "sq.external_sequence_primary_taxon"    => $val['external_sequence_primary_taxon'],
-        "sq.external_sequence_specimen_number"  => $val['external_sequence_specimen_number'],
-        "voc_status.code"                       => $val['voc_external_sequence_status_code'],
-        "sq.date_of_creation"                   => $val['date_of_creation'],
-        "sq.date_of_update"                     => $val['date_of_update'],
-        "sampling.sample_code"                  => $val['sample_code'],
-        "last_taxname_sq"                       => $val['last_taxname_sq'],
-        "last_date_identification_sq"           => $val['last_date_identification_sq'],
-        "voc_sq_identification_criterion.code"  => $val['code_sq_identification_criterion'],
-        "list_source"                           => $val['list_source'],
-        "motu_flag"                             => $val['motu_flag'],
-        "country.country_name"                  => $val['country_name'],
-        "municipality.municipality_code"        => $val['municipality_code'],
-        "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_name"                    => $val['user_cre_username'],
-        "user_maj.user_name"                    => $val['user_maj_username'],
+        "voc_gene.code" => $val['voc_external_sequence_gene_code'],
+        "voc_date_precision.vocabulary_title" => $val['voc_date_precision_title'],
+        "sq.external_sequence_creation_date" => $val['external_sequence_creation_date'],
+        "sq.external_sequence_primary_taxon" => $val['external_sequence_primary_taxon'],
+        "sq.external_sequence_specimen_number" => $val['external_sequence_specimen_number'],
+        "voc_status.code" => $val['voc_external_sequence_status_code'],
+        "sq.date_of_creation" => $val['date_of_creation'],
+        "sq.date_of_update" => $val['date_of_update'],
+        "sampling.sample_code" => $val['sample_code'],
+        "last_taxname_sq" => $val['last_taxname_sq'],
+        "last_date_identification_sq" => $val['last_date_identification_sq'],
+        "voc_sq_identification_criterion.code" => $val['code_sq_identification_criterion'],
+        "list_source" => $val['list_source'],
+        "motu_flag" => $val['motu_flag'],
+        "country.country_name" => $val['country_name'],
+        "municipality.municipality_code" => $val['municipality_code'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_name" => $val['user_cre_username'],
+        "user_maj.user_name" => $val['user_maj_username'],
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -202,7 +202,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   public function newAction(Request $request) {
     $sequenceAssembleeExt = new Sequenceassembleeext();
-    $em                   = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
@@ -213,7 +213,7 @@ class SequenceAssembleeExtController extends AbstractController {
       $sequenceAssembleeExt,
       [
         'refTaxonLabel' => 'codeTaxon',
-        'action_type'   => Action::create(),
+        'action_type' => Action::create(),
       ]
     );
     $form->handleRequest($request);
@@ -236,15 +236,15 @@ class SequenceAssembleeExtController extends AbstractController {
         );
       }
       return $this->redirectToRoute('sequenceassembleeext_edit', [
-        'id'    => $sequenceAssembleeExt->getId(),
+        'id' => $sequenceAssembleeExt->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ]);
     }
 
     return $this->render('Core/sequenceassembleeext/edit.html.twig', [
       'sequenceAssembleeExt' => $sequenceAssembleeExt,
-      'edit_form'            => $form->createView(),
+      'edit_form' => $form->createView(),
     ]);
   }
 
@@ -255,7 +255,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   public function showAction(SequenceAssembleeExt $sequenceAssembleeExt) {
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
       $sequenceAssembleeExt,
       ['action_type' => Action::show()]
@@ -263,8 +263,8 @@ class SequenceAssembleeExtController extends AbstractController {
 
     return $this->render('Core/sequenceassembleeext/edit.html.twig', [
       'sequenceAssembleeExt' => $sequenceAssembleeExt,
-      'edit_form'            => $editForm->createView(),
-      'delete_form'          => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ]);
   }
 
@@ -302,7 +302,7 @@ class SequenceAssembleeExtController extends AbstractController {
     );
 
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
       $sequenceAssembleeExt,
       ['action_type' => Action::edit()]
@@ -343,19 +343,23 @@ class SequenceAssembleeExtController extends AbstractController {
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      $editForm = $this->createForm('App\Form\SequenceAssembleeExtType', $sequenceAssembleeExt);
+      $editForm = $this->createForm(
+        'App\Form\SequenceAssembleeExtType',
+        $sequenceAssembleeExt,
+        ['action_type' => Action::edit()]
+      );
 
       return $this->render('Core/sequenceassembleeext/edit.html.twig', array(
         'sequenceAssembleeExt' => $sequenceAssembleeExt,
-        'edit_form'            => $editForm->createView(),
-        'valid'                => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/sequenceassembleeext/edit.html.twig', array(
       'sequenceAssembleeExt' => $sequenceAssembleeExt,
-      'edit_form'            => $editForm->createView(),
-      'delete_form'          => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -411,13 +415,13 @@ class SequenceAssembleeExtController extends AbstractController {
    *
    */
   private function createCodeSqcAssExt(SequenceAssembleeExt $sequenceAssembleeExt) {
-    $codeSqc             = '';
-    $em                  = $this->getDoctrine()->getManager();
-    $EspeceIdentifiees   = $sequenceAssembleeExt->getEspeceIdentifiees();
+    $codeSqc = '';
+    $em = $this->getDoctrine()->getManager();
+    $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
-      $codeStatutSqcAss      = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
         $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
@@ -426,13 +430,13 @@ class SequenceAssembleeExtController extends AbstractController {
       ksort($arrayReferentielTaxon);
       reset($arrayReferentielTaxon);
       $firstTaxname = current($arrayReferentielTaxon);
-      $codeSqc      = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
+      $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
-      $codeCollecte             = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numIndividuSqcAssExt     = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
+      $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
+      $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt     = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
-      $codeSqc                  = $codeSqc . '_' . $codeCollecte . '_' . $numIndividuSqcAssExt .
+      $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
+      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numIndividuSqcAssExt .
         '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
@@ -447,13 +451,13 @@ class SequenceAssembleeExtController extends AbstractController {
    *
    */
   private function createCodeSqcAssExtAlignement(SequenceAssembleeExt $sequenceAssembleeExt) {
-    $codeSqcAlignement   = '';
-    $em                  = $this->getDoctrine()->getManager();
-    $EspeceIdentifiees   = $sequenceAssembleeExt->getEspeceIdentifiees();
+    $codeSqcAlignement = '';
+    $em = $this->getDoctrine()->getManager();
+    $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {
       // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
-      $codeStatutSqcAss      = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
         $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
@@ -461,15 +465,15 @@ class SequenceAssembleeExtController extends AbstractController {
       }
       ksort($arrayReferentielTaxon);
       end($arrayReferentielTaxon);
-      $lastCodeTaxon     = current($arrayReferentielTaxon);
+      $lastCodeTaxon = current($arrayReferentielTaxon);
       $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
-      $codeCollecte             = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numIndividuSqcAssExt     = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
+      $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
+      $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt     = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
-      $codeSqcAlignement        = $codeSqcAlignement . '_' .
+      $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
+      $codeSqcAlignement = $codeSqcAlignement . '_' .
         $codeCollecte . '_' .
         $numIndividuSqcAssExt . '_' .
         $accessionNumberSqcAssExt . '_' . $codeOrigineSqcAssExt;
