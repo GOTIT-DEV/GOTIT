@@ -17,11 +17,12 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Form\Type\UppercaseType;
 use App\Form\ActionFormType;
+use App\Form\Type\UppercaseType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PersonneType extends ActionFormType {
   /**
@@ -35,14 +36,18 @@ class PersonneType extends ActionFormType {
       ->add('nomPersonneRef', UppercaseType::class, [
         'required' => false,
       ])
-      ->add('etablissementFk', EntityType::class, array(
+      ->add('etablissementFk', EntityType::class, [
         'class' => 'App:Etablissement',
         'placeholder' => 'Choose a Etablissement',
         'choice_label' => 'nom_etablissement',
+        'query_builder' => function (EntityRepository $er) {
+          return $er->createQueryBuilder('institution')
+            ->orderBy('institution.nomEtablissement');
+        },
         'multiple' => false,
         'expanded' => false,
         'required' => false,
-      ))
+      ])
       ->add('commentairePersonne');
 
     $builder->addEventSubscriber($this->addUserDate);
