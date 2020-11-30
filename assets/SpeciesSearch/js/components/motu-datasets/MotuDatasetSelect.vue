@@ -43,8 +43,6 @@
 </template>
 
 <script>
-// import { createNamespacedHelpers } from "vuex";
-// const { mapState, mapMutations, mapActions } = createNamespacedHelpers("motu");
 import { SelectPicker } from "../directives/SelectPickerDirective";
 import i18n from "../../i18n";
 export default {
@@ -59,7 +57,7 @@ export default {
     },
   },
   created() {
-    this.fetch();
+    this.ready = this.fetch();
   },
   data() {
     return {
@@ -93,16 +91,14 @@ export default {
     },
   },
   methods: {
-    fetch() {
-      this.ready = fetch(this.url)
-        .then((response) => response.json())
-        .then((json) => {
-          this.motuMethodList = json;
-          this.dataset = json[0].dataset_id;
-          this.loading = false;
-          this.$emit("update:motuList", this.motuList);
-        });
-      return this.ready;
+    async fetch() {
+      const response = await fetch(this.url);
+      return response.json().then((json) => {
+        this.motuMethodList = json;
+        this.dataset = json[0].dataset_id;
+        this.loading = false;
+        this.$emit("update:motuList", this.motuList);
+      });
     },
   },
   watch: {

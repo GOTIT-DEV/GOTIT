@@ -121,15 +121,13 @@ export default {
     };
   },
   methods: {
-    fetch() {
-      this.ready = fetch(this.url)
-        .then((response) => response.json())
-        .then((json) => {
-          this.taxonomy = json;
-          this.genus = this.taxonomy[0].genus;
-          this.loading = false;
-        });
-      return this.ready;
+    async fetch() {
+      const response = await fetch(this.url);
+      return response.json().then((data) => {
+        this.taxonomy = data;
+        this.genus = this.taxonomy[0].genus;
+        this.loading = false;
+      });
     },
   },
   watch: {
@@ -141,7 +139,7 @@ export default {
     },
   },
   created() {
-    this.fetch();
+    this.ready = this.fetch();
   },
 };
 </script>
