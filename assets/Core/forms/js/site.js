@@ -54,11 +54,14 @@ $(() => {
   }
 
   function generateMunicipalityCode(
-    municipality = "{ NAME }",
-    region = "{ REGION }",
-    country = "{ COUNTRY }"
+    municipality = "{NAME}",
+    region = "{REGION}",
+    country = "{COUNTRY}"
   ) {
-    return `${municipality}|${region}|${country}`
+    return [municipality, region, country]
+      .map(str => str.trim())
+      .join('|')
+      .replaceAll(/\s+/g, '_')
   }
 
   function updateMunicipalityCode() {
