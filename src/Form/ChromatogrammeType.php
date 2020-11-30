@@ -58,6 +58,7 @@ class ChromatogrammeType extends ActionFormType {
       ->add('primerChromatoVocFk', BaseVocType::class, array(
         'voc_parent' => 'primerChromato',
         'placeholder' => 'Choose a primer',
+        'choice_label' => 'code',
         'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('qualiteChromatoVocFk', BaseVocType::class, array(
