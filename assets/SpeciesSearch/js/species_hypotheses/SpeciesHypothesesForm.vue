@@ -1,9 +1,15 @@
 <template>
-  <form id="main-form" class="d-flex align-items-center mb-5 row" action="#">
+  <b-form
+    id="main-form"
+    ref="form"
+    class="d-flex align-items-center mb-5 row"
+    action="#"
+    @submit.prevent="submit"
+  >
     <fieldset class="col-lg-5">
       <legend>
         <h3>
-          {{$t('queries.label.reference')}}
+          {{ $t("queries.label.reference") }}
         </h3>
       </legend>
       <b-card no-body class="mb-1">
@@ -14,7 +20,7 @@
             value="morpho"
             size=""
           >
-            {{$t('queries.label.morpho')}}
+            {{ $t("queries.label.morpho") }}
           </b-form-radio>
         </b-card-header>
       </b-card>
@@ -27,7 +33,7 @@
             value="taxonomy"
             size=""
           >
-            {{$t('queries.label.morphotaxon')}}
+            {{ $t("queries.label.morphotaxon") }}
           </b-form-radio>
         </b-card-header>
         <b-collapse
@@ -55,7 +61,7 @@
             value="motu"
             size=""
           >
-            {{$t('queries.methode.label')}}
+            {{ $t("queries.methode.label") }}
           </b-form-radio>
         </b-card-header>
         <b-collapse
@@ -68,6 +74,7 @@
             <MotuDatasetSelect
               ref="motu"
               :disabled="reference != 'motu'"
+              @update:motuList="motuList = $event"
               @update:dataset="refDatasetSelected($event)"
             >
             </MotuDatasetSelect>
@@ -97,31 +104,32 @@
     <div class="col-lg-5">
       <fieldset class="mb-3">
         <legend>
-          <h3>{{$t('queries.label.target')}}</h3>
+          <h3>{{ $t("queries.label.target") }}</h3>
         </legend>
         <b-card>
-          <b-form-group label="label.dataset" label-for="target-dataset">
+          <b-form-group
+            :label="$t('queries.label.dataset')"
+            label-for="target-dataset"
+          >
             <select
-              name="target-dataset"
               id="target-dataset"
+              name="target-dataset"
               v-model="motu"
-              v-select-picker
               ref="target"
               class="form-control"
               :disabled="reference == 'motu'"
+              v-select-picker
             >
-              <b-form-select-option
-                v-for="motu in motuList"
-                :key="motu.id"
-                :value="motu.id"
-              >
+              <option v-for="motu in motuList" :key="motu.id" :value="motu.id">
                 {{ motu.name }}
-              </b-form-select-option>
+              </option>
             </select>
           </b-form-group>
         </b-card>
       </fieldset>
-      <center class="col-12 offset-sm-3 col-sm-6 offset-lg-0 col-lg-12 offset-xl-3 col-xl-6">
+      <center
+        class="col-12 offset-sm-3 col-sm-6 offset-lg-0 col-lg-12 offset-xl-3 col-xl-6"
+      >
         <ButtonLoading
           id="submit"
           ref="submit"
@@ -130,11 +138,11 @@
           v-bind:loading="loading"
           @click="submit"
         >
-          {{$t('ui.search')}}
+          {{ $t("ui.search") }}
         </ButtonLoading>
       </center>
     </div>
-  </form>
+  </b-form>
 </template>
 
 <script>
@@ -155,6 +163,7 @@ export default {
   data() {
     return {
       loading: true,
+      url: Routing.generate("species-hypotheses-query"),
       reference: "morpho",
       motuList: [],
       motu: undefined,
@@ -163,25 +172,33 @@ export default {
     };
   },
   mounted() {
-    this.$refs.motu.ready.then(() => {
-      this.motuList = this.$refs.motu.motuList;
-      this.motu = this.motuList[0].id;
-    });
+    this.ready.then(this.submit);
   },
   watch: {
+    motuList(newList, oldList) {
+      this.motu = newList[0].id;
+    },
     reference: function (newRef, oldRef) {
       if (newRef === "motu") this.motu = this.$refs.motu.dataset;
     },
   },
   methods: {
-    submit() {
+    async submit() {
       this.loading = true;
+      const response = await fetch(this.url, {
+        method: "POST",
+        body: new FormData(this.$refs.form),
+      });
+      const results = await response.json();
+      this.loading = false;
+      this.$emit("update:results", results);
     },
     refDatasetSelected(event) {
       if (this.reference === "motu") this.motu = event.target.value;
     },
     reverse(event) {
       this.reversed = !this.reversed;
+      this.$emit("update:reversed", this.reversed);
       setTimeout(() => (this.transitioning = true), 5);
       setTimeout(() => (this.transitioning = false), 350);
     },

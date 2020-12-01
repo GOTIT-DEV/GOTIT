@@ -10,20 +10,17 @@
 
 {% block titlepage %}
 	{% set title= "queries.specieshypotheses.title" %}
-  {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
 	{# Formulaire #}
-	<div id="species-hypotheses-form">
+	<div id="species-hypotheses">
 		<center>
 			<i class="fas fa-spin fa-spinner fa-4x m-5"></i>
 		</center>
 	</div>
-	<hr/> 
-  
-  {% include 'SpeciesSearch/species-hypotheses/results.html.twig' %}
-  
+
 {% endblock %}
 
 {% block scripts %}
