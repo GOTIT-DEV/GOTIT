@@ -82,10 +82,17 @@
     </b-table>
 
     <b-button-toolbar :justify="true">
-      <b-button v-if="allowExport" size="sm" variant="light" class="border">
-        <i class="fas fa-download"></i>
-        {{ $t("exportCSV") }}
-      </b-button>
+      <json-csv
+        v-if="allowExport"
+        :data="exportedItems"
+        :labels="exportedHeader"
+      >
+        <b-button size="sm" variant="light" class="border">
+          <i class="fas fa-download"></i>
+          {{ $t("exportCSV") }}
+        </b-button>
+      </json-csv>
+
       <span>
         {{
           $t("pagePosition", {
@@ -108,12 +115,30 @@
 
 <script>
 import Multiselect from "vue-multiselect";
+import JsonCsv from "vue-json-csv";
 export default {
   name: "BDataTable",
   components: {
     Multiselect,
+    JsonCsv,
   },
   computed: {
+    exportedItems() {
+      const field_keys = new Set(this.fields.map((field) => field.key));
+      return this.items.map((item) =>
+        this.fields.reduce((acc, field) => {
+          acc[field.key] = field.formatter
+            ? field.formatter(item[field.key])
+            : item[field.key];
+          return acc;
+        }, {})
+      );
+    },
+    exportedHeader() {
+      return Object.fromEntries(
+        this.fields.map((f) => [f.key, f.label ? f.label : f.key])
+      );
+    },
     locale() {
       return this.$i18n.locale;
     },
