@@ -37,7 +37,7 @@ import QueryBuilderGroup from "./QueryBuilderGroup";
 export default {
   name: "QueryBuilderChildren",
 
-  components: {  QueryBuilderGroup, QueryBuilderRule, },
+  components: { QueryBuilderGroup, QueryBuilderRule },
 
   // eslint-disable-next-line vue/require-prop-types
   props: ["query", "ruleTypes", "rules", "maxDepth", "labels", "depth"],
@@ -46,8 +46,8 @@ export default {
     childrenWithId() {
       return this.query.children.map((child, index) => {
         child.id = index;
-        return child
-      })
+        return child;
+      });
     },
     ruleChildren() {
       return this.childrenWithId.filter(

@@ -124,7 +124,9 @@ export default {
     QueryBuilderChildren,
   },
   extends: QueryBuilderGroup,
-  props: ['active'],
+  props: {
+    active: Boolean,
+  },
   watch: {
     rules(newRules) {
       this.selectedRule = newRules[0];
@@ -135,8 +137,7 @@ export default {
 
 <style lang="less">
 .vue-query-builder .vqb-group {
-
-  .vqb-custom-component-wrap{
+  .vqb-custom-component-wrap {
     width: 100%;
   }
 
@@ -188,7 +189,6 @@ export default {
     }
   }
 }
-
 
 .vue-query-builder .vqb-rule {
   border-color: #ddd;
