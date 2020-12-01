@@ -17,14 +17,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\ReferentielTaxon;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\ReferentielTaxon;
 
 /**
  * Referentieltaxon controller.
@@ -62,19 +62,19 @@ class ReferentielTaxonController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('referentielTaxon.dateMaj' => 'desc', 'referentielTaxon.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(referentielTaxon.taxname) LIKE :criteriaLower';
+    $where = 'LOWER(referentielTaxon.taxname) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:ReferentielTaxon")
       ->createQueryBuilder('referentielTaxon')
@@ -83,39 +83,39 @@ class ReferentielTaxonController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                         => $id, "referentielTaxon.id" => $id,
-        "referentielTaxon.taxname"   => $entity->getTaxname(),
-        "referentielTaxon.rank"      => $entity->getRank(),
-        "referentielTaxon.family"    => $entity->getFamily(),
-        "referentielTaxon.validity"  => $entity->getValidity(),
+        "id" => $id, "referentielTaxon.id" => $id,
+        "referentielTaxon.taxname" => $entity->getTaxname(),
+        "referentielTaxon.rank" => $entity->getRank(),
+        "referentielTaxon.family" => $entity->getFamily(),
+        "referentielTaxon.validity" => $entity->getValidity(),
         "referentielTaxon.codeTaxon" => $entity->getCodeTaxon(),
-        "referentielTaxon.clade"     => $entity->getClade(),
-        "referentielTaxon.dateCre"   => $DateCre,
-        "referentielTaxon.dateMaj"   => $DateMaj,
-        "userCreId"                  => $service->GetUserCreId($entity),
-        "referentielTaxon.userCre"   => $service->GetUserCreUsername($entity),
-        "referentielTaxon.userMaj"   => $service->GetUserMajUsername($entity),
+        "referentielTaxon.clade" => $entity->getClade(),
+        "referentielTaxon.dateCre" => $DateCre,
+        "referentielTaxon.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "referentielTaxon.userCre" => $service->GetUserCreUsername($entity),
+        "referentielTaxon.userMaj" => $service->GetUserMajUsername($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -127,7 +127,7 @@ class ReferentielTaxonController extends AbstractController {
    */
   public function newAction(Request $request) {
     $referentielTaxon = new Referentieltaxon();
-    $form             = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
+    $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -147,14 +147,14 @@ class ReferentielTaxonController extends AbstractController {
         );
       }
       return $this->redirectToRoute('referentieltaxon_edit', array(
-        'id'    => $referentielTaxon->getId(),
+        'id' => $referentielTaxon->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/referentieltaxon/edit.html.twig', array(
       'referentielTaxon' => $referentielTaxon,
-      'edit_form'        => $form->createView(),
+      'edit_form' => $form->createView(),
     ));
   }
 
@@ -165,7 +165,7 @@ class ReferentielTaxonController extends AbstractController {
    */
   public function showAction(ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
       ['action_type' => Action::show()]
@@ -173,8 +173,8 @@ class ReferentielTaxonController extends AbstractController {
 
     return $this->render('Core/referentieltaxon/edit.html.twig', array(
       'referentielTaxon' => $referentielTaxon,
-      'edit_form'        => $editForm->createView(),
-      'delete_form'      => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -186,10 +186,10 @@ class ReferentielTaxonController extends AbstractController {
    */
   public function editAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::edit()]
     );
     $editForm->handleRequest($request);
 
@@ -207,15 +207,15 @@ class ReferentielTaxonController extends AbstractController {
       }
       return $this->render('Core/referentieltaxon/edit.html.twig', array(
         'referentielTaxon' => $referentielTaxon,
-        'edit_form'        => $editForm->createView(),
-        'valid'            => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/referentieltaxon/edit.html.twig', array(
       'referentielTaxon' => $referentielTaxon,
-      'edit_form'        => $editForm->createView(),
-      'delete_form'      => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -267,7 +267,7 @@ class ReferentielTaxonController extends AbstractController {
    * @Route("/json/species-list", name="species-list", methods={"GET"})
    */
   public function listSpecies() {
-    $qb    = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $query = $qb->select('rt.id, rt.genus, rt.species, rt.taxname')
     // index results by genus
       ->from('App:ReferentielTaxon', 'rt')
