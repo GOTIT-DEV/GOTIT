@@ -82,7 +82,7 @@ export default {
               ...operators.between,
               ...operators.nullable,
             ],
-            inputType: 'date',
+            inputType: "date",
             id: "datetime-field",
           };
         },
@@ -90,7 +90,6 @@ export default {
           operators: [
             ...operators.numeric,
             ...operators.nullable,
-            ,
             "between",
             "not between",
           ],
