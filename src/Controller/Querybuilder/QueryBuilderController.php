@@ -42,20 +42,18 @@ class QueryBuilderController extends AbstractController {
    *  Returns the response of the query.
    */
   public function query(Request $request, QueryBuilderService $service) {
-    $data = $request->request->all();
+    $data = json_decode($request->getContent(), true);
     $selectedFields = $service->getSelectFields($data);
     $em = $this->getDoctrine()->getManager();
     $qb = $em->createQueryBuilder();
     $query = $service->makeQuery($data, $qb);
     $q = $query->getQuery();
-    $results = $q->getArrayResult();
+    $results = $q->getScalarResult();
     return new JsonResponse([
       "dql" => $q->getDql(),
       "sql" => $q->getSql(),
-      "results" => $this->renderView(
-        'QueryBuilder/resultQuery.html.twig',
-        ["results" => $results, "selectedFields" => $selectedFields]
-      ),
+      "results" => $results,
+      "fields" => $selectedFields,
     ]);
   }
 }

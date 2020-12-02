@@ -1,126 +1,120 @@
+<template>
+  <div>
+    <query-form @update:results="updateResults($event)" @submit="onSubmit">
+    </query-form>
+    <hr />
+    <div ref="results" v-if="submitted">
+      <legend class="mb-3">
+        <h3>
+          Results
+          <b-button variant="primary" v-b-modal.sql-modal :disabled="loading">
+            Get SQL
+          </b-button>
+        </h3>
+      </legend>
+      <b-modal
+        id="sql-modal"
+        size="xl"
+        body-bg-variant="dark"
+        title="Query as SQL"
+        scrollable
+        @show="copyDone = false"
+      >
+        <template #modal-title> Query as SQL </template>
+
+        <template #modal-footer="{ ok }">
+          <b-button
+            :variant="copyDone ? 'success' : 'info'"
+            v-clipboard:copy="formattedSql"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onCopyFail"
+          >
+            {{ $t(copyDone ? "Copied" : "Copy") }}
+            <font-awesome-icon :icon="copyDone ? 'check' : 'copy'" />
+          </b-button>
+          <b-button variant="primary" @click="ok()"> OK </b-button>
+        </template>
+
+        <pre
+          id="sql-query"
+          v-highlightjs="formattedSql"
+        ><code class="SQL"/></pre>
+      </b-modal>
+
+      <b-data-table :items="results" :fields="fields" />
+    </div>
+  </div>
+</template>
 
 <script>
-/* eslint-disable vue/require-default-prop */
-import VueQueryBuilder from "vue-query-builder";
-import MultiSelect from "vue-multiselect";
+import QueryForm from "./QueryForm";
+import BDataTable from "../../components/BDataTable";
 
-var defaultLabels = {
-  matchType: "Operator",
-  matchTypes: [
-    { id: "and", label: "AND" },
-    { id: "or", label: "OR" },
-  ],
-  addRule: "Add Rule",
-  removeRule: "&times;",
-  addGroup: "Add Group",
-  removeGroup: "&times;",
-  textInputPlaceholder: "",
-};
-
-const operators = {
-  numeric: ["=", "!=", "<", "<=", ">", ">="],
-  nullable: ["is null", "is not null"],
-  between: ["between", "not between"],
-};
+import SQLFormat from "sql-formatter";
 
 export default {
-  name: "QueryBuilder",
-  extends: VueQueryBuilder,
-  props: {
-    labels: {
-      type: Object,
-      default() {
-        return defaultLabels;
-      },
+  components: {
+    QueryForm,
+    BDataTable,
+  },
+  computed: {
+    formattedSql() {
+      return SQLFormat.format(this.querySql);
     },
   },
   data() {
     return {
-      query: {
-        logicalOperator: this.labels.matchTypes[0].id,
-        children: [],
-      },
-      ruleTypes: {
-        text: {
-          operators: [
-            "equals",
-            "does not equal",
-            "contains",
-            "does not contain",
-            "is empty",
-            "is not empty",
-            "begins with",
-            "ends with",
-            ...operators.nullable,
-            "in",
-            "not in",
-          ],
-          inputType: "text",
-          id: "text-field",
-        },
-        date: {
-          operators: [
-            ...operators.numeric,
-            ...operators.nullable,
-            "between",
-            "not between",
-            "in",
-            "not in",
-          ],
-          inputType: "date",
-          id: "date-field",
-        },
-        get datetime() {
-          return {
-            operators: [
-              "on day",
-              "not on day",
-              "<",
-              "<=",
-              ">",
-              ">=",
-              ...operators.between,
-              ...operators.nullable,
-            ],
-            inputType: "date",
-            id: "datetime-field",
-          };
-        },
-        numeric: {
-          operators: [
-            ...operators.numeric,
-            ...operators.nullable,
-            "between",
-            "not between",
-          ],
-          inputType: "number",
-          id: "number-field",
-        },
-        custom: {
-          operators: [],
-          inputType: "text",
-          id: "custom-field",
-        },
-        radio: {
-          operators: [],
-          choices: [],
-          inputType: "radio",
-          id: "radio-field",
-        },
-        checkbox: {
-          operators: [],
-          choices: [],
-          inputType: "checkbox",
-          id: "checkbox-field",
-        },
-        select: {
-          operators: [],
-          choices: [],
-          inputType: "select",
-          id: "select-field",
-        },
-      },
+      results: [],
+      fields: [],
+      querySql: "",
+      submitted: false,
+      loading: false,
+      copyDone: false,
     };
+  },
+  methods: {
+    onCopy() {
+      this.copyDone = true;
+    },
+    onCopyFail() {},
+    onSubmit() {
+      this.loading = true;
+    },
+    updateResults(data) {
+      this.loading = false;
+      this.submitted = true;
+      this.results = data.results;
+      this.querySql = data.sql;
+      this.fields = this.formatFields(data.fields);
+    },
+    formatFields(fields) {
+      return Array.from(Object.entries(fields)).reduce(
+        (acc, [table, columns]) => {
+          return acc.concat(
+            columns.map((c) => ({
+              key: `${table}_${c}`,
+              label: `${table}.${c}`,
+            }))
+          );
+        },
+        []
+      );
+    },
   },
 };
 </script>
+
+<style lang="less">
+@import "~highlight.js/styles/monokai.css";
+
+#sql-modal {
+  .modal-body {
+    padding: 0;
+    #sql-query {
+      max-height: 75vh;
+      font-size: 12pt;
+      margin: 0;
+    }
+  }
+}
+</style>

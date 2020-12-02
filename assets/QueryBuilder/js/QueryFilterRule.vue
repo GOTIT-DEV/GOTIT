@@ -258,13 +258,13 @@
 
 <script>
 import QueryBuilderRule from "vue-query-builder/src/components/QueryBuilderRule";
-import MultiSelect from "vue-multiselect";
+import Multiselect from "vue-multiselect";
 import Mask from "../../directives/InputMask";
 
 export default {
   extends: QueryBuilderRule,
   directives: { Mask },
-  components: { multiselect: MultiSelect },
+  components: { Multiselect },
   computed: {
     isMultiple() {
       return (

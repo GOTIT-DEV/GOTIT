@@ -1,7 +1,7 @@
 <template>
   <div class="vqb-children">
     <b-list-group flush>
-      <QueryBuilderRule
+      <query-filter-rule
         v-for="(child, index) in ruleChildren"
         :key="index"
         :depths="depth + 1"
@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import QueryBuilderRule from "./QueryBuilderRule";
-import QueryBuilderGroup from "./QueryBuilderGroup";
+import QueryFilterRule from "./QueryFilterRule";
+// import QueryFilterGroup from "./QueryFilterGroup";
 
 export default {
-  name: "QueryBuilderChildren",
+  name: "QueryFilterChildren",
 
-  components: { QueryBuilderGroup, QueryBuilderRule },
+  components: { QueryFilterRule },
 
   // eslint-disable-next-line vue/require-prop-types
   props: ["query", "ruleTypes", "rules", "maxDepth", "labels", "depth"],
@@ -69,8 +69,8 @@ export default {
   },
 
   mounted() {
-    this.groupComponent = this.$parent.$options.components["QueryBuilderGroup"];
-    this.ruleComponent = this.$parent.$options.components["QueryBuilderRule"];
+    this.groupComponent = this.$parent.$options.components["QueryFilterGroup"];
+    this.ruleComponent = this.$parent.$options.components["QueryFilterRule"];
   },
 
   methods: {

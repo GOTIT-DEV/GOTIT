@@ -7,7 +7,7 @@
     <div class="vqb-group-heading card-header d-flex">
       <div v-if="depth == 1" class="filter-switch mr-3">
         <label class="mr-2"> FILTER </label>
-        <ToggleButton
+        <toggle-button
           id="toggle-constraints"
           class="toggle-btn"
           :value="active"
@@ -42,8 +42,7 @@
                 label="id"
                 :showLabels="false"
                 v-model="selectedRule"
-              >
-              </multiselect>
+              />
               <!-- <b-select v-model="selectedRule">
                 <b-select-option
                   v-for="rule in rules"
@@ -76,7 +75,7 @@
             class="close ml-auto"
             @click="remove"
             v-html="labels.removeGroup"
-          ></button>
+          />
           <b-button
             v-else
             variant="light"
@@ -100,7 +99,7 @@
           class="qbuilder"
           v-model="active"
         > -->
-        <query-builder-children v-bind="$props" />
+        <query-filter-children v-bind="$props" />
         <!-- </b-collapse> -->
       </div>
     </transition>
@@ -109,19 +108,19 @@
 
 <script>
 import QueryBuilderGroup from "vue-query-builder/src/components/QueryBuilderGroup";
-import QueryBuilderRule from "./QueryBuilderRule";
-import QueryBuilderChildren from "./QueryBuilderChildren";
+import QueryFilterRule from "./QueryFilterRule";
+import QueryFilterChildren from "./QueryFilterChildren";
 import Multiselect from "vue-multiselect";
 import { ToggleButton } from "vue-js-toggle-button";
 
 export default {
-  name: "QueryBuilderGroup",
+  name: "QueryFilterGroup",
   components: {
     // eslint-disable-next-line vue/no-unused-components
     ToggleButton,
     Multiselect,
-    QueryBuilderRule,
-    QueryBuilderChildren,
+    QueryFilterRule,
+    QueryFilterChildren,
   },
   extends: QueryBuilderGroup,
   props: {

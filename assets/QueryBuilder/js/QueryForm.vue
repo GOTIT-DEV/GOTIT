@@ -1,16 +1,19 @@
 <template>
   <form action @submit.prevent="submit">
+    <legend>
+      <h2 id="query-fields-title">{{ $t("query") | capitalize }}</h2>
+    </legend>
+
     <!-- Initial block -->
-    <QueryBlock
+    <query-block
       class="mb-3"
       :schema="schema"
-      ref="initForm"
-      @update:alias="initialAliasUpdated($event)"
+      ref="initBlock"
       @update:table="initialTable = $event"
-    ></QueryBlock>
+    />
 
     <!-- Join blocks -->
-    <QueryBlock
+    <query-block
       v-for="(block, index) in joins"
       :key="block.id"
       :id="block.id"
@@ -18,46 +21,62 @@
       :schema="schema"
       ref="joinForm"
       v-bind:availableTables="availableTables.slice(0, index + 1)"
-      @update:alias="joinAliasUpdated(index, $event)"
-      @update:table="$set(joins, index, { ...$event, id: joins[index].id })"
+      @update:table="$set(joins, index, $event)"
       @delete-join="joins.splice(index, 1)"
       join
-    ></QueryBlock>
+    />
 
     <div class="form-buttons">
       <b-button variant="success" @click="addJoin">
         <i class="fas fa-plus-circle"></i>
-        Join new table
+        {{ $t("join_table") }}
       </b-button>
-      <ButtonLoading id="submit" ref="submit" v-bind:loading="loading">
-        Search
-      </ButtonLoading>
-      <b-button variant="warning" @dblclick="reset">Clear</b-button>
+      <button-loading id="submit" ref="submit" v-bind:loading="loading">
+        {{ $t("search") | capitalize }}
+      </button-loading>
+      <b-button
+        variant="light"
+        class="border-warning text-secondary"
+        @click="reset"
+      >
+        <font-awesome-icon class="text-primary" icon="redo" />
+        {{ $t("reset") | capitalize }}
+      </b-button>
     </div>
   </form>
 </template>
+
+<i18n>
+{
+  "en": {
+    "query" : "query",
+    "join_table": "Join new table",
+    "search": "search",
+    "reset": "reset"
+  },
+  "fr": {
+    "query": "requête",
+    "join_table": "Nouvelle jointure",
+    "search": "rechercher",
+    "reset": "réinitialiser"
+  }
+}
+</i18n>
 
 <script>
 import QueryBlock from "./QueryBlock";
 import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
 
 import ButtonLoading from "../../components/ButtonLoading";
-import MultiSelect from "vue-multiselect";
-
-import SQLFormat from "sql-formatter";
-import hljs from "highlight.js/lib/core";
-import sql from "highlight.js/lib/languages/sql";
-import "highlight.js/styles/monokai.css";
-hljs.registerLanguage("sql", sql);
+import Multiselect from "vue-multiselect";
 
 export default {
   components: { QueryBlock, ButtonLoading },
   computed: {
+    /** Tables involved in the query */
     availableTables() {
       return [this.initialTable, ...this.joins]
-        .map(({ table, alias, prevAlias }) => {
-          return { table, alias, prevAlias };
-        })
+        .map(({ table, alias, prevAlias }) => ({ table, alias, prevAlias }))
         .filter(({ table }) => table in this.schema);
     },
   },
@@ -71,101 +90,47 @@ export default {
       loading: true,
     };
   },
+  async created() {
+    let response = await fetch("init");
+    this.schema = await response.json();
+    this.loading = false;
+  },
   methods: {
     addJoin() {
       this.joins.push({ id: (this.joinsCount += 1) });
     },
-    initialAliasUpdated(value) {
-      this.initialTable = { ...value, prevAlias: this.initialTable.alias };
-    },
-    joinAliasUpdated(index, value) {
-      let join = this.joins[index];
-      if (join.table === value.table) {
-        this.$set(this.joins, index, {
-          ...value,
-          prevAlias: join.alias,
-          id: join.id,
-        });
-      }
-    },
     reset() {
       this.joins = [];
+      this.$refs.initBlock.hasConstraints = false;
+      this.$refs.initBlock.resetQuery();
     },
-    submit() {
+    async submit() {
       this.loading = true;
       const joinBlocks = this.$refs.joinForm || [];
       const jsonData = {
-        initial: this.$refs.initForm.getFormData(),
+        initial: this.$refs.initBlock.getFormData(),
         joins: joinBlocks.map((block) => block.getFormData()).flat(),
       };
+      this.$emit("submit", jsonData);
 
-      document.getElementById("getSqlButton").disabled = true;
-      $.ajax({
-        url: "query",
-        type: "POST",
-        data: jsonData,
-        dataType: "json",
-        success: (response) => {
-          // $("#contentModalQuery").html(SQLFormat.format(response.dql));
-          const sqlContainer = document.getElementById("contentModalQuerySql");
-          sqlContainer.textContent = SQLFormat.format(response.sql);
-          hljs.highlightBlock(sqlContainer);
-
-          $("#result-container").html(response.results);
-
-          $("#result-table").DataTable({
-            ...dtconfig,
-            dom: "lfrtipB",
-            autoWidth: false,
-            responsive: true,
-            language: dtconfig.language[Translator.locale]
-          });
-          this.loading = false;
-          $("#results").collapse("show");
-          document.getElementById("getSqlButton").disabled = false;
-        },
+      const response = await fetch("query", {
+        method: "POST",
+        body: JSON.stringify(jsonData),
       });
+      const data = await response.json();
+      this.loading = false;
+      this.$emit("update:results", data);
     },
-  },
-  async created() {
-    let response = await fetch("init");
-    let json = await response.json();
-    json.Voc.filters = json.Voc.filters.map((rule) => {
-      if (rule.id == "parent") {
-        return {
-          ...rule,
-          component: MultiSelect,
-          operators: ["=", "!=", "in", "not in", "is null", "is not null"],
-          props: {
-            options: [
-              ...new Set(json.Voc.content.map((voc) => voc.parent)),
-            ].sort(),
-            searchable: true,
-            allowEmpty: false,
-            required: true,
-            showLabels: false,
-          },
-        };
-      } else {
-        return rule;
-      }
-    });
-    this.schema = json;
-    this.loading = false;
   },
 };
 </script>
 
 <style lang="less" scoped>
-#submit {
-  width: 200px;
-}
-
 div.form-buttons {
   display: flex;
   justify-content: space-between;
-  #search-btn {
-    min-width: 200px;
+  #submit {
+    width: 200px;
   }
 }
 </style>

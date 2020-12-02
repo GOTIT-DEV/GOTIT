@@ -67,8 +67,11 @@ class QueryBuilderService {
       $query = $query->addSelect($alias . "." . $value . " AS " . $alias . "_" . $value);
     };
     // If there are some constraints addedby the user
-    if (array_key_exists('rules', $initial)) {
-      $query->andWhere($this->parseGroup($initial['rules'], $qb, $alias));
+    if ($initial['rules']) {
+      $constraint = $this->parseGroup($initial['rules'], $qb, $alias);
+      if ($constraint) {
+        $query->andWhere($constraint);
+      }
     }
 
     return $query;
@@ -91,8 +94,11 @@ class QueryBuilderService {
       // Join tables
       $query = $this->makeJoin($j, $query);
       // Parse constraints if the user chooses to apply some.
-      if (array_key_exists('rules', $j)) {
-        $query->andWhere($this->parseGroup($j['rules'], $query, $j["alias"]));
+      if ($j['rules']) {
+        $constraint = $this->parseGroup($j['rules'], $query, $j['alias']);
+        if ($constraint) {
+          $query->andWhere($constraint);
+        }
       }
     }
 
@@ -107,8 +113,6 @@ class QueryBuilderService {
    *
    */
   private function parseRule($rule, $qb, $tableAlias) {
-    // If we are on a rule, we create the constraint
-    // if (array_key_exists("operator", $rule)) {
     $rule['operator'] = str_replace(" ", "_", $rule['operator']);
     $value = $rule['value'] ?? null;
     if ($value) {
@@ -138,11 +142,13 @@ class QueryBuilderService {
     switch ($rule["operator"]) {
     case 'equals':
     case '=':
+    case 'on_day':
       return $qb->expr()->eq($column, $value);
       break;
     case 'does_not_equal':
     case '<>':
     case '!=':
+    case 'not_on_day':
       return $qb->expr()->neq($column, $value);
       break;
     case 'in':
@@ -200,13 +206,6 @@ class QueryBuilderService {
       throw new InvalidArgumentException("Querybuilder : Unknown operator " . $rule['operator']);
       break;
     }
-
-    // If we are on a new group, we parse it with the dedicated function
-    // } else if ($rule['type'] == 'query-builder-group') {
-    //   return $this->parseGroup($rule, $qb, $tableAlias);
-    // } else {
-    //   throw new InvalidArgumentException("Querybuilder : Invalid rule encountered");
-    // }
   }
 
   /**
@@ -229,17 +228,21 @@ class QueryBuilderService {
 
     };
     // Create an array with all the rules
-    if (array_key_exists('children', $group)) {
-      $constraints = array_map($parseChild, $group["children"]);
+    if ($group['children']) {
+      $constraints = array_filter(array_map($parseChild, $group["children"]));
       $operator = $group["logicalOperator"];
       // Create the constraint with the appropriate operator
-      if ($operator === "and") {
+      if (empty($constraints)) {
+        return null;
+      } else if ($operator === "and") {
         return $qb->expr()->andX(...$constraints);
       } else if ($operator === "or") {
         return $qb->expr()->orX(...$constraints);
       } else {
         throw new InvalidArgumentException("Querybuilder : Invalid operator " . $operator);
       }
+    } else {
+      return null;
     }
   }
 

@@ -1,166 +1,168 @@
 <template>
-  <div>
-    <b-card class="query-block mb-5" header-tag="header" footer-tag="footer">
-      <!-- Join Block header -->
-      <template v-if="join" v-slot:header class="header-container">
-        <div>
-          <label>FROM</label>
-          <multiselect
-            id="table-select"
-            :options="availableTables"
-            label="alias"
-            track-by="alias"
-            :show-labels="false"
-            :searchable="false"
-            :allow-empty="false"
-            required
-            v-model="from"
-          >
-            <template slot="singleLabel" slot-scope="{ option }">
-              {{ option.table }} | {{ option.alias }}
-            </template>
-            <template slot="option" slot-scope="props">
-              {{ props.option.table }} | {{ props.option.alias }}
-            </template>
-          </multiselect>
-        </div>
-
-        <div>
-          <label>JOIN</label>
-          <multiselect
-            id="join-type"
-            required
-            v-model="joinType"
-            :options="['Inner Join', 'Left Join']"
-            :allowEmpty="false"
-            :preselectFirst="true"
-            :searchable="false"
-            :show-labels="false"
-          ></multiselect>
-        </div>
-        <div id="join-target">
-          <label>TO</label>
-          <multiselect
-            id="adjtables-select"
-            v-model="table"
-            :options="tableList"
-            label="label"
-            :searchable="false"
-            @change="tableChanged"
-            required
-            :disabled="from == undefined"
-            :show-labels="false"
-          ></multiselect>
-        </div>
-
-        <div v-if="joinPathList.length > 1">
-          <label>BY</label>
-          <multiselect
-            id="joinPath-select"
-            v-model="path"
-            required
-            :options="joinPathList"
-            :allowEmpty="false"
-            :searchable="false"
-            :show-labels="false"
-          >
-            <template slot="singleLabel" slot-scope="{ option }">
-              {{ option.from }}
-              <i class="fas fa-long-arrow-alt-right"></i>
-              {{ option.to }}
-            </template>
-            <template slot="option" slot-scope="props">
-              {{ props.option.from }}
-              <i class="fas fa-long-arrow-alt-right"></i>
-              {{ props.option.to }}
-            </template>
-          </multiselect>
-        </div>
-        <b-button
-          variant="danger"
-          class="remove-join"
-          @click="$emit('delete-join')"
-        >
-          <i class="fas fa-times"></i>
-        </b-button>
-      </template>
-
-      <!-- Initial Block header -->
-      <template v-else v-slot:header class="header-container">
-        <div>
-          <label>TABLE</label>
-          <multiselect
-            id="table-select"
-            ref="table"
-            :options="groupedTableList"
-            label="name"
-            v-model="table"
-            required
-            group-values="entities"
-            group-label="type"
-            :allowEmpty="false"
-            :show-labels="false"
-            @change="tableChanged"
-          >
-          </multiselect>
-        </div>
-      </template>
-      <!-- Block content -->
-
-      <div class="alias">
-        <label>ALIAS</label>
-        <b-input
-          id="alias"
-          type="text"
-          v-model="alias"
-          required
-          :disabled="!table.name"
-          @input="aliasChanged"
-        ></b-input>
-      </div>
-
-      <div class="fields-select">
-        <label>SELECT</label>
+  <b-card
+    border-variant="info"
+    class="query-block mb-5"
+    header-tag="header"
+    footer-tag="footer"
+  >
+    <!-- Join Block header -->
+    <template v-if="join" v-slot:header class="header-container">
+      <div>
+        <label>FROM</label>
         <multiselect
-          id="fields-select"
-          v-model="fields"
-          :options="groupedFieldList"
-          :close-on-select="false"
-          group-values="fields"
-          group-label="group"
-          :group-select="true"
-          multiple
-          required
-          label="label"
-          trackBy="label"
+          id="table-select"
+          :options="availableTables"
+          label="alias"
+          track-by="alias"
+          :show-labels="false"
           :searchable="false"
-          :disabled="!table.name"
-        ></multiselect>
+          :allow-empty="false"
+          required
+          v-model="from"
+        >
+          <template slot="singleLabel" slot-scope="{ option }">
+            {{ option.table }} | {{ option.alias }}
+          </template>
+          <template slot="option" slot-scope="props">
+            {{ props.option.table }} | {{ props.option.alias }}
+          </template>
+        </multiselect>
       </div>
 
-      <QueryBuilder id="querybuilder" :rules="rules" :query.sync="query">
-        <template v-slot:default="slotProps">
-          <QueryBuilderGroup
-            v-bind="slotProps"
-            :query.sync="query"
-            :active.sync="hasConstraints"
-            @reset="resetQuery"
-          />
-        </template>
-      </QueryBuilder>
-    </b-card>
-  </div>
+      <div>
+        <label>JOIN</label>
+        <multiselect
+          id="join-type"
+          required
+          v-model="joinType"
+          :options="['Inner Join', 'Left Join']"
+          :allowEmpty="false"
+          :preselectFirst="true"
+          :searchable="false"
+          :show-labels="false"
+        />
+      </div>
+      <div id="join-target">
+        <label>TO</label>
+        <multiselect
+          id="adjtables-select"
+          v-model="table"
+          :options="tableList"
+          label="label"
+          :searchable="false"
+          @change="tableChanged"
+          required
+          :disabled="from == undefined"
+          :show-labels="false"
+        />
+      </div>
+
+      <div v-if="joinPathList.length > 1">
+        <label>BY</label>
+        <multiselect
+          id="joinPath-select"
+          v-model="path"
+          required
+          :options="joinPathList"
+          :allowEmpty="false"
+          :searchable="false"
+          :show-labels="false"
+        >
+          <template slot="singleLabel" slot-scope="{ option }">
+            {{ option.from }}
+            <i class="fas fa-long-arrow-alt-right"></i>
+            {{ option.to }}
+          </template>
+          <template slot="option" slot-scope="props">
+            {{ props.option.from }}
+            <i class="fas fa-long-arrow-alt-right"></i>
+            {{ props.option.to }}
+          </template>
+        </multiselect>
+      </div>
+      <b-button
+        variant="danger"
+        class="remove-join"
+        @click="$emit('delete-join')"
+      >
+        <i class="fas fa-times"></i>
+      </b-button>
+    </template>
+
+    <!-- Initial Block header -->
+    <template v-else v-slot:header class="header-container">
+      <div>
+        <label>TABLE</label>
+        <multiselect
+          id="table-select"
+          ref="table"
+          :options="groupedTableList"
+          label="name"
+          v-model="table"
+          required
+          group-values="entities"
+          group-label="type"
+          :allowEmpty="false"
+          :show-labels="false"
+          @change="tableChanged"
+        />
+      </div>
+    </template>
+    <!-- Block content -->
+
+    <div class="alias">
+      <label>ALIAS</label>
+      <b-input
+        id="alias"
+        type="text"
+        v-model="alias"
+        required
+        :disabled="!table.name"
+        @blur="validateAlias()"
+      />
+    </div>
+
+    <div class="fields-select">
+      <label>SELECT</label>
+      <multiselect
+        id="fields-select"
+        v-model="fields"
+        :options="groupedfilters"
+        :close-on-select="false"
+        group-values="fields"
+        group-label="group"
+        :group-select="true"
+        multiple
+        required
+        label="label"
+        trackBy="label"
+        :searchable="false"
+        :disabled="!table.name"
+      />
+    </div>
+
+    <query-filter id="querybuilder" :rules="rules" :query.sync="query">
+      <template v-slot:default="slotProps">
+        <query-filter-group
+          v-bind="slotProps"
+          :query.sync="query"
+          :active.sync="hasConstraints"
+          @reset="resetQuery"
+        />
+      </template>
+    </query-filter>
+  </b-card>
 </template>
 
 <script>
 import Multiselect from "vue-multiselect";
 import { ToggleButton } from "vue-js-toggle-button";
 
-import QueryBuilder from "./QueryBuilder";
-import QueryBuilderGroup from "./QueryBuilderGroup";
+import QueryFilter from "./QueryFilter";
+import QueryFilterGroup from "./QueryFilterGroup";
 
 export default {
-  components: { ToggleButton, Multiselect, QueryBuilder, QueryBuilderGroup },
+  components: { ToggleButton, Multiselect, QueryFilter, QueryFilterGroup },
   props: {
     id: { type: Number },
     join: { type: Boolean, default: false },
@@ -168,6 +170,15 @@ export default {
     availableTables: { type: Array, default: () => [] },
   },
   computed: {
+    state() {
+      return {
+        id: this.id,
+        from: this.from,
+        table: this.table.name,
+        alias: this.alias,
+        prevAlias: this.prevAlias,
+      };
+    },
     relations() {
       return this.from == undefined
         ? {}
@@ -223,53 +234,15 @@ export default {
         });
     },
     rules() {
-      return this.join && this.table.name == "Voc"
-        ? this.fieldList
-            .filter((rule) => rule.id != "parent")
-            .map((rule) => {
-              if (rule.id == "code" || rule.id == "libelle") {
-                return {
-                  ...rule,
-                  type: "custom-component",
-                  component: Multiselect,
-                  operators: [
-                    "=",
-                    "!=",
-                    "in",
-                    "not in",
-                    "is null",
-                    "is not null",
-                  ],
-                  props: {
-                    options: [
-                      ...new Set(
-                        this.table.content
-                          .filter((voc) => {
-                            const match = this.path.from.match(
-                              /(?<parent>\w+)VocFk/
-                            );
-                            return match && match.groups.parent == voc.parent;
-                          })
-                          .map((voc) => voc[rule.id])
-                      ),
-                    ].sort(),
-                    searchable: true,
-                    allowEmpty: false,
-                    required: true,
-                    showLabels: false,
-                  },
-                };
-              } else {
-                return rule;
-              }
-            })
-        : this.fieldList;
+      return this.table.name == "Voc"
+        ? this.setupVocFilters(this.filters)
+        : this.filters;
     },
-    fieldList() {
+    filters() {
       return this.table.filters || [];
     },
-    groupedFieldList() {
-      return this.fieldList.reduce(
+    groupedfilters() {
+      return this.filters.reduce(
         (acc, f) => {
           const group = f.id.endsWith("Maj") || f.id.endsWith("Cre") ? 1 : 0;
           acc[group].fields.push(f);
@@ -293,6 +266,7 @@ export default {
       table: {},
       path: undefined,
       alias: "",
+      prevAlias: "",
       fields: [],
       query: {
         logicalOperator: "and",
@@ -315,7 +289,7 @@ export default {
         }
       },
     },
-    fieldList: function (newList) {
+    filters: function (newList) {
       this.resetQuery();
       this.fields = this.join
         ? []
@@ -334,6 +308,11 @@ export default {
     },
     table: function (newTable) {
       this.alias = this.generateAlias(newTable.name);
+      this.prevAlias = "";
+      this.tableChanged();
+    },
+    alias: function (newAlias, oldAlias) {
+      this.prevAlias = oldAlias;
       this.tableChanged();
     },
     joinPathList: function (newList) {
@@ -341,22 +320,53 @@ export default {
     },
   },
   methods: {
+    setupVocFilters(vocFilters) {
+      let content = this.table.content;
+      if (this.join) {
+        const match = this.path.from.match(/(?<parent>\w+)VocFk/);
+        content = this.table.content.filter(
+          (voc) => match && match.groups.parent == voc.parent
+        );
+      }
+      return (
+        vocFilters
+          // Remove `parent` rule when in a join block
+          .filter((rule) => !this.join || rule.id != "parent")
+          .map((rule) => {
+            return ["parent", "code", "libelle"].includes(rule.id)
+              ? {
+                  ...rule,
+                  type: "custom-component",
+                  component: Multiselect,
+                  operators: [
+                    "=",
+                    "!=",
+                    "in",
+                    "not in",
+                    "is null",
+                    "is not null",
+                  ],
+                  props: {
+                    ...rule.props,
+
+                    options: [
+                      ...new Set(content.map((voc) => voc[rule.id])),
+                    ].sort(),
+                    searchable: true,
+                    allowEmpty: false,
+                    required: true,
+                    showLabels: false,
+                  },
+                }
+              : rule;
+          })
+      );
+    },
     resetQuery() {
       this.query = { logicalOperator: "and", children: [] };
     },
     tableChanged() {
-      this.$emit("update:table", {
-        from: this.from,
-        table: this.table.name,
-        alias: this.alias,
-      });
-    },
-    aliasChanged() {
-      this.$emit("update:alias", {
-        from: this.from,
-        table: this.table.name,
-        alias: this.alias,
-      });
+      this.$emit("update:table", this.state);
     },
     generateAlias(table) {
       if (!table) return undefined;
@@ -370,17 +380,15 @@ export default {
       }
       return alias;
     },
-    resetQueryBuilder() {
-      $(this.$refs.querybuilder).queryBuilder("reset");
+    validateAlias() {
+      if (this.alias == "") this.alias = this.generateAlias(this.table.name);
     },
-
     getBaseFormData() {
       return {
         table: this.table.name,
         alias: this.alias,
         fields: this.fields.map((f) => f.label),
-        rules:
-          this.hasConstraints && this.query.children.length ? this.query : [],
+        rules: this.query,
       };
     },
     getJoinFormData() {
