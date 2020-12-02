@@ -87,7 +87,7 @@
         :data="exportedItems"
         :labels="exportedHeader"
       >
-        <b-button size="sm" variant="light" class="border">
+        <b-button size="sm" variant="light" class="border" :disabled="!rows">
           <i class="fas fa-download"></i>
           {{ $t("exportCSV") }}
         </b-button>
@@ -95,11 +95,13 @@
 
       <span>
         {{
-          $t("pagePosition", {
-            first: displayedItemRange[0],
-            last: displayedItemRange[1],
-            total: rows,
-          })
+          rows
+            ? $t("pagePosition", {
+                first: displayedItemRange[0],
+                last: displayedItemRange[1],
+                total: rows,
+              })
+            : $t("noData")
         }}
       </span>
 
@@ -201,7 +203,8 @@ export default {
     "pageLength": "Page length",
     "field": "Field | Fields",
     "visible" : "shown",
-    "pagePosition": "Showing {first} to {last} out of {total} items"
+    "pagePosition": "Showing {first} to {last} out of {total} items",
+    "noData": "No data to display"
   },
   "fr": {
     "exportCSV": "Exporter CSV",
@@ -209,7 +212,8 @@ export default {
     "search": "Rechercher",
     "field": "Champ | Champs",
     "visible" : "visible | visibles",
-    "pagePosition": "Éléments {first} à {last} sur {total}"
+    "pagePosition": "Éléments {first} à {last} sur {total}",
+    "noData": "Aucune donnée à afficher"
   }
 }
 </i18n>
