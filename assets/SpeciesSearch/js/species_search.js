@@ -16,6 +16,8 @@ import "../css/datatables-custom.less"
 import "../css/leaflet-maps.less"
 import "../css/multiselect.less"
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import dt from 'datatables.net-bs4';
 dt(window, $);
 require('datatables.net-buttons-bs4')(window, $);
@@ -32,6 +34,8 @@ import VueI18n from 'vue-i18n'
 import filters from './vue-filters'
 
 import i18n from "./i18n"
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(BootstrapVue)
 Vue.use(VueI18n);
