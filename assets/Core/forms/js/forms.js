@@ -19,11 +19,28 @@ $(() => {
   $("button.btn-entry-delete").click(deleteEntryBtnCallback)
 
   // Create initial entry in each embed collection if empty
-  $(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
+  $(".collection-wrapper[data-index=0]").each(function () {
+    initCollection($(this))
+  })
 
   // Init modal forms
   $(".modal-dialog form").submit(modalFormSubmitCallback)
 })
+
+function initCollection($wrapper) {
+  $wrapper.change(() => {
+    toggleCollectionContent($wrapper)
+  })
+  if ($wrapper.hasClass("required"))
+    addEntry($wrapper)
+  else
+    toggleCollectionContent($wrapper)
+}
+
+function toggleCollectionContent($wrapper) {
+  const index = $wrapper.data('index')
+  $wrapper.find(".card-body").toggle(index > 0)
+}
 
 function addEntryBtnCallback(event) {
   let wrapper_id = $(event.currentTarget).data("target")
@@ -37,6 +54,8 @@ function deleteEntryBtnCallback(event) {
   let entry_wrapper = document.getElementById(entry_wrapper_id)
   let $wrapper = $(event.currentTarget).closest(".collection-wrapper")
   $(entry_wrapper).remove()
+  const currentIndex = $wrapper.data('index')
+  $wrapper.data('index', currentIndex - 1)
   $wrapper.trigger('change')
 }
 
@@ -122,13 +141,13 @@ function updatePrototype($wrapper, optionElt) {
   $wrapper.data('prototype', newPrototype)
 }
 
-function createEntry(prototype, index, value = undefined) {
+function createEntry(prototype, index, value = undefined, required = true) {
   prototype = (prototype.match(/__name__/) !== null)
     ? prototype.replace(/__name__/g, index)
     : prototype.replace(/__name_inner__/g, index)
 
   let $newForm = $(prototype)
-  if (index > 0) {
+  if (!required || index > 0) {
     let btn = $newForm.find("template.delete-btn-template").html()
     $newForm.find(".delete-btn-container").append(btn)
   }
@@ -136,7 +155,9 @@ function createEntry(prototype, index, value = undefined) {
   $newForm.find(".selectpicker").selectpicker()
   initDateMask($newForm.get(0))
   $newForm.find("button.btn-entry-add").click(addEntryBtnCallback)
-  $newForm.find(".collection-wrapper[data-index=0]").each(function () { addEntry($(this)) })
+  $newForm.find(".collection-wrapper[data-index=0]").each(function () {
+    initCollection($(this))
+  })
 
   // Set initial value
   if (value !== undefined)
@@ -147,7 +168,7 @@ function createEntry(prototype, index, value = undefined) {
 function addEntry($wrapper, value = undefined) {
   let index = $wrapper.data("index")
   let prototype = $wrapper.data('prototype')
-  let $newForm = createEntry(prototype, index, value)
+  let $newForm = createEntry(prototype, index, value, $wrapper.hasClass('required'))
 
   let $form_container = $wrapper.find(".card-body:first")
   // if (index > 0) $form_container.append("<hr/>")

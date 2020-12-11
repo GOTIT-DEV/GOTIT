@@ -190,7 +190,7 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
 {% endif %}
 <div id="{{ wrapper_id }}" 
-			class="card collection-wrapper" 
+			class="card collection-wrapper {% if form.vars.required %}required{% endif %}" 
 			data-prototype="{{ prototype | spaceless |e('html_attr') }}" 
 			data-index={{ form.count }}>
 
