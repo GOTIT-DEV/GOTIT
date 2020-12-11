@@ -1,4 +1,5 @@
 import { initSearchSelect } from "./field-suggestions"
+import { getSelectedCode } from "./forms"
 
 $(() => {
   const $form = $("form[name='bbees_e3sbundle_chromatogramme']")
@@ -19,7 +20,7 @@ $(() => {
   function updateCodeChromato() {
     const code = generateCodeChromato(
       $yas.val() || undefined,
-      $primer.val() ? $primer.find('option:selected').text() : undefined
+      getSelectedCode($primer)
     )
     $code.val(code)
     return code

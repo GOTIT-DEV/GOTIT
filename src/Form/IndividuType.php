@@ -17,14 +17,14 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\Type\SearchableSelectType;
-use App\Form\Type\BaseVocType;
-use App\Form\Enums\Action;
-use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\Enums\Action;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\SearchableSelectType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IndividuType extends ActionFormType {
   /**
@@ -66,6 +66,9 @@ class IndividuType extends ActionFormType {
         ])
         ->add('codeIndBiomol', null, [
           'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
+          'attr' => [
+            'data-generate' => !$hasBioMol,
+          ],
         ]);
     }
 

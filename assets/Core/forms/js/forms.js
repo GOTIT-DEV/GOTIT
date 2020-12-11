@@ -181,6 +181,8 @@ function addEntry($wrapper, value = undefined) {
   $("button.btn-entry-delete").off().click(deleteEntryBtnCallback)
 }
 
-
+export function getSelectedCode($vocField) {
+  return $vocField.val() ? $vocField.find("option:selected").data('code') : undefined
+}
 
 

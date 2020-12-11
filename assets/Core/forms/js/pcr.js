@@ -1,4 +1,5 @@
 import { initSearchSelect } from "./field-suggestions"
+import { getSelectedCode } from "./forms"
 
 $(() => {
   const $form = $("form[name='bbees_e3sbundle_pcr']")
@@ -25,8 +26,8 @@ $(() => {
     const code = generatePcrCode(
       $dna.val() ? $dna.find('option:selected').text() : undefined,
       $numPcr.val() || undefined,
-      $primerStart.val() ? $primerStart.find("option:selected").text() : undefined,
-      $primerEnd.val() ? $primerEnd.find("option:selected").text() : undefined,
+      getSelectedCode($primerStart),
+      getSelectedCode($primerEnd),
     )
     $pcrCode.val(code);
     return code

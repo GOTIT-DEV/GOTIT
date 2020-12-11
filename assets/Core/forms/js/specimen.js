@@ -18,7 +18,7 @@ $(() => {
     $taxon.change(updateSpecimenMorphoCode)
     $tube.keyup(updateSpecimenMorphoCode)
     updateSpecimenMorphoCode()
-  } else if ($form.data('action') == 'edit') {
+  } else if ($codeMol.data('generate') && $form.data('action') == 'edit') {
     $taxon.change(updateSpecimenMolCode)
     $biomat.change(updateSpecimenMolCode)
     $spMolNumber.keyup(updateSpecimenMolCode)

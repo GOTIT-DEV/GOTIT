@@ -17,17 +17,17 @@
 
 namespace App\Form\Type;
 
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Intl\Collator\Collator;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Intl\Collator\Collator;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class BaseVocType extends AbstractType {
   protected $translator;
@@ -55,6 +55,9 @@ class BaseVocType extends AbstractType {
     $resolver->setDefaults([
       'class' => 'App:Voc',
       'choice_label' => 'libelle',
+      'choice_attr' => function ($choice, $key, $value) {
+        return ['data-code' => $choice->getCode()];
+      },
       'multiple' => false,
       'expanded' => false,
       'choice_translation_domain' => true,
