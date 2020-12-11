@@ -46,6 +46,7 @@
           class="form-control form-control-sm"
           type="text"
           :placeholder="labels.textInputPlaceholder"
+          required
         />
 
         <!-- Basic number input -->
@@ -55,6 +56,7 @@
           class="form-control form-control-sm"
           type="number"
           v-bind="rule.attrs"
+          required
         />
 
         <!-- Datepicker -->
@@ -75,6 +77,7 @@
             v-bind="rule.props"
             v-model="value[0]"
             width="100%"
+            required
           />
         </div>
 
@@ -167,6 +170,7 @@
           v-model="value[0]"
           class="form-control form-control-sm"
           :multiple="rule.type === 'multi-select'"
+          required
         >
           <option
             v-for="option in selectOptions"
@@ -183,6 +187,7 @@
           v-model="value[0]"
           class="form-control form-control-sm"
           :multiple="rule.type === 'multi-select'"
+          required
         >
           <optgroup
             v-for="(option, option_key) in selectOptions"
@@ -211,6 +216,7 @@
           :min="value[0]"
           class="form-control form-control-sm"
           type="number"
+          required
         />
         <input
           v-if="query.operator.includes('between') && rule.inputType === 'date'"
