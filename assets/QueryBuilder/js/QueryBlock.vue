@@ -1,10 +1,5 @@
 <template>
-  <b-card
-    border-variant="info"
-    class="query-block mb-5"
-    header-tag="header"
-    footer-tag="footer"
-  >
+  <b-card class="query-block mb-5" header-tag="header" footer-tag="footer">
     <!-- Join Block header -->
     <template v-if="join" v-slot:header class="header-container">
       <div>
@@ -456,6 +451,7 @@ select {
 }
 
 .card.query-block {
+  box-shadow: 3px 3px 6px grey;
   > .card-header {
     padding: 0.5rem 1rem;
     display: grid;
