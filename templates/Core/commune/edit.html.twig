@@ -3,42 +3,11 @@
 {# EDIT : MUNICIPALITY #}
 
 {% block body %}
-    {{ parent() }}                  
+	{{ parent() }}
 {% endblock %}
 
 
 {% block scripts %}
-{{ parent() }}
-
-<script type="text/javascript">  
-
-    $(document).ready(function(){
-        {% if action == 'new'  %} 
-            // General action on form: form lock (default) / user role: app.user ...        
-            $('#commune_nomCommune').keyup(function (e) {
-                var nomCommune = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
-                $(this).val(nomCommune);
-                var nomPays = $('#commune_paysFk option:selected').text();
-                nomPays = nomPays.split(' ').join('_');
-                var nomRegion = $('#commune_nomRegion').val();
-                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
-            })
-            $('#commune_nomRegion').keyup(function (e) {
-                var nomRegion = $(this).val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
-                $(this).val(nomRegion);
-                var nomPays = $('#commune_paysFk option:selected').text();
-                nomPays = nomPays.split(' ').join('_');
-                var nomCommune = $('#commune_nomCommune').val();
-                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
-            })
-            $('#commune_paysFk').change(function (e) {  
-                var nomPays = $('#commune_paysFk option:selected').text();
-                nomPays = nomPays.split(' ').join('_');
-                var nomRegion = $('#commune_nomRegion').val();
-                var nomCommune = $('#commune_nomCommune').val();
-                $('#commune_codeCommune').val(nomCommune+'|'+nomRegion+'|'+nomPays);
-            })
-        {% endif %}
-    });
- </script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('municipality-form')}}
 {% endblock %}

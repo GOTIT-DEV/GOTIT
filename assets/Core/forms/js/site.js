@@ -1,5 +1,7 @@
 import { modalFormSubmitCallback } from "./forms"
 
+import { initMunicipalityCodeGeneration } from "./municipality"
+
 $(() => {
   const $countryInput = $("#station_paysFk")
   const $municipality = $("#station_communeFk")
@@ -16,21 +18,8 @@ $(() => {
   })
 
 
-  const $modal = $("#modal-station_newMunicipality")
-  let $modalCountry = $modal.find("select#commune_paysFk")
-  let $modalRegion = $modal.find("input#commune_nomRegion")
-  let $modalName = $modal.find("input#commune_nomCommune")
-  let $modalCode = $modal.find("input#commune_codeCommune")
-
-  $modalRegion.keyup(updateMunicipalityCode)
-  $modalName.keyup(updateMunicipalityCode)
-  $modalCountry.change(updateMunicipalityCode)
-
-  $modal.on('show.bs.modal', (event) => {
-    const country = $countryInput.val()
-    $modalCountry.val(country).selectpicker("refresh")
-    updateMunicipalityCode()
-  })
+  // Municipality modal 
+  initMunicipalityCodeGeneration("#modal-station_newMunicipality")
 
   $modal.find("form").off("submit").submit(function (event) {
     event.preventDefault()
@@ -51,25 +40,5 @@ $(() => {
       .val(response.select_id)
       .selectpicker('refresh')
 
-  }
-
-  function generateMunicipalityCode(
-    municipality = "{NAME}",
-    region = "{REGION}",
-    country = "{COUNTRY}"
-  ) {
-    return [municipality, region, country]
-      .map(str => str.trim())
-      .join('|')
-      .replaceAll(/\s+/g, '_')
-  }
-
-  function updateMunicipalityCode() {
-    const code = generateMunicipalityCode(
-      $modalName.val() || undefined,
-      $modalRegion.val() || undefined,
-      $modalCountry.val() ? $modalCountry.find('option:selected').text() : undefined
-    )
-    $modalCode.val(code)
   }
 })

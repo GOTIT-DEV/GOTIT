@@ -38,6 +38,7 @@ Encore
   .addEntry('box-form', './assets/Core/forms/js/box.js')
   .addEntry('chromato-form', './assets/Core/forms/js/chromato.js')
   .addEntry('dna-form', './assets/Core/forms/js/dna.js')
+  .addEntry('municipality-form', './assets/Core/forms/js/municipality.js')
   .addEntry('pcr-form', './assets/Core/forms/js/pcr.js')
   .addEntry('sampling-form', './assets/Core/forms/js/sampling.js')
   .addEntry('site-form', './assets/Core/forms/js/site.js')
