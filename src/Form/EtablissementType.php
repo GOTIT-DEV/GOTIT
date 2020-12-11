@@ -17,19 +17,20 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use App\Form\Type\UppercaseType;
 use App\Form\ActionFormType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EtablissementType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('nomEtablissement', UppercaseType::class)
+    $builder->add('nomEtablissement')
       ->add('commentaireEtablissement')
       ->addEventSubscriber($this->addUserDate);
+
+    $this->upperCaseFields($builder, ['nomEtablissement']);
   }
 
   /**

@@ -17,30 +17,31 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use App\Form\Type\UppercaseType;
 use App\Form\ActionFormType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReferentielTaxonType extends ActionFormType {
+
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
+
     $builder
-      ->add('taxname', UppercaseType::class)
+      ->add('taxname')
       ->add('taxon_full_name')
-      ->add('rank', UppercaseType::class)
-      ->add('subclass', UppercaseType::class)
-      ->add('ordre', UppercaseType::class)
-      ->add('family', UppercaseType::class)
-      ->add('genus', UppercaseType::class)
-      ->add('species', UppercaseType::class)
-      ->add('subspecies', UppercaseType::class)
+      ->add('rank')
+      ->add('subclass')
+      ->add('ordre')
+      ->add('family')
+      ->add('genus')
+      ->add('species')
+      ->add('subspecies')
       ->add('codeTaxon')
-      ->add('clade', UppercaseType::class)
-      ->add('taxnameRef', UppercaseType::class)
+      ->add('clade')
+      ->add('taxnameRef')
       ->add('validity', ChoiceType::class, array(
         'choices' => array('No' => 0, 'Yes' => 1),
         'required' => true,
@@ -50,6 +51,12 @@ class ReferentielTaxonType extends ActionFormType {
       ))
       ->add('commentaireRef')
       ->addEventSubscriber($this->addUserDate);
+
+    $uppercase_fields = [
+      'taxname', 'rank', 'subclass', 'ordre', 'family',
+      'genus', 'species', 'subspecies', 'clade', 'taxnameRef',
+    ];
+    $this->upperCaseFields($builder, $uppercase_fields);
   }
 
   /**

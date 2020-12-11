@@ -17,16 +17,15 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use App\Form\Type\UppercaseType;
-use App\Form\Type\ModalButtonType;
-use App\Form\Type\CountryVocType;
-use App\Form\Type\BaseVocType;
 use App\Form\ActionFormType;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\CountryVocType;
+use App\Form\Type\ModalButtonType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StationType extends ActionFormType {
   /**
@@ -35,10 +34,10 @@ class StationType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $station = $builder->getData();
     $builder
-      ->add('codeStation', UppercaseType::class, [
+      ->add('codeStation', null, [
         "disabled" => $this->canEditAdminOnly($options),
       ])
-      ->add('nomStation', UppercaseType::class)
+      ->add('nomStation')
       ->add('infoDescription')
       ->add('paysFk', CountryVocType::class)
       ->add('communeFk', EntityType::class, array(
@@ -94,6 +93,10 @@ class StationType extends ActionFormType {
       ->add('altitudeM')
       ->add('commentaireStation')
       ->addEventSubscriber($this->addUserDate);
+
+    $this->upperCaseFields($builder, [
+      'codeStation', 'nomStation', 'nomPersonneRef',
+    ]);
   }
 
   /**

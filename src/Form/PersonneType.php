@@ -18,7 +18,6 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\Type\UppercaseType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,11 +28,11 @@ class PersonneType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('nomPersonne', UppercaseType::class)
-      ->add('nomComplet', UppercaseType::class, [
+    $builder->add('nomPersonne')
+      ->add('nomComplet', null, [
         'required' => false,
       ])
-      ->add('nomPersonneRef', UppercaseType::class, [
+      ->add('nomPersonneRef', null, [
         'required' => false,
       ])
       ->add('etablissementFk', EntityType::class, [
@@ -51,6 +50,10 @@ class PersonneType extends ActionFormType {
       ->add('commentairePersonne');
 
     $builder->addEventSubscriber($this->addUserDate);
+
+    $this->upperCaseFields($builder, [
+      'nomPersonne', 'nomComplet', 'nomPersonneRef',
+    ]);
   }
 
   /**

@@ -18,7 +18,6 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\Type\UppercaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,7 +27,7 @@ class ProgrammeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeProgramme', UppercaseType::class)
+    $builder->add('codeProgramme')
       ->add('nomProgramme')
       ->add('nomsResponsables')
       ->add('typeFinanceur')
@@ -46,6 +45,8 @@ class ProgrammeType extends ActionFormType {
       ])
       ->add('commentaireProgramme')
       ->addEventSubscriber($this->addUserDate);
+
+    $this->upperCaseFields($builder, ['codeProgramme']);
   }
 
   /**

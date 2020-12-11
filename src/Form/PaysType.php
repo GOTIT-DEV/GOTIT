@@ -17,11 +17,10 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use App\Form\Type\UppercaseType;
-use App\Form\Enums\Action;
 use App\Form\ActionFormType;
+use App\Form\Enums\Action;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PaysType extends ActionFormType {
   /**
@@ -29,14 +28,16 @@ class PaysType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('nomPays', UppercaseType::class)
-      ->add('codePays', UppercaseType::class, [
+      ->add('nomPays')
+      ->add('codePays', null, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
       ->addEventSubscriber($this->addUserDate);
+
+    $this->upperCaseFields($builder, ['nomPays', 'codePays']);
   }
 
   /**
