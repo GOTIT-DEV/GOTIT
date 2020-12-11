@@ -17,16 +17,16 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Voc;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Voc controller.
@@ -53,7 +53,7 @@ class VocController extends AbstractController {
 
   /**
    * List voc in a parent category
-   * @Route("/{parent}", name="list_voc", methods={"GET"})
+   * @Route("/parent/{parent}", name="list_voc", methods={"GET"})
    */
   public function listVoc(String $parent, SerializerInterface $serializer) {
     $voc = $this->getDoctrine()
