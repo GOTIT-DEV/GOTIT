@@ -95,7 +95,7 @@ class StationType extends ActionFormType {
       ->addEventSubscriber($this->addUserDate);
 
     $this->upperCaseFields($builder, [
-      'codeStation', 'nomStation', 'nomPersonneRef',
+      'codeStation', 'nomStation',
     ]);
   }
 
