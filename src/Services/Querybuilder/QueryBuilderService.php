@@ -148,6 +148,7 @@ class QueryBuilderService {
     case 'does_not_equal':
     case '<>':
     case '!=':
+    case '≠':
     case 'not_on_day':
       return $qb->expr()->neq($column, $value);
       break;
@@ -163,6 +164,7 @@ class QueryBuilderService {
       break;
     case 'less_or_equal':
     case '<=':
+    case '≤':
       return $qb->expr()->lte($column, $value);
       break;
     case 'greater':
@@ -171,6 +173,7 @@ class QueryBuilderService {
       break;
     case 'greater_or_equal':
     case '>=':
+    case '≥':
       return $qb->expr()->gte($column, $value);
       break;
     case 'between':

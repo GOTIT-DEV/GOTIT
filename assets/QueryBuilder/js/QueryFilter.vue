@@ -18,7 +18,7 @@ var defaultLabels = {
 };
 
 const operators = {
-  numeric: ["=", "!=", "<", "<=", ">", ">="],
+  numeric: ["=", "≠", "<", "≤", ">", "≥"],
   nullable: ["is null", "is not null"],
   between: ["between", "not between"],
 };
