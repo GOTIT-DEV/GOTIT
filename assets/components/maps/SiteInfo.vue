@@ -1,0 +1,83 @@
+<template>
+  <div class="site-info">
+    <label>
+      <a :href="site.station_url">
+        <b>{{ site.station_code }}</b>
+      </a>
+    </label>
+    <b-table-lite
+      small
+      stacked
+      dark
+      tbody-tr-class="site-table"
+      table-class="mb-0"
+      :items="[site]"
+      :fields="fields"
+    >
+      <template #cell(motu)="data">
+        <b-badge variant="info">
+          {{ data.value }}
+        </b-badge>
+      </template>
+    </b-table-lite>
+    <span class="site-location text-capitalize">
+      {{ site.municipality.toLowerCase() }}
+    </span>
+    <span class="site-location">{{ site.country }}</span>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    site: { type: Object },
+    extraFields: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
+  computed: {
+    fields() {
+      return [...this.extraFields, ...this.baseFields];
+    },
+  },
+  data() {
+    return {
+      baseFields: [
+        {
+          key: "latitude",
+          label: "Lat.",
+        },
+        {
+          key: "longitude",
+          label: "Lon.",
+        },
+        {
+          key: "altitude",
+          label: "Alt",
+          formatter: (value) => `${value} m`,
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<style lang="less">
+.site-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 10rem;
+  table.table-dark {
+    background-color: transparent;
+    tbody > tr.site-table > td {
+      border-color: grey;
+    }
+  }
+  .site-location {
+    align-self: flex-end;
+  }
+}
+</style>

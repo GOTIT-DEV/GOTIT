@@ -1,8 +1,56 @@
-import { modalFormSubmitCallback } from "./forms"
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
+import 'leaflet-easybutton/src/easy-button.css';
+import "../../../SpeciesSearch/css/leaflet-maps.less"
 
+import "bootstrap-vue/dist/bootstrap-vue.css";
+
+
+
+import { modalFormSubmitCallback } from "./forms"
 import { initMunicipalityCodeGeneration } from "./municipality"
+import Vue from "vue"
+import SiteForm from "../components/SiteForm"
+import { BootstrapVue } from "bootstrap-vue"
+import i18n from "../../../SpeciesSearch/js/i18n"
+import VueI18n from 'vue-i18n'
+
+Vue.use(BootstrapVue)
+Vue.use(VueI18n);
+Vue.mixin({
+  i18n,
+  methods: {
+    generateRoute(route, args) {
+      return Routing.generate(route, args)
+    }
+  }
+})
+
+const modal_map = new Vue({
+  el: "#map-modal",
+  ...SiteForm
+})
 
 $(() => {
+
+  const $latitude = $("#station_latDegDec")
+  const $longitude = $("#station_longDegDec")
+  const $modalBtn = $('button#station_showNearbySites')
+
+  $latitude.change(toggleProximitySitesBtn).keyup(toggleProximitySitesBtn)
+  $longitude.change(toggleProximitySitesBtn).keyup(toggleProximitySitesBtn)
+
+  $modalBtn.click(() => {
+    modal_map.showProximityMap(
+      parseFloat($latitude.val()),
+      parseFloat($longitude.val())
+    )
+  })
+
+  function toggleProximitySitesBtn() {
+    $modalBtn.prop('disabled', !$latitude.val() | !$longitude.val())
+  }
+
   const $countryInput = $("#station_paysFk")
   const $municipality = $("#station_communeFk")
   $countryInput.change(event => {

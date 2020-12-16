@@ -3,167 +3,19 @@
 {# EDIT : SITE #}
 
 {% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags("site-form") }}
+	{{ parent() }}
+	{{ encore_entry_link_tags("site-form") }}
 {% endblock %}
 
-{% block headincl %}
-
-{% endblock %}
+{% block headincl %}{% endblock %}
 
 {% block body %}
-    {{ parent() }}
-    <!-- Definition of Modal (s): detailsModal for the display of stations around the latitude / longitude GPS point -->       
-    <div id="map-modal" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">{{'modal-title.Station - Localisation'|trans}}</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-                <div class="geo-container">
-                <div id="station-geo-map" style="width:100%">
-                </div>
-                <div class="geo-overlay">
-                <i class="fa fa-spinner fa-spin fa-4x"></i>
-                </div>
-                </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light border" data-dismiss="modal">
-            {{'button.Close'|trans}}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-                   
+	{{ parent() }}
+	<div id="map-modal"></div>
 {% endblock %}
 
 
 {% block scripts %}
-{{ parent() }}
+	{{ parent() }}
 	{{ encore_entry_script_tags("site-form") }}
-
-<script type="text/javascript">  
-
-{% if edit_form.paysFk.vars.data.id is defined %}
-    {% set paysId = edit_form.paysFk.vars.data.id %}
-{% else %}  
-    {% set paysId = 0 %}
-{% endif %}
-    
-    var nbSelectPays = 0;  
-    $(document).ready(function(){
-        
-        // other features
-        {% if action != 'show'  %}
-            // specific features: automatically assigns the id of the selected country
-            var paysId = {{paysId}};
-            $('#myModalCommune').find('#commune_paysFk').val(paysId);
-
-            // specific features: automatically assigns the id of the selected country         
-            $('#station_paysFk').change(function (e) { 
-                if (nbSelectPays == 0 ) { //  memorisation  de la liste des communes 
-                    $listeOptionCommune =  $('select#station_communeFk').find('option');
-                }
-                var paysCode = $('#station_paysFk option:selected').text();
-                paysCode = paysCode.split(' ').join('_');
-                var paysId = $('#station_paysFk option:selected').val();           
-                $('#myModalCommune').find('#commune_paysFk').val(paysId);
-                // change selected list of Municipalities
-                var nbCommune = $("#station_communeFk").length;
-                var newlisteCommune = '<option value="" selected="selected">{{'Choose a Commune'|trans}}</option>';          
-                var compt = 0;
-                $('select#station_communeFk option').remove();
-                $listeOptionCommune.each(function() {
-                    var communeInTab = $(this).text().split("|");
-                    var communeVal = $(this).val();
-                    var nbSeparateur = communeInTab.length;
-                    if (nbSeparateur == 3 && communeInTab[2] == paysCode) { //  creation of the new list of municipalities
-                        newlisteCommune = newlisteCommune+'<option value="'+communeVal+'" >'+$(this).text()+'</option>'; 
-                    }
-                    compt++;
-                });
-                nbSelectPays ++;
-                $('select#station_communeFk').append(newlisteCommune);
-            })
-
-            
-            // // 2) Actions of the modal myModalCommune; (i) capitalization of the commonname and regionName fields (ii) automatic generation of the common code
-            // $('#myModalCommune').on('show.bs.modal', function (e) {
-            //     var modal = $(this);
-            //     $('#commune_paysFk').attr("disabled", true); 
-            //     $('#commune_codeCommune').attr("disabled", true);
-            //     $('#commune_nomCommune').keyup(function (e) {
-            //         var modal = $(this);
-            //         // var nomCommune = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');   
-            //         var nomCommuneUpperCase = modal.val().toUpperCase();  
-            //         //$(this).val(nomCommune);
-            //         $(this).val(nomCommuneUpperCase);
-            //         var nomPays = $('#commune_paysFk option:selected').text();
-            //         nomPays = nomPays.split(' ').join('_');
-            //         var nomRegion = $('#commune_nomRegion').val();
-            //         //modal.val(nomCommune);                
-            //         modal.val(nomCommuneUpperCase);
-            //         var nomCommune = nomCommuneUpperCase.split(' ').join('_');
-            //         $('#commune_codeCommune').val(nomCommune+'|'+nomRegion.split(' ').join('_')+'|'+nomPays);
-            //     })
-            //     $('#commune_nomRegion').keyup(function (e) {
-            //         var modal = $(this);
-            //         // var nomRegion = modal.val().toUpperCase().replace(/^\s+|\s+$/gm,'_');
-            //         var nomRegionUpperCase = modal.val().toUpperCase();
-            //         // $(this).val(nomRegion);
-            //         $(this).val(nomRegionUpperCase);
-            //         var nomPays = $('#commune_paysFk option:selected').text();
-            //         nomPays = nomPays.split(' ').join('_');
-            //         var nomCommune = $('#commune_nomCommune').val();
-            //         // modal.val(nomRegion);
-            //         modal.val(nomRegionUpperCase);
-            //         var nomRegion = nomRegionUpperCase.split(' ').join('_');
-            //         $('#commune_codeCommune').val(nomCommune.split(' ').join('_')+'|'+nomRegion+'|'+nomPays);
-            //     })
-            //     })  
-            // 3) Actions after the creation of a new municipality 
-            // $(document).on('submit','form[name="commune"]',function(ev){
-            //     $('#commune_paysFk').attr("disabled", false); 
-            //     $('#commune_codeCommune').attr("disabled", false);             
-            //     ev.preventDefault();		
-            //     var form = $(this);               
-            //     var $container = $('#station_communeFk');    
-            //     callAjax(form, $container);
-            // }); 
-
-            // Management of the "Show Station" button
-            // 1) Added button "See Stations"
-            //
-            $('#map-modal').on('show.bs.modal', function (ev) {
-                var latitude = $('#station_latDegDec').val();
-                var longitude = $('#station_longDegDec').val();
-                //var data = $(this).serialize();
-                var  data = {'latitude': latitude, 'longitude':longitude };            
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    url: "{{ path('geocoordstations') }}",
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('error ajax request : '+errorThrown);
-                        console.log(jqXHR);
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                    },
-                    beforeSend: function(htmlResponse) {  
-                        $(".geo-overlay").show();
-                                    },
-                    success: function (response) {
-                        $(".geo-overlay").hide();
-                        gd = stationsPlot(response.stations, latitude, longitude);
-                    }
-                });
-            });
-        {% endif %}       
-    });
- </script>
 {% endblock %}

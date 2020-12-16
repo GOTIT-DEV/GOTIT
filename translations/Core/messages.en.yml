@@ -379,6 +379,7 @@ button.Valid: Validate
 button.BackToTheSelection: Back to selection
 button.BackToTheList: Show list
 button.showAllRecord: Show all records
+button.showNearbyStations: Show nearby sites
 Envoyer: Import CSV file
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -530,7 +531,7 @@ A faire: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
 Adn fk: DNA
-Altitude m: Elevation m asl
+Altitude m: Elevation (m)
 Annee debut: Starting year
 Annee fin: Ending year
 Annee source: Source year

@@ -1,51 +1,53 @@
 <template>
-  <l-map
-    ref="map"
-    :zoom.sync="zoom"
-    :center.sync="center"
-    :options="mapOptions"
-    :minZoom="minZoom"
-    :maxZoom="maxZoom"
-    :maxBounds="maxBounds"
-    @update:zoom="zoomUpdate"
-    :bounds.sync="bounds"
-  >
-    <l-control-fullscreen
-      position="topleft"
-      :options="{ title: { false: $t('fullscreen'), true: $t('windowed') } }"
-    />
+  <div class="map-container">
+    <l-map
+      ref="map"
+      :zoom.sync="zoom"
+      :center.sync="center"
+      :options="mapOptions"
+      :minZoom="minZoom"
+      :maxZoom="maxZoom"
+      :maxBounds="maxBounds"
+      @update:zoom="zoomUpdate"
+      :bounds.sync="bounds"
+    >
+      <l-control-fullscreen
+        position="topleft"
+        :options="{ title: { false: $t('fullscreen'), true: $t('windowed') } }"
+      />
 
-    <l-control-layers position="topright" />
+      <l-control-layers position="topright" />
 
-    <l-control position="topleft" class="leaflet-control leaflet-bar">
-      <button
-        class="btn btn-sm btn-light btn-map-control"
-        @click="fitBounds(data)"
-      >
-        <a class="fas fa-crosshairs fa-1x"></a>
-      </button>
-    </l-control>
+      <l-control position="topleft" class="leaflet-control leaflet-bar">
+        <button
+          class="btn btn-sm btn-light btn-map-control"
+          @click="fitBounds(data)"
+        >
+          <a class="fas fa-crosshairs fa-1x"></a>
+        </button>
+      </l-control>
 
-    <slot name="controls" />
+      <slot name="controls" />
 
-    <leaflet-map-settings
-      position="bottomright"
-      :sliders="settingSliders"
-      :settings.sync="markerSettings"
-    />
+      <leaflet-map-settings
+        position="bottomright"
+        :sliders="settingSliders"
+        :settings.sync="markerSettings"
+      />
 
-    <l-tile-layer
-      v-bind="tileProviders[0]"
-      :subdomains="['server', 'services']"
-    />
-    <l-tile-layer
-      v-bind="tileProviders[1]"
-      layer-type="overlay"
-      :subdomains="['server', 'services']"
-    />
+      <l-tile-layer
+        v-bind="tileProviders[0]"
+        :subdomains="['server', 'services']"
+      />
+      <l-tile-layer
+        v-bind="tileProviders[1]"
+        layer-type="overlay"
+        :subdomains="['server', 'services']"
+      />
 
-    <slot></slot>
-  </l-map>
+      <slot></slot>
+    </l-map>
+  </div>
 </template>
 
 <i18n>
@@ -67,6 +69,15 @@
 
 <script>
 import L from "leaflet";
+
+delete L.Icon.Default.prototype._getIconUrl;
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+L.Icon.Default.mergeOptions({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
+
 import {
   LMap,
   LTileLayer,
@@ -128,6 +139,14 @@ export default {
       type: Number,
       default: 12,
     },
+    regions: {
+      type: Boolean,
+      default: false,
+    },
+    disableAutoFit: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -143,7 +162,7 @@ export default {
         },
         {
           name: "Regions",
-          visible: false,
+          visible: this.regions,
           opacity: 0.75,
           attribution: "",
           url:
@@ -165,7 +184,7 @@ export default {
   },
   watch: {
     data: function (newData, _) {
-      if (newData) this.fitBounds(newData);
+      if (newData && !this.disableAutoFit) this.fitBounds(newData);
     },
   },
   methods: {
@@ -190,14 +209,16 @@ export default {
               ],
             };
       }, null);
-      const bounds = this.padBounds(
-        [
-          [minMaxCoords.lat[0], minMaxCoords.lon[0]],
-          [minMaxCoords.lat[1], minMaxCoords.lon[1]],
-        ],
-        pad
-      );
-      this.bounds = L.latLngBounds(bounds);
+      if (minMaxCoords) {
+        const bounds = this.padBounds(
+          [
+            [minMaxCoords.lat[0], minMaxCoords.lon[0]],
+            [minMaxCoords.lat[1], minMaxCoords.lon[1]],
+          ],
+          pad
+        );
+        this.bounds = L.latLngBounds(bounds);
+      }
     },
     padBounds([bMin, bMax], perc) {
       const padLon = (bMax[1] - bMin[1]) * perc;
@@ -207,7 +228,12 @@ export default {
         [bMax[0] + padLat, bMax[1] + padLon],
       ];
     },
-
+    boundsRadius(radiusDeg) {
+      return L.latLngBounds(
+        [this.center.lat - radiusDeg, this.center.lng - radiusDeg],
+        [this.center.lat + radiusDeg, this.center.lng + radiusDeg]
+      );
+    },
     _updateMapAttribution() {
       var oldAttributions = this.mapObject._esriAttributions;
 
@@ -260,6 +286,10 @@ export default {
 </script>
 
 <style lang="less">
+.map-container {
+  width: 100%;
+  height: 85vh;
+}
 .leaflet-control-layers-selector {
   cursor: pointer;
 }

@@ -19,14 +19,14 @@ Adn typeahead placeholder: Taper les premières lettres du Code ADN
 Adn typeahead: Adn
 Individu typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
 Individu codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
-Individu typeahead: Individu 
+Individu typeahead: Individu
 Lotmateriel typeahead placeholder: Taper les premières lettres du Code lot matériel
 Lotmateriel typeahead: Lot
 Lotmaterielext typeahead placeholder: Taper les premières lettres du Code lot matériel externe
 Lotmaterielext typeahead: Lot externe
 Collecte typeahead placeholder: Taper les premières lettres du Code Collecte
 Collecte typeahead: Collecte
-Station typeahead placeholder: Taper les premières lettres du Code Station 
+Station typeahead placeholder: Taper les premières lettres du Code Station
 Station typeahead: Station
 
 # class of vocabulary (table = Voc , field = parent)
@@ -86,7 +86,7 @@ list.List source: Source(s)
 list.List code adn: Liste de codes ADN
 list.Date creation lot materiel: Date création
 list.lastCodeSeqAss: Dernier code séquence assemblée
-list.lastStatutSeqAss: Dernier statut 
+list.lastStatutSeqAss: Dernier statut
 list.lastCodeSeqAlignement: Dernier code séquence alignée
 list.lastDateSeqAss: Derniere date séquence assemblée
 list.Date maj: Date maj
@@ -101,7 +101,7 @@ list.Last identification critere: Dernier critere identification
 list.MotuAssigne: MOTU
 
 # BUTTONS ######################################################################
-# 
+#
 button.Back: Retour
 button.exportToCSV: Exporter au format CSV
 button.exportToCSV-title: Encodage UTF-8 et Séparateur point virgule
@@ -214,6 +214,7 @@ button.Valid: Valider
 button.BackToTheSelection: Retour à la selection
 button.BackToTheList: Afficher la Liste
 button.showAllRecord: Liste de tous les enregistrements
+button.showNearbyStations: Afficher les stations à proximité
 Envoyer: Importer le fichier CSV
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -226,7 +227,7 @@ importfileService.ERROR NULL value: ERREUR - Contenu INVALIDE (valeur NULL)
 importfileService.ERROR bad data OUI-NON: ERREUR - Contenu INVALIDE { OUI / NON , YES / NO, 1 / 0}
 importfileService.ERROR bad data YES-NO: ERREUR - Contenu INVALIDE ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERREUR - DOUBLON du code séquence qui existe en interne et en externe
-importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE 
+importfileService.ERROR bad float format: ERREUR - Format de type FLOAT INVALIDE
 importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( d / m / Y )
 importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
 importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
@@ -238,7 +239,7 @@ importfileService.ERROR lot already store: ERREUR - Lot matériel déjà affect�
 importfileService.ERROR slide already store: ERREUR - Lame déjà affectée à une boite
 importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à une boite
 importfileService.ERROR no box code for material: ERREUR - le code boite n'a pas été renseigné pour le code lot matériel
-importfileService.ERROR no box code: ERREUR - le code boite n'a pas été renseigné pour le code lame coll 
+importfileService.ERROR no box code: ERREUR - le code boite n'a pas été renseigné pour le code lame coll
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la BDD
 importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la BDD
 importfileService.ERROR bad code: ERREUR - Code INCONNU
@@ -247,7 +248,7 @@ importfileService.Problem of FLUSH: Problème de FLUSH ! La procédure d'import 
 importfileService.Import OK: Procédure d'importation terminée. Nombre d'enregistrements insérés
 
 # BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
-import.liste: Importer des fichiers 
+import.liste: Importer des fichiers
 import.boite.lotmaterielrange: Stocker des lots matériels par fichier
 import.boite.individulamerange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
@@ -271,7 +272,6 @@ import.boite.adndeplace: Déplacer/supprimer des ADN
 import.source.lotmaterielpublie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-assigne: MOTU
-
 
 # HEADINGS OF SCROLLING LISTS ##################################################
 Choose a Parent: Sélectionner une classe de vocabulaire
@@ -348,7 +348,7 @@ NO: NON
 YES: OUI
 modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
 Switch version: Changer de version
-DAY: JOUR 
+DAY: JOUR
 MONTH: MOIS
 YEAR: ANNEE
 # PopUp alert messages related to date management
@@ -367,13 +367,13 @@ Taxon full name: Nom Taxon de référence
 A faire: État
 Accession number: Numéro d'ordre
 Accession number sqc ass ext: Numéro d'ordre
-Adn fk: ADN 
+Adn fk: ADN
 Altitude m: Altitude (m)
 Annee debut: Année debut
 Annee fin: Année fin
 Annee source: Année source
-Boite fk: Boite 
-Chromatogramme fk: Chromatogramme 
+Boite fk: Boite
+Chromatogramme fk: Chromatogramme
 Clade: Clade
 Code: Code
 Code adn: Code ADN
@@ -393,12 +393,12 @@ Code programme: Code programme
 Code source: Code source
 Code sqc alignement: Code séquence alignée
 Code sqc ass: Code séquence assemblée
-Code sqc ass ext: Code séquence externe assemblée 
-Code sqc ass ext alignement: Code séquence externe alignée 
+Code sqc ass ext: Code séquence externe assemblée
+Code sqc ass ext alignement: Code séquence externe alignée
 Code station: Code station
 Code taxon: Code taxon
 Code tube: Code tube
-Collecte fk: Collecte 
+Collecte fk: Collecte
 Commentaire: Commentaire
 Commentaire adn: Commentaire ADN
 Commentaire boite: Commentaire boite
@@ -421,7 +421,7 @@ Commentaire source: Commentaire source
 Commentaire sqc ass: Commentaire séquence assemblée
 Commentaire sqc ass ext: Commentaire séquence externe assemblée
 Commentaire station: Commentaire station
-Commune fk: Commune 
+Commune fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
 Conductivite micro sie cm: Conductivité (µS/cm)
 Critere identification voc fk: Critère identification
@@ -533,7 +533,7 @@ Lot materiels: Lot matériel
 Individu lames: Lames
 Motu est genere pars: Est générée par
 Auto generated code: Code auto-généré
-Code Chromato | Specificite : Code chromatogramme | spécificité
+Code Chromato | Specificite: Code chromatogramme | spécificité
 Sqc ext est reference danss: Est publiée dans
 Sqc ext est realise pars: Est realisée par
 Sqc est publie danss: Est publiée dans
@@ -557,9 +557,9 @@ A ciblers: Taxa ciblés par collecte
 
 # USER BUNDLE  #################################################################
 # table User_db
-Username: Nom d'utilisateur 
+Username: Nom d'utilisateur
 Password: Mot de passe (8 char min)
-Repeat Password: Confirmez le Mot de passe 
+Repeat Password: Confirmez le Mot de passe
 Email: Adresse électronique
 Role: Rôle
 Name: Nom complet de l'utilisateur

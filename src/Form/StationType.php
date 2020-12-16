@@ -17,15 +17,15 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\Type\BaseVocType;
-use App\Form\Type\CountryVocType;
-use App\Form\Type\ModalButtonType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\ModalButtonType;
+use App\Form\Type\CountryVocType;
+use App\Form\Type\BaseVocType;
+use App\Form\ActionFormType;
 
 class StationType extends ActionFormType {
   /**
@@ -57,6 +57,8 @@ class StationType extends ActionFormType {
         'placeholder' => 'Choose a Commune',
       ))
       ->add('newMunicipality', ModalButtonType::class, [
+        'label' => 'button.NewCommune',
+        'icon_class' => 'fa-plus-circle',
         'attr' => [
           'class' => "btn-info btn-sm",
           "data-modal-controller" => 'App\\Controller\\Core\\CommuneController::newmodalAction',
@@ -72,17 +74,31 @@ class StationType extends ActionFormType {
       ))
       ->add('latDegDec', NumberType::class, array(
         'required' => true,
-        'scale' => 6,
+        'html5' => true,
+        'scale' => 5,
+        'attr' => array(
+          'min' => -90,
+          'max' => 90,
+          'step' => 0.00001,
+        ),
       ))
       ->add('longDegDec', NumberType::class, array(
         'required' => true,
-        'scale' => 6,
+        'html5' => true,
+        'scale' => 5,
+        'attr' => array(
+          'min' => -180,
+          'max' => 180,
+          'step' => 0.00001,
+        ),
       ))
-      ->add('showProximalSites', ModalButtonType::class, [
+      ->add('showNearbySites', ModalButtonType::class, [
+        'label' => 'button.showNearbyStations',
         'attr' => [
           'class' => "btn-info btn-sm",
-          'data-target' => "#map-modal",
+          // 'data-target' => "#map-modal",
         ],
+        "disabled" => true,
         'icon_class' => 'fa-crosshairs',
       ])
       ->add('precisionLatLongVocFk', BaseVocType::class, array(

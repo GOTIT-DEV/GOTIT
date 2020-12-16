@@ -17,14 +17,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Station;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Station;
 
 /**
  * Station controller.
@@ -87,12 +87,12 @@ class StationController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('station.dateMaj' => 'desc', 'station.id' => 'desc');
-    $minRecord       = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord       = $rowCount;
-    $tab_toshow      = [];
+    $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Station")
       ->createQueryBuilder('station')
       ->where('LOWER(station.codeStation) LIKE :criteriaLower')
@@ -102,12 +102,12 @@ class StationController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb_entities     = count($entities_toshow);
+    $nb_entities = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
@@ -116,78 +116,74 @@ class StationController extends AbstractController {
         'SELECT collecte.id FROM App:Collecte collecte
                 WHERE collecte.stationFk = ' . $id
       )->getResult();
-      $stationFk    = (count($query) > 0) ? $id : '';
+      $stationFk = (count($query) > 0) ? $id : '';
       $tab_toshow[] = array(
-        "id"                  => $id,
-        "station.id"          => $id,
+        "id" => $id,
+        "station.id" => $id,
         "station.codeStation" => $entity->getCodeStation(),
-        "station.nomStation"  => $entity->getNomStation(),
+        "station.nomStation" => $entity->getNomStation(),
         "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
-        "pays.codePays"       => $entity->getPaysFk()->getCodePays(),
-        "station.latDegDec"   => $entity->getLatDegDec(),
-        "station.longDegDec"  => $entity->getLongDegDec(),
-        "station.dateCre"     => $DateCre,
-        "station.dateMaj"     => $DateMaj,
-        "userCreId"           => $service->GetUserCreId($entity),
-        "station.userCre"     => $service->GetUserCreUsername($entity),
-        "station.userMaj"     => $service->GetUserMajUsername($entity),
-        "linkCollecte"        => $stationFk,
+        "pays.codePays" => $entity->getPaysFk()->getCodePays(),
+        "station.latDegDec" => $entity->getLatDegDec(),
+        "station.longDegDec" => $entity->getLongDegDec(),
+        "station.dateCre" => $DateCre,
+        "station.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "station.userCre" => $service->GetUserCreUsername($entity),
+        "station.userMaj" => $service->GetUserMajUsername($entity),
+        "linkCollecte" => $stationFk,
       );
     }
 
     return new JsonResponse([
-      "current"  => intval($request->get('current')),
+      "current" => intval($request->get('current')),
       "rowCount" => $rowCount,
-      "rows"     => $tab_toshow,
-      "total"    => $nb_entities, // total data array
+      "rows" => $tab_toshow,
+      "total" => $nb_entities, // total data array
     ]);
   }
 
   /**
-   * @Route("/geocoordstations/", name="geocoordstations", methods={"POST"})
+   * @Route("/proximity/", name="proximal_stations", methods={"POST"})
    */
   public function geoCoords(Request $request) {
-    $data                  = $request->request;
-    $latitude              = $data->get('latitude');
-    $latitude              = floatval(str_replace(",", ".", $latitude));
-    $longitude             = $data->get('longitude');
-    $longitude             = floatval(str_replace(",", ".", $longitude));
-    $diffLatitudeLongitude = 1;
-    //
-    $em = $this->getDoctrine()->getManager();
+    $data = $request->request;
+    $latitude = $data->get('latitude');
+    $longitude = $data->get('longitude');
 
-    $tab_toshow      = [];
-    $entities_toshow = $em->getRepository("App:Station")
-      ->createQueryBuilder('station')
-      ->where('station.longDegDec < :longMax')
-      ->setParameter('longMax', $longitude + $diffLatitudeLongitude)
-      ->andWhere('station.longDegDec > :longMin')
-      ->setParameter('longMin', $longitude - $diffLatitudeLongitude)
-      ->andWhere('station.latDegDec < :latMax')
-      ->setParameter('latMax', $latitude + $diffLatitudeLongitude)
-      ->andWhere('station.latDegDec > :latMin')
-      ->setParameter('latMin', $latitude - $diffLatitudeLongitude)
-      ->getQuery()
-      ->getResult();
-    $nb_entities = count($entities_toshow);
-    foreach ($entities_toshow as $entity) {
-      $id           = $entity->getId();
-      $tab_toshow[] = array(
-        "id"                  => $id, "station.id" => $id,
-        "station.codeStation" => $entity->getCodeStation(),
-        "station.nomStation"  => $entity->getNomStation(),
-        "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
-        "pays.codePays"       => $entity->getPaysFk()->getCodePays(),
-        "station.latDegDec"   => $entity->getLatDegDec(),
-        "station.longDegDec"  => $entity->getLongDegDec(),
-      );
-    }
+    $sqlQuery = "SELECT
+      site.id,
+      site.site_code AS station_code,
+      site.site_name AS name,
+      site.longitude,
+      site.latitude,
+      site.elevation as altitude,
+      municipality_name as municipality,
+      country_name as country
+      FROM site
+      JOIN municipality muni on site.municipality_fk = muni.id
+      JOIN country on site.country_fk = country.id
+      WHERE earth_distance(
+        ll_to_earth(latitude, longitude),
+        ll_to_earth(:latitude, :longitude)
+      ) <= 10000";
 
-    return new JsonResponse(array(
-      'stations'  => $tab_toshow,
-      'latitude'  => $latitude,
+    $stmt = $this->getDoctrine()->getManager()
+      ->getConnection()
+      ->prepare($sqlQuery);
+
+    $stmt->execute(array(
       'longitude' => $longitude,
+      'latitude' => $latitude,
     ));
+
+    $sites = $stmt->fetchAll();
+
+    return new JsonResponse([
+      'sites' => $sites,
+      'latitude' => $latitude,
+      'longitude' => $longitude,
+    ]);
   }
 
   /**
@@ -198,7 +194,7 @@ class StationController extends AbstractController {
    */
   public function newAction(Request $request) {
     $station = new Station();
-    $form    = $this->createForm('App\Form\StationType', $station, [
+    $form = $this->createForm('App\Form\StationType', $station, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -217,13 +213,13 @@ class StationController extends AbstractController {
         ));
       }
       return $this->redirectToRoute('station_edit', array(
-        'id'    => $station->getId(),
+        'id' => $station->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/station/edit.html.twig', array(
-      'station'   => $station,
+      'station' => $station,
       'edit_form' => $form->createView(),
     ));
   }
@@ -240,8 +236,8 @@ class StationController extends AbstractController {
       'action_type' => Action::show(),
     ]);
     return $this->render('Core/station/edit.html.twig', array(
-      'station'     => $station,
-      'edit_form'   => $editForm->createView(),
+      'station' => $station,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -261,7 +257,7 @@ class StationController extends AbstractController {
     }
 
     $deleteForm = $this->createDeleteForm($station);
-    $editForm   = $this->createForm('App\Form\StationType', $station, [
+    $editForm = $this->createForm('App\Form\StationType', $station, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -280,15 +276,15 @@ class StationController extends AbstractController {
         );
       }
       return $this->render('Core/station/edit.html.twig', array(
-        'station'   => $station,
+        'station' => $station,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/station/edit.html.twig', array(
-      'station'     => $station,
-      'edit_form'   => $editForm->createView(),
+      'station' => $station,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
