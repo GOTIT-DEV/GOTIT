@@ -1,29 +1,6 @@
 <template>
   <l-popup ref="popup" class="site-popup">
-    <label>
-      <a :href="site.station_url">
-        <b>{{ site.station_code }}</b>
-      </a>
-    </label>
-    <b-table-lite
-      small
-      stacked
-      dark
-      tbody-tr-class="site-table"
-      table-class="mb-0"
-      :items="[site]"
-      :fields="fields"
-    >
-      <template #cell(motu)="data">
-        <b-badge variant="info">
-          {{ data.value }}
-        </b-badge>
-      </template>
-    </b-table-lite>
-    <span class="site-location text-capitalize">
-      {{ site.municipality.toLowerCase() }}
-    </span>
-    <span class="site-location">{{ site.country }}</span>
+    <site-info :site="site" :extra-fields="fields" />
 
     <b-button-group class="mt-3">
       <b-button
@@ -59,8 +36,10 @@
 
 <script>
 import { LPopup } from "vue2-leaflet";
+import SiteInfo from "../../../components/maps/SiteInfo";
+
 export default {
-  components: { LPopup },
+  components: { LPopup, SiteInfo },
   props: {
     site: { type: Object },
   },
@@ -70,19 +49,6 @@ export default {
         {
           key: "motu",
           label: "MOTU",
-        },
-        {
-          key: "latitude",
-          label: "Lat.",
-        },
-        {
-          key: "longitude",
-          label: "Lon.",
-        },
-        {
-          key: "altitude",
-          label: "Alt",
-          formatter: (value) => `${value} m`,
         },
       ],
     };
@@ -100,15 +66,5 @@ export default {
 .site-popup {
   display: flex;
   flex-direction: column;
-  min-width: 10rem;
-  table.table-dark {
-    background-color: transparent;
-    tbody > tr.site-table > td {
-      border-color: grey;
-    }
-  }
-  .site-location {
-    align-self: flex-end;
-  }
 }
 </style>

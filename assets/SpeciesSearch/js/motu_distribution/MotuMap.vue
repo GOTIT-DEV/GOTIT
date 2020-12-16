@@ -44,7 +44,7 @@
       </l-layer-group>
     </leaflet-map>
 
-    <sequence-modal ref="seqModal" />
+    <sequence-modal ref="seqModal" static />
   </div>
 </template>
 
@@ -234,8 +234,8 @@ export default {
       });
     },
     showSequences(site) {
-      this.$refs.seqModal.site = site;
       this.$refs.seqModal.$bvModal.show("modal-sequences");
+      this.$refs.seqModal.site = site;
     },
     fitMotu(motu) {
       const sites = Object.values(this.indexedData[motu].sites);
