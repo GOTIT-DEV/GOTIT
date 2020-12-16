@@ -19,18 +19,17 @@ $(() => {
 
 
   // Municipality modal 
-  initMunicipalityCodeGeneration("#modal-station_newMunicipality")
+  const modalId = "#modal-station_newMunicipality"
+  initMunicipalityCodeGeneration(modalId)
 
+  const $modal = $(modalId)
   $modal.find("form").off("submit").submit(function (event) {
     event.preventDefault()
     modalFormSubmitCallback(event, modalCallback)
   })
 
   function modalCallback(_, response) {
-    $modalCountry = $modal.find("select#commune_paysFk")
-    $modalRegion = $modal.find("input#commune_nomRegion")
-    $modalName = $modal.find("input#commune_nomCommune")
-    $modalCode = $modal.find("input#commune_codeCommune")
+    const $modalCountry = $modal.find("select#commune_paysFk")
     $countryInput.val($modalCountry.val()).selectpicker('refresh')
     $municipality
       .append($('<option>', {
