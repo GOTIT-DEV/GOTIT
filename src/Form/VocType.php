@@ -23,49 +23,44 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Form\ActionFormType;
 
 class VocType extends ActionFormType {
+
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
+
+    $qb = $this->er->createQueryBuilder();
+    $query = $qb->select('voc.parent')
+      ->from('App:Voc', 'voc')
+      ->groupBy('voc.parent')
+      ->orderBy('voc.parent')
+      ->getQuery();
+
+    $choices = array_column($query->getScalarResult(), "parent");
+    usort(
+      $choices,
+      function ($a, $b) {
+        return strcmp(
+          $this->translator->trans(sprintf('vocParent.%s', $a)),
+          $this->translator->trans(sprintf('vocParent.%s', $b))
+        );
+      }
+    );
+
     $builder
       ->add('code')
       ->add('libelle')
-      ->add('parent', ChoiceType::class, array(
-        'choices' => [
-          'vocParent.codeCollection' => 'codeCollection',
-          'vocParent.datePrecision' => 'datePrecision,',
-          'vocParent.fixateur' => 'fixateur',
-          'vocParent.gene' => 'gene',
-          'vocParent.habitatType' => 'habitatType',
-          'vocParent.leg' => 'leg',
-          'vocParent.methodeExtractionAdn' => 'methodeExtractionAdn',
-          'vocParent.methodeMotu' => 'methodeMotu',
-          'vocParent.nbIndividus' => 'nbIndividus',
-          'vocParent.origineSqcAssExt' => 'origineSqcAssExt',
-          'vocParent.pigmentation' => 'pigmentation',
-          'vocParent.pointAcces' => 'pointAcces',
-          'vocParent.precisionLatLong' => 'precisionLatLong',
-          'vocParent.primerChromato' => 'primerChromato',
-          'vocParent.primerPcrEnd' => 'primerPcrEnd',
-          'vocParent.primerPcrStart' => 'primerPcrStart',
-          'vocParent.qualiteAdn' => 'qualiteAdn',
-          'vocParent.qualiteChromato' => 'qualiteChromato',
-          'vocParent.qualitePcr' => 'qualitePcr',
-          'vocParent.samplingMethod' => 'samplingMethod',
-          'vocParent.specificite' => 'specificite',
-          'vocParent.statutSqcAss' => 'statutSqcAss',
-          'vocParent.typeBoite' => 'typeBoite',
-          'vocParent.typeCollection' => 'typeCollection',
-          'vocParent.typeIndividu' => 'typeIndividu',
-          'vocParent.typeMateriel' => 'typeMateriel',
-          'vocParent.yeux' => 'yeux',
-        ],
+      ->add('parent', ChoiceType::class, [
+        'choices' => $choices,
+        "choice_label" => function ($choice, $key, $value) {
+          return sprintf("vocParent.%s", $value);
+        },
         'placeholder' => 'Choose a Parent',
         'required' => true,
         'choice_translation_domain' => true,
         'multiple' => false,
         'expanded' => false,
-      ))
+      ])
       ->add('commentaire')
       ->addEventSubscriber($this->addUserDate);
   }
