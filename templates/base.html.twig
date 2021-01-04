@@ -41,7 +41,7 @@
 			{% endblock %}
 
 			<header class="main-header">
-				{% block helpbutton %}
+				{% block help_panel %}
 					<button
 						class="help-btn btn btn-light border-primary text-secondary"
 						type="button"
@@ -51,6 +51,18 @@
 						aria-controls="page-help">
 						<i class="fas fa-question"></i>
 					</button>
+
+					<div class="collapse" id="page-help">
+						<div class="card card-body">
+							{% block pagehelp %}
+								{% if help_message is defined and help_message is not empty %}
+									{{help_message|raw}}
+								{% else %}
+									Undefined
+								{% endif %}
+							{% endblock %}
+						</div>
+					</div>
 				{% endblock %}
 
 				{% block titlepage %}{% endblock %}
@@ -61,17 +73,7 @@
 					{% endblock %}
 				</div>
 
-				<div class="collapse" id="page-help">
-					<div class="card card-body">
-						{% block pagehelp %}
-							{% if help_message is defined and help_message is not empty %}
-								{{help_message|raw}}
-							{% else %}
-								Undefined
-							{% endif %}
-						{% endblock %}
-					</div>
-				</div>
+
 			</header>
 
 			<div class="main-content container" role="main">
@@ -83,16 +85,7 @@
 
 			{# footer content #}
 			{% block footer %}
-				<footer>
-					<div class="pull-right">
-						©
-						<a href="http://bbees.mnhn.fr">BBEES</a>
-						2020 - GOTIT 2 -
-						<a href="{{ asset('doc/legal_notices_' ~ app.request.getLocale() ~ '.pdf') }}" target="_blank">
-							{{'legales_mentions'|trans}}
-						</a>
-					</div>
-				</footer>
+				{% include "footer.html.twig" %}
 			{% endblock %}
 
 			{# General Scripts #}

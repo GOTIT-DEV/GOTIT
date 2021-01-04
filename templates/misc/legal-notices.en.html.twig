@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block headincl %}{% endblock %}
+
+{% block help_panel %}
+	{# Disable help message #}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block titlepage %}
+	<h1>Legal notices</h1>
+{% endblock %}
+
+{% block body %}
+
+	<ul>
+		<li>
+			<b>Publication director and webmaster :</b>
+			Florian Malard (<a href="mailto:florian.malard@univ-lyon1.fr">
+				florian.malard@univ-lyon1.fr</a>)
+		</li>
+		<li>
+			<b>Web hosting service :</b>
+			Centre de Calcul de l'Institut National de Physique Nucléaire et de Physique des
+			Particules (CC-IN2P3).
+		</li>
+	</ul>
+
+	<h2>Protection of personal information</h2>
+
+	The informations collected that concerns you has been processed to the CIL of
+	the CNRS (ref. 2-19015 \ UMR5023). You have the right of access, of correction,
+	of portability, or of removal of this data. You can oppose the processing of the
+	data that concerns you and you have the right to withdraw your agreement at any
+	time, by contacting the webmaster. You can also direct a complaint at a
+	controlling body.
+
+	<h2>Disclaimer of liability</h2>
+
+	The responsibility of the CNRS can't be engaged as to the content of the
+	informations available on this website, or the consequences that may result from
+	their use or interpretation.
+
+	<h2>Intellectual property</h2>
+
+	The GOTIT project website is a work of creation, exclusive property of the CNRS
+	protected by French and international legislation on intellectual property. No
+	reproduction or representation may be made in contravention of the rights of the
+	CNRS resulting from the aforementioned legislation.
+
+
+{% endblock %}
