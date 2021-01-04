@@ -17,16 +17,17 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\EmbedTypes\IndividuLameEstRealiseParEmbedType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\SearchableSelectType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\EmbedTypes\IndividuLameEstRealiseParEmbedType;
+use App\Form\ActionFormType;
 
 class IndividuLameType extends ActionFormType {
   /**
@@ -46,7 +47,7 @@ class IndividuLameType extends ActionFormType {
           'readonly' => $specimen != null,
         ],
       ])
-      ->add('codeLameColl', null, [
+      ->add('codeLameColl', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('libelleLame')

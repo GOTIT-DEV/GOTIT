@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\ModalButtonType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\CountryVocType;
 use App\Form\Type\BaseVocType;
 use App\Form\ActionFormType;
@@ -34,7 +35,7 @@ class StationType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $station = $builder->getData();
     $builder
-      ->add('codeStation', null, [
+      ->add('codeStation', EntityCodeType::class, [
         "disabled" => $this->canEditAdminOnly($options),
       ])
       ->add('nomStation')

@@ -20,6 +20,7 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\BaseVocType;
@@ -39,12 +40,12 @@ class SequenceAssembleeType extends ActionFormType {
     $specimen = $options['specimen'] ?: $sequence->getIndividuFk();
 
     $builder
-      ->add('codeSqcAss', null, [
+      ->add('codeSqcAss', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => ['readonly' => Action::create() == $options['action_type']],
       ])
       ->add('accessionNumber')
-      ->add('codeSqcAlignement', null, [
+      ->add('codeSqcAlignement', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],

@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\Type\SearchableSelectType;
 use App\Form\Type\GeneType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\BaseVocType;
@@ -45,13 +46,13 @@ class PcrType extends ActionFormType {
           'readonly' => $adn != null,
         ],
       ])
-      ->add('codePcr', null, [
+      ->add('codePcr', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('numPcr', null, [
+      ->add('numPcr', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)

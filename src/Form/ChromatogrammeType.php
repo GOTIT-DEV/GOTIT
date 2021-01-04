@@ -17,15 +17,16 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\Enums\Action;
-use App\Form\Type\BaseVocType;
-use App\Form\Type\SearchableSelectType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\BaseVocType;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
 class ChromatogrammeType extends ActionFormType {
   /**
@@ -45,7 +46,7 @@ class ChromatogrammeType extends ActionFormType {
         ],
       ])
 
-      ->add('codeChromato', null, [
+      ->add('codeChromato', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),

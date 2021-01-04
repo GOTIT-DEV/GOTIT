@@ -17,11 +17,12 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\Enums\Action;
-use App\Form\Type\CountryVocType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\CountryVocType;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
 class CommuneType extends ActionFormType {
   /**
@@ -29,7 +30,7 @@ class CommuneType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('codeCommune', null, [
+      ->add('codeCommune', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),

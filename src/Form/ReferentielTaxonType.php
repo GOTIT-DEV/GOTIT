@@ -17,10 +17,11 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\Type\EntityCodeType;
+use App\Form\ActionFormType;
 
 class ReferentielTaxonType extends ActionFormType {
 
@@ -39,7 +40,7 @@ class ReferentielTaxonType extends ActionFormType {
       ->add('genus')
       ->add('species')
       ->add('subspecies')
-      ->add('codeTaxon')
+      ->add('codeTaxon', EntityCodeType::class)
       ->add('clade')
       ->add('taxnameRef')
       ->add('validity', ChoiceType::class, array(

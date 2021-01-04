@@ -17,18 +17,19 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\Type\SearchableSelectType;
-use App\Form\Type\GeneType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\BaseVocType;
-use App\Form\Enums\Action;
-use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
-use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
+use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
+use App\Form\Enums\Action;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\GeneType;
+use App\Form\Type\SearchableSelectType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SequenceAssembleeExtType extends ActionFormType {
   /**
@@ -46,19 +47,19 @@ class SequenceAssembleeExtType extends ActionFormType {
           'readonly' => $sampling != null,
         ],
       ])
-      ->add('codeSqcAssExt', null, [
+      ->add('codeSqcAssExt', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],
         ],
       ])
-      ->add('codeSqcAssExtAlignement', null, [
+      ->add('codeSqcAssExtAlignement', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],
         ],
       ])
-      ->add('accessionNumberSqcAssExt', null, [
+      ->add('accessionNumberSqcAssExt', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('numIndividuSqcAssExt', null, [

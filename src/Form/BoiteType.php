@@ -21,6 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\BaseVocType;
 use App\Form\Enums\Action;
 use App\Form\EmbedTypes\LotMaterielEmbedType;
@@ -37,7 +38,7 @@ class BoiteType extends ActionFormType {
 
     $builder
     # Is not auto-generated : editable in create mode
-    ->add('codeBoite', null, [
+    ->add('codeBoite', EntityCodeType::class, [
       'disabled' => $this->canEditAdminOnly($options),
     ])
       ->add('libelleBoite')

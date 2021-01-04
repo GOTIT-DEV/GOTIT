@@ -17,10 +17,11 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\Enums\Action;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\EntityCodeType;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
 class PaysType extends ActionFormType {
   /**
@@ -29,7 +30,7 @@ class PaysType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
       ->add('nomPays')
-      ->add('codePays', null, [
+      ->add('codePays', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),

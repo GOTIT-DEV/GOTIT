@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\BaseVocType;
@@ -51,7 +52,7 @@ class LotMaterielType extends ActionFormType {
           'readonly' => $sampling != null,
         ],
       ])
-      ->add('codeLotMateriel', null, [
+      ->add('codeLotMateriel', EntityCodeType::class, [
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],

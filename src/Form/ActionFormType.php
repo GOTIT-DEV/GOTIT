@@ -2,18 +2,18 @@
 
 namespace App\Form;
 
-use App\Form\DataTransformer\UppercaseTransformer;
-use App\Form\Enums\Action;
-use App\Form\EventListener\AddUserDateFields;
-use App\Form\UserDateTraceType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Form\UserDateTraceType;
+use App\Form\EventListener\AddUserDateFields;
+use App\Form\Enums\Action;
+use App\Form\DataTransformer\UppercaseTransformer;
 
 class ActionFormType extends UserDateTraceType {
   /**
@@ -39,7 +39,7 @@ class ActionFormType extends UserDateTraceType {
       $options = $field->getOptions();
 
       $options['attr']['class'] = $options['attr']['class'] ?? "";
-      $options['attr']['class'] .= "text-uppercase";
+      $options['attr']['class'] .= " text-uppercase";
       $builder->add($fieldName, $fieldClass, $options);
       $builder->get($fieldName)
         ->addModelTransformer($this->uppercase_transformer);

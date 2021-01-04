@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\BaseVocType;
@@ -53,7 +54,7 @@ class CollecteType extends ActionFormType {
             $sampling->getStationFk()),
         ],
       ])
-      ->add('codeCollecte', null, [
+      ->add('codeCollecte', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'class' => 'sampling-code',

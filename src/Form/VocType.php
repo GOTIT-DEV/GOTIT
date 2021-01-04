@@ -20,6 +20,7 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Form\Type\EntityCodeType;
 use App\Form\ActionFormType;
 
 class VocType extends ActionFormType {
@@ -48,7 +49,7 @@ class VocType extends ActionFormType {
     );
 
     $builder
-      ->add('code')
+      ->add('code', EntityCodeType::class)
       ->add('libelle')
       ->add('parent', ChoiceType::class, [
         'choices' => $choices,

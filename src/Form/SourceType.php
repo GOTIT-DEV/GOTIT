@@ -20,6 +20,7 @@ namespace App\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\Type\EntityCodeType;
 use App\Form\EmbedTypes\SourceAEteIntegreParEmbedType;
 use App\Form\ActionFormType;
 
@@ -29,7 +30,7 @@ class SourceType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('codeSource', null, [
+      ->add('codeSource', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('anneeSource', null, [

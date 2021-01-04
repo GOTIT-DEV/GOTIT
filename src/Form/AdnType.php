@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\BaseVocType;
@@ -48,7 +49,7 @@ class AdnType extends ActionFormType {
         ],
       ])
       # Is not auto-generated : editable in create mode
-      ->add('codeAdn', null, [
+      ->add('codeAdn', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)

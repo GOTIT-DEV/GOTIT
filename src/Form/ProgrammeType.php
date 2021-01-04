@@ -17,9 +17,10 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\EntityCodeType;
+use App\Form\ActionFormType;
 
 class ProgrammeType extends ActionFormType {
 
@@ -27,7 +28,7 @@ class ProgrammeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeProgramme')
+    $builder->add('codeProgramme', EntityCodeType::class)
       ->add('nomProgramme')
       ->add('nomsResponsables')
       ->add('typeFinanceur')
