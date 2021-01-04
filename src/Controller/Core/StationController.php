@@ -144,12 +144,13 @@ class StationController extends AbstractController {
   }
 
   /**
-   * @Route("/proximity/", name="proximal_stations", methods={"POST"})
+   * @Route("/proximity/", name="nearby_stations", methods={"POST"})
    */
   public function geoCoords(Request $request) {
     $data = $request->request;
     $latitude = $data->get('latitude');
     $longitude = $data->get('longitude');
+    $radius = $data->get('radius');
 
     $sqlQuery = "SELECT
       site.id,
@@ -166,7 +167,7 @@ class StationController extends AbstractController {
       WHERE earth_distance(
         ll_to_earth(latitude, longitude),
         ll_to_earth(:latitude, :longitude)
-      ) <= 10000";
+      ) <= :radius";
 
     $stmt = $this->getDoctrine()->getManager()
       ->getConnection()
@@ -175,6 +176,7 @@ class StationController extends AbstractController {
     $stmt->execute(array(
       'longitude' => $longitude,
       'latitude' => $latitude,
+      'radius' => $radius,
     ));
 
     $sites = $stmt->fetchAll();
