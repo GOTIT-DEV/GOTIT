@@ -17,11 +17,11 @@
 
 namespace App\Form\EmbedTypes;
 
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
@@ -43,7 +43,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
             'geneVocFk' => $options['geneVocFk'],
           ]);
       },
-      'choice_label' => 'codeChromato',
+      'choice_label' => 'codeChromatoSpecificite',
       'multiple' => false,
       'expanded' => false,
       'required' => true,
