@@ -20,7 +20,7 @@ security:
         # manager_name: customer
 
   access_control:
-    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: "^/{_locale}/login", roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
   firewalls:
     # disables authentication for assets and the profiler, adapt it according to your needs
@@ -44,3 +44,12 @@ security:
       logout:
         path: logout
         target: login
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+      remember_me:
+        secret: "%kernel.secret%"
+        lifetime: 604800 # 1 week in seconds
+        path: /
+        name: remember_logged_in
+        secure: true

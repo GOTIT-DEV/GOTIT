@@ -2,3 +2,9 @@ search: Search
 
 add: add
 create: create
+
+login:
+  sign in: sign in
+  username: username
+  password: password
+  remember me: remember me

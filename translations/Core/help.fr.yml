@@ -6,7 +6,7 @@ user_show: |
   Use this form to consult data of a user. See appendix 14.3.1 in GOTIT HELP for content of fields.
 user_edit: |
   Use this form to edit data of a user. See appendix 14.3.1 in GOTIT HELP for content of fields.
-default_index: |
+dashboard: |
   Use menu (let panel) of the dashboard to browse the functionalities of GOTIT web user interface. See section 4 in GOTIT HELP for a detailed description of sections and sub-sections of the menu. The dashboard provides summary of data stored in the relational data base as well as recent updates made in the data base. Direct links to a number of data uploading tools are also provided
 login: Use this page to login and access to GOTIT web user interface
 # info generale aux import de fichiers csv

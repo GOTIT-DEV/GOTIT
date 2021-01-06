@@ -1,116 +1,166 @@
-body .main-container {
-  .top-nav {
-    display: none;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(23, 53, 77);
+  overflow-x: hidden;
+  img#dna-bg {
+    pointer-events: none;
+    position: absolute;
+    min-width: 100vw;
+    height: 100vh;
+    // top: -10vh;
+    opacity: 0.05;
+    z-index: -1;
+    transform: scaleX(-1);
   }
-  grid-template-areas:
-    "nav-left header"
-    "nav-left main-content"
-    "nav-left footer"
-    "nav-left .";
-  grid-template-rows: auto auto auto 1fr;
+  div#world-bg-wrapper {
+    pointer-events: none;
+    z-index: -1;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
 
-  .main-header{
-    margin: 1%;
+    img#world-bg {
+      opacity: 0.07;
+      z-index: -2;
+      width: 120vw;
+      min-width: 1200px;
+      flex-shrink: 0;
+    }
   }
-  .main-content {
+
+  div#login-panel {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    row-gap: 100px;
-  }
 
-  #login-form-container {
-    display: grid;
-    grid-template-areas: "prefix form suffix";
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-    justify-content: space-evenly;
-    column-gap: 10%;
+    h2 {
+      text-align: center;
+    }
 
-    #login-prefix {
-      grid-area: prefix;
-    }
-    #login-suffix {
-      grid-area: suffix;
-    }
     #login-form {
-      grid-area: form;
-      max-width: 800px;
-
-      div.messages {
-        color: orangered;
+      background-color: white;
+      padding: 50px;
+      margin-top: 10vh;
+      max-width: 600px;
+      width: 500px;
+      box-shadow: 5px 5px 5px rgb(5, 27, 46);
+      label,
+      button,
+      input {
+        font-size: 14pt;
       }
-      // max-width: 600px;
-      // width: 600px;
-    }
-  }
-  @media (max-width: 1400px) {
-    #login-form-container {
-      align-items: start;
-      grid-template-columns: auto auto;
-      grid-template-areas:
-        "prefix suffix"
-        "form form";
-    }
-  }
-
-  @media (max-width: 600px) {
-    #login-form-container {
-      align-items: start;
-      grid-template-columns: 1fr;
-      grid-template-areas: "form";
-    }
-    #login-prefix,
-    #login-suffix {
-      display: none;
+      .form-header {
+        display: flex;
+        justify-content: center;
+        #app_image {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+      }
+      #lang-switch {
+        text-align: center;
+      }
     }
   }
 
   #login-footer {
-    display: grid;
-    grid-template-areas:
-      "lehna-logo lehna . logos"
-      "bbees-logo bbees . logos";
-    grid-template-columns: 0fr auto 1fr minmax(0, auto);
-    gap: 10px;
-    align-items: center;
-
-    .umr-desc {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-
-      &#lehna-desc {
-        grid-area: lehna;
-      }
-
-      &#bbees-desc {
-        grid-area: bbees;
+    width: 100vw;
+    background-color: white;
+    svg {
+      position: absolute;
+      top: calc(100vh - 45px);
+      left: calc(50vw - 50px);
+      z-index: -1;
+      circle {
+        filter: drop-shadow(0px 2px 3px white);
       }
     }
 
-    #lehna-logo {
-      grid-area: lehna-logo;
-    }
+    #login-footer-content {
+      // box-shadow: 0px 0px 5px 20px white;
+      padding: 10px;
+      display: grid;
+      grid-template-areas:
+        "lehna-logo lehna . logos"
+        "bbees-logo bbees . logos";
+      grid-template-columns: 0fr auto 1fr minmax(0, auto);
+      gap: 10px;
+      align-items: center;
+      width: 100%;
 
-    #bbees-logo {
-      grid-area: bbees-logo;
-    }
+      .umr-desc {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
 
-    #login-logos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      max-width: 300px;
-      grid-area: logos;
+        &#lehna-desc {
+          grid-area: lehna;
+        }
+
+        &#bbees-desc {
+          grid-area: bbees;
+        }
+      }
+
+      #lehna-logo {
+        grid-area: lehna-logo;
+      }
+
+      #bbees-logo {
+        grid-area: bbees-logo;
+      }
+
+      #login-logos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        max-width: 300px;
+        grid-area: logos;
+      }
     }
   }
+}
 
-  @media (max-width: 600px) {
+@media (max-width: 500px) {
+  body {
+    background-color: white;
+    div#world-bg-wrapper,
+    #dna-bg {
+      display: none;
+    }
+    div#login-panel {
+      height: auto;
+      width: 100%;
+      #login-form {
+        margin: 0;
+        width: unset;
+        max-width: 500px;
+        padding: 20px;
+        label,
+        button,
+        input {
+          font-size: 10pt;
+        }
+      }
+    }
     #login-footer {
-      grid-template-areas:
-        "lehna-logo lehna"
-        "bbees-logo bbees"
-        "logos logos";
+      padding-top: 50px;
+
+      svg {
+        display: none;
+      }
+      #login-footer-content {
+        grid-template-areas:
+          "lehna-logo lehna"
+          "bbees-logo bbees"
+          "logos logos";
+      }
     }
   }
 }

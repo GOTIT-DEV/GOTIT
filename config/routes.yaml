@@ -1,14 +1,6 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
 root:
-    path: /
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: default_index
-        permanent: true
-
-login:
-    path: /login
-    controller: App\Controller\User\SecurityController::loginAction
-    methods: GET|POST
+  path: /
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: dashboard
+    permanent: true

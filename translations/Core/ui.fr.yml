@@ -2,3 +2,9 @@ search: Rechercher
 
 add: ajouter
 create: créer
+
+login:
+  sign in: Connexion
+  username: Utilisateur
+  password: Mot de passe
+  remember me: Rester connecté·e
