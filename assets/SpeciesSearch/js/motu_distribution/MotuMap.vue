@@ -71,11 +71,11 @@ import L from "leaflet";
 import chroma from "chroma-js";
 import { LControl, LLayerGroup } from "vue2-leaflet";
 
-import LeafletMap from "../../../components/LeafletMap";
+import LeafletMap from "../../../components/maps/LeafletMap";
 
 import SequenceModal from "./SequenceModal";
-import ShapeMarker from "../../../components/ShapeMarker";
-import ShapeMarkerLegend from "../../../components/ShapeMarkerLegend";
+import ShapeMarker from "../../../components/maps/ShapeMarker";
+import ShapeMarkerLegend from "../../../components/maps/ShapeMarkerLegend";
 import SitePopup from "./SitePopup.vue";
 import { LPopup } from "vue2-leaflet";
 const LegendShape = Vue.extend(ShapeMarkerLegend);
