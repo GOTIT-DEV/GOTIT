@@ -1,3 +1,5 @@
+query_builder_index: |
+  Use the query builder to extract data from the data base. See section 16 in GOTIT HELP for more details about the functionalities of the query builder.
 user_index: |
   Use this page to browse, create, export, show, edit and delete user accounts. WARNING: Deleting a user account would erase contents of technical fields (e.g. user creation). Rather, lock a user account using the option “LOCKED” in the edit session (see appendix 14.3.1 in GOTIT HELP for further details). Additional fields can be listed using the top right button. The search button applies to the field "Username"
 user_new: |
