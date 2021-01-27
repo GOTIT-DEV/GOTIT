@@ -130,6 +130,11 @@ Encore
     from: './assets/imports',
     to: 'imports/[name].[ext]'
   })
+  // Copy documents directory
+  .copyFiles({
+    from: './docs',
+    to: 'docs/[path][name].[ext]'
+  })
   ;
 
 var config = Encore.getWebpackConfig();
