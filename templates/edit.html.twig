@@ -41,7 +41,7 @@
 
 {% block action_bar_class %}offset-xl-2 offset-lg-3 col-xl-10 col-lg-9{% endblock %}
 {% block action %}
-	{% set path_route_index = path( route_index, { nameFk: nameFk, idFk: idFk } ) %}
+	{% set path_route_index = path_route_index|default(path( route_index, { nameFk: nameFk, idFk: idFk } )) %}
 	<a href="{{ path_route_index }}" class="btn btn-sm btn-light border">
 		<i class="fas fa-list"></i>
 		{{ "button.BackToTheList"|trans }}
@@ -74,14 +74,6 @@
 				<button type="submit" class="btn btn-round btn-success" value="Create">
 					{{ "button.Valid"|trans }}
 				</button>
-			{% endif %}
-			{% if edit_form.vars.action_type != 'edit' or not flagvalid %}
-				<a
-					href="#"
-					onclick="window.history.go(-1); return false;"
-					class="btn btn-round btn-primary">
-					{{ "button.Back"|trans }}
-				</a>
 			{% endif %}
 		</div>
 	</div>
