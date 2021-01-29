@@ -6,14 +6,14 @@
 	{{ encore_entry_link_tags('spsearch/consistency') }}
 {% endblock %}
 
-{% block titlepage %}
+{% block page_title %}
 	{% set title = "queries.concordance.title" %}
-  {{parent()}}
+	{{parent()}}
 {% endblock %}
 
 {% block body %}
-		{# Formulaire #}
-		{% include 'SpeciesSearch/taxon-consistency/form.html.twig' %}
+	{# Formulaire #}
+	{% include 'SpeciesSearch/taxon-consistency/form.html.twig' %}
 
 	<fieldset>
 		<legend>

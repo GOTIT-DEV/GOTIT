@@ -17,7 +17,7 @@
 {% set varUrl_idFk = app.request.query.get('idFk') %}
 {% set varUrl_nameFk = app.request.query.get('nameFk') | default('') %}
 
-{% block titlepage %}
+{% block page_title %}
   <h1>
     {{ ('core.' ~ entityname)|trans({}, 'sections') }}
   </h1>
