@@ -1,6 +1,16 @@
 {% extends 'edit.html.twig' %}
 
 {# EDIT : LAME #}
+{% block action %}
+	{{parent()}}
+	{% set specimenFk = edit_form.vars.data.individuFk %}
+	{% if specimenFk is not null %}
+		<a href="{{path('individu_show', {id: specimenFk.id})}}" class="btn btn-sm btn-info">
+			<i class="fas fa-link"></i>
+			{{'button.Back to individu'|trans}}
+		</a>
+	{% endif %}
+{% endblock %}
 
 {% block scripts %}
 	{{ parent() }}
