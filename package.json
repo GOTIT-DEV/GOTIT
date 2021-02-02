@@ -21,6 +21,7 @@
   "scripts": {
     "dev-server": "encore dev-server --disable-host-check --port 8080 --https --pfx=$HOME/.symfony/certs/default.p12",
     "dev-server-win": "encore dev-server --disable-host-check --port 8080 --https --pfx=%UserProfile%\\.symfony\\certs\\default.p12",
+    "dev-server-http": "encore dev-server --disable-host-check --port 8080",
     "dev": "encore dev",
     "watch": "encore dev --watch",
     "build": "encore production --progress"
