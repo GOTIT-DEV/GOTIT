@@ -37,8 +37,14 @@ $(() => {
   const $longitude = $("#station_longDegDec")
   const $modalBtn = $('button#station_showNearbySites')
 
-  $latitude.change(toggleProximitySitesBtn).keyup(toggleProximitySitesBtn)
-  $longitude.change(toggleProximitySitesBtn).keyup(toggleProximitySitesBtn)
+  $latitude
+    .change(toggleProximitySitesBtn)
+    .keyup(toggleProximitySitesBtn)
+    .change()
+  $longitude
+    .change(toggleProximitySitesBtn)
+    .keyup(toggleProximitySitesBtn)
+    .change()
 
   $modalBtn.click(() => {
     modal_map.showProximityMap(
@@ -61,7 +67,9 @@ $(() => {
         const options = json.map(item =>
           `<option value="${item.id}">${item.codeCommune}</option>`
         )
-        $("#station_communeFk").empty().append(options).val('').selectpicker('refresh')
+        $("#station_communeFk").empty()
+          .append(options).val('')
+          .selectpicker('refresh')
       })
   })
 

@@ -3,6 +3,7 @@
     ref="map"
     :data="[{ latitude, longitude }]"
     :markerSettings="markerSettings"
+    :disableAutoFit="true"
     regions
   >
     <l-marker :lat-lng="[latitude, longitude]" />
@@ -60,6 +61,7 @@ export default {
   },
   props: {
     radius: {
+      // meters
       type: Number,
       required: true,
     },
@@ -78,33 +80,16 @@ export default {
   },
   methods: {
     async setCoords(latitude, longitude) {
+      this.$refs.map.zoom = 8.5;
       this.latitude = latitude;
       this.longitude = longitude;
       await this.fetch();
     },
     async invalidateSize() {
       const innerMap = this.$refs.map;
-      innerMap.mapObject.invalidateSize({
-        debounceMoveend: false,
-        pan: false,
-        animate: false,
-        duration: 0,
-      });
+      innerMap.mapObject.invalidateSize(false);
       await this.$nextTick();
-      this.continuousFit(0.01);
-    },
-    continuousFit(epsilon) {
-      const innerMap = this.$refs.map;
-      setTimeout(async () => {
-        innerMap.fitBounds(this.nearbySites);
-        await this.$nextTick();
-        if (
-          (Math.abs(innerMap.center.lat - this.latitude) > epsilon) |
-          (Math.abs(innerMap.center.lng - this.longitude) > epsilon)
-        ) {
-          this.continuousFit(epsilon);
-        }
-      }, 300);
+      this.$refs.map.center = [this.latitude, this.longitude];
     },
     async fetch() {
       const postData = new FormData();
