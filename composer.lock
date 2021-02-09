@@ -6545,7 +6545,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.2.*",
+        "php": ">=7.2.0",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

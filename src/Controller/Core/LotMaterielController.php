@@ -93,7 +93,7 @@ class LotMaterielController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
 
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')&& filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND lot.sampling_fk = ' . $request->get('idFk');
     }
     // Search for the list to show
@@ -113,8 +113,9 @@ class LotMaterielController extends AbstractController {
       lot.internal_biological_material_code,
       rt_lot.taxon_name as last_taxname_lot,
       ei_lot.identification_date as last_date_identification_lot,
-      lot.creation_user_name, user_cre.user_name as user_cre_username ,
-      user_maj.user_name as user_maj_username,
+      lot.creation_user_name, 
+      user_cre.user_full_name ,
+      user_maj.user_full_name ,
       string_agg(DISTINCT person.person_name , ' ; ') as list_person,
       string_agg(cast( sp.id as character varying) , ' ;') as list_specimen
     FROM internal_biological_material lot
@@ -147,7 +148,9 @@ class LotMaterielController extends AbstractController {
       lot.date_of_update, voc_lot_identification_criterion.code ,
       lot.internal_biological_material_code,
       rt_lot.taxon_name, ei_lot.identification_date,
-      lot.creation_user_name, user_cre.user_name, user_maj.user_name"
+      lot.creation_user_name, 
+      user_cre.user_full_name, 
+      user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
 
     // execute query and fill tab to show in the bootgrid list (see index.htm)
@@ -180,8 +183,8 @@ class LotMaterielController extends AbstractController {
         "country.country_name"                    => $val['country_name'],
         "municipality.municipality_code"          => $val['municipality_code'],
         "creation_user_name"                      => $val['creation_user_name'],
-        "user_cre.user_name"                      => $val['user_cre_username'],
-        "user_maj.user_name"                      => $val['user_maj_username'],
+        "user_cre.user_full_name"                 => $val['user_full_name'],
+        "user_maj.user_full_name"                 => $val['user_full_name'],
         "linkIndividu"                            => $linkIndividu,
         "linkIndividu_codestation"                => "%|" . $val['site_code'] . "_%",
       );

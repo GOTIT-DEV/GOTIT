@@ -20,3 +20,4 @@ yarn-error.log
 .idea
 
 TESTIMPORT_V2/
+/nbproject/private/

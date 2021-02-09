@@ -99,7 +99,7 @@ class CollecteController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')&& filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false ) {
       $where .= ' AND collecte.stationFk  = ' . $request->get('idFk');
     }
     // Search the list to show
