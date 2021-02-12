@@ -67,7 +67,7 @@ class DashboardController extends AbstractController {
         "name" => 'adn',
         "code" => $entity->getCodeAdn(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the chromatogram
@@ -85,7 +85,7 @@ class DashboardController extends AbstractController {
         "name" => 'chromatogramme',
         "code" => $entity->getCodeChromato(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the sampling
@@ -103,7 +103,7 @@ class DashboardController extends AbstractController {
         "name" => 'collecte',
         "code" => $entity->getCodeCollecte(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the specimen
@@ -121,7 +121,7 @@ class DashboardController extends AbstractController {
         "name" => 'individu',
         "code" => $entity->getCodeIndTriMorpho(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the slide
@@ -139,7 +139,7 @@ class DashboardController extends AbstractController {
         "name" => 'individulame',
         "code" => $entity->getCodeLameColl(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the lot material
@@ -157,7 +157,7 @@ class DashboardController extends AbstractController {
         "name" => 'lotmateriel',
         "code" => $entity->getCodeLotMateriel(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the external lot material
@@ -175,7 +175,7 @@ class DashboardController extends AbstractController {
         "name" => 'lotmaterielext',
         "code" => $entity->getCodeLotMaterielExt(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the motu
@@ -193,7 +193,7 @@ class DashboardController extends AbstractController {
         "name" => 'motu',
         "code" => $entity->getLibelleMotu(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the pcr
@@ -211,7 +211,7 @@ class DashboardController extends AbstractController {
         "name" => 'pcr',
         "code" => $entity->getCodePcr(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the sequence
@@ -229,7 +229,7 @@ class DashboardController extends AbstractController {
         "name" => 'sequenceassemblee',
         "code" => $entity->getCodeSqcAss(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the external sequence
@@ -247,7 +247,7 @@ class DashboardController extends AbstractController {
         "name" => 'sequenceassembleeext',
         "code" => $entity->getCodeSqcAssExt(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     // returns the last records of the site
@@ -265,7 +265,7 @@ class DashboardController extends AbstractController {
         "name" => 'station',
         "code" => $entity->getCodeStation(),
         "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUsername($entity),
+        "userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 

@@ -88,11 +88,11 @@ class AdnController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND adn.individuFk = ' . $request->get('idFk');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -101,7 +101,7 @@ class AdnController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
@@ -146,8 +146,8 @@ class AdnController extends AbstractController {
         "adn.dateCre"            => $DateCre,
         "adn.dateMaj"            => $DateMaj,
         "userCreId"              => $service->GetUserCreId($entity),
-        "adn.userCre"            => $service->GetUserCreUsername($entity),
-        "adn.userMaj"            => $service->GetUserMajUsername($entity),
+        "adn.userCre"            => $service->GetUserCreUserfullname($entity),
+        "adn.userMaj"            => $service->GetUserMajUserfullname($entity),
         "linkPcr"                => $linkPcr,
       );
     }

@@ -105,8 +105,8 @@ class ProgrammeController extends AbstractController {
         "programme.dateCre"          => $DateCre,
         "programme.dateMaj"          => $DateMaj,
         "userCreId"                  => $service->GetUserCreId($entity),
-        "programme.userCre"          => $service->GetUserCreUsername($entity),
-        "programme.userMaj"          => $service->GetUserMajUsername($entity),
+        "programme.userCre"          => $service->GetUserCreUserfullname($entity),
+        "programme.userMaj"          => $service->GetUserMajUserfullname($entity),
       );
     }
 

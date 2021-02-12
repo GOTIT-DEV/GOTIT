@@ -101,8 +101,8 @@ class CommuneController extends AbstractController {
         "commune.dateCre"     => $DateCre,
         "commune.dateMaj"     => $DateMaj,
         "userCreId"           => $service->GetUserCreId($entity),
-        "commune.userCre"     => $service->GetUserCreUsername($entity),
-        "commune.userMaj"     => $service->GetUserMajUsername($entity),
+        "commune.userCre"     => $service->GetUserCreUserfullname($entity),
+        "commune.userMaj"     => $service->GetUserMajUserfullname($entity),
       );
     }
 

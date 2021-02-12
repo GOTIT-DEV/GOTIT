@@ -108,8 +108,8 @@ class PersonneController extends AbstractController {
         "personne.dateCre"               => $DateCre,
         "personne.dateMaj"               => $DateMaj,
         "userCreId"                      => $service->GetUserCreId($entity),
-        "personne.userCre"               => $service->GetUserCreUsername($entity),
-        "personne.userMaj"               => $service->GetUserMajUsername($entity),
+        "personne.userCre"               => $service->GetUserCreUserfullname($entity),
+        "personne.userMaj"               => $service->GetUserMajUserfullname($entity),
       );
     }
 

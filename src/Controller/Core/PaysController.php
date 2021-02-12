@@ -100,8 +100,8 @@ class PaysController extends AbstractController {
         "pays.dateCre"  => $DateCre,
         "pays.dateMaj"  => $DateMaj,
         "userCreId"     => $service->GetUserCreId($entity),
-        "pays.userCre"  => $service->GetUserCreUsername($entity),
-        "pays.userMaj"  => $service->GetUserMajUsername($entity),
+        "pays.userCre"  => $service->GetUserCreUserfullname($entity),
+        "pays.userMaj"  => $service->GetUserMajUserfullname($entity),
       );
     }
     return new JsonResponse([

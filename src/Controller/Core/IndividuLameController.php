@@ -74,7 +74,7 @@ class IndividuLameController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND ss.specimen_fk = ' . $request->get('idFk');
     }
 
@@ -90,8 +90,8 @@ class IndividuLameController extends AbstractController {
         voc_sp_specimen_type.code as voc_sp_specimen_type_code,
         lot.internal_biological_material_code,
         ss.creation_user_name, ss.date_of_creation, ss.date_of_update,
-        user_cre.user_name as user_cre_username ,
-        user_maj.user_name as user_maj_username
+        user_cre.user_full_name as user_cre_username ,
+        user_maj.user_full_name as user_maj_username
 	    FROM specimen_slide ss
       LEFT JOIN user_db user_cre ON user_cre.id = ss.creation_user_name
       LEFT JOIN user_db user_maj ON user_maj.id = ss.update_user_name
@@ -145,8 +145,8 @@ class IndividuLameController extends AbstractController {
         "ss.date_of_creation"                   => $val['date_of_creation'],
         "ss.date_of_update"                     => $val['date_of_update'],
         "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_name"                    => $val['user_cre_username'],
-        "user_maj.user_name"                    => $val['user_maj_username'],
+        "user_cre.user_full_name"               => $val['user_cre_username'],
+        "user_maj.user_full_name"               => $val['user_maj_username'],
       );
     }
 

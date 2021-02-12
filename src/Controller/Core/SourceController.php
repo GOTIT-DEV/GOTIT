@@ -103,8 +103,8 @@ class SourceController extends AbstractController {
         "source.dateCre"       => $DateCre,
         "source.dateMaj"       => $DateMaj,
         "userCreId"            => $service->GetUserCreId($entity),
-        "source.userCre"       => $service->GetUserCreUsername($entity),
-        "source.userMaj"       => $service->GetUserMajUsername($entity),
+        "source.userCre"       => $service->GetUserCreUserfullname($entity),
+        "source.userMaj"       => $service->GetUserMajUserfullname($entity),
       );
     }
 

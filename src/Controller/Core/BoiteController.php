@@ -74,7 +74,7 @@ class BoiteController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('typeBoite') !== null && $request->get('typeBoite') !== '') {
+    if ($request->get('typeBoite') == 'LAME' || $request->get('typeBoite') == 'ADN' || $request->get('typeBoite') == 'LOT') {
       $where .= " AND vocTypeBoite.code LIKE '" . $request->get('typeBoite') . "'";
     }
     // Search for the list to show EstAligneEtTraite
@@ -119,8 +119,8 @@ class BoiteController extends AbstractController {
         "boite.dateCre"             => $DateCre,
         "boite.dateMaj"             => $DateMaj,
         "userCreId"                 => $service->GetUserCreId($entity),
-        "boite.userCre"             => $service->GetUserCreUsername($entity),
-        "boite.userMaj"             => $service->GetUserMajUsername($entity),
+        "boite.userCre"             => $service->GetUserCreUserfullname($entity),
+        "boite.userMaj"             => $service->GetUserMajUserfullname($entity),
       );
     }
 

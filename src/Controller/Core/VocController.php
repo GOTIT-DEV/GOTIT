@@ -116,8 +116,8 @@ class VocController extends AbstractController {
         "voc.parentCode" => $entity->getParent(),
         "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "voc.userCre" => $service->GetUserCreUsername($entity),
-        "voc.userMaj" => $service->GetUserMajUsername($entity),
+        "voc.userCre" => $service->GetUserCreUserfullname($entity),
+        "voc.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 

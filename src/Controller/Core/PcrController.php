@@ -96,7 +96,7 @@ class PcrController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND pcr.adnFk = ' . $request->get('idFk');
     }
     // Search for the list to show
@@ -157,8 +157,8 @@ class PcrController extends AbstractController {
         "pcr.dateCre"            => $DateCre,
         "pcr.dateMaj"            => $DateMaj,
         "userCreId"              => $service->GetUserCreId($entity),
-        "pcr.userCre"            => $service->GetUserCreUsername($entity),
-        "pcr.userMaj"            => $service->GetUserMajUsername($entity),
+        "pcr.userCre"            => $service->GetUserCreUserfullname($entity),
+        "pcr.userMaj"            => $service->GetUserMajUserfullname($entity),
         "linkChromatogramme"     => $linkChromatogramme,
       );
     }

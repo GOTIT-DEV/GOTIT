@@ -112,8 +112,8 @@ class MotuController extends AbstractController {
         "motu.dateMotu"        => $DateMotu,
         "motu.dateCre"         => $DateCre, "motu.dateMaj" => $DateMaj,
         "userCreId"            => $service->GetUserCreId($entity),
-        "motu.userCre"         => $service->GetUserCreUsername($entity),
-        "motu.userMaj"         => $service->GetUserMajUsername($entity),
+        "motu.userCre"         => $service->GetUserCreUserfullname($entity),
+        "motu.userMaj"         => $service->GetUserMajUserfullname($entity),
       );
     }
 

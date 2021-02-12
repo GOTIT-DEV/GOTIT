@@ -129,8 +129,8 @@ class StationController extends AbstractController {
         "station.dateCre" => $DateCre,
         "station.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "station.userCre" => $service->GetUserCreUsername($entity),
-        "station.userMaj" => $service->GetUserMajUsername($entity),
+        "station.userCre" => $service->GetUserCreUserfullname($entity),
+        "station.userMaj" => $service->GetUserMajUserfullname($entity),
         "linkCollecte" => $stationFk,
       );
     }

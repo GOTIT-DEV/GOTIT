@@ -105,8 +105,8 @@ class ReferentielTaxonController extends AbstractController {
         "referentielTaxon.dateCre" => $DateCre,
         "referentielTaxon.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "referentielTaxon.userCre" => $service->GetUserCreUsername($entity),
-        "referentielTaxon.userMaj" => $service->GetUserMajUsername($entity),
+        "referentielTaxon.userCre" => $service->GetUserCreUserfullname($entity),
+        "referentielTaxon.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 

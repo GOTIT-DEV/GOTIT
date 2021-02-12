@@ -74,7 +74,7 @@ class ChromatogrammeController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND chromato.pcr_fk = ' . $request->get('idFk');
     }
 
@@ -98,8 +98,8 @@ class ChromatogrammeController extends AbstractController {
           array_agg(sq.internal_sequence_alignment_code ORDER BY sq.id DESC) as last_internal_sequence_alignment_code,
 
           array_agg(voc_statut_sqc_ass.code ORDER BY sq.id DESC) as last_internal_sequence_status_voc,
-          user_cre.user_name as user_cre_username ,
-          user_maj.user_name as user_maj_username
+          user_cre.user_full_name as user_cre_username,
+          user_maj.user_full_name as user_maj_username
           FROM  chromatogram chromato
           LEFT JOIN user_db user_cre ON user_cre.id = chromato.creation_user_name
           LEFT JOIN user_db user_maj ON user_maj.id = chromato.update_user_name
@@ -121,7 +121,7 @@ class ChromatogrammeController extends AbstractController {
               chromato.date_of_creation, chromato.date_of_update,
               sp.specimen_molecular_code, dna.dna_code, pcr.pcr_code, pcr.pcr_number,
               voc_gene.code, voc_chromato_quality.code,
-              user_cre.user_name, user_maj.user_name"
+              user_cre.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -153,8 +153,8 @@ class ChromatogrammeController extends AbstractController {
         "chromato.date_of_creation"             => $val['date_of_creation'],
         "chromato.date_of_update"               => $val['date_of_update'],
         "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_name"                    => $val['user_cre_username'],
-        "user_maj.user_name"                    => $val['user_maj_username'],
+        "user_cre.user_full_name"               => $val['user_cre_username'],
+        "user_maj.user_full_name"               => $val['user_maj_username'],
         "last_internal_sequence_code"           => $get_code($val['last_internal_sequence_code']),
         "last_internal_sequence_status_voc"     => $get_code($val['last_internal_sequence_status_voc']),
         "last_internal_sequence_alignment_code" => $get_code($val['last_internal_sequence_alignment_code']),

@@ -101,8 +101,8 @@ class EtablissementController extends AbstractController {
         "etablissement.dateCre"          => $DateCre,
         "etablissement.dateMaj"          => $DateMaj,
         "userCreId"                      => $service->GetUserCreId($entity),
-        "etablissement.userCre"          => $service->GetUserCreUsername($entity),
-        "etablissement.userMaj"          => $service->GetUserMajUsername($entity),
+        "etablissement.userCre"          => $service->GetUserCreUserfullname($entity),
+        "etablissement.userMaj"          => $service->GetUserMajUserfullname($entity),
       );
     }
 

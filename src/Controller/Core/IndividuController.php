@@ -140,7 +140,7 @@ class IndividuController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false ) {
       $where .= ' AND sp.internal_biological_material_fk = ' . $request->get('idFk');
     }
 
@@ -159,8 +159,9 @@ class IndividuController extends AbstractController {
       ei_sp.identification_date as last_date_identification_sp,
       voc_sp_identification_criterion.code as code_sp_identification_criterion,
       voc_sp_specimen_type.code as voc_sp_specimen_type_code,
-      sp.creation_user_name, user_cre.user_name as user_cre_username,
-      user_maj.user_name as user_maj_username,
+      sp.creation_user_name, 
+      user_cre.user_full_name as user_cre_username,
+      user_maj.user_full_name as user_maj_username,
       string_agg(cast( dna.id as character varying) , ' ;') as list_dna,
       string_agg(cast( specimen_slide.id as character varying) , ' ;') as list_specimen_slide
 	  FROM  specimen sp
@@ -194,7 +195,9 @@ class IndividuController extends AbstractController {
         sp.date_of_creation, sp.date_of_update,
         rt_sp.taxon_name, ei_sp.identification_date,
         voc_sp_identification_criterion.code, voc_sp_specimen_type.code,
-        sp.creation_user_name, user_cre.user_name , user_maj.user_name"
+        sp.creation_user_name,
+        user_cre.user_full_name, 
+        user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -224,8 +227,8 @@ class IndividuController extends AbstractController {
         "sp.date_of_creation" => $val['date_of_creation'],
         "sp.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_name" => $val['user_cre_username'],
-        "user_maj.user_name" => $val['user_maj_username'],
+        "user_cre.user_full_name" => $val['user_cre_username'],
+        "user_maj.user_full_name" => $val['user_maj_username'],
         "linkAdn" => $linkAdn,
         "linkIndividulame" => $linkIndividulame,
       );

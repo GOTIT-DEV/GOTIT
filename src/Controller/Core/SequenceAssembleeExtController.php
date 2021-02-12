@@ -76,7 +76,7 @@ class SequenceAssembleeExtController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')) {
+    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
       $where .= ' AND sq.sampling_fk = ' . $request->get('idFk');
     }
 
@@ -102,8 +102,8 @@ class SequenceAssembleeExtController extends AbstractController {
         voc_status.code as voc_external_sequence_status_code,
         voc_date_precision.vocabulary_title as voc_date_precision_title,
         sq.creation_user_name,
-        user_cre.user_name as user_cre_username,
-        user_maj.user_name as user_maj_username,
+        user_cre.user_full_name as user_cre_username,
+        user_maj.user_full_name as user_maj_username,
         string_agg(DISTINCT source.source_title , ' ; ') as list_source,
         CASE
             WHEN (count(motu_number.id)=0) THEN 0
@@ -145,7 +145,7 @@ class SequenceAssembleeExtController extends AbstractController {
       sq.external_sequence_primary_taxon, sq.external_sequence_specimen_number,
       sq.external_sequence_accession_number,
       voc_gene.code, voc_status.code, voc_date_precision.vocabulary_title,
-      sq.creation_user_name, user_cre.user_name, user_maj.user_name"
+      sq.creation_user_name, user_cre.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -180,8 +180,8 @@ class SequenceAssembleeExtController extends AbstractController {
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_name" => $val['user_cre_username'],
-        "user_maj.user_name" => $val['user_maj_username'],
+        "user_cre.user_full_name" => $val['user_cre_username'],
+        "user_maj.user_full_name" => $val['user_maj_username'],
       );
     }
 
