@@ -145,8 +145,8 @@ class IndividuLameController extends AbstractController {
         "ss.date_of_creation"                   => $val['date_of_creation'],
         "ss.date_of_update"                     => $val['date_of_update'],
         "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_full_name"               => $val['user_cre_username'],
-        "user_maj.user_full_name"               => $val['user_maj_username'],
+        "user_cre.user_full_name"               => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name"               => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
 

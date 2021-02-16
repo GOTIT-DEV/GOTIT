@@ -180,8 +180,8 @@ class SequenceAssembleeExtController extends AbstractController {
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => $val['user_cre_username'],
-        "user_maj.user_full_name" => $val['user_maj_username'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
 

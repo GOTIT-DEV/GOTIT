@@ -183,8 +183,8 @@ class SequenceAssembleeController extends AbstractController {
         "code_sq_identification_criterion" => $val['code_sq_identification_criterion'],
         "motu_flag" => $val['motu_flag'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => $val['user_cre_username'],
-        "user_maj.user_full_name" => $val['user_maj_username'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
 

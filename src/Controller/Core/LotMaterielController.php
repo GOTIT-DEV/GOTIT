@@ -162,6 +162,8 @@ class LotMaterielController extends AbstractController {
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
+    
+    // (count($query) > 0) ? $query[0]['name'] : 'NA'
 
     foreach ($entities_toshow as $key => $val) {
       $linkIndividu = ($val['list_specimen'] !== null)
@@ -183,8 +185,8 @@ class LotMaterielController extends AbstractController {
         "country.country_name"                    => $val['country_name'],
         "municipality.municipality_code"          => $val['municipality_code'],
         "creation_user_name"                      => $val['creation_user_name'],
-        "user_cre.user_full_name"                 => $val['user_cre_username'],
-        "user_maj.user_full_name"                 => $val['user_maj_username'],
+        "user_cre.user_full_name"                 => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name"                 => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "linkIndividu"                            => $linkIndividu,
         "linkIndividu_codestation"                => "%|" . $val['site_code'] . "_%",
       );
