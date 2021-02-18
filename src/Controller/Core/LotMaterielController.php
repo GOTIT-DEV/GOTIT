@@ -80,25 +80,25 @@ class LotMaterielController extends AbstractController {
    * @Route("/indexjson", name="lotmateriel_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em       = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = $request->get('sort')
+    $orderBy = $request->get('sort')
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
     : "lot.date_of_update DESC, lot.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $where     = ' WHERE LOWER(lot.internal_biological_material_code) LIKE :criteriaLower';
+    $where = ' WHERE LOWER(lot.internal_biological_material_code) LIKE :criteriaLower';
 
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
 
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND lot.sampling_fk = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT
+    $rawSql = "SELECT
       lot.id,
       st.site_code, st.latitude, st.longitude,
       sampling.sample_code,
@@ -113,7 +113,7 @@ class LotMaterielController extends AbstractController {
       lot.internal_biological_material_code,
       rt_lot.taxon_name as last_taxname_lot,
       ei_lot.identification_date as last_date_identification_lot,
-      lot.creation_user_name, 
+      lot.creation_user_name,
       user_cre.user_full_name as user_cre_username,
       user_maj.user_full_name as user_maj_username,
       string_agg(DISTINCT person.person_name , ' ; ') as list_person,
@@ -148,8 +148,8 @@ class LotMaterielController extends AbstractController {
       lot.date_of_update, voc_lot_identification_criterion.code ,
       lot.internal_biological_material_code,
       rt_lot.taxon_name, ei_lot.identification_date,
-      lot.creation_user_name, 
-      user_cre.user_full_name, 
+      lot.creation_user_name,
+      user_cre.user_full_name,
       user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
 
@@ -158,46 +158,46 @@ class LotMaterielController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
-    
+
     // (count($query) > 0) ? $query[0]['name'] : 'NA'
 
     foreach ($entities_toshow as $key => $val) {
       $linkIndividu = ($val['list_specimen'] !== null)
       ? strval($val['id']) : '';
       $tab_toshow[] = array(
-        "id"                                      => $val['id'],
-        "lot.id"                                  => $val['id'],
-        "lot.internal_biological_material_code"   => $val['internal_biological_material_code'],
+        "id" => $val['id'],
+        "lot.id" => $val['id'],
+        "lot.internal_biological_material_code" => $val['internal_biological_material_code'],
         "lot.internal_biological_material_status" => $val['internal_biological_material_status'],
-        "last_taxname_lot"                        => $val['last_taxname_lot'],
-        "last_date_identification_lot"            => $val['last_date_identification_lot'],
-        "code_lot_identification_criterion"       => $val['code_lot_identification_criterion'],
-        "lot.sequencing_advice"                   => $val['sequencing_advice'],
-        "lot.internal_biological_material_date"   => $val['internal_biological_material_date'],
-        "lot.date_of_creation"                    => $val['date_of_creation'],
-        "lot.date_of_update"                      => $val['date_of_update'],
-        "list_person"                             => $val['list_person'],
-        "sampling.sample_code"                    => $val['sample_code'],
-        "country.country_name"                    => $val['country_name'],
-        "municipality.municipality_code"          => $val['municipality_code'],
-        "creation_user_name"                      => $val['creation_user_name'],
-        "user_cre.user_full_name"                 => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
-        "user_maj.user_full_name"                 => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
-        "linkIndividu"                            => $linkIndividu,
-        "linkIndividu_codestation"                => "%|" . $val['site_code'] . "_%",
+        "last_taxname_lot" => $val['last_taxname_lot'],
+        "last_date_identification_lot" => $val['last_date_identification_lot'],
+        "code_lot_identification_criterion" => $val['code_lot_identification_criterion'],
+        "lot.sequencing_advice" => $val['sequencing_advice'],
+        "lot.internal_biological_material_date" => $val['internal_biological_material_date'],
+        "lot.date_of_creation" => $val['date_of_creation'],
+        "lot.date_of_update" => $val['date_of_update'],
+        "list_person" => $val['list_person'],
+        "sampling.sample_code" => $val['sample_code'],
+        "country.country_name" => $val['country_name'],
+        "municipality.municipality_code" => $val['municipality_code'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
+        "linkIndividu" => $linkIndividu,
+        "linkIndividu_codestation" => "%|" . $val['site_code'] . "_%",
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -236,14 +236,14 @@ class LotMaterielController extends AbstractController {
         );
       }
       return $this->redirectToRoute('lotmateriel_edit', array(
-        'id'    => $lotMateriel->getId(),
+        'id' => $lotMateriel->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ));
     }
     return $this->render('Core/lotmateriel/edit.html.twig', array(
       'lotMateriel' => $lotMateriel,
-      'edit_form'   => $form->createView(),
+      'edit_form' => $form->createView(),
     ));
   }
 
@@ -254,13 +254,13 @@ class LotMaterielController extends AbstractController {
    */
   public function showAction(LotMateriel $lotMateriel) {
     $deleteForm = $this->createDeleteForm($lotMateriel);
-    $editForm   = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/lotmateriel/edit.html.twig', array(
       'lotMateriel' => $lotMateriel,
-      'edit_form'   => $editForm->createView(),
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -283,15 +283,15 @@ class LotMaterielController extends AbstractController {
     }
 
     // store ArrayCollection
-    $compositionLotMateriels   = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
-    $especeIdentifiees         = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel);
-    $lotEstPublieDanss         = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
+    $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
+    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel);
+    $lotEstPublieDanss = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
     $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
 
     //
     $deleteForm = $this->createDeleteForm($lotMateriel);
-    $editForm   = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
-      'action_type' => Action::create(),
+    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+      'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
@@ -317,14 +317,14 @@ class LotMaterielController extends AbstractController {
       }
       return $this->render('Core/lotmateriel/edit.html.twig', array(
         'lotMateriel' => $lotMateriel,
-        'edit_form'   => $editForm->createView(),
-        'valid'       => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/lotmateriel/edit.html.twig', array(
       'lotMateriel' => $lotMateriel,
-      'edit_form'   => $editForm->createView(),
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
