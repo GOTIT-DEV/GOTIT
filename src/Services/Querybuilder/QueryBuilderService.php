@@ -94,7 +94,7 @@ class QueryBuilderService {
       // Join tables
       $query = $this->makeJoin($j, $query);
       // Parse constraints if the user chooses to apply some.
-      if ($j['rules']) {
+      if ($j['rules'] ?? []) {
         $constraint = $this->parseGroup($j['rules'], $query, $j['alias']);
         if ($constraint) {
           $query->andWhere($constraint);

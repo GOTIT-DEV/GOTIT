@@ -183,33 +183,46 @@ export default {
       return this.join ? this.joinTableList : this.groupedTableList;
     },
     joinTableList() {
-      return Object.values(this.schema)
-        .filter(({ name }) => name in this.relations)
-        .map((table) => {
-          if (table.type === 1) {
-            const related = []
-              .concat(...Object.values(table.relations))
-              .filter(({ entity }) => entity != this.from.table)
-              .shift();
-            const through = {
-              table: table.name,
-              alias: `${table.name}_${this.id}`,
-              in: this.schema[this.from.table].relations[table.name][0],
-              out: table.relations[related.entity][0],
-            };
+      return (
+        Object.values(this.schema)
+          // Extract related tables
+          .filter(({ name }) => name in this.relations)
+          .map((table) => {
+            if (table.type === 1) {
+              // Follow relationship through intermediary table
+              const related = Object.values(table.relations)
+                .flat()
+                .filter(({ entity }) => entity != this.from.table)
+                .shift();
+              const through = {
+                table: table.name,
+                alias: `${table.name}_${this.id}`,
+                in: this.schema[this.from.table].relations[table.name][0],
+                out: table.relations[related.entity][0],
+              };
 
-            table = {
-              ...this.schema[related.entity],
-              through,
-              get label() {
-                return `[${this.through.table}] ${this.name}`;
-              },
-            };
-          } else {
-            table.label = table.name;
-          }
-          return table;
-        });
+              table = {
+                ...this.schema[related.entity],
+                through,
+                get label() {
+                  return `[${this.through.table}] ${this.name}`;
+                },
+              };
+            } else {
+              table.label = table.name;
+            }
+            return table;
+          })
+          .sort((tableA, tableB) => {
+            function makeSortId(table) {
+              return (
+                `${table.name}` +
+                `${table.label == table.name ? "" : table.label}`
+              );
+            }
+            return makeSortId(tableA).localeCompare(makeSortId(tableB));
+          })
+      );
     },
     groupedTableList() {
       return Object.values(this.schema)
@@ -250,7 +263,10 @@ export default {
       );
     },
     joinPathList() {
-      return this.join ? this.relations[this.table.name] || [] : [];
+      const target_table = this.table.through
+        ? this.table.through.table
+        : this.table.name;
+      return this.join ? this.relations[target_table] || [] : [];
     },
   },
   data() {
@@ -318,7 +334,11 @@ export default {
     setupVocFilters(vocFilters) {
       let content = this.table.content;
       if (this.join) {
-        const match = this.path.from.match(/(?<parent>\w+)VocFk/);
+        const fieldToMatch =
+          this.path.entity == this.table.name
+            ? this.path.from
+            : this.table.through.out.from;
+        const match = fieldToMatch.match(/(?<parent>\w+)VocFk/);
         content = this.table.content.filter(
           (voc) => match && match.groups.parent == voc.parent
         );
