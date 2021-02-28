@@ -1,8 +1,8 @@
 <template>
   <div class="site-info">
     <label>
-      <a :href="site.station_url">
-        <b>{{ site.station_code }}</b>
+      <a :href="url">
+        <b>{{ site.site_code }}</b>
       </a>
     </label>
     <b-table-lite
@@ -42,6 +42,12 @@ export default {
     fields() {
       return [...this.extraFields, ...this.baseFields];
     },
+    url() {
+      return Routing.generate("station_show", {
+        id: this.site.site_id,
+        _locale: Translator.locale,
+      });
+    },
   },
   data() {
     return {
@@ -57,7 +63,7 @@ export default {
         {
           key: "altitude",
           label: "Alt",
-          formatter: (value) => `${value} m`,
+          formatter: (value) => (value === null ? "N/A" : `${value} m`),
         },
       ],
     };

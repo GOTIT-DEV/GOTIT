@@ -1,41 +1,39 @@
 <template>
   <form id="main-form" ref="form" action="#" @submit.prevent="submit">
-    <fieldset>
-      <legend>
-        <h2>{{ $t("search") }}</h2>
-      </legend>
-      <div class="form-component col-xl-8 offset-xl-2">
-        <b-card
-          id="taxonomy-select"
-          :header="$t('species')"
-          header-class="font-weight-bold"
-        >
-          <TaxonomySelect
-            ref="taxonomy"
-            withTaxname
-            @update:genus="taxonomy.genus = $event"
-            @update:species="taxonomy.species = $event"
-            @update:taxname="taxonomy.taxname = $event"
-          />
-        </b-card>
+    <legend>
+      <h2>{{ $t("search") }}</h2>
+    </legend>
+    <div class="form-component col-xl-8 offset-xl-2">
+      <b-card
+        id="taxonomy-select"
+        :header="$t('species')"
+        header-class="font-weight-bold"
+      >
+        <TaxonomySelect
+          ref="taxonomy"
+          withTaxname
+          @update:genus="taxonomy.genus = $event"
+          @update:species="taxonomy.species = $event"
+          @update:taxname="taxonomy.taxname = $event"
+        />
+      </b-card>
 
-        <b-card
-          id="motu-select"
-          :header="$t('identification')"
-          header-class="font-weight-bold"
-        >
-          <MotuDatasetSelect
-            ref="motu"
-            @update:dataset="motu.dataset = $event"
-            @update:methods="motu.methods = $event"
-          />
-        </b-card>
+      <b-card
+        id="motu-select"
+        :header="$t('identification')"
+        header-class="font-weight-bold"
+      >
+        <MotuDatasetSelect
+          ref="motu"
+          @update:dataset="motu.dataset = $event"
+          @update:methods="motu.methods = $event"
+        />
+      </b-card>
 
-        <ButtonLoading id="submit" ref="submit" :loading="loading">
-          {{ $t("search") }}
-        </ButtonLoading>
-      </div>
-    </fieldset>
+      <ButtonLoading id="submit" ref="submit" :loading="loading">
+        {{ $t("search") }}
+      </ButtonLoading>
+    </div>
   </form>
 </template>
 

@@ -66,8 +66,6 @@
 </i18n>
 
 <script>
-import Vue from "vue";
-import L from "leaflet";
 import chroma from "chroma-js";
 import { LControl, LLayerGroup } from "vue2-leaflet";
 
@@ -75,10 +73,9 @@ import LeafletMap from "../../../components/maps/LeafletMap";
 
 import SequenceModal from "./SequenceModal";
 import ShapeMarker from "../../../components/maps/ShapeMarker";
-import ShapeMarkerLegend from "../../../components/maps/ShapeMarkerLegend";
 import SitePopup from "./SitePopup.vue";
 import { LPopup } from "vue2-leaflet";
-const LegendShape = Vue.extend(ShapeMarkerLegend);
+import { generateLegend } from "../../../components/maps/ShapeMarkerLegend.vue";
 
 export default {
   name: "MotuDistributionMap",
@@ -89,7 +86,6 @@ export default {
     ShapeMarker,
     LLayerGroup,
     SequenceModal,
-    ShapeMarker,
     SitePopup,
   },
   props: {
@@ -153,8 +149,7 @@ export default {
   },
   methods: {
     trimSite({
-      station_url,
-      station_code,
+      site_code,
       municipality,
       country,
       motu,
@@ -163,8 +158,7 @@ export default {
       altitude,
     }) {
       return {
-        station_url,
-        station_code,
+        site_code,
         municipality,
         country,
         motu,
@@ -176,27 +170,19 @@ export default {
     layerName(motu_id, index) {
       const shape = this.markerShape(index);
       const color = this.markerColor(index);
-      const legendShape = new LegendShape({
-        inheritAttrs: false,
-        propsData: {
-          label: `Motu ${motu_id}`,
-          shape: shape,
-          markerStyle:
-            index < this.nScale
-              ? {
-                  stroke: "black",
-                  fill: color,
-                  "stroke-width": 1,
-                }
-              : {
-                  stroke: color,
-                  fill: "transparent",
-                  "stroke-width": 3,
-                },
-        },
-      });
-      legendShape.$mount();
-      return legendShape.$el.outerHTML;
+      const markerStyle =
+        index < this.nScale
+          ? {
+              stroke: "black",
+              fill: color,
+              "stroke-width": 1,
+            }
+          : {
+              stroke: color,
+              fill: "transparent",
+              "stroke-width": 3,
+            };
+      return generateLegend(`Motu ${motu_id}`, shape, markerStyle);
     },
     markerShape(layerIndex) {
       return this.shapes[layerIndex % this.nShapes];
@@ -244,28 +230,14 @@ export default {
     },
     organizeByMotu(data) {
       function reduceOrganizer(motuDict, item) {
-        item.station_url = Routing.generate("station_show", {
-          id: item.id_sta,
-          _locale: Translator.locale,
-        });
-
-        item.seq_url = Routing.generate(
-          item.seq_type
-            ? "sequenceassembleeext_show"
-            : "sequenceassemblee_show",
-          { id: item.id, _locale: Translator.locale }
-        );
-
-        if (item.altitude === null) item.altitude = "-";
-
         if (!(item.motu in motuDict))
           motuDict[item.motu] = {
             visible: true,
             sites: {},
           };
 
-        if (!(item.id_sta in motuDict[item.motu]["sites"]))
-          motuDict[item.motu]["sites"][item.id_sta] = {
+        if (!(item.site_id in motuDict[item.motu]["sites"]))
+          motuDict[item.motu]["sites"][item.site_id] = {
             sequences: [],
             latitude: parseFloat(item.latitude),
             longitude: parseFloat(item.longitude),
@@ -273,7 +245,7 @@ export default {
           };
 
         delete item.sequences;
-        motuDict[item.motu]["sites"][item.id_sta].sequences.push(item);
+        motuDict[item.motu]["sites"][item.site_id].sequences.push(item);
         return motuDict;
       }
       return data.reduce(reduceOrganizer, {});

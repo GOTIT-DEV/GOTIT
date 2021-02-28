@@ -326,65 +326,88 @@ class SpeciesQueryService {
     return $res;
   }
 
-  public function getSpeciesGeoDetails($id, $co1 = false) {
+  public function getSpeciesSamplingDetails($id) {
 
-    if ($co1) {
-      $station_subquery = "SELECT DISTINCT
-            eid.taxon_fk, lm.id as lm_id,
-            sta.id as id_sta, sta.longitude as longitude, sta.latitude as latitude
-            FROM identified_species eid
-            LEFT JOIN external_sequence sext ON eid.external_sequence_fk=sext.id
-            LEFT JOIN vocabulary v1 ON v1.id=sext.gene_voc_fk
-            LEFT JOIN internal_sequence seq ON eid.internal_sequence_fk=seq.id
-            LEFT JOIN chromatogram_is_processed_to eat ON eat.internal_sequence_fk=seq.id
-            LEFT JOIN chromatogram chr ON chr.id = eat.chromatogram_fk
-            LEFT JOIN pcr ON chr.pcr_fk=pcr.id
-            LEFT JOIN vocabulary v2 ON pcr.gene_voc_fk=v2.id
-            LEFT JOIN vocabulary statut ON statut.id=seq.internal_sequence_status_voc_fk
-            LEFT JOIN dna ON pcr.dna_fk=dna.id
-            LEFT JOIN specimen ind ON ind.id = dna.specimen_fk
-            LEFT JOIN internal_biological_material lm ON ind.internal_biological_material_fk=lm.id
-            JOIN sampling co ON co.id = sext.sampling_fk OR co.id=lm.sampling_fk
-            JOIN site sta ON co.site_fk = sta.id
-            WHERE v1.code='COI' OR v2.code='COI'
-            AND (
-              statut.code = 'SHORT' OR
-              statut.code LIKE 'VALID%'
-            )";
-    } else {
-      $station_subquery = "SELECT DISTINCT
-             eid.taxon_fk, lm.id as lm_id,
-             sta.id as id_sta, sta.longitude as longitude, sta.latitude as latitude
-            FROM identified_species eid
-            LEFT JOIN internal_biological_material lm ON eid.internal_biological_material_fk=lm.id
-            LEFT JOIN external_biological_material lmext ON eid.external_biological_material_fk=lmext.id
-            JOIN sampling co ON co.id = lm.sampling_fk OR co.id=lmext.sampling_fk
-            JOIN site sta ON co.site_fk = sta.id";
-    }
+    $biomat_ext = "SELECT DISTINCT eid.taxon_fk AS taxon_id,
+      lmext.id as lm_id,
+      site.id as site_id,
+      'ext_biomat' as sample
+    FROM identified_species eid
+      JOIN external_biological_material lmext ON eid.external_biological_material_fk = lmext.id
+      JOIN sampling co ON co.id = lmext.sampling_fk
+      JOIN site ON co.site_fk = site.id";
 
-    $rawSql = "WITH esta AS ($station_subquery)";
-    $rawSql .= "SELECT DISTINCT
-                rt.id as taxon_id,
-                rt.taxon_name as taxon_name,
-                esta.lm_id as bio_mat_id,
-                s.id as station_id,
-                s.site_code as station_code,
-                s.latitude as latitude,
-                s.longitude as longitude,
-                s.elevation as altitude,
-                c.municipality_name as municipality,
-                p.country_name as country
-            FROM taxon rt
-            JOIN esta ON esta.taxon_fk = rt.id
-            JOIN site s ON s.id = esta.id_sta
-            LEFT JOIN municipality c ON c.id=s.municipality_fk
-            LEFT JOIN country p ON s.country_fk=p.id
-            WHERE rt.id=:id";
+    $biomat_int = "SELECT DISTINCT eid.taxon_fk AS taxon_id,
+      lm.id as lm_id,
+      site.id as site_id,
+      'int_biomat' as sample
+    FROM identified_species eid
+      JOIN internal_biological_material lm ON eid.internal_biological_material_fk = lm.id
+      JOIN sampling co ON co.id = lm.sampling_fk
+      JOIN site ON co.site_fk = site.id";
+
+    $co1_subquery = "SELECT DISTINCT eid.taxon_fk AS taxon_id,
+      lm.id as lm_id,
+      site.id as site_id,
+      'CO1' as sample
+    FROM identified_species eid
+      LEFT JOIN external_sequence sext ON eid.external_sequence_fk = sext.id
+      LEFT JOIN vocabulary v1 ON v1.id = sext.gene_voc_fk
+      LEFT JOIN internal_sequence seq ON eid.internal_sequence_fk = seq.id
+      LEFT JOIN chromatogram_is_processed_to eat ON eat.internal_sequence_fk = seq.id
+      LEFT JOIN chromatogram chr ON chr.id = eat.chromatogram_fk
+      LEFT JOIN pcr ON chr.pcr_fk = pcr.id
+      LEFT JOIN vocabulary v2 ON pcr.gene_voc_fk = v2.id
+      LEFT JOIN vocabulary seq_status ON seq_status.id = seq.internal_sequence_status_voc_fk
+      LEFT JOIN dna ON pcr.dna_fk = dna.id
+      LEFT JOIN specimen ind ON ind.id = dna.specimen_fk
+      LEFT JOIN internal_biological_material lm ON ind.internal_biological_material_fk = lm.id
+      JOIN sampling co ON co.id = sext.sampling_fk
+      OR co.id = lm.sampling_fk
+      JOIN site ON co.site_fk = site.id
+    WHERE v1.code = 'COI'
+      OR v2.code = 'COI'
+      AND (
+        seq_status.code = 'SHORT'
+        OR seq_status.code LIKE 'VALID%'
+      )";
+
+    $rawSql = "WITH
+    ext_lm as ($biomat_ext),
+    int_lm as ($biomat_int),
+    co1 as ($co1_subquery)";
+
+    $rawSql .= "SELECT distinct
+      s.id as site_id,
+      s.site_code as site_code,
+      s.latitude as latitude,
+      s.longitude as longitude,
+      s.elevation as altitude,
+      m.municipality_name as municipality,
+      c.country_name as country,
+      count(distinct sample) as sampling_types_count,
+      max(CASE WHEN sample = 'CO1' THEN 1 ELSE 0 END) as has_co1,
+      max(CASE WHEN sample = 'int_biomat' THEN 1 ELSE 0 END) as int_biomat,
+      max(CASE WHEN sample = 'ext_biomat' THEN 1 ELSE 0 END) as ext_biomat
+    FROM (
+        SELECT * FROM co1
+        UNION
+        SELECT * FROM int_lm
+        UNION
+        SELECT * FROM ext_lm
+      ) subquery
+      JOIN site s ON s.id = site_id
+      JOIN taxon t ON t.id = taxon_id
+      LEFT JOIN municipality m ON m.id = s.municipality_fk
+      LEFT JOIN country c ON c.id = s.country_fk
+    WHERE taxon_id = :taxon_id
+    GROUP BY t.id,
+      s.id, s.site_code,
+      s.latitude, s.longitude, s.elevation,
+      m.municipality_name, c.country_name";
 
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
-    $stmt->execute(array(
-      'id' => $id,
-    ));
+    $stmt->execute(['taxon_id' => $id]);
 
     return $stmt->fetchAll();
   }
@@ -525,11 +548,11 @@ class SpeciesQueryService {
             liste_motus.motu,
             tax.id as taxon_id,
             tax.taxon_name,
-            site.id as id_sta,
+            site.id as site_id,
             site.elevation as altitude,
             site.latitude as latitude,
             site.longitude as longitude,
-            site.site_code as station_code,
+            site.site_code as site_code,
             municipality.municipality_name as municipality,
             country.country_name as country
 

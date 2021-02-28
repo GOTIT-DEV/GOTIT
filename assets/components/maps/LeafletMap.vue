@@ -8,7 +8,7 @@
       :minZoom="minZoom"
       :maxZoom="maxZoom"
       :maxBounds="maxBounds"
-      @update:zoom="zoomUpdate"
+      @update:zoom="onZoomUpdate"
       :bounds.sync="bounds"
     >
       <l-control-fullscreen
@@ -69,6 +69,7 @@
 
 <script>
 import L from "leaflet";
+import Vue from "vue";
 
 delete L.Icon.Default.prototype._getIconUrl;
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -85,9 +86,13 @@ import {
   LControlLayers,
   LPopup,
 } from "vue2-leaflet";
-import { basemapLayer, Util } from "esri-leaflet";
+import { Util } from "esri-leaflet";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import LeafletMapSettings from "./LeafletMapSettings";
+
+import ShapeMarkerLegend from "./ShapeMarkerLegend";
+
+const LegendShape = Vue.extend(ShapeMarkerLegend);
 
 export default {
   name: "LeafletMap",
@@ -188,8 +193,24 @@ export default {
     },
   },
   methods: {
-    zoomUpdate(zoom) {
+    onZoomUpdate(zoom) {
       this._updateMapAttribution();
+    },
+    generateLegend(label, shape = null, markerStyle = null) {
+      if (shape === null) {
+        return label;
+      } else {
+        const legendShape = new LegendShape({
+          inheritAttrs: false,
+          propsData: {
+            label,
+            shape,
+            markerStyle,
+          },
+        });
+        legendShape.$mount();
+        return legendShape.$el.outerHTML;
+      }
     },
     fitBounds(dataset, pad = 0) {
       const minMaxCoords = dataset.reduce((acc, item) => {

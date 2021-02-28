@@ -13,33 +13,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class='row'>
-		<div class="col-12 col-lg-4 col-xl-3">
-			{% include 'SpeciesSearch/co1-sampling/form.html.twig' %}
-		</div>
 
-		<div class=" col-12 col-lg-8 col-xl-9">
-			<fieldset>
-				<legend>
-					<h2 style='margin-bottom:18px'>
-						{{"label.resultats"|trans }}
-					</h2>
-				</legend>
-				{% include 'SpeciesSearch/co1-sampling/results.html.twig' %}
-			</div>
-		</fieldset>
+	<div id="co1-sampling"></div>
 
-	</div>
-
-	{% include 'SpeciesSearch/co1-sampling/details.form.html.twig' %}
-
-	{# Modal #}
-	<div class="modal-co1" id="modal-container">
-		{% include 'SpeciesSearch/co1-sampling/details.modal.html.twig' with {
-      'taxname' : '',
-      'class' : 'map'
-    } %}
-	</div>
 {% endblock %}
 
 {% block scripts %}

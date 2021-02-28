@@ -1,12 +1,14 @@
 <template>
-  <TogglablePanel class="species-select" title="queries.label.search.espece">
-    <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
-    <template v-slot:footer>
-      <ButtonLoading ref="submit" v-bind:loading="loading" @click="submit" block>
-        {{$t('ui.search')}}
-      </ButtonLoading>
-    </template>
-  </TogglablePanel>
+  <form id="main-form" ref="form" action="#" @submit.prevent="submit()">
+    <TogglablePanel class="species-select" title="queries.label.search.espece">
+      <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
+      <template v-slot:footer>
+        <ButtonLoading ref="submit" v-bind:loading="loading" block>
+          {{ $t("ui.search") }}
+        </ButtonLoading>
+      </template>
+    </TogglablePanel>
+  </form>
 </template>
 
 <script>
@@ -14,30 +16,39 @@
 import ButtonLoading from "../../../components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
-import i18n from "../i18n"
+import i18n from "../i18n";
 
 export default {
   i18n,
   components: {
     TogglablePanel,
     TaxonomySelect,
-    ButtonLoading
+    ButtonLoading,
   },
   data() {
     return {
-      loading: true
-    }
+      loading: true,
+      url: Routing.generate("co1-sampling-query"),
+    };
   },
   computed: {
     ready() {
       return Promise.all([this.$refs.taxonomy.ready]);
-    }
+    },
   },
   methods: {
-    submit(){
-      this.loading = true
-    }
-  }
+    async submit() {
+      this.loading = true;
+      const response = await fetch(this.url, {
+        method: "POST",
+        body: new FormData(this.$refs.form),
+      });
+      const data = await response.json();
+      this.loading = false;
+      this.$emit("update:results", data);
+      return data;
+    },
+  },
 };
 </script>
 

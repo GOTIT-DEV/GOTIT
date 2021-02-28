@@ -2,7 +2,7 @@
   <b-modal
     id="modal-sequences"
     size="xl"
-    :title="`${site.station_code} // MOTU ${site.motu}`"
+    :title="`${site.site_code} // MOTU ${site.motu}`"
   >
     <b-data-table primary-key="id" :fields="fields" :items="site.sequences">
       <template #cell(code)="data">

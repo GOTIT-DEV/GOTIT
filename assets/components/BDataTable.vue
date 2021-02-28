@@ -55,7 +55,7 @@
             class="search-bar-input"
             type="text"
             size="sm"
-            :placeholder="$t('search')"
+            :placeholder="searchbarPlaceholder || $t('search')"
             @input="filter = new RegExp($event, 'i')"
           />
         </b-input-group>
@@ -86,6 +86,7 @@
         v-if="allowExport"
         :data="exportedItems"
         :labels="exportedHeader"
+        :name="exportFilename"
       >
         <b-button size="sm" variant="light" class="border" :disabled="!rows">
           <i class="fas fa-download"></i>
@@ -124,9 +125,45 @@ export default {
     Multiselect,
     JsonCsv,
   },
+  props: {
+    allowExport: {
+      type: Boolean,
+      default: true,
+    },
+    items: {
+      type: Array,
+      required: true,
+    },
+    fields: {
+      type: Array,
+      required: true,
+    },
+    classes: {
+      type: String,
+    },
+    searchbarPlaceholder: {
+      type: String,
+      default: null,
+    },
+    exportColumnsByKey: {
+      type: Boolean,
+      default: false,
+    },
+    exportFilename: {
+      type: String,
+      default: "data.csv",
+    },
+  },
+  data() {
+    return {
+      tablePage: 1,
+      perPage: 10,
+      selectedFields: [],
+      filter: "",
+    };
+  },
   computed: {
     exportedItems() {
-      const field_keys = new Set(this.fields.map((field) => field.key));
       return this.items.map((item) =>
         this.fields.reduce((acc, field) => {
           acc[field.key] = field.formatter
@@ -138,7 +175,10 @@ export default {
     },
     exportedHeader() {
       return Object.fromEntries(
-        this.fields.map((f) => [f.key, f.label ? f.label : f.key])
+        this.fields.map((f) => [
+          f.key,
+          !this.exportColumnsByKey && f.label ? f.label : f.key,
+        ])
       );
     },
     locale() {
@@ -158,31 +198,6 @@ export default {
   },
   created() {
     if (this.selectedFields.length == 0) this.selectedFields = this.fields;
-  },
-  props: {
-    allowExport: {
-      type: Boolean,
-      default: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-    fields: {
-      type: Array,
-      required: true,
-    },
-    classes: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-      tablePage: 1,
-      perPage: 10,
-      selectedFields: [],
-      filter: "",
-    };
   },
   methods: {
     capitalize(str) {

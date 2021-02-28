@@ -24,7 +24,7 @@
           <template #cell(taxon_name)="data">
             <a
               :href="
-                $refs.table.generateRoute('referentieltaxon_show', {
+                generateRoute('referentieltaxon_show', {
                   id: data.item.taxon_id,
                 })
               "
@@ -37,7 +37,7 @@
             <a
               :id="`seq-code-${data.index}`"
               :href="
-                $refs.table.generateRoute(
+                generateRoute(
                   data.item.seq_type
                     ? 'sequenceassembleeext_show'
                     : 'sequenceassemblee_show',
@@ -60,12 +60,8 @@
             </a>
           </template>
 
-          <template #cell(station_code)="data">
-            <a
-              :href="
-                $refs.table.generateRoute('station_show', { id: data.item.id })
-              "
-            >
+          <template #cell(site_code)="data">
+            <a :href="generateRoute('station_show', { id: data.item.id })">
               {{ data.value }}
             </a>
           </template>
@@ -164,7 +160,7 @@ export default {
           visible: true,
         },
         {
-          key: "station_code",
+          key: "site_code",
           label: this.$t("queries.columns.station"),
           sortable: true,
           visible: true,
