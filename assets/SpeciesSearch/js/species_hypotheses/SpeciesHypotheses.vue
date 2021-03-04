@@ -10,6 +10,7 @@
     <b-data-table
       :fields="fields"
       :items="results[reversed ? 'verso' : 'recto']"
+      exportFilename="species_hypotheses.csv"
     >
     </b-data-table>
   </div>

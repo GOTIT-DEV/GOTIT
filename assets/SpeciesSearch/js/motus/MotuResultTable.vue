@@ -1,5 +1,5 @@
 <template>
-  <b-data-table ref="table" :items="items" :fields="fields">
+  <b-data-table ref="table" v-bind="$props" :fields="fields">
     <template #cell(taxon)="data">
       <a
         :href="

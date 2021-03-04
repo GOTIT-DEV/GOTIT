@@ -1,6 +1,11 @@
 <template>
   <b-modal id="details-modal" size="xl" :title="title">
-    <b-data-table ref="table" :items="items" :fields="fields">
+    <b-data-table
+      ref="table"
+      :items="items"
+      :fields="fields"
+      :exportFilename="exportedTableName"
+    >
       <template #cell(code)="data">
         <a
           :id="`seq-code-${data.index}`"
@@ -63,6 +68,13 @@ export default {
       return this.items.length
         ? (({ taxname, method }) => `${taxname} // ${method}`)(this.items[0])
         : "";
+    },
+    exportedTableName() {
+      return this.items.length
+        ? (({ taxname, method }) => `${taxname}_${method}_motus.csv`)(
+            this.items[0]
+          )
+        : null;
     },
   },
   data() {

@@ -7,7 +7,13 @@
       @update:query="query = $event"
     />
     <hr />
-    <motu-result-table :items="results" @show-details="showDetails($event)" />
+    <motu-result-table
+      :items="results"
+      :exportFilename="
+        query ? `${query.genus}_${query.species}_motu_summary.csv` : null
+      "
+      @show-details="showDetails($event)"
+    />
     <motu-details-modal ref="details" :items="details" />
   </div>
 </template>

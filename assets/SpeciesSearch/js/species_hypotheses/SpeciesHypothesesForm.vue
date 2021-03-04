@@ -102,31 +102,27 @@
     </div>
 
     <div class="col-lg-5">
-      <fieldset class="mb-3">
-        <legend>
-          <h3>{{ $t("queries.label.target") }}</h3>
-        </legend>
-        <b-card>
-          <b-form-group
-            :label="$t('queries.label.dataset')"
-            label-for="target-dataset"
+      <h3>{{ $t("queries.label.target") }}</h3>
+      <b-card class="mb-3">
+        <b-form-group
+          :label="$t('queries.label.dataset')"
+          label-for="target-dataset"
+        >
+          <select
+            id="target-dataset"
+            name="target-dataset"
+            v-model="motu"
+            ref="target"
+            class="form-control"
+            :disabled="reference == 'motu'"
+            v-select-picker
           >
-            <select
-              id="target-dataset"
-              name="target-dataset"
-              v-model="motu"
-              ref="target"
-              class="form-control"
-              :disabled="reference == 'motu'"
-              v-select-picker
-            >
-              <option v-for="motu in motuList" :key="motu.id" :value="motu.id">
-                {{ motu.name }}
-              </option>
-            </select>
-          </b-form-group>
-        </b-card>
-      </fieldset>
+            <option v-for="motu in motuList" :key="motu.id" :value="motu.id">
+              {{ motu.name }}
+            </option>
+          </select>
+        </b-form-group>
+      </b-card>
       <center
         class="col-12 offset-sm-3 col-sm-6 offset-lg-0 col-lg-12 offset-xl-3 col-xl-6"
       >
