@@ -2,50 +2,70 @@
 
 namespace App\Services\Querybuilder;
 
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class SchemaInspectorService
-{
+class SchemaInspectorService {
 
-  public function __construct(EntityManagerInterface $em)
-  {
+  public function __construct(EntityManagerInterface $em, TranslatorInterface $translator) {
     $this->em = $em;
+    $this->translator = $translator;
   }
-  public function make_qbuilder_config()
-  {
+
+  public function make_qbuilder_config() {
     $meta = $this->em->getMetadataFactory()->getAllMetadata();
+
     $schema = $this->parse_entities_metadata($meta);
+
+    // Fetch content of tables to be used as select options
     $schema['Voc']['content'] = $this->em
       ->createQuery('select v.id, v.code, v.libelle, v.parent from App:Voc v')
       ->getArrayResult();
+
     return $schema;
   }
 
-
-
-  public function parse_entities_metadata(&$metadata_array)
-  {
-    $parse_relation = function ($acc, $relation) {
-      if (array_key_exists("joinColumns", $relation)) {
-        $target = $this->parse_entity_name($relation['targetEntity']);
-        $acc[$target] = $acc[$target] ?? [];
-        $acc[$target][] = $this->parse_associated($relation);
-      }
-      return $acc;
-    };
-
+  public function parse_entities_metadata(&$metadata_array) {
     $res = [];
     $relations = [];
     foreach ($metadata_array as $m) {
       $entity = $this->parse_entity_name($m->getName());
-      // Skip User entity since it is not part of the main process
-      if ($entity == "User") continue;
+      $tableName = $m->getTableName();
 
+      // Skip User entity that must not be exposed
+      if ($entity == "User") {
+        continue;
+      }
+
+      // Parse entity
       $res[$entity] = $this->parse_metadata($m);
-      $relations[$entity] = array_reduce($m->getAssociationMappings(), $parse_relation, []);
+      // dump($m->getAssociationMappings());
+      // Parse entity relations
+      $relations[$entity] = array_reduce(
+        $m->getAssociationMappings(),
+        function ($acc, $relation) use ($tableName) {
+          if (array_key_exists("joinColumns", $relation)) {
+            $target = $this->parse_entity_name($relation['targetEntity']);
+            $acc[$target] = $acc[$target] ?? [];
+            $acc[$target][] = [
+              "entity" => $this->parse_entity_name($relation["targetEntity"]),
+              "from" => [
+                'id' => $relation["fieldName"],
+                'label' => $this->translator->trans($tableName . '.' . $relation['joinColumns'][0]['name'], [], 'fields'),
+              ],
+              "to" => [
+                "id" => 'id',
+                "label" => 'id',
+              ],
+            ];
+          }
+          return $acc;
+        },
+        []);
     }
 
+    # add relations the other way back
     $this->reverse_relations($relations);
 
     foreach ($res as $entity => $data) {
@@ -55,22 +75,19 @@ class SchemaInspectorService
     return $res;
   }
 
-  private function parse_entity_name($entity)
-  {
+  private function parse_entity_name($entity) {
     $entity = explode('\\', $entity);
     return array_pop($entity);
   }
 
-
-  private function reverse_relations(&$relations)
-  {
+  private function reverse_relations(&$relations) {
     foreach ($relations as $sourceEntity => $targets) {
       foreach ($targets as $targetEntity => $data) {
         $reverse_relation = function (&$d) use (&$sourceEntity) {
           return [
             "entity" => $sourceEntity,
             "from" => $d["to"],
-            "to" => $d["from"]
+            "to" => $d["from"],
           ];
         };
         $relations[$targetEntity][$sourceEntity] = array_map(
@@ -81,57 +98,46 @@ class SchemaInspectorService
     }
   }
 
-  private function guess_type($entity)
-  {
+  private function guess_type($entity) {
     return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|ACibler)/', $entity);
   }
 
-  private function parse_associated($mapping)
-  {
-    return [
-      "entity" => $this->parse_entity_name($mapping["targetEntity"]),
-      "from" => $mapping["fieldName"],
-      "to" => "id"
-    ];
-  }
+  private function parse_metadata(ClassMetadata $metadata) {
+    $class = $metadata->getName();
+    $table = $metadata->getTableName();
 
-  private function parse_metadata(ClassMetadata $metadata)
-  {
-    $entity = $metadata->getName();
-    $name = $this->parse_entity_name($entity);
-
-    $make_filter = function ($field) use ($name) {
+    $make_filter = function ($field) use ($table) {
 
       $filter = [
         "id" => $field['fieldName'],
-        "label" => $field['fieldName'],
+        "name" => $field['columnName'],
+        "label" => $this->translator->trans($table . '.' . $field['columnName'], [], "fields"),
         "type" => null,
         "attrs" => [],
-        "choices" => []
+        "choices" => [],
       ];
       $filter = $this->parse_field_type($field['type'], $filter);
 
-      if ($name == "Voc" && $field['fieldName'] == "parent") {
+      if ($table == "vocabulary" && $field['fieldName'] == "parent") {
         $filter['choices'] = array_map('current', $this->em
-          ->createQuery('select distinct v.parent from App:Voc v')
-          ->getArrayResult());
+            ->createQuery('select distinct v.parent from App:Voc v')
+            ->getArrayResult());
         $filter['type'] = 'custom-component';
       }
 
       return $filter;
     };
-
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
     return [
-      "class" => $entity,
+      "class" => $class,
       "filters" => $filters,
-      "name" => $name,
-      "table" => $metadata->table["name"]
+      "entity" => $this->parse_entity_name($class),
+      "name" => $table,
+      "label" => $this->translator->trans($table, [], "tables")
     ];
   }
 
-  private function parse_field_type(String $type, array $filter)
-  {
+  private function parse_field_type(String $type, array $filter) {
     $t = $type;
     if (strpos($type, "int") != false) {
       $t = "numeric";
@@ -139,7 +145,6 @@ class SchemaInspectorService
       $t = "numeric";
       $filter['attrs']['step'] = 0.0001;
     } elseif ($type == "string") {
-      //$t = "string";
       $t = "text";
     } elseif (strpos($type, "bool") != false) {
       $t = "boolean";

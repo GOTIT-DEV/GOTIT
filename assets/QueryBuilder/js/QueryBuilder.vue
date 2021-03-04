@@ -41,7 +41,7 @@
         ><code class="SQL"/></pre>
       </b-modal>
 
-      <b-data-table :items="results" :fields="fields" />
+      <b-data-table ref="table" :items="results" :fields="fields" />
     </div>
   </div>
 </template>
@@ -91,9 +91,10 @@ export default {
       return Array.from(Object.entries(fields)).reduce(
         (acc, [table, columns]) => {
           return acc.concat(
-            columns.map((c) => ({
-              key: `${table}_${c}`,
-              label: `${table}.${c}`,
+            columns.map(({ id, label }) => ({
+              key: `${table}_${id}`,
+              label: `${table}.${label}`,
+              table,
             }))
           );
         },

@@ -3,7 +3,7 @@
     <!-- Join Block header -->
     <template v-if="join" v-slot:header class="header-container">
       <div>
-        <label>FROM</label>
+        <label class="text-uppercase">{{ $t("from") }}</label>
         <multiselect
           id="table-select"
           :options="availableTables"
@@ -16,16 +16,16 @@
           v-model="from"
         >
           <template slot="singleLabel" slot-scope="{ option }">
-            {{ option.table }} | {{ option.alias }}
+            {{ option.label }} | {{ option.alias }}
           </template>
           <template slot="option" slot-scope="props">
-            {{ props.option.table }} | {{ props.option.alias }}
+            {{ props.option.label }} | {{ props.option.alias }}
           </template>
         </multiselect>
       </div>
 
       <div>
-        <label>JOIN</label>
+        <label class="text-uppercase">{{ $t("join") }}</label>
         <multiselect
           id="join-type"
           required
@@ -38,22 +38,38 @@
         />
       </div>
       <div id="join-target">
-        <label>TO</label>
+        <label class="text-uppercase">{{ $t("join_to") }}</label>
         <multiselect
           id="adjtables-select"
           v-model="table"
           :options="tableList"
           label="label"
           :searchable="false"
+          :allow-empty="false"
           @change="tableChanged"
           required
           :disabled="from == undefined"
           :show-labels="false"
-        />
+        >
+          <template slot="singleLabel" slot-scope="{ option }">
+            <span class="text-muted">
+              {{ option.through ? `[${option.through.label}]` : "" }}
+            </span>
+            {{ option.label }}
+          </template>
+          <template slot="option" slot-scope="props">
+            <span class="text-muted">
+              {{
+                props.option.through ? `[${props.option.through.label}]` : ""
+              }}
+            </span>
+            {{ props.option.label }}
+          </template>
+        </multiselect>
       </div>
 
       <div v-if="joinPathList.length > 1">
-        <label>BY</label>
+        <label class="text-uppercase">{{ $t("join_on") }}</label>
         <multiselect
           id="joinPath-select"
           v-model="path"
@@ -64,14 +80,14 @@
           :show-labels="false"
         >
           <template slot="singleLabel" slot-scope="{ option }">
-            {{ option.from }}
+            {{ option.from.label }}
             <i class="fas fa-long-arrow-alt-right"></i>
-            {{ option.to }}
+            {{ option.to.label }}
           </template>
           <template slot="option" slot-scope="props">
-            {{ props.option.from }}
+            {{ props.option.from.label }}
             <i class="fas fa-long-arrow-alt-right"></i>
-            {{ props.option.to }}
+            {{ props.option.to.label }}
           </template>
         </multiselect>
       </div>
@@ -87,12 +103,13 @@
     <!-- Initial Block header -->
     <template v-else v-slot:header class="header-container">
       <div>
-        <label>TABLE</label>
+        <label class="text-uppercase">{{ $t("table") }}</label>
         <multiselect
           id="table-select"
           ref="table"
           :options="groupedTableList"
-          label="name"
+          label="label"
+          track-by="name"
           v-model="table"
           required
           group-values="entities"
@@ -106,7 +123,7 @@
     <!-- Block content -->
 
     <div class="alias">
-      <label>ALIAS</label>
+      <label class="text-uppercase">{{ $t("alias") }}</label>
       <b-input
         id="alias"
         type="text"
@@ -118,7 +135,7 @@
     </div>
 
     <div class="fields-select">
-      <label>SELECT</label>
+      <label class="text-uppercase">{{ $t("select") }}</label>
       <multiselect
         id="fields-select"
         v-model="fields"
@@ -140,6 +157,7 @@
       <template v-slot:default="slotProps">
         <query-filter-group
           v-bind="slotProps"
+          :table="table"
           :query.sync="query"
           :active.sync="hasConstraints"
           @reset="resetQuery"
@@ -148,6 +166,29 @@
     </query-filter>
   </b-card>
 </template>
+
+<i18n>
+{
+  "en": {
+    "table": "table",
+    "alias": "alias",
+    "from": "from",
+    "join": "join",
+    "join_to": "to",
+    "select": "select",
+    "join_on": "on"
+  },
+  "fr": {
+    "table": "table",
+    "alias": "alias",
+    "from": "de",
+    "join": "jointure",
+    "join_to": "vers",
+    "select": "champs",
+    "join_on": "par"
+  }
+}
+</i18n>
 
 <script>
 import Multiselect from "vue-multiselect";
@@ -170,6 +211,8 @@ export default {
         id: this.id,
         from: this.from,
         table: this.table.name,
+        entity: this.table.entity,
+        label: this.table.label,
         alias: this.alias,
         prevAlias: this.prevAlias,
       };
@@ -177,52 +220,37 @@ export default {
     relations() {
       return this.from == undefined
         ? {}
-        : this.schema[this.from.table].relations || {};
+        : this.schema[this.from.entity].relations || {};
     },
     tableList() {
       return this.join ? this.joinTableList : this.groupedTableList;
     },
     joinTableList() {
-      return (
-        Object.values(this.schema)
-          // Extract related tables
-          .filter(({ name }) => name in this.relations)
-          .map((table) => {
-            if (table.type === 1) {
-              // Follow relationship through intermediary table
-              const related = Object.values(table.relations)
-                .flat()
-                .filter(({ entity }) => entity != this.from.table)
-                .shift();
-              const through = {
-                table: table.name,
-                alias: `${table.name}_${this.id}`,
-                in: this.schema[this.from.table].relations[table.name][0],
-                out: table.relations[related.entity][0],
-              };
+      return Object.values(this.schema)
+        .filter(({ entity }) => entity in this.relations)
+        .map((table) => {
+          if (table.type === 1) {
+            const related = []
+              .concat(...Object.values(table.relations))
+              .filter(({ entity }) => entity != this.from.entity)
+              .shift();
+            const through = {
+              entity: table.entity,
+              name: table.name,
+              label: table.label,
+              alias: `${table.name}_${this.id}`,
+              in: this.schema[this.from.entity].relations[table.entity][0],
+              out: table.relations[related.entity][0],
+            };
 
-              table = {
-                ...this.schema[related.entity],
-                through,
-                get label() {
-                  return `[${this.through.table}] ${this.name}`;
-                },
-              };
-            } else {
-              table.label = table.name;
-            }
-            return table;
-          })
-          .sort((tableA, tableB) => {
-            function makeSortId(table) {
-              return (
-                `${table.name}` +
-                `${table.label == table.name ? "" : table.label}`
-              );
-            }
-            return makeSortId(tableA).localeCompare(makeSortId(tableB));
-          })
-      );
+            table = {
+              ...this.schema[related.entity],
+              through,
+            };
+          }
+          return table;
+        })
+        .sort((tableA, tableB) => tableA.label.localeCompare(tableB.label));
     },
     groupedTableList() {
       return Object.values(this.schema)
@@ -237,12 +265,12 @@ export default {
           ]
         )
         .map((grp) => {
-          grp.entities.sort((a, b) => a.name.localeCompare(b.name));
+          grp.entities.sort((a, b) => a.label.localeCompare(b.label));
           return grp;
         });
     },
     rules() {
-      return this.table.name == "Voc"
+      return this.table.name == "vocabulary"
         ? this.setupVocFilters(this.filters)
         : this.filters;
     },
@@ -264,8 +292,8 @@ export default {
     },
     joinPathList() {
       const target_table = this.table.through
-        ? this.table.through.table
-        : this.table.name;
+        ? this.table.through.entity
+        : this.table.entity;
       return this.join ? this.relations[target_table] || [] : [];
     },
   },
@@ -335,9 +363,9 @@ export default {
       let content = this.table.content;
       if (this.join) {
         const fieldToMatch =
-          this.path.entity == this.table.name
-            ? this.path.from
-            : this.table.through.out.from;
+          this.path.entity == this.table.entity
+            ? this.path.from.id
+            : this.table.through.out.from.id;
         const match = fieldToMatch.match(/(?<parent>\w+)VocFk/);
         content = this.table.content.filter(
           (voc) => match && match.groups.parent == voc.parent
@@ -400,9 +428,9 @@ export default {
     },
     getBaseFormData() {
       return {
-        table: this.table.name,
+        table: this.table.entity,
         alias: this.alias,
-        fields: this.fields.map((f) => f.label),
+        fields: this.fields.map(({ id, label }) => ({ id, label })),
         rules: this.query,
       };
     },
@@ -411,28 +439,28 @@ export default {
       return assoc
         ? {
             from: {
-              table: assoc.table,
+              table: assoc.entity,
               alias: assoc.alias,
-              column: assoc.out.from,
+              column: assoc.out.from.id,
             },
             type: this.joinType,
-            column: assoc.out.to,
+            column: assoc.out.to.id,
           }
         : {
-            from: { ...this.from, column: this.path.from },
+            from: { ...this.from, column: this.path.from.id },
             type: this.joinType,
-            column: this.path.to,
+            column: this.path.to.id,
           };
     },
     getJoinAssocData() {
       const assoc = this.table.through;
       return {
-        table: assoc.table,
+        table: assoc.entity,
         alias: assoc.alias,
         join: {
-          from: { ...this.from, column: assoc.in.from },
+          from: { ...this.from, column: assoc.in.from.id },
           type: this.joinType,
-          column: assoc.in.to,
+          column: assoc.in.to.id,
         },
       };
     },
@@ -468,6 +496,11 @@ select {
 .multiselect--disabled .multiselect__select {
   background: none;
   color: #a6a6a6;
+}
+
+span.join-path-label {
+  display: flex;
+  justify-content: space-between;
 }
 
 .card.query-block {
@@ -517,32 +550,9 @@ select {
       justify-self: start;
     }
 
-    // .filter-switch {
-    //   grid-area: filter-switch;
-    //   justify-self: start;
-    //   align-self: end;
-    //   display: flex;
-    //   align-items: center;
-    // }
-
     #querybuilder {
       grid-area: qbuilder;
     }
-    //   display: grid;
-    //   justify-content: stretch;
-    //   align-items: start;
-    //   grid-template-columns: 1fr 0fr;
-    //   grid-template-rows: auto;
-    //   grid-template-areas: "qb-form qb-reset";
-    //   gap: 10px;
-    //   .qb-form {
-    //     grid-area: qb-form;
-    //   }
-
-    //   .qb-reset {
-    //     grid-area: qb-reset;
-    //   }
-    // }
   }
 }
 </style>

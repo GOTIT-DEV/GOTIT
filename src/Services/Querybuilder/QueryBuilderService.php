@@ -62,9 +62,9 @@ class QueryBuilderService {
     $alias = $initial["alias"];
     // Adding the initial table to the query
     $query = $qb->from('App:' . $table, $alias);
-    foreach ($initial["fields"] as $value) {
+    foreach ($initial["fields"] as $field) {
       // Adding every field selected for the initial table with their alias
-      $query = $query->addSelect($alias . "." . $value . " AS " . $alias . "_" . $value);
+      $query = $query->addSelect($alias . "." . $field['id'] . " AS " . $alias . "_" . $field['id']);
     };
     // If there are some constraints addedby the user
     if ($initial['rules']) {
@@ -88,8 +88,8 @@ class QueryBuilderService {
   private function parseJoinsBlocks($joins, $query) {
     foreach ($joins as $j) {
       // Adding the fields to the query if the user chooses to return some.
-      foreach ($j["fields"] ?? [] as $newValue) {
-        $query = $query->addSelect($j["alias"] . "." . $newValue . " AS " . $j["alias"] . "_" . $newValue);
+      foreach ($j["fields"] ?? [] as $field) {
+        $query = $query->addSelect($j["alias"] . "." . $field['id'] . " AS " . $j["alias"] . "_" . $field['id']);
       };
       // Join tables
       $query = $this->makeJoin($j, $query);
@@ -127,16 +127,16 @@ class QueryBuilderService {
         }, $value);
       } else {
         $value = trim($value);
-        if (in_array($rule["operator"], ['begins_with', 'not_begins_with', 'contains', 'not_contains'])) {
+        if (in_array($rule["operator"], ['begins_with', 'not_begins_with', 'contains', 'does_not_contain'])) {
           $value = $value . "%";
         }
-        if (in_array($rule["operator"], ['ends_with', 'not_ends_with', 'contains', 'not_contains'])) {
+        if (in_array($rule["operator"], ['ends_with', 'not_ends_with', 'contains', 'does_not_contain'])) {
           $value = '%' . $value;
         }
         $value = "'" . $value . "'";
       }
     }
-    $column = $tableAlias . "." . $rule["operand"];
+    $column = $tableAlias . "." . $rule["rule"];
 
     // Find the right operator
     switch ($rule["operator"]) {
@@ -191,12 +191,12 @@ class QueryBuilderService {
     case 'begins_with':
     case 'ends_with':
     case 'contains':
-      return $qb->expr()->like($column, $value);
+      return $qb->expr()->like('lower(' . $column . ')', strtolower($value));
       break;
     case 'not_begins_with':
-    case 'not_contains':
+    case 'does_not_contain':
     case 'not_ends_with':
-      return $qb->expr()->not($qb->expr()->like($column, $value));
+      return $qb->expr()->not($qb->expr()->like('lower(' . $column . ')', strtolower($value)));
       break;
     case 'is_empty':
       return $qb->expr()->eq($column, "''");

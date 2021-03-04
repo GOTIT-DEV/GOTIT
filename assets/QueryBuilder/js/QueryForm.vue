@@ -65,19 +65,23 @@
 
 <script>
 import QueryBlock from "./QueryBlock";
-import { dtconfig } from "../../SpeciesSearch/js/datatables_utils";
 
 import ButtonLoading from "../../components/ButtonLoading";
-import Multiselect from "vue-multiselect";
 
 export default {
   components: { QueryBlock, ButtonLoading },
   computed: {
-    /** Tables involved in the query */
+    /** Tables involved in the query, available to join from */
     availableTables() {
       return [this.initialTable, ...this.joins]
-        .map(({ table, alias, prevAlias }) => ({ table, alias, prevAlias }))
-        .filter(({ table }) => table in this.schema);
+        .map(({ table, entity, label, alias, prevAlias }) => ({
+          table,
+          entity,
+          label,
+          alias,
+          prevAlias,
+        }))
+        .filter(({ entity }) => entity in this.schema);
     },
   },
 

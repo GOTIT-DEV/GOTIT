@@ -192,6 +192,11 @@ export default {
       return this.selectedFields.some((f) => f.key === option.key);
     },
   },
+  watch: {
+    fields(newFields) {
+      this.selectedFields = newFields;
+    },
+  },
 };
 </script>
 

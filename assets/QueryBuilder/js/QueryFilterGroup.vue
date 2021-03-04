@@ -6,7 +6,7 @@
   >
     <div class="vqb-group-heading card-header d-flex">
       <div v-if="depth == 1" class="filter-switch mr-3">
-        <label class="mr-2"> FILTER </label>
+        <label class="mr-2 text-uppercase"> {{ $t("filters") }} </label>
         <toggle-button
           id="toggle-constraints"
           class="toggle-btn"
@@ -35,26 +35,17 @@
           ></b-radio-group>
 
           <div class="rule-actions form-group ml-4">
-            <!-- <div class=""> -->
             <b-input-group size="sm" class="flex-nowrap">
               <multiselect
                 :options="rules"
-                label="id"
+                label="label"
                 :showLabels="false"
                 v-model="selectedRule"
+                :allowEmpty="false"
               />
-              <!-- <b-select v-model="selectedRule">
-                <b-select-option
-                  v-for="rule in rules"
-                  :key="rule.id"
-                  :value="rule"
-                >
-                  {{ rule.label }}
-                </b-select-option>
-              </b-select> -->
               <b-input-group-append>
                 <b-button class="mr-2" @click="addRule">
-                  {{ labels.addRule }}
+                  {{ $t("add_rule") }}
                 </b-button>
               </b-input-group-append>
             </b-input-group>
@@ -65,7 +56,7 @@
               class="btn btn-secondary btn-sm"
               @click="addGroup"
             >
-              {{ labels.addGroup }}
+              {{ $t("add_group") }}
             </button>
           </div>
 
@@ -74,8 +65,9 @@
             type="button"
             class="close ml-auto"
             @click="remove"
-            v-html="labels.removeGroup"
+            v-html="'&times;'"
           />
+
           <b-button
             v-else
             variant="light"
@@ -84,7 +76,9 @@
             @click="$emit('reset')"
           >
             <i class="fas fa-redo-alt"></i>
-            <span class="d-none d-lg-inline">Reset</span>
+            <span class="d-none d-lg-inline">
+              {{ $t("reset") | capitalize }}
+            </span>
           </b-button>
         </div>
       </transition>
@@ -94,17 +88,26 @@
         v-if="query.children.length > 0 && (active || depth > 1)"
         class="vqb-group-body"
       >
-        <!-- <b-collapse
-          id="querybuilder-collapse"
-          class="qbuilder"
-          v-model="active"
-        > -->
         <query-filter-children v-bind="$props" />
-        <!-- </b-collapse> -->
       </div>
     </transition>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "add_rule": "Add rule",
+    "add_group": "Add group",
+    "filters" : "filters"
+    },
+  "fr": {
+    "add_rule": "Ajouter",
+    "add_group": "Ajouter groupe",
+    "filters" : "filtres"
+  }
+}
+</i18n>
 
 <script>
 import QueryBuilderGroup from "vue-query-builder/src/components/QueryBuilderGroup";
@@ -181,6 +184,10 @@ export default {
               min-height: 30px;
               border-top-right-radius: 0;
               border-bottom-right-radius: 0;
+            }
+            span.multiselect__option {
+              padding: 6px 12px;
+              min-height: 30px;
             }
           }
         }

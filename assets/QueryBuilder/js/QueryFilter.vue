@@ -2,7 +2,6 @@
 <script>
 /* eslint-disable vue/require-default-prop */
 import VueQueryBuilder from "vue-query-builder";
-import MultiSelect from "vue-multiselect";
 
 var defaultLabels = {
   matchType: "Operator",
@@ -10,10 +9,6 @@ var defaultLabels = {
     { id: "and", label: "AND" },
     { id: "or", label: "OR" },
   ],
-  addRule: "Add Rule",
-  removeRule: "&times;",
-  addGroup: "Add Group",
-  removeGroup: "&times;",
   textInputPlaceholder: "",
 };
 
@@ -96,8 +91,7 @@ export default {
           operators: [
             ...operators.numeric,
             ...operators.nullable,
-            "between",
-            "not between",
+            ...operators.between,
           ],
           inputType: "number",
           id: "number-field",

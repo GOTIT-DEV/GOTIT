@@ -1,36 +1,18 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -->
   <b-list-group-item class="vqb-rule">
     <div class="form-inline">
       <label class="mr-5 rule-label col-2">{{ rule.label }}</label>
 
-      <!-- List of operands (optional) -->
-      <select
-        v-if="typeof rule.operands !== 'undefined'"
-        v-model="query.operand"
-        class="form-control mr-2 col-1"
-      >
-        <option v-for="operand in rule.operands" :key="operand">
-          {{ operand }}
-        </option>
-      </select>
-
       <!-- List of operators (e.g. =, !=, >, <) -->
-      <select
+      <b-select
         v-if="
           typeof rule.operators !== 'undefined' && rule.operators.length > 1
         "
         v-model="query.operator"
-        class="form-control mr-2 form-control-sm col-3"
-      >
-        <option
-          v-for="operator in rule.operators"
-          :key="operator"
-          :value="operator"
-        >
-          {{ operator }}
-        </option>
-      </select>
+        class="mr-2 col-3"
+        size="sm"
+        :options="rule.operators"
+      />
 
       <b-input-group
         v-if="
@@ -51,7 +33,7 @@
 
         <!-- Basic number input -->
         <input
-          v-if="rule.inputType === 'number'"
+          v-else-if="rule.inputType === 'number'"
           v-model="value[0]"
           class="form-control form-control-sm"
           type="number"
@@ -61,7 +43,7 @@
 
         <!-- Datepicker -->
         <input
-          v-if="rule.inputType === 'date'"
+          v-else-if="rule.inputType === 'date'"
           v-model="value[0]"
           class="form-control form-control-sm"
           type="text"
@@ -71,7 +53,7 @@
         />
 
         <!-- Custom component input -->
-        <div v-if="isCustomComponent" class="vqb-custom-component-wrap">
+        <div v-else-if="isCustomComponent" class="vqb-custom-component-wrap">
           <component
             :is="rule.component"
             v-bind="rule.props"
@@ -82,7 +64,7 @@
         </div>
 
         <!-- Checkbox input -->
-        <template v-if="rule.inputType === 'checkbox'">
+        <template v-else-if="rule.inputType === 'checkbox'">
           <div
             v-for="choice in rule.choices"
             :key="choice.value"
@@ -123,7 +105,7 @@
         </template>
 
         <!-- Radio input -->
-        <template v-if="rule.inputType === 'radio'">
+        <template v-else-if="rule.inputType === 'radio'">
           <div
             v-for="choice in rule.choices"
             :key="choice.value"
@@ -166,7 +148,7 @@
 
         <!-- Select without groups -->
         <select
-          v-if="rule.inputType === 'select' && !hasOptionGroups"
+          v-else-if="rule.inputType === 'select' && !hasOptionGroups"
           v-model="value[0]"
           class="form-control form-control-sm"
           :multiple="rule.type === 'multi-select'"
@@ -183,7 +165,7 @@
 
         <!-- Select with groups -->
         <select
-          v-if="rule.inputType === 'select' && hasOptionGroups"
+          v-else-if="rule.inputType === 'select' && hasOptionGroups"
           v-model="value[0]"
           class="form-control form-control-sm"
           :multiple="rule.type === 'multi-select'"
@@ -208,21 +190,21 @@
         <b-input-group-addon v-if="query.operator.includes('between')" is-text>
           &mdash;
         </b-input-group-addon>
-        <input
+        <b-input
           v-if="
             query.operator.includes('between') && rule.inputType === 'number'
           "
           v-model="value[1]"
           :min="value[0]"
-          class="form-control form-control-sm"
+          size="sm"
           type="number"
           required
         />
-        <input
+        <b-input
           v-if="query.operator.includes('between') && rule.inputType === 'date'"
           v-model="value[1]"
           :min="value[0]"
-          class="form-control form-control-sm"
+          size="sm"
           type="text"
           placeholder="YYYY-MM-DD"
           v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
@@ -256,7 +238,7 @@
         type="button"
         class="close ml-auto"
         @click="remove"
-        v-html="labels.removeRule"
+        v-html="'&times'"
       ></button>
     </div>
   </b-list-group-item>
@@ -273,10 +255,7 @@ export default {
   components: { Multiselect },
   computed: {
     isMultiple() {
-      return (
-        this.query.operator.endsWith("between") ||
-        this.query.operator.endsWith("in")
-      );
+      return this.query.operator.match(/^(not )?(in|between)$/) !== null;
     },
   },
   data() {
@@ -305,7 +284,13 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+@import "~vue-multiselect/dist/vue-multiselect.min.css";
+
+.vqb-rule {
+  padding: 0.25rem 1.25rem;
+}
+
 .rule-label {
   min-width: 50px;
 }
