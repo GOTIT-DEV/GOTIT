@@ -8,3 +8,8 @@ login:
   username: username
   password: password
   remember me: remember me
+
+footer:
+  github_prompt: "help us improve"
+  bug_report: "report a bug"
+  feature_request: "request a feature"
