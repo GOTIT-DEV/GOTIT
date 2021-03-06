@@ -260,40 +260,42 @@ class SpeciesQueryService {
 
   public function getSpeciesAssignment($data) {
     $columnsMap = array(
-      'lot-materiel' => 'lmrt',
-      'individu' => 'indivrt',
+      'biomaterial' => 'biomat',
+      'specimen' => 'spec',
       'sequence' => 'seqrt',
     );
     $typeConstraints = array_fill_keys(
       ["A", "B", "C"],
       array()
     );
-    $undefinedSeq = ($data->get('sequence') == '1');
     foreach ($data as $key => $value) {
       if (in_array($value, array_keys($typeConstraints))) {
         $typeConstraints[$value][] = $columnsMap[$key];
       }
     }
+    $undefinedSeq = ($data['sequence'] == '1');
 
     $qb = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm') // lot matériel
-      ->addSelect('lmrt.id as idtax_lm, lmrt.taxname as taxname_lm') // taxon lot matériel
-      ->addSelect('lmvoc.code as critere_lm') // critere lot matériel
+    $query =
+    $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm')
+      ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
+      ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
+    // ->addSelect('indiv as ind') // individu
       ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // individu
-      ->addSelect('indivrt.id as idtax_indiv, indivrt.taxname as taxname_indiv') // taxon individu
-      ->addSelect('ivoc.code as critere_indiv') // critere individu
+      ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon individu
+      ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere individu
       ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
-      ->addSelect('seqvoc.code as critere_seq') // critere sequence
+      ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
     // JOIN lot matériel
       ->from('App:LotMateriel', 'lm')
       ->join('App:EspeceIdentifiee', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
-      ->join('App:ReferentielTaxon', 'lmrt', 'WITH', 'lmrt.id = eidlm.referentielTaxonFk')
+      ->join('App:ReferentielTaxon', 'biomat', 'WITH', 'biomat.id = eidlm.referentielTaxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
     // JOIN individu
       ->join('App:Individu', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
       ->join('App:EspeceIdentifiee', 'eidindiv', 'WITH', 'indiv.id = eidindiv.individuFk')
-      ->join('App:ReferentielTaxon', 'indivrt', 'WITH', 'indivrt.id = eidindiv.referentielTaxonFk')
+      ->join('App:ReferentielTaxon', 'spec', 'WITH', 'spec.id = eidindiv.referentielTaxonFk')
       ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id');
     // JOIN sequence
     $query = $this->leftJoinIndivSeq($query, 'indiv', 'seq')
@@ -323,7 +325,42 @@ class SpeciesQueryService {
     }
     $query = $query->distinct()->getQuery();
     $res = $query->getArrayResult();
-    return $res;
+
+    return array_map(function ($row) {
+      return [
+        "biomaterial" => [
+          "id" => $row['id_lm'],
+          "code" => $row['code_lm'],
+          "taxname" => $row['taxname_lm'],
+          "criterion" => [
+            "code" => $row['criterion_code_biomat'],
+            "title" => $row['criterion_title_biomat'],
+          ],
+        ],
+        "specimen" => [
+          "id" => $row["id_indiv"],
+          "code" => [
+            "biomol" => $row["code_biomol"],
+            "morpho" => $row["code_tri_morpho"],
+          ],
+          "taxname" => $row["taxname_indiv"],
+          "criterion" => [
+            "code" => $row["criterion_code_specimen"],
+            "title" => $row["criterion_title_specimen"],
+          ],
+        ],
+        "sequence" => [
+          "id" => $row["id_seq"],
+          "code" => $row["code_seq"],
+          "taxname" => $row["taxname_seq"],
+          "criterion" => [
+            "code" => $row["criterion_code_seq"],
+            "title" => $row["criterion_title_seq"],
+          ],
+        ],
+      ];
+    }, $res);
+
   }
 
   public function getSpeciesSamplingDetails($id) {

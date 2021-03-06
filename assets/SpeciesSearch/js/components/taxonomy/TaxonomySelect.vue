@@ -15,7 +15,7 @@
           v-model="genus"
           v-select-picker
           :disabled="disabled"
-          @change="$emit('update:genus', $event)"
+          @change="$emit('update:genus', $event.target.value)"
         >
           <option v-for="genus in genusList" :value="genus" :key="genus">
             {{ genus }}
@@ -33,7 +33,7 @@
           v-model="species"
           v-select-picker
           :disabled="disabled"
-          @change="$emit('update:species', $event)"
+          @change="$emit('update:species', $event.target.value)"
         >
           <option
             v-for="species in speciesList"
@@ -56,7 +56,7 @@
           class="form-control"
           v-select-picker
           :disabled="disabled"
-          @change="$emit('update:taxname', $event)"
+          @change="$emit('update:taxname', $event.target.value)"
         >
           <option
             v-for="taxon in taxnameList"
