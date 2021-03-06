@@ -50,6 +50,7 @@
     "js-cookie": "2.x",
     "leaflet-easybutton": "2.x",
     "leaflet-fullscreen": "1.x",
+    "leaflet-gesture-handling": "^1.2.1",
     "leaflet-svg-shape-markers": "1.x",
     "moment": "2.x",
     "mustache": "4.x",
