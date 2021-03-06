@@ -8,7 +8,8 @@ assignees: ''
 ---
 
 **Description**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. 
+Please include the url or name of the webpage involved.
 
 **To Reproduce**
 Steps to reproduce the behavior:
