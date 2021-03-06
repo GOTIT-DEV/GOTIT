@@ -14,47 +14,13 @@
  * Author : Louis Duchemin <ls.duchemin@gmail.com>
  */
 
-import { initDataTable } from './results.js'
+import TaxonConsistency from "./TaxonConsistency"
+import Vue from "vue"
 
-/* **************************
- *  Document ready
- **************************** */
-$(document).ready(function () {
-  $("select.concordance")
-    .change(updateChoiceColor)
-    .trigger('change')
-  initDataTable("#result-table")
+new Vue({
+  el: "#consistency-app",
+  ...TaxonConsistency
 })
 
-/**
- * Change <select> inputs background color to show query constraints
- * 
- * @param {Object} event jquery event object
- */
-function updateChoiceColor(event) {
-  const target = $(event.target)
-  target.removeClass("typeA typeB typeC unassigned no-constraints")
-  switch (target.val()) {
-    case "A":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-info')
-      break
-    case "B":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-success')
-      break
-    case "C":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-danger')
-      break
-    case "0":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-light border')
-      break
-    case "1":
-      target.selectpicker('setStyle', 'btn-info btn-success btn-danger', 'remove')
-        .selectpicker('setStyle', 'btn-light border')
-      break
-  }
 
-}
+

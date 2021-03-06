@@ -65,6 +65,7 @@
     <b-table
       responsive
       striped
+      :busy="busy"
       primary-key="code"
       :fields="visibleFields"
       :items="items"
@@ -72,6 +73,7 @@
       :current-page="tablePage"
       sort-by="id"
       :filter="filter"
+      v-bind="$attrs"
     >
       <template
         v-for="slotName in Object.keys($scopedSlots)"
@@ -141,6 +143,9 @@ export default {
     classes: {
       type: String,
     },
+    busy: {
+      type: Boolean,
+    },
     searchbarPlaceholder: {
       type: String,
       default: null,
@@ -166,9 +171,16 @@ export default {
     exportedItems() {
       return this.items.map((item) =>
         this.fields.reduce((acc, field) => {
-          acc[field.key] = field.formatter
-            ? field.formatter(item[field.key])
-            : item[field.key];
+          if (field.unpacker) {
+            acc = {
+              ...acc,
+              ...field.unpacker(item[field.key]),
+            };
+          } else {
+            acc[field.key] = field.formatter
+              ? field.formatter(item[field.key])
+              : item[field.key];
+          }
           return acc;
         }, {})
       );
