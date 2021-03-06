@@ -61,6 +61,7 @@
         :busy="loading"
         fixed
         stacked="md"
+        exportFilename="taxon_attributions.csv"
       >
         <template #cell(biomaterial)="data">
           <assignment-cell :item="data.value" entity="biomaterial" />
