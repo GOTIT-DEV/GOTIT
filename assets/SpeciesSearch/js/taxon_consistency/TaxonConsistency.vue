@@ -46,7 +46,9 @@
             </b-row>
           </b-card>
           <div class="d-flex justify-content-center mt-3">
-            <button-loading :loading="loading"> Rechercher </button-loading>
+            <button-loading :loading="loading">
+              {{ $t("ui.search") }}
+            </button-loading>
           </div>
         </b-col>
       </b-row>
