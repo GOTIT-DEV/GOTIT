@@ -1,74 +1,60 @@
 <template>
-  <div
-    class="taxonomy-select requires-loading"
-    v-bind:class="{ loading: loading }"
-  >
-    <div class="select-container">
-      <!-- Genus select -->
-      <b-form-group :label="$t('queries.label.genre')" label-for="genus">
-        <select
-          name="genus"
-          id="genus"
-          class="form-control"
-          data-live-search="true"
-          data-size="10"
+  <div class="taxonomy-select">
+    <!-- Genus select -->
+    <b-form-group :label="$t('queries.label.genre')" label-for="genus">
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-skeleton type="input"></b-skeleton>
+        </template>
+        <form-multiselect
+          :options="genusList"
           v-model="genus"
-          v-select-picker
+          name="genus"
           :disabled="disabled"
-          @change="$emit('update:genus', $event.target.value)"
-        >
-          <option v-for="genus in genusList" :value="genus" :key="genus">
-            {{ genus }}
-          </option>
-        </select>
-      </b-form-group>
-      <!-- Species select -->
-      <b-form-group :label="$t('queries.label.espece')" label-for="species">
-        <select
-          name="species"
-          id="species"
-          class="form-control"
-          data-live-search="true"
-          data-size="10"
+          :allowEmpty="false"
+          @select="$emit('update:genus', $event)"
+        />
+      </b-skeleton-wrapper>
+    </b-form-group>
+
+    <!-- Species select -->
+    <b-form-group :label="$t('queries.label.espece')" label-for="species">
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-skeleton type="input"></b-skeleton>
+        </template>
+        <form-multiselect
+          :options="speciesList"
           v-model="species"
-          v-select-picker
+          name="species"
           :disabled="disabled"
-          @change="$emit('update:species', $event.target.value)"
-        >
-          <option
-            v-for="species in speciesList"
-            :value="species"
-            :key="species"
-          >
-            {{ species }}
-          </option>
-        </select>
-      </b-form-group>
-      <!-- Taxname select -->
-      <b-form-group
-        v-if="withTaxname"
-        :label="$t('queries.label.taxon')"
-        label-for="taxname"
-      >
-        <select
+          :allowEmpty="false"
+          @select="$emit('update:species', $event)"
+        />
+      </b-skeleton-wrapper>
+    </b-form-group>
+    <!-- Taxname select -->
+    <b-form-group
+      v-if="withTaxname"
+      :label="$t('queries.label.taxon')"
+      label-for="taxname"
+    >
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-skeleton type="input"></b-skeleton>
+        </template>
+        <form-multiselect
+          :options="taxnameList"
+          v-model="taxname"
+          trackBy="id"
+          label="taxname"
           name="taxname"
-          id="taxname"
-          class="form-control"
-          v-select-picker
           :disabled="disabled"
-          @change="$emit('update:taxname', $event.target.value)"
-        >
-          <option
-            v-for="taxon in taxnameList"
-            :value="taxon.id"
-            :key="taxon.id"
-          >
-            {{ taxon.taxname }}
-          </option>
-        </select>
-      </b-form-group>
-    </div>
-    <i class="fas fa-spinner fa-spin"> </i>
+          :allowEmpty="false"
+          @select="$emit('update:taxname', $event)"
+        />
+      </b-skeleton-wrapper>
+    </b-form-group>
   </div>
 </template>
 
@@ -76,10 +62,10 @@
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
-import i18n from "../../i18n";
+import FormMultiselect from "../../../../components/FormMultiselect";
 
 export default {
-  i18n,
+  components: { FormMultiselect },
   directives: {
     SelectPicker,
   },
@@ -118,6 +104,7 @@ export default {
       taxonomy: [],
       genus: undefined,
       species: undefined,
+      taxname: undefined,
     };
   },
   methods: {
@@ -147,7 +134,6 @@ export default {
 
 
 <style lang="less" scoped>
-@import "../loading.less";
 .taxonomy-select {
   min-width: 220px;
 }
