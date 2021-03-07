@@ -108,7 +108,18 @@
           :label="$t('queries.label.dataset')"
           label-for="target-dataset"
         >
-          <select
+          <form-multiselect
+            :options="motuList"
+            label="name"
+            ref="target"
+            :disabled="reference == 'motu'"
+            v-model="motu"
+            trackBy="id"
+            name="target-dataset"
+            :allowEmpty="false"
+            :searchable="false"
+          />
+          <!-- <select
             id="target-dataset"
             name="target-dataset"
             v-model="motu"
@@ -120,7 +131,7 @@
             <option v-for="motu in motuList" :key="motu.id" :value="motu.id">
               {{ motu.name }}
             </option>
-          </select>
+          </select> -->
         </b-form-group>
       </b-card>
       <center
@@ -146,11 +157,17 @@ import ButtonLoading from "../../../components/ButtonLoading";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
 import { SelectPicker } from "../components/directives/SelectPickerDirective";
+import FormMultiselect from "../../../components/FormMultiselect";
 export default {
   directives: {
     SelectPicker,
   },
-  components: { TaxonomySelect, MotuDatasetSelect, ButtonLoading },
+  components: {
+    TaxonomySelect,
+    MotuDatasetSelect,
+    ButtonLoading,
+    FormMultiselect,
+  },
   computed: {
     ready() {
       return Promise.all([this.$refs.motu.ready, this.$refs.taxonomy.ready]);
@@ -172,9 +189,9 @@ export default {
   },
   watch: {
     motuList(newList, oldList) {
-      this.motu = newList[0].id;
+      this.motu = newList[0];
     },
-    reference: function (newRef, oldRef) {
+    reference: function (newRef) {
       if (newRef === "motu") this.motu = this.$refs.motu.dataset;
     },
   },
@@ -190,7 +207,7 @@ export default {
       this.$emit("update:results", results);
     },
     refDatasetSelected(event) {
-      if (this.reference === "motu") this.motu = event.target.value;
+      if (this.reference === "motu") this.motu = event;
     },
     reverse(event) {
       this.reversed = !this.reversed;

@@ -48,15 +48,11 @@
 </i18n>
 
 <script>
-import Multiselect from "vue-multiselect";
-import i18n from "../../js/i18n";
 import FormMultiselect from "../../../components/FormMultiselect";
 
 export default {
-  i18n,
   components: {
     FormMultiselect,
-    Multiselect,
   },
   data() {
     return {
@@ -93,5 +89,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~vue-multiselect/dist/vue-multiselect.min.css";
 </style>
