@@ -16,7 +16,14 @@
 
       <b-input-group
         v-if="
-          !['is null', 'is not null', 'in', 'not in'].includes(query.operator)
+          ![
+            'is null',
+            'is not null',
+            'is empty',
+            'is not empty',
+            'in',
+            'not in',
+          ].includes(query.operator)
         "
         size="sm"
         class="mr-1 col-5"
@@ -213,7 +220,7 @@
       </b-input-group>
 
       <!-- Multiple select with tags -->
-      <div v-else-if="query.operator.endsWith('in')" class="col-6">
+      <div v-else-if="query.operator.match(/^(not )?in$/)" class="col-6">
         <multiselect
           :options="
             rule.choices && rule.choices.length

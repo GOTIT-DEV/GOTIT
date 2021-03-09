@@ -86,6 +86,9 @@ export default {
     };
   },
   methods: {
+    log(ev) {
+      console.log(ev);
+    },
     async submit() {
       this.loading = true;
       const response = await fetch(this.url, {

@@ -3166,55 +3166,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-bs4@1.x, datatables.net-bs4@^1.10.15:
-  version "1.10.23"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.23.tgz#bdd5d0dcb1bd68a7afe649a4424ba20647523b52"
-  integrity sha512-ChUB8t5t5uzPnJYTPXx2DOvnlm2shz8OadXrKoFavOadB308OuwHVxSldYq9+KGedCeiVxEjNqcaV4nFSXkRsw==
-  dependencies:
-    datatables.net "1.10.23"
-    jquery ">=1.7"
-
-datatables.net-buttons-bs4@1.x:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/datatables.net-buttons-bs4/-/datatables.net-buttons-bs4-1.6.5.tgz#e7802391d28e2c3786dfc0a4c278e0434e0528b1"
-  integrity sha512-GDCRZehr9t1PIAJsBdZA1cFJXeaInNLgNLG2IcN7EQLkb33kem1J+PdtIDv7/fPFqVKOAye2FqpSlcMOHXSiSw==
-  dependencies:
-    datatables.net-bs4 "^1.10.15"
-    datatables.net-buttons "1.6.5"
-    jquery ">=1.7"
-
-datatables.net-buttons@1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/datatables.net-buttons/-/datatables.net-buttons-1.6.5.tgz#e7142b928ec9f5a6f9381bb965605c12e1610954"
-  integrity sha512-JmV1ncTbpiDXxU/e8ucFIbNLrmlGUrWrURBLI19Rd/rT+WSbH8TmLjoFVyTFuvC4PdzyLY2swEi+O1SC1ehGKQ==
-  dependencies:
-    datatables.net "^1.10.15"
-    jquery ">=1.7"
-
-datatables.net-responsive-bs4@2.x:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/datatables.net-responsive-bs4/-/datatables.net-responsive-bs4-2.2.7.tgz#93ad53d9ee7613324b25d014647d4ef685836fd6"
-  integrity sha512-RI2IeX9gk0mfmQOhlPF7xpEA7p7DavdCy3W0NrL9iZnE83xAYtJeKE5MFz7jt0XmOTUu2P93rGn+jJQwSWto2Q==
-  dependencies:
-    datatables.net-bs4 "^1.10.15"
-    datatables.net-responsive "2.2.7"
-    jquery ">=1.7"
-
-datatables.net-responsive@2.2.7:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/datatables.net-responsive/-/datatables.net-responsive-2.2.7.tgz#12e93deab8e8aebf4a2bc45b266c00d2662a5ced"
-  integrity sha512-pjZcR+AHa0GE++giRhMBSxFLKrfjP+X7etj7oZMMfMTi1gcdYdM8YP3gmpEyfLjDEg6uPJb9PRH4mQHcc8OYyA==
-  dependencies:
-    datatables.net "^1.10.15"
-    jquery ">=1.7"
-
-datatables.net@1.10.23, datatables.net@^1.10.15:
-  version "1.10.23"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.23.tgz#59f7d7b12845183b1b379530d1385077e113ec01"
-  integrity sha512-we3tlNkzpxvgkKKlTxTMXPCt35untVXNg8zUYWpQyC1U5vJc+lT0+Zdc1ztK8d3lh5CfdnuFde2p8n3XwaGl3Q==
-  dependencies:
-    jquery ">=1.7"
-
 de-indent@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
@@ -5868,7 +5819,7 @@ jquery-bootgrid@1.x:
     bootstrap ">=3.1.1"
     jquery ">=1.9.0"
 
-jquery@3.x, jquery@>=1.7, jquery@>=1.9.0:
+jquery@3.x, jquery@>=1.9.0:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
@@ -6046,12 +5997,17 @@ leaflet-fullscreen@1.x:
   version "1.0.2"
   resolved "https://github.com/Leaflet/Leaflet.fullscreen#91c9745c712981942499f14f7a347c80fab41096"
 
+leaflet-gesture-handling@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/leaflet-gesture-handling/-/leaflet-gesture-handling-1.2.1.tgz#d88c9524be8a971a088b6a136b4f292d3016dae8"
+  integrity sha512-MEod/3BmosTud0n/sw3iUecnOUDBz2U21gzwaOZS62voaNRkMj4Sm3XPjtnmivyMgYYF0tRHCMfVEYwcRsprUg==
+
 leaflet-svg-shape-markers@1.x:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/leaflet-svg-shape-markers/-/leaflet-svg-shape-markers-1.3.0.tgz#f70914d93ff1956e9159ddb96da06ddf40b4abd5"
   integrity sha512-Lb2ZpdjkHQfxaqY5E9e/typiM19TnaLLAV/16FyOxflSC0g47my3vfNbeq0wpzJQl+CMjjqM/KHrSe1oTTCb7w==
 
-leaflet@^1.0.1, leaflet@^1.7.1:
+leaflet@^1.0.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
   integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
@@ -7426,11 +7382,6 @@ planar-graph-to-polyline@^1.0.0:
     robust-sum "^1.0.0"
     two-product "^1.0.0"
     uniq "^1.0.0"
-
-plotly.js-dist@1.x:
-  version "1.58.4"
-  resolved "https://registry.yarnpkg.com/plotly.js-dist/-/plotly.js-dist-1.58.4.tgz#d57b73d27af57a0d6cd2cf9428a001962889cf5b"
-  integrity sha512-oXCTRJFN8FBsHZSQPYoM3LuJQchPUrf6sOXFC0EFdvcr5lmJmLcAsW74jDy9PkRpm3PB+A+2oY1hsUMmk2eZbw==
 
 plotly.js@^1.52.1:
   version "1.58.4"
@@ -10251,7 +10202,7 @@ vue-multiselect@2.x:
   resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.6.tgz#5be5d811a224804a15c43a4edbb7485028a89c7f"
   integrity sha512-s7jmZPlm9FeueJg1RwJtnE9KNPtME/7C8uRWSfp9/yEN4M8XcS/d+bddoyVwVnvFyRh9msFo0HWeW0vTL8Qv+w==
 
-vue-plotly@1.x:
+vue-plotly@^1.1.*:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vue-plotly/-/vue-plotly-1.1.0.tgz#2ba9e2735c9124dde4de3eb2658fe7f6c07ce5ec"
   integrity sha512-GW52p+ZD0AKHgtE7vdkljJ79fiRugkhFkcE+Es5Ok9YWulHq8KxywQdO0rK1ejGIfVv1yAQKiKxhzYcYE/lXyw==

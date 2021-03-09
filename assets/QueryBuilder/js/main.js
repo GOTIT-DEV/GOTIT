@@ -5,7 +5,7 @@
  * You can use it and modify it under the terms of the GNU General Public License (Version 3 or later).
  * This software is distributed without any warranty.
  *
- * Authors : Thierno Diallo, Maud Ferrer and Elsa Mendes.
+ * Authors : Thierno Diallo, Maud Ferrer, Elsa Mendes and Louis Duchemin.
  */
 
 import "../../SpeciesSearch/js/species_search"

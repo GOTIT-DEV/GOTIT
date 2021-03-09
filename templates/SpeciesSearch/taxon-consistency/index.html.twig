@@ -12,17 +12,12 @@
 {% endblock %}
 
 {% block body %}
-	{# Formulaire #}
-	{% include 'SpeciesSearch/taxon-consistency/form.html.twig' %}
 
-	<fieldset>
-		<legend>
-			<h2>
-				{{"label.resultats"|trans }}
-			</h2>
-		</legend>
-		{% include 'SpeciesSearch/taxon-consistency/results.html.twig' %}
-	</fieldset>
+	<div id="consistency-app">
+		<center>
+			<i class="fas fa-spinner fa-spin fa-4x"></i>
+		</center>
+	</div>
 
 {% endblock %}
 

@@ -1,52 +1,53 @@
 <template>
-  <div class="motu-select requires-loading" v-bind:class="{ loading: loading }">
-    <div class="select-container">
-      <b-form-group :label="$t('queries.label.dataset')" label-for="dataset">
-        <select
-          v-model="dataset"
+  <div class="select-container">
+    <b-form-group :label="$t('queries.label.dataset')" label-for="dataset">
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-skeleton type="input" width="100%"></b-skeleton>
+        </template>
+        <form-multiselect
           name="dataset"
-          id="dataset"
-          class="form-control"
-          v-select-picker
-          @change="$emit('update:dataset', $event)"
-        >
-          <option v-for="motu in motuList" :value="motu.id" :key="motu.id">
-            {{ motu.name }}
-          </option>
-        </select>
-      </b-form-group>
-      <b-form-group
-        :label="$t('queries.methode.label')"
-        label-for="methods-select"
-      >
-        <select
-          v-bind:multiple="multiple"
+          trackBy="id"
+          v-model="dataset"
+          :options="motuList"
+          label="name"
+          :allowEmpty="false"
+          required
+          :searchable="false"
+          @select="$emit('update:dataset', $event)"
+        />
+      </b-skeleton-wrapper>
+    </b-form-group>
+    <b-form-group
+      :label="$t('queries.methode.label')"
+      label-for="methods-select"
+    >
+      <b-skeleton-wrapper :loading="loading">
+        <template #loading>
+          <b-skeleton type="input" width="100%"></b-skeleton>
+        </template>
+        <form-multiselect
+          :options="methodList"
           v-model="methods"
-          :name="methodInputName"
-          id="methods-select"
-          class="form-control"
-          v-select-picker
-          @change="$emit('update:methods', $event)"
-        >
-          <option
-            v-for="method in methodList"
-            :value="method.method_id"
-            :key="method.method_id"
-          >
-            {{ method.method_code }}
-          </option>
-        </select>
-      </b-form-group>
-    </div>
-    <i class="fas fa-spinner fa-spin"> </i>
+          :name="multiple ? 'methods[]' : 'methods'"
+          :multiple="multiple"
+          :searchable="false"
+          label="method_code"
+          trackBy="method_id"
+          :allowEmpty="false"
+          @select="$emit('update:methods', $event)"
+        />
+      </b-skeleton-wrapper>
+    </b-form-group>
   </div>
 </template>
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
-import i18n from "../../i18n";
+import FormMultiselect from "../../../../components/FormMultiselect";
+
 export default {
-  i18n,
+  components: { FormMultiselect },
   directives: {
     SelectPicker,
   },
@@ -70,9 +71,6 @@ export default {
     };
   },
   computed: {
-    methodInputName() {
-      return this.multiple ? "methods[]" : "methods";
-    },
     motuList() {
       let uniqueDatasets = this.motuMethodList.reduce((acc, record) => {
         acc[record.dataset_id] = {
@@ -85,7 +83,7 @@ export default {
     },
     methodList() {
       let methods = this.motuMethodList.filter(
-        ({ dataset_id }) => dataset_id == this.dataset
+        ({ dataset_id }) => dataset_id == this.dataset.id
       );
       return methods;
     },
@@ -95,7 +93,7 @@ export default {
       const response = await fetch(this.url);
       return response.json().then((json) => {
         this.motuMethodList = json;
-        this.dataset = json[0].dataset_id;
+        this.dataset = this.motuList[0];
         this.loading = false;
         this.$emit("update:motuList", this.motuList);
       });
@@ -103,14 +101,11 @@ export default {
   },
   watch: {
     dataset: function (newDataset, oldDataset) {
-      this.methods = this.multiple
-        ? this.methodList.map((record) => record.method_id)
-        : this.methodList[0].method_id;
+      this.methods = this.multiple ? this.methodList : this.methodList[0];
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-@import "../loading.less";
 </style>

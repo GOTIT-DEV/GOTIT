@@ -69,7 +69,6 @@
 
 <script>
 import L from "leaflet";
-import Vue from "vue";
 
 delete L.Icon.Default.prototype._getIconUrl;
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -86,12 +85,15 @@ import {
   LControlLayers,
   LPopup,
 } from "vue2-leaflet";
-import { Util } from "esri-leaflet";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
+import { Util } from "esri-leaflet";
+import "leaflet-gesture-handling";
+
 import LeafletMapSettings from "./LeafletMapSettings";
+import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
+import Vue from "vue";
 import ShapeMarkerLegend from "./ShapeMarkerLegend";
-
 const LegendShape = Vue.extend(ShapeMarkerLegend);
 
 export default {
@@ -181,6 +183,7 @@ export default {
       mapOptions: {
         // center: [0, 0],
         // zoom: 10,
+        gestureHandling: true,
         worldCopyJump: true,
         wheelPxPerZoomLevel: 100,
         zoomSnap: 0.5,
