@@ -21,3 +21,4 @@ yarn-error.log
 
 TESTIMPORT_V2/
 /nbproject/private/
+/public/.htaccess_demo
