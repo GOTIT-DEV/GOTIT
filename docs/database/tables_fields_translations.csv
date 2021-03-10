@@ -1,39 +1,39 @@
 table,field,fk,table_en,table_fr,field_en,field_fr,type
 chromatogram,id,,Chromatogram,Chromatogramme,id,id,pk
 chromatogram,chromatogram_code,,Chromatogram,Chromatogramme,Code,Code,
-chromatogram,chromatogram_number,,Chromatogram,Chromatogramme,ChromatoNumber,NumeroChromato,
+chromatogram,chromatogram_number,,Chromatogram,Chromatogramme,Chromato Number,Numéro Chromato,
 chromatogram,chromatogram_comments,,Chromatogram,Chromatogramme,Comments,Commentaires,
-chromatogram,chromato_primer_voc_fk,voc,Chromatogram,Chromatogramme,ChromatoPrimer,PrimerChromato,fk
-chromatogram,chromato_quality_voc_fk,voc,Chromatogram,Chromatogramme,ChromatoQuality,QualiteChromato,fk
-chromatogram,institution_fk,etablissement,Chromatogram,Chromatogramme,Institution,Etablissement,fk
-chromatogram,pcr_fk,pcr,Chromatogram,Chromatogramme,Pcr,Pcr,fk
-chromatogram,creation_user_name,,Chromatogram,Chromatogramme,CreationUser,UtilisateurCreation,tf
-chromatogram,update_user_name,,Chromatogram,Chromatogramme,UpdateUser,UtilisateurMAJ,tf
-chromatogram,date_of_creation,,Chromatogram,Chromatogramme,CreationDate,DateCreation,tf
-chromatogram,date_of_update,,Chromatogram,Chromatogramme,UpdateDate,DateMAJ,tf
-chromatogram_is_processed_to,id,,ProcessedTo,AssembleDans,id,id,pk
-chromatogram_is_processed_to,chromatogram_fk,chromatogramme,ProcessedTo,AssembleDans,Chromatogram,Chromatogramme,fk
-chromatogram_is_processed_to,internal_sequence_fk,sequence_assemblee,ProcessedTo,AssembleDans,InternalSequence,SequenceInterne,fk
-chromatogram_is_processed_to,creation_user_name,,ProcessedTo,AssembleDans,CreationUser,UtilisateurCreation,tf
-chromatogram_is_processed_to,update_user_name,,ProcessedTo,AssembleDans,UpdateUser,UtilisateurMAJ,tf
-chromatogram_is_processed_to,date_of_creation,,ProcessedTo,AssembleDans,CreationDate,DateCreation,tf
-chromatogram_is_processed_to,date_of_update,,ProcessedTo,AssembleDans,UpdateDate,DateMAJ,tf
-composition_of_internal_biological_material,id,,LotContent,ContenuLot,id,id,pk
-composition_of_internal_biological_material,number_of_specimens,,LotContent,ContenuLot,NumberSpecimens,NombreIndividus,
-composition_of_internal_biological_material,internal_biological_material_composition_comments,,LotContent,ContenuLot,Comments,Commentaires,
-composition_of_internal_biological_material,specimen_type_voc_fk,voc,LotContent,ContenuLot,SpecimenType,TypeIndividu,fk
-composition_of_internal_biological_material,internal_biological_material_fk,lot_materiel,LotContent,ContenuLot,InternalLot,LotInterne,fk
-composition_of_internal_biological_material,creation_user_name,,LotContent,ContenuLot,CreationUser,UtilisateurCreation,tf
-composition_of_internal_biological_material,update_user_name,,LotContent,ContenuLot,UpdateUser,UtilisateurMAJ,tf
-composition_of_internal_biological_material,date_of_creation,,LotContent,ContenuLot,CreationDate,DateCreation,tf
-composition_of_internal_biological_material,date_of_update,,LotContent,ContenuLot,UpdateDate,DateMAJ,tf
+chromatogram,chromato_primer_voc_fk,voc,Chromatogram,Chromatogramme,Primer,Primer,fk
+chromatogram,chromato_quality_voc_fk,voc,Chromatogram,Chromatogramme,Quality,Qualité,fk
+chromatogram,institution_fk,etablissement,Chromatogram,Chromatogramme,Institution,Établissement,fk
+chromatogram,pcr_fk,pcr,Chromatogram,Chromatogramme,PCR,PCR,fk
+chromatogram,creation_user_name,,Chromatogram,Chromatogramme,Creation User,Utilisateur Création,tf
+chromatogram,update_user_name,,Chromatogram,Chromatogramme,Update User,Utilisateur MàJ,tf
+chromatogram,date_of_creation,,Chromatogram,Chromatogramme,Creation Date,Date Création,tf
+chromatogram,date_of_update,,Chromatogram,Chromatogramme,Update Date,Date MàJ,tf
+chromatogram_is_processed_to,id,,Processed To,Assemblé Dans,id,id,pk
+chromatogram_is_processed_to,chromatogram_fk,chromatogramme,Processed To,Assemblé Dans,Chromatogram,Chromatogramme,fk
+chromatogram_is_processed_to,internal_sequence_fk,sequence_assemblee,Processed To,Assemblé Dans,InternalSequence,SequenceInterne,fk
+chromatogram_is_processed_to,creation_user_name,,Processed To,Assemblé Dans,Creation User,Utilisateur Création,tf
+chromatogram_is_processed_to,update_user_name,,Processed To,Assemblé Dans,Update User,Utilisateur MàJ,tf
+chromatogram_is_processed_to,date_of_creation,,Processed To,Assemblé Dans,Creation Date,Date Création,tf
+chromatogram_is_processed_to,date_of_update,,Processed To,Assemblé Dans,Update Date,Date MàJ,tf
+composition_of_internal_biological_material,id,,Lot Content,Contenu Lot,id,id,pk
+composition_of_internal_biological_material,number_of_specimens,,Lot Content,Contenu Lot,NumberSpecimens,NombreIndividus,
+composition_of_internal_biological_material,internal_biological_material_composition_comments,,Lot Content,Contenu Lot,Comments,Commentaires,
+composition_of_internal_biological_material,specimen_type_voc_fk,voc,Lot Content,Contenu Lot,SpecimenType,TypeIndividu,fk
+composition_of_internal_biological_material,internal_biological_material_fk,lot_materiel,Lot Content,Contenu Lot,InternalLot,LotInterne,fk
+composition_of_internal_biological_material,creation_user_name,,Lot Content,Contenu Lot,Creation User,Utilisateur Création,tf
+composition_of_internal_biological_material,update_user_name,,Lot Content,Contenu Lot,Update User,Utilisateur MàJ,tf
+composition_of_internal_biological_material,date_of_creation,,Lot Content,Contenu Lot,Creation Date,Date Création,tf
+composition_of_internal_biological_material,date_of_update,,Lot Content,Contenu Lot,Update Date,Date MàJ,tf
 country,id,,Country,Pays,id,id,pk
 country,country_code,,Country,Pays,Code,Code,
 country,country_name,,Country,Pays,Name,Nom,
-country,creation_user_name,,Country,Pays,CreationUser,UtilisateurCreation,tf
-country,update_user_name,,Country,Pays,UpdateUser,UtilisateurMAJ,tf
-country,date_of_creation,,Country,Pays,CreationDate,DateCreation,tf
-country,date_of_update,,Country,Pays,UpdateDate,DateMAJ,tf
+country,creation_user_name,,Country,Pays,Creation User,Utilisateur Création,tf
+country,update_user_name,,Country,Pays,Update User,Utilisateur MàJ,tf
+country,date_of_creation,,Country,Pays,Creation Date,Date Création,tf
+country,date_of_update,,Country,Pays,Update Date,Date MàJ,tf
 dna,id,,Dna,Adn,id,id,pk
 dna,dna_code,,Dna,Adn,Code,Code,
 dna,dna_extraction_date,,Dna,Adn,Date,Date,
@@ -44,223 +44,223 @@ dna,dna_extraction_method_voc_fk,voc,Dna,Adn,ExtractionMethod,MethodeExtraction,
 dna,specimen_fk,individu,Dna,Adn,Specimen,Individu,fk
 dna,dna_quality_voc_fk,voc,Dna,Adn,DnaQuality,QualiteAdn,fk
 dna,storage_box_fk,boite,Dna,Adn,Storage,Stockage,fk
-dna,creation_user_name,,Dna,Adn,CreationUser,UtilisateurCreation,tf
-dna,update_user_name,,Dna,Adn,UpdateUser,UtilisateurMAJ,tf
-dna,date_of_creation,,Dna,Adn,CreationDate,DateCreation,tf
-dna,date_of_update,,Dna,Adn,UpdateDate,DateMAJ,tf
-dna_is_extracted_by,id,,ExtractedBy,ExtraitPar,id,id,pk
-dna_is_extracted_by,dna_fk,adn,ExtractedBy,ExtraitPar,Dna,Adn,fk
-dna_is_extracted_by,person_fk,personne,ExtractedBy,ExtraitPar,Person,Personne,fk
-dna_is_extracted_by,creation_user_name,,ExtractedBy,ExtraitPar,CreationUser,UtilisateurCreation,tf
-dna_is_extracted_by,update_user_name,,ExtractedBy,ExtraitPar,UpdateUser,UtilisateurMAJ,tf
-dna_is_extracted_by,date_of_creation,,ExtractedBy,ExtraitPar,CreationDate,DateCreation,tf
-dna_is_extracted_by,date_of_update,,ExtractedBy,ExtraitPar,UpdateDate,DateMAJ,tf
-external_biological_material,id,,ExternalLot,LotExterne,id,id,pk
-external_biological_material,external_biological_material_code,,ExternalLot,LotExterne,Code,Code,
-external_biological_material,external_biological_material_creation_date,,ExternalLot,LotExterne,Date,Date,
-external_biological_material,external_biological_material_comments,,ExternalLot,LotExterne,ExLotComment,CommentaireExLot,
-external_biological_material,number_of_specimens_comments,,ExternalLot,LotExterne,SpecimenComment,CommentaireIndividu,
-external_biological_material,sampling_fk,collecte,ExternalLot,LotExterne,Sampling,Collecte,fk
-external_biological_material,date_precision_voc_fk,voc,ExternalLot,LotExterne,DatePrecision,PrecisionDate,fk
-external_biological_material,number_of_specimens_voc_fk,voc,ExternalLot,LotExterne,NumberSpecimens,NombreIndividus,fk
-external_biological_material,pigmentation_voc_fk,voc,ExternalLot,LotExterne,Pigmentation,Pigmentation,fk
-external_biological_material,eyes_voc_fk,voc,ExternalLot,LotExterne,Eyes,Yeux,fk
-external_biological_material,creation_user_name,,ExternalLot,LotExterne,CreationUser,UtilisateurCreation,tf
-external_biological_material,update_user_name,,ExternalLot,LotExterne,UpdateUser,UtilisateurMAJ,tf
-external_biological_material,date_of_creation,,ExternalLot,LotExterne,CreationDate,DateCreation,tf
-external_biological_material,date_of_update,,ExternalLot,LotExterne,UpdateDate,DateMAJ,tf
-external_biological_material_is_processed_by,id,,ProcessedBy,RealisePar,id,id,pk
-external_biological_material_is_processed_by,person_fk,personne,ProcessedBy,RealisePar,Person,Personne,fk
-external_biological_material_is_processed_by,external_biological_material_fk,lot_materiel_ext,ProcessedBy,RealisePar,ExternalLot,LotExterne,fk
-external_biological_material_is_processed_by,creation_user_name,,ProcessedBy,RealisePar,CreationUser,UtilisateurCreation,tf
-external_biological_material_is_processed_by,update_user_name,,ProcessedBy,RealisePar,UpdateUser,UtilisateurMAJ,tf
-external_biological_material_is_processed_by,date_of_creation,,ProcessedBy,RealisePar,CreationDate,DateCreation,tf
-external_biological_material_is_processed_by,date_of_update,,ProcessedBy,RealisePar,UpdateDate,DateMAJ,tf
+dna,creation_user_name,,Dna,Adn,Creation User,Utilisateur Création,tf
+dna,update_user_name,,Dna,Adn,Update User,Utilisateur MàJ,tf
+dna,date_of_creation,,Dna,Adn,Creation Date,Date Création,tf
+dna,date_of_update,,Dna,Adn,Update Date,Date MàJ,tf
+dna_is_extracted_by,id,,Extracted By,Extrait Par,id,id,pk
+dna_is_extracted_by,dna_fk,adn,Extracted By,Extrait Par,Dna,Adn,fk
+dna_is_extracted_by,person_fk,personne,Extracted By,Extrait Par,Person,Personne,fk
+dna_is_extracted_by,creation_user_name,,Extracted By,Extrait Par,Creation User,Utilisateur Création,tf
+dna_is_extracted_by,update_user_name,,Extracted By,Extrait Par,Update User,Utilisateur MàJ,tf
+dna_is_extracted_by,date_of_creation,,Extracted By,Extrait Par,Creation Date,Date Création,tf
+dna_is_extracted_by,date_of_update,,Extracted By,Extrait Par,Update Date,Date MàJ,tf
+external_biological_material,id,,External Lot,Lot Externe,id,id,pk
+external_biological_material,external_biological_material_code,,External Lot,Lot Externe,Code,Code,
+external_biological_material,external_biological_material_creation_date,,External Lot,Lot Externe,Date,Date,
+external_biological_material,external_biological_material_comments,,External Lot,Lot Externe,ExLotComment,CommentaireExLot,
+external_biological_material,number_of_specimens_comments,,External Lot,Lot Externe,SpecimenComment,CommentaireIndividu,
+external_biological_material,sampling_fk,collecte,External Lot,Lot Externe,Sampling,Collecte,fk
+external_biological_material,date_precision_voc_fk,voc,External Lot,Lot Externe,DatePrecision,PrecisionDate,fk
+external_biological_material,number_of_specimens_voc_fk,voc,External Lot,Lot Externe,NumberSpecimens,NombreIndividus,fk
+external_biological_material,pigmentation_voc_fk,voc,External Lot,Lot Externe,Pigmentation,Pigmentation,fk
+external_biological_material,eyes_voc_fk,voc,External Lot,Lot Externe,Eyes,Yeux,fk
+external_biological_material,creation_user_name,,External Lot,Lot Externe,Creation User,Utilisateur Création,tf
+external_biological_material,update_user_name,,External Lot,Lot Externe,Update User,Utilisateur MàJ,tf
+external_biological_material,date_of_creation,,External Lot,Lot Externe,Creation Date,Date Création,tf
+external_biological_material,date_of_update,,External Lot,Lot Externe,Update Date,Date MàJ,tf
+external_biological_material_is_processed_by,id,,Processed By,Realisé Par,id,id,pk
+external_biological_material_is_processed_by,person_fk,personne,Processed By,Realisé Par,Person,Personne,fk
+external_biological_material_is_processed_by,external_biological_material_fk,lot_materiel_ext,Processed By,Realisé Par,ExternalLot,LotExterne,fk
+external_biological_material_is_processed_by,creation_user_name,,Processed By,Realisé Par,Creation User,Utilisateur Création,tf
+external_biological_material_is_processed_by,update_user_name,,Processed By,Realisé Par,Update User,Utilisateur MàJ,tf
+external_biological_material_is_processed_by,date_of_creation,,Processed By,Realisé Par,Creation Date,Date Création,tf
+external_biological_material_is_processed_by,date_of_update,,Processed By,Realisé Par,Update Date,Date MàJ,tf
 external_biological_material_is_published_in,id,,ExLotPublishedIn,LotExPublieDans,id,id,pk
 external_biological_material_is_published_in,external_biological_material_fk,lot_materiel_ext,ExLotPublishedIn,LotExPublieDans,ExternalLot,LotExterne,fk
 external_biological_material_is_published_in,source_fk,source,ExLotPublishedIn,LotExPublieDans,Source,Source,fk
-external_biological_material_is_published_in,creation_user_name,,ExLotPublishedIn,LotExPublieDans,CreationUser,UtilisateurCreation,tf
-external_biological_material_is_published_in,update_user_name,,ExLotPublishedIn,LotExPublieDans,UpdateUser,UtilisateurMAJ,tf
-external_biological_material_is_published_in,date_of_creation,,ExLotPublishedIn,LotExPublieDans,CreationDate,DateCreation,tf
-external_biological_material_is_published_in,date_of_update,,ExLotPublishedIn,LotExPublieDans,UpdateDate,DateMAJ,tf
-external_sequence,id,,ExternalSequence,SequenceExterne,id,id,pk
-external_sequence,external_sequence_code,,ExternalSequence,SequenceExterne,Code,Code,
-external_sequence,external_sequence_creation_date,,ExternalSequence,SequenceExterne,Date,Date,
-external_sequence,external_sequence_accession_number,,ExternalSequence,SequenceExterne,AccessionNumber,NumeroAccession,
-external_sequence,external_sequence_alignment_code,,ExternalSequence,SequenceExterne,AlignmentCode,CodeAlignement,
-external_sequence,external_sequence_specimen_number,,ExternalSequence,SequenceExterne,SpecimenNumber,NumeroIndividu,
-external_sequence,external_sequence_primary_taxon,,ExternalSequence,SequenceExterne,PrimaryTaxon,TaxonOrigine,
-external_sequence,external_sequence_comments,,ExternalSequence,SequenceExterne,Comments,Commentaires,
-external_sequence,gene_voc_fk,voc,ExternalSequence,SequenceExterne,Gene,Gene,fk
-external_sequence,date_precision_voc_fk,voc,ExternalSequence,SequenceExterne,DatePrecision,PrecisionDate,fk
-external_sequence,external_sequence_origin_voc_fk,voc,ExternalSequence,SequenceExterne,SequenceOrigin,OrigineSequence,fk
-external_sequence,sampling_fk,collecte,ExternalSequence,SequenceExterne,Sampling,Collecte,fk
-external_sequence,external_sequence_status_voc_fk,voc,ExternalSequence,SequenceExterne,Status,Statut,fk
-external_sequence,creation_user_name,,ExternalSequence,SequenceExterne,CreationUser,UtilisateurCreation,tf
-external_sequence,update_user_name,,ExternalSequence,SequenceExterne,UpdateUser,UtilisateurMAJ,tf
-external_sequence,date_of_creation,,ExternalSequence,SequenceExterne,CreationDate,DateCreation,tf
-external_sequence,date_of_update,,ExternalSequence,SequenceExterne,UpdateDate,DateMAJ,tf
+external_biological_material_is_published_in,creation_user_name,,ExLotPublishedIn,LotExPublieDans,Creation User,Utilisateur Création,tf
+external_biological_material_is_published_in,update_user_name,,ExLotPublishedIn,LotExPublieDans,Update User,Utilisateur MàJ,tf
+external_biological_material_is_published_in,date_of_creation,,ExLotPublishedIn,LotExPublieDans,Creation Date,Date Création,tf
+external_biological_material_is_published_in,date_of_update,,ExLotPublishedIn,LotExPublieDans,Update Date,Date MàJ,tf
+external_sequence,id,,External Sequence,Séquence Externe,id,id,pk
+external_sequence,external_sequence_code,,External Sequence,Séquence Externe,Code,Code,
+external_sequence,external_sequence_creation_date,,External Sequence,Séquence Externe,Date,Date,
+external_sequence,external_sequence_accession_number,,External Sequence,Séquence Externe,Accession Number,Numero Accession,
+external_sequence,external_sequence_alignment_code,,External Sequence,Séquence Externe,Alignment Code,Code Alignement,
+external_sequence,external_sequence_specimen_number,,External Sequence,Séquence Externe,Specimen Number,Numéro Individu,
+external_sequence,external_sequence_primary_taxon,,External Sequence,Séquence Externe,Primary Taxon,Taxon Origine,
+external_sequence,external_sequence_comments,,External Sequence,Séquence Externe,Comments,Commentaires,
+external_sequence,gene_voc_fk,voc,External Sequence,Séquence Externe,Gene,Gène,fk
+external_sequence,date_precision_voc_fk,voc,External Sequence,Séquence Externe,Date Precision,Précision Date,fk
+external_sequence,external_sequence_origin_voc_fk,voc,External Sequence,Séquence Externe,Sequence Origin,Origine Séquence,fk
+external_sequence,sampling_fk,collecte,External Sequence,Séquence Externe,Sampling,Collecte,fk
+external_sequence,external_sequence_status_voc_fk,voc,External Sequence,Séquence Externe,Status,Statut,fk
+external_sequence,creation_user_name,,External Sequence,Séquence Externe,Creation User,Utilisateur Création,tf
+external_sequence,update_user_name,,External Sequence,Séquence Externe,Update User,Utilisateur MàJ,tf
+external_sequence,date_of_creation,,External Sequence,Séquence Externe,Creation Date,Date Création,tf
+external_sequence,date_of_update,,External Sequence,Séquence Externe,Update Date,Date MàJ,tf
 external_sequence_is_entered_by,id,,ExSeqEnteredBy,SeqExSaisiePar,id,id,pk
 external_sequence_is_entered_by,external_sequence_fk,sequence_assemblee_ext,ExSeqEnteredBy,SeqExSaisiePar,ExternalSequence,SequenceExterne,fk
 external_sequence_is_entered_by,person_fk,personne,ExSeqEnteredBy,SeqExSaisiePar,Person,Personne,fk
-external_sequence_is_entered_by,creation_user_name,,ExSeqEnteredBy,SeqExSaisiePar,CreationUser,UtilisateurCreation,tf
-external_sequence_is_entered_by,update_user_name,,ExSeqEnteredBy,SeqExSaisiePar,UpdateUser,UtilisateurMAJ,tf
-external_sequence_is_entered_by,date_of_creation,,ExSeqEnteredBy,SeqExSaisiePar,CreationDate,DateCreation,tf
-external_sequence_is_entered_by,date_of_update,,ExSeqEnteredBy,SeqExSaisiePar,UpdateDate,DateMAJ,tf
+external_sequence_is_entered_by,creation_user_name,,ExSeqEnteredBy,SeqExSaisiePar,Creation User,Utilisateur Création,tf
+external_sequence_is_entered_by,update_user_name,,ExSeqEnteredBy,SeqExSaisiePar,Update User,Utilisateur MàJ,tf
+external_sequence_is_entered_by,date_of_creation,,ExSeqEnteredBy,SeqExSaisiePar,Creation Date,Date Création,tf
+external_sequence_is_entered_by,date_of_update,,ExSeqEnteredBy,SeqExSaisiePar,Update Date,Date MàJ,tf
 external_sequence_is_published_in,id,,ExSeqPublishedIn,SeqExPublieeDans,id,id,pk
 external_sequence_is_published_in,source_fk,source,ExSeqPublishedIn,SeqExPublieeDans,Source,Source,fk
 external_sequence_is_published_in,external_sequence_fk,sequence_assemblee_ext,ExSeqPublishedIn,SeqExPublieeDans,ExternalSequence,SequenceExterne,fk
-external_sequence_is_published_in,creation_user_name,,ExSeqPublishedIn,SeqExPublieeDans,CreationUser,UtilisateurCreation,tf
-external_sequence_is_published_in,update_user_name,,ExSeqPublishedIn,SeqExPublieeDans,UpdateUser,UtilisateurMAJ,tf
-external_sequence_is_published_in,date_of_creation,,ExSeqPublishedIn,SeqExPublieeDans,CreationDate,DateCreation,tf
-external_sequence_is_published_in,date_of_update,,ExSeqPublishedIn,SeqExPublieeDans,UpdateDate,DateMAJ,tf
-identified_species,id,,TaxaIdentification,IdentificationTaxon,id,id,pk
-identified_species,identification_date,,TaxaIdentification,IdentificationTaxon,IdentificationDate,DateIdentification,
-identified_species,identified_species_comments,,TaxaIdentification,IdentificationTaxon,Comments,Commentaires,
-identified_species,identification_criterion_voc_fk,voc,TaxaIdentification,IdentificationTaxon,IdentificationCriterion,CritereIdentification,fk
-identified_species,date_precision_voc_fk,voc,TaxaIdentification,IdentificationTaxon,DatePrecision,PrecisionDate,fk
-identified_species,external_sequence_fk,sequence_assemblee_ext,TaxaIdentification,IdentificationTaxon,ExternalSequence,SequenceExterne,fk
-identified_species,external_biological_material_fk,lot_materiel_ext,TaxaIdentification,IdentificationTaxon,ExternalLot,LotExterne,fk
-identified_species,internal_biological_material_fk,lot_materiel,TaxaIdentification,IdentificationTaxon,InternalLot,LotInterne,fk
-identified_species,taxon_fk,referentiel_taxon,TaxaIdentification,IdentificationTaxon,Taxa,Taxa,fk
-identified_species,specimen_fk,individu,TaxaIdentification,IdentificationTaxon,Specimen,Individu,fk
-identified_species,internal_sequence_fk,sequence_assemblee,TaxaIdentification,IdentificationTaxon,InternalSequence,SequenceInterne,fk
-identified_species,type_material_voc_fk,voc,TaxaIdentification,IdentificationTaxon,TypeMaterial,MaterielType,fk
-identified_species,creation_user_name,,TaxaIdentification,IdentificationTaxon,CreationUser,UtilisateurCreation,tf
-identified_species,update_user_name,,TaxaIdentification,IdentificationTaxon,UpdateUser,UtilisateurMAJ,tf
-identified_species,date_of_creation,,TaxaIdentification,IdentificationTaxon,CreationDate,DateCreation,tf
-identified_species,date_of_update,,TaxaIdentification,IdentificationTaxon,UpdateDate,DateMAJ,tf
-institution,id,,Institution,Etablissement,id,id,pk
-institution,institution_name,,Institution,Etablissement,Name,Nom,
-institution,institution_comments,,Institution,Etablissement,Comments,Commentaires,
-institution,creation_user_name,,Institution,Etablissement,CreationUser,UtilisateurCreation,tf
-institution,update_user_name,,Institution,Etablissement,UpdateUser,UtilisateurMAJ,tf
-institution,date_of_creation,,Institution,Etablissement,CreationDate,DateCreation,tf
-institution,date_of_update,,Institution,Etablissement,UpdateDate,DateMAJ,tf
-internal_biological_material,id,,InternalLot,LotInterne,id,id,pk
-internal_biological_material,internal_biological_material_code,,InternalLot,LotInterne,Code,Code,
-internal_biological_material,internal_biological_material_date,,InternalLot,LotInterne,Date,Date,
-internal_biological_material,sequencing_advice,,InternalLot,LotInterne,SequencingAdvice,ConseilSequencage,
-internal_biological_material,internal_biological_material_comments,,InternalLot,LotInterne,Comments,Commentaires,
-internal_biological_material,internal_biological_material_status,,InternalLot,LotInterne,Status,Statut,
-internal_biological_material,date_precision_voc_fk,voc,InternalLot,LotInterne,DatePrecision,PrecisionDate,fk
-internal_biological_material,pigmentation_voc_fk,voc,InternalLot,LotInterne,Pigmentation,Pigmentation,fk
-internal_biological_material,eyes_voc_fk,voc,InternalLot,LotInterne,Eyes,Yeux,fk
-internal_biological_material,sampling_fk,collecte,InternalLot,LotInterne,Sampling,Collecte,fk
-internal_biological_material,storage_box_fk,boite,InternalLot,LotInterne,Storage,Stockage,fk
-internal_biological_material,creation_user_name,,InternalLot,LotInterne,CreationUser,UtilisateurCreation,tf
-internal_biological_material,update_user_name,,InternalLot,LotInterne,UpdateUser,UtilisateurMAJ,tf
-internal_biological_material,date_of_creation,,InternalLot,LotInterne,CreationDate,DateCreation,tf
-internal_biological_material,date_of_update,,InternalLot,LotInterne,UpdateDate,DateMAJ,tf
+external_sequence_is_published_in,creation_user_name,,ExSeqPublishedIn,SeqExPublieeDans,Creation User,Utilisateur Création,tf
+external_sequence_is_published_in,update_user_name,,ExSeqPublishedIn,SeqExPublieeDans,Update User,Utilisateur MàJ,tf
+external_sequence_is_published_in,date_of_creation,,ExSeqPublishedIn,SeqExPublieeDans,Creation Date,Date Création,tf
+external_sequence_is_published_in,date_of_update,,ExSeqPublishedIn,SeqExPublieeDans,Update Date,Date MàJ,tf
+identified_species,id,,Taxa Identification,Identification Taxon,id,id,pk
+identified_species,identification_date,,Taxa Identification,Identification Taxon,Identification Date,Date d’identification,
+identified_species,identified_species_comments,,Taxa Identification,Identification Taxon,Comments,Commentaires,
+identified_species,identification_criterion_voc_fk,voc,Taxa Identification,Identification Taxon,Identification Criterion,Critere d’identification,fk
+identified_species,date_precision_voc_fk,voc,Taxa Identification,Identification Taxon,Date Precision,Précision Date,fk
+identified_species,external_sequence_fk,sequence_assemblee_ext,Taxa Identification,Identification Taxon,External Sequence,Séquence Externe,fk
+identified_species,external_biological_material_fk,lot_materiel_ext,Taxa Identification,Identification Taxon,External Lot,Lot Externe,fk
+identified_species,internal_biological_material_fk,lot_materiel,Taxa Identification,Identification Taxon,Internal Lot,Lot Interne,fk
+identified_species,taxon_fk,referentiel_taxon,Taxa Identification,Identification Taxon,Taxa,Taxa,fk
+identified_species,specimen_fk,individu,Taxa Identification,Identification Taxon,Specimen,Individu,fk
+identified_species,internal_sequence_fk,sequence_assemblee,Taxa Identification,Identification Taxon,Internal Sequence,Séquence Interne,fk
+identified_species,type_material_voc_fk,voc,Taxa Identification,Identification Taxon,Type Material,Materiel Type,fk
+identified_species,creation_user_name,,Taxa Identification,Identification Taxon,Creation User,Utilisateur Création,tf
+identified_species,update_user_name,,Taxa Identification,Identification Taxon,Update User,Utilisateur MàJ,tf
+identified_species,date_of_creation,,Taxa Identification,Identification Taxon,Creation Date,Date Création,tf
+identified_species,date_of_update,,Taxa Identification,Identification Taxon,Update Date,Date MàJ,tf
+institution,id,,Institution,Établissement,id,id,pk
+institution,institution_name,,Institution,Établissement,Name,Nom,
+institution,institution_comments,,Institution,Établissement,Comments,Commentaires,
+institution,creation_user_name,,Institution,Établissement,Creation User,Utilisateur Création,tf
+institution,update_user_name,,Institution,Établissement,Update User,Utilisateur MàJ,tf
+institution,date_of_creation,,Institution,Établissement,Creation Date,Date Création,tf
+institution,date_of_update,,Institution,Établissement,Update Date,Date MàJ,tf
+internal_biological_material,id,,Internal Lot,Lot Interne,id,id,pk
+internal_biological_material,internal_biological_material_code,,Internal Lot,Lot Interne,Code,Code,
+internal_biological_material,internal_biological_material_date,,Internal Lot,Lot Interne,Date,Date,
+internal_biological_material,sequencing_advice,,Internal Lot,Lot Interne,Sequencing Advice,Conseil Séquencage,
+internal_biological_material,internal_biological_material_comments,,Internal Lot,Lot Interne,Comments,Commentaires,
+internal_biological_material,internal_biological_material_status,,Internal Lot,Lot Interne,Status,Statut,
+internal_biological_material,date_precision_voc_fk,voc,Internal Lot,Lot Interne,Date Precision,Précision Date,fk
+internal_biological_material,pigmentation_voc_fk,voc,Internal Lot,Lot Interne,Pigmentation,Pigmentation,fk
+internal_biological_material,eyes_voc_fk,voc,Internal Lot,Lot Interne,Eyes,Yeux,fk
+internal_biological_material,sampling_fk,collecte,Internal Lot,Lot Interne,Sampling,Collecte,fk
+internal_biological_material,storage_box_fk,boite,Internal Lot,Lot Interne,Storage,Stockage,fk
+internal_biological_material,creation_user_name,,Internal Lot,Lot Interne,Creation User,Utilisateur Création,tf
+internal_biological_material,update_user_name,,Internal Lot,Lot Interne,Update User,Utilisateur MàJ,tf
+internal_biological_material,date_of_creation,,Internal Lot,Lot Interne,Creation Date,Date Création,tf
+internal_biological_material,date_of_update,,Internal Lot,Lot Interne,Update Date,Date MàJ,tf
 internal_biological_material_is_published_in,id,,InLotPublishedIn,LotIntPublieDans,id,id,pk
 internal_biological_material_is_published_in,internal_biological_material_fk,lot_materiel,InLotPublishedIn,LotIntPublieDans,InternalLot,LotInterne,fk
 internal_biological_material_is_published_in,source_fk,source,InLotPublishedIn,LotIntPublieDans,Source,Source,fk
-internal_biological_material_is_published_in,creation_user_name,,InLotPublishedIn,LotIntPublieDans,CreationUser,UtilisateurCreation,tf
-internal_biological_material_is_published_in,update_user_name,,InLotPublishedIn,LotIntPublieDans,UpdateUser,UtilisateurMAJ,tf
-internal_biological_material_is_published_in,date_of_creation,,InLotPublishedIn,LotIntPublieDans,CreationDate,DateCreation,tf
-internal_biological_material_is_published_in,date_of_update,,InLotPublishedIn,LotIntPublieDans,UpdateDate,DateMAJ,tf
-internal_biological_material_is_treated_by,id,,TreatedBy,TraitePar,id,id,pk
-internal_biological_material_is_treated_by,internal_biological_material_fk,lot_materiel,TreatedBy,TraitePar,InternalLot,LotInterne,fk
-internal_biological_material_is_treated_by,person_fk,personne,TreatedBy,TraitePar,Person,Personne,fk
-internal_biological_material_is_treated_by,creation_user_name,,TreatedBy,TraitePar,CreationUser,UtilisateurCreation,tf
-internal_biological_material_is_treated_by,update_user_name,,TreatedBy,TraitePar,UpdateUser,UtilisateurMAJ,tf
-internal_biological_material_is_treated_by,date_of_creation,,TreatedBy,TraitePar,CreationDate,DateCreation,tf
-internal_biological_material_is_treated_by,date_of_update,,TreatedBy,TraitePar,UpdateDate,DateMAJ,tf
-internal_sequence,id,,InternalSequence,SequenceInterne,id,id,pk
-internal_sequence,internal_sequence_code,,InternalSequence,SequenceInterne,Code,Code,
-internal_sequence,internal_sequence_creation_date,,InternalSequence,SequenceInterne,Date,Date,
-internal_sequence,internal_sequence_accession_number,,InternalSequence,SequenceInterne,AccessionNumber,NumeroAccession,
-internal_sequence,internal_sequence_alignment_code,,InternalSequence,SequenceInterne,AlignmentCode,CodeAlignement,
-internal_sequence,internal_sequence_comments,,InternalSequence,SequenceInterne,Comments,Commentaires,
-internal_sequence,date_precision_voc_fk,voc,InternalSequence,SequenceInterne,DatePrecision,PrecisionDate,fk
-internal_sequence,internal_sequence_status_voc_fk,voc,InternalSequence,SequenceInterne,Status,Statut,fk
-internal_sequence,creation_user_name,,InternalSequence,SequenceInterne,CreationUser,UtilisateurCreation,tf
-internal_sequence,update_user_name,,InternalSequence,SequenceInterne,UpdateUser,UtilisateurMAJ,tf
-internal_sequence,date_of_creation,,InternalSequence,SequenceInterne,CreationDate,DateCreation,tf
-internal_sequence,date_of_update,,InternalSequence,SequenceInterne,UpdateDate,DateMAJ,tf
-internal_sequence_is_assembled_by,id,,AssembledBy,AssembleePar,id,id,pk
-internal_sequence_is_assembled_by,internal_sequence_fk,sequence_assemblee,AssembledBy,AssembleePar,InternalSequence,SequenceInterne,fk
-internal_sequence_is_assembled_by,person_fk,personne,AssembledBy,AssembleePar,Person,Personne,fk
-internal_sequence_is_assembled_by,creation_user_name,,AssembledBy,AssembleePar,CreationUser,UtilisateurCreation,tf
-internal_sequence_is_assembled_by,update_user_name,,AssembledBy,AssembleePar,UpdateUser,UtilisateurMAJ,tf
-internal_sequence_is_assembled_by,date_of_creation,,AssembledBy,AssembleePar,CreationDate,DateCreation,tf
-internal_sequence_is_assembled_by,date_of_update,,AssembledBy,AssembleePar,UpdateDate,DateMAJ,tf
+internal_biological_material_is_published_in,creation_user_name,,InLotPublishedIn,LotIntPublieDans,Creation User,Utilisateur Création,tf
+internal_biological_material_is_published_in,update_user_name,,InLotPublishedIn,LotIntPublieDans,Update User,Utilisateur MàJ,tf
+internal_biological_material_is_published_in,date_of_creation,,InLotPublishedIn,LotIntPublieDans,Creation Date,Date Création,tf
+internal_biological_material_is_published_in,date_of_update,,InLotPublishedIn,LotIntPublieDans,Update Date,Date MàJ,tf
+internal_biological_material_is_treated_by,id,,Treated By,Traité Par,id,id,pk
+internal_biological_material_is_treated_by,internal_biological_material_fk,lot_materiel,Treated By,Traité Par,InternalLot,LotInterne,fk
+internal_biological_material_is_treated_by,person_fk,personne,Treated By,Traité Par,Person,Personne,fk
+internal_biological_material_is_treated_by,creation_user_name,,Treated By,Traité Par,Creation User,Utilisateur Création,tf
+internal_biological_material_is_treated_by,update_user_name,,Treated By,Traité Par,Update User,Utilisateur MàJ,tf
+internal_biological_material_is_treated_by,date_of_creation,,Treated By,Traité Par,Creation Date,Date Création,tf
+internal_biological_material_is_treated_by,date_of_update,,Treated By,Traité Par,Update Date,Date MàJ,tf
+internal_sequence,id,,Internal Sequence,Séquence Interne,id,id,pk
+internal_sequence,internal_sequence_code,,Internal Sequence,Séquence Interne,Code,Code,
+internal_sequence,internal_sequence_creation_date,,Internal Sequence,Séquence Interne,Date,Date,
+internal_sequence,internal_sequence_accession_number,,Internal Sequence,Séquence Interne,AccessionNumber,NumeroAccession,
+internal_sequence,internal_sequence_alignment_code,,Internal Sequence,Séquence Interne,AlignmentCode,CodeAlignement,
+internal_sequence,internal_sequence_comments,,Internal Sequence,Séquence Interne,Comments,Commentaires,
+internal_sequence,date_precision_voc_fk,voc,Internal Sequence,Séquence Interne,DatePrecision,PrecisionDate,fk
+internal_sequence,internal_sequence_status_voc_fk,voc,Internal Sequence,Séquence Interne,Status,Statut,fk
+internal_sequence,creation_user_name,,Internal Sequence,Séquence Interne,Creation User,Utilisateur Création,tf
+internal_sequence,update_user_name,,Internal Sequence,Séquence Interne,Update User,Utilisateur MàJ,tf
+internal_sequence,date_of_creation,,Internal Sequence,Séquence Interne,Creation Date,Date Création,tf
+internal_sequence,date_of_update,,Internal Sequence,Séquence Interne,Update Date,Date MàJ,tf
+internal_sequence_is_assembled_by,id,,Assembled By,Assemblée Par,id,id,pk
+internal_sequence_is_assembled_by,internal_sequence_fk,sequence_assemblee,Assembled By,Assemblée Par,InternalSequence,SequenceInterne,fk
+internal_sequence_is_assembled_by,person_fk,personne,Assembled By,Assemblée Par,Person,Personne,fk
+internal_sequence_is_assembled_by,creation_user_name,,Assembled By,Assemblée Par,Creation User,Utilisateur Création,tf
+internal_sequence_is_assembled_by,update_user_name,,Assembled By,Assemblée Par,Update User,Utilisateur MàJ,tf
+internal_sequence_is_assembled_by,date_of_creation,,Assembled By,Assemblée Par,Creation Date,Date Création,tf
+internal_sequence_is_assembled_by,date_of_update,,Assembled By,Assemblée Par,Update Date,Date MàJ,tf
 internal_sequence_is_published_in,id,,InSeqPublishedIn,SeqInPublieeDans,id,id,pk
 internal_sequence_is_published_in,source_fk,source,InSeqPublishedIn,SeqInPublieeDans,Source,Source,fk
 internal_sequence_is_published_in,internal_sequence_fk,sequence_assemblee,InSeqPublishedIn,SeqInPublieeDans,InternalSequence,SequenceInterne,fk
-internal_sequence_is_published_in,creation_user_name,,InSeqPublishedIn,SeqInPublieeDans,CreationUser,UtilisateurCreation,tf
-internal_sequence_is_published_in,update_user_name,,InSeqPublishedIn,SeqInPublieeDans,UpdateUser,UtilisateurMAJ,tf
-internal_sequence_is_published_in,date_of_creation,,InSeqPublishedIn,SeqInPublieeDans,CreationDate,DateCreation,tf
-internal_sequence_is_published_in,date_of_update,,InSeqPublishedIn,SeqInPublieeDans,UpdateDate,DateMAJ,tf
+internal_sequence_is_published_in,creation_user_name,,InSeqPublishedIn,SeqInPublieeDans,Creation User,Utilisateur Création,tf
+internal_sequence_is_published_in,update_user_name,,InSeqPublishedIn,SeqInPublieeDans,Update User,Utilisateur MàJ,tf
+internal_sequence_is_published_in,date_of_creation,,InSeqPublishedIn,SeqInPublieeDans,Creation Date,Date Création,tf
+internal_sequence_is_published_in,date_of_update,,InSeqPublishedIn,SeqInPublieeDans,Update Date,Date MàJ,tf
 motu,id,,Motu,Motu,id,id,pk
-motu,csv_file_name,,Motu,Motu,FileName,NomFichier,
+motu,csv_file_name,,Motu,Motu,File Name,Nom Fichier,
 motu,motu_date,,Motu,Motu,Date,Date,
 motu,motu_comments,,Motu,Motu,Comments,Commentaires,
-motu,motu_title,,Motu,Motu,Title,Libelle,
-motu,creation_user_name,,Motu,Motu,CreationUser,UtilisateurCreation,tf
-motu,update_user_name,,Motu,Motu,UpdateUser,UtilisateurMAJ,tf
-motu,date_of_creation,,Motu,Motu,CreationDate,DateCreation,tf
-motu,date_of_update,,Motu,Motu,UpdateDate,DateMAJ,tf
-motu_is_generated_by,id,,GeneratedBy,GenerePar,id,id,pk
-motu_is_generated_by,motu_fk,motu,GeneratedBy,GenerePar,Motu,Motu,fk
-motu_is_generated_by,person_fk,personne,GeneratedBy,GenerePar,Person,Personne,fk
-motu_is_generated_by,creation_user_name,,GeneratedBy,GenerePar,CreationUser,UtilisateurCreation,tf
-motu_is_generated_by,update_user_name,,GeneratedBy,GenerePar,UpdateUser,UtilisateurMAJ,tf
-motu_is_generated_by,date_of_creation,,GeneratedBy,GenerePar,CreationDate,DateCreation,tf
-motu_is_generated_by,date_of_update,,GeneratedBy,GenerePar,UpdateDate,DateMAJ,tf
-motu_number,id,,MotuNumber,NumeroMotu,id,id,pk
-motu_number,motu_number,,MotuNumber,NumeroMotu,Number,Numero,
-motu_number,external_sequence_fk,sequence_assemblee_ext,MotuNumber,NumeroMotu,ExternalSequence,SequenceExterne,fk
-motu_number,delimitation_method_voc_fk,voc,MotuNumber,NumeroMotu,MethodMotu,MethodeMotu,fk
-motu_number,internal_sequence_fk,sequence_assemblee,MotuNumber,NumeroMotu,InternalSequence,SequenceInterne,fk
-motu_number,motu_fk,motu,MotuNumber,NumeroMotu,Motu,Motu,fk
-motu_number,creation_user_name,,MotuNumber,NumeroMotu,CreationUser,UtilisateurCreation,tf
-motu_number,update_user_name,,MotuNumber,NumeroMotu,UpdateUser,UtilisateurMAJ,tf
-motu_number,date_of_creation,,MotuNumber,NumeroMotu,CreationDate,DateCreation,tf
-motu_number,date_of_update,,MotuNumber,NumeroMotu,UpdateDate,DateMAJ,tf
+motu,motu_title,,Motu,Motu,Title,Libellé,
+motu,creation_user_name,,Motu,Motu,Creation User,Utilisateur Création,tf
+motu,update_user_name,,Motu,Motu,Update User,Utilisateur MàJ,tf
+motu,date_of_creation,,Motu,Motu,Creation Date,Date Création,tf
+motu,date_of_update,,Motu,Motu,Update Date,Date MàJ,tf
+motu_is_generated_by,id,,Generated By,Généré Par,id,id,pk
+motu_is_generated_by,motu_fk,motu,Generated By,Généré Par,Motu,Motu,fk
+motu_is_generated_by,person_fk,personne,Generated By,Généré Par,Person,Personne,fk
+motu_is_generated_by,creation_user_name,,Generated By,Généré Par,Creation User,Utilisateur Création,tf
+motu_is_generated_by,update_user_name,,Generated By,Généré Par,Update User,Utilisateur MàJ,tf
+motu_is_generated_by,date_of_creation,,Generated By,Généré Par,Creation Date,Date Création,tf
+motu_is_generated_by,date_of_update,,Generated By,Généré Par,Update Date,Date MàJ,tf
+motu_number,id,,Motu Number,Numéro Motu,id,id,pk
+motu_number,motu_number,,Motu Number,Numéro Motu,Number,Numéro,
+motu_number,external_sequence_fk,sequence_assemblee_ext,Motu Number,Numéro Motu,External Sequence,Séquence Externe,fk
+motu_number,delimitation_method_voc_fk,voc,Motu Number,Numéro Motu,Method Motu,Méthode Motu,fk
+motu_number,internal_sequence_fk,sequence_assemblee,Motu Number,Numéro Motu,Internal Sequence,Séquence Interne,fk
+motu_number,motu_fk,motu,Motu Number,Numéro Motu,Motu,Motu,fk
+motu_number,creation_user_name,,Motu Number,Numéro Motu,Creation User,Utilisateur Création,tf
+motu_number,update_user_name,,Motu Number,Numéro Motu,Update User,Utilisateur MàJ,tf
+motu_number,date_of_creation,,Motu Number,Numéro Motu,Creation Date,Date Création,tf
+motu_number,date_of_update,,Motu Number,Numéro Motu,Update Date,Date MàJ,tf
 municipality,id,,Municipality,Commune,id,id,pk
 municipality,municipality_code,,Municipality,Commune,Code,Code,
 municipality,municipality_name,,Municipality,Commune,Name,Nom,
-municipality,region_name,,Municipality,Commune,Region,Region,
+municipality,region_name,,Municipality,Commune,Region,Région,
 municipality,country_fk,pays,Municipality,Commune,Country,Pays,fk
-municipality,creation_user_name,,Municipality,Commune,CreationUser,UtilisateurCreation,tf
-municipality,update_user_name,,Municipality,Commune,UpdateUser,UtilisateurMAJ,tf
-municipality,date_of_creation,,Municipality,Commune,CreationDate,DateCreation,tf
-municipality,date_of_update,,Municipality,Commune,UpdateDate,DateMAJ,tf
+municipality,creation_user_name,,Municipality,Commune,Creation User,Utilisateur Création,tf
+municipality,update_user_name,,Municipality,Commune,Update User,Utilisateur MàJ,tf
+municipality,date_of_creation,,Municipality,Commune,Creation Date,Date Création,tf
+municipality,date_of_update,,Municipality,Commune,Update Date,Date MàJ,tf
 pcr,id,,Pcr,Pcr,id,id,pk
 pcr,pcr_code,,Pcr,Pcr,Code,Code,
-pcr,pcr_number,,Pcr,Pcr,Number,Numero,
+pcr,pcr_number,,Pcr,Pcr,Number,Numéro,
 pcr,pcr_date,,Pcr,Pcr,Date,Date,
-pcr,pcr_details,,Pcr,Pcr,Details,Details,
+pcr,pcr_details,,Pcr,Pcr,Details,Détails,
 pcr,pcr_comments,,Pcr,Pcr,Comments,Commentaires,
-pcr,gene_voc_fk,voc,Pcr,Pcr,Gene,Gene,fk
-pcr,pcr_quality_voc_fk,voc,Pcr,Pcr,PcrQuality,QualitePcr,fk
-pcr,pcr_specificity_voc_fk,voc,Pcr,Pcr,Specificity,Specificite,fk
-pcr,forward_primer_voc_fk,voc,Pcr,Pcr,ForwardPrimer,ForwardPrimer,fk
-pcr,reverse_primer_voc_fk,voc,Pcr,Pcr,ReversePrimer,ReversePrimer,fk
-pcr,date_precision_voc_fk,voc,Pcr,Pcr,DatePrecision,PrecisionDate,fk
-pcr,dna_fk,adn,Pcr,Pcr,Dna,Adn,fk
-pcr,creation_user_name,,Pcr,Pcr,CreationUser,UtilisateurCreation,tf
-pcr,update_user_name,,Pcr,Pcr,UpdateUser,UtilisateurMAJ,tf
-pcr,date_of_creation,,Pcr,Pcr,CreationDate,DateCreation,tf
-pcr,date_of_update,,Pcr,Pcr,UpdateDate,DateMAJ,tf
-pcr_is_done_by,id,,DoneBy,AmplificationPar,id,id,pk
-pcr_is_done_by,pcr_fk,pcr,DoneBy,AmplificationPar,Pcr,Pcr,fk
-pcr_is_done_by,person_fk,personne,DoneBy,AmplificationPar,Person,Personne,fk
-pcr_is_done_by,creation_user_name,,DoneBy,AmplificationPar,CreationUser,UtilisateurCreation,tf
-pcr_is_done_by,update_user_name,,DoneBy,AmplificationPar,UpdateUser,UtilisateurMAJ,tf
-pcr_is_done_by,date_of_creation,,DoneBy,AmplificationPar,CreationDate,DateCreation,tf
-pcr_is_done_by,date_of_update,,DoneBy,AmplificationPar,UpdateDate,DateMAJ,tf
+pcr,gene_voc_fk,voc,Pcr,Pcr,Gene,Gène,fk
+pcr,pcr_quality_voc_fk,voc,Pcr,Pcr,Quality,Qualité,fk
+pcr,pcr_specificity_voc_fk,voc,Pcr,Pcr,Specificity,Specificité,fk
+pcr,forward_primer_voc_fk,voc,Pcr,Pcr,Forward Primer,Forward Primer,fk
+pcr,reverse_primer_voc_fk,voc,Pcr,Pcr,Reverse Primer,Reverse Primer,fk
+pcr,date_precision_voc_fk,voc,Pcr,Pcr,DatePrecision,Précision Date,fk
+pcr,dna_fk,adn,Pcr,Pcr,DNA,ADN,fk
+pcr,creation_user_name,,Pcr,Pcr,Creation User,Utilisateur Création,tf
+pcr,update_user_name,,Pcr,Pcr,Update User,Utilisateur MàJ,tf
+pcr,date_of_creation,,Pcr,Pcr,Creation Date,Date Création,tf
+pcr,date_of_update,,Pcr,Pcr,Update Date,Date MàJ,tf
+pcr_is_done_by,id,,Done By,Amplification Par,id,id,pk
+pcr_is_done_by,pcr_fk,pcr,Done By,Amplification Par,Pcr,Pcr,fk
+pcr_is_done_by,person_fk,personne,Done By,Amplification Par,Person,Personne,fk
+pcr_is_done_by,creation_user_name,,Done By,Amplification Par,Creation User,Utilisateur Création,tf
+pcr_is_done_by,update_user_name,,Done By,Amplification Par,Update User,Utilisateur MàJ,tf
+pcr_is_done_by,date_of_creation,,Done By,Amplification Par,Creation Date,Date Création,tf
+pcr_is_done_by,date_of_update,,Done By,Amplification Par,Update Date,Date MàJ,tf
 person,id,,Person,Personne,id,id,pk
 person,person_name,,Person,Personne,Name,Nom,
 person,person_full_name,,Person,Personne,FullName,NomComplet,
 person,person_name_bis,,Person,Personne,NameBis,NomBis,
 person,person_comments,,Person,Personne,Comments,Commentaires,
 person,institution_fk,etablissement,Person,Personne,Institution,Etablissement,fk
-person,creation_user_name,,Person,Personne,CreationUser,UtilisateurCreation,tf
-person,update_user_name,,Person,Personne,UpdateUser,UtilisateurMAJ,tf
-person,date_of_creation,,Person,Personne,CreationDate,DateCreation,tf
-person,date_of_update,,Person,Personne,UpdateDate,DateMAJ,tf
+person,creation_user_name,,Person,Personne,Creation User,Utilisateur Création,tf
+person,update_user_name,,Person,Personne,Update User,Utilisateur MàJ,tf
+person,date_of_creation,,Person,Personne,Creation Date,Date Création,tf
+person,date_of_update,,Person,Personne,Update Date,Date MàJ,tf
 program,id,,Program,Programme,id,id,pk
 program,program_code,,Program,Programme,Acronym,Acronyme,
 program,program_name,,Program,Programme,ProgramName,NomProgramme,
@@ -269,60 +269,60 @@ program,funding_agency,,Program,Programme,FundingAgency,Financeur,
 program,starting_year,,Program,Programme,StartingYear,AnneeDebut,
 program,ending_year,,Program,Programme,EndingYear,AnneeFin,
 program,program_comments,,Program,Programme,Comments,Commentaires,
-program,creation_user_name,,Program,Programme,CreationUser,UtilisateurCreation,tf
-program,update_user_name,,Program,Programme,UpdateUser,UtilisateurMAJ,tf
-program,date_of_creation,,Program,Programme,CreationDate,DateCreation,tf
-program,date_of_update,,Program,Programme,UpdateDate,DateMAJ,tf
-sample_is_fixed_with,id,,FixedWith,FixeeAvec,id,id,pk
-sample_is_fixed_with,fixative_voc_fk,voc,FixedWith,FixeeAvec,Fixative,Fixateur,fk
-sample_is_fixed_with,sampling_fk,collecte,FixedWith,FixeeAvec,Sampling,Collecte,fk
-sample_is_fixed_with,creation_user_name,,FixedWith,FixeeAvec,CreationUser,UtilisateurCreation,tf
-sample_is_fixed_with,update_user_name,,FixedWith,FixeeAvec,UpdateUser,UtilisateurMAJ,tf
-sample_is_fixed_with,date_of_creation,,FixedWith,FixeeAvec,CreationDate,DateCreation,tf
-sample_is_fixed_with,date_of_update,,FixedWith,FixeeAvec,UpdateDate,DateMAJ,tf
+program,creation_user_name,,Program,Programme,Creation User,Utilisateur Création,tf
+program,update_user_name,,Program,Programme,Update User,Utilisateur MàJ,tf
+program,date_of_creation,,Program,Programme,Creation Date,Date Création,tf
+program,date_of_update,,Program,Programme,Update Date,Date MàJ,tf
+sample_is_fixed_with,id,,Fixed With,Fixée Avec,id,id,pk
+sample_is_fixed_with,fixative_voc_fk,voc,Fixed With,Fixée Avec,Fixative,Fixateur,fk
+sample_is_fixed_with,sampling_fk,collecte,Fixed With,Fixée Avec,Sampling,Collecte,fk
+sample_is_fixed_with,creation_user_name,,Fixed With,Fixée Avec,Creation User,Utilisateur Création,tf
+sample_is_fixed_with,update_user_name,,Fixed With,Fixée Avec,Update User,Utilisateur MàJ,tf
+sample_is_fixed_with,date_of_creation,,Fixed With,Fixée Avec,Creation Date,Date Création,tf
+sample_is_fixed_with,date_of_update,,Fixed With,Fixée Avec,Update Date,Date MàJ,tf
 sampling,id,,Sampling,Collecte,id,id,pk
 sampling,sample_code,,Sampling,Collecte,Code,Code,
 sampling,sampling_date,,Sampling,Collecte,Date,Date,
-sampling,sampling_duration,,Sampling,Collecte,Duration,Duree,
-sampling,temperature,,Sampling,Collecte,Temperature,Temperature,
-sampling,specific_conductance,,Sampling,Collecte,Conductivity,Conductivite,
+sampling,sampling_duration,,Sampling,Collecte,Duration,Durée,
+sampling,temperature,,Sampling,Collecte,Temperature,Température,
+sampling,specific_conductance,,Sampling,Collecte,Conductivity,Conductivité,
 sampling,sample_status,,Sampling,Collecte,Status,Statut,
 sampling,sampling_comments,,Sampling,Collecte,Comments,Commentaires,
-sampling,date_precision_voc_fk,voc,Sampling,Collecte,DatePrecision,PrecisionDate,fk
+sampling,date_precision_voc_fk,voc,Sampling,Collecte,Date Precision,Précision Date,fk
 sampling,donation_voc_fk,voc,Sampling,Collecte,Donation,Leg,fk
 sampling,site_fk,station,Sampling,Collecte,Site,Station,fk
-sampling,creation_user_name,,Sampling,Collecte,CreationUser,UtilisateurCreation,tf
-sampling,update_user_name,,Sampling,Collecte,UpdateUser,UtilisateurMAJ,tf
-sampling,date_of_creation,,Sampling,Collecte,CreationDate,DateCreation,tf
-sampling,date_of_update,,Sampling,Collecte,UpdateDate,DateMAJ,tf
-has_targeted_taxa,id,,TargetedTaxa,TaxonCible,id,id,pk
-has_targeted_taxa,sampling_fk,collecte,TargetedTaxa,TaxonCible,Sampling,Collecte,fk
-has_targeted_taxa,taxon_fk,referentiel_taxon,TargetedTaxa,TaxonCible,Taxa,Taxa,fk
-has_targeted_taxa,creation_user_name,,TargetedTaxa,TaxonCible,CreationUser,UtilisateurCreation,tf
-has_targeted_taxa,update_user_name,,TargetedTaxa,TaxonCible,UpdateUser,UtilisateurMAJ,tf
-has_targeted_taxa,date_of_creation,,TargetedTaxa,TaxonCible,CreationDate,DateCreation,tf
-has_targeted_taxa,date_of_update,,TargetedTaxa,TaxonCible,UpdateDate,DateMAJ,tf
-sampling_is_done_with_method,id,,DoneWith,CollecteeAvec,id,id,pk
-sampling_is_done_with_method,sampling_method_voc_fk,voc,DoneWith,CollecteeAvec,SamplingMethod,MethodeEchantillon,fk
-sampling_is_done_with_method,sampling_fk,collecte,DoneWith,CollecteeAvec,Sampling,Collecte,fk
-sampling_is_done_with_method,creation_user_name,,DoneWith,CollecteeAvec,CreationUser,UtilisateurCreation,tf
-sampling_is_done_with_method,update_user_name,,DoneWith,CollecteeAvec,UpdateUser,UtilisateurMAJ,tf
-sampling_is_done_with_method,date_of_creation,,DoneWith,CollecteeAvec,CreationDate,DateCreation,tf
-sampling_is_done_with_method,date_of_update,,DoneWith,CollecteeAvec,UpdateDate,DateMAJ,tf
-sampling_is_funded_by,id,,FundedBy,FinancePar,id,id,pk
-sampling_is_funded_by,program_fk,programme,FundedBy,FinancePar,Program,Programme,fk
-sampling_is_funded_by,sampling_fk,collecte,FundedBy,FinancePar,Sampling,Collecte,fk
-sampling_is_funded_by,creation_user_name,,FundedBy,FinancePar,CreationUser,UtilisateurCreation,tf
-sampling_is_funded_by,update_user_name,,FundedBy,FinancePar,UpdateUser,UtilisateurMAJ,tf
-sampling_is_funded_by,date_of_creation,,FundedBy,FinancePar,CreationDate,DateCreation,tf
-sampling_is_funded_by,date_of_update,,FundedBy,FinancePar,UpdateDate,DateMAJ,tf
-sampling_is_performed_by,id,,PerformedBy,CollecteePar,id,id,pk
-sampling_is_performed_by,person_fk,personne,PerformedBy,CollecteePar,Person,Personne,fk
-sampling_is_performed_by,sampling_fk,collecte,PerformedBy,CollecteePar,Sampling,Collecte,fk
-sampling_is_performed_by,creation_user_name,,PerformedBy,CollecteePar,CreationUser,UtilisateurCreation,tf
-sampling_is_performed_by,update_user_name,,PerformedBy,CollecteePar,UpdateUser,UtilisateurMAJ,tf
-sampling_is_performed_by,date_of_creation,,PerformedBy,CollecteePar,CreationDate,DateCreation,tf
-sampling_is_performed_by,date_of_update,,PerformedBy,CollecteePar,UpdateDate,DateMAJ,tf
+sampling,creation_user_name,,Sampling,Collecte,Creation User,Utilisateur Création,tf
+sampling,update_user_name,,Sampling,Collecte,Update User,Utilisateur MàJ,tf
+sampling,date_of_creation,,Sampling,Collecte,Creation Date,Date Création,tf
+sampling,date_of_update,,Sampling,Collecte,Update Date,Date MàJ,tf
+has_targeted_taxa,id,,Targeted Taxa,Taxon Cible,id,id,pk
+has_targeted_taxa,sampling_fk,collecte,Targeted Taxa,Taxon Cible,Sampling,Collecte,fk
+has_targeted_taxa,taxon_fk,referentiel_taxon,Targeted Taxa,Taxon Cible,Taxa,Taxa,fk
+has_targeted_taxa,creation_user_name,,Targeted Taxa,Taxon Cible,Creation User,Utilisateur Création,tf
+has_targeted_taxa,update_user_name,,Targeted Taxa,Taxon Cible,Update User,Utilisateur MàJ,tf
+has_targeted_taxa,date_of_creation,,Targeted Taxa,Taxon Cible,Creation Date,Date Création,tf
+has_targeted_taxa,date_of_update,,Targeted Taxa,Taxon Cible,Update Date,Date MàJ,tf
+sampling_is_done_with_method,id,,Done With,Collectée Avec,id,id,pk
+sampling_is_done_with_method,sampling_method_voc_fk,voc,Done With,Collectée Avec,Sampling Method,Méthode Échantillon,fk
+sampling_is_done_with_method,sampling_fk,collecte,Done With,Collectée Avec,Sampling,Collecte,fk
+sampling_is_done_with_method,creation_user_name,,Done With,Collectée Avec,Creation User,Utilisateur Création,tf
+sampling_is_done_with_method,update_user_name,,Done With,Collectée Avec,Update User,Utilisateur MàJ,tf
+sampling_is_done_with_method,date_of_creation,,Done With,Collectée Avec,Creation Date,Date Création,tf
+sampling_is_done_with_method,date_of_update,,Done With,Collectée Avec,Update Date,Date MàJ,tf
+sampling_is_funded_by,id,,Funded By,Financé Par,id,id,pk
+sampling_is_funded_by,program_fk,programme,Funded By,Financé Par,Program,Programme,fk
+sampling_is_funded_by,sampling_fk,collecte,Funded By,Financé Par,Sampling,Collecte,fk
+sampling_is_funded_by,creation_user_name,,Funded By,Financé Par,Creation User,Utilisateur Création,tf
+sampling_is_funded_by,update_user_name,,Funded By,Financé Par,Update User,Utilisateur MàJ,tf
+sampling_is_funded_by,date_of_creation,,Funded By,Financé Par,Creation Date,Date Création,tf
+sampling_is_funded_by,date_of_update,,Funded By,Financé Par,Update Date,Date MàJ,tf
+sampling_is_performed_by,id,,Performed By,Collectée Par,id,id,pk
+sampling_is_performed_by,person_fk,personne,Performed By,Collectée Par,Person,Personne,fk
+sampling_is_performed_by,sampling_fk,collecte,Performed By,Collectée Par,Sampling,Collecte,fk
+sampling_is_performed_by,creation_user_name,,Performed By,Collectée Par,Creation User,Utilisateur Création,tf
+sampling_is_performed_by,update_user_name,,Performed By,Collectée Par,Update User,Utilisateur MàJ,tf
+sampling_is_performed_by,date_of_creation,,Performed By,Collectée Par,Creation Date,Date Création,tf
+sampling_is_performed_by,date_of_update,,Performed By,Collectée Par,Update Date,Date MàJ,tf
 site,id,,Site,Station,id,id,pk
 site,site_code,,Site,Station,Code,Code,
 site,site_name,,Site,Station,Name,Nom,
@@ -334,118 +334,118 @@ site,site_description,,Site,Station,Description,Description,
 site,site_comments,,Site,Station,Comments,Commentaires,
 site,municipality_fk,commune,Site,Station,Municipality,Commune,fk
 site,country_fk,pays,Site,Station,Country,Pays,fk
-site,access_point_voc_fk,voc,Site,Station,Access,Acces,fk
+site,access_point_voc_fk,voc,Site,Station,Access,Accès,fk
 site,habitat_type_voc_fk,voc,Site,Station,Habitat,Habitat,fk
-site,coordinate_precision_voc_fk,voc,Site,Station,LatLongPrecision,PrecisionLatLong,fk
-site,creation_user_name,,Site,Station,CreationUser,UtilisateurCreation,tf
-site,update_user_name,,Site,Station,UpdateUser,UtilisateurMAJ,tf
-site,date_of_creation,,Site,Station,CreationDate,DateCreation,tf
-site,date_of_update,,Site,Station,UpdateDate,DateMAJ,tf
-slide_is_mounted_by,id,,MountedBy,MonteePar,id,id,pk
-slide_is_mounted_by,specimen_slide_fk,individu_lame,MountedBy,MonteePar,Person,Personne,fk
-slide_is_mounted_by,person_fk,personne,MountedBy,MonteePar,Person,Personne,fk
-slide_is_mounted_by,creation_user_name,,MountedBy,MonteePar,CreationUser,UtilisateurCreation,tf
-slide_is_mounted_by,update_user_name,,MountedBy,MonteePar,UpdateUser,UtilisateurMAJ,tf
-slide_is_mounted_by,date_of_creation,,MountedBy,MonteePar,CreationDate,DateCreation,tf
-slide_is_mounted_by,date_of_update,,MountedBy,MonteePar,UpdateDate,DateMAJ,tf
+site,coordinate_precision_voc_fk,voc,Site,Station,Location Accuracy,Precision Localisation,fk
+site,creation_user_name,,Site,Station,Creation User,Utilisateur Création,tf
+site,update_user_name,,Site,Station,Update User,Utilisateur MàJ,tf
+site,date_of_creation,,Site,Station,Creation Date,Date Création,tf
+site,date_of_update,,Site,Station,Update Date,Date MàJ,tf
+slide_is_mounted_by,id,,Mounted By,Montée Par,id,id,pk
+slide_is_mounted_by,specimen_slide_fk,individu_lame,Mounted By,Montée Par,Specimen Slide,Lame Individu ,fk
+slide_is_mounted_by,person_fk,personne,Mounted By,Montée Par,Person,Personne,fk
+slide_is_mounted_by,creation_user_name,,Mounted By,Montée Par,Creation User,Utilisateur Création,tf
+slide_is_mounted_by,update_user_name,,Mounted By,Montée Par,Update User,Utilisateur MàJ,tf
+slide_is_mounted_by,date_of_creation,,Mounted By,Montée Par,Creation Date,Date Création,tf
+slide_is_mounted_by,date_of_update,,Mounted By,Montée Par,Update Date,Date MàJ,tf
 source,id,,Source,Source,id,id,pk
 source,source_code,,Source,Source,Code,Code,
-source,source_year,,Source,Source,Year,Annee,
-source,source_title,,Source,Source,Title,Libelle,
+source,source_year,,Source,Source,Year,Année,
+source,source_title,,Source,Source,Title,Libellé,
 source,source_comments,,Source,Source,Comments,Commentaires,
-source,creation_user_name,,Source,Source,CreationUser,UtilisateurCreation,tf
-source,update_user_name,,Source,Source,UpdateUser,UtilisateurMAJ,tf
-source,date_of_creation,,Source,Source,CreationDate,DateCreation,tf
-source,date_of_update,,Source,Source,UpdateDate,DateMAJ,tf
-source_is_entered_by,id,,EnteredBy,SaisiePar,id,id,pk
-source_is_entered_by,source_fk,source,EnteredBy,SaisiePar,Source,Source,fk
-source_is_entered_by,person_fk,personne,EnteredBy,SaisiePar,Person,Personne,fk
-source_is_entered_by,creation_user_name,,EnteredBy,SaisiePar,CreationUser,UtilisateurCreation,tf
-source_is_entered_by,update_user_name,,EnteredBy,SaisiePar,UpdateUser,UtilisateurMAJ,tf
-source_is_entered_by,date_of_creation,,EnteredBy,SaisiePar,CreationDate,DateCreation,tf
-source_is_entered_by,date_of_update,,EnteredBy,SaisiePar,UpdateDate,DateMAJ,tf
-species_is_identified_by,id,,IdentifiedBy,IdentifiePar,id,id,pk
-species_is_identified_by,identified_species_fk,espece_identifiee,IdentifiedBy,IdentifiePar,TaxaIdentification,IdentificationTaxon,fk
-species_is_identified_by,person_fk,personne,IdentifiedBy,IdentifiePar,Person,Personne,fk
-species_is_identified_by,creation_user_name,,IdentifiedBy,IdentifiePar,CreationUser,UtilisateurCreation,tf
-species_is_identified_by,update_user_name,,IdentifiedBy,IdentifiePar,UpdateUser,UtilisateurMAJ,tf
-species_is_identified_by,date_of_creation,,IdentifiedBy,IdentifiePar,CreationDate,DateCreation,tf
-species_is_identified_by,date_of_update,,IdentifiedBy,IdentifiePar,UpdateDate,DateMAJ,tf
+source,creation_user_name,,Source,Source,Creation User,Utilisateur Création,tf
+source,update_user_name,,Source,Source,Update User,Utilisateur MàJ,tf
+source,date_of_creation,,Source,Source,Creation Date,Date Création,tf
+source,date_of_update,,Source,Source,Update Date,Date MàJ,tf
+source_is_entered_by,id,,Entered By,Saisie Par,id,id,pk
+source_is_entered_by,source_fk,source,Entered By,Saisie Par,Source,Source,fk
+source_is_entered_by,person_fk,personne,Entered By,Saisie Par,Person,Personne,fk
+source_is_entered_by,creation_user_name,,Entered By,Saisie Par,Creation User,Utilisateur Création,tf
+source_is_entered_by,update_user_name,,Entered By,Saisie Par,Update User,Utilisateur MàJ,tf
+source_is_entered_by,date_of_creation,,Entered By,Saisie Par,Creation Date,Date Création,tf
+source_is_entered_by,date_of_update,,Entered By,Saisie Par,Update Date,Date MàJ,tf
+species_is_identified_by,id,,Identified By,Identifié Par,id,id,pk
+species_is_identified_by,identified_species_fk,espece_identifiee,Identified By,Identifié Par,Taxa Identification,Identification Taxon,fk
+species_is_identified_by,person_fk,personne,Identified By,Identifié Par,Person,Personne,fk
+species_is_identified_by,creation_user_name,,Identified By,Identifié Par,Creation User,Utilisateur Création,tf
+species_is_identified_by,update_user_name,,Identified By,Identifié Par,Update User,Utilisateur MàJ,tf
+species_is_identified_by,date_of_creation,,Identified By,Identifié Par,Creation Date,Date Création,tf
+species_is_identified_by,date_of_update,,Identified By,Identifié Par,Update Date,Date MàJ,tf
 specimen,id,,Specimen,Individu,id,id,pk
-specimen,specimen_molecular_code,,Specimen,Individu,MolecularCode,CodeIndBiomol,
-specimen,specimen_morphological_code,,Specimen,Individu,MorphologicalCode,CodeIndMorpho,
-specimen,tube_code,,Specimen,Individu,TubeCode,CodeTube,
-specimen,specimen_molecular_number,,Specimen,Individu,MolecularNumber,NumeroIndividu,
+specimen,specimen_molecular_code,,Specimen,Individu,Molecular Code,Code Ind. Biomol.,
+specimen,specimen_morphological_code,,Specimen,Individu,Morphological Code,Code Ind. Morpho.,
+specimen,tube_code,,Specimen,Individu,Tube Code,Code Tube,
+specimen,specimen_molecular_number,,Specimen,Individu,Molecular Number,Numéro Individu,
 specimen,specimen_comments,,Specimen,Individu,Comments,Commentaires,
-specimen,specimen_type_voc_fk,voc,Specimen,Individu,SpecimenType,TypeIndividu,fk
-specimen,internal_biological_material_fk,lot_materiel,Specimen,Individu,InternalLot,LotInterne,fk
-specimen,creation_user_name,,Specimen,Individu,CreationUser,UtilisateurCreation,tf
-specimen,update_user_name,,Specimen,Individu,UpdateUser,UtilisateurMAJ,tf
-specimen,date_of_creation,,Specimen,Individu,CreationDate,DateCreation,tf
-specimen,date_of_update,,Specimen,Individu,UpdateDate,DateMAJ,tf
+specimen,specimen_type_voc_fk,voc,Specimen,Individu,Specimen Type,Type Individu,fk
+specimen,internal_biological_material_fk,lot_materiel,Specimen,Individu,Internal Lot,Lot Interne,fk
+specimen,creation_user_name,,Specimen,Individu,Creation User,Utilisateur Création,tf
+specimen,update_user_name,,Specimen,Individu,Update User,Utilisateur MàJ,tf
+specimen,date_of_creation,,Specimen,Individu,Creation Date,Date Création,tf
+specimen,date_of_update,,Specimen,Individu,Update Date,Date MàJ,tf
 specimen_slide,id,,Slide,Lame,id,id,pk
 specimen_slide,collection_slide_code,,Slide,Lame,Code,Code,
-specimen_slide,slide_title,,Slide,Lame,Title,Libelle,
-specimen_slide,slide_date,,Slide,Lame,SlideDate,DateLame,
-specimen_slide,photo_folder_name,,Slide,Lame,PhotoFolder,DossierPhoto,
+specimen_slide,slide_title,,Slide,Lame,Title,Libellé,
+specimen_slide,slide_date,,Slide,Lame,Slide Date,Date Lame,
+specimen_slide,photo_folder_name,,Slide,Lame,Photo Folder,Dossier Photo,
 specimen_slide,slide_comments,,Slide,Lame,Comments,Commentaires,
-specimen_slide,date_precision_voc_fk,voc,Slide,Lame,DatePrecision,PrecisionDate,fk
+specimen_slide,date_precision_voc_fk,voc,Slide,Lame,Date Precision,Précision Date,fk
 specimen_slide,storage_box_fk,boite,Slide,Lame,Storage,Stockage,fk
 specimen_slide,specimen_fk,individu,Slide,Lame,Specimen,Individu,fk
-specimen_slide,creation_user_name,,Slide,Lame,CreationUser,UtilisateurCreation,tf
-specimen_slide,update_user_name,,Slide,Lame,UpdateUser,UtilisateurMAJ,tf
-specimen_slide,date_of_creation,,Slide,Lame,CreationDate,DateCreation,tf
-specimen_slide,date_of_update,,Slide,Lame,UpdateDate,DateMAJ,tf
+specimen_slide,creation_user_name,,Slide,Lame,Creation User,Utilisateur Création,tf
+specimen_slide,update_user_name,,Slide,Lame,Update User,Utilisateur MàJ,tf
+specimen_slide,date_of_creation,,Slide,Lame,Creation Date,Date Création,tf
+specimen_slide,date_of_update,,Slide,Lame,Update Date,Date MàJ,tf
 storage_box,id,,Storage,Stockage,id,id,pk
-storage_box,box_code,,Storage,Stockage,BoxCode,CodeBoite,
-storage_box,box_title,,Storage,Stockage,BoxTitle,LibelleBoite,
+storage_box,box_code,,Storage,Stockage,Box Code,Code Boite,
+storage_box,box_title,,Storage,Stockage,Box Title,Libellé Boite,
 storage_box,box_comments,,Storage,Stockage,Comments,Commentaires,
-storage_box,collection_type_voc_fk,voc,Storage,Stockage,CollectionType,TypeCollection,fk
-storage_box,collection_code_voc_fk,voc,Storage,Stockage,CollectionCode,CodeCollection,fk
-storage_box,box_type_voc_fk,voc,Storage,Stockage,BoxType,TypeBoite,fk
-storage_box,creation_user_name,,Storage,Stockage,CreationUser,UtilisateurCreation,tf
-storage_box,update_user_name,,Storage,Stockage,UpdateUser,UtilisateurMAJ,tf
-storage_box,date_of_creation,,Storage,Stockage,CreationDate,DateCreation,tf
-storage_box,date_of_update,,Storage,Stockage,UpdateDate,DateMAJ,tf
+storage_box,collection_type_voc_fk,voc,Storage,Stockage,Collection Type,Type Collection,fk
+storage_box,collection_code_voc_fk,voc,Storage,Stockage,Collection Code,Code Collection,fk
+storage_box,box_type_voc_fk,voc,Storage,Stockage,Box Type,Type Boite,fk
+storage_box,creation_user_name,,Storage,Stockage,Creation User,Utilisateur Création,tf
+storage_box,update_user_name,,Storage,Stockage,Update User,Utilisateur MàJ,tf
+storage_box,date_of_creation,,Storage,Stockage,Creation Date,Date Création,tf
+storage_box,date_of_update,,Storage,Stockage,Update Date,Date MàJ,tf
 taxon,id,,Taxa,Taxa,id,id,pk
-taxon,taxon_name,,Taxa,Taxa,TaxonName,NomTaxon,
-taxon,taxon_full_name,,Taxa,Taxa,TaxonFullName,NomEntier,
+taxon,taxon_name,,Taxa,Taxa,Taxon Name,Nom,
+taxon,taxon_full_name,,Taxa,Taxa,Taxon Fullname,Nom Entier,
 taxon,taxon_rank,,Taxa,Taxa,Rank,Rang,
-taxon,subclass,,Taxa,Taxa,Subclass,SousClasse,
+taxon,subclass,,Taxa,Taxa,Subclass,Sous-classe,
 taxon,taxon_order,,Taxa,Taxa,Order,Ordre,
 taxon,family,,Taxa,Taxa,Family,Famille,
 taxon,genus,,Taxa,Taxa,Genus,Genre,
-taxon,species,,Taxa,Taxa,Species,Espece,
-taxon,subspecies,,Taxa,Taxa,subspecies,SousEspece,
-taxon,taxon_validity,,Taxa,Taxa,Validity,Validite,
-taxon,taxon_code,,Taxa,Taxa,TaxonCode,CodeTaxon,
+taxon,species,,Taxa,Taxa,Species,Espèce,
+taxon,subspecies,,Taxa,Taxa,Subspecies,Sous-espèce,
+taxon,taxon_validity,,Taxa,Taxa,Validity,Validité,
+taxon,taxon_code,,Taxa,Taxa,Taxon Code,Code Taxon,
 taxon,taxon_comments,,Taxa,Taxa,Comments,Commentaires,
 taxon,clade,,Taxa,Taxa,Clade,Clade,
 taxon,taxon_synonym,,Taxa,Taxa,Synonym,Synonyme,
-taxon,creation_user_name,,Taxa,Taxa,CreationUser,UtilisateurCreation,tf
-taxon,update_user_name,,Taxa,Taxa,UpdateUser,UtilisateurMAJ,tf
-taxon,date_of_creation,,Taxa,Taxa,CreationDate,DateCreation,tf
-taxon,date_of_update,,Taxa,Taxa,UpdateDate,DateMAJ,tf
+taxon,creation_user_name,,Taxa,Taxa,Creation User,Utilisateur Création,tf
+taxon,update_user_name,,Taxa,Taxa,Update User,Utilisateur MàJ,tf
+taxon,date_of_creation,,Taxa,Taxa,Creation Date,Date Création,tf
+taxon,date_of_update,,Taxa,Taxa,Update Date,Date MàJ,tf
 user_db,id,,User,Utilisateur,id,id,pk
 user_db,user_name,,User,Utilisateur,Name,Nom,
-user_db,user_password,,User,Utilisateur,Password,MotPasse,
+user_db,user_password,,User,Utilisateur,Password,Mot de passe,
 user_db,user_role,,User,Utilisateur,Role,Role,
-user_db,user_full_name,,User,Utilisateur,FullName,NomPlein,
+user_db,user_full_name,,User,Utilisateur,Full Name,Nom complet,
 user_db,user_email,,User,Utilisateur,Email,Email,
 user_db,user_institution,,User,Utilisateur,Institution,Institution,
 user_db,user_comments,,User,Utilisateur,Comments,Commentaires,
 user_db,salt,,User,Utilisateur,Salt,Salt,
-user_db,user_is_active,,User,Utilisateur,IsActive,EstActif,
-user_db,creation_user_name,,User,Utilisateur,CreationUser,UtilisateurCreation,tf
-user_db,update_user_name,,User,Utilisateur,UpdateUser,UtilisateurMAJ,tf
-user_db,date_of_creation,,User,Utilisateur,CreationDate,DateCreation,tf
-user_db,date_of_update,,User,Utilisateur,UpdateDate,DateMAJ,tf
+user_db,user_is_active,,User,Utilisateur,Is Active,Est Actif,
+user_db,creation_user_name,,User,Utilisateur,Creation User,Utilisateur Création,tf
+user_db,update_user_name,,User,Utilisateur,Update User,Utilisateur MàJ,tf
+user_db,date_of_creation,,User,Utilisateur,Creation Date,Date Création,tf
+user_db,date_of_update,,User,Utilisateur,Update Date,Date MàJ,tf
 vocabulary,id,,Vocabulary,Vocabulaire,id,id,pk
-vocabulary,vocabulary_code,,Vocabulary,Vocabulaire,Code,Code,
-vocabulary,vocabulary_title,,Vocabulary,Vocabulaire,Title,Libelle,
+vocabulary,code,,Vocabulary,Vocabulaire,Code,Code,
+vocabulary,vocabulary_title,,Vocabulary,Vocabulaire,Title,Libellé,
 vocabulary,parent,,Vocabulary,Vocabulaire,Parent,Parent,
 vocabulary,voc_comments,,Vocabulary,Vocabulaire,Comments,Commentaires,
-vocabulary,creation_user_name,,Vocabulary,Vocabulaire,CreationUser,UtilisateurCreation,tf
-vocabulary,update_user_name,,Vocabulary,Vocabulaire,UpdateUser,UtilisateurMAJ,tf
-vocabulary,date_of_creation,,Vocabulary,Vocabulaire,CreationDate,DateCreation,tf
-vocabulary,date_of_update,,Vocabulary,Vocabulaire,UpdateDate,DateMAJ,tf
+vocabulary,creation_user_name,,Vocabulary,Vocabulaire,Creation User,Utilisateur Création,tf
+vocabulary,update_user_name,,Vocabulary,Vocabulaire,Update User,Utilisateur MàJ,tf
+vocabulary,date_of_creation,,Vocabulary,Vocabulaire,Creation Date,Date Création,tf
+vocabulary,date_of_update,,Vocabulary,Vocabulaire,Update Date,Date MàJ,tf
