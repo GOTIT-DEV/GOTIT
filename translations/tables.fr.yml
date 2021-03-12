@@ -1,42 +1,42 @@
 chromatogram: Chromatogramme
-chromatogram_is_processed_to: AssembleDans
-composition_of_internal_biological_material: ContenuLot
+chromatogram_is_processed_to: Assemblé Dans
+composition_of_internal_biological_material: Contenu Lot
 country: Pays
 dna: Adn
-dna_is_extracted_by: ExtraitPar
-external_biological_material: LotExterne
-external_biological_material_is_processed_by: RealisePar
+dna_is_extracted_by: Extrait Par
+external_biological_material: Lot Externe
+external_biological_material_is_processed_by: Realisé Par
 external_biological_material_is_published_in: LotExPublieDans
-external_sequence: SequenceExterne
+external_sequence: Séquence Externe
 external_sequence_is_entered_by: SeqExSaisiePar
 external_sequence_is_published_in: SeqExPublieeDans
-identified_species: IdentificationTaxon
-institution: Etablissement
-internal_biological_material: LotInterne
+identified_species: Identification Taxon
+institution: Établissement
+internal_biological_material: Lot Interne
 internal_biological_material_is_published_in: LotIntPublieDans
-internal_biological_material_is_treated_by: TraitePar
-internal_sequence: SequenceInterne
-internal_sequence_is_assembled_by: AssembleePar
+internal_biological_material_is_treated_by: Traité Par
+internal_sequence: Séquence Interne
+internal_sequence_is_assembled_by: Assemblée Par
 internal_sequence_is_published_in: SeqInPublieeDans
 motu: Motu
-motu_is_generated_by: GenerePar
-motu_number: NumeroMotu
+motu_is_generated_by: Généré Par
+motu_number: Numéro Motu
 municipality: Commune
 pcr: Pcr
-pcr_is_done_by: AmplificationPar
+pcr_is_done_by: Amplification Par
 person: Personne
 program: Programme
-sample_is_fixed_with: FixeeAvec
+sample_is_fixed_with: Fixée Avec
 sampling: Collecte
-has_targeted_taxa: TaxonCible
-sampling_is_done_with_method: CollecteeAvec
-sampling_is_funded_by: FinancePar
-sampling_is_performed_by: CollecteePar
+has_targeted_taxa: Taxon Cible
+sampling_is_done_with_method: Collectée Avec
+sampling_is_funded_by: Financé Par
+sampling_is_performed_by: Collectée Par
 site: Station
-slide_is_mounted_by: MonteePar
+slide_is_mounted_by: Montée Par
 source: Source
-source_is_entered_by: SaisiePar
-species_is_identified_by: IdentifiePar
+source_is_entered_by: Saisie Par
+species_is_identified_by: Identifié Par
 specimen: Individu
 specimen_slide: Lame
 storage_box: Stockage

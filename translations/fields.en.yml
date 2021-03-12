@@ -1,42 +1,42 @@
 chromatogram:
   id: id
   chromatogram_code: Code
-  chromatogram_number: ChromatoNumber
+  chromatogram_number: Chromato Number
   chromatogram_comments: Comments
-  chromato_primer_voc_fk: ChromatoPrimer
-  chromato_quality_voc_fk: ChromatoQuality
+  chromato_primer_voc_fk: Primer
+  chromato_quality_voc_fk: Quality
   institution_fk: Institution
-  pcr_fk: Pcr
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  pcr_fk: PCR
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 chromatogram_is_processed_to:
   id: id
   chromatogram_fk: Chromatogram
   internal_sequence_fk: InternalSequence
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 composition_of_internal_biological_material:
   id: id
   number_of_specimens: NumberSpecimens
   internal_biological_material_composition_comments: Comments
   specimen_type_voc_fk: SpecimenType
   internal_biological_material_fk: InternalLot
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 country:
   id: id
   country_code: Code
   country_name: Name
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 dna:
   id: id
   dna_code: Code
@@ -48,18 +48,18 @@ dna:
   specimen_fk: Specimen
   dna_quality_voc_fk: DnaQuality
   storage_box_fk: Storage
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 dna_is_extracted_by:
   id: id
   dna_fk: Dna
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_biological_material:
   id: id
   external_biological_material_code: Code
@@ -71,117 +71,117 @@ external_biological_material:
   number_of_specimens_voc_fk: NumberSpecimens
   pigmentation_voc_fk: Pigmentation
   eyes_voc_fk: Eyes
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_biological_material_is_processed_by:
   id: id
   person_fk: Person
   external_biological_material_fk: ExternalLot
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_biological_material_is_published_in:
   id: id
   external_biological_material_fk: ExternalLot
   source_fk: Source
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_sequence:
   id: id
   external_sequence_code: Code
   external_sequence_creation_date: Date
-  external_sequence_accession_number: AccessionNumber
-  external_sequence_alignment_code: AlignmentCode
-  external_sequence_specimen_number: SpecimenNumber
-  external_sequence_primary_taxon: PrimaryTaxon
+  external_sequence_accession_number: Accession Number
+  external_sequence_alignment_code: Alignment Code
+  external_sequence_specimen_number: Specimen Number
+  external_sequence_primary_taxon: Primary Taxon
   external_sequence_comments: Comments
   gene_voc_fk: Gene
-  date_precision_voc_fk: DatePrecision
-  external_sequence_origin_voc_fk: SequenceOrigin
+  date_precision_voc_fk: Date Precision
+  external_sequence_origin_voc_fk: Sequence Origin
   sampling_fk: Sampling
   external_sequence_status_voc_fk: Status
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_sequence_is_entered_by:
   id: id
   external_sequence_fk: ExternalSequence
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 external_sequence_is_published_in:
   id: id
   source_fk: Source
   external_sequence_fk: ExternalSequence
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 identified_species:
   id: id
-  identification_date: IdentificationDate
+  identification_date: Identification Date
   identified_species_comments: Comments
-  identification_criterion_voc_fk: IdentificationCriterion
-  date_precision_voc_fk: DatePrecision
-  external_sequence_fk: ExternalSequence
-  external_biological_material_fk: ExternalLot
-  internal_biological_material_fk: InternalLot
+  identification_criterion_voc_fk: Identification Criterion
+  date_precision_voc_fk: Date Precision
+  external_sequence_fk: External Sequence
+  external_biological_material_fk: External Lot
+  internal_biological_material_fk: Internal Lot
   taxon_fk: Taxa
   specimen_fk: Specimen
-  internal_sequence_fk: InternalSequence
-  type_material_voc_fk: TypeMaterial
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  internal_sequence_fk: Internal Sequence
+  type_material_voc_fk: Type Material
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 institution:
   id: id
   institution_name: Name
   institution_comments: Comments
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_biological_material:
   id: id
   internal_biological_material_code: Code
   internal_biological_material_date: Date
-  sequencing_advice: SequencingAdvice
+  sequencing_advice: Sequencing Advice
   internal_biological_material_comments: Comments
   internal_biological_material_status: Status
-  date_precision_voc_fk: DatePrecision
+  date_precision_voc_fk: Date Precision
   pigmentation_voc_fk: Pigmentation
   eyes_voc_fk: Eyes
   sampling_fk: Sampling
   storage_box_fk: Storage
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_biological_material_is_published_in:
   id: id
   internal_biological_material_fk: InternalLot
   source_fk: Source
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_biological_material_is_treated_by:
   id: id
   internal_biological_material_fk: InternalLot
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_sequence:
   id: id
   internal_sequence_code: Code
@@ -191,65 +191,65 @@ internal_sequence:
   internal_sequence_comments: Comments
   date_precision_voc_fk: DatePrecision
   internal_sequence_status_voc_fk: Status
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_sequence_is_assembled_by:
   id: id
   internal_sequence_fk: InternalSequence
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 internal_sequence_is_published_in:
   id: id
   source_fk: Source
   internal_sequence_fk: InternalSequence
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 motu:
   id: id
-  csv_file_name: FileName
+  csv_file_name: File Name
   motu_date: Date
   motu_comments: Comments
   motu_title: Title
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 motu_is_generated_by:
   id: id
   motu_fk: Motu
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 motu_number:
   id: id
   motu_number: Number
-  external_sequence_fk: ExternalSequence
-  delimitation_method_voc_fk: MethodMotu
-  internal_sequence_fk: InternalSequence
+  external_sequence_fk: External Sequence
+  delimitation_method_voc_fk: Method Motu
+  internal_sequence_fk: Internal Sequence
   motu_fk: Motu
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 municipality:
   id: id
   municipality_code: Code
   municipality_name: Name
   region_name: Region
   country_fk: Country
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 pcr:
   id: id
   pcr_code: Code
@@ -258,24 +258,24 @@ pcr:
   pcr_details: Details
   pcr_comments: Comments
   gene_voc_fk: Gene
-  pcr_quality_voc_fk: PcrQuality
+  pcr_quality_voc_fk: Quality
   pcr_specificity_voc_fk: Specificity
-  forward_primer_voc_fk: ForwardPrimer
-  reverse_primer_voc_fk: ReversePrimer
+  forward_primer_voc_fk: Forward Primer
+  reverse_primer_voc_fk: Reverse Primer
   date_precision_voc_fk: DatePrecision
-  dna_fk: Dna
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  dna_fk: DNA
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 pcr_is_done_by:
   id: id
   pcr_fk: Pcr
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 person:
   id: id
   person_name: Name
@@ -283,10 +283,10 @@ person:
   person_name_bis: NameBis
   person_comments: Comments
   institution_fk: Institution
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 program:
   id: id
   program_code: Acronym
@@ -296,18 +296,18 @@ program:
   starting_year: StartingYear
   ending_year: EndingYear
   program_comments: Comments
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 sample_is_fixed_with:
   id: id
   fixative_voc_fk: Fixative
   sampling_fk: Sampling
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 sampling:
   id: id
   sample_code: Code
@@ -317,45 +317,45 @@ sampling:
   specific_conductance: Conductivity
   sample_status: Status
   sampling_comments: Comments
-  date_precision_voc_fk: DatePrecision
+  date_precision_voc_fk: Date Precision
   donation_voc_fk: Donation
   site_fk: Site
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 has_targeted_taxa:
   id: id
   sampling_fk: Sampling
   taxon_fk: Taxa
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 sampling_is_done_with_method:
   id: id
-  sampling_method_voc_fk: SamplingMethod
+  sampling_method_voc_fk: Sampling Method
   sampling_fk: Sampling
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 sampling_is_funded_by:
   id: id
   program_fk: Program
   sampling_fk: Sampling
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 sampling_is_performed_by:
   id: id
   person_fk: Person
   sampling_fk: Sampling
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 site:
   id: id
   site_code: Code
@@ -370,126 +370,126 @@ site:
   country_fk: Country
   access_point_voc_fk: Access
   habitat_type_voc_fk: Habitat
-  coordinate_precision_voc_fk: LatLongPrecision
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  coordinate_precision_voc_fk: Location Accuracy
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 slide_is_mounted_by:
   id: id
-  specimen_slide_fk: Person
+  specimen_slide_fk: Specimen Slide
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 source:
   id: id
   source_code: Code
   source_year: Year
   source_title: Title
   source_comments: Comments
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 source_is_entered_by:
   id: id
   source_fk: Source
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 species_is_identified_by:
   id: id
-  identified_species_fk: TaxaIdentification
+  identified_species_fk: Taxa Identification
   person_fk: Person
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 specimen:
   id: id
-  specimen_molecular_code: MolecularCode
-  specimen_morphological_code: MorphologicalCode
-  tube_code: TubeCode
-  specimen_molecular_number: MolecularNumber
+  specimen_molecular_code: Molecular Code
+  specimen_morphological_code: Morphological Code
+  tube_code: Tube Code
+  specimen_molecular_number: Molecular Number
   specimen_comments: Comments
-  specimen_type_voc_fk: SpecimenType
-  internal_biological_material_fk: InternalLot
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  specimen_type_voc_fk: Specimen Type
+  internal_biological_material_fk: Internal Lot
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 specimen_slide:
   id: id
   collection_slide_code: Code
   slide_title: Title
-  slide_date: SlideDate
-  photo_folder_name: PhotoFolder
+  slide_date: Slide Date
+  photo_folder_name: Photo Folder
   slide_comments: Comments
-  date_precision_voc_fk: DatePrecision
+  date_precision_voc_fk: Date Precision
   storage_box_fk: Storage
   specimen_fk: Specimen
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 storage_box:
   id: id
-  box_code: BoxCode
-  box_title: BoxTitle
+  box_code: Box Code
+  box_title: Box Title
   box_comments: Comments
-  collection_type_voc_fk: CollectionType
-  collection_code_voc_fk: CollectionCode
-  box_type_voc_fk: BoxType
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  collection_type_voc_fk: Collection Type
+  collection_code_voc_fk: Collection Code
+  box_type_voc_fk: Box Type
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 taxon:
   id: id
-  taxon_name: TaxonName
-  taxon_full_name: TaxonFullName
+  taxon_name: Taxon Name
+  taxon_full_name: Taxon Fullname
   taxon_rank: Rank
   subclass: Subclass
   taxon_order: Order
   family: Family
   genus: Genus
   species: Species
-  subspecies: subspecies
+  subspecies: Subspecies
   taxon_validity: Validity
-  taxon_code: TaxonCode
+  taxon_code: Taxon Code
   taxon_comments: Comments
   clade: Clade
   taxon_synonym: Synonym
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 user_db:
   id: id
   user_name: Name
   user_password: Password
   user_role: Role
-  user_full_name: FullName
+  user_full_name: Full Name
   user_email: Email
   user_institution: Institution
   user_comments: Comments
   salt: Salt
-  user_is_active: IsActive
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  user_is_active: Is Active
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
 vocabulary:
   id: id
-  vocabulary_code: Code
+  code: Code
   vocabulary_title: Title
   parent: Parent
   voc_comments: Comments
-  creation_user_name: CreationUser
-  update_user_name: UpdateUser
-  date_of_creation: CreationDate
-  date_of_update: UpdateDate
+  creation_user_name: Creation User
+  update_user_name: Update User
+  date_of_creation: Creation Date
+  date_of_update: Update Date
