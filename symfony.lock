@@ -78,7 +78,7 @@
         "version": "v4.10.2"
     },
     "php": {
-        "version": "7.4"
+        "version": "7.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
