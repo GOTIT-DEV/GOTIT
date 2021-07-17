@@ -2,9 +2,7 @@ import "bootstrap-select/dist/css/bootstrap-select.min.css"
 import "../css/forms.less"
 
 import "bootstrap-select"
-import select2 from "select2/dist/js/select2.full"
-
-select2($)
+import "select2"
 require('select2/src/scss/core.scss');
 require('@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css');
 

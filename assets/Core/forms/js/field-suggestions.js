@@ -1,3 +1,5 @@
+import 'select2'
+
 export function initSearchSelect(
   $element,
   route,
