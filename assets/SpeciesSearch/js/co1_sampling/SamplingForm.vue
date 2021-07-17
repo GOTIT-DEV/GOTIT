@@ -13,9 +13,9 @@
 
 <script>
 // Components
-import ButtonLoading from "../../../components/ButtonLoading";
-import TogglablePanel from "../components/TogglablePanel";
-import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
+import ButtonLoading from "~Components/ButtonLoading";
+import TogglablePanel from "~SpeciesSearch/js/components/TogglablePanel";
+import TaxonomySelect from "~SpeciesSearch/js/components/taxonomy/TaxonomySelect";
 import i18n from "../i18n";
 
 export default {

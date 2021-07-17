@@ -92,9 +92,8 @@
 
 <script>
 import MotuDistributionMap from "./MotuMap";
-import Multiselect from "vue-multiselect";
-import BDataTable from "../../../components/BDataTable";
-import i18n from "../../js/i18n";
+import BDataTable from "~Components/BDataTable";
+import i18n from "~SpeciesSearch/js/i18n";
 import Vue from "vue";
 
 export default {

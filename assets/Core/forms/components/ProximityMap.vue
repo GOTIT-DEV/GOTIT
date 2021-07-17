@@ -44,9 +44,9 @@
 </i18n>
 
 <script>
-import LeafletMap from "../../../components/maps/LeafletMap";
-import ShapeMarker from "../../../components/maps/ShapeMarker";
-import SiteInfo from "../../../components/maps/SiteInfo";
+import LeafletMap from "~Components/maps/LeafletMap";
+import ShapeMarker from "~Components/maps/ShapeMarker";
+import SiteInfo from "~Components/maps/SiteInfo";
 import { LMarker, LLayerGroup, LCircle, LPopup } from "vue2-leaflet";
 
 export default {

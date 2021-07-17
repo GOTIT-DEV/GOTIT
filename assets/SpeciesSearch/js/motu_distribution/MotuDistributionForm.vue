@@ -54,7 +54,7 @@
 
 <script>
 // Components
-import ButtonLoading from "../../../components/ButtonLoading";
+import ButtonLoading from "~Components/ButtonLoading";
 import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";

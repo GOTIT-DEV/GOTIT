@@ -101,9 +101,9 @@
 </i18n>
 
 <script>
-import BDataTable from "../../../components/BDataTable";
+import BDataTable from "~Components/BDataTable";
+import ButtonLoading from "~Components/ButtonLoading";
 import Multiselect from "vue-multiselect";
-import ButtonLoading from "../../../components/ButtonLoading";
 import AssignmentCell from "./AssignmentCell";
 
 export default {

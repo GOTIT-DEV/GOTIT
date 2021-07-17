@@ -135,7 +135,15 @@
         </b-form-group>
       </b-card>
       <center
-        class="col-12 offset-sm-3 col-sm-6 offset-lg-0 col-lg-12 offset-xl-3 col-xl-6"
+        class="
+          col-12
+          offset-sm-3
+          col-sm-6
+          offset-lg-0
+          col-lg-12
+          offset-xl-3
+          col-xl-6
+        "
       >
         <ButtonLoading
           id="submit"
@@ -153,11 +161,11 @@
 </template>
 
 <script>
-import ButtonLoading from "../../../components/ButtonLoading";
+import ButtonLoading from "~Components/ButtonLoading";
+import FormMultiselect from "~Components/FormMultiselect";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
 import { SelectPicker } from "../components/directives/SelectPickerDirective";
-import FormMultiselect from "../../../components/FormMultiselect";
 export default {
   directives: {
     SelectPicker,

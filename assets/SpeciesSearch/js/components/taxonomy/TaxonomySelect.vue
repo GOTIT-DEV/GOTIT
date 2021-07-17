@@ -62,7 +62,7 @@
 
 <script>
 import { SelectPicker } from "../directives/SelectPickerDirective";
-import FormMultiselect from "../../../../components/FormMultiselect";
+import FormMultiselect from "~Components/FormMultiselect";
 
 export default {
   components: { FormMultiselect },

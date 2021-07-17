@@ -1,4 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
+const path = require('path');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -98,6 +99,13 @@ Encore
     resourceQuery: /blockType=i18n/,
     type: 'javascript/auto',
     loader: '@intlify/vue-i18n-loader',
+  })
+  // Path aliases for JS imports
+  .addAliases({
+    '~Components': path.resolve(__dirname, 'assets/components'),
+    '~Core': path.resolve(__dirname, 'assets/Core'),
+    '~QueryBuilder': path.resolve(__dirname, 'assets/QueryBuilder'),
+    '~SpeciesSearch': path.resolve(__dirname, 'assets/SpeciesSearch'),
   })
 
   // YAML loader

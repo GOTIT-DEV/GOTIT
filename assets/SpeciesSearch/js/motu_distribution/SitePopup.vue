@@ -36,7 +36,7 @@
 
 <script>
 import { LPopup } from "vue2-leaflet";
-import SiteInfo from "../../../components/maps/SiteInfo";
+import SiteInfo from "~Components/maps/SiteInfo";
 
 export default {
   components: { LPopup, SiteInfo },

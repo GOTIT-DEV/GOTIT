@@ -66,7 +66,7 @@
 <script>
 import QueryBlock from "./QueryBlock";
 
-import ButtonLoading from "../../components/ButtonLoading";
+import ButtonLoading from "~Components/ButtonLoading";
 
 export default {
   components: { QueryBlock, ButtonLoading },

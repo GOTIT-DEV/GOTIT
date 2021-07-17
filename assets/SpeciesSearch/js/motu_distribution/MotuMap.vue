@@ -69,13 +69,13 @@
 import chroma from "chroma-js";
 import { LControl, LLayerGroup } from "vue2-leaflet";
 
-import LeafletMap from "../../../components/maps/LeafletMap";
+import LeafletMap from "~Components/maps/LeafletMap";
+import ShapeMarker from "~Components/maps/ShapeMarker";
+import { generateLegend } from "~Components/maps/ShapeMarkerLegend.vue";
 
 import SequenceModal from "./SequenceModal";
-import ShapeMarker from "../../../components/maps/ShapeMarker";
 import SitePopup from "./SitePopup.vue";
 import { LPopup } from "vue2-leaflet";
-import { generateLegend } from "../../../components/maps/ShapeMarkerLegend.vue";
 
 export default {
   name: "MotuDistributionMap",

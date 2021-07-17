@@ -88,7 +88,7 @@
 </i18n>
 
 <script>
-import LeafletMap from "../../../components/maps/LeafletMap";
+import LeafletMap from "~Components/maps/LeafletMap";
 import {
   LLayerGroup,
   LFeatureGroup,
@@ -98,7 +98,7 @@ import {
   LTooltip,
 } from "vue2-leaflet";
 import SamplingSitePopup from "./SamplingSitePopup";
-import { generateLegend } from "../../../components/maps/ShapeMarkerLegend.vue";
+import { generateLegend } from "~Components/maps/ShapeMarkerLegend.vue";
 
 export default {
   components: {

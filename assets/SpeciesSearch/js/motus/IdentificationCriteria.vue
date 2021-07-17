@@ -48,7 +48,7 @@
 </i18n>
 
 <script>
-import FormMultiselect from "../../../components/FormMultiselect";
+import FormMultiselect from "~Components/FormMultiselect";
 
 export default {
   components: {

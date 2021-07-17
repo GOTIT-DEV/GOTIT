@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-easybutton/src/easy-button.css';
-import "../../../SpeciesSearch/css/leaflet-maps.less"
+import "~SpeciesSearch/css/leaflet-maps.less"
 
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
@@ -12,7 +12,7 @@ import { initMunicipalityCodeGeneration } from "./municipality"
 import Vue from "vue"
 import SiteForm from "../components/SiteForm"
 import { BootstrapVue } from "bootstrap-vue"
-import i18n from "../../../SpeciesSearch/js/i18n"
+import i18n from "~SpeciesSearch/js/i18n"
 import VueI18n from 'vue-i18n'
 
 Vue.use(BootstrapVue)
@@ -74,7 +74,7 @@ $(() => {
   })
 
 
-  // Municipality modal 
+  // Municipality modal
   const modalId = "#modal-station_newMunicipality"
   initMunicipalityCodeGeneration(modalId)
 

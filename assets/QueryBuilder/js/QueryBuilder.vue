@@ -48,7 +48,7 @@
 
 <script>
 import QueryForm from "./QueryForm";
-import BDataTable from "../../components/BDataTable";
+import BDataTable from "~Components/BDataTable";
 
 import SQLFormat from "sql-formatter";
 

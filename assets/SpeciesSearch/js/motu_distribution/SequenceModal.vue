@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import BDataTable from "../../../components/BDataTable";
+import BDataTable from "~Components/BDataTable";
 export default {
   components: { BDataTable },
   data() {

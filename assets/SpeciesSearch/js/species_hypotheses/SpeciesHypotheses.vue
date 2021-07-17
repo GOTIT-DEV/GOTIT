@@ -18,7 +18,7 @@
 
 <script>
 import SpeciesHypothesesForm from "./SpeciesHypothesesForm";
-import BDataTable from "../../../components/BDataTable";
+import BDataTable from "~Components/BDataTable";
 import BarPlot from "./BarPlot";
 
 export default {
