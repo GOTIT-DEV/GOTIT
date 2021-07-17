@@ -76,6 +76,10 @@ Encore
   // enables hashed filenames (e.g. app.abc123.css)
   .enableVersioning(Encore.isProduction())
 
+  .configureBabel((config) => {
+    config.plugins.push('@babel/plugin-proposal-class-properties');
+  })
+
   // enables @babel/preset-env polyfills
   .configureBabelPresetEnv((config) => {
     config.useBuiltIns = 'usage';
@@ -111,7 +115,7 @@ Encore
   // jQuery Datatables loader
   // .addLoader({ test: /datatables\.net.*/, loader: 'imports-loader?define=>false' })
 
-  // Provide L namespace for leaflet 
+  // Provide L namespace for leaflet
   .autoProvideVariables({
     L: "leaflet",
   })
@@ -137,12 +141,4 @@ Encore
   })
   ;
 
-var config = Encore.getWebpackConfig();
-// disable amd, for datatable
-config.module.rules.unshift({
-  parser: {
-    amd: false
-  }
-});
-
-module.exports = config;
+module.exports = Encore.getWebpackConfig();
