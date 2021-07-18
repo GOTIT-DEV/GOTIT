@@ -8,10 +8,12 @@ In addition to managing multi-criteria species occurrence data, GOTIT offers a n
 
 Third, access to the database can be granted to any users, including those outside the hosting laboratory. This promotes information sharing among laboratories while managing the privileges allocated to each user. At last, GOTIT is implemented and distributed following public license practices, so that the tool can be adapted by advanced developers to fulfill a laboratories specific requirements.
 
+
+
 # Documentation
 
-- `docs` : documentation
-- `assets/imports` : CSV templates for data imports
+- [documentation](./docs/)
+- [CSV templates for imports](./assets/imports)
 
 
 ---
