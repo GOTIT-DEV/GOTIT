@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Programme;
@@ -62,19 +47,19 @@ class ProgrammeController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('programme.dateMaj' => 'desc', 'programme.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(programme.codeProgramme) LIKE :criteriaLower';
+    $where = 'LOWER(programme.codeProgramme) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Programme")
       ->createQueryBuilder('programme')
@@ -83,39 +68,39 @@ class ProgrammeController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                         => $id, "programme.id" => $id,
-        "programme.codeProgramme"    => $entity->getCodeProgramme(),
-        "programme.typeFinanceur"    => $entity->getTypeFinanceur(),
-        "programme.nomProgramme"     => $entity->getNomProgramme(),
+        "id" => $id, "programme.id" => $id,
+        "programme.codeProgramme" => $entity->getCodeProgramme(),
+        "programme.typeFinanceur" => $entity->getTypeFinanceur(),
+        "programme.nomProgramme" => $entity->getNomProgramme(),
         "programme.nomsResponsables" => $entity->getNomsResponsables(),
-        "programme.anneeDebut"       => $entity->getAnneeDebut(),
-        "programme.anneeFin"         => $entity->getAnneeFin(),
-        "programme.dateCre"          => $DateCre,
-        "programme.dateMaj"          => $DateMaj,
-        "userCreId"                  => $service->GetUserCreId($entity),
-        "programme.userCre"          => $service->GetUserCreUserfullname($entity),
-        "programme.userMaj"          => $service->GetUserMajUserfullname($entity),
+        "programme.anneeDebut" => $entity->getAnneeDebut(),
+        "programme.anneeFin" => $entity->getAnneeFin(),
+        "programme.dateCre" => $DateCre,
+        "programme.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "programme.userCre" => $service->GetUserCreUserfullname($entity),
+        "programme.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -127,7 +112,7 @@ class ProgrammeController extends AbstractController {
    */
   public function newAction(Request $request) {
     $programme = new Programme();
-    $form      = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $form = $this->createForm('App\Form\ProgrammeType', $programme, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -146,7 +131,7 @@ class ProgrammeController extends AbstractController {
         ));
       }
       return $this->redirectToRoute('programme_edit', array(
-        'id'    => $programme->getId(),
+        'id' => $programme->getId(),
         'valid' => 1,
       ));
     }
@@ -164,7 +149,7 @@ class ProgrammeController extends AbstractController {
    */
   public function newmodalAction(Request $request) {
     $programme = new Programme();
-    $form      = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $form = $this->createForm('App\Form\ProgrammeType', $programme, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -177,43 +162,43 @@ class ProgrammeController extends AbstractController {
       try {
         $flush = $em->flush();
         // mémorize the id and the name of the Program
-        $select_id   = $programme->getId();
+        $select_id = $programme->getId();
         $select_name = $programme->getCodeProgramme();
         // return an empty Program Entity
         $programme_new = new Programme();
-        $form          = $this->createForm('App\Form\ProgrammeType', $programme_new, [
+        $form = $this->createForm('App\Form\ProgrammeType', $programme_new, [
           'action_type' => Action::create(),
         ]);
         //returns an empty form and the parameters of the new record created
         return new JsonResponse([
-          'html_form'         => $this->render('modal.html.twig', array('entityname' => 'programme', 'form' => $form->createView()))->getContent(),
-          'select_id'         => $select_id,
-          'select_name'       => $select_name,
+          'html_form' => $this->render('modal.html.twig', array('entityname' => 'programme', 'form' => $form->createView()))->getContent(),
+          'select_id' => $select_id,
+          'select_name' => $select_name,
           'exception_message' => "",
-          'entityname'        => 'programme',
+          'entityname' => 'programme',
         ]);
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = strval($e);
         // return an empty Program Entity
         $programme_new = new Programme();
-        $form          = $this->createForm('App\Form\ProgrammeType', $programme_new);
+        $form = $this->createForm('App\Form\ProgrammeType', $programme_new);
         // returns a form with the error message
         return new JsonResponse([
-          'html_form'         => $this->render('modal.html.twig', array(
+          'html_form' => $this->render('modal.html.twig', array(
             'entityname' => 'programme',
-            'form'       => $form->createView(),
+            'form' => $form->createView(),
           ))->getContent(),
-          'select_id'         => 0,
-          'select_name'       => "",
+          'select_id' => 0,
+          'select_name' => "",
           'exception_message' => $exception_message,
-          'entityname'        => 'programme',
+          'entityname' => 'programme',
         ]);
       }
     }
 
     return $this->render('modal.html.twig', array(
       'entityname' => 'programme',
-      'form'       => $form->createView(),
+      'form' => $form->createView(),
     ));
   }
 
@@ -224,13 +209,13 @@ class ProgrammeController extends AbstractController {
    */
   public function showAction(Programme $programme) {
     $deleteForm = $this->createDeleteForm($programme);
-    $editForm   = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/programme/edit.html.twig', array(
-      'programme'   => $programme,
-      'edit_form'   => $editForm->createView(),
+      'programme' => $programme,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -244,7 +229,7 @@ class ProgrammeController extends AbstractController {
   public function editAction(Request $request, Programme $programme) {
     //
     $deleteForm = $this->createDeleteForm($programme);
-    $editForm   = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -263,13 +248,13 @@ class ProgrammeController extends AbstractController {
       return $this->render('Core/programme/edit.html.twig', array(
         'programme' => $programme,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/programme/edit.html.twig', array(
-      'programme'   => $programme,
-      'edit_form'   => $editForm->createView(),
+      'programme' => $programme,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

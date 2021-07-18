@@ -1,30 +1,15 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Pcr;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Pcr controller.
@@ -85,22 +70,22 @@ class PcrController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = $request->get('sort') ?: [
+    $orderBy = $request->get('sort') ?: [
       'pcr.dateMaj' => 'desc', 'pcr.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
+    $where = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND pcr.adnFk = ' . $request->get('idFk');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Pcr")
       ->createQueryBuilder('pcr')
       ->where($where)
@@ -113,13 +98,13 @@ class PcrController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     $lastTaxname = '';
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DatePcr = ($entity->getDatePcr() !== null)
       ? $entity->getDatePcr()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
@@ -144,31 +129,31 @@ class PcrController extends AbstractController {
       $listePersonne = implode(", ", $arrayListePersonne);
       //
       $tab_toshow[] = array(
-        "id"                     => $id, "pcr.id" => $id,
+        "id" => $id, "pcr.id" => $id,
         "individu.codeIndBiomol" => $entity->getAdnFk()->getIndividuFk()->getCodeIndBiomol(),
-        "adn.codeAdn"            => $entity->getAdnFk()->getCodeAdn(),
-        "pcr.codePcr"            => $entity->getCodePcr(),
-        "pcr.numPcr"             => $entity->getNumPcr(),
-        "vocGene.code"           => $entity->getGeneVocFk()->getCode(),
-        "listePersonne"          => $listePersonne,
-        "pcr.datePcr"            => $DatePcr,
-        "vocQualitePcr.code"     => $entity->getQualitePcrVocFk()->getCode(),
-        "vocSpecificite.code"    => $entity->getSpecificiteVocFk()->getCode(),
-        "pcr.dateCre"            => $DateCre,
-        "pcr.dateMaj"            => $DateMaj,
-        "userCreId"              => $service->GetUserCreId($entity),
-        "pcr.userCre"            => $service->GetUserCreUserfullname($entity),
-        "pcr.userMaj"            => $service->GetUserMajUserfullname($entity),
-        "linkChromatogramme"     => $linkChromatogramme,
+        "adn.codeAdn" => $entity->getAdnFk()->getCodeAdn(),
+        "pcr.codePcr" => $entity->getCodePcr(),
+        "pcr.numPcr" => $entity->getNumPcr(),
+        "vocGene.code" => $entity->getGeneVocFk()->getCode(),
+        "listePersonne" => $listePersonne,
+        "pcr.datePcr" => $DatePcr,
+        "vocQualitePcr.code" => $entity->getQualitePcrVocFk()->getCode(),
+        "vocSpecificite.code" => $entity->getSpecificiteVocFk()->getCode(),
+        "pcr.dateCre" => $DateCre,
+        "pcr.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "pcr.userCre" => $service->GetUserCreUserfullname($entity),
+        "pcr.userMaj" => $service->GetUserMajUserfullname($entity),
+        "linkChromatogramme" => $linkChromatogramme,
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -180,7 +165,7 @@ class PcrController extends AbstractController {
    */
   public function newAction(Request $request) {
     $pcr = new Pcr();
-    $em  = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
     if ($dna_id = $request->get('idFk')) {
       $dna = $em->getRepository('App:Adn')->find($dna_id);
@@ -207,14 +192,14 @@ class PcrController extends AbstractController {
         );
       }
       return $this->redirectToRoute('pcr_edit', array(
-        'id'    => $pcr->getId(),
+        'id' => $pcr->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ));
     }
 
     return $this->render('Core/pcr/edit.html.twig', array(
-      'pcr'       => $pcr,
+      'pcr' => $pcr,
       'edit_form' => $form->createView(),
     ));
   }
@@ -226,13 +211,13 @@ class PcrController extends AbstractController {
    */
   public function showAction(Pcr $pcr) {
     $deleteForm = $this->createDeleteForm($pcr);
-    $editForm   = $this->createForm('App\Form\PcrType', $pcr, [
+    $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/pcr/edit.html.twig', array(
-      'pcr'         => $pcr,
-      'edit_form'   => $editForm->createView(),
+      'pcr' => $pcr,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -253,8 +238,8 @@ class PcrController extends AbstractController {
     }
 
     $pcrEstRealisePars = $service->setArrayCollection('PcrEstRealisePars', $pcr);
-    $deleteForm        = $this->createDeleteForm($pcr);
-    $editForm          = $this->createForm('App\Form\PcrType', $pcr, [
+    $deleteForm = $this->createDeleteForm($pcr);
+    $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
     ]);
 
@@ -279,15 +264,15 @@ class PcrController extends AbstractController {
         );
       }
       return $this->render('Core/pcr/edit.html.twig', array(
-        'pcr'       => $pcr,
+        'pcr' => $pcr,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/pcr/edit.html.twig', array(
-      'pcr'         => $pcr,
-      'edit_form'   => $editForm->createView(),
+      'pcr' => $pcr,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

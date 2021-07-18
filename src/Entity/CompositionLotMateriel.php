@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,288 +7,268 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CompositionLotMateriel
  *
- * @ORM\Table(name="composition_of_internal_biological_material", 
+ * @ORM\Table(name="composition_of_internal_biological_material",
  *  indexes={
- *      @ORM\Index(name="IDX_10A697444236D33E", columns={"specimen_type_voc_fk"}), 
+ *      @ORM\Index(name="IDX_10A697444236D33E", columns={"specimen_type_voc_fk"}),
  *      @ORM\Index(name="IDX_10A6974454DBBD4D", columns={"internal_biological_material_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CompositionLotMateriel
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="composition_of_internal_biological_material_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
+class CompositionLotMateriel {
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="composition_of_internal_biological_material_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="number_of_specimens", type="bigint", nullable=true)
-     */
-    private $nbIndividus;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="number_of_specimens", type="bigint", nullable=true)
+   */
+  private $nbIndividus;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="internal_biological_material_composition_comments", type="text", nullable=true)
-     */
-    private $commentaireCompoLotMateriel;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="internal_biological_material_composition_comments", type="text", nullable=true)
+   */
+  private $commentaireCompoLotMateriel;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
-    /**
-     * @var \Voc
-     *
-     * @ORM\ManyToOne(targetEntity="Voc")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private $typeIndividuVocFk;
+  /**
+   * @var \Voc
+   *
+   * @ORM\ManyToOne(targetEntity="Voc")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
+   * })
+   */
+  private $typeIndividuVocFk;
 
-    /**
-     * @var \LotMateriel
-     *
-     * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="compositionLotMateriels")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
-    private $lotMaterielFk;
+  /**
+   * @var \LotMateriel
+   *
+   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="compositionLotMateriels")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+   * })
+   */
+  private $lotMaterielFk;
 
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
+  /**
+   * Set nbIndividus
+   *
+   * @param integer $nbIndividus
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setNbIndividus($nbIndividus) {
+    $this->nbIndividus = $nbIndividus;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nbIndividus
-     *
-     * @param integer $nbIndividus
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setNbIndividus($nbIndividus)
-    {
-        $this->nbIndividus = $nbIndividus;
+  /**
+   * Get nbIndividus
+   *
+   * @return integer
+   */
+  public function getNbIndividus() {
+    return $this->nbIndividus;
+  }
 
-        return $this;
-    }
+  /**
+   * Set commentaireCompoLotMateriel
+   *
+   * @param string $commentaireCompoLotMateriel
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setCommentaireCompoLotMateriel($commentaireCompoLotMateriel) {
+    $this->commentaireCompoLotMateriel = $commentaireCompoLotMateriel;
 
-    /**
-     * Get nbIndividus
-     *
-     * @return integer
-     */
-    public function getNbIndividus()
-    {
-        return $this->nbIndividus;
-    }
+    return $this;
+  }
 
-    /**
-     * Set commentaireCompoLotMateriel
-     *
-     * @param string $commentaireCompoLotMateriel
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setCommentaireCompoLotMateriel($commentaireCompoLotMateriel)
-    {
-        $this->commentaireCompoLotMateriel = $commentaireCompoLotMateriel;
+  /**
+   * Get commentaireCompoLotMateriel
+   *
+   * @return string
+   */
+  public function getCommentaireCompoLotMateriel() {
+    return $this->commentaireCompoLotMateriel;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Get commentaireCompoLotMateriel
-     *
-     * @return string
-     */
-    public function getCommentaireCompoLotMateriel()
-    {
-        return $this->commentaireCompoLotMateriel;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set typeIndividuVocFk
+   *
+   * @param \App\Entity\Voc $typeIndividuVocFk
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setTypeIndividuVocFk(\App\Entity\Voc $typeIndividuVocFk = null) {
+    $this->typeIndividuVocFk = $typeIndividuVocFk;
 
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set typeIndividuVocFk
-     *
-     * @param \App\Entity\Voc $typeIndividuVocFk
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setTypeIndividuVocFk(\App\Entity\Voc $typeIndividuVocFk = null)
-    {
-        $this->typeIndividuVocFk = $typeIndividuVocFk;
+  /**
+   * Get typeIndividuVocFk
+   *
+   * @return \App\Entity\Voc
+   */
+  public function getTypeIndividuVocFk() {
+    return $this->typeIndividuVocFk;
+  }
 
-        return $this;
-    }
+  /**
+   * Set lotMaterielFk
+   *
+   * @param \App\Entity\LotMateriel $lotMaterielFk
+   *
+   * @return CompositionLotMateriel
+   */
+  public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
+    $this->lotMaterielFk = $lotMaterielFk;
 
-    /**
-     * Get typeIndividuVocFk
-     *
-     * @return \App\Entity\Voc
-     */
-    public function getTypeIndividuVocFk()
-    {
-        return $this->typeIndividuVocFk;
-    }
+    return $this;
+  }
 
-    /**
-     * Set lotMaterielFk
-     *
-     * @param \App\Entity\LotMateriel $lotMaterielFk
-     *
-     * @return CompositionLotMateriel
-     */
-    public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null)
-    {
-        $this->lotMaterielFk = $lotMaterielFk;
-
-        return $this;
-    }
-
-    /**
-     * Get lotMaterielFk
-     *
-     * @return \App\Entity\LotMateriel
-     */
-    public function getLotMaterielFk()
-    {
-        return $this->lotMaterielFk;
-    }
+  /**
+   * Get lotMaterielFk
+   *
+   * @return \App\Entity\LotMateriel
+   */
+  public function getLotMaterielFk() {
+    return $this->lotMaterielFk;
+  }
 }

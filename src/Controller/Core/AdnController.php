@@ -1,30 +1,15 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Adn;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Adn controller.
@@ -78,17 +63,17 @@ class AdnController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = $request->get('sort') ?: [
+    $orderBy = $request->get('sort') ?: [
       'adn.dateMaj' => 'desc',
-      'adn.id'      => 'desc',
+      'adn.id' => 'desc',
     ];
-    $minRecord    = intval($request->get('current') - 1) * $rowCount;
-    $where        = 'LOWER(adn.codeAdn) LIKE :criteriaLower';
+    $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $where = 'LOWER(adn.codeAdn) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND adn.individuFk = ' . $request->get('idFk');
     }
     // Search for the list to show
@@ -106,7 +91,7 @@ class AdnController extends AbstractController {
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateAdn = $entity->getDateAdn()
       ? $entity->getDateAdn()->format('Y-m-d') : null;
       $codeBoite = $entity->getBoiteFk()
@@ -136,28 +121,28 @@ class AdnController extends AbstractController {
       $listePersonne = implode(", ", $arrayListePersonne);
 
       $tab_toshow[] = array(
-        "id"                     => $id,
-        "adn.id"                 => $id,
+        "id" => $id,
+        "adn.id" => $id,
         "individu.codeIndBiomol" => $entity->getIndividuFk()->getCodeIndBiomol(),
-        "adn.codeAdn"            => $entity->getCodeAdn(),
-        "listePersonne"          => $listePersonne,
-        "adn.dateAdn"            => $DateAdn,
-        "boite.codeBoite"        => $codeBoite,
-        "adn.dateCre"            => $DateCre,
-        "adn.dateMaj"            => $DateMaj,
-        "userCreId"              => $service->GetUserCreId($entity),
-        "adn.userCre"            => $service->GetUserCreUserfullname($entity),
-        "adn.userMaj"            => $service->GetUserMajUserfullname($entity),
-        "linkPcr"                => $linkPcr,
+        "adn.codeAdn" => $entity->getCodeAdn(),
+        "listePersonne" => $listePersonne,
+        "adn.dateAdn" => $DateAdn,
+        "boite.codeBoite" => $codeBoite,
+        "adn.dateCre" => $DateCre,
+        "adn.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "adn.userCre" => $service->GetUserCreUserfullname($entity),
+        "adn.userMaj" => $service->GetUserMajUserfullname($entity),
+        "linkPcr" => $linkPcr,
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -169,7 +154,7 @@ class AdnController extends AbstractController {
    */
   public function newAction(Request $request) {
     $adn = new Adn();
-    $em  = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Individu')->find($specimen_id);
@@ -199,14 +184,14 @@ class AdnController extends AbstractController {
       }
 
       return $this->redirectToRoute('adn_edit', array(
-        'id'    => $adn->getId(),
+        'id' => $adn->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ));
     }
 
     return $this->render('Core/adn/edit.html.twig', array(
-      'adn'       => $adn,
+      'adn' => $adn,
       'edit_form' => $form->createView(),
     ));
   }
@@ -218,13 +203,13 @@ class AdnController extends AbstractController {
    */
   public function showAction(Adn $adn) {
     $deleteForm = $this->createDeleteForm($adn);
-    $editForm   = $this->createForm('App\Form\AdnType', $adn, [
+    $editForm = $this->createForm('App\Form\AdnType', $adn, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/adn/edit.html.twig', array(
-      'adn'         => $adn,
-      'edit_form'   => $editForm->createView(),
+      'adn' => $adn,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -244,8 +229,8 @@ class AdnController extends AbstractController {
     }
 
     $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars', $adn);
-    $deleteForm        = $this->createDeleteForm($adn);
-    $editForm          = $this->createForm('App\Form\AdnType', $adn, [
+    $deleteForm = $this->createDeleteForm($adn);
+    $editForm = $this->createForm('App\Form\AdnType', $adn, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -266,15 +251,15 @@ class AdnController extends AbstractController {
         );
       }
       return $this->render('Core/adn/edit.html.twig', array(
-        'adn'       => $adn,
+        'adn' => $adn,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/adn/edit.html.twig', array(
-      'adn'         => $adn,
-      'edit_form'   => $editForm->createView(),
+      'adn' => $adn,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

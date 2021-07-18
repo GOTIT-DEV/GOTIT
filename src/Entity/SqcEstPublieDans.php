@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,226 +7,210 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SqcEstPublieDans
  *
- * @ORM\Table(name="internal_sequence_is_published_in", 
+ * @ORM\Table(name="internal_sequence_is_published_in",
  *  indexes={
- *      @ORM\Index(name="IDX_BA97B9C4821B1D3F", columns={"source_fk"}), 
+ *      @ORM\Index(name="IDX_BA97B9C4821B1D3F", columns={"source_fk"}),
  *      @ORM\Index(name="IDX_BA97B9C45BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SqcEstPublieDans
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="internal_sequence_is_published_in_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
+class SqcEstPublieDans {
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="internal_sequence_is_published_in_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
-    /**
-     * @var \Source
-     *
-     * @ORM\ManyToOne(targetEntity="Source")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
-    private $sourceFk;
+  /**
+   * @var \Source
+   *
+   * @ORM\ManyToOne(targetEntity="Source")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+   * })
+   */
+  private $sourceFk;
 
-    /**
-     * @var \SequenceAssemblee
-     *
-     * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sqcEstPublieDanss")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
-    private $sequenceAssembleeFk;
+  /**
+   * @var \SequenceAssemblee
+   *
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sqcEstPublieDanss")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+   * })
+   */
+  private $sequenceAssembleeFk;
 
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set sourceFk
+   *
+   * @param \App\Entity\Source $sourceFk
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setSourceFk(\App\Entity\Source $sourceFk = null) {
+    $this->sourceFk = $sourceFk;
 
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set sourceFk
-     *
-     * @param \App\Entity\Source $sourceFk
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setSourceFk(\App\Entity\Source $sourceFk = null)
-    {
-        $this->sourceFk = $sourceFk;
+  /**
+   * Get sourceFk
+   *
+   * @return \App\Entity\Source
+   */
+  public function getSourceFk() {
+    return $this->sourceFk;
+  }
 
-        return $this;
-    }
+  /**
+   * Set sequenceAssembleeFk
+   *
+   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   *
+   * @return SqcEstPublieDans
+   */
+  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
+    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
 
-    /**
-     * Get sourceFk
-     *
-     * @return \App\Entity\Source
-     */
-    public function getSourceFk()
-    {
-        return $this->sourceFk;
-    }
+    return $this;
+  }
 
-    /**
-     * Set sequenceAssembleeFk
-     *
-     * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
-     *
-     * @return SqcEstPublieDans
-     */
-    public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null)
-    {
-        $this->sequenceAssembleeFk = $sequenceAssembleeFk;
-
-        return $this;
-    }
-
-    /**
-     * Get sequenceAssembleeFk
-     *
-     * @return \App\Entity\SequenceAssemblee
-     */
-    public function getSequenceAssembleeFk()
-    {
-        return $this->sequenceAssembleeFk;
-    }
+  /**
+   * Get sequenceAssembleeFk
+   *
+   * @return \App\Entity\SequenceAssemblee
+   */
+  public function getSequenceAssembleeFk() {
+    return $this->sequenceAssembleeFk;
+  }
 }

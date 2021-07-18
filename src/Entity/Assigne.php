@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,327 +7,305 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Assigne
  *
- * @ORM\Table(name="motu_number", 
+ * @ORM\Table(name="motu_number",
  *  indexes={
- *      @ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"external_sequence_fk"}), 
- *      @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"delimitation_method_voc_fk"}), 
- *      @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"internal_sequence_fk"}), 
+ *      @ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"external_sequence_fk"}),
+ *      @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"delimitation_method_voc_fk"}),
+ *      @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"internal_sequence_fk"}),
  *      @ORM\Index(name="IDX_4E79CB8D503B4409", columns={"motu_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Assigne
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="motu_number_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
+class Assigne {
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="motu_number_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="motu_number", type="bigint", nullable=false)
-     */
-    private $numMotu;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="motu_number", type="bigint", nullable=false)
+   */
+  private $numMotu;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
-    /**
-     * @var \SequenceAssembleeExt
-     *
-     * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
-     * })
-     */
-    private $sequenceAssembleeExtFk;
+  /**
+   * @var \SequenceAssembleeExt
+   *
+   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
+   * })
+   */
+  private $sequenceAssembleeExtFk;
 
-    /**
-     * @var \Voc
-     *
-     * @ORM\ManyToOne(targetEntity="Voc")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
-     * })
-     */
-    private $methodeMotuVocFk;
+  /**
+   * @var \Voc
+   *
+   * @ORM\ManyToOne(targetEntity="Voc")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
+   * })
+   */
+  private $methodeMotuVocFk;
 
-    /**
-     * @var \SequenceAssemblee
-     *
-     * @ORM\ManyToOne(targetEntity="SequenceAssemblee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
-     * })
-     */
-    private $sequenceAssembleeFk;
+  /**
+   * @var \SequenceAssemblee
+   *
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
+   * })
+   */
+  private $sequenceAssembleeFk;
 
-    /**
-     * @var \Motu
-     *
-     * @ORM\ManyToOne(targetEntity="Motu")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
-     */
-    private $motuFk;
+  /**
+   * @var \Motu
+   *
+   * @ORM\ManyToOne(targetEntity="Motu")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+   * })
+   */
+  private $motuFk;
 
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
+  /**
+   * Set numMotu
+   *
+   * @param integer $numMotu
+   *
+   * @return Assigne
+   */
+  public function setNumMotu($numMotu) {
+    $this->numMotu = $numMotu;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    return $this;
+  }
 
-    /**
-     * Set numMotu
-     *
-     * @param integer $numMotu
-     *
-     * @return Assigne
-     */
-    public function setNumMotu($numMotu)
-    {
-        $this->numMotu = $numMotu;
+  /**
+   * Get numMotu
+   *
+   * @return integer
+   */
+  public function getNumMotu() {
+    return $this->numMotu;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return Assigne
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Get numMotu
-     *
-     * @return integer
-     */
-    public function getNumMotu()
-    {
-        return $this->numMotu;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return Assigne
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return Assigne
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return Assigne
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return Assigne
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return Assigne
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return Assigne
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return Assigne
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set sequenceAssembleeExtFk
+   *
+   * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
+   *
+   * @return Assigne
+   */
+  public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
+    $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
 
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set sequenceAssembleeExtFk
-     *
-     * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
-     *
-     * @return Assigne
-     */
-    public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null)
-    {
-        $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
+  /**
+   * Get sequenceAssembleeExtFk
+   *
+   * @return \App\Entity\SequenceAssembleeExt
+   */
+  public function getSequenceAssembleeExtFk() {
+    return $this->sequenceAssembleeExtFk;
+  }
 
-        return $this;
-    }
+  /**
+   * Set methodeMotuVocFk
+   *
+   * @param \App\Entity\Voc $methodeMotuVocFk
+   *
+   * @return Assigne
+   */
+  public function setMethodeMotuVocFk(\App\Entity\Voc $methodeMotuVocFk = null) {
+    $this->methodeMotuVocFk = $methodeMotuVocFk;
 
-    /**
-     * Get sequenceAssembleeExtFk
-     *
-     * @return \App\Entity\SequenceAssembleeExt
-     */
-    public function getSequenceAssembleeExtFk()
-    {
-        return $this->sequenceAssembleeExtFk;
-    }
+    return $this;
+  }
 
-    /**
-     * Set methodeMotuVocFk
-     *
-     * @param \App\Entity\Voc $methodeMotuVocFk
-     *
-     * @return Assigne
-     */
-    public function setMethodeMotuVocFk(\App\Entity\Voc $methodeMotuVocFk = null)
-    {
-        $this->methodeMotuVocFk = $methodeMotuVocFk;
+  /**
+   * Get methodeMotuVocFk
+   *
+   * @return \App\Entity\Voc
+   */
+  public function getMethodeMotuVocFk() {
+    return $this->methodeMotuVocFk;
+  }
 
-        return $this;
-    }
+  /**
+   * Set sequenceAssembleeFk
+   *
+   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   *
+   * @return Assigne
+   */
+  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
+    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
 
-    /**
-     * Get methodeMotuVocFk
-     *
-     * @return \App\Entity\Voc
-     */
-    public function getMethodeMotuVocFk()
-    {
-        return $this->methodeMotuVocFk;
-    }
+    return $this;
+  }
 
-    /**
-     * Set sequenceAssembleeFk
-     *
-     * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
-     *
-     * @return Assigne
-     */
-    public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null)
-    {
-        $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  /**
+   * Get sequenceAssembleeFk
+   *
+   * @return \App\Entity\SequenceAssemblee
+   */
+  public function getSequenceAssembleeFk() {
+    return $this->sequenceAssembleeFk;
+  }
 
-        return $this;
-    }
+  /**
+   * Set motuFk
+   *
+   * @param \App\Entity\Motu $motuFk
+   *
+   * @return Assigne
+   */
+  public function setMotuFk(\App\Entity\Motu $motuFk = null) {
+    $this->motuFk = $motuFk;
 
-    /**
-     * Get sequenceAssembleeFk
-     *
-     * @return \App\Entity\SequenceAssemblee
-     */
-    public function getSequenceAssembleeFk()
-    {
-        return $this->sequenceAssembleeFk;
-    }
+    return $this;
+  }
 
-    /**
-     * Set motuFk
-     *
-     * @param \App\Entity\Motu $motuFk
-     *
-     * @return Assigne
-     */
-    public function setMotuFk(\App\Entity\Motu $motuFk = null)
-    {
-        $this->motuFk = $motuFk;
-
-        return $this;
-    }
-
-    /**
-     * Get motuFk
-     *
-     * @return \App\Entity\Motu
-     */
-    public function getMotuFk()
-    {
-        return $this->motuFk;
-    }
+  /**
+   * Get motuFk
+   *
+   * @return \App\Entity\Motu
+   */
+  public function getMotuFk() {
+    return $this->motuFk;
+  }
 }

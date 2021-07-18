@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -23,374 +8,348 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Programme
  *
- * @ORM\Table(name="program", 
+ * @ORM\Table(name="program",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"codeProgramme"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Programme
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="program_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
+class Programme {
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="program_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="program_code", type="string", length=255, nullable=false)
-     */
-    private $codeProgramme;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="program_code", type="string", length=255, nullable=false)
+   */
+  private $codeProgramme;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="program_name", type="string", length=1024, nullable=false)
-     */
-    private $nomProgramme;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="program_name", type="string", length=1024, nullable=false)
+   */
+  private $nomProgramme;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="coordinator_names", type="text", nullable=false)
-     */
-    private $nomsResponsables;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="coordinator_names", type="text", nullable=false)
+   */
+  private $nomsResponsables;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="funding_agency", type="string", length=1024, nullable=true)
-     */
-    private $typeFinanceur;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="funding_agency", type="string", length=1024, nullable=true)
+   */
+  private $typeFinanceur;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="starting_year", type="bigint", nullable=true)
-     */
-    private $anneeDebut;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="starting_year", type="bigint", nullable=true)
+   */
+  private $anneeDebut;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="ending_year", type="bigint", nullable=true)
-     */
-    private $anneeFin;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="ending_year", type="bigint", nullable=true)
+   */
+  private $anneeFin;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="program_comments", type="text", nullable=true)
-     */
-    private $commentaireProgramme;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="program_comments", type="text", nullable=true)
+   */
+  private $commentaireProgramme;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
+  /**
+   * Set codeProgramme
+   *
+   * @param string $codeProgramme
+   *
+   * @return Programme
+   */
+  public function setCodeProgramme($codeProgramme) {
+    $this->codeProgramme = $codeProgramme;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    return $this;
+  }
 
-    /**
-     * Set codeProgramme
-     *
-     * @param string $codeProgramme
-     *
-     * @return Programme
-     */
-    public function setCodeProgramme($codeProgramme)
-    {
-        $this->codeProgramme = $codeProgramme;
+  /**
+   * Get codeProgramme
+   *
+   * @return string
+   */
+  public function getCodeProgramme() {
+    return $this->codeProgramme;
+  }
 
-        return $this;
-    }
+  /**
+   * Set nomProgramme
+   *
+   * @param string $nomProgramme
+   *
+   * @return Programme
+   */
+  public function setNomProgramme($nomProgramme) {
+    $this->nomProgramme = $nomProgramme;
 
-    /**
-     * Get codeProgramme
-     *
-     * @return string
-     */
-    public function getCodeProgramme()
-    {
-        return $this->codeProgramme;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nomProgramme
-     *
-     * @param string $nomProgramme
-     *
-     * @return Programme
-     */
-    public function setNomProgramme($nomProgramme)
-    {
-        $this->nomProgramme = $nomProgramme;
+  /**
+   * Get nomProgramme
+   *
+   * @return string
+   */
+  public function getNomProgramme() {
+    return $this->nomProgramme;
+  }
 
-        return $this;
-    }
+  /**
+   * Set nomsResponsables
+   *
+   * @param string $nomsResponsables
+   *
+   * @return Programme
+   */
+  public function setNomsResponsables($nomsResponsables) {
+    $this->nomsResponsables = $nomsResponsables;
 
-    /**
-     * Get nomProgramme
-     *
-     * @return string
-     */
-    public function getNomProgramme()
-    {
-        return $this->nomProgramme;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nomsResponsables
-     *
-     * @param string $nomsResponsables
-     *
-     * @return Programme
-     */
-    public function setNomsResponsables($nomsResponsables)
-    {
-        $this->nomsResponsables = $nomsResponsables;
+  /**
+   * Get nomsResponsables
+   *
+   * @return string
+   */
+  public function getNomsResponsables() {
+    return $this->nomsResponsables;
+  }
 
-        return $this;
-    }
+  /**
+   * Set typeFinanceur
+   *
+   * @param string $typeFinanceur
+   *
+   * @return Programme
+   */
+  public function setTypeFinanceur($typeFinanceur) {
+    $this->typeFinanceur = $typeFinanceur;
 
-    /**
-     * Get nomsResponsables
-     *
-     * @return string
-     */
-    public function getNomsResponsables()
-    {
-        return $this->nomsResponsables;
-    }
+    return $this;
+  }
 
-    /**
-     * Set typeFinanceur
-     *
-     * @param string $typeFinanceur
-     *
-     * @return Programme
-     */
-    public function setTypeFinanceur($typeFinanceur)
-    {
-        $this->typeFinanceur = $typeFinanceur;
+  /**
+   * Get typeFinanceur
+   *
+   * @return string
+   */
+  public function getTypeFinanceur() {
+    return $this->typeFinanceur;
+  }
 
-        return $this;
-    }
+  /**
+   * Set anneeDebut
+   *
+   * @param integer $anneeDebut
+   *
+   * @return Programme
+   */
+  public function setAnneeDebut($anneeDebut) {
+    $this->anneeDebut = $anneeDebut;
 
-    /**
-     * Get typeFinanceur
-     *
-     * @return string
-     */
-    public function getTypeFinanceur()
-    {
-        return $this->typeFinanceur;
-    }
+    return $this;
+  }
 
-    /**
-     * Set anneeDebut
-     *
-     * @param integer $anneeDebut
-     *
-     * @return Programme
-     */
-    public function setAnneeDebut($anneeDebut)
-    {
-        $this->anneeDebut = $anneeDebut;
+  /**
+   * Get anneeDebut
+   *
+   * @return integer
+   */
+  public function getAnneeDebut() {
+    return $this->anneeDebut;
+  }
 
-        return $this;
-    }
+  /**
+   * Set anneeFin
+   *
+   * @param integer $anneeFin
+   *
+   * @return Programme
+   */
+  public function setAnneeFin($anneeFin) {
+    $this->anneeFin = $anneeFin;
 
-    /**
-     * Get anneeDebut
-     *
-     * @return integer
-     */
-    public function getAnneeDebut()
-    {
-        return $this->anneeDebut;
-    }
+    return $this;
+  }
 
-    /**
-     * Set anneeFin
-     *
-     * @param integer $anneeFin
-     *
-     * @return Programme
-     */
-    public function setAnneeFin($anneeFin)
-    {
-        $this->anneeFin = $anneeFin;
+  /**
+   * Get anneeFin
+   *
+   * @return integer
+   */
+  public function getAnneeFin() {
+    return $this->anneeFin;
+  }
 
-        return $this;
-    }
+  /**
+   * Set commentaireProgramme
+   *
+   * @param string $commentaireProgramme
+   *
+   * @return Programme
+   */
+  public function setCommentaireProgramme($commentaireProgramme) {
+    $this->commentaireProgramme = $commentaireProgramme;
 
-    /**
-     * Get anneeFin
-     *
-     * @return integer
-     */
-    public function getAnneeFin()
-    {
-        return $this->anneeFin;
-    }
+    return $this;
+  }
 
-    /**
-     * Set commentaireProgramme
-     *
-     * @param string $commentaireProgramme
-     *
-     * @return Programme
-     */
-    public function setCommentaireProgramme($commentaireProgramme)
-    {
-        $this->commentaireProgramme = $commentaireProgramme;
+  /**
+   * Get commentaireProgramme
+   *
+   * @return string
+   */
+  public function getCommentaireProgramme() {
+    return $this->commentaireProgramme;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return Programme
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Get commentaireProgramme
-     *
-     * @return string
-     */
-    public function getCommentaireProgramme()
-    {
-        return $this->commentaireProgramme;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return Programme
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return Programme
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return Programme
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return Programme
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return Programme
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return Programme
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return Programme
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
-
-        return $this;
-    }
-
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 }

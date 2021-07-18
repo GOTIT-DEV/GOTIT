@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Etablissement;
@@ -62,19 +47,19 @@ class EtablissementController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
+    $where = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Etablissement")
       ->createQueryBuilder('etablissement')
@@ -83,35 +68,35 @@ class EtablissementController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                             => $id,
-        "etablissement.id"               => $id,
+        "id" => $id,
+        "etablissement.id" => $id,
         "etablissement.nomEtablissement" => $entity->getNomEtablissement(),
-        "etablissement.dateCre"          => $DateCre,
-        "etablissement.dateMaj"          => $DateMaj,
-        "userCreId"                      => $service->GetUserCreId($entity),
-        "etablissement.userCre"          => $service->GetUserCreUserfullname($entity),
-        "etablissement.userMaj"          => $service->GetUserMajUserfullname($entity),
+        "etablissement.dateCre" => $DateCre,
+        "etablissement.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "etablissement.userCre" => $service->GetUserCreUserfullname($entity),
+        "etablissement.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -123,7 +108,7 @@ class EtablissementController extends AbstractController {
    */
   public function newAction(Request $request) {
     $etablissement = new Etablissement();
-    $form          = $this->createForm('App\Form\EtablissementType', $etablissement, [
+    $form = $this->createForm('App\Form\EtablissementType', $etablissement, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -144,14 +129,14 @@ class EtablissementController extends AbstractController {
         );
       }
       return $this->redirectToRoute('etablissement_edit', array(
-        'id'    => $etablissement->getId(),
+        'id' => $etablissement->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form'     => $form->createView(),
+      'edit_form' => $form->createView(),
     ));
   }
 
@@ -162,7 +147,7 @@ class EtablissementController extends AbstractController {
    */
   public function showAction(Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
       ['action_type' => Action::show()]
@@ -170,8 +155,8 @@ class EtablissementController extends AbstractController {
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form'     => $editForm->createView(),
-      'delete_form'   => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -183,7 +168,7 @@ class EtablissementController extends AbstractController {
    */
   public function editAction(Request $request, Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
       ['action_type' => Action::edit()]
@@ -205,15 +190,15 @@ class EtablissementController extends AbstractController {
       }
       return $this->render('Core/etablissement/edit.html.twig', array(
         'etablissement' => $etablissement,
-        'edit_form'     => $editForm->createView(),
-        'valid'         => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/etablissement/edit.html.twig', array(
       'etablissement' => $etablissement,
-      'edit_form'     => $editForm->createView(),
-      'delete_form'   => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 

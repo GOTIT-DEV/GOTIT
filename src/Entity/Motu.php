@@ -1,25 +1,9 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -29,329 +13,306 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Motu
-{
-    /**
-     * @var integer
-     * 
-     * @Groups("motu")
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="motu_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
-    
-    /**
-     * @var string
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
-     */
-    private $libelleMotu;
+class Motu {
+  /**
+   * @var integer
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="motu_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var string
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
-     */
-    private $nomFichierCsv;
+  /**
+   * @var string
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
+   */
+  private $libelleMotu;
 
-    /**
-     * @var \DateTime
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="motu_date", type="date", nullable=false)
-     */
-    private $dateMotu;
+  /**
+   * @var string
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
+   */
+  private $nomFichierCsv;
 
-    /**
-     * @var string
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="motu_comments", type="text", nullable=true)
-     */
-    private $commentaireMotu;
+  /**
+   * @var \DateTime
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="motu_date", type="date", nullable=false)
+   */
+  private $dateMotu;
 
-    /**
-     * @var \DateTime
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var string
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="motu_comments", type="text", nullable=true)
+   */
+  private $commentaireMotu;
 
-    /**
-     * @var \DateTime
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var integer
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var \DateTime
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @Groups("motu")
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @ORM\OneToMany(targetEntity="MotuEstGenerePar", mappedBy="motuFk", cascade={"persist"})
-     * @ORM\OrderBy({"id" = "ASC"})
-     */
-    protected $motuEstGenerePars;
-    
-    
-    public function __construct()
-    {
-        $this->motuEstGenerePars = new ArrayCollection();
-    }
+  /**
+   * @var integer
+   *
+   * @Groups("motu")
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * @ORM\OneToMany(targetEntity="MotuEstGenerePar", mappedBy="motuFk", cascade={"persist"})
+   * @ORM\OrderBy({"id" = "ASC"})
+   */
+  protected $motuEstGenerePars;
 
-    /**
-     * Set nomFichierCsv
-     *
-     * @param string $nomFichierCsv
-     *
-     * @return Motu
-     */
-    public function setNomFichierCsv($nomFichierCsv)
-    {
-        $this->nomFichierCsv = $nomFichierCsv;
+  public function __construct() {
+    $this->motuEstGenerePars = new ArrayCollection();
+  }
 
-        return $this;
-    }
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
-    /**
-     * Get nomFichierCsv
-     *
-     * @return string
-     */
-    public function getNomFichierCsv()
-    {
-        return $this->nomFichierCsv;
-    }
+  /**
+   * Set nomFichierCsv
+   *
+   * @param string $nomFichierCsv
+   *
+   * @return Motu
+   */
+  public function setNomFichierCsv($nomFichierCsv) {
+    $this->nomFichierCsv = $nomFichierCsv;
 
-    /**
-     * Set dateMotu
-     *
-     * @param \DateTime $dateMotu
-     *
-     * @return Motu
-     */
-    public function setDateMotu($dateMotu)
-    {
-        $this->dateMotu = $dateMotu;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get nomFichierCsv
+   *
+   * @return string
+   */
+  public function getNomFichierCsv() {
+    return $this->nomFichierCsv;
+  }
 
-    /**
-     * Get dateMotu
-     *
-     * @return \DateTime
-     */
-    public function getDateMotu()
-    {
-        return $this->dateMotu;
-    }
+  /**
+   * Set dateMotu
+   *
+   * @param \DateTime $dateMotu
+   *
+   * @return Motu
+   */
+  public function setDateMotu($dateMotu) {
+    $this->dateMotu = $dateMotu;
 
-    /**
-     * Set commentaireMotu
-     *
-     * @param string $commentaireMotu
-     *
-     * @return Motu
-     */
-    public function setCommentaireMotu($commentaireMotu)
-    {
-        $this->commentaireMotu = $commentaireMotu;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get dateMotu
+   *
+   * @return \DateTime
+   */
+  public function getDateMotu() {
+    return $this->dateMotu;
+  }
 
-    /**
-     * Get commentaireMotu
-     *
-     * @return string
-     */
-    public function getCommentaireMotu()
-    {
-        return $this->commentaireMotu;
-    }
+  /**
+   * Set commentaireMotu
+   *
+   * @param string $commentaireMotu
+   *
+   * @return Motu
+   */
+  public function setCommentaireMotu($commentaireMotu) {
+    $this->commentaireMotu = $commentaireMotu;
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return Motu
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get commentaireMotu
+   *
+   * @return string
+   */
+  public function getCommentaireMotu() {
+    return $this->commentaireMotu;
+  }
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return Motu
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return Motu
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return Motu
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return Motu
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return Motu
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return Motu
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return Motu
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Add motuEstGenerePar
-     *
-     * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
-     *
-     * @return Motu
-     */
-    public function addMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar)
-    {
-        $motuEstGenerePar->setMotuFk($this);
-        $this->motuEstGenerePars[] = $motuEstGenerePar;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 
-    /**
-     * Remove motuEstGenerePar
-     *
-     * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
-     */
-    public function removeMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar)
-    {
-        $this->motuEstGenerePars->removeElement($motuEstGenerePar);
-    }
+  /**
+   * Add motuEstGenerePar
+   *
+   * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
+   *
+   * @return Motu
+   */
+  public function addMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar) {
+    $motuEstGenerePar->setMotuFk($this);
+    $this->motuEstGenerePars[] = $motuEstGenerePar;
 
-    /**
-     * Get motuEstGenerePars
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMotuEstGenerePars()
-    {
-        return $this->motuEstGenerePars;
-    }
+    return $this;
+  }
 
-    /**
-     * Set libelleMotu
-     *
-     * @param string $libelleMotu
-     *
-     * @return Motu
-     */
-    public function setLibelleMotu($libelleMotu)
-    {
-        $this->libelleMotu = $libelleMotu;
+  /**
+   * Remove motuEstGenerePar
+   *
+   * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
+   */
+  public function removeMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar) {
+    $this->motuEstGenerePars->removeElement($motuEstGenerePar);
+  }
 
-        return $this;
-    }
+  /**
+   * Get motuEstGenerePars
+   *
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getMotuEstGenerePars() {
+    return $this->motuEstGenerePars;
+  }
 
-    /**
-     * Get libelleMotu
-     *
-     * @return string
-     */
-    public function getLibelleMotu()
-    {
-        return $this->libelleMotu;
-    }
+  /**
+   * Set libelleMotu
+   *
+   * @param string $libelleMotu
+   *
+   * @return Motu
+   */
+  public function setLibelleMotu($libelleMotu) {
+    $this->libelleMotu = $libelleMotu;
+
+    return $this;
+  }
+
+  /**
+   * Get libelleMotu
+   *
+   * @return string
+   */
+  public function getLibelleMotu() {
+    return $this->libelleMotu;
+  }
 }

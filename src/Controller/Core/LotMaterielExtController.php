@@ -1,30 +1,15 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\LotMaterielExt;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Lotmaterielext controller.
@@ -63,25 +48,25 @@ class LotMaterielExtController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = $request->get('sort')
+    $orderBy = $request->get('sort')
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
     : "lot.date_of_update DESC, lot.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(lot.external_biological_material_code) LIKE :criteriaLower';
+    $where = 'LOWER(lot.external_biological_material_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
 
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND lot.sampling_fk = ' . $request->get('idFk');
     }
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT
+    $rawSql = "SELECT
       lot.id,
       st.site_code, st.latitude, st.longitude,
       sampling.sample_code,
@@ -137,37 +122,37 @@ class LotMaterielExtController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
-        "id"                                             => $val['id'], "lot.id" => $val['id'],
-        "lot.external_biological_material_code"          => $val['external_biological_material_code'],
-        "last_taxname_lot"                               => $val['last_taxname_lot'],
-        "last_date_identification_lot"                   => $val['last_date_identification_lot'],
-        "code_lot_identification_criterion"              => $val['code_lot_identification_criterion'],
+        "id" => $val['id'], "lot.id" => $val['id'],
+        "lot.external_biological_material_code" => $val['external_biological_material_code'],
+        "last_taxname_lot" => $val['last_taxname_lot'],
+        "last_date_identification_lot" => $val['last_date_identification_lot'],
+        "code_lot_identification_criterion" => $val['code_lot_identification_criterion'],
         "lot.external_biological_material_creation_date" => $val['external_biological_material_creation_date'],
-        "lot.date_of_creation"                           => $val['date_of_creation'],
-        "lot.date_of_update"                             => $val['date_of_update'],
-        "list_person"                                    => $val['list_person'],
-        "sampling.sample_code"                           => $val['sample_code'],
-        "country.country_name"                           => $val['country_name'],
-        "municipality.municipality_code"                 => $val['municipality_code'],
-        "creation_user_name"                             => $val['creation_user_name'],
-        "user_cre.user_full_name"                        => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
-        "user_maj.user_full_name"                        => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
+        "lot.date_of_creation" => $val['date_of_creation'],
+        "lot.date_of_update" => $val['date_of_update'],
+        "list_person" => $val['list_person'],
+        "sampling.sample_code" => $val['sample_code'],
+        "country.country_name" => $val['country_name'],
+        "municipality.municipality_code" => $val['municipality_code'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -179,7 +164,7 @@ class LotMaterielExtController extends AbstractController {
    */
   public function newAction(Request $request) {
     $lotMaterielExt = new Lotmaterielext();
-    $em             = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
 
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
@@ -209,15 +194,15 @@ class LotMaterielExtController extends AbstractController {
         );
       }
       return $this->redirectToRoute('lotmaterielext_edit', [
-        'id'    => $lotMaterielExt->getId(),
+        'id' => $lotMaterielExt->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ]);
     }
 
     return $this->render('Core/lotmaterielext/edit.html.twig', [
       'lotMaterielExt' => $lotMaterielExt,
-      'edit_form'      => $form->createView(),
+      'edit_form' => $form->createView(),
     ]);
   }
 
@@ -228,7 +213,7 @@ class LotMaterielExtController extends AbstractController {
    */
   public function showAction(LotMaterielExt $lotMaterielExt) {
     $deleteForm = $this->createDeleteForm($lotMaterielExt);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\LotMaterielExtType',
       $lotMaterielExt,
       ['action_type' => Action::show()]
@@ -236,8 +221,8 @@ class LotMaterielExtController extends AbstractController {
 
     return $this->render('Core/lotmaterielext/edit.html.twig', [
       'lotMaterielExt' => $lotMaterielExt,
-      'edit_form'      => $editForm->createView(),
-      'delete_form'    => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ]);
   }
 
@@ -259,12 +244,12 @@ class LotMaterielExtController extends AbstractController {
     }
 
     // store ArrayCollection
-    $especeIdentifiees               = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMaterielExt);
+    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMaterielExt);
     $lotMaterielExtEstReferenceDanss = $service->setArrayCollection('LotMaterielExtEstReferenceDanss', $lotMaterielExt);
-    $lotMaterielExtEstRealisePars    = $service->setArrayCollection('LotMaterielExtEstRealisePars', $lotMaterielExt);
+    $lotMaterielExtEstRealisePars = $service->setArrayCollection('LotMaterielExtEstRealisePars', $lotMaterielExt);
 
     $deleteForm = $this->createDeleteForm($lotMaterielExt);
-    $editForm   = $this->createForm(
+    $editForm = $this->createForm(
       'App\Form\LotMaterielExtType',
       $lotMaterielExt,
       ['action_type' => Action::edit()]
@@ -291,15 +276,15 @@ class LotMaterielExtController extends AbstractController {
       }
       return $this->render('Core/lotmaterielext/edit.html.twig', [
         'lotMaterielExt' => $lotMaterielExt,
-        'edit_form'      => $editForm->createView(),
-        'valid'          => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ]);
     }
 
     return $this->render('Core/lotmaterielext/edit.html.twig', [
       'lotMaterielExt' => $lotMaterielExt,
-      'edit_form'      => $editForm->createView(),
-      'delete_form'    => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ]);
   }
 

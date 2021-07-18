@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Personne;
@@ -40,7 +25,7 @@ class PersonneController extends AbstractController {
    * @Route("/", name="personne_index", methods={"GET"})
    */
   public function indexAction() {
-    $em        = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     $personnes = $em->getRepository('App:Personne')->findAll();
     return $this->render('Core/personne/index.html.twig', [
       'personnes' => $personnes,
@@ -60,19 +45,19 @@ class PersonneController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(personne.nomPersonne) LIKE :criteriaLower';
+    $where = 'LOWER(personne.nomPersonne) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Personne")
       ->createQueryBuilder('personne')
@@ -87,12 +72,12 @@ class PersonneController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
@@ -101,24 +86,24 @@ class PersonneController extends AbstractController {
       ? $entity->getEtablissementFk()->getNomEtablissement() : null;
       //
       $tab_toshow[] = array(
-        "id"                             => $id, "personne.id" => $id,
-        "personne.nomPersonne"           => $entity->getNomPersonne(),
-        "personne.nomComplet"            => $entity->getNomComplet(),
+        "id" => $id, "personne.id" => $id,
+        "personne.nomPersonne" => $entity->getNomPersonne(),
+        "personne.nomComplet" => $entity->getNomComplet(),
         "etablissement.nomEtablissement" => $NomEtablissement,
-        "personne.dateCre"               => $DateCre,
-        "personne.dateMaj"               => $DateMaj,
-        "userCreId"                      => $service->GetUserCreId($entity),
-        "personne.userCre"               => $service->GetUserCreUserfullname($entity),
-        "personne.userMaj"               => $service->GetUserMajUserfullname($entity),
+        "personne.dateCre" => $DateCre,
+        "personne.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "personne.userCre" => $service->GetUserCreUserfullname($entity),
+        "personne.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -130,7 +115,7 @@ class PersonneController extends AbstractController {
    */
   public function newAction(Request $request) {
     $personne = new Personne();
-    $form     = $this->createForm('App\Form\PersonneType', $personne, [
+    $form = $this->createForm('App\Form\PersonneType', $personne, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -149,13 +134,13 @@ class PersonneController extends AbstractController {
         ));
       }
       return $this->redirectToRoute('personne_edit', array(
-        'id'    => $personne->getId(),
+        'id' => $personne->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/personne/edit.html.twig', array(
-      'personne'  => $personne,
+      'personne' => $personne,
       'edit_form' => $form->createView(),
     ));
   }
@@ -167,7 +152,7 @@ class PersonneController extends AbstractController {
    */
   public function newmodalAction(Request $request) {
     $personne = new Personne();
-    $form     = $this->createForm('App\Form\PersonneType', $personne, [
+    $form = $this->createForm('App\Form\PersonneType', $personne, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -176,9 +161,9 @@ class PersonneController extends AbstractController {
       if (!$form->isValid()) {
         return new JsonResponse([
           'valid' => false,
-          "form"  => $this->render('modal-form.html.twig', [
+          "form" => $this->render('modal-form.html.twig', [
             'entityname' => 'personne',
-            'form'       => $form->createView(),
+            'form' => $form->createView(),
           ])->getContent(),
         ]);
       } else {
@@ -186,27 +171,27 @@ class PersonneController extends AbstractController {
         $em->persist($personne);
 
         try {
-          $flush       = $em->flush();
-          $select_id   = $personne->getId();
+          $flush = $em->flush();
+          $select_id = $personne->getId();
           $select_name = $personne->getNomPersonne();
           // returns the parameters of the new record created
           return new JsonResponse([
-            'select_id'   => $select_id,
+            'select_id' => $select_id,
             'select_name' => $select_name,
-            'entityname'  => 'personne',
+            'entityname' => 'personne',
           ]);
         } catch (\Doctrine\DBAL\DBALException $e) {
           return new JsonResponse([
-            'exception'         => true,
+            'exception' => true,
             'exception_message' => $e->getMessage(),
-            'entityname'        => 'personne',
+            'entityname' => 'personne',
           ]);
         }
       }
     } else {
       return $this->render('modal.html.twig', array(
         'entityname' => 'personne',
-        'form'       => $form->createView(),
+        'form' => $form->createView(),
       ));
     }
   }
@@ -218,13 +203,13 @@ class PersonneController extends AbstractController {
    */
   public function showAction(Personne $personne) {
     $deleteForm = $this->createDeleteForm($personne);
-    $editForm   = $this->createForm('App\Form\PersonneType', $personne, [
+    $editForm = $this->createForm('App\Form\PersonneType', $personne, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/personne/edit.html.twig', array(
-      'personne'    => $personne,
-      'edit_form'   => $editForm->createView(),
+      'personne' => $personne,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -246,7 +231,7 @@ class PersonneController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     $deleteForm = $this->createDeleteForm($personne);
-    $editForm   = $this->createForm('App\Form\PersonneType', $personne, [
+    $editForm = $this->createForm('App\Form\PersonneType', $personne, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -263,15 +248,15 @@ class PersonneController extends AbstractController {
         ));
       }
       return $this->render('Core/personne/edit.html.twig', array(
-        'personne'  => $personne,
+        'personne' => $personne,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/personne/edit.html.twig', array(
-      'personne'    => $personne,
-      'edit_form'   => $editForm->createView(),
+      'personne' => $personne,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

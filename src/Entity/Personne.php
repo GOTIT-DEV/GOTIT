@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -23,316 +8,294 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Personne
  *
- * @ORM\Table(name="person", 
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})}, 
+ * @ORM\Table(name="person",
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})},
  *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"nomPersonne"}, message="A person with this name is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Personne
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
-     */
-    private $id;
+class Personne {
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
+   */
+  private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
-     */
-    private $nomPersonne;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
+   */
+  private $nomPersonne;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
-     */
-    private $nomComplet;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
+   */
+  private $nomComplet;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
-     */
-    private $nomPersonneRef;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
+   */
+  private $nomPersonneRef;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="person_comments", type="text", nullable=true)
-     */
-    private $commentairePersonne;
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="person_comments", type="text", nullable=true)
+   */
+  private $commentairePersonne;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-     */
-    private $dateCre;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   */
+  private $dateCre;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-     */
-    private $dateMaj;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   */
+  private $dateMaj;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-     */
-    private $userCre;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
+   */
+  private $userCre;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-     */
-    private $userMaj;
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
+   */
+  private $userMaj;
 
-    /**
-     * @var \Etablissement
-     *
-     * @ORM\ManyToOne(targetEntity="Etablissement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
-     * })
-     */
-    private $etablissementFk;
+  /**
+   * @var \Etablissement
+   *
+   * @ORM\ManyToOne(targetEntity="Etablissement")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
+   * })
+   */
+  private $etablissementFk;
 
+  /**
+   * Get id
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
+  /**
+   * Set nomPersonne
+   *
+   * @param string $nomPersonne
+   *
+   * @return Personne
+   */
+  public function setNomPersonne($nomPersonne) {
+    $this->nomPersonne = $nomPersonne;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nomPersonne
-     *
-     * @param string $nomPersonne
-     *
-     * @return Personne
-     */
-    public function setNomPersonne($nomPersonne)
-    {
-        $this->nomPersonne = $nomPersonne;
+  /**
+   * Get nomPersonne
+   *
+   * @return string
+   */
+  public function getNomPersonne() {
+    return $this->nomPersonne;
+  }
 
-        return $this;
-    }
+  /**
+   * Set nomComplet
+   *
+   * @param string $nomComplet
+   *
+   * @return Personne
+   */
+  public function setNomComplet($nomComplet) {
+    $this->nomComplet = $nomComplet;
 
-    /**
-     * Get nomPersonne
-     *
-     * @return string
-     */
-    public function getNomPersonne()
-    {
-        return $this->nomPersonne;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nomComplet
-     *
-     * @param string $nomComplet
-     *
-     * @return Personne
-     */
-    public function setNomComplet($nomComplet)
-    {
-        $this->nomComplet = $nomComplet;
+  /**
+   * Get nomComplet
+   *
+   * @return string
+   */
+  public function getNomComplet() {
+    return $this->nomComplet;
+  }
 
-        return $this;
-    }
+  /**
+   * Set nomPersonneRef
+   *
+   * @param string $nomPersonneRef
+   *
+   * @return Personne
+   */
+  public function setNomPersonneRef($nomPersonneRef) {
+    $this->nomPersonneRef = $nomPersonneRef;
 
-    /**
-     * Get nomComplet
-     *
-     * @return string
-     */
-    public function getNomComplet()
-    {
-        return $this->nomComplet;
-    }
+    return $this;
+  }
 
-    /**
-     * Set nomPersonneRef
-     *
-     * @param string $nomPersonneRef
-     *
-     * @return Personne
-     */
-    public function setNomPersonneRef($nomPersonneRef)
-    {
-        $this->nomPersonneRef = $nomPersonneRef;
+  /**
+   * Get nomPersonneRef
+   *
+   * @return string
+   */
+  public function getNomPersonneRef() {
+    return $this->nomPersonneRef;
+  }
 
-        return $this;
-    }
+  /**
+   * Set commentairePersonne
+   *
+   * @param string $commentairePersonne
+   *
+   * @return Personne
+   */
+  public function setCommentairePersonne($commentairePersonne) {
+    $this->commentairePersonne = $commentairePersonne;
 
-    /**
-     * Get nomPersonneRef
-     *
-     * @return string
-     */
-    public function getNomPersonneRef()
-    {
-        return $this->nomPersonneRef;
-    }
+    return $this;
+  }
 
-    /**
-     * Set commentairePersonne
-     *
-     * @param string $commentairePersonne
-     *
-     * @return Personne
-     */
-    public function setCommentairePersonne($commentairePersonne)
-    {
-        $this->commentairePersonne = $commentairePersonne;
+  /**
+   * Get commentairePersonne
+   *
+   * @return string
+   */
+  public function getCommentairePersonne() {
+    return $this->commentairePersonne;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateCre
+   *
+   * @param \DateTime $dateCre
+   *
+   * @return Personne
+   */
+  public function setDateCre($dateCre) {
+    $this->dateCre = $dateCre;
 
-    /**
-     * Get commentairePersonne
-     *
-     * @return string
-     */
-    public function getCommentairePersonne()
-    {
-        return $this->commentairePersonne;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateCre
-     *
-     * @param \DateTime $dateCre
-     *
-     * @return Personne
-     */
-    public function setDateCre($dateCre)
-    {
-        $this->dateCre = $dateCre;
+  /**
+   * Get dateCre
+   *
+   * @return \DateTime
+   */
+  public function getDateCre() {
+    return $this->dateCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set dateMaj
+   *
+   * @param \DateTime $dateMaj
+   *
+   * @return Personne
+   */
+  public function setDateMaj($dateMaj) {
+    $this->dateMaj = $dateMaj;
 
-    /**
-     * Get dateCre
-     *
-     * @return \DateTime
-     */
-    public function getDateCre()
-    {
-        return $this->dateCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set dateMaj
-     *
-     * @param \DateTime $dateMaj
-     *
-     * @return Personne
-     */
-    public function setDateMaj($dateMaj)
-    {
-        $this->dateMaj = $dateMaj;
+  /**
+   * Get dateMaj
+   *
+   * @return \DateTime
+   */
+  public function getDateMaj() {
+    return $this->dateMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userCre
+   *
+   * @param integer $userCre
+   *
+   * @return Personne
+   */
+  public function setUserCre($userCre) {
+    $this->userCre = $userCre;
 
-    /**
-     * Get dateMaj
-     *
-     * @return \DateTime
-     */
-    public function getDateMaj()
-    {
-        return $this->dateMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userCre
-     *
-     * @param integer $userCre
-     *
-     * @return Personne
-     */
-    public function setUserCre($userCre)
-    {
-        $this->userCre = $userCre;
+  /**
+   * Get userCre
+   *
+   * @return integer
+   */
+  public function getUserCre() {
+    return $this->userCre;
+  }
 
-        return $this;
-    }
+  /**
+   * Set userMaj
+   *
+   * @param integer $userMaj
+   *
+   * @return Personne
+   */
+  public function setUserMaj($userMaj) {
+    $this->userMaj = $userMaj;
 
-    /**
-     * Get userCre
-     *
-     * @return integer
-     */
-    public function getUserCre()
-    {
-        return $this->userCre;
-    }
+    return $this;
+  }
 
-    /**
-     * Set userMaj
-     *
-     * @param integer $userMaj
-     *
-     * @return Personne
-     */
-    public function setUserMaj($userMaj)
-    {
-        $this->userMaj = $userMaj;
+  /**
+   * Get userMaj
+   *
+   * @return integer
+   */
+  public function getUserMaj() {
+    return $this->userMaj;
+  }
 
-        return $this;
-    }
+  /**
+   * Set etablissementFk
+   *
+   * @param \App\Entity\Etablissement $etablissementFk
+   *
+   * @return Personne
+   */
+  public function setEtablissementFk(\App\Entity\Etablissement $etablissementFk = null) {
+    $this->etablissementFk = $etablissementFk;
 
-    /**
-     * Get userMaj
-     *
-     * @return integer
-     */
-    public function getUserMaj()
-    {
-        return $this->userMaj;
-    }
+    return $this;
+  }
 
-    /**
-     * Set etablissementFk
-     *
-     * @param \App\Entity\Etablissement $etablissementFk
-     *
-     * @return Personne
-     */
-    public function setEtablissementFk(\App\Entity\Etablissement $etablissementFk = null)
-    {
-        $this->etablissementFk = $etablissementFk;
-
-        return $this;
-    }
-
-    /**
-     * Get etablissementFk
-     *
-     * @return \App\Entity\Etablissement
-     */
-    public function getEtablissementFk()
-    {
-        return $this->etablissementFk;
-    }
+  /**
+   * Get etablissementFk
+   *
+   * @return \App\Entity\Etablissement
+   */
+  public function getEtablissementFk() {
+    return $this->etablissementFk;
+  }
 }

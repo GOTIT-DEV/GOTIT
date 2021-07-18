@@ -1,43 +1,27 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * SequenceAssemblee
  *
- * @ORM\Table(name="internal_sequence", 
+ * @ORM\Table(name="internal_sequence",
  * uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_code", columns={"internal_sequence_code"}), 
- *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_alignment_code", columns={"internal_sequence_alignment_code"})}, 
+ *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_code", columns={"internal_sequence_code"}),
+ *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_alignment_code", columns={"internal_sequence_alignment_code"})},
  *  indexes={
- *      @ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}), 
+ *      @ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}),
  *      @ORM\Index(name="IDX_353CF66988085E0F", columns={"internal_sequence_status_voc_fk"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"codeSqcAss"}, message="This code is already registered")
  * @UniqueEntity(fields={"codeSqcAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssemblee
-{
+class SequenceAssemblee {
   /**
    * @var integer
    *
@@ -111,7 +95,6 @@ class SequenceAssemblee
    */
   private $userMaj;
 
-
   /**
    * @var \Voc
    *
@@ -156,24 +139,19 @@ class SequenceAssemblee
    */
   protected $estAligneEtTraites;
 
-
-
-  public function __construct()
-  {
+  public function __construct() {
     $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
     $this->sqcEstPublieDanss = new ArrayCollection();
     $this->especeIdentifiees = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
   }
 
-
   /**
    * Get id
    *
    * @return integer
    */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
@@ -184,8 +162,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setCodeSqcAss($codeSqcAss)
-  {
+  public function setCodeSqcAss($codeSqcAss) {
     $this->codeSqcAss = $codeSqcAss;
 
     return $this;
@@ -196,8 +173,7 @@ class SequenceAssemblee
    *
    * @return string
    */
-  public function getCodeSqcAss()
-  {
+  public function getCodeSqcAss() {
     return $this->codeSqcAss;
   }
 
@@ -208,8 +184,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setDateCreationSqcAss($dateCreationSqcAss)
-  {
+  public function setDateCreationSqcAss($dateCreationSqcAss) {
     $this->dateCreationSqcAss = $dateCreationSqcAss;
 
     return $this;
@@ -220,8 +195,7 @@ class SequenceAssemblee
    *
    * @return \DateTime
    */
-  public function getDateCreationSqcAss()
-  {
+  public function getDateCreationSqcAss() {
     return $this->dateCreationSqcAss;
   }
 
@@ -232,8 +206,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setAccessionNumber($accessionNumber)
-  {
+  public function setAccessionNumber($accessionNumber) {
     $this->accessionNumber = $accessionNumber;
 
     return $this;
@@ -244,8 +217,7 @@ class SequenceAssemblee
    *
    * @return string
    */
-  public function getAccessionNumber()
-  {
+  public function getAccessionNumber() {
     return $this->accessionNumber;
   }
 
@@ -256,8 +228,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setCodeSqcAlignement($codeSqcAlignement)
-  {
+  public function setCodeSqcAlignement($codeSqcAlignement) {
     $this->codeSqcAlignement = $codeSqcAlignement;
 
     return $this;
@@ -268,8 +239,7 @@ class SequenceAssemblee
    *
    * @return string
    */
-  public function getCodeSqcAlignement()
-  {
+  public function getCodeSqcAlignement() {
     return $this->codeSqcAlignement;
   }
 
@@ -280,8 +250,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setCommentaireSqcAss($commentaireSqcAss)
-  {
+  public function setCommentaireSqcAss($commentaireSqcAss) {
     $this->commentaireSqcAss = $commentaireSqcAss;
 
     return $this;
@@ -292,8 +261,7 @@ class SequenceAssemblee
    *
    * @return string
    */
-  public function getCommentaireSqcAss()
-  {
+  public function getCommentaireSqcAss() {
     return $this->commentaireSqcAss;
   }
 
@@ -304,8 +272,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setDateCre($dateCre)
-  {
+  public function setDateCre($dateCre) {
     $this->dateCre = $dateCre;
 
     return $this;
@@ -316,8 +283,7 @@ class SequenceAssemblee
    *
    * @return \DateTime
    */
-  public function getDateCre()
-  {
+  public function getDateCre() {
     return $this->dateCre;
   }
 
@@ -328,8 +294,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setDateMaj($dateMaj)
-  {
+  public function setDateMaj($dateMaj) {
     $this->dateMaj = $dateMaj;
 
     return $this;
@@ -340,8 +305,7 @@ class SequenceAssemblee
    *
    * @return \DateTime
    */
-  public function getDateMaj()
-  {
+  public function getDateMaj() {
     return $this->dateMaj;
   }
 
@@ -352,8 +316,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setUserCre($userCre)
-  {
+  public function setUserCre($userCre) {
     $this->userCre = $userCre;
 
     return $this;
@@ -364,8 +327,7 @@ class SequenceAssemblee
    *
    * @return integer
    */
-  public function getUserCre()
-  {
+  public function getUserCre() {
     return $this->userCre;
   }
 
@@ -376,8 +338,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setUserMaj($userMaj)
-  {
+  public function setUserMaj($userMaj) {
     $this->userMaj = $userMaj;
 
     return $this;
@@ -388,8 +349,7 @@ class SequenceAssemblee
    *
    * @return integer
    */
-  public function getUserMaj()
-  {
+  public function getUserMaj() {
     return $this->userMaj;
   }
 
@@ -400,8 +360,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null)
-  {
+  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
 
     return $this;
@@ -412,8 +371,7 @@ class SequenceAssemblee
    *
    * @return \App\Entity\Voc
    */
-  public function getDatePrecisionVocFk()
-  {
+  public function getDatePrecisionVocFk() {
     return $this->datePrecisionVocFk;
   }
 
@@ -424,8 +382,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null)
-  {
+  public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null) {
     $this->statutSqcAssVocFk = $statutSqcAssVocFk;
 
     return $this;
@@ -436,8 +393,7 @@ class SequenceAssemblee
    *
    * @return \App\Entity\Voc
    */
-  public function getStatutSqcAssVocFk()
-  {
+  public function getStatutSqcAssVocFk() {
     return $this->statutSqcAssVocFk;
   }
 
@@ -448,8 +404,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function addSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar)
-  {
+  public function addSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar) {
     $sequenceAssembleeEstRealisePar->setSequenceAssembleeFk($this);
     $this->sequenceAssembleeEstRealisePars[] = $sequenceAssembleeEstRealisePar;
 
@@ -461,8 +416,7 @@ class SequenceAssemblee
    *
    * @param \App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar
    */
-  public function removeSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar)
-  {
+  public function removeSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar) {
     $this->sequenceAssembleeEstRealisePars->removeElement($sequenceAssembleeEstRealisePar);
   }
 
@@ -471,8 +425,7 @@ class SequenceAssemblee
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSequenceAssembleeEstRealisePars()
-  {
+  public function getSequenceAssembleeEstRealisePars() {
     return $this->sequenceAssembleeEstRealisePars;
   }
 
@@ -483,8 +436,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function addSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans)
-  {
+  public function addSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans) {
     $sqcEstPublieDans->setSequenceAssembleeFk($this);
     $this->sqcEstPublieDanss[] = $sqcEstPublieDans;
 
@@ -496,8 +448,7 @@ class SequenceAssemblee
    *
    * @param \App\Entity\SqcEstPublieDans $sqcEstPublieDans
    */
-  public function removeSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans)
-  {
+  public function removeSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans) {
     $this->sqcEstPublieDanss->removeElement($sqcEstPublieDans);
   }
 
@@ -506,8 +457,7 @@ class SequenceAssemblee
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSqcEstPublieDanss()
-  {
+  public function getSqcEstPublieDanss() {
     return $this->sqcEstPublieDanss;
   }
 
@@ -518,8 +468,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee)
-  {
+  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
     $especeIdentifiee->setSequenceAssembleeFk($this);
     $this->especeIdentifiees[] = $especeIdentifiee;
 
@@ -531,8 +480,7 @@ class SequenceAssemblee
    *
    * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
    */
-  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee)
-  {
+  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
     $this->especeIdentifiees->removeElement($especeIdentifiee);
   }
 
@@ -541,8 +489,7 @@ class SequenceAssemblee
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEspeceIdentifiees()
-  {
+  public function getEspeceIdentifiees() {
     return $this->especeIdentifiees;
   }
 
@@ -553,8 +500,7 @@ class SequenceAssemblee
    *
    * @return SequenceAssemblee
    */
-  public function addEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite)
-  {
+  public function addEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite) {
     $estAligneEtTraite->setSequenceAssembleeFk($this);
     $this->estAligneEtTraites[] = $estAligneEtTraite;
 
@@ -566,8 +512,7 @@ class SequenceAssemblee
    *
    * @param \App\Entity\EstAligneEtTraite $estAligneEtTraite
    */
-  public function removeEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite)
-  {
+  public function removeEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite) {
     $this->estAligneEtTraites->removeElement($estAligneEtTraite);
   }
 
@@ -576,29 +521,26 @@ class SequenceAssemblee
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEstAligneEtTraites()
-  {
+  public function getEstAligneEtTraites() {
     return $this->estAligneEtTraites;
   }
 
-
   /**
    * Get geneVocFk
-   * 
-   * This assumes that a sequence matches ONE gene only, 
+   *
+   * This assumes that a sequence matches ONE gene only,
    * even if it was processed through multiple chromatograms
    *
    * @return mixed
    */
-  public function getGeneVocFk()
-  {
+  public function getGeneVocFk() {
     $process = $this->estAligneEtTraites->first();
     return $process
-      ? $process
+    ? $process
       ->getChromatogrammeFk()
       ->getPcrFk()
       ->getGeneVocFk()
-      : null;
+    : null;
   }
 
   /**
@@ -606,40 +548,39 @@ class SequenceAssemblee
    *
    * this assumes that a sequence matches ONE specimen only,
    * even if it was processed through multiple chromatograms
-   * 
+   *
    * @return mixed
    */
-  public function getIndividuFk()
-  {
+  public function getIndividuFk() {
     $process = $this->estAligneEtTraites->first();
     return $process
-      ? $process
+    ? $process
       ->getChromatogrammeFk()
       ->getPcrFk()
       ->getAdnFk()
       ->getIndividuFk()
-      : null;
+    : null;
   }
 
   /**
    * Generate alignment code
-   * 
+   *
    * generates an alignment code from sequence metadata
    * generated code is saved as the sequence alignment code
-   * 
+   *
    * @return string
    */
-  public function generateAlignmentCode()
-  {
+  public function generateAlignmentCode() {
     $nbChromato = count($this->getEstAligneEtTraites());
     $nbIdentifiedSpecies = count($this->getEspeceIdentifiees());
-    if ($nbChromato < 1 || $nbIdentifiedSpecies < 1)
+    if ($nbChromato < 1 || $nbIdentifiedSpecies < 1) {
       $seqCode = null;
-    else {
+    } else {
       $seqCodeElts = [];
       $statusCode = $this->getStatutSqcAssVocFk()->getCode();
-      if (substr($statusCode, 0, 5) != 'VALID')
+      if (substr($statusCode, 0, 5) != 'VALID') {
         $seqCodeElts[] = $statusCode;
+      }
 
       $lastTaxonCode = $this->getEspeceIdentifiees()->last()
         ->getReferentielTaxonFk()

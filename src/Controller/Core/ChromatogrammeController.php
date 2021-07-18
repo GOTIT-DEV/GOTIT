@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Chromatogramme;
@@ -41,7 +26,7 @@ class ChromatogrammeController extends AbstractController {
    * @Route("/", name="chromatogramme_index", methods={"GET"})
    */
   public function indexAction() {
-    $em              = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
 
     return $this->render('Core/chromatogramme/index.html.twig', array(
@@ -69,18 +54,18 @@ class ChromatogrammeController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(chromato.chromatogram_code) LIKE :criteriaLower';
+    $where = 'LOWER(chromato.chromatogram_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND chromato.pcr_fk = ' . $request->get('idFk');
     }
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT
+    $rawSql = "SELECT
           chromato.id,
           chromato.chromatogram_code,
           chromato.creation_user_name,
@@ -128,7 +113,7 @@ class ChromatogrammeController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
@@ -141,34 +126,34 @@ class ChromatogrammeController extends AbstractController {
       $linkSqcAss = $get_code($val['last_internal_sequence_code']) !== 'NULL'
       ? strval($val['id']) : '';
       $tab_toshow[] = array(
-        "id"                                    => $val['id'],
-        "chromato.id"                           => $val['id'],
-        "sp.specimen_molecular_code"            => $val['specimen_molecular_code'],
-        "dna.dna_code"                          => $val['dna_code'],
-        "chromato.chromatogram_code"            => $val['chromatogram_code'],
-        "code_voc_gene"                         => $val['code_voc_gene'],
-        "pcr.pcr_code"                          => $val['pcr_code'],
-        "pcr.pcr_number"                        => $val['pcr_number'],
-        "code_voc_chromato_quality"             => $val['code_voc_chromato_quality'],
-        "chromato.date_of_creation"             => $val['date_of_creation'],
-        "chromato.date_of_update"               => $val['date_of_update'],
-        "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_full_name"               => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
-        "user_maj.user_full_name"               => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
-        "last_internal_sequence_code"           => $get_code($val['last_internal_sequence_code']),
-        "last_internal_sequence_status_voc"     => $get_code($val['last_internal_sequence_status_voc']),
+        "id" => $val['id'],
+        "chromato.id" => $val['id'],
+        "sp.specimen_molecular_code" => $val['specimen_molecular_code'],
+        "dna.dna_code" => $val['dna_code'],
+        "chromato.chromatogram_code" => $val['chromatogram_code'],
+        "code_voc_gene" => $val['code_voc_gene'],
+        "pcr.pcr_code" => $val['pcr_code'],
+        "pcr.pcr_number" => $val['pcr_number'],
+        "code_voc_chromato_quality" => $val['code_voc_chromato_quality'],
+        "chromato.date_of_creation" => $val['date_of_creation'],
+        "chromato.date_of_update" => $val['date_of_update'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
+        "last_internal_sequence_code" => $get_code($val['last_internal_sequence_code']),
+        "last_internal_sequence_status_voc" => $get_code($val['last_internal_sequence_status_voc']),
         "last_internal_sequence_alignment_code" => $get_code($val['last_internal_sequence_alignment_code']),
-        "last_internal_sequence_creation_date"  => $get_code($val['last_internal_sequence_creation_date']),
-        "linkSequenceassemblee"                 => $linkSqcAss,
+        "last_internal_sequence_creation_date" => $get_code($val['last_internal_sequence_creation_date']),
+        "linkSequenceassemblee" => $linkSqcAss,
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -180,7 +165,7 @@ class ChromatogrammeController extends AbstractController {
    */
   public function newAction(Request $request) {
     $chromatogramme = new Chromatogramme();
-    $em             = $this->getDoctrine()->getManager();
+    $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
     if ($pcr_id = $request->get('idFk')) {
       $pcr = $em->getRepository('App:Pcr')->find($pcr_id);
@@ -207,15 +192,15 @@ class ChromatogrammeController extends AbstractController {
         );
       }
       return $this->redirectToRoute('chromatogramme_edit', array(
-        'id'    => $chromatogramme->getId(),
+        'id' => $chromatogramme->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ));
     }
 
     return $this->render('Core/chromatogramme/edit.html.twig', array(
       'chromatogramme' => $chromatogramme,
-      'edit_form'      => $form->createView(),
+      'edit_form' => $form->createView(),
     ));
   }
 
@@ -226,14 +211,14 @@ class ChromatogrammeController extends AbstractController {
    */
   public function showAction(Chromatogramme $chromatogramme) {
     $deleteForm = $this->createDeleteForm($chromatogramme);
-    $editForm   = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
+    $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/chromatogramme/edit.html.twig', array(
       'chromatogramme' => $chromatogramme,
-      'edit_form'      => $editForm->createView(),
-      'delete_form'    => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 
@@ -255,7 +240,7 @@ class ChromatogrammeController extends AbstractController {
     }
     //
     $deleteForm = $this->createDeleteForm($chromatogramme);
-    $editForm   = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
+    $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -278,15 +263,15 @@ class ChromatogrammeController extends AbstractController {
       }
       return $this->render('Core/chromatogramme/edit.html.twig', array(
         'chromatogramme' => $chromatogramme,
-        'edit_form'      => $editForm->createView(),
-        'valid'          => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/chromatogramme/edit.html.twig', array(
       'chromatogramme' => $chromatogramme,
-      'edit_form'      => $editForm->createView(),
-      'delete_form'    => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ));
   }
 

@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Source;
@@ -62,19 +47,19 @@ class SourceController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('source.dateMaj' => 'desc', 'source.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(source.codeSource) LIKE :criteriaLower';
+    $where = 'LOWER(source.codeSource) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Source")
       ->createQueryBuilder('source')
@@ -83,37 +68,37 @@ class SourceController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                   => $id,
-        "source.id"            => $id,
-        "source.codeSource"    => $entity->getCodeSource(),
-        "source.anneeSource"   => $entity->getAnneeSource(),
+        "id" => $id,
+        "source.id" => $id,
+        "source.codeSource" => $entity->getCodeSource(),
+        "source.anneeSource" => $entity->getAnneeSource(),
         "source.libelleSource" => $entity->getLibelleSource(),
-        "source.dateCre"       => $DateCre,
-        "source.dateMaj"       => $DateMaj,
-        "userCreId"            => $service->GetUserCreId($entity),
-        "source.userCre"       => $service->GetUserCreUserfullname($entity),
-        "source.userMaj"       => $service->GetUserMajUserfullname($entity),
+        "source.dateCre" => $DateCre,
+        "source.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "source.userCre" => $service->GetUserCreUserfullname($entity),
+        "source.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -125,7 +110,7 @@ class SourceController extends AbstractController {
    */
   public function newAction(Request $request) {
     $source = new Source();
-    $form   = $this->createForm('App\Form\SourceType', $source, [
+    $form = $this->createForm('App\Form\SourceType', $source, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -149,7 +134,7 @@ class SourceController extends AbstractController {
     }
 
     return $this->render('Core/source/edit.html.twig', array(
-      'source'    => $source,
+      'source' => $source,
       'edit_form' => $form->createView(),
     ));
   }
@@ -161,13 +146,13 @@ class SourceController extends AbstractController {
    */
   public function showAction(Source $source) {
     $deleteForm = $this->createDeleteForm($source);
-    $editForm   = $this->createForm('App\Form\SourceType', $source, [
+    $editForm = $this->createForm('App\Form\SourceType', $source, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/source/edit.html.twig', [
-      'source'      => $source,
-      'edit_form'   => $editForm->createView(),
+      'source' => $source,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
@@ -191,7 +176,7 @@ class SourceController extends AbstractController {
     $sourceAEteIntegrePars = $service->setArrayCollection('SourceAEteIntegrePars', $source);
     //
     $deleteForm = $this->createDeleteForm($source);
-    $editForm   = $this->createForm('App\Form\SourceType', $source, [
+    $editForm = $this->createForm('App\Form\SourceType', $source, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -213,15 +198,15 @@ class SourceController extends AbstractController {
         );
       }
       return $this->render('Core/source/edit.html.twig', array(
-        'source'    => $source,
+        'source' => $source,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/source/edit.html.twig', array(
-      'source'      => $source,
-      'edit_form'   => $editForm->createView(),
+      'source' => $source,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

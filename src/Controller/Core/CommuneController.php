@@ -1,30 +1,15 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Commune;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Commune controller.
@@ -62,19 +47,19 @@ class CommuneController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(commune.codeCommune) LIKE :criteriaLower';
+    $where = 'LOWER(commune.codeCommune) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Commune")->createQueryBuilder('commune')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -82,35 +67,35 @@ class CommuneController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
-        "id"                  => $id, "commune.id" => $id,
+        "id" => $id, "commune.id" => $id,
         "commune.codeCommune" => $entity->getCodeCommune(),
-        "commune.nomCommune"  => $entity->getNomCommune(),
-        "commune.nomRegion"   => $entity->getNomRegion(),
-        "pays.codePays"       => $entity->getPaysFk()->getCodePays(),
-        "commune.dateCre"     => $DateCre,
-        "commune.dateMaj"     => $DateMaj,
-        "userCreId"           => $service->GetUserCreId($entity),
-        "commune.userCre"     => $service->GetUserCreUserfullname($entity),
-        "commune.userMaj"     => $service->GetUserMajUserfullname($entity),
+        "commune.nomCommune" => $entity->getNomCommune(),
+        "commune.nomRegion" => $entity->getNomRegion(),
+        "pays.codePays" => $entity->getPaysFk()->getCodePays(),
+        "commune.dateCre" => $DateCre,
+        "commune.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "commune.userCre" => $service->GetUserCreUserfullname($entity),
+        "commune.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"  => intval($request->get('current')),
+      "current" => intval($request->get('current')),
       "rowCount" => $rowCount,
-      "rows"     => $tab_toshow,
-      "total"    => $nb, // total data array
+      "rows" => $tab_toshow,
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -122,7 +107,7 @@ class CommuneController extends AbstractController {
    */
   public function newAction(Request $request) {
     $commune = new Commune();
-    $form    = $this->createForm('App\Form\CommuneType', $commune, [
+    $form = $this->createForm('App\Form\CommuneType', $commune, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -142,13 +127,13 @@ class CommuneController extends AbstractController {
         );
       }
       return $this->redirectToRoute('commune_edit', array(
-        'id'    => $commune->getId(),
+        'id' => $commune->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/commune/edit.html.twig', array(
-      'commune'   => $commune,
+      'commune' => $commune,
       'edit_form' => $form->createView(),
     ));
   }
@@ -160,8 +145,8 @@ class CommuneController extends AbstractController {
    */
   public function newmodalAction(Request $request, $id_pays = null) {
     $commune = new Commune();
-    $form    = $this->createForm('App\Form\CommuneType', $commune, [
-      'id_pays'     => $id_pays,
+    $form = $this->createForm('App\Form\CommuneType', $commune, [
+      'id_pays' => $id_pays,
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -170,9 +155,9 @@ class CommuneController extends AbstractController {
       if (!$form->isValid()) {
         return new JsonResponse([
           'valid' => false,
-          "form"  => $this->render('modal-form.html.twig', [
+          "form" => $this->render('modal-form.html.twig', [
             'entityname' => 'commune',
-            'form'       => $form->createView(),
+            'form' => $form->createView(),
           ])->getContent(),
         ]);
       } else {
@@ -180,19 +165,19 @@ class CommuneController extends AbstractController {
         $em->persist($commune);
 
         try {
-          $flush       = $em->flush();
-          $select_id   = $commune->getId();
+          $flush = $em->flush();
+          $select_id = $commune->getId();
           $select_name = $commune->getCodeCommune();
           return new JsonResponse([
-            'select_id'   => $select_id,
+            'select_id' => $select_id,
             'select_name' => $select_name,
-            'entityname'  => 'commune',
+            'entityname' => 'commune',
           ]);
         } catch (\Doctrine\DBAL\DBALException $e) {
           return new JsonResponse([
-            'exception'         => true,
+            'exception' => true,
             'exception_message' => $e->getMessage(),
-            'entityname'        => 'commune',
+            'entityname' => 'commune',
           ]);
         }
       }
@@ -200,7 +185,7 @@ class CommuneController extends AbstractController {
 
     return $this->render('modal.html.twig', array(
       'entityname' => 'commune',
-      'form'       => $form->createView(),
+      'form' => $form->createView(),
     ));
   }
 
@@ -216,8 +201,8 @@ class CommuneController extends AbstractController {
       'action_type' => Action::show(),
     ]);
     return $this->render('Core/commune/edit.html.twig', array(
-      'commune'     => $commune,
-      'edit_form'   => $editForm->createView(),
+      'commune' => $commune,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -230,7 +215,7 @@ class CommuneController extends AbstractController {
    */
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
-    $editForm   = $this->createForm('App\Form\CommuneType', $commune, [
+    $editForm = $this->createForm('App\Form\CommuneType', $commune, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -249,15 +234,15 @@ class CommuneController extends AbstractController {
         );
       }
       return $this->render('Core/commune/edit.html.twig', array(
-        'commune'   => $commune,
+        'commune' => $commune,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/commune/edit.html.twig', array(
-      'commune'     => $commune,
-      'edit_form'   => $editForm->createView(),
+      'commune' => $commune,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

@@ -1,31 +1,16 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- * 
- */
-
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * EstAligneEtTraite
  *
- * @ORM\Table(name="chromatogram_is_processed_to", 
+ * @ORM\Table(name="chromatogram_is_processed_to",
  *  indexes={
- *      @ORM\Index(name="IDX_BD45639EEFCFD332", columns={"chromatogram_fk"}), 
+ *      @ORM\Index(name="IDX_BD45639EEFCFD332", columns={"chromatogram_fk"}),
  *      @ORM\Index(name="IDX_BD45639E5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @UniqueEntity(
@@ -34,8 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EstAligneEtTraite
-{
+class EstAligneEtTraite {
   /**
    * @var integer
    *
@@ -94,15 +78,12 @@ class EstAligneEtTraite
    */
   private $sequenceAssembleeFk;
 
-
-
   /**
    * Get id
    *
    * @return integer
    */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
@@ -113,8 +94,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setDateCre($dateCre)
-  {
+  public function setDateCre($dateCre) {
     $this->dateCre = $dateCre;
 
     return $this;
@@ -125,8 +105,7 @@ class EstAligneEtTraite
    *
    * @return \DateTime
    */
-  public function getDateCre()
-  {
+  public function getDateCre() {
     return $this->dateCre;
   }
 
@@ -137,8 +116,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setDateMaj($dateMaj)
-  {
+  public function setDateMaj($dateMaj) {
     $this->dateMaj = $dateMaj;
 
     return $this;
@@ -149,8 +127,7 @@ class EstAligneEtTraite
    *
    * @return \DateTime
    */
-  public function getDateMaj()
-  {
+  public function getDateMaj() {
     return $this->dateMaj;
   }
 
@@ -161,8 +138,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setUserCre($userCre)
-  {
+  public function setUserCre($userCre) {
     $this->userCre = $userCre;
 
     return $this;
@@ -173,8 +149,7 @@ class EstAligneEtTraite
    *
    * @return integer
    */
-  public function getUserCre()
-  {
+  public function getUserCre() {
     return $this->userCre;
   }
 
@@ -185,8 +160,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setUserMaj($userMaj)
-  {
+  public function setUserMaj($userMaj) {
     $this->userMaj = $userMaj;
 
     return $this;
@@ -197,8 +171,7 @@ class EstAligneEtTraite
    *
    * @return integer
    */
-  public function getUserMaj()
-  {
+  public function getUserMaj() {
     return $this->userMaj;
   }
 
@@ -209,8 +182,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setChromatogrammeFk(\App\Entity\Chromatogramme $chromatogrammeFk = null)
-  {
+  public function setChromatogrammeFk(\App\Entity\Chromatogramme $chromatogrammeFk = null) {
     $this->chromatogrammeFk = $chromatogrammeFk;
 
     return $this;
@@ -221,8 +193,7 @@ class EstAligneEtTraite
    *
    * @return \App\Entity\Chromatogramme
    */
-  public function getChromatogrammeFk()
-  {
+  public function getChromatogrammeFk() {
     return $this->chromatogrammeFk;
   }
 
@@ -233,8 +204,7 @@ class EstAligneEtTraite
    *
    * @return EstAligneEtTraite
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null)
-  {
+  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;
 
     return $this;
@@ -245,8 +215,7 @@ class EstAligneEtTraite
    *
    * @return \App\Entity\SequenceAssemblee
    */
-  public function getSequenceAssembleeFk()
-  {
+  public function getSequenceAssembleeFk() {
     return $this->sequenceAssembleeFk;
   }
 }

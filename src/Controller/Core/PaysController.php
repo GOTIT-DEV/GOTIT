@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Pays;
@@ -63,53 +48,53 @@ class PaysController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(pays.codePays) LIKE :criteriaLower';
+    $where = 'LOWER(pays.codePays) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"            => $id, "pays.id" => $id,
+        "id" => $id, "pays.id" => $id,
         "pays.codePays" => $entity->getCodePays(),
-        "pays.nomPays"  => $entity->getNomPays(),
-        "pays.dateCre"  => $DateCre,
-        "pays.dateMaj"  => $DateMaj,
-        "userCreId"     => $service->GetUserCreId($entity),
-        "pays.userCre"  => $service->GetUserCreUserfullname($entity),
-        "pays.userMaj"  => $service->GetUserMajUserfullname($entity),
+        "pays.nomPays" => $entity->getNomPays(),
+        "pays.dateCre" => $DateCre,
+        "pays.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "pays.userCre" => $service->GetUserCreUserfullname($entity),
+        "pays.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -141,13 +126,13 @@ class PaysController extends AbstractController {
         );
       }
       return $this->redirectToRoute('pays_edit', array(
-        'id'    => $pays->getId(),
+        'id' => $pays->getId(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays'      => $pays,
+      'pays' => $pays,
       'edit_form' => $form->createView(),
     ));
   }
@@ -159,13 +144,13 @@ class PaysController extends AbstractController {
    */
   public function showAction(Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
-    $editForm   = $this->createForm('App\Form\PaysType', $pays, [
+    $editForm = $this->createForm('App\Form\PaysType', $pays, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays'        => $pays,
-      'edit_form'   => $editForm->createView(),
+      'pays' => $pays,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -178,7 +163,7 @@ class PaysController extends AbstractController {
    */
   public function editAction(Request $request, Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
-    $editForm   = $this->createForm('App\Form\PaysType', $pays, [
+    $editForm = $this->createForm('App\Form\PaysType', $pays, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -196,15 +181,15 @@ class PaysController extends AbstractController {
         );
       }
       return $this->render('Core/pays/edit.html.twig', array(
-        'pays'      => $pays,
+        'pays' => $pays,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/pays/edit.html.twig', array(
-      'pays'        => $pays,
-      'edit_form'   => $editForm->createView(),
+      'pays' => $pays,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

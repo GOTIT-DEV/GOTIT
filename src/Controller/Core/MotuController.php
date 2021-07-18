@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Motu;
@@ -63,7 +48,7 @@ class MotuController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');
 
@@ -76,16 +61,16 @@ class MotuController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $toshow     = $em->getRepository("App:Motu")->createQueryBuilder('motu')
+    $toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
       ->where('LOWER(motu.libelleMotu) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb     = count($toshow);
+    $nb = count($toshow);
     $toshow = array_slice($toshow, $minRecord, $rowCount);
     foreach ($toshow as $entity) {
-      $id       = $entity->getId();
+      $id = $entity->getId();
       $DateMotu = ($entity->getDateMotu() !== null)
       ? $entity->getDateMotu()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
@@ -104,25 +89,25 @@ class MotuController extends AbstractController {
       $listePersonne = implode(", ", $arrayListePersonne);
       //
       $tab_toshow[] = array(
-        "id"                   => $id, "motu.id"           => $id,
-        "motu.libelleMotu"     => $entity->getLibelleMotu(),
-        "motu.nomFichierCsv"   => $entity->getNomFichierCsv(),
-        "listePersonne"        => $listePersonne,
+        "id" => $id, "motu.id" => $id,
+        "motu.libelleMotu" => $entity->getLibelleMotu(),
+        "motu.nomFichierCsv" => $entity->getNomFichierCsv(),
+        "listePersonne" => $listePersonne,
         "motu.commentaireMotu" => $entity->getCommentaireMotu(),
-        "motu.dateMotu"        => $DateMotu,
-        "motu.dateCre"         => $DateCre, "motu.dateMaj" => $DateMaj,
-        "userCreId"            => $service->GetUserCreId($entity),
-        "motu.userCre"         => $service->GetUserCreUserfullname($entity),
-        "motu.userMaj"         => $service->GetUserMajUserfullname($entity),
+        "motu.dateMotu" => $DateMotu,
+        "motu.dateCre" => $DateCre, "motu.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "motu.userCre" => $service->GetUserCreUserfullname($entity),
+        "motu.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -161,7 +146,7 @@ class MotuController extends AbstractController {
     }
 
     return $this->render('Core/motu/edit.html.twig', array(
-      'motu'      => $motu,
+      'motu' => $motu,
       'edit_form' => $form->createView(),
     ));
   }
@@ -173,13 +158,13 @@ class MotuController extends AbstractController {
    */
   public function showAction(Motu $motu) {
     $deleteForm = $this->createDeleteForm($motu);
-    $editForm   = $this->createForm('App\Form\MotuType', $motu, [
+    $editForm = $this->createForm('App\Form\MotuType', $motu, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/motu/edit.html.twig', array(
-      'motu'        => $motu,
-      'edit_form'   => $editForm->createView(),
+      'motu' => $motu,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -199,7 +184,7 @@ class MotuController extends AbstractController {
 
     //
     $deleteForm = $this->createDeleteForm($motu);
-    $editForm   = $this->createForm('App\Form\MotuType', $motu, [
+    $editForm = $this->createForm('App\Form\MotuType', $motu, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -222,13 +207,13 @@ class MotuController extends AbstractController {
         );
       }
       return $this->render('Core/motu/edit.html.twig', array(
-        'motu'      => $motu,
+        'motu' => $motu,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
     return $this->render('Core/motu/edit.html.twig', array(
-      'motu'      => $motu,
+      'motu' => $motu,
       'edit_form' => $editForm->createView(),
     ));
   }
@@ -286,7 +271,7 @@ class MotuController extends AbstractController {
    * @Route("/json/list", name="datasets-list", methods={"GET"})
    */
   public function datasetList(SerializerInterface $serializer) {
-    $datasets           = $this->getDoctrine()->getRepository(Motu::class)->findAll();
+    $datasets = $this->getDoctrine()->getRepository(Motu::class)->findAll();
     $datasetsSerialized = $serializer->serialize(
       $datasets,
       "json",
@@ -300,7 +285,7 @@ class MotuController extends AbstractController {
    * @Route("/json/methods", name="methods-list", methods={"GET"})
    */
   public function datasetMethodList() {
-    $qb    = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
       ->from('App:Motu', 'm')

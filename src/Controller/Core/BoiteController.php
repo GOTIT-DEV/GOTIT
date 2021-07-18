@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\Boite;
@@ -63,13 +48,13 @@ class BoiteController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
     : array('boite.dateMaj' => 'desc', 'boite.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(boite.codeBoite) LIKE :criteriaLower';
+    $where = 'LOWER(boite.codeBoite) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -78,7 +63,7 @@ class BoiteController extends AbstractController {
       $where .= " AND vocTypeBoite.code LIKE '" . $request->get('typeBoite') . "'";
     }
     // Search for the list to show EstAligneEtTraite
-    $tab_toshow      = [];
+    $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Boite")
       ->createQueryBuilder('boite')
@@ -99,37 +84,37 @@ class BoiteController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id"                        => $id, "boite.id" => $id,
-        "boite.codeBoite"           => $entity->getCodeBoite(),
-        "vocCodeCollection.code"    => $entity->getCodeCollectionVocFk()->getCode(),
-        "boite.libelleBoite"        => $entity->getLibelleBoite(),
+        "id" => $id, "boite.id" => $id,
+        "boite.codeBoite" => $entity->getCodeBoite(),
+        "vocCodeCollection.code" => $entity->getCodeCollectionVocFk()->getCode(),
+        "boite.libelleBoite" => $entity->getLibelleBoite(),
         "vocCodeCollection.libelle" => $entity->getCodeCollectionVocFk()->getLibelle(),
-        "boite.dateCre"             => $DateCre,
-        "boite.dateMaj"             => $DateMaj,
-        "userCreId"                 => $service->GetUserCreId($entity),
-        "boite.userCre"             => $service->GetUserCreUserfullname($entity),
-        "boite.userMaj"             => $service->GetUserMajUserfullname($entity),
+        "boite.dateCre" => $DateCre,
+        "boite.dateMaj" => $DateMaj,
+        "userCreId" => $service->GetUserCreId($entity),
+        "boite.userCre" => $service->GetUserCreUserfullname($entity),
+        "boite.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -145,8 +130,8 @@ class BoiteController extends AbstractController {
 
     if ($request->get("typeBoite")) {
       $boxTypeRepo = $this->getDoctrine()->getRepository(Voc::class);
-      $boxType     = $boxTypeRepo->findOneBy([
-        'code'   => $request->get('typeBoite'),
+      $boxType = $boxTypeRepo->findOneBy([
+        'code' => $request->get('typeBoite'),
         'parent' => 'typeBoite',
       ]);
       $boite->setTypeBoiteVocFk($boxType);
@@ -173,14 +158,14 @@ class BoiteController extends AbstractController {
         );
       }
       return $this->redirectToRoute('boite_edit', array(
-        'id'        => $boite->getId(),
-        'valid'     => 1,
+        'id' => $boite->getId(),
+        'valid' => 1,
         'typeBoite' => $request->get('typeBoite'),
       ));
     }
 
     return $this->render('Core/boite/edit.html.twig', array(
-      'boite'     => $boite,
+      'boite' => $boite,
       'edit_form' => $form->createView(),
     ));
   }
@@ -192,13 +177,13 @@ class BoiteController extends AbstractController {
    */
   public function showAction(Boite $boite) {
     $deleteForm = $this->createDeleteForm($boite);
-    $editForm   = $this->createForm('App\Form\BoiteType', $boite, [
+    $editForm = $this->createForm('App\Form\BoiteType', $boite, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/boite/edit.html.twig', array(
-      'boite'       => $boite,
-      'edit_form'   => $editForm->createView(),
+      'boite' => $boite,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -223,7 +208,7 @@ class BoiteController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     $deleteForm = $this->createDeleteForm($boite);
-    $editForm   = $this->createForm('App\Form\BoiteType', $boite, [
+    $editForm = $this->createForm('App\Form\BoiteType', $boite, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -248,15 +233,15 @@ class BoiteController extends AbstractController {
       ]);
 
       return $this->render('Core/boite/edit.html.twig', array(
-        'boite'     => $boite,
+        'boite' => $boite,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('Core/boite/edit.html.twig', array(
-      'boite'       => $boite,
-      'edit_form'   => $editForm->createView(),
+      'boite' => $boite,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

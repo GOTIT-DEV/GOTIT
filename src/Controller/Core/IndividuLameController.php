@@ -1,20 +1,5 @@
 <?php
 
-/*
- * This file is part of the E3sBundle.
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Controller\Core;
 
 use App\Entity\IndividuLame;
@@ -63,24 +48,24 @@ class IndividuLameController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = ($request->get('sort') !== NULL)
+    $orderBy = ($request->get('sort') !== NULL)
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
     : "ss.date_of_update DESC, ss.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where        = 'LOWER(sp.specimen_morphological_code) LIKE :criteriaLower';
+    $where = 'LOWER(sp.specimen_morphological_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk')  && filter_var($request->get('idFk'), FILTER_VALIDATE_INT)!== false) {
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where .= ' AND ss.specimen_fk = ' . $request->get('idFk');
     }
 
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql     = "SELECT  ss.id, ss.collection_slide_code, ss.photo_folder_name,
+    $rawSql = "SELECT  ss.id, ss.collection_slide_code, ss.photo_folder_name,
         ss.slide_date, box.box_code, st.site_code, st.latitude, st.longitude,
         sampling.sample_code, country.country_name, municipality.municipality_code,
         st.site_code,sp.specimen_molecular_code, sp.specimen_morphological_code,
@@ -120,42 +105,42 @@ class IndividuLameController extends AbstractController {
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
     $stmt->execute();
     $entities_toshow = $stmt->fetchAll();
-    $nb              = count($entities_toshow);
+    $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
     ? array_slice($entities_toshow, $minRecord, $rowCount)
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
-        "id"                                    => $val['id'],
-        "ss.id"                                 => $val['id'],
-        "ss.collection_slide_code"              => $val["collection_slide_code"],
-        "ss.photo_folder_name"                  => $val["photo_folder_name"],
-        "ss.slide_date"                         => $val["slide_date"],
-        "box.box_code"                          => $val["box_code"],
+        "id" => $val['id'],
+        "ss.id" => $val['id'],
+        "ss.collection_slide_code" => $val["collection_slide_code"],
+        "ss.photo_folder_name" => $val["photo_folder_name"],
+        "ss.slide_date" => $val["slide_date"],
+        "box.box_code" => $val["box_code"],
         "lot.internal_biological_material_code" => $val['internal_biological_material_code'],
-        "sp.specimen_molecular_code"            => $val['specimen_molecular_code'],
-        "sp.specimen_morphological_code"        => $val['specimen_morphological_code'],
-        "voc_sp_specimen_type.code"             => $val['voc_sp_specimen_type_code'],
-        "sp.specimen_molecular_number"          => $val['specimen_molecular_number'],
-        "sp.tube_code"                          => $val['tube_code'],
-        "last_taxname_sp"                       => $val['last_taxname_sp'],
-        "last_date_identification_sp"           => $val['last_date_identification_sp'],
-        "code_sp_identification_criterion"      => $val['code_sp_identification_criterion'],
-        "ss.date_of_creation"                   => $val['date_of_creation'],
-        "ss.date_of_update"                     => $val['date_of_update'],
-        "creation_user_name"                    => $val['creation_user_name'],
-        "user_cre.user_full_name"               => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
-        "user_maj.user_full_name"               => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
+        "sp.specimen_molecular_code" => $val['specimen_molecular_code'],
+        "sp.specimen_morphological_code" => $val['specimen_morphological_code'],
+        "voc_sp_specimen_type.code" => $val['voc_sp_specimen_type_code'],
+        "sp.specimen_molecular_number" => $val['specimen_molecular_number'],
+        "sp.tube_code" => $val['tube_code'],
+        "last_taxname_sp" => $val['last_taxname_sp'],
+        "last_date_identification_sp" => $val['last_date_identification_sp'],
+        "code_sp_identification_criterion" => $val['code_sp_identification_criterion'],
+        "ss.date_of_creation" => $val['date_of_creation'],
+        "ss.date_of_update" => $val['date_of_update'],
+        "creation_user_name" => $val['creation_user_name'],
+        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
 
     return new JsonResponse([
-      "current"      => intval($request->get('current')),
-      "rowCount"     => $rowCount,
-      "rows"         => $tab_toshow,
+      "current" => intval($request->get('current')),
+      "rowCount" => $rowCount,
+      "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total"        => $nb, // total data array
+      "total" => $nb, // total data array
     ]);
   }
 
@@ -198,15 +183,15 @@ class IndividuLameController extends AbstractController {
       }
 
       return $this->redirectToRoute('individulame_edit', [
-        'id'    => $individuLame->getId(),
+        'id' => $individuLame->getId(),
         'valid' => 1,
-        'idFk'  => $request->get('idFk'),
+        'idFk' => $request->get('idFk'),
       ]);
     }
 
     return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
-      'edit_form'    => $form->createView(),
+      'edit_form' => $form->createView(),
     ]);
   }
 
@@ -217,14 +202,14 @@ class IndividuLameController extends AbstractController {
    */
   public function showAction(IndividuLame $individuLame) {
     $deleteForm = $this->createDeleteForm($individuLame);
-    $editForm   = $this->createForm('App\Form\IndividuLameType', $individuLame, [
+    $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
-      'edit_form'    => $editForm->createView(),
-      'delete_form'  => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ]);
   }
 
@@ -255,7 +240,7 @@ class IndividuLameController extends AbstractController {
     );
     //
     $deleteForm = $this->createDeleteForm($individuLame);
-    $editForm   = $this->createForm('App\Form\IndividuLameType', $individuLame, [
+    $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -282,15 +267,15 @@ class IndividuLameController extends AbstractController {
       }
       return $this->render('Core/individulame/edit.html.twig', [
         'individuLame' => $individuLame,
-        'edit_form'    => $editForm->createView(),
-        'valid'        => 1,
+        'edit_form' => $editForm->createView(),
+        'valid' => 1,
       ]);
     }
 
     return $this->render('Core/individulame/edit.html.twig', [
       'individuLame' => $individuLame,
-      'edit_form'    => $editForm->createView(),
-      'delete_form'  => $deleteForm->createView(),
+      'edit_form' => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
     ]);
   }
 
