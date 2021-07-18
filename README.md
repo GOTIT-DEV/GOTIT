@@ -49,7 +49,7 @@ Good to go !
 
 ---
 
-Authors : Florian MALARD (1), Philippe GRISON (2), Louis DUCHEMIN (1), Maud Ferrer (1), Lara KONECNY-DUPRE (1), Tristan LEFEBURE (1), Nathanaëlle Saclier (1), David Eme (3), Chloé MARTIN (2), Cécile CALLOU (2), Christope DOUADY (1)
+Authors : Florian MALARD (1), Philippe GRISON (2), Louis DUCHEMIN (1), Maud Ferrer (1), Lara KONECNY-DUPRE (1), Tristan LEFEBURE (1), Nathanaëlle Saclier (1), David Eme (3), Chloé MARTIN (2), Cécile CALLOU (2), Christophe DOUADY (1)
 
 (1) LEHNA : UMR CNRS 5023 Ecologie des Hydrosystèmes Naturels et Anthropisés, Université Lyon 1, ENTPE, CNRS, Université Lyon
 
