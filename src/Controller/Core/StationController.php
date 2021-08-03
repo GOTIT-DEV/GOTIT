@@ -138,9 +138,9 @@ class StationController extends AbstractController {
     $radius = $data->get('radius');
 
     $sqlQuery = "SELECT
-      site.id,
-      site.site_code AS station_code,
-      site.site_name AS name,
+      site.id as site_id,
+      site.site_code,
+      site.site_name,
       site.longitude,
       site.latitude,
       site.elevation as altitude,

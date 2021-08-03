@@ -104,7 +104,7 @@ export default {
       this.nearbySites = fetchData.sites.map((site) => {
         return {
           ...site,
-          station_url: Routing.generate("station_show", { id: site.id }),
+          site_url: Routing.generate("station_show", { id: site.id }),
         };
       });
     },
