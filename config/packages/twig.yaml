@@ -128,5 +128,5 @@ twig:
       - route: query_builder_index
         text: queries.querybuilder.nav
         icon: fas fa-search
-        auth_required: ROLE_COLLABORATION
+        auth_required: ROLE_INVITED
         children: []
