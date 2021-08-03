@@ -17,20 +17,20 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\SpeciesSearch\SpeciesQueryService;
 use App\Entity\ReferentielTaxon;
+use App\Services\SpeciesSearch\SpeciesQueryService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller for querying COI sampling coverage
  *
  * @Route("/co1-sampling")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class CO1SamplingController extends AbstractController {

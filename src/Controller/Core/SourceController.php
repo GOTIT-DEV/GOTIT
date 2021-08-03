@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Source controller.
  *
  * @Route("source")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SourceController extends AbstractController {
@@ -106,7 +106,7 @@ class SourceController extends AbstractController {
    * Creates a new source entity.
    *
    * @Route("/new", name="source_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $source = new Source();
@@ -161,7 +161,7 @@ class SourceController extends AbstractController {
    * Displays a form to edit an existing source entity.
    *
    * @Route("/{id}/edit", name="source_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -215,7 +215,7 @@ class SourceController extends AbstractController {
    * Deletes a source entity.
    *
    * @Route("/{id}", name="source_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Source $source) {
     $form = $this->createDeleteForm($source);

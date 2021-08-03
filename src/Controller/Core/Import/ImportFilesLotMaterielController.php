@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ImportIndividu controller.
  *
  * @Route("importfileslotmateriel")
- * @Security("has_role('ROLE_PROJECT')")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFilesLotMaterielController extends AbstractController {

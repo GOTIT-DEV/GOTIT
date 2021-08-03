@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ImportIndividu controller.
  *
  * @Route("importfilesadndeplace")
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("is_granted('ROLE_ADMIN')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFilesAdnDeplaceController extends AbstractController {

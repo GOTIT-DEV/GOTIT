@@ -35,9 +35,9 @@
 				</div>
 
 
-				<div class="messages">
+				<div class="messages text-danger">
 					{% if error %}
-						{{ error.messageKey}} / {{ error.messageKey|trans(error.messageData, 'security') }}
+						{{ error.messageKey|trans(error.messageData, 'security') }}
 					{% endif %}
 				</div>
 
@@ -45,7 +45,7 @@
 					<label class="col-form-label" for="username">
 						{{'login.username'|trans|capitalize}}
 					</label>
-					<input type="text" id="username" name="username" value="{{ last_username }}" class="form-control" placeholder="" required="required"/>
+					<input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" placeholder="" required="required"/>
 
 				</div>
 				<div class="form-group">
@@ -56,7 +56,7 @@
 					<input
 						type="password"
 						id="password"
-						name="password"
+						name="_password"
 						class="form-control"
 						required="required"/>
 

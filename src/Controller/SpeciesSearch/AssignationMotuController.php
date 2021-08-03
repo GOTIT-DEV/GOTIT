@@ -17,20 +17,20 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\SpeciesSearch\SpeciesQueryService;
-use App\Entity\Voc;
 use App\Entity\Motu;
+use App\Entity\Voc;
+use App\Services\SpeciesSearch\SpeciesQueryService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller for querying MOTU assignments
  *
  * @Route("/assign-motu")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class AssignationMotuController extends AbstractController {

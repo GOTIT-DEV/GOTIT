@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ImportFilePersonneController extends AbstractController {
   /**
    * @Route("/", name="importfilespersonne_index")
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function indexAction(
     Request $request,

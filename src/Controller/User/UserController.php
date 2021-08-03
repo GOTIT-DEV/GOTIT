@@ -17,14 +17,14 @@
 
 namespace App\Controller\User;
 
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Form\Enums\Action;
 use App\Entity\User;
+use App\Form\Enums\Action;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * User controller.
@@ -37,7 +37,7 @@ class UserController extends AbstractController {
    * Lists all user entities.
    *
    * @Route("/", name="user_index", methods={"GET"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
@@ -58,11 +58,11 @@ class UserController extends AbstractController {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
     $user = $this->getUser();
     return new JSONResponse([
-      "username"    => $user->getUsername(),
-      "role"        => $user->getRole(),
-      "name"        => $user->getName(),
+      "username" => $user->getUsername(),
+      "role" => $user->getRole(),
+      "name" => $user->getName(),
       "institution" => $user->getInstitution(),
-      "email"       => $user->getEmail(),
+      "email" => $user->getEmail(),
     ]);
   }
 
@@ -78,13 +78,13 @@ class UserController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy  = $request->get('sort') ?: [
+    $orderBy = $request->get('sort') ?: [
       'user.dateMaj' => 'desc',
-      'user.id'      => 'desc',
+      'user.id' => 'desc',
     ];
-    $minRecord       = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord       = $rowCount;
-    $tab_toshow      = [];
+    $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
+    $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:User")
       ->createQueryBuilder('user')
       ->where('LOWER(user.username) LIKE :criteriaLower')
@@ -92,34 +92,34 @@ class UserController extends AbstractController {
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb_entities     = count($entities_toshow);
+    $nb_entities = count($entities_toshow);
     $entities_toshow = array_slice($entities_toshow, $minRecord, $rowCount);
 
     foreach ($entities_toshow as $entity) {
-      $id      = $entity->getId();
+      $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
-        "id"                   => $id,
-        "user.id"              => $id,
-        "user.username"        => $entity->getUsername(),
-        "user.password"        => $entity->getPassword(),
-        "user.email"           => $entity->getEmail(),
-        "user.role"            => $entity->getRole(),
-        "user.name"            => $entity->getName(),
-        "user.institution"     => $entity->getInstitution(),
+        "id" => $id,
+        "user.id" => $id,
+        "user.username" => $entity->getUsername(),
+        "user.password" => $entity->getPassword(),
+        "user.email" => $entity->getEmail(),
+        "user.role" => $entity->getRole(),
+        "user.name" => $entity->getName(),
+        "user.institution" => $entity->getInstitution(),
         "user.commentaireUser" => $entity->getCommentaireUser(),
-        "user.dateCre"         => $DateCre,
-        "user.dateMaj"         => $DateMaj,
+        "user.dateCre" => $DateCre,
+        "user.dateMaj" => $DateMaj,
       );
     }
     return new JsonResponse([
-      "current"  => intval($request->get('current')),
+      "current" => intval($request->get('current')),
       "rowCount" => $rowCount,
-      "rows"     => $tab_toshow,
-      "total"    => $nb_entities, // total data array
+      "rows" => $tab_toshow,
+      "total" => $nb_entities, // total data array
     ]);
   }
 
@@ -127,7 +127,7 @@ class UserController extends AbstractController {
    * Creates a new user entity.
    *
    * @Route("/new", name="user_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request, UserPasswordEncoderInterface $encoder) {
     $user = new User();
@@ -139,7 +139,7 @@ class UserController extends AbstractController {
     if ($form->isSubmitted() && $form->isValid()) {
       // encodage du password
       $plainPassword = $user->getPlainPassword();
-      $encoded       = $encoder->encodePassword($user, $plainPassword);
+      $encoded = $encoder->encodePassword($user, $plainPassword);
 
       $user->setPassword($encoded);
       //
@@ -163,7 +163,7 @@ class UserController extends AbstractController {
     }
 
     return $this->render('user/edit.html.twig', array(
-      'user'      => $user,
+      'user' => $user,
       'edit_form' => $form->createView(),
     ));
   }
@@ -180,8 +180,8 @@ class UserController extends AbstractController {
       'action_type' => Action::show(),
     ]);
     return $this->render('user/edit.html.twig', array(
-      'user'        => $user,
-      'edit_form'   => $editForm->createView(),
+      'user' => $user,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
@@ -190,7 +190,7 @@ class UserController extends AbstractController {
    * Displays a form to edit an existing user entity.
    *
    * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, User $user, UserPasswordEncoderInterface $encoder) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -203,7 +203,7 @@ class UserController extends AbstractController {
     }
     //
     $deleteForm = $this->createDeleteForm($user);
-    $editForm   = $this->createForm('App\Form\UserType', $user, [
+    $editForm = $this->createForm('App\Form\UserType', $user, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -211,7 +211,7 @@ class UserController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // password encoding
       $plainPassword = $user->getPlainPassword();
-      $encoded       = $encoder->encodePassword($user, $plainPassword);
+      $encoded = $encoder->encodePassword($user, $plainPassword);
 
       $user->setPassword($encoded);
       $em = $this->getDoctrine()->getManager();
@@ -227,15 +227,15 @@ class UserController extends AbstractController {
         );
       }
       return $this->render('user/edit.html.twig', array(
-        'user'      => $user,
+        'user' => $user,
         'edit_form' => $editForm->createView(),
-        'valid'     => 1,
+        'valid' => 1,
       ));
     }
 
     return $this->render('user/edit.html.twig', array(
-      'user'        => $user,
-      'edit_form'   => $editForm->createView(),
+      'user' => $user,
+      'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }

@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Motu controller.
  *
  * @Route("motu")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class MotuController extends AbstractController {
@@ -115,7 +115,7 @@ class MotuController extends AbstractController {
    * Creates a new motu entity.
    *
    * @Route("/new", name="motu_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
     $motu = new Motu();
@@ -173,7 +173,7 @@ class MotuController extends AbstractController {
    * Displays a form to edit an existing motu entity.
    *
    * @Route("/{id}/edit", name="motu_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function editAction(Request $request, Motu $motu, GenericFunctionE3s $service) {
     // load service  generic_function_e3s
@@ -222,7 +222,7 @@ class MotuController extends AbstractController {
    * Deletes a motu entity.
    *
    * @Route("/{id}", name="motu_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function deleteAction(Request $request, Motu $motu) {
     $form = $this->createDeleteForm($motu);

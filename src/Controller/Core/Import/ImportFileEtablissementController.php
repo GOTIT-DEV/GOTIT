@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Import Pays controller.
  *
  * @Route("importfilesetablissement")
- * @Security("has_role('ROLE_PROJECT')")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFileEtablissementController extends AbstractController {

@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController {
   /**
    * @Route("/", name="dashboard")
-   * @Security("has_role('ROLE_INVITED')")
+   * @Security("is_granted('ROLE_INVITED')")
    * @author Philippe Grison  <philippe.grison@mnhn.fr>
    */
   public function indexAction(GenericFunctionE3s $service) {

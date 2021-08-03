@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ImportIndividu controller.
  *
  * @Route("importfilesmotu")
- * @Security("has_role('ROLE_PROJECT')")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFilesMotuController extends AbstractController {

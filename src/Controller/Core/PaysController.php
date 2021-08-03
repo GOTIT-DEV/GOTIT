@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Pay controller.
  *
  * @Route("pays")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PaysController extends AbstractController {
@@ -102,7 +102,7 @@ class PaysController extends AbstractController {
    * Creates a new pay entity.
    *
    * @Route("/new", name="pays_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
     $pays = new Pays();
@@ -159,7 +159,7 @@ class PaysController extends AbstractController {
    * Displays a form to edit an existing pay entity.
    *
    * @Route("/{id}/edit", name="pays_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function editAction(Request $request, Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
@@ -198,7 +198,7 @@ class PaysController extends AbstractController {
    * Deletes a pay entity.
    *
    * @Route("/{id}", name="pays_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function deleteAction(Request $request, Pays $pays) {
     $form = $this->createDeleteForm($pays);

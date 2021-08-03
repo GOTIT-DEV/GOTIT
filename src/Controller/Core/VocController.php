@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Voc controller.
  *
  * @Route("voc")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class VocController extends AbstractController {
@@ -119,7 +119,7 @@ class VocController extends AbstractController {
    * Creates a new voc entity.
    *
    * @Route("/new", name="voc_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
     $voc = new Voc();
@@ -174,7 +174,7 @@ class VocController extends AbstractController {
    * Displays a form to edit an existing voc entity.
    *
    * @Route("/{id}/edit", name="voc_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function editAction(Request $request, Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
@@ -214,7 +214,7 @@ class VocController extends AbstractController {
    * Deletes a voc entity.
    *
    * @Route("/{id}", name="voc_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function deleteAction(Request $request, Voc $voc) {
     $form = $this->createDeleteForm($voc);

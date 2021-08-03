@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Chromatogramme controller.
  *
  * @Route("chromatogramme")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  *
  */
 class ChromatogrammeController extends AbstractController {
@@ -161,7 +161,7 @@ class ChromatogrammeController extends AbstractController {
    * Creates a new chromatogramme entity.
    *
    * @Route("/new", name="chromatogramme_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $chromatogramme = new Chromatogramme();
@@ -226,7 +226,7 @@ class ChromatogrammeController extends AbstractController {
    * Displays a form to edit an existing chromatogramme entity.
    *
    * @Route("/{id}/edit", name="chromatogramme_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Chromatogramme $chromatogramme) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -279,7 +279,7 @@ class ChromatogrammeController extends AbstractController {
    * Deletes a chromatogramme entity.
    *
    * @Route("/{id}", name="chromatogramme_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
     $form = $this->createDeleteForm($chromatogramme);

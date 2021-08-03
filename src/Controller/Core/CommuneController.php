@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Commune controller.
  *
  * @Route("commune")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class CommuneController extends AbstractController {
@@ -103,7 +103,7 @@ class CommuneController extends AbstractController {
    * Creates a new commune entity.
    *
    * @Route("/new", name="commune_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
     $commune = new Commune();
@@ -211,7 +211,7 @@ class CommuneController extends AbstractController {
    * Displays a form to edit an existing commune entity.
    *
    * @Route("/{id}/edit", name="commune_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
@@ -251,7 +251,7 @@ class CommuneController extends AbstractController {
    * Deletes a commune entity.
    *
    * @Route("/{id}", name="commune_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function deleteAction(Request $request, Commune $commune) {
     $form = $this->createDeleteForm($commune);

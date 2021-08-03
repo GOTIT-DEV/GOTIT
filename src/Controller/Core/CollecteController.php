@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Collecte controller.
  *
  * @Route("collecte")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class CollecteController extends AbstractController {
@@ -171,7 +171,7 @@ class CollecteController extends AbstractController {
    * Creates a new collecte entity.
    *
    * @Route("/new", name="collecte_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $collecte = new Collecte();
@@ -237,7 +237,7 @@ class CollecteController extends AbstractController {
    * Displays a form to edit an existing collecte entity.
    *
    * @Route("/{id}/edit", name="collecte_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Collecte $collecte, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -299,7 +299,7 @@ class CollecteController extends AbstractController {
    * Deletes a collecte entity.
    *
    * @Route("/{id}", name="collecte_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Collecte $collecte) {
     $form = $this->createDeleteForm($collecte);

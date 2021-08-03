@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Pcr controller.
  *
  * @Route("pcr")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  *
  */
@@ -161,7 +161,7 @@ class PcrController extends AbstractController {
    * Creates a new pcr entity.
    *
    * @Route("/new", name="pcr_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $pcr = new Pcr();
@@ -226,7 +226,7 @@ class PcrController extends AbstractController {
    * Displays a form to edit an existing pcr entity.
    *
    * @Route("/{id}/edit", name="pcr_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    *
    */
   public function editAction(Request $request, Pcr $pcr, GenericFunctionE3s $service) {
@@ -281,7 +281,7 @@ class PcrController extends AbstractController {
    * Deletes a pcr entity.
    *
    * @Route("/{id}", name="pcr_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    *
    */
   public function deleteAction(Request $request, Pcr $pcr) {

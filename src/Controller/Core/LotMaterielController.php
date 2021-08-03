@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Lotmateriel controller.
  *
  * @Route("lotmateriel")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielController extends AbstractController {
@@ -190,7 +190,7 @@ class LotMaterielController extends AbstractController {
    * Creates a new lotMateriel entity.
    *
    * @Route("/new", name="lotmateriel_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $lotMateriel = new Lotmateriel();
@@ -254,7 +254,7 @@ class LotMaterielController extends AbstractController {
    * Displays a form to edit an existing lotMateriel entity.
    *
    * @Route("/{id}/edit", name="lotmateriel_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -318,7 +318,7 @@ class LotMaterielController extends AbstractController {
    * Deletes a lotMateriel entity.
    *
    * @Route("/{id}", name="lotmateriel_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, LotMateriel $lotMateriel) {
     $form = $this->createDeleteForm($lotMateriel);

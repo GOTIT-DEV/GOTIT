@@ -1,6 +1,7 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+  enable_authenticator_manager: true
   encoders:
     Symfony\Component\Security\Core\User\User: plaintext
     App\Entity\User: sha512
@@ -10,17 +11,14 @@ security:
     ROLE_PROJECT: ROLE_COLLABORATION
     ROLE_ADMIN: ROLE_PROJECT
 
-  # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
   providers:
     users:
       entity:
         class: App\Entity\User
         property: username
-        # if you're using multiple entity managers
-        # manager_name: customer
 
   access_control:
-    - { path: "^/{_locale}/login", roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: "^/{_locale}/login", roles: PUBLIC_ACCESS }
 
   firewalls:
     # disables authentication for assets and the profiler, adapt it according to your needs
@@ -29,24 +27,13 @@ security:
       security: false
     main:
       pattern: ^/
-      anonymous: ~
       provider: users
-      # activate different ways to authenticate
-      logout_on_user_change: true
-
-      # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-      #http_basic: ~
-
-      # https://symfony.com/doc/current/security/form_login_setup.html
       form_login:
         login_path: login
         check_path: login
       logout:
         path: logout
         target: login
-      guard:
-        authenticators:
-          - App\Security\LoginFormAuthenticator
       remember_me:
         secret: "%kernel.secret%"
         lifetime: 604800 # 1 week in seconds

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Etablissement controller.
  *
  * @Route("etablissement")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class EtablissementController extends AbstractController {
@@ -104,7 +104,7 @@ class EtablissementController extends AbstractController {
    * Creates a new etablissement entity.
    *
    * @Route("/new", name="etablissement_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function newAction(Request $request) {
     $etablissement = new Etablissement();
@@ -164,7 +164,7 @@ class EtablissementController extends AbstractController {
    * Displays a form to edit an existing etablissement entity.
    *
    * @Route("/{id}/edit", name="etablissement_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function editAction(Request $request, Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
@@ -206,7 +206,7 @@ class EtablissementController extends AbstractController {
    * Deletes a etablissement entity.
    *
    * @Route("/{id}", name="etablissement_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function deleteAction(Request $request, Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);

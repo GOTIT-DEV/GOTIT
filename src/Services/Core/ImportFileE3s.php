@@ -5,7 +5,7 @@ namespace App\Services\Core;
 use App\Entity\Motu;
 use App\Services\Core\ImportFileCsv;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Service ImportFileE3s

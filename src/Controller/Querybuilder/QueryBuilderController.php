@@ -2,19 +2,19 @@
 
 namespace App\Controller\Querybuilder;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Querybuilder\SchemaInspectorService;
 use App\Services\Querybuilder\QueryBuilderService;
+use App\Services\Querybuilder\SchemaInspectorService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controller for querying the GOTIT database.
  *
  * @Route("/qbuilder")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  */
 class QueryBuilderController extends AbstractController {
   /**

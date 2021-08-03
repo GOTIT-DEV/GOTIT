@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Individu controller.
  *
  * @Route("individu")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class IndividuController extends AbstractController {
@@ -232,7 +232,7 @@ class IndividuController extends AbstractController {
    * Creates a new individu entity.
    *
    * @Route("/new", name="individu_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $individu = new Individu();
@@ -296,7 +296,7 @@ class IndividuController extends AbstractController {
    * Displays a form to edit an existing individu entity.
    *
    * @Route("/{id}/edit", name="individu_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Individu $individu, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -352,7 +352,7 @@ class IndividuController extends AbstractController {
    * Deletes a individu entity.
    *
    * @Route("/{id}", name="individu_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Individu $individu) {
     $form = $this->createDeleteForm($individu);

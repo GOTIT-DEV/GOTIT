@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Personne controller.
  *
  * @Route("personne")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PersonneController extends AbstractController {
@@ -111,7 +111,7 @@ class PersonneController extends AbstractController {
    * Creates a new personne entity.
    *
    * @Route("/new", name="personne_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $personne = new Personne();
@@ -218,7 +218,7 @@ class PersonneController extends AbstractController {
    * Displays a form to edit an existing personne entity.
    *
    * @Route("/{id}/edit", name="personne_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Personne $personne) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -265,7 +265,7 @@ class PersonneController extends AbstractController {
    * Deletes a personne entity.
    *
    * @Route("/{id}", name="personne_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Personne $personne) {
     $form = $this->createDeleteForm($personne);

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Adn controller.
  *
  * @Route("adn")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class AdnController extends AbstractController {
@@ -150,7 +150,7 @@ class AdnController extends AbstractController {
    * Creates a new adn entity.
    *
    * @Route("/new", name="adn_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $adn = new Adn();
@@ -218,7 +218,7 @@ class AdnController extends AbstractController {
    * Displays a form to edit an existing adn entity.
    *
    * @Route("/{id}/edit", name="adn_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Adn $adn, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -268,7 +268,7 @@ class AdnController extends AbstractController {
    * Deletes a adn entity.
    *
    * @Route("/{id}", name="adn_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Adn $adn) {
     $form = $this->createDeleteForm($adn);

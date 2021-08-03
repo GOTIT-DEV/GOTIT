@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Individulame controller.
  *
  * @Route("individulame")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class IndividuLameController extends AbstractController {
@@ -148,7 +148,7 @@ class IndividuLameController extends AbstractController {
    * Creates a new individuLame entity.
    *
    * @Route("/new", name="individulame_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $individuLame = new Individulame();
@@ -217,7 +217,7 @@ class IndividuLameController extends AbstractController {
    * Displays a form to edit an existing individuLame entity.
    *
    * @Route("/{id}/edit", name="individulame_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(
     Request $request,
@@ -283,7 +283,7 @@ class IndividuLameController extends AbstractController {
    * Deletes a individuLame entity.
    *
    * @Route("/{id}", name="individulame_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, IndividuLame $individuLame) {
     $form = $this->createDeleteForm($individuLame);

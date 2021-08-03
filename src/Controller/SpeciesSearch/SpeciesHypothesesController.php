@@ -7,10 +7,10 @@
  *
  * SpeciesSearchBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * SpeciesSearchBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with SpeciesSearchBundle.  If not, see <https://www.gnu.org/licenses/>
  *
  */
@@ -18,36 +18,36 @@
 namespace App\Controller\SpeciesSearch;
 
 use App\Entity\Motu;
-use App\Services\SpeciesSearch\SpeciesQueryService;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Services\SpeciesSearch\SpeciesQueryService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controller for querying motu species hypotheses 
- * 
+ * Controller for querying motu species hypotheses
+ *
  * @Route("/species-hypotheses")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class SpeciesHypothesesController extends AbstractController {
   /**
    * @Route("/", name="species-hypotheses", methods={"GET"})
    *
-   * Index : render query form template 
+   * Index : render query form template
    */
   public function indexAction(SpeciesQueryService $service) {
-    # fetch genus set 
+    # fetch genus set
     $genus_set = $service->getGenusSet();
     # fetch MOTU datasets
     $doctrine = $this->getDoctrine();
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # render form template
     return $this->render('SpeciesSearch/species-hypotheses/index.html.twig', array(
-      'datasets'  => $datasets,
+      'datasets' => $datasets,
       'genus_set' => $genus_set,
     ));
   }

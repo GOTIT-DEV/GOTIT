@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Sequenceassembleeext controller.
  *
  * @Route("sequenceassembleeext")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeExtController extends AbstractController {
@@ -183,7 +183,7 @@ class SequenceAssembleeExtController extends AbstractController {
    * Creates a new sequenceAssembleeExt entity.
    *
    * @Route("/new", name="sequenceassembleeext_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $sequenceAssembleeExt = new Sequenceassembleeext();
@@ -257,7 +257,7 @@ class SequenceAssembleeExtController extends AbstractController {
    * Displays a form to edit an existing sequenceAssembleeExt entity.
    *
    * @Route("/{id}/edit", name="sequenceassembleeext_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -352,7 +352,7 @@ class SequenceAssembleeExtController extends AbstractController {
    * Deletes a sequenceAssembleeExt entity.
    *
    * @Route("/{id}", name="sequenceassembleeext_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt) {
     $form = $this->createDeleteForm($sequenceAssembleeExt);

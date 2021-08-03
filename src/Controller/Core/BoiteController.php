@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Boite controller.
  *
  * @Route("boite")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class BoiteController extends AbstractController {
@@ -122,7 +122,7 @@ class BoiteController extends AbstractController {
    * Creates a new boite entity.
    *
    * @Route("/new", name="boite_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
 
@@ -192,7 +192,7 @@ class BoiteController extends AbstractController {
    * Displays a form to edit an existing boite entity.
    *
    * @Route("/{id}/edit", name="boite_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Boite $boite) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -250,7 +250,7 @@ class BoiteController extends AbstractController {
    * Deletes a boite entity.
    *
    * @Route("/{id}", name="boite_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Boite $boite) {
     $form = $this->createDeleteForm($boite);

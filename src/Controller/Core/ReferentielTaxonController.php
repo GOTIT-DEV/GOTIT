@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Referentieltaxon controller.
  *
  * @Route("referentieltaxon")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxonController extends AbstractController {
@@ -108,7 +108,7 @@ class ReferentielTaxonController extends AbstractController {
    * Creates a new referentielTaxon entity.
    *
    * @Route("/new", name="referentieltaxon_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
     $referentielTaxon = new Referentieltaxon();
@@ -167,7 +167,7 @@ class ReferentielTaxonController extends AbstractController {
    * Displays a form to edit an existing referentielTaxon entity.
    *
    * @Route("/{id}/edit", name="referentieltaxon_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function editAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
@@ -208,7 +208,7 @@ class ReferentielTaxonController extends AbstractController {
    * Deletes a referentielTaxon entity.
    *
    * @Route("/{id}", name="referentieltaxon_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_ADMIN')")
+   * @Security("is_granted('ROLE_ADMIN')")
    */
   public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $form = $this->createDeleteForm($referentielTaxon);

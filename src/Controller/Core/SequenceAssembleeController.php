@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Sequenceassemblee controller.
  *
  * @Route("sequenceassemblee")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeController extends AbstractController {
@@ -186,7 +186,7 @@ class SequenceAssembleeController extends AbstractController {
    * Creates a new sequenceAssemblee entity.
    *
    * @Route("/new", name="sequenceassemblee_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
 
@@ -337,7 +337,7 @@ class SequenceAssembleeController extends AbstractController {
    * Displays a form to edit an existing sequenceAssemblee entity.
    *
    * @Route("/{id}/edit", name="sequenceassemblee_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(
     Request $request,
@@ -455,7 +455,7 @@ class SequenceAssembleeController extends AbstractController {
    * Deletes a sequenceAssemblee entity.
    *
    * @Route("/{id}", name="sequenceassemblee_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
     $form = $this->createDeleteForm($sequenceAssemblee);

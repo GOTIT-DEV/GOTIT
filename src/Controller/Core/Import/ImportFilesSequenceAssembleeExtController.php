@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ImportIndividu controller.
  *
  * @Route("importfilessequenceassembleeext")
- * @Security("has_role('ROLE_COLLABORATION')")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFilesSequenceAssembleeExtController extends AbstractController {

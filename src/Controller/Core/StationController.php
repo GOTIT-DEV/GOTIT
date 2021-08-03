@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Station controller.
  *
  * @Route("station")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class StationController extends AbstractController {
@@ -177,7 +177,7 @@ class StationController extends AbstractController {
    * Creates a new station entity.
    *
    * @Route("/new", name="station_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
     $station = new Station();
@@ -233,7 +233,7 @@ class StationController extends AbstractController {
    * Displays a form to edit an existing station entity.
    *
    * @Route("/{id}/edit", name="station_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(Request $request, Station $station) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -280,7 +280,7 @@ class StationController extends AbstractController {
    * Deletes a station entity.
    *
    * @Route("/{id}", name="station_delete", methods={"DELETE","POST"})
-   * @Security("has_role('ROLE_COLLABORATION')")
+   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function deleteAction(Request $request, Station $station) {
     $form = $this->createDeleteForm($station);

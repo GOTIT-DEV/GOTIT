@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Programme controller.
  *
  * @Route("programme")
- * @Security("has_role('ROLE_INVITED')")
+ * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ProgrammeController extends AbstractController {
@@ -108,7 +108,7 @@ class ProgrammeController extends AbstractController {
    * Creates a new programme entity.
    *
    * @Route("/new", name="programme_new", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function newAction(Request $request) {
     $programme = new Programme();
@@ -224,7 +224,7 @@ class ProgrammeController extends AbstractController {
    * Displays a form to edit an existing programme entity.
    *
    * @Route("/{id}/edit", name="programme_edit", methods={"GET", "POST"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function editAction(Request $request, Programme $programme) {
     //
@@ -263,7 +263,7 @@ class ProgrammeController extends AbstractController {
    * Deletes a programme entity.
    *
    * @Route("/{id}", name="programme_delete", methods={"DELETE"})
-   * @Security("has_role('ROLE_PROJECT')")
+   * @Security("is_granted('ROLE_PROJECT')")
    */
   public function deleteAction(Request $request, Programme $programme) {
     $form = $this->createDeleteForm($programme);
