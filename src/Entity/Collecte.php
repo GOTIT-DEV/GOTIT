@@ -123,10 +123,10 @@ class Collecte extends AbstractTimestampedEntity {
   protected $samplingFixatives;
 
   /**
-   * @ORM\OneToMany(targetEntity="EstFinancePar", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingFunding", mappedBy="collecteFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $estFinancePars;
+  protected $samplingFundings;
 
   /**
    * @ORM\OneToMany(targetEntity="EstEffectuePar", mappedBy="collecteFk", cascade={"persist"})
@@ -143,7 +143,7 @@ class Collecte extends AbstractTimestampedEntity {
   public function __construct() {
     $this->samplingMethods = new ArrayCollection();
     $this->samplingFixatives = new ArrayCollection();
-    $this->estFinancePars = new ArrayCollection();
+    $this->samplingFundings = new ArrayCollection();
     $this->estEffectuePars = new ArrayCollection();
     $this->taxonSamplings = new ArrayCollection();
   }
@@ -430,34 +430,34 @@ class Collecte extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add estFinancePar
+   * Add samplingFunding
    *
-   * @param \App\Entity\EstFinancePar $estFinancePar
+   * @param \App\Entity\SamplingFunding $samplingFunding
    *
    * @return Collecte
    */
-  public function addEstFinancePar(\App\Entity\EstFinancePar $estFinancePar) {
-    $estFinancePar->setCollecteFk($this);
-    $this->estFinancePars[] = $estFinancePar;
+  public function addSamplingFunding(\App\Entity\SamplingFunding $samplingFunding) {
+    $samplingFunding->setCollecteFk($this);
+    $this->samplingFundings[] = $samplingFunding;
     return $this;
   }
 
   /**
-   * Remove estFinancePar
+   * Remove samplingFunding
    *
-   * @param \App\Entity\EstFinancePar $estFinancePar
+   * @param \App\Entity\SamplingFunding $samplingFunding
    */
-  public function removeEstFinancePar(\App\Entity\EstFinancePar $estFinancePar) {
-    $this->estFinancePars->removeElement($estFinancePar);
+  public function removeSamplingFunding(\App\Entity\SamplingFunding $samplingFunding) {
+    $this->samplingFundings->removeElement($samplingFunding);
   }
 
   /**
-   * Get estFinancePars
+   * Get samplingFundings
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEstFinancePars() {
-    return $this->estFinancePars;
+  public function getSamplingFundings() {
+    return $this->samplingFundings;
   }
 
   /**

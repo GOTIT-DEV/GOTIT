@@ -2,10 +2,10 @@
 
 namespace App\Services\Core;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Services\Core\ImportFileCsv;
 use App\Entity\Motu;
+use App\Services\Core\ImportFileCsv;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Service ImportFileE3s
@@ -1907,7 +1907,7 @@ class ImportFileE3s {
         }
       }
 
-      # Record of EstFinancePar
+      # Record of SamplingFunding
       foreach ($columnByTable["est_finance_par"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1923,7 +1923,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\EstFinancePar();
+            $entityRel = new \App\Entity\SamplingFunding();
             $method = "setCollecteFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

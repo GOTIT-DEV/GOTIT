@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\EstEffectueParEmbedType;
-use App\Form\EmbedTypes\EstFinanceParEmbedType;
 use App\Form\EmbedTypes\SamplingFixativeEmbedType;
+use App\Form\EmbedTypes\SamplingFundingEmbedType;
 use App\Form\EmbedTypes\SamplingMethodEmbedType;
 use App\Form\EmbedTypes\TaxonSamplingEmbedType;
 use App\Form\Enums\Action;
@@ -72,8 +72,8 @@ class CollecteType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => ['label' => false],
       ])
-      ->add('estFinancePars', CollectionType::class, [
-        'entry_type' => EstFinanceParEmbedType::class,
+      ->add('samplingFundings', CollectionType::class, [
+        'entry_type' => SamplingFundingEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

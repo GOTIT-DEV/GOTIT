@@ -42,7 +42,7 @@ class GenericFunctionE3s {
 
   public function SetArrayCollection($nameArrayCollection, $entity) {
     $method = 'get' . ucfirst($nameArrayCollection);
-    // memorize ArrayCollection EstFinancePar
+    // memorize ArrayCollection SamplingFunding
     $originalArrayCollection = new ArrayCollection();
     foreach ($entity->$method() as $entityCollection) {
       $originalArrayCollection->add($entityCollection);
@@ -72,7 +72,7 @@ class GenericFunctionE3s {
     $method = 'get' . ucfirst($nameArrayCollection);
     $methodEmbed = 'get' . ucfirst($nameArrayCollectionEmbed);
     $listOriginalArrayCollection = [];
-    // memorize ArrayCollection EstFinancePar
+    // memorize ArrayCollection SamplingFunding
     $originalArrayCollection = new ArrayCollection();
     foreach ($entity->$method() as $entityCollection) {
       $originalArrayCollection->add($entityCollection);

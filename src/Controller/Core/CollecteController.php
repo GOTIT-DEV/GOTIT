@@ -2,14 +2,14 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Collecte;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Collecte controller.
@@ -249,7 +249,7 @@ class CollecteController extends AbstractController {
 
     $originalSamplingMethods = $service->setArrayCollection('SamplingMethods', $collecte);
     $originalSamplingFixatives = $service->setArrayCollection('SamplingFixatives', $collecte);
-    $originalEstFinancePars = $service->setArrayCollection('EstFinancePars', $collecte);
+    $originalSamplingFundings = $service->setArrayCollection('SamplingFundings', $collecte);
     $originalEstEffectuePars = $service->setArrayCollection('EstEffectuePars', $collecte);
     $originalTaxonSamplings = $service->setArrayCollection('TaxonSamplings', $collecte);
 
@@ -265,7 +265,7 @@ class CollecteController extends AbstractController {
       // delete ArrayCollection
       $service->DelArrayCollection('SamplingMethods', $collecte, $originalSamplingMethods);
       $service->DelArrayCollection('SamplingFixatives', $collecte, $originalSamplingFixatives);
-      $service->DelArrayCollection('EstFinancePars', $collecte, $originalEstFinancePars);
+      $service->DelArrayCollection('SamplingFundings', $collecte, $originalSamplingFundings);
       $service->DelArrayCollection('EstEffectuePars', $collecte, $originalEstEffectuePars);
       $service->DelArrayCollection('TaxonSamplings', $collecte, $originalTaxonSamplings);
 

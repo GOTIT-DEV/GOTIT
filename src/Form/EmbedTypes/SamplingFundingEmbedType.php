@@ -2,13 +2,13 @@
 
 namespace App\Form\EmbedTypes;
 
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
-class EstFinanceParEmbedType extends AbstractType {
+class SamplingFundingEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -32,7 +32,7 @@ class EstFinanceParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\EstFinancePar',
+      'data_class' => 'App\Entity\SamplingFunding',
     ));
   }
 
@@ -40,6 +40,6 @@ class EstFinanceParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_estfinancepar';
+    return 'sampling_funding';
   }
 }
