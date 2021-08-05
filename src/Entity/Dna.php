@@ -112,13 +112,13 @@ class Dna extends AbstractTimestampedEntity {
   private $boiteFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="AdnEstRealisePar", mappedBy="adnFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="adnFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $adnEstRealisePars;
+  protected $dnaExtractions;
 
   public function __construct() {
-    $this->adnEstRealisePars = new ArrayCollection();
+    $this->dnaExtractions = new ArrayCollection();
   }
 
   /**
@@ -329,34 +329,34 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add adnEstRealisePar
+   * Add dnaExtraction
    *
-   * @param \App\Entity\AdnEstRealisePar $adnEstRealisePar
+   * @param \App\Entity\DnaExtraction $dnaExtraction
    *
    * @return Dna
    */
-  public function addAdnEstRealisePar(\App\Entity\AdnEstRealisePar $adnEstRealisePar) {
-    $adnEstRealisePar->setAdnFk($this);
-    $this->adnEstRealisePars[] = $adnEstRealisePar;
+  public function addDnaExtraction(\App\Entity\DnaExtraction $dnaExtraction) {
+    $dnaExtraction->setAdnFk($this);
+    $this->dnaExtractions[] = $dnaExtraction;
 
     return $this;
   }
 
   /**
-   * Remove adnEstRealisePar
+   * Remove dnaExtraction
    *
-   * @param \App\Entity\AdnEstRealisePar $adnEstRealisePar
+   * @param \App\Entity\DnaExtraction $dnaExtraction
    */
-  public function removeAdnEstRealisePar(\App\Entity\AdnEstRealisePar $adnEstRealisePar) {
-    $this->adnEstRealisePars->removeElement($adnEstRealisePar);
+  public function removeDnaExtraction(\App\Entity\DnaExtraction $dnaExtraction) {
+    $this->dnaExtractions->removeElement($dnaExtraction);
   }
 
   /**
-   * Get adnEstRealisePars
+   * Get dnaExtractions
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAdnEstRealisePars() {
-    return $this->adnEstRealisePars;
+  public function getDnaExtractions() {
+    return $this->dnaExtractions;
   }
 }

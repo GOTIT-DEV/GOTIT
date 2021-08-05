@@ -2,12 +2,12 @@
 
 namespace App\Form\EmbedTypes;
 
-use App\Form\EmbedTypes\PersonneEmbedType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\EmbedTypes\PersonneEmbedType;
 
-class AdnEstRealiseParEmbedType extends AbstractType {
+class DnaExtractionEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class AdnEstRealiseParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\AdnEstRealisePar',
+      'data_class' => 'App\Entity\DnaExtraction',
     ));
   }
 
@@ -28,6 +28,6 @@ class AdnEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_adnestrealisepar';
+    return 'dna_extraction';
   }
 }

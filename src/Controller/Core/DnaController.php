@@ -110,7 +110,7 @@ class DnaController extends AbstractController {
       // concatenated list of people
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom
-        FROM App:AdnEstRealisePar erp
+        FROM App:DnaExtraction erp
         JOIN erp.personneFk p
         WHERE erp.adnFk = ' . $id
       )->getResult();
@@ -228,7 +228,7 @@ class DnaController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars', $adn);
+    $dnaExtractions = $service->setArrayCollection('DnaExtractions', $adn);
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\DnaType', $adn, [
       'action_type' => Action::edit(),
@@ -236,7 +236,7 @@ class DnaController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollection('AdnEstRealisePars', $adn, $adnEstRealisePars);
+      $service->DelArrayCollection('DnaExtractions', $adn, $dnaExtractions);
       $em = $this->getDoctrine()->getManager();
       $em->persist($adn);
       try {

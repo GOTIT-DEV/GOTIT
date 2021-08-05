@@ -2,19 +2,19 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
-use App\Form\Type\SearchableSelectType;
-use App\Form\Type\EntityCodeType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\BaseVocType;
-use App\Form\EmbedTypes\AdnEstRealiseParEmbedType;
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\DnaExtractionEmbedType;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\SearchableSelectType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DnaType extends ActionFormType {
 
@@ -67,8 +67,8 @@ class DnaType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('adnEstRealisePars', CollectionType::class, [
-        'entry_type' => AdnEstRealiseParEmbedType::class,
+      ->add('dnaExtractions', CollectionType::class, [
+        'entry_type' => DnaExtractionEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
