@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\TaxonSampling;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\TaxonSampling;
 
 /**
  * Collecte
@@ -129,10 +129,10 @@ class Collecte extends AbstractTimestampedEntity {
   protected $samplingFundings;
 
   /**
-   * @ORM\OneToMany(targetEntity="EstEffectuePar", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingParticipant", mappedBy="collecteFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $estEffectuePars;
+  protected $samplingParticipants;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonSampling", mappedBy="collecteFk", cascade={"persist"})
@@ -144,7 +144,7 @@ class Collecte extends AbstractTimestampedEntity {
     $this->samplingMethods = new ArrayCollection();
     $this->samplingFixatives = new ArrayCollection();
     $this->samplingFundings = new ArrayCollection();
-    $this->estEffectuePars = new ArrayCollection();
+    $this->samplingParticipants = new ArrayCollection();
     $this->taxonSamplings = new ArrayCollection();
   }
 
@@ -461,34 +461,34 @@ class Collecte extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add estEffectuePar
+   * Add samplingParticipant
    *
-   * @param \App\Entity\EstEffectuePar $estEffectuePar
+   * @param \App\Entity\SamplingParticipant $samplingParticipant
    *
    * @return Collecte
    */
-  public function addEstEffectuePar(\App\Entity\EstEffectuePar $estEffectuePar) {
-    $estEffectuePar->setCollecteFk($this);
-    $this->estEffectuePars[] = $estEffectuePar;
+  public function addSamplingParticipant(\App\Entity\SamplingParticipant $samplingParticipant) {
+    $samplingParticipant->setCollecteFk($this);
+    $this->samplingParticipants[] = $samplingParticipant;
     return $this;
   }
 
   /**
-   * Remove estEffectuePar
+   * Remove samplingParticipant
    *
-   * @param \App\Entity\EstEffectuePar $estEffectuePar
+   * @param \App\Entity\SamplingParticipant $samplingParticipant
    */
-  public function removeEstEffectuePar(\App\Entity\EstEffectuePar $estEffectuePar) {
-    $this->estEffectuePars->removeElement($estEffectuePar);
+  public function removeSamplingParticipant(\App\Entity\SamplingParticipant $samplingParticipant) {
+    $this->samplingParticipants->removeElement($samplingParticipant);
   }
 
   /**
-   * Get estEffectuePars
+   * Get samplingParticipants
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEstEffectuePars() {
-    return $this->estEffectuePars;
+  public function getSamplingParticipants() {
+    return $this->samplingParticipants;
   }
 
   /**

@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\EstEffectueParEmbedType;
 use App\Form\EmbedTypes\SamplingFixativeEmbedType;
 use App\Form\EmbedTypes\SamplingFundingEmbedType;
 use App\Form\EmbedTypes\SamplingMethodEmbedType;
+use App\Form\EmbedTypes\SamplingParticipantEmbedType;
 use App\Form\EmbedTypes\TaxonSamplingEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -86,8 +86,8 @@ class CollecteType extends ActionFormType {
         ],
         'entry_options' => array('label' => false),
       ])
-      ->add('estEffectuePars', CollectionType::class, [
-        'entry_type' => EstEffectueParEmbedType::class,
+      ->add('samplingParticipants', CollectionType::class, [
+        'entry_type' => SamplingParticipantEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

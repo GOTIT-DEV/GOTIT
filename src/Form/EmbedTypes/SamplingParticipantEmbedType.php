@@ -2,12 +2,12 @@
 
 namespace App\Form\EmbedTypes;
 
-use App\Form\EmbedTypes\PersonneEmbedType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\EmbedTypes\PersonneEmbedType;
 
-class EstEffectueParEmbedType extends AbstractType {
+class SamplingParticipantEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class EstEffectueParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\EstEffectuePar',
+      'data_class' => 'App\Entity\SamplingParticipant',
     ));
   }
 
@@ -28,6 +28,6 @@ class EstEffectueParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_esteffectuepar';
+    return 'sampling_participant';
   }
 }
