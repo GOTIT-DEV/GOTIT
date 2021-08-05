@@ -13,6 +13,7 @@ class DateFormattedType extends AbstractType {
       'widget' => 'single_text',
       'format' => 'dd-MM-yyyy',
       'required' => false,
+      'html5' => false,
     ]);
   }
 
