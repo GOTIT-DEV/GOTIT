@@ -2,10 +2,10 @@
 
 namespace App\Services\Core;
 
-use App\Entity\Motu;
-use App\Services\Core\ImportFileCsv;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Services\Core\ImportFileCsv;
+use App\Entity\Motu;
 
 /**
  * Service ImportFileE3s
@@ -1819,7 +1819,7 @@ class ImportFileE3s {
         }
       }
 
-      # Record of APourSamplingMethod
+      # Record of SamplingMethod
       foreach ($columnByTable["a_pour_sampling_method"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1835,7 +1835,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\APourSamplingMethod();
+            $entityRel = new \App\Entity\SamplingMethod();
             $method = "setCollecteFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

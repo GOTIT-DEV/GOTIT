@@ -2,14 +2,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Collecte;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Collecte;
 
 /**
  * Collecte controller.
@@ -247,7 +247,7 @@ class CollecteController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods', $collecte);
+    $originalSamplingMethods = $service->setArrayCollection('SamplingMethods', $collecte);
     $originalSamplingFixatives = $service->setArrayCollection('SamplingFixatives', $collecte);
     $originalEstFinancePars = $service->setArrayCollection('EstFinancePars', $collecte);
     $originalEstEffectuePars = $service->setArrayCollection('EstEffectuePars', $collecte);
@@ -263,7 +263,7 @@ class CollecteController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('APourSamplingMethods', $collecte, $originalAPourSamplingMethods);
+      $service->DelArrayCollection('SamplingMethods', $collecte, $originalSamplingMethods);
       $service->DelArrayCollection('SamplingFixatives', $collecte, $originalSamplingFixatives);
       $service->DelArrayCollection('EstFinancePars', $collecte, $originalEstFinancePars);
       $service->DelArrayCollection('EstEffectuePars', $collecte, $originalEstEffectuePars);

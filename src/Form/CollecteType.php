@@ -2,23 +2,23 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use App\Form\Type\SearchableSelectType;
-use App\Form\Type\EntityCodeType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\BaseVocType;
-use App\Form\Enums\Action;
-use App\Form\EmbedTypes\TaxonSamplingEmbedType;
-use App\Form\EmbedTypes\SamplingFixativeEmbedType;
-use App\Form\EmbedTypes\EstFinanceParEmbedType;
-use App\Form\EmbedTypes\EstEffectueParEmbedType;
-use App\Form\EmbedTypes\APourSamplingMethodEmbedType;
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\EstEffectueParEmbedType;
+use App\Form\EmbedTypes\EstFinanceParEmbedType;
+use App\Form\EmbedTypes\SamplingFixativeEmbedType;
+use App\Form\EmbedTypes\SamplingMethodEmbedType;
+use App\Form\EmbedTypes\TaxonSamplingEmbedType;
+use App\Form\Enums\Action;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\SearchableSelectType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CollecteType extends ActionFormType {
 
@@ -52,8 +52,8 @@ class CollecteType extends ActionFormType {
       ->add('dateCollecte', DateFormattedType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('aPourSamplingMethods', CollectionType::class, [
-        'entry_type' => APourSamplingMethodEmbedType::class,
+      ->add('samplingMethods', CollectionType::class, [
+        'entry_type' => SamplingMethodEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

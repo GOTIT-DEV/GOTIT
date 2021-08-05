@@ -15,6 +15,7 @@ class SchemaInspectorService {
 
   public function make_qbuilder_config() {
     $meta = $this->em->getMetadataFactory()->getAllMetadata();
+    // dump($meta);
 
     $schema = $this->parse_entities_metadata($meta);
 
@@ -34,7 +35,7 @@ class SchemaInspectorService {
       $tableName = $m->getTableName();
 
       // Skip User entity that must not be exposed
-      if ($entity == "User") {
+      if ($entity == "User" || $m->isMappedSuperclass) {
         continue;
       }
 
@@ -99,7 +100,7 @@ class SchemaInspectorService {
   }
 
   private function guess_type($entity) {
-    return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|TaxonSampling|SamplingFixative)/', $entity);
+    return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|TaxonSampling|SamplingFixative|SamplingMethod)/', $entity);
   }
 
   private function parse_metadata(ClassMetadata $metadata) {

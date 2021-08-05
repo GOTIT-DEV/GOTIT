@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\TaxonSampling;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Collecte
@@ -111,10 +111,10 @@ class Collecte extends AbstractTimestampedEntity {
   private $stationFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="APourSamplingMethod", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingMethod", mappedBy="collecteFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $aPourSamplingMethods;
+  protected $samplingMethods;
 
   /**
    * @ORM\OneToMany(targetEntity="SamplingFixative", mappedBy="collecteFk", cascade={"persist"})
@@ -141,7 +141,7 @@ class Collecte extends AbstractTimestampedEntity {
   protected $taxonSamplings;
 
   public function __construct() {
-    $this->aPourSamplingMethods = new ArrayCollection();
+    $this->samplingMethods = new ArrayCollection();
     $this->samplingFixatives = new ArrayCollection();
     $this->estFinancePars = new ArrayCollection();
     $this->estEffectuePars = new ArrayCollection();
@@ -368,34 +368,34 @@ class Collecte extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add aPourSamplingMethod
+   * Add samplingMethod
    *
-   * @param \App\Entity\APourSamplingMethod $aPourSamplingMethod
+   * @param \App\Entity\SamplingMethod $samplingMethod
    *
    * @return Collecte
    */
-  public function addAPourSamplingMethod(\App\Entity\APourSamplingMethod $aPourSamplingMethod) {
-    $aPourSamplingMethod->setCollecteFk($this);
-    $this->aPourSamplingMethods[] = $aPourSamplingMethod;
+  public function addSamplingMethod(\App\Entity\SamplingMethod $samplingMethod) {
+    $samplingMethod->setCollecteFk($this);
+    $this->samplingMethods[] = $samplingMethod;
     return $this;
   }
 
   /**
-   * Remove aPourSamplingMethod
+   * Remove samplingMethod
    *
-   * @param \App\Entity\APourSamplingMethod $aPourSamplingMethod
+   * @param \App\Entity\SamplingMethod $samplingMethod
    */
-  public function removeAPourSamplingMethod(\App\Entity\APourSamplingMethod $aPourSamplingMethod) {
-    $this->aPourSamplingMethods->removeElement($aPourSamplingMethod);
+  public function removeSamplingMethod(\App\Entity\SamplingMethod $samplingMethod) {
+    $this->samplingMethods->removeElement($samplingMethod);
   }
 
   /**
-   * Get aPourSamplingMethods
+   * Get samplingMethods
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAPourSamplingMethods() {
-    return $this->aPourSamplingMethods;
+  public function getSamplingMethods() {
+    return $this->samplingMethods;
   }
 
   /**

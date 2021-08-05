@@ -2,12 +2,12 @@
 
 namespace App\Form\EmbedTypes;
 
-use App\Form\Type\BaseVocType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Type\BaseVocType;
 
-class APourSamplingMethodEmbedType extends AbstractType {
+class SamplingMethodEmbedType extends AbstractType {
   /**
    * @param FormBuilderInterface $builder
    * @param array $options
@@ -24,7 +24,7 @@ class APourSamplingMethodEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\APourSamplingMethod',
+      'data_class' => 'App\Entity\SamplingMethod',
     ));
   }
 
@@ -32,6 +32,6 @@ class APourSamplingMethodEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_apoursamplingmethod_embed';
+    return 'sampling_method_embed';
   }
 }
