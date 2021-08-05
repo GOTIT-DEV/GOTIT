@@ -2,10 +2,10 @@
 
 namespace App\Services\Core;
 
-use App\Entity\Motu;
-use App\Services\Core\ImportFileCsv;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Services\Core\ImportFileCsv;
+use App\Entity\Motu;
 
 /**
  * Service ImportFileE3s
@@ -43,8 +43,8 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
-        ->where('adn.codeAdn  LIKE :code_adn')
+      $query_adn = $em->getRepository("App:Dna")->createQueryBuilder('dna')
+        ->where('dna.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
         ->getResult();
@@ -122,8 +122,8 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
-        ->where('adn.codeAdn  LIKE :code_adn')
+      $query_adn = $em->getRepository("Dna")->createQueryBuilder('dna')
+        ->where('dna.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
         ->getResult();
@@ -1358,7 +1358,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #
-      $entity = new \App\Entity\Adn();
+      $entity = new \App\Entity\Dna();
       //
       foreach ($columnByTable["adn"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
@@ -1375,7 +1375,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'adn.code_adn') {
-            $record_entity = $em->getRepository("App:Adn")->findOneBy(array("codeAdn" => $dataColCsv));
+            $record_entity = $em->getRepository("App:Dna")->findOneBy(array("codeAdn" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

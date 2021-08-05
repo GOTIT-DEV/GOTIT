@@ -116,7 +116,7 @@ class Boite {
   protected $lotMateriels;
 
   /**
-   * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Dna", mappedBy="boiteFk", cascade={"persist"})
    * @ORM\OrderBy({"codeAdn" = "ASC"})
    */
   protected $adns;
@@ -397,11 +397,11 @@ class Boite {
   /**
    * Add adn
    *
-   * @param \App\Entity\Adn $adn
+   * @param \App\Entity\Dna $adn
    *
    * @return Boite
    */
-  public function addAdn(\App\Entity\Adn $adn) {
+  public function addAdn(\App\Entity\Dna $adn) {
     $adn->setBoiteFk($this);
     $this->adns[] = $adn;
 
@@ -411,9 +411,9 @@ class Boite {
   /**
    * Remove adn
    *
-   * @param \App\Entity\Adn $adn
+   * @param \App\Entity\Dna $adn
    */
-  public function removeAdn(\App\Entity\Adn $adn) {
+  public function removeAdn(\App\Entity\Dna $adn) {
     $this->adns->removeElement($adn);
   }
 

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\AdnEmbedType;
+use App\Form\EmbedTypes\DnaEmbedType;
 use App\Form\EmbedTypes\IndividuLameEmbedType;
 use App\Form\EmbedTypes\LotMaterielEmbedType;
 use App\Form\Enums\Action;
@@ -61,7 +61,7 @@ class BoiteType extends ActionFormType {
 
       case 'ADN':
         $builder->add('adns', CollectionType::class, array(
-          'entry_type' => AdnEmbedType::class,
+          'entry_type' => DnaEmbedType::class,
           // 'allow_add' => true,
           // 'allow_delete' => true,
           'prototype' => true,

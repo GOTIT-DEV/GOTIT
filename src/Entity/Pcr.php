@@ -158,9 +158,9 @@ class Pcr {
   private $datePrecisionVocFk;
 
   /**
-   * @var \Adn
+   * @var \Dna
    *
-   * @ORM\ManyToOne(targetEntity="Adn")
+   * @ORM\ManyToOne(targetEntity="Dna")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false)
    * })
@@ -519,11 +519,11 @@ class Pcr {
   /**
    * Set adnFk
    *
-   * @param \App\Entity\Adn $adnFk
+   * @param \App\Entity\Dna $adnFk
    *
    * @return Pcr
    */
-  public function setAdnFk(\App\Entity\Adn $adnFk = null) {
+  public function setAdnFk(\App\Entity\Dna $adnFk = null) {
     $this->adnFk = $adnFk;
 
     return $this;
@@ -532,7 +532,7 @@ class Pcr {
   /**
    * Get adnFk
    *
-   * @return \App\Entity\Adn
+   * @return \App\Entity\Dna
    */
   public function getAdnFk() {
     return $this->adnFk;

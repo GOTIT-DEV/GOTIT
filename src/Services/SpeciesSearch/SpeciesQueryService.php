@@ -79,7 +79,7 @@ class SpeciesQueryService {
    ****************************************************************************/
 
   private function joinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->join('App:Adn', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
+    return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
       ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->join('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
@@ -89,7 +89,7 @@ class SpeciesQueryService {
   }
 
   private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->leftJoin('App:Adn', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
+    return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->leftJoin('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->leftJoin('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
@@ -110,7 +110,7 @@ class SpeciesQueryService {
       ->leftJoin('App:EstAligneEtTraite', 'motu_at', 'WITH', "motu_at.sequenceAssembleeFk = $alias.sequenceAssembleeFk")
       ->leftJoin('App:Chromatogramme', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogrammeFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
-      ->leftJoin('App:Adn', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
+      ->leftJoin('App:Dna', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
       ->leftJoin('App:Individu', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.individuFk")
       ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.individuFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodeMotuVocFk")

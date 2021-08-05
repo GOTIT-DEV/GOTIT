@@ -2,21 +2,21 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\EmbedTypes\AdnEstRealiseParEmbedType;
-use App\Form\Type\BaseVocType;
-use App\Form\Type\DateFormattedType;
-use App\Form\Type\DatePrecisionType;
-use App\Form\Type\EntityCodeType;
-use App\Form\Type\SearchableSelectType;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
+use App\Form\Type\SearchableSelectType;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DateFormattedType;
+use App\Form\Type\BaseVocType;
+use App\Form\EmbedTypes\AdnEstRealiseParEmbedType;
+use App\Form\ActionFormType;
 
-class AdnType extends ActionFormType {
+class DnaType extends ActionFormType {
 
   /**
    * {@inheritdoc}
@@ -89,7 +89,7 @@ class AdnType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Adn',
+      'data_class' => 'App\Entity\Dna',
     ));
   }
 
@@ -97,6 +97,6 @@ class AdnType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_adn';
+    return 'dna';
   }
 }

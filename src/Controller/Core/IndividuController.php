@@ -2,15 +2,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EspeceIdentifiee;
-use App\Entity\Individu;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Individu;
+use App\Entity\EspeceIdentifiee;
 
 /**
  * Individu controller.
@@ -63,8 +63,8 @@ class IndividuController extends AbstractController {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Individu', 'ind')
-      ->leftJoin('App:Adn', 'adn', 'WITH', 'adn.individuFk = ind.id')
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = adn.id')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.individuFk = ind.id')
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = dna.id')
       ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
       ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
       ->andWhere('vocgene.id = :idvocgene ')
@@ -195,7 +195,7 @@ class IndividuController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
-      $linkAdn = $val['list_dna'] ? strval($val['id']) : '';
+      $linkDna = $val['list_dna'] ? strval($val['id']) : '';
       $linkIndividulame = $val['list_specimen_slide'] ? strval($val['id']) : '';
       $tab_toshow[] = array(
         "id" => $val['id'],
@@ -214,7 +214,7 @@ class IndividuController extends AbstractController {
         "creation_user_name" => $val['creation_user_name'],
         "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
-        "linkAdn" => $linkAdn,
+        "linkDna" => $linkDna,
         "linkIndividulame" => $linkIndividulame,
       );
     }

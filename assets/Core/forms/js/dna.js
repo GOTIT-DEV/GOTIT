@@ -1,8 +1,8 @@
 import { initSearchSelect } from "./field-suggestions"
 
 $(() => {
-  const $form = $("form[name='bbees_e3sbundle_adn']")
-  const $specimen = $form.find("#bbees_e3sbundle_adn_individuFk")
+  const $form = $("form[name='dna']")
+  const $specimen = $form.find("#dna_individuFk")
 
   initSearchSelect($specimen, "individu_search")
 })

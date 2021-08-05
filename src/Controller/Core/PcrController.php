@@ -2,14 +2,14 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Pcr;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Pcr;
 
 /**
  * Pcr controller.
@@ -90,8 +90,8 @@ class PcrController extends AbstractController {
       ->createQueryBuilder('pcr')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
+      ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
       ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
       ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
@@ -166,9 +166,9 @@ class PcrController extends AbstractController {
   public function newAction(Request $request) {
     $pcr = new Pcr();
     $em = $this->getDoctrine()->getManager();
-    // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
+    // check if the relational Entity (Dna) is given and set the RelationalEntityFk for the new Entity
     if ($dna_id = $request->get('idFk')) {
-      $dna = $em->getRepository('App:Adn')->find($dna_id);
+      $dna = $em->getRepository('App:Dna')->find($dna_id);
       $pcr->setAdnFk($dna);
     }
     $form = $this->createForm('App\Form\PcrType', $pcr, [

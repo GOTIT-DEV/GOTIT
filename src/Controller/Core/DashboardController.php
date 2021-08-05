@@ -2,11 +2,11 @@
 
 namespace App\Controller\Core;
 
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
 
 class DashboardController extends AbstractController {
   /**
@@ -24,7 +24,7 @@ class DashboardController extends AbstractController {
     $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
     $nbIndividu = $em->createQuery('SELECT COUNT(u.id) FROM App:Individu u')->getSingleScalarResult();
     $nbIndividuLame = $em->createQuery('SELECT COUNT(u.id) FROM App:IndividuLame u')->getSingleScalarResult();
-    $nbAdn = $em->createQuery('SELECT COUNT(u.id) FROM App:Adn u')->getSingleScalarResult();
+    $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
     $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
     $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
     $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssemblee u')->getSingleScalarResult();
@@ -38,8 +38,8 @@ class DashboardController extends AbstractController {
     //
     $tab_toshow = [];
     // returns the last records of the dna
-    $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
-      ->addOrderBy('adn.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Dna")->createQueryBuilder('dna')
+      ->addOrderBy('dna.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -261,7 +261,7 @@ class DashboardController extends AbstractController {
       'nbLotMaterielExt' => $nbLotMaterielExt,
       'nbIndividu' => $nbIndividu,
       'nbIndividuLame' => $nbIndividuLame,
-      'nbAdn' => $nbAdn,
+      'nbDna' => $nbDna,
       'nbPcr' => $nbPcr,
       'nbChromatogramme' => $nbChromatogramme,
       'nbSequenceAssemblee' => $nbSequenceAssemblee,

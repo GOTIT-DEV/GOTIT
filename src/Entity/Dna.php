@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Adn
+ * Dna
  *
  * @ORM\Table(name="dna",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeAdn"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Adn {
+class Dna {
   /**
    * @var integer
    *
@@ -163,7 +163,7 @@ class Adn {
    *
    * @param string $codeAdn
    *
-   * @return Adn
+   * @return Dna
    */
   public function setCodeAdn($codeAdn) {
     $this->codeAdn = $codeAdn;
@@ -185,7 +185,7 @@ class Adn {
    *
    * @param \DateTime $dateAdn
    *
-   * @return Adn
+   * @return Dna
    */
   public function setDateAdn($dateAdn) {
     $this->dateAdn = $dateAdn;
@@ -207,7 +207,7 @@ class Adn {
    *
    * @param float $concentrationNgMicrolitre
    *
-   * @return Adn
+   * @return Dna
    */
   public function setConcentrationNgMicrolitre($concentrationNgMicrolitre) {
     $this->concentrationNgMicrolitre = $concentrationNgMicrolitre;
@@ -229,7 +229,7 @@ class Adn {
    *
    * @param string $commentaireAdn
    *
-   * @return Adn
+   * @return Dna
    */
   public function setCommentaireAdn($commentaireAdn) {
     $this->commentaireAdn = $commentaireAdn;
@@ -251,7 +251,7 @@ class Adn {
    *
    * @param \DateTime $dateCre
    *
-   * @return Adn
+   * @return Dna
    */
   public function setDateCre($dateCre) {
     $this->dateCre = $dateCre;
@@ -273,7 +273,7 @@ class Adn {
    *
    * @param \DateTime $dateMaj
    *
-   * @return Adn
+   * @return Dna
    */
   public function setDateMaj($dateMaj) {
     $this->dateMaj = $dateMaj;
@@ -295,7 +295,7 @@ class Adn {
    *
    * @param integer $userCre
    *
-   * @return Adn
+   * @return Dna
    */
   public function setUserCre($userCre) {
     $this->userCre = $userCre;
@@ -317,7 +317,7 @@ class Adn {
    *
    * @param integer $userMaj
    *
-   * @return Adn
+   * @return Dna
    */
   public function setUserMaj($userMaj) {
     $this->userMaj = $userMaj;
@@ -339,7 +339,7 @@ class Adn {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return Adn
+   * @return Dna
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -361,7 +361,7 @@ class Adn {
    *
    * @param \App\Entity\Voc $methodeExtractionAdnVocFk
    *
-   * @return Adn
+   * @return Dna
    */
   public function setMethodeExtractionAdnVocFk(\App\Entity\Voc $methodeExtractionAdnVocFk = null) {
     $this->methodeExtractionAdnVocFk = $methodeExtractionAdnVocFk;
@@ -383,7 +383,7 @@ class Adn {
    *
    * @param \App\Entity\Individu $individuFk
    *
-   * @return Adn
+   * @return Dna
    */
   public function setIndividuFk(\App\Entity\Individu $individuFk = null) {
     $this->individuFk = $individuFk;
@@ -405,7 +405,7 @@ class Adn {
    *
    * @param \App\Entity\Voc $qualiteAdnVocFk
    *
-   * @return Adn
+   * @return Dna
    */
   public function setQualiteAdnVocFk(\App\Entity\Voc $qualiteAdnVocFk = null) {
     $this->qualiteAdnVocFk = $qualiteAdnVocFk;
@@ -427,7 +427,7 @@ class Adn {
    *
    * @param \App\Entity\Boite $boiteFk
    *
-   * @return Adn
+   * @return Dna
    */
   public function setBoiteFk(\App\Entity\Boite $boiteFk = null) {
     $this->boiteFk = $boiteFk;
@@ -449,7 +449,7 @@ class Adn {
    *
    * @param \App\Entity\AdnEstRealisePar $adnEstRealisePar
    *
-   * @return Adn
+   * @return Dna
    */
   public function addAdnEstRealisePar(\App\Entity\AdnEstRealisePar $adnEstRealisePar) {
     $adnEstRealisePar->setAdnFk($this);

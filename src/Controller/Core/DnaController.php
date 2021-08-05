@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Adn;
+use App\Entity\Dna;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Adn controller.
+ * Dna controller.
  *
- * @Route("adn")
+ * @Route("dna")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class AdnController extends AbstractController {
+class DnaController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
@@ -29,9 +29,9 @@ class AdnController extends AbstractController {
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $adns = $em->getRepository('App:Adn')->findAll();
+    $items = $em->getRepository('App:Dna')->findAll();
 
-    return $this->render('Core/adn/index.html.twig', ['adns' => $adns]);
+    return $this->render('Core/dna/index.html.twig', ['adns' => $items]);
   }
 
   /**
@@ -39,10 +39,10 @@ class AdnController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('adn.id, adn.codeAdn as code')->from('App:Adn', 'adn');
+    $qb->select('dna.id, dna.codeAdn as code')->from('App:Dna', 'dna');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(adn.codeAdn) like :q' . $i . ')')
+      $qb->andWhere('(LOWER(dna.codeAdn) like :q' . $i . ')')
         ->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
@@ -64,25 +64,25 @@ class AdnController extends AbstractController {
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
-      'adn.dateMaj' => 'desc',
-      'adn.id' => 'desc',
+      'dna.dateMaj' => 'desc',
+      'dna.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $where = 'LOWER(adn.codeAdn) LIKE :criteriaLower';
+    $where = 'LOWER(dna.codeAdn) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND adn.individuFk = ' . $request->get('idFk');
+      $where .= ' AND dna.individuFk = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
+    $entities_toshow = $em->getRepository("App:Dna")->createQueryBuilder('dna')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-      ->leftJoin('App:Boite', 'boite', 'WITH', 'adn.boiteFk = boite.id')
+      ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
+      ->leftJoin('App:Boite', 'boite', 'WITH', 'dna.boiteFk = boite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -153,7 +153,7 @@ class AdnController extends AbstractController {
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $adn = new Adn();
+    $adn = new Dna();
     $em = $this->getDoctrine()->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
@@ -161,7 +161,7 @@ class AdnController extends AbstractController {
       $adn->setIndividuFk($specimen);
     }
 
-    $form = $this->createForm('App\Form\AdnType', $adn, [
+    $form = $this->createForm('App\Form\DnaType', $adn, [
       'action_type' => Action::create(),
     ]);
 
@@ -178,7 +178,7 @@ class AdnController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/adn/index.html.twig',
+          'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
@@ -190,7 +190,7 @@ class AdnController extends AbstractController {
       ));
     }
 
-    return $this->render('Core/adn/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', array(
       'adn' => $adn,
       'edit_form' => $form->createView(),
     ));
@@ -201,13 +201,13 @@ class AdnController extends AbstractController {
    *
    * @Route("/{id}", name="adn_show", methods={"GET"})
    */
-  public function showAction(Adn $adn) {
+  public function showAction(Dna $adn) {
     $deleteForm = $this->createDeleteForm($adn);
-    $editForm = $this->createForm('App\Form\AdnType', $adn, [
+    $editForm = $this->createForm('App\Form\DnaType', $adn, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/adn/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', array(
       'adn' => $adn,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
@@ -220,7 +220,7 @@ class AdnController extends AbstractController {
    * @Route("/{id}/edit", name="adn_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Adn $adn, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Dna $adn, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -230,7 +230,7 @@ class AdnController extends AbstractController {
 
     $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars', $adn);
     $deleteForm = $this->createDeleteForm($adn);
-    $editForm = $this->createForm('App\Form\AdnType', $adn, [
+    $editForm = $this->createForm('App\Form\DnaType', $adn, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -246,18 +246,18 @@ class AdnController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/adn/index.html.twig',
+          'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/adn/edit.html.twig', array(
+      return $this->render('Core/dna/edit.html.twig', array(
         'adn' => $adn,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/adn/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', array(
       'adn' => $adn,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
@@ -270,7 +270,7 @@ class AdnController extends AbstractController {
    * @Route("/{id}", name="adn_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Adn $adn) {
+  public function deleteAction(Request $request, Dna $adn) {
     $form = $this->createDeleteForm($adn);
     $form->handleRequest($request);
 
@@ -285,7 +285,7 @@ class AdnController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/adn/index.html.twig',
+          'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
@@ -297,11 +297,11 @@ class AdnController extends AbstractController {
   /**
    * Creates a form to delete a adn entity.
    *
-   * @param Adn $adn The adn entity
+   * @param Dna $adn The adn entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Adn $adn) {
+  private function createDeleteForm(Dna $adn) {
     return $this->createFormBuilder()
       ->setAction(
         $this->generateUrl('adn_delete', ['id' => $adn->getId()])

@@ -23,7 +23,7 @@ class PcrType extends ActionFormType {
     $adn = $builder->getData()->getAdnFk();
     $builder
       ->add('adnFk', SearchableSelectType::class, [
-        'class' => 'App:Adn',
+        'class' => 'App:Dna',
         'choice_label' => 'codeAdn',
         'placeholder' => $this->translator->trans("Adn typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),

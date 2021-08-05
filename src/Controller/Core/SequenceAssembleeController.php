@@ -2,15 +2,15 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EstAligneEtTraite;
-use App\Entity\SequenceAssemblee;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\SequenceAssemblee;
+use App\Entity\EstAligneEtTraite;
 
 /**
  * Sequenceassemblee controller.
@@ -208,8 +208,8 @@ class SequenceAssembleeController extends AbstractController {
     } elseif ($specimenFk && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-        ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-        ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+        ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
+        ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
         ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
         ->andWhere('individu.id = :individuId')
         ->andWhere('vocGene.id = :geneFk')
