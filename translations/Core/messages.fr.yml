@@ -167,7 +167,7 @@ button.Add a Programme: Ajouter un programme
 button.Add a new Programme: Ajouter un nouveau programme
 button.Add a Personne: Ajouter une personne
 button.Add a new Personne: Ajouter une nouvelle personne
-button.Add a ACibler: Ajouter un taxon cible
+button.Add a TaxonSampling: Ajouter un taxon cible
 button.Import adn deplace: Déplacer/supprimer des boites ADN
 button.Import adn range: Stocker des boites ADN
 button.Import individu lame deplace: Déplacer/supprimer des lames
@@ -553,7 +553,7 @@ A pour sampling methods: Méthode échantillonnage
 A pour fixateurs: Fixateur
 Est finance pars: Programme
 Est effectue pars: Est realisé par
-A ciblers: Taxa ciblés par collecte
+Taxa sampling: Taxa ciblés
 
 # USER BUNDLE  #################################################################
 # table User_db

@@ -128,7 +128,7 @@ class CollecteController extends AbstractController {
       $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
       $query = $em->createQuery(
-        'SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
+        'SELECT rt.taxname as taxname FROM App:TaxonSampling ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
       )->getResult();
       $arrayTaxonsCibler = array();
       foreach ($query as $taxon) {
@@ -251,7 +251,7 @@ class CollecteController extends AbstractController {
     $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs', $collecte);
     $originalEstFinancePars = $service->setArrayCollection('EstFinancePars', $collecte);
     $originalEstEffectuePars = $service->setArrayCollection('EstEffectuePars', $collecte);
-    $originalACiblers = $service->setArrayCollection('ACiblers', $collecte);
+    $originalTaxonSamplings = $service->setArrayCollection('TaxonSamplings', $collecte);
 
     // editAction
     $deleteForm = $this->createDeleteForm($collecte);
@@ -267,7 +267,7 @@ class CollecteController extends AbstractController {
       $service->DelArrayCollection('APourFixateurs', $collecte, $originalAPourFixateurs);
       $service->DelArrayCollection('EstFinancePars', $collecte, $originalEstFinancePars);
       $service->DelArrayCollection('EstEffectuePars', $collecte, $originalEstEffectuePars);
-      $service->DelArrayCollection('ACiblers', $collecte, $originalACiblers);
+      $service->DelArrayCollection('TaxonSamplings', $collecte, $originalTaxonSamplings);
 
       // flush
       $this->getDoctrine()->getManager()->persist($collecte);

@@ -99,7 +99,7 @@ class SchemaInspectorService {
   }
 
   private function guess_type($entity) {
-    return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|ACibler)/', $entity);
+    return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|TaxonSampling)/', $entity);
   }
 
   private function parse_metadata(ClassMetadata $metadata) {

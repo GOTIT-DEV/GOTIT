@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\ACiblerEmbedType;
 use App\Form\EmbedTypes\APourFixateurEmbedType;
 use App\Form\EmbedTypes\APourSamplingMethodEmbedType;
 use App\Form\EmbedTypes\EstEffectueParEmbedType;
 use App\Form\EmbedTypes\EstFinanceParEmbedType;
+use App\Form\EmbedTypes\TaxonSamplingEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
@@ -100,8 +100,8 @@ class CollecteType extends ActionFormType {
         ],
         'entry_options' => array('label' => false),
       ])
-      ->add('aCiblers', CollectionType::class, [
-        'entry_type' => ACiblerEmbedType::class,
+      ->add('taxonSamplings', CollectionType::class, [
+        'entry_type' => TaxonSamplingEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\TaxonSampling;
 
 /**
  * Collecte
@@ -134,17 +135,17 @@ class Collecte extends AbstractTimestampedEntity {
   protected $estEffectuePars;
 
   /**
-   * @ORM\OneToMany(targetEntity="ACibler", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonSampling", mappedBy="collecteFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $aCiblers;
+  protected $taxonSamplings;
 
   public function __construct() {
     $this->aPourSamplingMethods = new ArrayCollection();
     $this->aPourFixateurs = new ArrayCollection();
     $this->estFinancePars = new ArrayCollection();
     $this->estEffectuePars = new ArrayCollection();
-    $this->aCiblers = new ArrayCollection();
+    $this->taxonSamplings = new ArrayCollection();
   }
 
   /**
@@ -505,34 +506,34 @@ class Collecte extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add aCibler
+   * Add taxon sampling
    *
-   * @param \App\Entity\ACibler $aCibler
+   * @param TaxonSampling $taxonSampling
    *
    * @return Collecte
    */
-  public function addACibler(\App\Entity\ACibler $aCibler) {
-    $aCibler->setCollecteFk($this);
-    $this->aCiblers[] = $aCibler;
+  public function addTaxonSampling(TaxonSampling $taxonSampling) {
+    $taxonSampling->setCollecteFk($this);
+    $this->taxonSamplings[] = $taxonSampling;
 
     return $this;
   }
 
   /**
-   * Remove aCibler
+   * Remove taxon sampling
    *
-   * @param \App\Entity\ACibler $aCibler
+   * @param TaxonSampling $taxonSampling
    */
-  public function removeACibler(\App\Entity\ACibler $aCibler) {
-    $this->aCiblers->removeElement($aCibler);
+  public function removeTaxonSampling(TaxonSampling $taxonSampling) {
+    $this->taxonSamplings->removeElement($taxonSampling);
   }
 
   /**
-   * Get aCiblers
+   * Get taxonSamplings
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getACiblers() {
-    return $this->aCiblers;
+  public function getTaxonSamplings() {
+    return $this->taxonSamplings;
   }
 }
