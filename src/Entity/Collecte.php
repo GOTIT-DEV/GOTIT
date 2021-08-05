@@ -117,10 +117,10 @@ class Collecte extends AbstractTimestampedEntity {
   protected $aPourSamplingMethods;
 
   /**
-   * @ORM\OneToMany(targetEntity="APourFixateur", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingFixative", mappedBy="collecteFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $aPourFixateurs;
+  protected $samplingFixatives;
 
   /**
    * @ORM\OneToMany(targetEntity="EstFinancePar", mappedBy="collecteFk", cascade={"persist"})
@@ -142,7 +142,7 @@ class Collecte extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->aPourSamplingMethods = new ArrayCollection();
-    $this->aPourFixateurs = new ArrayCollection();
+    $this->samplingFixatives = new ArrayCollection();
     $this->estFinancePars = new ArrayCollection();
     $this->estEffectuePars = new ArrayCollection();
     $this->taxonSamplings = new ArrayCollection();
@@ -166,7 +166,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setCodeCollecte($codeCollecte) {
     $this->codeCollecte = $codeCollecte;
-
     return $this;
   }
 
@@ -188,7 +187,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setDateCollecte($dateCollecte) {
     $this->dateCollecte = $dateCollecte;
-
     return $this;
   }
 
@@ -210,7 +208,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setDureeEchantillonnageMn($dureeEchantillonnageMn) {
     $this->dureeEchantillonnageMn = $dureeEchantillonnageMn;
-
     return $this;
   }
 
@@ -232,7 +229,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setTemperatureC($temperatureC) {
     $this->temperatureC = $temperatureC;
-
     return $this;
   }
 
@@ -254,7 +250,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setConductiviteMicroSieCm($conductiviteMicroSieCm) {
     $this->conductiviteMicroSieCm = $conductiviteMicroSieCm;
-
     return $this;
   }
 
@@ -276,7 +271,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setAFaire($aFaire) {
     $this->aFaire = $aFaire;
-
     return $this;
   }
 
@@ -298,7 +292,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setCommentaireCollecte($commentaireCollecte) {
     $this->commentaireCollecte = $commentaireCollecte;
-
     return $this;
   }
 
@@ -320,7 +313,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
-
     return $this;
   }
 
@@ -342,7 +334,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setLegVocFk(\App\Entity\Voc $legVocFk = null) {
     $this->legVocFk = $legVocFk;
-
     return $this;
   }
 
@@ -364,7 +355,6 @@ class Collecte extends AbstractTimestampedEntity {
    */
   public function setStationFk(\App\Entity\Station $stationFk = null) {
     $this->stationFk = $stationFk;
-
     return $this;
   }
 
@@ -387,7 +377,6 @@ class Collecte extends AbstractTimestampedEntity {
   public function addAPourSamplingMethod(\App\Entity\APourSamplingMethod $aPourSamplingMethod) {
     $aPourSamplingMethod->setCollecteFk($this);
     $this->aPourSamplingMethods[] = $aPourSamplingMethod;
-
     return $this;
   }
 
@@ -410,35 +399,34 @@ class Collecte extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add aPourFixateur
+   * Add sampling fixative
    *
-   * @param \App\Entity\PourFixateur $aPourFixateur
+   * @param \App\Entity\SamplingFixative $fixative
    *
    * @return Collecte
    */
-  public function addAPourFixateur(\App\Entity\APourFixateur $aPourFixateur) {
-    $aPourFixateur->setCollecteFk($this);
-    $this->aPourFixateurs[] = $aPourFixateur;
-
+  public function addSamplingFixative(\App\Entity\SamplingFixative $samplingFixative) {
+    $samplingFixative->setCollecteFk($this);
+    $this->samplingFixatives[] = $samplingFixative;
     return $this;
   }
 
   /**
-   * Remove aPourFixateur
+   * Remove sampling fixative
    *
-   * @param \App\Entity\PourFixateur $aPourFixateur
+   * @param \App\Entity\SamplingFixative $samplingFixative
    */
-  public function removeAPourFixateur(\App\Entity\APourFixateur $aPourFixateur) {
-    $this->aPourFixateurs->removeElement($aPourFixateur);
+  public function removeSamplingFixative(\App\Entity\SamplingFixative $samplingFixative) {
+    $this->samplingFixatives->removeElement($samplingFixative);
   }
 
   /**
-   * Get aPourFixateurs
+   * Get sampling fixatives
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAPourFixateurs() {
-    return $this->aPourFixateurs;
+  public function getSamplingFixatives() {
+    return $this->samplingFixatives;
   }
 
   /**
@@ -451,7 +439,6 @@ class Collecte extends AbstractTimestampedEntity {
   public function addEstFinancePar(\App\Entity\EstFinancePar $estFinancePar) {
     $estFinancePar->setCollecteFk($this);
     $this->estFinancePars[] = $estFinancePar;
-
     return $this;
   }
 
@@ -483,7 +470,6 @@ class Collecte extends AbstractTimestampedEntity {
   public function addEstEffectuePar(\App\Entity\EstEffectuePar $estEffectuePar) {
     $estEffectuePar->setCollecteFk($this);
     $this->estEffectuePars[] = $estEffectuePar;
-
     return $this;
   }
 

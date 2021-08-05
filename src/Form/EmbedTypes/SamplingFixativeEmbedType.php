@@ -2,12 +2,12 @@
 
 namespace App\Form\EmbedTypes;
 
-use App\Form\Type\BaseVocType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Type\BaseVocType;
 
-class APourFixateurEmbedType extends AbstractType {
+class SamplingFixativeEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -23,7 +23,7 @@ class APourFixateurEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\APourFixateur',
+      'data_class' => 'App\Entity\SamplingFixative',
     ));
   }
 
@@ -31,6 +31,6 @@ class APourFixateurEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_apourfixateur_embed';
+    return 'sampling_fixative_embed';
   }
 }

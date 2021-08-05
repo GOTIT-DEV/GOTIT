@@ -248,7 +248,7 @@ class CollecteController extends AbstractController {
     }
 
     $originalAPourSamplingMethods = $service->setArrayCollection('APourSamplingMethods', $collecte);
-    $originalAPourFixateurs = $service->setArrayCollection('APourFixateurs', $collecte);
+    $originalSamplingFixatives = $service->setArrayCollection('SamplingFixatives', $collecte);
     $originalEstFinancePars = $service->setArrayCollection('EstFinancePars', $collecte);
     $originalEstEffectuePars = $service->setArrayCollection('EstEffectuePars', $collecte);
     $originalTaxonSamplings = $service->setArrayCollection('TaxonSamplings', $collecte);
@@ -264,7 +264,7 @@ class CollecteController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
       $service->DelArrayCollection('APourSamplingMethods', $collecte, $originalAPourSamplingMethods);
-      $service->DelArrayCollection('APourFixateurs', $collecte, $originalAPourFixateurs);
+      $service->DelArrayCollection('SamplingFixatives', $collecte, $originalSamplingFixatives);
       $service->DelArrayCollection('EstFinancePars', $collecte, $originalEstFinancePars);
       $service->DelArrayCollection('EstEffectuePars', $collecte, $originalEstEffectuePars);
       $service->DelArrayCollection('TaxonSamplings', $collecte, $originalTaxonSamplings);

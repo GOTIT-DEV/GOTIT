@@ -1775,7 +1775,7 @@ class ImportFileE3s {
         }
       }
 
-      # Record of APourFixateur
+      # Record of SamplingFixative
       foreach ($columnByTable["a_pour_fixateur"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1791,7 +1791,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\APourFixateur();
+            $entityRel = new \App\Entity\SamplingFixative();
             $method = "setCollecteFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
