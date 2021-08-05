@@ -5,6 +5,10 @@ controllers:
   requirements:
     _locale: "%app_locales%"
 
+api:
+  resource: ../../src/Controller/API/
+  type: annotation
+
 kernel:
   resource: ../../src/Kernel.php
   type: annotation
