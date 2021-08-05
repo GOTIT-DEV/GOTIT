@@ -3,11 +3,11 @@
 namespace App\Form\EmbedTypes;
 
 use App\Form\Type\BaseVocType;
-use App\Form\UserDateTraceType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CompositionLotMaterielEmbedType extends UserDateTraceType {
+class CompositionLotMaterielEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -17,8 +17,7 @@ class CompositionLotMaterielEmbedType extends UserDateTraceType {
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
       ])
-      ->add('commentaireCompoLotMateriel')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireCompoLotMateriel');
   }
 
   /**

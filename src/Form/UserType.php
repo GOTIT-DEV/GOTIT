@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Form\ActionFormType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends ActionFormType {
 
@@ -45,8 +45,7 @@ class UserType extends ActionFormType {
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
       ))
-      ->add('commentaireUser')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireUser');
   }
 
   /**

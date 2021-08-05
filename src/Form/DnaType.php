@@ -79,8 +79,7 @@ class DnaType extends ActionFormType {
           "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
-      ])
-      ->addEventSubscriber($this->addUserDate);
+      ]);
   }
 
   /**

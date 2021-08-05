@@ -6,14 +6,14 @@ use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\TaxnameType;
-use App\Form\UserDateTraceType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EspeceIdentifieeEmbedType extends UserDateTraceType {
+class EspeceIdentifieeEmbedType extends AbstractType {
 
   /**
    * {@inheritdoc}
@@ -57,8 +57,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
         'prototype_name' => '__name_inner__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
-      ))
-      ->addEventSubscriber($this->addUserDate);
+      ));
   }
 
   /**

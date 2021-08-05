@@ -35,8 +35,7 @@ class ReferentielTaxonType extends ActionFormType {
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
       ))
-      ->add('commentaireRef')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireRef');
 
     $uppercase_fields = [
       'taxname', 'rank', 'subclass', 'ordre', 'family',

@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"code", "parent"}, message="This code is already registered for the specified parent")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Voc {
+class Voc extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -52,34 +52,6 @@ class Voc {
    * @ORM\Column(name="voc_comments", type="text", nullable=true)
    */
   private $commentaire;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-   */
-  private $dateCre;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-   */
-  private $dateMaj;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-   */
-  private $userCre;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-   */
-  private $userMaj;
 
   /**
    * Get id
@@ -176,93 +148,5 @@ class Voc {
    */
   public function getCommentaire() {
     return $this->commentaire;
-  }
-
-  /**
-   * Set dateCre
-   *
-   * @param \DateTime $dateCre
-   *
-   * @return Voc
-   */
-  public function setDateCre($dateCre) {
-    $this->dateCre = $dateCre;
-
-    return $this;
-  }
-
-  /**
-   * Get dateCre
-   *
-   * @return \DateTime
-   */
-  public function getDateCre() {
-    return $this->dateCre;
-  }
-
-  /**
-   * Set dateMaj
-   *
-   * @param \DateTime $dateMaj
-   *
-   * @return Voc
-   */
-  public function setDateMaj($dateMaj) {
-    $this->dateMaj = $dateMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get dateMaj
-   *
-   * @return \DateTime
-   */
-  public function getDateMaj() {
-    return $this->dateMaj;
-  }
-
-  /**
-   * Set userCre
-   *
-   * @param integer $userCre
-   *
-   * @return Voc
-   */
-  public function setUserCre($userCre) {
-    $this->userCre = $userCre;
-
-    return $this;
-  }
-
-  /**
-   * Get userCre
-   *
-   * @return integer
-   */
-  public function getUserCre() {
-    return $this->userCre;
-  }
-
-  /**
-   * Set userMaj
-   *
-   * @param integer $userMaj
-   *
-   * @return Voc
-   */
-  public function setUserMaj($userMaj) {
-    $this->userMaj = $userMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get userMaj
-   *
-   * @return integer
-   */
-  public function getUserMaj() {
-    return $this->userMaj;
   }
 }

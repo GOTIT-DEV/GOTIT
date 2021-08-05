@@ -68,8 +68,7 @@ class IndividuLameType extends ActionFormType {
           "data-modal-controller" =>
           'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
-      ))
-      ->addEventSubscriber($this->addUserDate);
+      ));
   }
 
   /**

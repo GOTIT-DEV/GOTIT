@@ -23,8 +23,7 @@ class CommuneType extends ActionFormType {
       ])
       ->add('nomCommune')
       ->add('nomRegion')
-      ->add('paysFk', CountryVocType::class)
-      ->addEventSubscriber($this->addUserDate);
+      ->add('paysFk', CountryVocType::class);
 
     $uppercase_fields = ['codeCommune', 'nomCommune', 'nomRegion'];
     $this->upperCaseFields($builder, $uppercase_fields);

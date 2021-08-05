@@ -93,8 +93,7 @@ class StationType extends ActionFormType {
         "sort_by_id" => true,
       ))
       ->add('altitudeM')
-      ->add('commentaireStation')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireStation');
 
     $this->upperCaseFields($builder, [
       'codeStation', 'nomStation',

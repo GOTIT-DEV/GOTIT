@@ -2,8 +2,8 @@
 
 namespace App\Services\Core;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Service GenericFunctionE3s
@@ -17,40 +17,27 @@ class GenericFunctionE3s {
   }
 
   public function GetUserCreId($entity) {
-    $userCreId = ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
-    return $userCreId;
+    return ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
   }
 
   public function GetUserCreUsername($entity) {
-    $em = $this->entityManager;
-    $userCreId = ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
-    $query = $em->createQuery('SELECT user.username FROM App:User user WHERE user.id = ' . $userCreId . '')->getResult();
-    $userCre = (count($query) > 0) ? $query[0]['username'] : 'NA';
-    return $userCre;
+    $user = $entity->getUserCre();
+    return $user ? $user->getUsername() : 'NA';
   }
 
   public function GetUserMajUsername($entity) {
-    $em = $this->entityManager;
-    $userMajId = ($entity->getUserMaj() !== null) ? $entity->getUserMaj() : 0;
-    $query = $em->createQuery('SELECT user.username FROM App:User user WHERE user.id = ' . $userMajId . '')->getResult();
-    $userMaj = (count($query) > 0) ? $query[0]['username'] : 'NA';
-    return $userMaj;
+    $user = $entity->getUserMaj();
+    return $user ? $user->getUsername() : 'NA';
   }
 
   public function GetUserCreUserfullname($entity) {
-    $em = $this->entityManager;
-    $userCreId = ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
-    $query = $em->createQuery('SELECT user.name FROM App:User user WHERE user.id = ' . $userCreId . '')->getResult();
-    $userCre = (count($query) > 0) ? $query[0]['name'] : 'NA';
-    return $userCre;
+    $user = $entity->getUserCre();
+    return $user ? $user->getName() : 'NA';
   }
 
   public function GetUserMajUserfullname($entity) {
-    $em = $this->entityManager;
-    $userMajId = ($entity->getUserMaj() !== null) ? $entity->getUserMaj() : 0;
-    $query = $em->createQuery('SELECT user.name FROM App:User user WHERE user.id = ' . $userMajId . '')->getResult();
-    $userMaj = (count($query) > 0) ? $query[0]['name'] : 'NA';
-    return $userMaj;
+    $user = $entity->getUserMaj();
+    return $user ? $user->getName() : 'NA';
   }
 
   public function SetArrayCollection($nameArrayCollection, $entity) {

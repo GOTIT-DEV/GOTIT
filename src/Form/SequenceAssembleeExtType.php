@@ -100,8 +100,7 @@ class SequenceAssembleeExtType extends ActionFormType {
         'prototype_name' => '__name__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
-      ))
-      ->addEventSubscriber($this->addUserDate);
+      ));
   }
 
   /**

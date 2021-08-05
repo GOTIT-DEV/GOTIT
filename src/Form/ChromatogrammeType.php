@@ -61,8 +61,8 @@ class ChromatogrammeType extends ActionFormType {
         'multiple' => false,
         'expanded' => false,
       ))
-      ->add('commentaireChromato')
-      ->addEventsubscriber($this->addUserDate);
+      ->add('commentaireChromato');
+
   }
 
   /**

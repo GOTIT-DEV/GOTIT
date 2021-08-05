@@ -132,8 +132,7 @@ class CollecteType extends ActionFormType {
         'sort_by_id' => true,
         'expanded' => true,
         'label_attr' => ['class' => 'radio-inline'],
-      ])
-      ->addEventSubscriber($this->addUserDate);
+      ]);
   }
 
   /**

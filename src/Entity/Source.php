@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeSource"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Source {
+class Source extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -53,34 +53,6 @@ class Source {
    * @ORM\Column(name="source_comments", type="text", nullable=true)
    */
   private $commentaireSource;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-   */
-  private $dateCre;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-   */
-  private $dateMaj;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-   */
-  private $userCre;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-   */
-  private $userMaj;
 
   /**
    * @ORM\OneToMany(targetEntity="SourceAEteIntegrePar", mappedBy="sourceFk", cascade={"persist"})
@@ -187,94 +159,6 @@ class Source {
    */
   public function getCommentaireSource() {
     return $this->commentaireSource;
-  }
-
-  /**
-   * Set dateCre
-   *
-   * @param \DateTime $dateCre
-   *
-   * @return Source
-   */
-  public function setDateCre($dateCre) {
-    $this->dateCre = $dateCre;
-
-    return $this;
-  }
-
-  /**
-   * Get dateCre
-   *
-   * @return \DateTime
-   */
-  public function getDateCre() {
-    return $this->dateCre;
-  }
-
-  /**
-   * Set dateMaj
-   *
-   * @param \DateTime $dateMaj
-   *
-   * @return Source
-   */
-  public function setDateMaj($dateMaj) {
-    $this->dateMaj = $dateMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get dateMaj
-   *
-   * @return \DateTime
-   */
-  public function getDateMaj() {
-    return $this->dateMaj;
-  }
-
-  /**
-   * Set userCre
-   *
-   * @param integer $userCre
-   *
-   * @return Source
-   */
-  public function setUserCre($userCre) {
-    $this->userCre = $userCre;
-
-    return $this;
-  }
-
-  /**
-   * Get userCre
-   *
-   * @return integer
-   */
-  public function getUserCre() {
-    return $this->userCre;
-  }
-
-  /**
-   * Set userMaj
-   *
-   * @param integer $userMaj
-   *
-   * @return Source
-   */
-  public function setUserMaj($userMaj) {
-    $this->userMaj = $userMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get userMaj
-   *
-   * @return integer
-   */
-  public function getUserMaj() {
-    return $this->userMaj;
   }
 
   /**

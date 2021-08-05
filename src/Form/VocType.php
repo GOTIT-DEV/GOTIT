@@ -47,8 +47,7 @@ class VocType extends ActionFormType {
         'multiple' => false,
         'expanded' => false,
       ])
-      ->add('commentaire')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaire');
   }
 
   /**

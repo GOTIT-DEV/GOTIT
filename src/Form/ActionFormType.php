@@ -9,23 +9,22 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\UserDateTraceType;
-use App\Form\EventListener\AddUserDateFields;
 use App\Form\Enums\Action;
 use App\Form\DataTransformer\UppercaseTransformer;
 
-class ActionFormType extends UserDateTraceType {
+class ActionFormType extends AbstractType {
   /**
    * {@inheritdoc}
    */
   public function __construct(
-    AddUserDateFields $addUserDate,
+    // AddUserDateFields $addUserDate,
     Security $security,
     EntityManagerInterface $em,
     TranslatorInterface $translator
   ) {
-    parent::__construct($addUserDate);
+    // parent::__construct($addUserDate);
     $this->security = $security;
     $this->er = $em;
     $this->translator = $translator;

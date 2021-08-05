@@ -12,8 +12,7 @@ class EtablissementType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('nomEtablissement')
-      ->add('commentaireEtablissement')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireEtablissement');
 
     $this->upperCaseFields($builder, ['nomEtablissement']);
   }

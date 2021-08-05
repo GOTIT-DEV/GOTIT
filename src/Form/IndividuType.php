@@ -71,8 +71,7 @@ class IndividuType extends ActionFormType {
           'label' => false,
           'refTaxonLabel' => $options['refTaxonLabel'],
         ),
-      ))
-      ->addEventSubscriber($this->addUserDate);
+      ));
   }
 
   /**

@@ -2,16 +2,16 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\DnaEmbedType;
-use App\Form\EmbedTypes\IndividuLameEmbedType;
-use App\Form\EmbedTypes\LotMaterielEmbedType;
-use App\Form\Enums\Action;
-use App\Form\Type\BaseVocType;
-use App\Form\Type\EntityCodeType;
-use Symfony\Component\Form\Exception\InvalidArgumentException;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
+use App\Form\Type\EntityCodeType;
+use App\Form\Type\BaseVocType;
+use App\Form\Enums\Action;
+use App\Form\EmbedTypes\LotMaterielEmbedType;
+use App\Form\EmbedTypes\IndividuLameEmbedType;
+use App\Form\EmbedTypes\DnaEmbedType;
 
 class BoiteType extends ActionFormType {
   /**
@@ -92,7 +92,6 @@ class BoiteType extends ActionFormType {
       }
     }
 
-    $builder->addEventSubscriber($this->addUserDate);
   }
 
   /**

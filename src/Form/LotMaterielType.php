@@ -118,8 +118,7 @@ class LotMaterielType extends ActionFormType {
         'by_reference' => false,
         'required' => false,
         'entry_options' => array('label' => false),
-      ))
-      ->addEventSubscriber($this->addUserDate);
+      ));
   }
 
   /**

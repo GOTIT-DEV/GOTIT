@@ -34,8 +34,6 @@ class PersonneType extends ActionFormType {
       ])
       ->add('commentairePersonne');
 
-    $builder->addEventSubscriber($this->addUserDate);
-
     $this->upperCaseFields($builder, [
       'nomPersonne', 'nomComplet', 'nomPersonneRef',
     ]);

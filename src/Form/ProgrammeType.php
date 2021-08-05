@@ -29,8 +29,7 @@ class ProgrammeType extends ActionFormType {
           'max' => 3000,
         ],
       ])
-      ->add('commentaireProgramme')
-      ->addEventSubscriber($this->addUserDate);
+      ->add('commentaireProgramme');
 
     $this->upperCaseFields($builder, ['codeProgramme']);
   }

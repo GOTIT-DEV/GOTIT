@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\Enums\Action;
-use App\Form\Type\EntityCodeType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Form\Type\EntityCodeType;
+use App\Form\Enums\Action;
+use App\Form\ActionFormType;
 
 class PaysType extends ActionFormType {
   /**
@@ -20,8 +20,7 @@ class PaysType extends ActionFormType {
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
-      ])
-      ->addEventSubscriber($this->addUserDate);
+      ]);
 
     $this->upperCaseFields($builder, ['nomPays', 'codePays']);
   }

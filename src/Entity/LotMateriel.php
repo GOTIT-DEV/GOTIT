@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeLotMateriel"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMateriel {
+class LotMateriel extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -66,34 +66,6 @@ class LotMateriel {
    * @ORM\Column(name="internal_biological_material_status", type="smallint", nullable=false)
    */
   private $aFaire;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-   */
-  private $dateCre;
-
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-   */
-  private $dateMaj;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
-   */
-  private $userCre;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
-   */
-  private $userMaj;
 
   /**
    * @var \Voc
@@ -271,94 +243,6 @@ class LotMateriel {
    */
   public function getCommentaireLotMateriel() {
     return $this->commentaireLotMateriel;
-  }
-
-  /**
-   * Set dateCre
-   *
-   * @param \DateTime $dateCre
-   *
-   * @return LotMateriel
-   */
-  public function setDateCre($dateCre) {
-    $this->dateCre = $dateCre;
-
-    return $this;
-  }
-
-  /**
-   * Get dateCre
-   *
-   * @return \DateTime
-   */
-  public function getDateCre() {
-    return $this->dateCre;
-  }
-
-  /**
-   * Set dateMaj
-   *
-   * @param \DateTime $dateMaj
-   *
-   * @return LotMateriel
-   */
-  public function setDateMaj($dateMaj) {
-    $this->dateMaj = $dateMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get dateMaj
-   *
-   * @return \DateTime
-   */
-  public function getDateMaj() {
-    return $this->dateMaj;
-  }
-
-  /**
-   * Set userCre
-   *
-   * @param integer $userCre
-   *
-   * @return LotMateriel
-   */
-  public function setUserCre($userCre) {
-    $this->userCre = $userCre;
-
-    return $this;
-  }
-
-  /**
-   * Get userCre
-   *
-   * @return integer
-   */
-  public function getUserCre() {
-    return $this->userCre;
-  }
-
-  /**
-   * Set userMaj
-   *
-   * @param integer $userMaj
-   *
-   * @return LotMateriel
-   */
-  public function setUserMaj($userMaj) {
-    $this->userMaj = $userMaj;
-
-    return $this;
-  }
-
-  /**
-   * Get userMaj
-   *
-   * @return integer
-   */
-  public function getUserMaj() {
-    return $this->userMaj;
   }
 
   /**
