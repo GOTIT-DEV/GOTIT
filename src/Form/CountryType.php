@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use App\Form\Type\EntityCodeType;
-use App\Form\Enums\Action;
 use App\Form\ActionFormType;
+use App\Form\Enums\Action;
+use App\Form\Type\EntityCodeType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PaysType extends ActionFormType {
+class CountryType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -31,7 +31,7 @@ class PaysType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Pays',
+      'data_class' => 'App\Entity\Country',
     ));
   }
 
@@ -39,6 +39,6 @@ class PaysType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_pays';
+    return 'country';
   }
 }

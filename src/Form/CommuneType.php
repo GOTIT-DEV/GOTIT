@@ -23,7 +23,7 @@ class CommuneType extends ActionFormType {
       ])
       ->add('nomCommune')
       ->add('nomRegion')
-      ->add('paysFk', CountryVocType::class);
+      ->add('countryFk', CountryVocType::class);
 
     $uppercase_fields = ['codeCommune', 'nomCommune', 'nomRegion'];
     $this->upperCaseFields($builder, $uppercase_fields);
@@ -36,7 +36,7 @@ class CommuneType extends ActionFormType {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\Commune',
-      'id_pays' => null,
+      'country_id' => null,
     ));
   }
 

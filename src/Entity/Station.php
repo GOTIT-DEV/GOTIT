@@ -98,14 +98,14 @@ class Station extends AbstractTimestampedEntity {
   private $communeFk;
 
   /**
-   * @var \Pays
+   * @var \Country
    *
-   * @ORM\ManyToOne(targetEntity="Pays")
+   * @ORM\ManyToOne(targetEntity="Country")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $paysFk;
+  private $countryFk;
 
   /**
    * @var \Voc
@@ -345,25 +345,25 @@ class Station extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set paysFk
+   * Set countryFk
    *
-   * @param \App\Entity\Pays $paysFk
+   * @param \App\Entity\Country $countryFk
    *
    * @return Station
    */
-  public function setPaysFk(\App\Entity\Pays $paysFk = null) {
-    $this->paysFk = $paysFk;
+  public function setCountryFk(\App\Entity\Country $countryFk = null) {
+    $this->countryFk = $countryFk;
 
     return $this;
   }
 
   /**
-   * Get paysFk
+   * Get countryFk
    *
-   * @return \App\Entity\Pays
+   * @return \App\Entity\Country
    */
-  public function getPaysFk() {
-    return $this->paysFk;
+  public function getCountryFk() {
+    return $this->countryFk;
   }
 
   /**

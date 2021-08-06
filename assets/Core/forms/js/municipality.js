@@ -7,7 +7,7 @@ export function initMunicipalityCodeGeneration(formSelector) {
   const $form = $("form[name='commune']")
 
   if ($form.data('action') == 'new') {
-    let $country = $form.find("select#commune_paysFk")
+    let $country = $form.find("select#commune_countryFk")
     let $region = $form.find("input#commune_nomRegion")
     let $name = $form.find("input#commune_nomCommune")
     let $code = $form.find("input#commune_codeCommune")

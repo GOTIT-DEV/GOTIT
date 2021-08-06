@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Commune
@@ -53,14 +53,14 @@ class Commune extends AbstractTimestampedEntity {
   private $nomRegion;
 
   /**
-   * @var \Pays
+   * @var \Country
    *
-   * @ORM\ManyToOne(targetEntity="Pays", inversedBy="communes")
+   * @ORM\ManyToOne(targetEntity="Country", inversedBy="communes")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $paysFk;
+  private $countryFk;
 
   /**
    * Get id
@@ -138,24 +138,24 @@ class Commune extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set paysFk
+   * Set countryFk
    *
-   * @param \App\Entity\Pays $paysFk
+   * @param \App\Entity\Country $countryFk
    *
    * @return Commune
    */
-  public function setPaysFk(\App\Entity\Pays $paysFk = null) {
-    $this->paysFk = $paysFk;
+  public function setCountryFk(\App\Entity\Country $countryFk = null) {
+    $this->countryFk = $countryFk;
 
     return $this;
   }
 
   /**
-   * Get paysFk
+   * Get countryFk
    *
-   * @return \App\Entity\Pays
+   * @return \App\Entity\Country
    */
-  public function getPaysFk() {
-    return $this->paysFk;
+  public function getCountryFk() {
+    return $this->countryFk;
   }
 }

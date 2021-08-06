@@ -26,7 +26,7 @@ core:
   voc: Vocabulaire
   referentieltaxon: Taxon
   personne: Personne
-  pays: Pays
+  country: Pays
   commune: Commune
   etablissement: Établissement
   programme: Programme
@@ -44,14 +44,14 @@ queries:
     nav: Réarrangements taxonomiques
     short: Réarrangements
   distribution:
-    title: 'Carte de richesse : distribution des MOTUs'
+    title: "Carte de richesse : distribution des MOTUs"
     nav: Carte de richesse
   sampling:
     title: Données d'échantillonnage COI
     nav: Echantillonnage COI
   concordance:
     nav: Comparaison d'espèces
-    title: Comparer les attributions d'espèces 
-  querybuilder: 
+    title: Comparer les attributions d'espèces
+  querybuilder:
     nav: Requêtes
     title: Constructeur de requêtes

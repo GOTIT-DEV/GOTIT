@@ -26,7 +26,7 @@ core:
   voc: Vocabulary
   referentieltaxon: Taxon
   personne: Person
-  pays: Country
+  country: Country
   commune: Municipality
   etablissement: Institution
   programme: Program
@@ -52,6 +52,6 @@ queries:
   concordance:
     nav: Species names
     title: Compare species name attribution
-  querybuilder: 
+  querybuilder:
     nav: Querybuilder
     title: Querybuilder

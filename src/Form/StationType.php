@@ -25,15 +25,15 @@ class StationType extends ActionFormType {
       ])
       ->add('nomStation')
       ->add('infoDescription')
-      ->add('paysFk', CountryVocType::class)
+      ->add('countryFk', CountryVocType::class)
       ->add('communeFk', EntityType::class, array(
         'class' => 'App:Commune',
         'query_builder' => function (EntityRepository $er) use ($station) {
           $query = $er->createQueryBuilder('commune')
             ->orderBy('commune.codeCommune', 'ASC');
-          if ($station->getPaysFk()) {
-            $query = $query->where('commune.paysFk = :country')
-              ->setParameter('country', $station->getPaysFk()->getId());
+          if ($station->getCountryFk()) {
+            $query = $query->where('commune.countryFk = :country')
+              ->setParameter('country', $station->getCountryFk()->getId());
           }
           return $query;
         },

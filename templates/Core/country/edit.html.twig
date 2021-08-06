@@ -3,20 +3,20 @@
 {# EDIT : COUNTRY #}
 
 {% block body %}
-    
-    {{ parent() }}   
+
+    {{ parent() }}
 
 {% endblock %}
 
 {% block scripts %}
 {{ parent() }}
 
-<script type="text/javascript">  
+<script type="text/javascript">
 // Form actions
 $(document).ready(function(){
-    $('#bbees_e3sbundle_pays_nomPays').keyup(function (e) {
+    $('#bbees_e3sbundle_country_nomPays').keyup(function (e) {
         let codePays = $(this).val().replace(/ /g, '_');
-        $('#bbees_e3sbundle_pays_codePays').val(codePays);
+        $('#bbees_e3sbundle_country_codePays').val(codePays);
     })
 });
 </script>

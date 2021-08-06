@@ -22,29 +22,29 @@
 {% endblock %}
 
 {% block body %}
-	{# definition of collones to display 
+	{# definition of collones to display
 		     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th data-column-id="pays.id" data-type="numeric" data-visible="false">Id</th>
-					<th data-column-id="pays.codePays" data-sortable="true">
+					<th data-column-id=country.id" data-type="numeric" data-visible="false">Id</th>
+					<th data-column-id=country.codePays" data-sortable="true">
 						{{'Code pays'|trans}}
 					</th>
-					<th data-column-id="pays.nomPays" data-sortable="true">
+					<th data-column-id=country.nomPays" data-sortable="true">
 						{{'Nom pays'|trans}}
 					</th>
-					<th data-column-id="pays.dateMaj" data-width="100">
+					<th data-column-id=country.dateMaj" data-width="100">
 						{{'list.Date maj'|trans}}
 					</th>
-					<th data-column-id="pays.dateCre" data-width="100" data-visible="false">
+					<th data-column-id=country.dateCre" data-width="100" data-visible="false">
 						{{'list.Date cre'|trans}}
 					</th>
-					<th data-column-id="pays.userCre" data-width="10" data-visible="false">
+					<th data-column-id=country.userCre" data-width="10" data-visible="false">
 						{{'list.User cre'|trans}}
 					</th>
-					<th data-column-id="pays.userMaj" data-width="10" data-visible="false">
+					<th data-column-id=country.userMaj" data-width="10" data-visible="false">
 						{{'list.User maj'|trans}}
 					</th>
 					<th

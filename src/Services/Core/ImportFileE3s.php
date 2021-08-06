@@ -2,10 +2,10 @@
 
 namespace App\Services\Core;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Services\Core\ImportFileCsv;
 use App\Entity\Motu;
+use App\Services\Core\ImportFileCsv;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Service ImportFileE3s
@@ -3357,18 +3357,18 @@ class ImportFileE3s {
     $list_new_commune = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Pays();
-      if (array_key_exists("pays", $columnByTable)) {
-        foreach ($columnByTable["pays"] as $ColCsv) {
+      $entity = new \App\Entity\Country();
+      if (array_key_exists("country", $columnByTable)) {
+        foreach ($columnByTable["country"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $varfield = explode(".", $field)[1];
-          if ($field == 'pays.codePays') {
-            $record_pays = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $dataColCsv));
-            if ($record_pays !== NULL) {
+          if ($field == 'country.codePays') {
+            $record_country = $em->getRepository("App:Country")->findOneBy(array("codePays" => $dataColCsv));
+            if ($record_country !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }
           }
@@ -4209,11 +4209,11 @@ class ImportFileE3s {
                   $commune->setDateMaj($DateImport);
                   $commune->setUserCre($userId);
                   $commune->setUserMaj($userId);
-                  $pays_fk = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $list_field_commune[2]));
-                  if ($pays_fk === NULL) {
+                  $country_fk = $em->getRepository("App:Country")->findOneBy(array("codePays" => $list_field_commune[2]));
+                  if ($country_fk === NULL) {
                     $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                   }
-                  $commune->setPaysFk($pays_fk);
+                  $commune->setCountryFk($country_fk);
                   $em->persist($commune);
                   $list_new_commune[$CodeCommune] = $commune; // we keep in memory the communes created
                 }
@@ -4235,9 +4235,9 @@ class ImportFileE3s {
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
             $entity->$method($foreign_record);
-            if ($foreign_table == 'Pays') { // we memorize information about the country
+            if ($foreign_table == 'Country') { // we memorize information about the country
               $code_pays = $foreign_record->getCodePays();
-              $pays_record = $foreign_record;
+              $country_record = $foreign_record;
             }
           }
         }
@@ -5019,7 +5019,7 @@ class ImportFileE3s {
             } else {
               // cas des valeurs NULL
               switch ($foreign_table) {
-              case 'Pays':
+              case 'Country':
                 $message .= $this->translator->trans('importfileService.ERROR NULL value') . ' : ' . $field . " <b>[" . $ColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 break;
               }

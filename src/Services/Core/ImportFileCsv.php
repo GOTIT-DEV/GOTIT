@@ -225,7 +225,7 @@ class ImportFileCsv {
       'coordinate_precision_voc_fk' => 'precision_lat_long_voc_fk',
       'coordinator_names' => 'noms_responsables',
       'country_code' => 'code_pays',
-      'country_fk' => 'pays_fk',
+      'country_fk' => 'country_fk',
       'country_name' => 'nom_pays',
       'creation_user_name' => 'user_cre',
       'csv_file_name' => 'nom_fichier_csv',

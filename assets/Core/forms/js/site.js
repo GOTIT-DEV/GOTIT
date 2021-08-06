@@ -57,7 +57,7 @@ $(() => {
     $modalBtn.prop('disabled', !$latitude.val() | !$longitude.val())
   }
 
-  const $countryInput = $("#station_paysFk")
+  const $countryInput = $("#station_countryFk")
   const $municipality = $("#station_communeFk")
   $countryInput.change(event => {
     const country = event.target.value
@@ -85,7 +85,7 @@ $(() => {
   })
 
   function modalCallback(_, response) {
-    const $modalCountry = $modal.find("select#commune_paysFk")
+    const $modalCountry = $modal.find("select#commune_countryFk")
     $countryInput.val($modalCountry.val()).selectpicker('refresh')
     $municipality
       .append($('<option>', {

@@ -66,7 +66,7 @@ programme_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a funding program. Deletion may not be possible until all data links pointed to a funding program have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Program code".
 etablissement_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of an institution. Deletion may not be possible until all data links pointed to an institution have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Institution name".
-pays_index: |
+country_index: |
   Use this page to browse, create, import, export, show, edit and delete a country. Deletion may not be possible until all data links pointed to a country have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Country code".
 commune_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a municipality. Deletion may not be possible until all data links pointed to a municipality have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Municipality name".
@@ -115,7 +115,7 @@ programme_new: |
   Use this form to fill in characteristics of a new funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 etablissement_new: |
   Use this form to fill in characteristics of a new institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
-pays_new: |
+country_new: |
   Use this form to fill in characteristics of a new country. See appendix 11.6.2 in GOTIT HELP for content of fields.
 commune_new: |
   Use this form to fill in characteristics of a new municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
@@ -164,7 +164,7 @@ programme_show: |
   Use this form to consult characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 etablissement_show: |
   Use this form to consult characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
-pays_show: |
+country_show: |
   Use this form to consult characteristics of a country. See appendix 11.6.2 in GOTIT HELP for content of fields.
 commune_show: |
   Use this form to consult characteristics of a municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
@@ -213,13 +213,13 @@ programme_edit: |
   Use this form to edit characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 etablissement_edit: |
   Use this form to edit characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
-pays_edit: |
+country_edit: |
   Use this form to edit characteristics of a country. See appendix 11.6.2 in GOTIT HELP for content of fields.
 commune_edit: |
   Use this form to edit characteristics of a municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # procédure d'import csv
 importfilessource_index: |
-  Use this form to upload data for multiple reference sources and related data sets. Proceed by step: 
+  Use this form to upload data for multiple reference sources and related data sets. Proceed by step:
   - (if necessary) upload the referential files (template: person)
   - use and upload the template file “source” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
@@ -240,91 +240,91 @@ importfileslotmaterielpublie_index: |
 importfilessqcassembleepublie_index: |
   Use this form to attribute reference sources and accession numbers or reference sources alone to internal sequences that are not linked to reference sources and do not have an accession number. Use and upload the template file “source_attribute_to_sequence” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilessequenceassemblee_index: |
-  Use this form to upload data from multiple internal sequences and related data sets. Proceed by step: 
+  Use this form to upload data from multiple internal sequences and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template “internal_sequence” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilessequenceassembleeext_index: |
-  Use this form to upload data from multiple external sequences and related data sets. Proceed by step: 
+  Use this form to upload data from multiple external sequences and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template file “external_sequence” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesmotu_index: |
-  Use this form to upload a new set of MOTUs and related data sets. Proceed by step: 
+  Use this form to upload a new set of MOTUs and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: vocabulary);
   - Use and upload the template file “MOTU” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesstation_index: |
-  Use this form to upload data from multiple sites and related data sets. Proceed by step: 
+  Use this form to upload data from multiple sites and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: vocabulary, country, municipality);
   - use and upload the template file “site” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilescollecte_index: |
-  Use this form to upload data from multiple samplings and related data sets. Proceed by step: 
+  Use this form to upload data from multiple samplings and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: program, person, taxon, vocabulary);
   - use and upload the template file “sampling” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfileslotmateriel_index: |
-  Use this form to upload data from multiple biological materials and related data sets. Proceed by step: 
+  Use this form to upload data from multiple biological materials and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: box, taxon, vocabulary, person, source );
   - use and upload the template file “internal_biological_material” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfileslotmaterielext_index: |
-  Use this form to upload data from multiple external biological materials and related data sets. Proceed by step: 
+  Use this form to upload data from multiple external biological materials and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: taxon, vocabulary, person, source);
   - use and upload the template file “external_biological_material” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesindividu_index: |
-  Use this form to upload data from multiple specimens and related data sets. Proceed by step: 
+  Use this form to upload data from multiple specimens and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: taxon, vocabulary, person);
   - use and upload the template file “specimen” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesindividulame_index: |
-  Use this form to upload data from multiple specimen slides and related data sets. Proceed by step: 
+  Use this form to upload data from multiple specimen slides and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: box, vocabulary, person);
-  - use and upload the template file “specimen_slide” to follow appropriate data format. 
+  - use and upload the template file “specimen_slide” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesadn_index: |
-  Use this form to upload data from multiple DNA extracts and related data sets. Proceed by step: 
+  Use this form to upload data from multiple DNA extracts and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: box, vocabulary, person);
   - use and upload the template file “DNA” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilespcr_index: |
-  Use this form to upload data from multiple PCRs and related data sets. Proceed by step: 
+  Use this form to upload data from multiple PCRs and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: vocabulary, person);
   - use and upload the template file “PCR” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfileschromatogramme_index: |
-  Use this form to upload data from multiple chromatograms and related data sets. Proceed by step: 
+  Use this form to upload data from multiple chromatograms and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: institution, vocabulary);
   - use and upload the template file “chromatogram” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 # import process for repositories data : add on 04/12/2018
 importfilesvoc_index: |
-  Use this form to upload data from vocabulary repository data set: 
+  Use this form to upload data from vocabulary repository data set:
   - use and upload the template file “vocabulary” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesreferentieltaxon_index: |
-  Use this form to upload data from taxon repository data set: 
+  Use this form to upload data from taxon repository data set:
   - use and upload the template file “taxon” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilespays_index: |
-  Use this form to upload data from country repository data set: 
+importfilescountry_index: |
+  Use this form to upload data from country repository data set:
   - use and upload the template file “country” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilescommune_index: |
-  Use this form to upload data from municipality repository data set: 
+  Use this form to upload data from municipality repository data set:
   - use and upload the template file “municipality” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilespersonne_index: |
-  Use this form to upload data from person repository data set: 
+  Use this form to upload data from person repository data set:
   - use and upload the template file “person” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesprogramme_index: |
-  Use this form to upload data from program repository data set: 
+  Use this form to upload data from program repository data set:
   - use and upload the template file “program” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesetablissement_index: |
-  Use this form to upload data from insitution repository data set: 
+  Use this form to upload data from insitution repository data set:
   - use and upload the template file “insitution” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

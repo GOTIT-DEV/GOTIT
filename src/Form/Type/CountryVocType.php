@@ -11,10 +11,10 @@ class CountryVocType extends AbstractType {
 
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-      'class' => 'App:Pays',
+      'class' => 'App:Country',
       'query_builder' => function (EntityRepository $er) {
-        return $er->createQueryBuilder('pays')
-          ->orderBy('pays.nomPays', 'ASC');
+        return $er->createQueryBuilder('country')
+          ->orderBy('country.nomPays', 'ASC');
       },
       'placeholder' => 'Choose a Country',
       'choice_label' => 'nom_pays',

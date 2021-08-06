@@ -2,36 +2,36 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Pays;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\Country;
 
 /**
  * Pay controller.
  *
- * @Route("pays")
+ * @Route("country")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PaysController extends AbstractController {
+class CountryController extends AbstractController {
   /**
    * Lists all pay entities.
    *
-   * @Route("/", name="pays_index", methods={"GET"})
+   * @Route("/", name="country_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $pays = $em->getRepository('App:Pays')->findAll();
+    $country = $em->getRepository('App:Country')->findAll();
 
-    return $this->render('Core/pays/index.html.twig', array(
-      'pays' => $pays,
+    return $this->render('Core/country/index.html.twig', array(
+      'country' => $country,
     ));
   }
 
@@ -41,7 +41,7 @@ class PaysController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="pays_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="country_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -50,18 +50,18 @@ class PaysController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('pays.dateMaj' => 'desc', 'pays.id' => 'desc');
+    : array('country.dateMaj' => 'desc', 'country.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(pays.codePays) LIKE :criteriaLower';
+    $where = 'LOWER(country.codePays) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Pays")->createQueryBuilder('pays')
+    $entities_toshow = $em->getRepository("App:Country")->createQueryBuilder('country')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -79,14 +79,14 @@ class PaysController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id, "pays.id" => $id,
-        "pays.codePays" => $entity->getCodePays(),
-        "pays.nomPays" => $entity->getNomPays(),
-        "pays.dateCre" => $DateCre,
-        "pays.dateMaj" => $DateMaj,
+        "id" => $id, "country.id" => $id,
+        "country.codePays" => $entity->getCodePays(),
+        "country.nomPays" => $entity->getNomPays(),
+        "country.dateCre" => $DateCre,
+        "country.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "pays.userCre" => $service->GetUserCreUserfullname($entity),
-        "pays.userMaj" => $service->GetUserMajUserfullname($entity),
+        "country.userCre" => $service->GetUserCreUserfullname($entity),
+        "country.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
     return new JsonResponse([
@@ -101,19 +101,19 @@ class PaysController extends AbstractController {
   /**
    * Creates a new pay entity.
    *
-   * @Route("/new", name="pays_new", methods={"GET", "POST"})
+   * @Route("/new", name="country_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
-    $pays = new Pays();
-    $form = $this->createForm('App\Form\PaysType', $pays, [
+    $country = new Country();
+    $form = $this->createForm('App\Form\CountryType', $country, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($pays);
+      $em->persist($country);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -121,18 +121,18 @@ class PaysController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/pays/index.html.twig',
+          'Core/country/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('pays_edit', array(
-        'id' => $pays->getId(),
+      return $this->redirectToRoute('country_edit', array(
+        'id' => $country->getId(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
+    return $this->render('Core/country/edit.html.twig', array(
+      'country' => $country,
       'edit_form' => $form->createView(),
     ));
   }
@@ -140,16 +140,16 @@ class PaysController extends AbstractController {
   /**
    * Finds and displays a pay entity.
    *
-   * @Route("/{id}", name="pays_show", methods={"GET"})
+   * @Route("/{id}", name="country_show", methods={"GET"})
    */
-  public function showAction(Pays $pays) {
-    $deleteForm = $this->createDeleteForm($pays);
-    $editForm = $this->createForm('App\Form\PaysType', $pays, [
+  public function showAction(Country $country) {
+    $deleteForm = $this->createDeleteForm($country);
+    $editForm = $this->createForm('App\Form\CountryType', $country, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
+    return $this->render('Core/country/edit.html.twig', array(
+      'country' => $country,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
@@ -158,12 +158,12 @@ class PaysController extends AbstractController {
   /**
    * Displays a form to edit an existing pay entity.
    *
-   * @Route("/{id}/edit", name="pays_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="country_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, Pays $pays) {
-    $deleteForm = $this->createDeleteForm($pays);
-    $editForm = $this->createForm('App\Form\PaysType', $pays, [
+  public function editAction(Request $request, Country $country) {
+    $deleteForm = $this->createDeleteForm($country);
+    $editForm = $this->createForm('App\Form\CountryType', $country, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -176,19 +176,19 @@ class PaysController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/pays/index.html.twig',
+          'Core/country/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/pays/edit.html.twig', array(
-        'pays' => $pays,
+      return $this->render('Core/country/edit.html.twig', array(
+        'country' => $country,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/pays/edit.html.twig', array(
-      'pays' => $pays,
+    return $this->render('Core/country/edit.html.twig', array(
+      'country' => $country,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
@@ -197,11 +197,11 @@ class PaysController extends AbstractController {
   /**
    * Deletes a pay entity.
    *
-   * @Route("/{id}", name="pays_delete", methods={"DELETE"})
+   * @Route("/{id}", name="country_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function deleteAction(Request $request, Pays $pays) {
-    $form = $this->createDeleteForm($pays);
+  public function deleteAction(Request $request, Country $country) {
+    $form = $this->createDeleteForm($country);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -210,32 +210,32 @@ class PaysController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($pays);
+        $em->remove($country);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/pays/index.html.twig',
+          'Core/country/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('pays_index');
+    return $this->redirectToRoute('country_index');
   }
 
   /**
-   * Creates a form to delete a pay entity.
+   * Creates a form to delete a country entity.
    *
-   * @param Pays $pay The pay entity
+   * @param Country $country The country entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Pays $pays) {
+  private function createDeleteForm(Country $country) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('pays_delete', array('id' => $pays->getId())))
+      ->setAction($this->generateUrl('country_delete', array('id' => $country->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }
@@ -245,7 +245,7 @@ class PaysController extends AbstractController {
    *
    * @Route("/{id}/municipalities", name="country_municipalities", methods={"GET"})
    */
-  public function listMunicipalities(Pays $country, SerializerInterface $serializer) {
+  public function listMunicipalities(Country $country, SerializerInterface $serializer) {
     $json = $serializer->serialize($country->getCommunes(), "json", ['groups' => "own"]);
     return JsonResponse::fromJsonString($json);
   }

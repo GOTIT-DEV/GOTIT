@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ImportFilePaysController extends AbstractController {
   /**
-   * @Route("/", name="importfilespays_index")
+   * @Route("/", name="importfilescountry_index")
    *
    */
   public function indexAction(

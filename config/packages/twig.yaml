@@ -92,8 +92,8 @@ twig:
             text: core.voc
           - route: referentieltaxon_index
             text: core.referentieltaxon
-          - route: pays_index
-            text: core.pays
+          - route: country_index
+            text: core.country
           - route: commune_index
             text: core.commune
           - route: personne_index

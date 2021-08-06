@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Pays
+ * Country
  *
  * @ORM\Table(name="country",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_country__country_code", columns={"country_code"})})
@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields={"codePays"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Pays extends AbstractTimestampedEntity {
+class Country extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -41,7 +41,7 @@ class Pays extends AbstractTimestampedEntity {
   private $nomPays;
 
   /**
-   * @ORM\OneToMany(targetEntity="Commune", mappedBy="paysFk")
+   * @ORM\OneToMany(targetEntity="Commune", mappedBy="countryFk")
    * @ORM\OrderBy({"codeCommune" = "asc"})
    */
   private $communes;
@@ -67,11 +67,10 @@ class Pays extends AbstractTimestampedEntity {
    *
    * @param string $codePays
    *
-   * @return Pays
+   * @return Country
    */
   public function setCodePays($codePays) {
     $this->codePays = $codePays;
-
     return $this;
   }
 
@@ -89,11 +88,10 @@ class Pays extends AbstractTimestampedEntity {
    *
    * @param string $nomPays
    *
-   * @return Pays
+   * @return Country
    */
   public function setNomPays($nomPays) {
     $this->nomPays = $nomPays;
-
     return $this;
   }
 

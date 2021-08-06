@@ -2,14 +2,14 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Collecte;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Collecte controller.
@@ -93,7 +93,7 @@ class CollecteController extends AbstractController {
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
-      ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'station.countryFk = country.id')
       ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
       ->leftJoin('App:Voc', 'voc', 'WITH', 'collecte.legVocFk = voc.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -141,7 +141,7 @@ class CollecteController extends AbstractController {
         "collecte.id" => $id,
         "collecte.codeCollecte" => $entity->getCodeCollecte(),
         "station.codeStation" => $entity->getStationFk()->getCodeStation(),
-        "pays.nomPays" => $entity->getStationFk()->getPaysFk()->getNomPays(),
+        "country.nomPays" => $entity->getStationFk()->getCountryFk()->getNomPays(),
         "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
         "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
         "collecte.dateCollecte" => $DateCollecte,

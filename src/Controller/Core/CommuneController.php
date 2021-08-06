@@ -63,7 +63,7 @@ class CommuneController extends AbstractController {
     $entities_toshow = $em->getRepository("App:Commune")->createQueryBuilder('commune')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Pays', 'pays', 'WITH', 'commune.paysFk = pays.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'commune.countryFk = country.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -82,7 +82,7 @@ class CommuneController extends AbstractController {
         "commune.codeCommune" => $entity->getCodeCommune(),
         "commune.nomCommune" => $entity->getNomCommune(),
         "commune.nomRegion" => $entity->getNomRegion(),
-        "pays.codePays" => $entity->getPaysFk()->getCodePays(),
+        "country.codePays" => $entity->getCountryFk()->getCodePays(),
         "commune.dateCre" => $DateCre,
         "commune.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
@@ -143,10 +143,10 @@ class CommuneController extends AbstractController {
    *
    * @Route("/newmodal", name="commune_newmodal", methods={"GET", "POST"})
    */
-  public function newmodalAction(Request $request, $id_pays = null) {
+  public function newmodalAction(Request $request, $country_id = null) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
-      'id_pays' => $id_pays,
+      'country_id' => $country_id,
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
