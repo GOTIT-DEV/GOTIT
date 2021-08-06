@@ -16,16 +16,27 @@ $(() => {
   $("button.btn-entry-add").click(addEntryBtnCallback)
   $("button.btn-entry-delete").click(deleteEntryBtnCallback)
 
-  // Create initial entry in each embed collection if empty
-  $(".collection-wrapper[data-index=0]").each(function () {
-    initCollection($(this))
+  // Init collection wrappers
+  $(".collection-wrapper").each(function () {
+    if ($(this).data('index') === 0)
+      initEmptyCollection($(this))
+    toggleDeleteButtons($(this))
   })
 
   // Init modal forms
   $(".modal-dialog form").submit(modalFormSubmitCallback)
 })
 
-function initCollection($wrapper) {
+function toggleDeleteButtons($wrapper) {
+  const $entries = $wrapper.find(".entry-list").children()
+  if ($wrapper.hasClass('required')) {
+    $wrapper.find(".btn-entry-delete")
+      .toggleClass("invisible", $entries.length === 1)
+      .off().click(deleteEntryBtnCallback)
+  }
+}
+
+function initEmptyCollection($wrapper) {
   $wrapper.change(() => {
     toggleCollectionContent($wrapper)
   })
@@ -38,6 +49,7 @@ function initCollection($wrapper) {
 function toggleCollectionContent($wrapper) {
   const index = $wrapper.data('index')
   $wrapper.find(".card-body").toggle(index > 0)
+
 }
 
 function addEntryBtnCallback(event) {
@@ -52,14 +64,18 @@ function deleteEntryBtnCallback(event) {
   let entry_wrapper = document.getElementById(entry_wrapper_id)
   let $wrapper = $(event.currentTarget).closest(".collection-wrapper")
   $(entry_wrapper).remove()
-  const currentIndex = $wrapper.data('index')
-  $wrapper.data('index', currentIndex - 1)
+  // $wrapper.find(".btn-entry-delete").prop('disabled', true)
+  resetIndexes($wrapper)
+  toggleDeleteButtons($wrapper)
+  // $wrapper.find(".btn-entry-delete").prop('disabled', false)
+  // const currentIndex = $wrapper.data('index')
+  // $wrapper.data('index', currentIndex - 1)
   $wrapper.trigger('change')
 }
 
 function modalFormResponseCallback($form, response) {
   let $wrapper = $($form.closest(".modal-container").data('target'))
-  addCategoryForNewRecord($wrapper, response.select_id, response.select_name)
+  addEntryForNewRecord($wrapper, response.select_id, response.select_name)
 }
 
 export function modalFormSubmitCallback(event, responseCallback = modalFormResponseCallback) {
@@ -122,7 +138,7 @@ export function modalFormSubmitCallback(event, responseCallback = modalFormRespo
 }
 
 //  function to add a embeded form
-function addCategoryForNewRecord($wrapper, id, name) {
+function addEntryForNewRecord($wrapper, id, name) {
   let optionElt = `<option value=${id}>${name}</option>`
   updatePrototype($wrapper, optionElt)
   $wrapper.find(".entry-list select").append(optionElt).selectpicker('refresh')
@@ -145,16 +161,19 @@ function createEntry(prototype, index, value = undefined, required = true) {
     : prototype.replace(/__name_inner__/g, index)
 
   let $newForm = $(prototype)
-  if (!required || index > 0) {
-    let btn = $newForm.find("template.delete-btn-template").html()
-    $newForm.find(".delete-btn-container").append(btn)
-  }
+  $newForm.attr("data-index", index)
+
+  let $btn = $($newForm.find("template.delete-btn-template").html())
+  $btn.attr("data-index", index)
+  $newForm
+    .find(".delete-btn-container")
+    .append($btn)
   // Init plugins
   $newForm.find(".selectpicker").selectpicker()
   initDateMask($newForm.get(0))
   $newForm.find("button.btn-entry-add").click(addEntryBtnCallback)
   $newForm.find(".collection-wrapper[data-index=0]").each(function () {
-    initCollection($(this))
+    initEmptyCollection($(this))
   })
 
   // Set initial value
@@ -167,16 +186,36 @@ function addEntry($wrapper, value = undefined) {
   let index = $wrapper.data("index")
   let prototype = $wrapper.data('prototype')
   let $newForm = createEntry(prototype, index, value, $wrapper.hasClass('required'))
-
-  let $form_container = $wrapper.find(".card-body:first")
-  // if (index > 0) $form_container.append("<hr/>")
+  let $form_container = $wrapper.find(".card-body.entry-list")
   $form_container.append($newForm)
   if ($newForm.find(".form-group").length > 1) {
     $form_container.append("<hr/>")
   }
   $wrapper.data('index', index + 1)
+  toggleDeleteButtons($wrapper)
+}
 
-  $("button.btn-entry-delete").off().click(deleteEntryBtnCallback)
+function setIndex($entry, index) {
+  const currentIndex = $entry.data('index')
+  const oldId = $entry.attr('id')
+  const newId = oldId.replace(new RegExp(`_${currentIndex}$`), `_${index}`)
+  $entry.data('index', index)
+  $entry.attr('id', newId)
+  $entry.find(`:input[id*=${oldId}]`)
+    .attr('name', (pos, currentName) => currentName
+      ? currentName.replace(`[${currentIndex}]`, `[${index}]`)
+      : currentName
+    )
+    .attr('id', (pos, id) => id ? id.replace(oldId, newId) : id)
+  $entry.find('button.btn-entry-delete')
+    .data('target', newId)
+}
+
+function resetIndexes($wrapper) {
+  const $entryContainer = $wrapper.find('.card-body.entry-list')
+  const $entries = $entryContainer.children()
+  $entries.each((index, entry) => setIndex($(entry), index))
+  $wrapper.data('index', $entries.length)
 }
 
 export function getSelectedCode($vocField) {

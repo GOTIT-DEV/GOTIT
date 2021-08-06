@@ -259,6 +259,7 @@ class CollecteController extends AbstractController {
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
+    // dump($collecte->getSamplingParticipants());
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection

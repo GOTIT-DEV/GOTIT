@@ -40,8 +40,8 @@ col-lg-3 col-xl-2 font-weight-bold text-lg-right
 {% block button_widget %}
 <div class="offset-lg-3 offset-xl-2 col-lg-9 col-xl-10">
 	{% if attr['data-toggle']|default('') == "modal" %}
-		{% set target = attr['data-target'] |default(null) 
-				?	attr['data-target']  
+		{% set target = attr['data-target'] |default(null)
+				?	attr['data-target']
 				: '#modal-' ~ form.vars.id ~ ' .modal' %}
 		{% set attr = attr|merge({
 			'data-target': target
@@ -61,8 +61,8 @@ col-lg-3 col-xl-2 font-weight-bold text-lg-right
 		{% if icon_class|default(null) %}
 			<i class="fas {{icon_class}}"></i>
 		{% endif %}
-		 {{ translation_domain is same as(false) or label is same as(false) 
-		    ? label 
+		 {{ translation_domain is same as(false) or label is same as(false)
+		    ? label
         : label|trans(label_translation_parameters, translation_domain) }}
 		 </button>
 </div>
@@ -131,6 +131,7 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% macro printCollectionEntry(entry, form_type, withDelete = true) %}
 
 	{% set entry_id = "entry_" ~ entry.vars.id %}
+  {% set btnDeleteVisibility = form_type != 'show' and withDelete ? "visible": "invisible" %}
 
 	<div id="{{ entry_id }}" class="row collection-entry">
 		{% if (entry|length) > 1 %}
@@ -140,21 +141,21 @@ col-lg-9 col-xl-10 needs-validation input-group
 		{% endif %}
 		{{ form_widget(entry) }}
 		<div class="col-1 delete-btn-container">
-			{% if form_type != 'show' and withDelete %}
-				<button type="button" 
-					class="btn-entry-delete btn btn-danger btn-sm" 
+			{# {% if form_type != 'show' and withDelete %} #}
+				<button type="button"
+					class="btn-entry-delete btn btn-danger btn-sm {{ btnDeleteVisibility }}"
 					data-target="{{ entry_id }}">
 					<i class="fas fa-times"></i>
 				</button>
-			{% else %}
+			{# {% else %}
 				<template class="delete-btn-template">
-					<button type="button" 
-						class="btn-entry-delete btn btn-danger btn-sm" 
+					<button type="button"
+						class="btn-entry-delete btn btn-danger btn-sm"
 						data-target="{{ entry_id }}">
 						<i class="fas fa-times"></i>
 					</button>
 				</template>
-			{% endif %}
+			{% endif %} #}
 		</div>
 	</div>
 
@@ -189,9 +190,9 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% if form.vars.allow_add %}
 {% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
 {% endif %}
-<div id="{{ wrapper_id }}" 
-			class="card collection-wrapper {% if form.vars.required %}required{% endif %}" 
-			data-prototype="{{ prototype | spaceless |e('html_attr') }}" 
+<div id="{{ wrapper_id }}"
+			class="card collection-wrapper {% if form.vars.required %}required{% endif %}"
+			data-prototype="{{ prototype | spaceless |e('html_attr') }}"
 			data-index={{ form.count }}>
 
 
@@ -202,14 +203,14 @@ col-lg-9 col-xl-10 needs-validation input-group
 		<div class="card-header">
 			{# {% if allow_add %} #}
 				<div class="btn-group flex-wrap btn-group-sm">
-					<button type="button" class="btn-entry-add btn btn-primary" 
+					<button type="button" class="btn-entry-add btn btn-primary"
 							data-target="{{ wrapper_id }}">
               {{'add'|trans(domain='ui')|capitalize}}
 						  {# {{ name|trans }} #}
 					</button>
 					{% if attr['data-allow-new']|default(false) %}
-						<button type="button" class="btn btn-info" 
-								data-toggle="modal" 
+						<button type="button" class="btn btn-info"
+								data-toggle="modal"
 								data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
                 {{'create'|trans(domain='ui')|capitalize}}
 							  {# {{name|trans }} #}
