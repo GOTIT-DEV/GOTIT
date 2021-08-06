@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Commune
+ * Municipality
  *
  * @ORM\Table(name="municipality",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_municipality__municipality_code", columns={"municipality_code"})},
@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields={"codeCommune"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Commune extends AbstractTimestampedEntity {
+class Municipality extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -55,7 +55,7 @@ class Commune extends AbstractTimestampedEntity {
   /**
    * @var \Country
    *
-   * @ORM\ManyToOne(targetEntity="Country", inversedBy="communes")
+   * @ORM\ManyToOne(targetEntity="Country", inversedBy="municipalities")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    * })
@@ -76,7 +76,7 @@ class Commune extends AbstractTimestampedEntity {
    *
    * @param string $codeCommune
    *
-   * @return Commune
+   * @return Municipality
    */
   public function setCodeCommune($codeCommune) {
     $this->codeCommune = $codeCommune;
@@ -98,7 +98,7 @@ class Commune extends AbstractTimestampedEntity {
    *
    * @param string $nomCommune
    *
-   * @return Commune
+   * @return Municipality
    */
   public function setNomCommune($nomCommune) {
     $this->nomCommune = $nomCommune;
@@ -120,7 +120,7 @@ class Commune extends AbstractTimestampedEntity {
    *
    * @param string $nomRegion
    *
-   * @return Commune
+   * @return Municipality
    */
   public function setNomRegion($nomRegion) {
     $this->nomRegion = $nomRegion;
@@ -142,7 +142,7 @@ class Commune extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Country $countryFk
    *
-   * @return Commune
+   * @return Municipality
    */
   public function setCountryFk(\App\Entity\Country $countryFk = null) {
     $this->countryFk = $countryFk;

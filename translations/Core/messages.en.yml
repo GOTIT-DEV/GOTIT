@@ -287,7 +287,7 @@ button.Back to the list of country: Back to the list of Country
 button.Back to the list of personne: Back to the list of Person
 button.Back to the list of programme: Back to the list of Program
 button.Back to the list of etablissement: Back to the list of Institution
-button.Back to the list of commune: Back to the list of Municipality
+button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
 button.Back to station: Back to Site
 button.Back to collecte: Back to Sampling
@@ -325,7 +325,7 @@ button.Add a Chromatogramme: Add chromatogram
 button.Add a Source: Add source
 button.Add a CompositionLotMateriel: Add composition of biological material
 button.Add a EspeceIdentifiee: Add species taxa
-button.Add a new Commune: Add new Municipality
+button.Add a new Municipality: Add new Municipality
 button.Add a SamplingMethod: Add sampling Method
 button.Add a Fixateur: Add fixative
 button.Add a Programme: Add program
@@ -458,7 +458,7 @@ Choose a specificity: Select specificity
 Choose a primer start: Select forward primer
 Choose a primer end: Select reverse primer
 Choose a Country: Select country
-Choose a Commune: Select municipality
+Choose a Municipality: Select municipality
 Choose an Habitat Type: Select habitat type
 Choose an Access Point: Select access type
 Choose a GPS Distance Quality: Select coordinate precision
@@ -584,7 +584,7 @@ Commentaire source: Source comments
 Commentaire sqc ass: Sequence comments
 Commentaire sqc ass ext: External sequence comments
 Commentaire station: Site comments
-Commune fk: Municipality
+Municipality fk: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
 Conductivite micro sie cm: Specific conductance (µS/cm)
 Critere identification voc fk: Identification criterion

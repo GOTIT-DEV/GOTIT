@@ -13,14 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import Commune controller.
+ * Import Municipality controller.
  *
  * @Route("importfilescommune")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ImportFileCommuneController extends AbstractController {
   /**
-   * @Route("/", name="importfilescommune_index")
+   * @Route("/", name="importfilesmunicipality_index")
    *
    */
   public function indexAction(

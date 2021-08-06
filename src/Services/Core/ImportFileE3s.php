@@ -1687,7 +1687,7 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv);
         }
-        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : station.commune(commune.nom_commune)
+        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : station.municipality(municipality.nom_commune)
           $varfield = explode(".", strstr($field, '(', true))[1];
           $linker = explode('.', trim($foreign_content[0], "()"));
           $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
@@ -4198,28 +4198,28 @@ class ImportFileE3s {
               if ($dataColCsv != '') {
                 $CodeCommune = $dataColCsv;
                 if (array_key_exists($CodeCommune, $list_new_commune)) {
-                  $commune = $list_new_commune[$CodeCommune];
+                  $municipality = $list_new_commune[$CodeCommune];
                 } else { // if CodeCommune is null create a new commune with a codeCommune as Nom_Commune|Nom_Region|Nom_Pays and field site_name = "Nom Commune" and municipality_name = "Nom Region"
-                  $commune = new \App\Entity\Commune();
-                  $commune->setCodeCommune($CodeCommune);
+                  $municipality = new \App\Entity\Municipality();
+                  $municipality->setCodeCommune($CodeCommune);
                   $list_field_commune = explode("|", $dataColCsv);
-                  $commune->setNomCommune(str_replace("_", " ", $list_field_commune[0]));
-                  $commune->setNomRegion(str_replace("_", " ", $list_field_commune[1]));
-                  $commune->setDateCre($DateImport);
-                  $commune->setDateMaj($DateImport);
-                  $commune->setUserCre($userId);
-                  $commune->setUserMaj($userId);
+                  $municipality->setNomCommune(str_replace("_", " ", $list_field_commune[0]));
+                  $municipality->setNomRegion(str_replace("_", " ", $list_field_commune[1]));
+                  $municipality->setDateCre($DateImport);
+                  $municipality->setDateMaj($DateImport);
+                  $municipality->setUserCre($userId);
+                  $municipality->setUserMaj($userId);
                   $country_fk = $em->getRepository("App:Country")->findOneBy(array("codePays" => $list_field_commune[2]));
                   if ($country_fk === NULL) {
                     $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                   }
-                  $commune->setCountryFk($country_fk);
-                  $em->persist($commune);
-                  $list_new_commune[$CodeCommune] = $commune; // we keep in memory the communes created
+                  $municipality->setCountryFk($country_fk);
+                  $em->persist($municipality);
+                  $list_new_commune[$CodeCommune] = $municipality; // we keep in memory the communes created
                 }
                 $foreign_fieldName = $foreign_table . "Fk";
                 $method = $importFileCsvService->TransformNameForSymfony($foreign_fieldName, 'set');
-                $entity->$method($commune);
+                $entity->$method($municipality);
               }
               break;
             case "Voc":
@@ -4248,7 +4248,7 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
     }
-    // A FAIRE : ajouter les champ commune.nom_commune +commune.nom_region
+    // A FAIRE : ajouter les champ municipality.nom_commune +municipality.nom_region
 
     if ($message == '') {
       try {
@@ -4960,7 +4960,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       # Enregistrement des données de Personne
-      $entity = new \App\Entity\Commune();
+      $entity = new \App\Entity\Municipality();
       //
       if (array_key_exists("commune", $columnByTable)) {
         foreach ($columnByTable["commune"] as $ColCsv) {
@@ -4976,8 +4976,8 @@ class ImportFileE3s {
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($ColCsv == 'commune.code_commune') {
-              $record_entity = $em->getRepository("App:Commune")->findOneBy(array("codeCommune" => $dataColCsv));
+            if ($ColCsv == 'municipality.code_commune') {
+              $record_entity = $em->getRepository("App:Municipality")->findOneBy(array("codeCommune" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }

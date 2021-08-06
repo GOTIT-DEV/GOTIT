@@ -94,8 +94,8 @@ twig:
             text: core.referentieltaxon
           - route: country_index
             text: core.country
-          - route: commune_index
-            text: core.commune
+          - route: municipality_index
+            text: core.municipality
           - route: personne_index
             text: core.personne
             auth_required: ROLE_COLLABORATION

@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Country
@@ -41,16 +41,16 @@ class Country extends AbstractTimestampedEntity {
   private $nomPays;
 
   /**
-   * @ORM\OneToMany(targetEntity="Commune", mappedBy="countryFk")
+   * @ORM\OneToMany(targetEntity="Municipality", mappedBy="countryFk")
    * @ORM\OrderBy({"codeCommune" = "asc"})
    */
-  private $communes;
+  private $municipalities;
 
   /**
    * @inheritdoc
    */
   public function __construct() {
-    $this->communes = new ArrayCollection();
+    $this->municipalities = new ArrayCollection();
   }
 
   /**
@@ -104,7 +104,7 @@ class Country extends AbstractTimestampedEntity {
     return $this->nomPays;
   }
 
-  public function getCommunes() {
-    return $this->communes;
+  public function getMunicipalities() {
+    return $this->municipalities;
   }
 }

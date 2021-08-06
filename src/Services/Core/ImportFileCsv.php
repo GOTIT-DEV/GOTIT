@@ -299,7 +299,7 @@ class ImportFileCsv {
       'motu_number' => 'num_motu',
       'motu_title' => 'libelle_motu',
       'municipality_code' => 'code_commune',
-      'municipality_fk' => 'commune_fk',
+      'municipality_fk' => 'municipality_fk',
       'municipality_name' => 'nom_commune',
       'name' => 'name',
       'number_of_specimens_comments' => 'commentaire_nb_individus',

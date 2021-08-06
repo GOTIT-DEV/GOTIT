@@ -94,7 +94,7 @@ class CollecteController extends AbstractController {
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
       ->leftJoin('App:Country', 'country', 'WITH', 'station.countryFk = country.id')
-      ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'station.municipalityFk = municipality.id')
       ->leftJoin('App:Voc', 'voc', 'WITH', 'collecte.legVocFk = voc.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -142,7 +142,7 @@ class CollecteController extends AbstractController {
         "collecte.codeCollecte" => $entity->getCodeCollecte(),
         "station.codeStation" => $entity->getStationFk()->getCodeStation(),
         "country.nomPays" => $entity->getStationFk()->getCountryFk()->getNomPays(),
-        "commune.codeCommune" => $entity->getStationFk()->getCommuneFk()->getCodeCommune(),
+        "municipality.codeCommune" => $entity->getStationFk()->getMunicipalityFk()->getCodeCommune(),
         "collecte.legVocFk" => $entity->getLegVocFk()->getCode(),
         "collecte.dateCollecte" => $DateCollecte,
         "collecte.aFaire" => $entity->getAfaire(),

@@ -88,14 +88,14 @@ class Station extends AbstractTimestampedEntity {
   private $commentaireStation;
 
   /**
-   * @var \Commune
+   * @var \Municipality
    *
-   * @ORM\ManyToOne(targetEntity="Commune")
+   * @ORM\ManyToOne(targetEntity="Municipality")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="municipality_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $communeFk;
+  private $municipalityFk;
 
   /**
    * @var \Country
@@ -323,25 +323,25 @@ class Station extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set communeFk
+   * Set municipalityFk
    *
-   * @param \App\Entity\Commune $communeFk
+   * @param \App\Entity\Municipality $municipalityFk
    *
    * @return Station
    */
-  public function setCommuneFk(\App\Entity\Commune $communeFk = null) {
-    $this->communeFk = $communeFk;
+  public function setMunicipalityFk(\App\Entity\Municipality $municipalityFk = null) {
+    $this->municipalityFk = $municipalityFk;
 
     return $this;
   }
 
   /**
-   * Get communeFk
+   * Get municipalityFk
    *
-   * @return \App\Entity\Commune
+   * @return \App\Entity\Municipality
    */
-  public function getCommuneFk() {
-    return $this->communeFk;
+  public function getMunicipalityFk() {
+    return $this->municipalityFk;
   }
 
   /**

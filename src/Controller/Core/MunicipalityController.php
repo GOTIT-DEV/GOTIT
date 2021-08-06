@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Commune;
+use App\Entity\Municipality;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,25 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Commune controller.
+ * Municipality controller.
  *
- * @Route("commune")
+ * @Route("municipality")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CommuneController extends AbstractController {
+class MunicipalityController extends AbstractController {
   /**
-   * Lists all commune entities.
+   * Lists all municipality entities.
    *
-   * @Route("/", name="commune_index", methods={"GET"})
+   * @Route("/", name="municipality_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $communes = $em->getRepository('App:Commune')->findAll();
+    $municipalities = $em->getRepository('App:Municipality')->findAll();
 
-    return $this->render('Core/commune/index.html.twig', array(
-      'communes' => $communes,
+    return $this->render('Core/municipality/index.html.twig', array(
+      'municipalities' => $municipalities,
     ));
   }
 
@@ -40,7 +40,7 @@ class CommuneController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="commune_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="municipality_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -49,21 +49,21 @@ class CommuneController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');
+    : array('municipality.dateMaj' => 'desc', 'municipality.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(commune.codeCommune) LIKE :criteriaLower';
+    $where = 'LOWER(municipality.codeCommune) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Commune")->createQueryBuilder('commune')
+    $entities_toshow = $em->getRepository("App:Municipality")->createQueryBuilder('municipality')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Country', 'country', 'WITH', 'commune.countryFk = country.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'municipality.countryFk = country.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -78,16 +78,16 @@ class CommuneController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
-        "id" => $id, "commune.id" => $id,
-        "commune.codeCommune" => $entity->getCodeCommune(),
-        "commune.nomCommune" => $entity->getNomCommune(),
-        "commune.nomRegion" => $entity->getNomRegion(),
+        "id" => $id, "municipality.id" => $id,
+        "municipality.codeCommune" => $entity->getCodeCommune(),
+        "municipality.nomCommune" => $entity->getNomCommune(),
+        "municipality.nomRegion" => $entity->getNomRegion(),
         "country.codePays" => $entity->getCountryFk()->getCodePays(),
-        "commune.dateCre" => $DateCre,
-        "commune.dateMaj" => $DateMaj,
+        "municipality.dateCre" => $DateCre,
+        "municipality.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "commune.userCre" => $service->GetUserCreUserfullname($entity),
-        "commune.userMaj" => $service->GetUserMajUserfullname($entity),
+        "municipality.userCre" => $service->GetUserCreUserfullname($entity),
+        "municipality.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
@@ -100,21 +100,21 @@ class CommuneController extends AbstractController {
   }
 
   /**
-   * Creates a new commune entity.
+   * Creates a new municipality entity.
    *
-   * @Route("/new", name="commune_new", methods={"GET", "POST"})
+   * @Route("/new", name="municipality_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
-    $commune = new Commune();
-    $form = $this->createForm('App\Form\CommuneType', $commune, [
+    $municipality = new Municipality();
+    $form = $this->createForm('App\Form\MunicipalityType', $municipality, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($commune);
+      $em->persist($municipality);
       try {
         $flush = $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -122,30 +122,30 @@ class CommuneController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/commune/index.html.twig',
+          'Core/municipality/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('commune_edit', array(
-        'id' => $commune->getId(),
+      return $this->redirectToRoute('municipality_edit', array(
+        'id' => $municipality->getId(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/commune/edit.html.twig', array(
-      'commune' => $commune,
+    return $this->render('Core/municipality/edit.html.twig', array(
+      'municipality' => $municipality,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Creates a new commune entity for modal windows
+   * Creates a new municipality entity for modal windows
    *
-   * @Route("/newmodal", name="commune_newmodal", methods={"GET", "POST"})
+   * @Route("/newmodal", name="municipality_newmodal", methods={"GET", "POST"})
    */
   public function newmodalAction(Request $request, $country_id = null) {
-    $commune = new Commune();
-    $form = $this->createForm('App\Form\CommuneType', $commune, [
+    $municipality = new Municipality();
+    $form = $this->createForm('App\Form\MunicipalityType', $municipality, [
       'country_id' => $country_id,
       'action_type' => Action::create(),
     ]);
@@ -156,66 +156,66 @@ class CommuneController extends AbstractController {
         return new JsonResponse([
           'valid' => false,
           "form" => $this->render('modal-form.html.twig', [
-            'entityname' => 'commune',
+            'entityname' => 'municipality',
             'form' => $form->createView(),
           ])->getContent(),
         ]);
       } else {
         $em = $this->getDoctrine()->getManager();
-        $em->persist($commune);
+        $em->persist($municipality);
 
         try {
           $flush = $em->flush();
-          $select_id = $commune->getId();
-          $select_name = $commune->getCodeCommune();
+          $select_id = $municipality->getId();
+          $select_name = $municipality->getCodeCommune();
           return new JsonResponse([
             'select_id' => $select_id,
             'select_name' => $select_name,
-            'entityname' => 'commune',
+            'entityname' => 'municipality',
           ]);
         } catch (\Doctrine\DBAL\DBALException $e) {
           return new JsonResponse([
             'exception' => true,
             'exception_message' => $e->getMessage(),
-            'entityname' => 'commune',
+            'entityname' => 'municipality',
           ]);
         }
       }
     }
 
     return $this->render('modal.html.twig', array(
-      'entityname' => 'commune',
+      'entityname' => 'municipality',
       'form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a commune entity.
+   * Finds and displays a municipality entity.
    *
-   * @Route("/{id}", name="commune_show", methods={"GET"})
+   * @Route("/{id}", name="municipality_show", methods={"GET"})
    */
-  public function showAction(Commune $commune) {
-    $deleteForm = $this->createDeleteForm($commune);
+  public function showAction(Municipality $municipality) {
+    $deleteForm = $this->createDeleteForm($municipality);
 
-    $editForm = $this->createForm('App\Form\CommuneType', $commune, [
+    $editForm = $this->createForm('App\Form\MunicipalityType', $municipality, [
       'action_type' => Action::show(),
     ]);
-    return $this->render('Core/commune/edit.html.twig', array(
-      'commune' => $commune,
+    return $this->render('Core/municipality/edit.html.twig', array(
+      'municipality' => $municipality,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing commune entity.
+   * Displays a form to edit an existing municipality entity.
    *
-   * @Route("/{id}/edit", name="commune_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="municipality_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, Commune $commune) {
-    $deleteForm = $this->createDeleteForm($commune);
-    $editForm = $this->createForm('App\Form\CommuneType', $commune, [
+  public function editAction(Request $request, Municipality $municipality) {
+    $deleteForm = $this->createDeleteForm($municipality);
+    $editForm = $this->createForm('App\Form\MunicipalityType', $municipality, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -229,64 +229,64 @@ class CommuneController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/commune/index.html.twig',
+          'Core/municipality/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/commune/edit.html.twig', array(
-        'commune' => $commune,
+      return $this->render('Core/municipality/edit.html.twig', array(
+        'municipality' => $municipality,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/commune/edit.html.twig', array(
-      'commune' => $commune,
+    return $this->render('Core/municipality/edit.html.twig', array(
+      'municipality' => $municipality,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a commune entity.
+   * Deletes a municipality entity.
    *
-   * @Route("/{id}", name="commune_delete", methods={"DELETE"})
+   * @Route("/{id}", name="municipality_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function deleteAction(Request $request, Commune $commune) {
-    $form = $this->createDeleteForm($commune);
+  public function deleteAction(Request $request, Municipality $municipality) {
+    $form = $this->createDeleteForm($municipality);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($commune);
+        $em->remove($municipality);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/commune/index.html.twig',
+          'Core/municipality/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('commune_index');
+    return $this->redirectToRoute('municipality_index');
   }
 
   /**
-   * Creates a form to delete a commune entity.
+   * Creates a form to delete a municipality entity.
    *
-   * @param Commune $commune The commune entity
+   * @param Municipality $municipality The municipality entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Commune $commune) {
+  private function createDeleteForm(Municipality $municipality) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('commune_delete', array('id' => $commune->getId())))
+      ->setAction($this->generateUrl('municipality_delete', array('id' => $municipality->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }

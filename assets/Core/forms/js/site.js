@@ -58,7 +58,7 @@ $(() => {
   }
 
   const $countryInput = $("#station_countryFk")
-  const $municipality = $("#station_communeFk")
+  const $municipality = $("#station_municipalityFk")
   $countryInput.change(event => {
     const country = event.target.value
     fetch(Routing.generate('country_municipalities', { id: country }))
@@ -67,7 +67,7 @@ $(() => {
         const options = json.map(item =>
           `<option value="${item.id}">${item.codeCommune}</option>`
         )
-        $("#station_communeFk").empty()
+        $("#station_municipalityFk").empty()
           .append(options).val('')
           .selectpicker('refresh')
       })
@@ -85,7 +85,7 @@ $(() => {
   })
 
   function modalCallback(_, response) {
-    const $modalCountry = $modal.find("select#commune_countryFk")
+    const $modalCountry = $modal.find("select#municipality_countryFk")
     $countryInput.val($modalCountry.val()).selectpicker('refresh')
     $municipality
       .append($('<option>', {

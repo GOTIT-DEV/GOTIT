@@ -68,7 +68,7 @@ etablissement_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of an institution. Deletion may not be possible until all data links pointed to an institution have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Institution name".
 country_index: |
   Use this page to browse, create, import, export, show, edit and delete a country. Deletion may not be possible until all data links pointed to a country have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Country code".
-commune_index: |
+municipality_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a municipality. Deletion may not be possible until all data links pointed to a municipality have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Municipality name".
 # formulaire new
 station_new: |
@@ -117,7 +117,7 @@ etablissement_new: |
   Use this form to fill in characteristics of a new institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
 country_new: |
   Use this form to fill in characteristics of a new country. See appendix 11.6.2 in GOTIT HELP for content of fields.
-commune_new: |
+municipality_new: |
   Use this form to fill in characteristics of a new municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # formulaire show
 station_show: |
@@ -166,7 +166,7 @@ etablissement_show: |
   Use this form to consult characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
 country_show: |
   Use this form to consult characteristics of a country. See appendix 11.6.2 in GOTIT HELP for content of fields.
-commune_show: |
+municipality_show: |
   Use this form to consult characteristics of a municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # formulaire edit
 station_edit: |
@@ -215,7 +215,7 @@ etablissement_edit: |
   Use this form to edit characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
 country_edit: |
   Use this form to edit characteristics of a country. See appendix 11.6.2 in GOTIT HELP for content of fields.
-commune_edit: |
+municipality_edit: |
   Use this form to edit characteristics of a municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # procédure d'import csv
 importfilessource_index: |
@@ -312,7 +312,7 @@ importfilescountry_index: |
   Use this form to upload data from country repository data set:
   - use and upload the template file “country” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilescommune_index: |
+importfilesmunicipality_index: |
   Use this form to upload data from municipality repository data set:
   - use and upload the template file “municipality” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

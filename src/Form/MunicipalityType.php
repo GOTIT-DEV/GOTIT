@@ -9,7 +9,7 @@ use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CommuneType extends ActionFormType {
+class MunicipalityType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -35,7 +35,7 @@ class CommuneType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Commune',
+      'data_class' => 'App\Entity\Municipality',
       'country_id' => null,
     ));
   }
@@ -44,6 +44,6 @@ class CommuneType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'commune';
+    return 'municipality';
   }
 }

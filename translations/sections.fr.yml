@@ -27,7 +27,7 @@ core:
   referentieltaxon: Taxon
   personne: Personne
   country: Pays
-  commune: Commune
+  municipality: Commune
   etablissement: Établissement
   programme: Programme
   users: Utilisateurs

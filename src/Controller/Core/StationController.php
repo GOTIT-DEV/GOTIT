@@ -83,7 +83,7 @@ class StationController extends AbstractController {
       ->where('LOWER(station.codeStation) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
       ->leftJoin('App:Country', 'country', 'WITH', 'station.countryFk = country.id')
-      ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'station.municipalityFk = municipality.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -107,7 +107,7 @@ class StationController extends AbstractController {
         "station.id" => $id,
         "station.codeStation" => $entity->getCodeStation(),
         "station.nomStation" => $entity->getNomStation(),
-        "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
+        "municipality.codeCommune" => $entity->getMunicipalityFk()->getCodeCommune(),
         "country.codePays" => $entity->getCountryFk()->getCodePays(),
         "station.latDegDec" => $entity->getLatDegDec(),
         "station.longDegDec" => $entity->getLongDegDec(),

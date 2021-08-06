@@ -1,16 +1,16 @@
 
 $(() => {
-  initMunicipalityCodeGeneration("form[name='commune']")
+  initMunicipalityCodeGeneration("form[name='municipality']")
 })
 
 export function initMunicipalityCodeGeneration(formSelector) {
-  const $form = $("form[name='commune']")
+  const $form = $("form[name='municipality']")
 
   if ($form.data('action') == 'new') {
-    let $country = $form.find("select#commune_countryFk")
-    let $region = $form.find("input#commune_nomRegion")
-    let $name = $form.find("input#commune_nomCommune")
-    let $code = $form.find("input#commune_codeCommune")
+    let $country = $form.find("select#municipality_countryFk")
+    let $region = $form.find("input#municipality_nomRegion")
+    let $name = $form.find("input#municipality_nomCommune")
+    let $code = $form.find("input#municipality_codeCommune")
 
     function updateMunicipalityCode() {
       const code = generateMunicipalityCode(

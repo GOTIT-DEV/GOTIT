@@ -2,15 +2,15 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Country;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Pay controller.
@@ -246,7 +246,7 @@ class CountryController extends AbstractController {
    * @Route("/{id}/municipalities", name="country_municipalities", methods={"GET"})
    */
   public function listMunicipalities(Country $country, SerializerInterface $serializer) {
-    $json = $serializer->serialize($country->getCommunes(), "json", ['groups' => "own"]);
+    $json = $serializer->serialize($country->getMunicipalities(), "json", ['groups' => "own"]);
     return JsonResponse::fromJsonString($json);
   }
 }

@@ -26,13 +26,13 @@ class StationType extends ActionFormType {
       ->add('nomStation')
       ->add('infoDescription')
       ->add('countryFk', CountryVocType::class)
-      ->add('communeFk', EntityType::class, array(
-        'class' => 'App:Commune',
+      ->add('municipalityFk', EntityType::class, array(
+        'class' => 'App:Municipality',
         'query_builder' => function (EntityRepository $er) use ($station) {
-          $query = $er->createQueryBuilder('commune')
-            ->orderBy('commune.codeCommune', 'ASC');
+          $query = $er->createQueryBuilder('municipality')
+            ->orderBy('municipality.codeCommune', 'ASC');
           if ($station->getCountryFk()) {
-            $query = $query->where('commune.countryFk = :country')
+            $query = $query->where('municipality.countryFk = :country')
               ->setParameter('country', $station->getCountryFk()->getId());
           }
           return $query;
@@ -40,14 +40,14 @@ class StationType extends ActionFormType {
         'choice_label' => 'codeCommune',
         'multiple' => false,
         'expanded' => false,
-        'placeholder' => 'Choose a Commune',
+        'placeholder' => 'Choose a Municipality',
       ))
       ->add('newMunicipality', ModalButtonType::class, [
         'label' => 'button.NewCommune',
         'icon_class' => 'fa-plus-circle',
         'attr' => [
           'class' => "btn-info btn-sm",
-          "data-modal-controller" => 'App\\Controller\\Core\\CommuneController::newmodalAction',
+          "data-modal-controller" => 'App\\Controller\\Core\\MunicipalityController::newmodalAction',
         ],
       ])
       ->add('habitatTypeVocFk', BaseVocType::class, array(

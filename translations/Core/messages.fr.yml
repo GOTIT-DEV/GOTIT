@@ -121,7 +121,7 @@ button.Back to the list of pays: Retour à la liste des Pays
 button.Back to the list of personne: Retour à la liste des Personnes
 button.Back to the list of programme: Retour à la liste des Programmes
 button.Back to the list of etablissement: Retour à la liste des Etablissements
-button.Back to the list of commune: Retour à la liste des Communes
+button.Back to the list of municipality: Retour à la liste des Municipalities
 # Button titles "Back to Entity"
 button.Back to station: Retour à la Station
 button.Back to collecte: Retour à la Collecte
@@ -293,7 +293,7 @@ Choose a specificity: Sélectionner une specificite
 Choose a primer start: Sélectionner une amorce sens
 Choose a primer end: Sélectionner une amorce antisens
 Choose a Country: Sélectionner un pays
-Choose a Commune: Sélectionner une commune
+Choose a Municipality: Sélectionner une commune
 Choose an Habitat Type: Sélectionner un habitat
 Choose an Access Point: Sélectionner un acces
 Choose a GPS Distance Quality: Sélectionner précision latitude longitude
@@ -421,7 +421,7 @@ Commentaire source: Commentaire source
 Commentaire sqc ass: Commentaire séquence assemblée
 Commentaire sqc ass ext: Commentaire séquence externe assemblée
 Commentaire station: Commentaire station
-Commune fk: Commune
+Municipality fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
 Conductivite micro sie cm: Conductivité (µS/cm)
 Critere identification voc fk: Critère identification
