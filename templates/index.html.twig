@@ -40,7 +40,14 @@
           <i class="fas fa-plus"></i>
           {{ ['button.New', entityname|capitalize]|join|trans }}
         </a>
-    <button class="btn btn-light border btn-sm"
+  {% else %}
+    <a href="#"
+      class="btn btn-secondary btn-sm disabled"
+      role="button">
+      {{ ['button.New', entityname|capitalize]|join|trans }}
+    </a>
+  {% endif %}
+  <button class="btn btn-light border btn-sm"
       id="export"
       data-export="export"
       data-toggle="tooltip"
@@ -49,13 +56,6 @@
       <i class="fas fa-file-export"></i>
       {{ 'button.exportToCSV'|trans }}
     </button>
-  {% else %}
-    <a href="#"
-      class="btn btn-secondary btn-sm disabled"
-      role="button">
-      {{ ['button.New', entityname|capitalize]|join|trans }}
-    </a>
-  {% endif %}
 {% endblock %}
 
 {% block templatescripts %}  
