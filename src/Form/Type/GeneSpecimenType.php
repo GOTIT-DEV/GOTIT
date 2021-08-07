@@ -46,7 +46,7 @@ class GeneSpecimenType extends ActionFormType {
       ]);
 
     if ($options['action_type'] != Action::show()) {
-      $builder->add('button.Valid', SubmitType::class, array(
+      $builder->add('button_valid', SubmitType::class, array(
         'label' => 'button.Valid',
         'attr' => ['class' => 'btn btn-round btn-success'],
       ));
