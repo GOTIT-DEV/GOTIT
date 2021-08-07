@@ -14,8 +14,8 @@
       "~SpeciesSearch/*": [
         "assets/SpeciesSearch/*"
       ],
-      "~Bundles/*": [
-        "public/bundles/*"
+      "~Public/*": [
+        "public/*"
       ],
     }
   },

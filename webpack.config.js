@@ -1,5 +1,6 @@
 const Encore = require("@symfony/webpack-encore");
 const path = require("path");
+const WebpackShellPluginNext = require("webpack-shell-plugin-next");
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -115,7 +116,7 @@ Encore
     "~Core": path.resolve(__dirname, "assets/Core"),
     "~QueryBuilder": path.resolve(__dirname, "assets/QueryBuilder"),
     "~SpeciesSearch": path.resolve(__dirname, "assets/SpeciesSearch"),
-    "~Bundles": path.resolve(__dirname, "public/bundles"),
+    "~Public": path.resolve(__dirname, "public"),
   })
 
   // YAML loader
@@ -130,17 +131,11 @@ Encore
 
   // uncomment if you're having problems with a jQuery plugin
   .autoProvidejQuery()
-  // jQuery Datatables loader
-  // .addLoader({ test: /datatables\.net.*/, loader: 'imports-loader?define=>false' })
 
   // Provide L namespace for leaflet
   .autoProvideVariables({
     L: "leaflet",
   })
-
-  // uncomment if you use API Platform Admin (composer req api-admin)
-  //.enableReactPreset()
-  //.addEntry('admin', './assets/js/admin.js')
 
   // Copy image directory
   .copyFiles({
@@ -156,6 +151,20 @@ Encore
   .copyFiles({
     from: "./docs",
     to: "docs/[path][name].[ext]",
-  });
+  })
+
+  // Export routes and translations to public directory to be exposed on the JS side
+  .addPlugin(
+    new WebpackShellPluginNext({
+      onBuildStart: {
+        scripts: [
+          "symfony console fos:js-routing:dump --format=json --target=public/js/routes.json",
+          "symfony console bazinga:js-translation:dump --format=json public/js --merge-domains",
+        ],
+        blocking: true,
+        parallel: false,
+      },
+    })
+  );
 
 module.exports = Encore.getWebpackConfig();
