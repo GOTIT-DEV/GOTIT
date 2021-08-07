@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~Components/*": [
+        "assets/components/*"
+      ],
+      "~Core/*": [
+        "assets/Core/*"
+      ],
+      "~QueryBuilder/*": [
+        "assets/QueryBuilder/*"
+      ],
+      "~SpeciesSearch/*": [
+        "assets/SpeciesSearch/*"
+      ],
+      "~Bundles/*": [
+        "public/bundles/*"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "vendor",
+    "var",
+    "dist"
+  ]
+}
