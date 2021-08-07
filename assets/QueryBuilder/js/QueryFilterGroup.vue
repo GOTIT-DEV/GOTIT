@@ -12,17 +12,17 @@
           class="toggle-btn"
           :value="active"
           :sync="true"
-          @change="$emit('update:active', $event.value)"
           :labels="true"
           :width="60"
           :height="25"
           :disabled="rules.length == 0"
+          @change="$emit('update:active', $event.value)"
         />
       </div>
       <transition name="fade">
         <div
-          class="match-type-container form-inline w-100"
           v-if="active || depth > 1"
+          class="match-type-container form-inline w-100"
         >
           <b-radio-group
             v-model="query.logicalOperator"
@@ -32,16 +32,16 @@
             buttons
             button-variant="outline-primary"
             size="sm"
-          ></b-radio-group>
+          />
 
           <div class="rule-actions form-group ml-4">
             <b-input-group size="sm" class="flex-nowrap">
               <multiselect
+                v-model="selectedRule"
                 :options="rules"
                 label="label"
-                :showLabels="false"
-                v-model="selectedRule"
-                :allowEmpty="false"
+                :show-labels="false"
+                :allow-empty="false"
               />
               <b-input-group-append>
                 <b-button class="mr-2" @click="addRule">
@@ -75,7 +75,7 @@
             class="ml-auto text-secondary"
             @click="$emit('reset')"
           >
-            <i class="fas fa-redo-alt"></i>
+            <i class="fas fa-redo-alt" />
             <span class="d-none d-lg-inline">
               {{ $t("reset") | capitalize }}
             </span>
@@ -111,7 +111,6 @@
 
 <script>
 import QueryBuilderGroup from "vue-query-builder/src/components/QueryBuilderGroup";
-import QueryFilterRule from "./QueryFilterRule";
 import QueryFilterChildren from "./QueryFilterChildren";
 import Multiselect from "vue-multiselect";
 import { ToggleButton } from "vue-js-toggle-button";
@@ -122,7 +121,6 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     ToggleButton,
     Multiselect,
-    QueryFilterRule,
     QueryFilterChildren,
   },
   extends: QueryBuilderGroup,

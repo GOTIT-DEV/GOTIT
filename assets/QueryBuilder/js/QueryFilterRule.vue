@@ -36,7 +36,7 @@
           type="text"
           :placeholder="labels.textInputPlaceholder"
           required
-        />
+        >
 
         <!-- Basic number input -->
         <input
@@ -46,18 +46,18 @@
           type="number"
           v-bind="rule.attrs"
           required
-        />
+        >
 
         <!-- Datepicker -->
         <input
           v-else-if="rule.inputType === 'date'"
           v-model="value[0]"
+          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
           class="form-control form-control-sm"
           type="text"
           placeholder="YYYY-MM-DD"
-          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
           required
-        />
+        >
 
         <!-- Custom component input -->
         <div v-else-if="isCustomComponent" class="vqb-custom-component-wrap">
@@ -80,30 +80,30 @@
             <input
               :id="
                 'depth' +
-                depth +
-                '-' +
-                rule.id +
-                '-' +
-                index +
-                '-' +
-                choice.value
+                  depth +
+                  '-' +
+                  rule.id +
+                  '-' +
+                  index +
+                  '-' +
+                  choice.value
               "
               v-model="value[0]"
               type="checkbox"
               :value="choice.value"
               class="form-check-input"
-            />
+            >
             <label
               class="form-check-label"
               :for="
                 'depth' +
-                depth +
-                '-' +
-                rule.id +
-                '-' +
-                index +
-                '-' +
-                choice.value
+                  depth +
+                  '-' +
+                  rule.id +
+                  '-' +
+                  index +
+                  '-' +
+                  choice.value
               "
             >
               {{ choice.label }}
@@ -121,31 +121,31 @@
             <input
               :id="
                 'depth' +
-                depth +
-                '-' +
-                rule.id +
-                '-' +
-                index +
-                '-' +
-                choice.value
+                  depth +
+                  '-' +
+                  rule.id +
+                  '-' +
+                  index +
+                  '-' +
+                  choice.value
               "
               v-model="value[0]"
               :name="'depth' + depth + '-' + rule.id + '-' + index"
               type="radio"
               :value="choice.value"
               class="form-check-input"
-            />
+            >
             <label
               class="form-check-label"
               :for="
                 'depth' +
-                depth +
-                '-' +
-                rule.id +
-                '-' +
-                index +
-                '-' +
-                choice.value
+                  depth +
+                  '-' +
+                  rule.id +
+                  '-' +
+                  index +
+                  '-' +
+                  choice.value
               "
             >
               {{ choice.label }}
@@ -210,11 +210,11 @@
         <b-input
           v-if="query.operator.includes('between') && rule.inputType === 'date'"
           v-model="value[1]"
+          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
           :min="value[0]"
           size="sm"
           type="text"
           placeholder="YYYY-MM-DD"
-          v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
           required
         />
       </b-input-group>
@@ -222,21 +222,21 @@
       <!-- Multiple select with tags -->
       <div v-else-if="query.operator.match(/^(not )?in$/)" class="col-6">
         <multiselect
+          v-model="value"
           :options="
             rule.choices && rule.choices.length
               ? rule.choices
               : rule.props
-              ? rule.props.options
-              : []
+                ? rule.props.options
+                : []
           "
           required
           multiple
           searchable
           taggable
-          @tag="addTag"
           v-bind="rule.props || {}"
-          v-model="value"
-          :closeOnSelect="false"
+          :close-on-select="false"
+          @tag="addTag"
         />
       </div>
 
@@ -246,7 +246,7 @@
         class="close ml-auto"
         @click="remove"
         v-html="'&times'"
-      ></button>
+      />
     </div>
   </b-list-group-item>
 </template>
@@ -257,23 +257,17 @@ import Multiselect from "vue-multiselect";
 import Mask from "../../directives/InputMask";
 
 export default {
-  extends: QueryBuilderRule,
   directives: { Mask },
   components: { Multiselect },
-  computed: {
-    isMultiple() {
-      return this.query.operator.match(/^(not )?(in|between)$/) !== null;
-    },
-  },
+  extends: QueryBuilderRule,
   data() {
     return {
       value: [],
     };
   },
-  methods: {
-    addTag(tag) {
-      this.rule.choices.push(tag);
-      this.value.push(tag);
+  computed: {
+    isMultiple() {
+      return this.query.operator.match(/^(not )?(in|between)$/) !== null;
     },
   },
   watch: {
@@ -286,6 +280,12 @@ export default {
 
     value(val) {
       this.query.value = this.isMultiple ? this.value : this.value[0];
+    },
+  },
+  methods: {
+    addTag(tag) {
+      this.rule.choices.push(tag);
+      this.value.push(tag);
     },
   },
 };

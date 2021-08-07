@@ -1,11 +1,12 @@
 <template>
   <b-card class="query-block mb-5" header-tag="header" footer-tag="footer">
     <!-- Join Block header -->
-    <template v-if="join" v-slot:header class="header-container">
+    <template v-if="join" #header class="header-container">
       <div>
         <label class="text-uppercase">{{ $t("from") }}</label>
         <multiselect
           id="table-select"
+          v-model="from"
           :options="availableTables"
           label="alias"
           track-by="alias"
@@ -13,7 +14,6 @@
           :searchable="false"
           :allow-empty="false"
           required
-          v-model="from"
         >
           <template slot="singleLabel" slot-scope="{ option }">
             {{ option.label }} | {{ option.alias }}
@@ -28,11 +28,11 @@
         <label class="text-uppercase">{{ $t("join") }}</label>
         <multiselect
           id="join-type"
-          required
           v-model="joinType"
+          required
           :options="['Inner Join', 'Left Join']"
-          :allowEmpty="false"
-          :preselectFirst="true"
+          :allow-empty="false"
+          :preselect-first="true"
           :searchable="false"
           :show-labels="false"
         />
@@ -46,10 +46,10 @@
           label="label"
           :searchable="false"
           :allow-empty="false"
-          @change="tableChanged"
           required
           :disabled="from == undefined"
           :show-labels="false"
+          @change="tableChanged"
         >
           <template slot="singleLabel" slot-scope="{ option }">
             <span class="text-muted">
@@ -75,18 +75,18 @@
           v-model="path"
           required
           :options="joinPathList"
-          :allowEmpty="false"
+          :allow-empty="false"
           :searchable="false"
           :show-labels="false"
         >
           <template slot="singleLabel" slot-scope="{ option }">
             {{ option.from.label }}
-            <i class="fas fa-long-arrow-alt-right"></i>
+            <i class="fas fa-long-arrow-alt-right" />
             {{ option.to.label }}
           </template>
           <template slot="option" slot-scope="props">
             {{ props.option.from.label }}
-            <i class="fas fa-long-arrow-alt-right"></i>
+            <i class="fas fa-long-arrow-alt-right" />
             {{ props.option.to.label }}
           </template>
         </multiselect>
@@ -96,25 +96,25 @@
         class="remove-join"
         @click="$emit('delete-join')"
       >
-        <i class="fas fa-times"></i>
+        <i class="fas fa-times" />
       </b-button>
     </template>
 
     <!-- Initial Block header -->
-    <template v-else v-slot:header class="header-container">
+    <template v-else #header class="header-container">
       <div>
         <label class="text-uppercase">{{ $t("table") }}</label>
         <multiselect
           id="table-select"
           ref="table"
+          v-model="table"
           :options="groupedTableList"
           label="label"
           track-by="name"
-          v-model="table"
           required
           group-values="entities"
           group-label="type"
-          :allowEmpty="false"
+          :allow-empty="false"
           :show-labels="false"
           @change="tableChanged"
         />
@@ -126,8 +126,8 @@
       <label class="text-uppercase">{{ $t("alias") }}</label>
       <b-input
         id="alias"
-        type="text"
         v-model="alias"
+        type="text"
         required
         :disabled="!table.name"
         @blur="validateAlias()"
@@ -147,14 +147,14 @@
         multiple
         required
         label="label"
-        trackBy="label"
+        track-by="label"
         :searchable="false"
         :disabled="!table.name"
       />
     </div>
 
     <query-filter id="querybuilder" :rules="rules" :query.sync="query">
-      <template v-slot:default="slotProps">
+      <template #default="slotProps">
         <query-filter-group
           v-bind="slotProps"
           :table="table"
@@ -192,18 +192,33 @@
 
 <script>
 import Multiselect from "vue-multiselect";
-import { ToggleButton } from "vue-js-toggle-button";
 
 import QueryFilter from "./QueryFilter";
 import QueryFilterGroup from "./QueryFilterGroup";
 
 export default {
-  components: { ToggleButton, Multiselect, QueryFilter, QueryFilterGroup },
+  components: { Multiselect, QueryFilter, QueryFilterGroup },
   props: {
-    id: { type: Number },
+    id: { type: Number, required: true },
     join: { type: Boolean, default: false },
     schema: { type: Object, required: true },
     availableTables: { type: Array, default: () => [] },
+  },
+  data() {
+    return {
+      hasConstraints: false,
+      from: undefined,
+      joinType: undefined,
+      table: {},
+      path: undefined,
+      alias: "",
+      prevAlias: "",
+      fields: [],
+      query: {
+        logicalOperator: "and",
+        children: [],
+      },
+    };
   },
   computed: {
     state() {
@@ -296,22 +311,6 @@ export default {
         : this.table.entity;
       return this.join ? this.relations[target_table] || [] : [];
     },
-  },
-  data() {
-    return {
-      hasConstraints: false,
-      from: undefined,
-      joinType: undefined,
-      table: {},
-      path: undefined,
-      alias: "",
-      prevAlias: "",
-      fields: [],
-      query: {
-        logicalOperator: "and",
-        children: [],
-      },
-    };
   },
   watch: {
     availableTables: {
@@ -481,8 +480,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style lang="less">
 @import "~vue-multiselect/dist/vue-multiselect.min.css";

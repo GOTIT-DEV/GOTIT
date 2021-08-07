@@ -42,6 +42,13 @@ export default {
   // eslint-disable-next-line vue/require-prop-types
   props: ["query", "ruleTypes", "rules", "maxDepth", "labels", "depth"],
 
+  data() {
+    return {
+      groupComponent: null,
+      ruleComponent: null,
+    };
+  },
+
   computed: {
     childrenWithId() {
       return this.query.children.map((child, index) => {
@@ -59,13 +66,6 @@ export default {
         (child) => child.type == "query-builder-group"
       );
     },
-  },
-
-  data() {
-    return {
-      groupComponent: null,
-      ruleComponent: null,
-    };
   },
 
   mounted() {

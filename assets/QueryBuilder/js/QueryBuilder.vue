@@ -1,13 +1,12 @@
 <template>
   <div>
-    <query-form @update:results="updateResults($event)" @submit="onSubmit">
-    </query-form>
-    <hr />
-    <div ref="results" v-if="submitted">
+    <query-form @update:results="updateResults($event)" @submit="onSubmit" />
+    <hr>
+    <div v-if="submitted" ref="results">
       <legend class="mb-3">
         <h3>
           Results
-          <b-button variant="primary" v-b-modal.sql-modal :disabled="loading">
+          <b-button v-b-modal.sql-modal variant="primary" :disabled="loading">
             Get SQL
           </b-button>
         </h3>
@@ -20,25 +19,29 @@
         scrollable
         @show="copyDone = false"
       >
-        <template #modal-title> Query as SQL </template>
+        <template #modal-title>
+          Query as SQL
+        </template>
 
         <template #modal-footer="{ ok }">
           <b-button
-            :variant="copyDone ? 'success' : 'info'"
             v-clipboard:copy="formattedSql"
             v-clipboard:success="onCopy"
             v-clipboard:error="onCopyFail"
+            :variant="copyDone ? 'success' : 'info'"
           >
             {{ $t(copyDone ? "Copied" : "Copy") }}
             <font-awesome-icon :icon="copyDone ? 'check' : 'copy'" />
           </b-button>
-          <b-button variant="primary" @click="ok()"> OK </b-button>
+          <b-button variant="primary" @click="ok()">
+            OK
+          </b-button>
         </template>
 
         <pre
           id="sql-query"
           v-highlightjs="formattedSql"
-        ><code class="SQL"/></pre>
+        ><code class="SQL" /></pre>
       </b-modal>
 
       <b-data-table ref="table" :items="results" :fields="fields" />
@@ -57,11 +60,6 @@ export default {
     QueryForm,
     BDataTable,
   },
-  computed: {
-    formattedSql() {
-      return SQLFormat.format(this.querySql);
-    },
-  },
   data() {
     return {
       results: [],
@@ -71,6 +69,11 @@ export default {
       loading: false,
       copyDone: false,
     };
+  },
+  computed: {
+    formattedSql() {
+      return SQLFormat.format(this.querySql);
+    },
   },
   methods: {
     onCopy() {

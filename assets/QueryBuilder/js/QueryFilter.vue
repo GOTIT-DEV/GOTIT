@@ -1,4 +1,3 @@
-
 <script>
 /* eslint-disable vue/require-default-prop */
 import VueQueryBuilder from "vue-query-builder";
