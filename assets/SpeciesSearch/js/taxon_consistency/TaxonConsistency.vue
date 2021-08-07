@@ -9,16 +9,16 @@
                 <label :for="`${label}-select`">{{ $t(label) }}</label>
                 <multiselect
                   :id="`${label}-select`"
+                  v-model="formState[label]"
                   :options="
                     options.filter(
                       (opt) =>
                         !(opt.disabledFor && opt.disabledFor.includes(label))
                     )
                   "
-                  v-model="formState[label]"
-                  :showLabels="false"
+                  :show-labels="false"
                   label="label"
-                  :allowEmpty="false"
+                  :allow-empty="false"
                 >
                   <template slot="singleLabel" slot-scope="props">
                     Taxon :
@@ -54,7 +54,7 @@
       </b-row>
     </b-form>
 
-    <div id="results" v-if="displayResults">
+    <div v-if="displayResults" id="results">
       <h2>Résultats</h2>
 
       <b-data-table
@@ -63,7 +63,7 @@
         :busy="loading"
         fixed
         stacked="md"
-        exportFilename="taxon_attributions.csv"
+        export-filename="taxon_attributions.csv"
       >
         <template #cell(biomaterial)="data">
           <assignment-cell :item="data.value" entity="biomaterial" />

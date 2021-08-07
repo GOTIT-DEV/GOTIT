@@ -4,14 +4,14 @@
     <b-form-group :label="$t('queries.label.genre')" label-for="genus">
       <b-skeleton-wrapper :loading="loading">
         <template #loading>
-          <b-skeleton type="input"></b-skeleton>
+          <b-skeleton type="input" />
         </template>
         <form-multiselect
-          :options="genusList"
           v-model="genus"
+          :options="genusList"
           name="genus"
           :disabled="disabled"
-          :allowEmpty="false"
+          :allow-empty="false"
           @select="$emit('update:genus', $event)"
         />
       </b-skeleton-wrapper>
@@ -21,14 +21,14 @@
     <b-form-group :label="$t('queries.label.espece')" label-for="species">
       <b-skeleton-wrapper :loading="loading">
         <template #loading>
-          <b-skeleton type="input"></b-skeleton>
+          <b-skeleton type="input" />
         </template>
         <form-multiselect
-          :options="speciesList"
           v-model="species"
+          :options="speciesList"
           name="species"
           :disabled="disabled"
-          :allowEmpty="false"
+          :allow-empty="false"
           @select="$emit('update:species', $event)"
         />
       </b-skeleton-wrapper>
@@ -41,16 +41,16 @@
     >
       <b-skeleton-wrapper :loading="loading">
         <template #loading>
-          <b-skeleton type="input"></b-skeleton>
+          <b-skeleton type="input" />
         </template>
         <form-multiselect
-          :options="taxnameList"
           v-model="taxname"
-          trackBy="id"
+          :options="taxnameList"
+          track-by="id"
           label="taxname"
           name="taxname"
           :disabled="disabled"
-          :allowEmpty="false"
+          :allow-empty="false"
           @select="$emit('update:taxname', $event)"
         />
       </b-skeleton-wrapper>
@@ -58,17 +58,11 @@
   </div>
 </template>
 
-
-
 <script>
-import { SelectPicker } from "../directives/SelectPickerDirective";
 import FormMultiselect from "~Components/FormMultiselect";
 
 export default {
   components: { FormMultiselect },
-  directives: {
-    SelectPicker,
-  },
   props: {
     withTaxname: {
       type: Boolean,
@@ -78,6 +72,16 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      url: Routing.generate("species-list"),
+      loading: true,
+      taxonomy: [],
+      genus: undefined,
+      species: undefined,
+      taxname: undefined,
+    };
   },
   computed: {
     genusList() {
@@ -96,27 +100,6 @@ export default {
       return [...new Set(taxnames)];
     },
   },
-  data() {
-    return {
-      url: Routing.generate("species-list"),
-      ready: false,
-      loading: true,
-      taxonomy: [],
-      genus: undefined,
-      species: undefined,
-      taxname: undefined,
-    };
-  },
-  methods: {
-    async fetch() {
-      const response = await fetch(this.url);
-      return response.json().then((data) => {
-        this.taxonomy = data;
-        this.genus = this.taxonomy[0].genus;
-        this.loading = false;
-      });
-    },
-  },
   watch: {
     genus: function (newVal, oldVal) {
       this.species = this.speciesList[0];
@@ -126,12 +109,25 @@ export default {
     },
   },
   created() {
-    this.ready = this.fetch();
+    this.isInitialized = false;
+  },
+  methods: {
+    async init() {
+      return this.isInitialized ? Promise.resolve(true) : this.fetch();
+    },
+    async fetch() {
+      const response = await fetch(this.url);
+      return response.json().then((data) => {
+        this.taxonomy = data;
+        this.genus = this.taxonomy[0].genus;
+        this.loading = false;
+        this.isInitialized = true;
+        return true;
+      });
+    },
   },
 };
 </script>
-
-
 
 <style lang="less" scoped>
 .taxonomy-select {

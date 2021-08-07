@@ -8,7 +8,7 @@
     >
       <b-tab active @click="scrollToMap">
         <template #title>
-          <i class="fas fa-map-marker"></i>
+          <i class="fas fa-map-marker" />
           {{ $t("map") }}
         </template>
         <sampling-map
@@ -20,7 +20,7 @@
       </b-tab>
       <b-tab>
         <template #title>
-          <i class="fas fa-th-list"></i>
+          <i class="fas fa-th-list" />
           {{ $t("table") }}
         </template>
         <sampling-details-table :items="sites" :taxname="item.taxon_name" />
@@ -63,6 +63,11 @@ export default {
       required: true,
     },
   },
+  watch: {
+    item: function (newItem) {
+      this.scrollToMap();
+    },
+  },
   methods: {
     scrollToMap() {
       Vue.nextTick(() =>
@@ -74,13 +79,7 @@ export default {
       );
     },
   },
-  watch: {
-    item: function (newItem) {
-      this.scrollToMap();
-    },
-  },
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

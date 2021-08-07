@@ -8,7 +8,7 @@
     >
       <b-tab active title-link-class="result-tab" @click="scrollToMap">
         <template #title>
-          <i class="fas fa-map-marker"></i>
+          <i class="fas fa-map-marker" />
           {{ $t("map") }}
         </template>
         <motu-distribution-map ref="map" :data="results" />
@@ -16,7 +16,7 @@
 
       <b-tab title-link-class="result-tab">
         <template #title>
-          <i class="fas fa-th-list"></i>
+          <i class="fas fa-th-list" />
           {{ $t("table") }}
         </template>
 

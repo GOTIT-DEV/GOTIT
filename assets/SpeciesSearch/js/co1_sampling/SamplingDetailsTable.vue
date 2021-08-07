@@ -3,7 +3,7 @@
     id="sampling-details-table"
     :items="items"
     :fields="fields"
-    :exportFilename="exportFilename"
+    :export-filename="exportFilename"
     responsive
     hover
     striped
@@ -13,23 +13,23 @@
       <b-tr>
         <b-th colspan="9" class="text-right">
           <span class="text-muted mx-2">
-            <i class="fas fa-dna"></i>
+            <i class="fas fa-dna" />
             {{ $t("sequence") }}
           </span>
           <span class="text-muted mx-2">
-            <i class="fas fa-vial"></i>
+            <i class="fas fa-vial" />
             {{ $t("biomat") }}
           </span>
           <span class="text-primary mx-2">
-            <i class="fas fa-circle fa-xs"></i>
+            <i class="fas fa-circle fa-xs" />
             {{ $t("internal") }}
           </span>
           <span class="text-success mx-2">
-            <i class="fas fa-circle fa-xs"></i>
+            <i class="fas fa-circle fa-xs" />
             {{ $t("external") }}
           </span>
           <span class="text-muted mx-2">
-            <i class="fas fa-circle fa-xs no-sample"></i>
+            <i class="fas fa-circle fa-xs no-sample" />
             {{ $t("no_sample") }}
           </span>
         </b-th>
@@ -45,25 +45,25 @@
       <i
         class="fas fa-dna"
         :class="data.value > 0 ? 'text-primary' : 'no-sample'"
-      ></i>
+      />
     </template>
     <template #head(int_biomat)>
-      <i class="fas fa-vial text-primary"></i>
+      <i class="fas fa-vial text-primary" />
     </template>
     <template #cell(int_biomat)="data">
       <i
         class="fas fa-vial"
         :class="data.value > 0 ? 'text-primary' : 'no-sample'"
-      ></i>
+      />
     </template>
     <template #head(ext_biomat)>
-      <i class="fas fa-vial text-success"></i>
+      <i class="fas fa-vial text-success" />
     </template>
     <template #cell(ext_biomat)="data">
       <i
         class="fas fa-vial"
         :class="data.value > 0 ? 'text-success' : 'no-sample'"
-      ></i>
+      />
     </template>
   </b-data-table>
 </template>
@@ -105,11 +105,6 @@ export default {
     taxname: {
       type: String,
       required: true,
-    },
-  },
-  computed: {
-    exportFilename() {
-      return `${this.taxname}_sampling_sites.csv`;
     },
   },
   data() {
@@ -169,6 +164,11 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    exportFilename() {
+      return `${this.taxname}_sampling_sites.csv`;
+    },
   },
 };
 </script>

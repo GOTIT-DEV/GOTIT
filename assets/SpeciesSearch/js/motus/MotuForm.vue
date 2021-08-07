@@ -26,7 +26,7 @@
           <identification-criteria ref="criteria" />
         </b-card>
 
-        <button-loading id="submit" ref="submit" v-bind:loading="loading">
+        <button-loading id="submit" ref="submit" :loading="loading">
           {{ $t("ui.search") }}
         </button-loading>
       </div>
@@ -63,26 +63,25 @@ export default {
     ButtonLoading,
     IdentificationCriteria,
   },
-  computed: {
-    ready() {
-      return Promise.all([
-        this.$refs.taxonomy.ready,
-        this.$refs.motu.ready,
-        this.$refs.criteria.ready,
-      ]);
-    },
-  },
   data() {
     return {
       loading: true,
       url: Routing.generate("motu-query"),
     };
   },
+  computed: {},
   async mounted() {
-    await this.ready;
+    await this.init();
     this.submit();
   },
   methods: {
+    async init() {
+      return Promise.all([
+        this.$refs.taxonomy.init(),
+        this.$refs.motu.init(),
+        this.$refs.criteria.init(),
+      ]);
+    },
     async submit() {
       this.loading = true;
       const response = await fetch(this.url, {

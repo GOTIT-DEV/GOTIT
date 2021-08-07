@@ -1,9 +1,9 @@
 <template>
   <form id="main-form" ref="form" action="#" @submit.prevent="submit()">
     <TogglablePanel class="species-select" title="queries.label.search.espece">
-      <TaxonomySelect ref="taxonomy"> </TaxonomySelect>
-      <template v-slot:footer>
-        <ButtonLoading ref="submit" v-bind:loading="loading" block>
+      <TaxonomySelect ref="taxonomy" />
+      <template #footer>
+        <ButtonLoading ref="submit" :loading="loading" block>
           {{ $t("ui.search") }}
         </ButtonLoading>
       </template>
@@ -31,12 +31,10 @@ export default {
       url: Routing.generate("co1-sampling-query"),
     };
   },
-  computed: {
-    ready() {
-      return Promise.all([this.$refs.taxonomy.ready]);
-    },
-  },
   methods: {
+    async init() {
+      return Promise.all([this.$refs.taxonomy.init()]);
+    },
     async submit() {
       this.loading = true;
       const response = await fetch(this.url, {
@@ -52,5 +50,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

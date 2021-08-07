@@ -1,24 +1,24 @@
 <template>
   <b-card>
-    <template v-slot:header>
+    <template #header>
       <strong>
         {{ $t(title) }}
       </strong>
       <ToggleButton
-        class="toggle-btn"
         v-model="enabled"
-        v-bind:height="20"
-        v-bind:labels="{ checked: 'On', unchecked: 'Off' }"
+        class="toggle-btn"
+        :height="20"
+        :labels="{ checked: 'On', unchecked: 'Off' }"
       />
     </template>
 
     <div ref="content">
-      <slot></slot>
+      <slot />
     </div>
 
     <!-- <b-card-footer v-if="hasFooter"> -->
-    <template v-slot:footer v-if="hasFooter">
-      <slot name="footer"></slot>
+    <template v-if="hasFooter" #footer>
+      <slot name="footer" />
     </template>
     <!-- </b-card-footer> -->
   </b-card>
@@ -29,7 +29,7 @@
 
 // import ButtonLoading from "../ButtonLoading";
 import { ToggleButton } from "vue-js-toggle-button";
-import i18n from '../i18n'
+import i18n from "../i18n";
 export default {
   i18n,
   components: {
@@ -45,6 +45,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      enabled: true,
+    };
+  },
   computed: {
     trans_title() {
       return Translator.trans(this.title);
@@ -52,11 +57,6 @@ export default {
     hasFooter() {
       return this.$slots.footer !== undefined;
     },
-  },
-  data() {
-    return {
-      enabled: true,
-    };
   },
   watch: {
     enabled: function (newValue, oldValue) {

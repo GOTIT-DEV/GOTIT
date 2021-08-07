@@ -1,19 +1,19 @@
 <template>
   <div class="map-container">
     <leaflet-map
-      :data="data"
-      :markerSettings="markerSettings"
-      :addSliders="sliders"
       ref="map"
+      :data="data"
+      :marker-settings="markerSettings"
+      :add-sliders="sliders"
     >
-      <template v-slot:controls>
+      <template #controls>
         <l-control position="topleft" class="leaflet-control leaflet-bar">
           <button
             class="btn btn-sm btn-light btn-map-control"
             :title="$t('show_motus')"
             @click="filterMotuDisplay(null)"
           >
-            <a class="fas fa-eye"></a>
+            <a class="fas fa-eye" />
           </button>
         </l-control>
       </template>
@@ -22,7 +22,7 @@
         v-for="(motu, motu_id, index) in indexedData"
         :key="motu_id"
         :visible.sync="motu.visible"
-        layerType="overlay"
+        layer-type="overlay"
         :name="layerName(motu_id, index)"
       >
         <shape-marker
@@ -31,7 +31,7 @@
           :lat-lng="[site.latitude, site.longitude]"
           :radius="markerRadius(site.sequences.length)"
           :opacity="markerSettings.opacity"
-          :fillOpacity="markerSettings.opacity"
+          :fill-opacity="markerSettings.opacity"
           v-bind="markerStyle(index)"
         >
           <site-popup
@@ -75,12 +75,10 @@ import { generateLegend } from "~Components/maps/ShapeMarkerLegend.vue";
 
 import SequenceModal from "./SequenceModal";
 import SitePopup from "./SitePopup.vue";
-import { LPopup } from "vue2-leaflet";
 
 export default {
   name: "MotuDistributionMap",
   components: {
-    LPopup,
     LControl,
     LeafletMap,
     ShapeMarker,

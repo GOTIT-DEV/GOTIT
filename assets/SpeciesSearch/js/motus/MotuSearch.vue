@@ -6,10 +6,10 @@
       @update:results="results = $event"
       @update:query="query = $event"
     />
-    <hr />
+    <hr>
     <motu-result-table
       :items="results"
-      :exportFilename="
+      :export-filename="
         query ? `${query.genus}_${query.species}_motu_summary.csv` : null
       "
       @show-details="showDetails($event)"
@@ -59,5 +59,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

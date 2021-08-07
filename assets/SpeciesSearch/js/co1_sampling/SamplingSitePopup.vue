@@ -4,8 +4,6 @@
   </l-popup>
 </template>
 
-
-
 <script>
 import { LPopup } from "vue2-leaflet";
 import SiteInfo from "~Components/maps/SiteInfo";
@@ -13,7 +11,7 @@ import SiteInfo from "~Components/maps/SiteInfo";
 export default {
   components: { LPopup, SiteInfo },
   props: {
-    site: { type: Object },
+    site: { type: Object, default: null },
   },
   data() {
     return {
@@ -24,7 +22,7 @@ export default {
 };
 </script>
 
-<style lang="less" >
+<style lang="less">
 .site-popup {
   display: flex;
   flex-direction: column;

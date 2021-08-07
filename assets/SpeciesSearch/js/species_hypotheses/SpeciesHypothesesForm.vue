@@ -40,15 +40,14 @@
           id="accordion-taxonomy"
           accordion="form-accordion"
           role="tabpanel"
-          v-bind:visible="reference == 'taxonomy'"
+          :visible="reference == 'taxonomy'"
         >
           <b-card-body>
             <TaxonomySelect
               ref="taxonomy"
-              withTaxname
+              with-taxname
               :disabled="reference != 'taxonomy'"
-            >
-            </TaxonomySelect>
+            />
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -68,7 +67,7 @@
           id="accordion-motu"
           accordion="form-accordion"
           role="tabpanel"
-          v-bind:visible="reference == 'motu'"
+          :visible="reference == 'motu'"
         >
           <b-card-body>
             <MotuDatasetSelect
@@ -76,8 +75,7 @@
               :disabled="reference != 'motu'"
               @update:motuList="motuList = $event"
               @update:dataset="refDatasetSelected($event)"
-            >
-            </MotuDatasetSelect>
+            />
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -85,8 +83,8 @@
 
     <div class="col-lg-2 text-center">
       <b-button
-        ref="direction"
         id="direction"
+        ref="direction"
         variant="light"
         :class="{
           reversed: reversed,
@@ -95,10 +93,9 @@
         type="button"
         data-toggle="collapse"
         data-target=".result-collapse"
-        @click="reverse($event)"
         :disabled="transitioning"
-      >
-      </b-button>
+        @click="reverse($event)"
+      />
     </div>
 
     <div class="col-lg-5">
@@ -109,29 +106,16 @@
           label-for="target-dataset"
         >
           <form-multiselect
+            ref="target"
+            v-model="motu"
             :options="motuList"
             label="name"
-            ref="target"
             :disabled="reference == 'motu'"
-            v-model="motu"
-            trackBy="id"
+            track-by="id"
             name="target-dataset"
-            :allowEmpty="false"
+            :allow-empty="false"
             :searchable="false"
           />
-          <!-- <select
-            id="target-dataset"
-            name="target-dataset"
-            v-model="motu"
-            ref="target"
-            class="form-control"
-            :disabled="reference == 'motu'"
-            v-select-picker
-          >
-            <option v-for="motu in motuList" :key="motu.id" :value="motu.id">
-              {{ motu.name }}
-            </option>
-          </select> -->
         </b-form-group>
       </b-card>
       <center
@@ -150,7 +134,7 @@
           ref="submit"
           size="lg"
           block
-          v-bind:loading="loading"
+          :loading="loading"
           @click="submit"
         >
           {{ $t("ui.search") }}
@@ -165,21 +149,12 @@ import ButtonLoading from "~Components/ButtonLoading";
 import FormMultiselect from "~Components/FormMultiselect";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
-import { SelectPicker } from "../components/directives/SelectPickerDirective";
 export default {
-  directives: {
-    SelectPicker,
-  },
   components: {
     TaxonomySelect,
     MotuDatasetSelect,
     ButtonLoading,
     FormMultiselect,
-  },
-  computed: {
-    ready() {
-      return Promise.all([this.$refs.motu.ready, this.$refs.taxonomy.ready]);
-    },
   },
   data() {
     return {
@@ -192,9 +167,7 @@ export default {
       reversed: false,
     };
   },
-  mounted() {
-    this.ready.then(this.submit);
-  },
+  computed: {},
   watch: {
     motuList(newList, oldList) {
       this.motu = newList[0];
@@ -202,6 +175,11 @@ export default {
     reference: function (newRef) {
       if (newRef === "motu") this.motu = this.$refs.motu.dataset;
     },
+  },
+  mounted() {
+    Promise.all([this.$refs.motu.init(), this.$refs.taxonomy.init()]).then(
+      this.submit
+    );
   },
   methods: {
     async submit() {
@@ -213,6 +191,7 @@ export default {
       const results = await response.json();
       this.loading = false;
       this.$emit("update:results", results);
+      return results;
     },
     refDatasetSelected(event) {
       if (this.reference === "motu") this.motu = event;

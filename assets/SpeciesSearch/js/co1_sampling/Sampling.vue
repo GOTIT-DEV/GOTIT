@@ -11,7 +11,7 @@
         <sampling-table :items="items" @update:selection="fetchSites($event)" />
       </b-col>
     </b-row>
-    <hr />
+    <hr>
 
     <b-row class="mt-5">
       <b-col>
@@ -53,6 +53,11 @@ export default {
       sites: [],
     };
   },
+  async mounted() {
+    const form = this.$refs.form;
+    await form.init();
+    await form.submit();
+  },
   methods: {
     async fetchSites(item) {
       this.selected = item;
@@ -71,13 +76,7 @@ export default {
       }
     },
   },
-  async mounted() {
-    const form = this.$refs.form;
-    await form.ready;
-    await form.submit();
-  },
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

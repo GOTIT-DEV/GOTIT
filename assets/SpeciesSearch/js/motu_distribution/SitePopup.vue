@@ -9,7 +9,7 @@
         :title="$t('show_seqs')"
         @click="$emit('show-seq-modal')"
       >
-        <i class="fas fa-dna"></i> {{ site.sequences.length }}
+        <i class="fas fa-dna" /> {{ site.sequences.length }}
       </b-button>
 
       <b-button
@@ -18,7 +18,7 @@
         :title="$t('filter_motu')"
         @click="$emit('filter-display', site.motu)"
       >
-        <i class="fas fa-eye"></i>
+        <i class="fas fa-eye" />
       </b-button>
       <b-button
         size="sm"
@@ -26,13 +26,11 @@
         :title="$t('fit_motu')"
         @click="fitMotu(site.motu)"
       >
-        <i class="fas fa-crosshairs"></i>
+        <i class="fas fa-crosshairs" />
       </b-button>
     </b-button-group>
   </l-popup>
 </template>
-
-
 
 <script>
 import { LPopup } from "vue2-leaflet";
@@ -41,7 +39,7 @@ import SiteInfo from "~Components/maps/SiteInfo";
 export default {
   components: { LPopup, SiteInfo },
   props: {
-    site: { type: Object },
+    site: { type: Object, default: null },
   },
   data() {
     return {
@@ -62,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="less" >
+<style lang="less">
 .site-popup {
   display: flex;
   flex-direction: column;

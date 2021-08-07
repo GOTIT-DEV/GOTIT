@@ -2,25 +2,25 @@
   <div>
     <b-form-group :label="$t('level')">
       <form-multiselect
-        name="level"
         v-model="level"
+        name="level"
         :options="levelOptions"
         label="text"
         track-by="value"
-        :allowEmpty="false"
+        :allow-empty="false"
         :searchable="false"
       />
     </b-form-group>
     <b-form-group :label="$t('criteria')">
       <form-multiselect
+        v-model="criteria"
         multiple
         name="criteria[]"
         :searchable="false"
-        v-model="criteria"
         :options="criteriaOptions"
         label="libelle"
         track-by="id"
-        :allowEmpty="false"
+        :allow-empty="false"
         :close-on-select="false"
         :custom-label="(opt) => $t(`messages.${opt.libelle}`).toLowerCase()"
       />
@@ -56,7 +56,6 @@ export default {
   },
   data() {
     return {
-      ready: false,
       url: Routing.generate("list_voc", { parent: "critereIdentification" }),
       level: undefined,
       levelOptions: [
@@ -68,25 +67,29 @@ export default {
       criteriaOptions: [],
     };
   },
-  created() {
-    this.level = this.levelOptions[2];
-    this.ready = this.fetch();
-  },
-  methods: {
-    async fetch() {
-      const response = await fetch(this.url);
-      return response.json().then((criteriaJson) => {
-        this.criteriaOptions = criteriaJson;
-      });
-    },
-  },
   watch: {
     criteriaOptions(newOptions, _) {
       this.criteria = newOptions;
     },
   },
+  created() {
+    this.level = this.levelOptions[2];
+    this.isInitialized = false;
+  },
+  methods: {
+    async init() {
+      return this.isInitialized ? Promise.resolve(true) : this.fetch();
+    },
+    async fetch() {
+      const response = await fetch(this.url);
+      return response.json().then((criteriaJson) => {
+        this.criteriaOptions = criteriaJson;
+        this.isInitialized = true;
+        return true;
+      });
+    },
+  },
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

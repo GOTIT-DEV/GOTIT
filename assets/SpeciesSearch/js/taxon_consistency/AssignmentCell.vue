@@ -5,9 +5,9 @@
         {{ item.taxname }}
       </b>
       <b-badge
+        v-b-tooltip.hover
         size="lg"
         variant="secondary"
-        v-b-tooltip.hover
         :title="item.criterion.title"
       >
         {{ item.criterion.code }}
@@ -57,7 +57,7 @@ const route_names = {
 };
 export default {
   props: {
-    item: Object,
+    item: { type: Object, default: null },
     entity: {
       type: String,
       required: true,

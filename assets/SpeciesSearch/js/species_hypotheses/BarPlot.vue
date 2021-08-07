@@ -2,9 +2,9 @@
   <plotly
     :data="data"
     :layout="layout"
-    :scrollZoom="false"
+    :scroll-zoom="false"
     :displaylogo="false"
-    :modeBarButtonsToRemove="[
+    :mode-bar-buttons-to-remove="[
       'sendDataToCloud',
       'box',
       'lasso2d',
@@ -51,6 +51,26 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      layout: {
+        height: 300,
+        xaxis: {
+          title: this.$t("queries.methode.label"),
+          ...axisConfig,
+        },
+        yaxis: {
+          title: this.$t("ylabel"),
+          ...axisConfig,
+        },
+        margin: { t: 5 },
+        font: { family: "sans serif", size: 14 },
+        showlegend: true,
+        legend: { x: 1, y: 0.5 },
+        barmode: "group",
+      },
+    };
+  },
   computed: {
     data() {
       const data = this.results.reduce(
@@ -83,26 +103,6 @@ export default {
           };
         });
     },
-  },
-  data() {
-    return {
-      layout: {
-        height: 300,
-        xaxis: {
-          title: this.$t("queries.methode.label"),
-          ...axisConfig,
-        },
-        yaxis: {
-          title: this.$t("ylabel"),
-          ...axisConfig,
-        },
-        margin: { t: 5 },
-        font: { family: "sans serif", size: 14 },
-        showlegend: true,
-        legend: { x: 1, y: 0.5 },
-        barmode: "group",
-      },
-    };
   },
 };
 </script>

@@ -3,7 +3,7 @@
     ref="table"
     :items="items"
     :fields="fields"
-    :searchbarPlaceholder="$t('search_taxon')"
+    :searchbar-placeholder="$t('search_taxon')"
     export-filename="sampling_summary.csv"
     export-columns-by-key
     hover
@@ -12,7 +12,7 @@
   >
     <template #thead-top>
       <b-tr>
-        <b-th colspan="1" class="border-0"></b-th>
+        <b-th colspan="1" class="border-0" />
         <b-th colspan="3" class="text-center border-left border-bottom-0">
           {{ $t("samples.specimens") }}
         </b-th>
@@ -27,8 +27,8 @@
 
     <template #cell(id)="data">
       <b-radio
-        name="selected-row"
         v-model="selected"
+        name="selected-row"
         :value="data.item"
         @change="$emit('update:selection', $event)"
       />
@@ -75,7 +75,6 @@ export default {
       required: true,
     },
   },
-  methods: {},
   data() {
     return {
       selected: undefined,
@@ -138,8 +137,8 @@ export default {
       ],
     };
   },
+  methods: {},
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

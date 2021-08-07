@@ -4,7 +4,7 @@
       ref="table"
       :items="items"
       :fields="fields"
-      :exportFilename="exportedTableName"
+      :export-filename="exportedTableName"
     >
       <template #cell(code)="data">
         <a
@@ -63,20 +63,6 @@ export default {
       required: true,
     },
   },
-  computed: {
-    title() {
-      return this.items.length
-        ? (({ taxname, method }) => `${taxname} // ${method}`)(this.items[0])
-        : "";
-    },
-    exportedTableName() {
-      return this.items.length
-        ? (({ taxname, method }) => `${taxname}_${method}_motus.csv`)(
-            this.items[0]
-          )
-        : null;
-    },
-  },
   data() {
     return {
       fields: [
@@ -120,6 +106,20 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    title() {
+      return this.items.length
+        ? (({ taxname, method }) => `${taxname} // ${method}`)(this.items[0])
+        : "";
+    },
+    exportedTableName() {
+      return this.items.length
+        ? (({ taxname, method }) => `${taxname}_${method}_motus.csv`)(
+            this.items[0]
+          )
+        : null;
+    },
   },
 };
 </script>

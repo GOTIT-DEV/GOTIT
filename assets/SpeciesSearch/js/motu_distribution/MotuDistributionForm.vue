@@ -11,7 +11,7 @@
       >
         <TaxonomySelect
           ref="taxonomy"
-          withTaxname
+          with-taxname
           @update:genus="taxonomy.genus = $event"
           @update:species="taxonomy.species = $event"
           @update:taxname="taxonomy.taxname = $event"
@@ -55,20 +55,14 @@
 <script>
 // Components
 import ButtonLoading from "~Components/ButtonLoading";
-import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
 
 export default {
   components: {
-    TogglablePanel,
     TaxonomySelect,
     MotuDatasetSelect,
     ButtonLoading,
-  },
-  async mounted() {
-    await Promise.all([this.$refs.taxonomy.ready, this.$refs.motu.ready]);
-    this.submit();
   },
   data() {
     return {
@@ -85,10 +79,11 @@ export default {
       },
     };
   },
+  async mounted() {
+    await Promise.all([this.$refs.taxonomy.init(), this.$refs.motu.init()]);
+    this.submit();
+  },
   methods: {
-    log(ev) {
-      console.log(ev);
-    },
     async submit() {
       this.loading = true;
       const response = await fetch(this.url, {

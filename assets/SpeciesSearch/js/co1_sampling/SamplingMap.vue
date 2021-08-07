@@ -1,9 +1,9 @@
 <template>
-  <leaflet-map :data="sites" ref="map" :markerSettings="markerSettings">
+  <leaflet-map ref="map" :data="sites" :marker-settings="markerSettings">
     <l-feature-group ref="features">
-      <sampling-site-popup :site="selectedSite"></sampling-site-popup>
+      <sampling-site-popup :site="selectedSite" />
     </l-feature-group>
-    <l-layer-group layerType="overlay" :name="legend.CO1">
+    <l-layer-group layer-type="overlay" :name="legend.CO1">
       <l-circle-marker
         v-for="site in sites.filter((site) => site.has_co1)"
         :key="site.site_id"
@@ -11,14 +11,14 @@
         :opacity="markerSettings.opacity"
         :fill-opacity="markerSettings.opacity"
         :radius="markerSettings.radius"
-        fillColor="lime"
+        fill-color="lime"
         :fill="Boolean(site.has_co1)"
         :weight="1"
         color="#333"
         @click="openSitePopup(site)"
       />
     </l-layer-group>
-    <l-layer-group layerType="overlay" :name="legend.biomat.internal">
+    <l-layer-group layer-type="overlay" :name="legend.biomat.internal">
       <l-circle-marker
         v-for="site in sites.filter((site) => site.int_biomat)"
         :key="site.site_id"
@@ -31,7 +31,7 @@
         @click="openSitePopup(site)"
       />
     </l-layer-group>
-    <l-layer-group layerType="overlay" :name="legend.biomat.external">
+    <l-layer-group layer-type="overlay" :name="legend.biomat.external">
       <l-circle-marker
         v-for="site in sites.filter((site) => site.ext_biomat)"
         :key="site.site_id"
@@ -41,34 +41,34 @@
         :fill="false"
         :weight="weight"
         color="deepskyblue"
-        @click="openSitePopup(site)"
-        :dashArray="
+        :dash-array="
           site.int_biomat ? radiusToDashArray(markerSettings.radius) : null
         "
-        lineJoin="bevel"
-        lineCap="butt"
+        line-join="bevel"
+        line-cap="butt"
+        @click="openSitePopup(site)"
       />
     </l-layer-group>
-    <l-layer-group layerType="overlay" :name="legend.LMP">
+    <l-layer-group layer-type="overlay" :name="legend.LMP">
       <l-polyline
         v-if="lmpCo1 !== null"
-        :latLngs="lmpCoords(lmpCo1)"
+        :lat-lngs="lmpCoords(lmpCo1)"
         color="lime"
         :weight="3"
-        dashArray="5, 5"
+        dash-array="5, 5"
       />
       <l-polyline
         v-if="lmpBiomat !== null"
-        :latLngs="lmpCoords(lmpBiomat)"
+        :lat-lngs="lmpCoords(lmpBiomat)"
         color="deepskyblue"
         :weight="3"
       />
       <l-polyline
         v-if="lmpBiomat !== null"
-        :latLngs="lmpCoords(lmpBiomat)"
+        :lat-lngs="lmpCoords(lmpBiomat)"
         color="orangered"
         :weight="3"
-        dashArray="5, 10"
+        dash-array="5, 10"
       />
     </l-layer-group>
   </leaflet-map>
@@ -106,9 +106,7 @@ export default {
     LLayerGroup,
     LFeatureGroup,
     LCircleMarker,
-    LPopup,
     LPolyline,
-    LTooltip,
     SamplingSitePopup,
   },
   props: {
@@ -118,10 +116,21 @@ export default {
     },
     lmpCo1: {
       type: Number,
+      default: null,
     },
     lmpBiomat: {
       type: Number,
+      default: null,
     },
+  },
+  data() {
+    return {
+      selectedSite: null,
+      markerSettings: {
+        radius: 8,
+        opacity: 0.8,
+      },
+    };
   },
   computed: {
     weight() {
@@ -159,15 +168,6 @@ export default {
       };
     },
   },
-  data() {
-    return {
-      selectedSite: null,
-      markerSettings: {
-        radius: 8,
-        opacity: 0.8,
-      },
-    };
-  },
   methods: {
     openSitePopup(site) {
       this.selectedSite = site;
@@ -193,5 +193,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

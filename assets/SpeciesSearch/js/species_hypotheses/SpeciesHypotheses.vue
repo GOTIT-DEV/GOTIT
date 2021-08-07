@@ -4,15 +4,14 @@
       @update:results="results = $event"
       @update:reversed="reversed = $event"
     />
-    <hr />
+    <hr>
     <h3>{{ $t("queries.label.resultats") }}</h3>
     <BarPlot :results="results[reversed ? 'verso' : 'recto']" />
     <b-data-table
       :fields="fields"
       :items="results[reversed ? 'verso' : 'recto']"
-      exportFilename="species_hypotheses.csv"
-    >
-    </b-data-table>
+      export-filename="species_hypotheses.csv"
+    />
   </div>
 </template>
 
@@ -70,5 +69,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
