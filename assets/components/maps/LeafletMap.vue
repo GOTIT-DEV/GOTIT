@@ -5,11 +5,11 @@
       :zoom.sync="zoom"
       :center.sync="center"
       :options="mapOptions"
-      :minZoom="minZoom"
-      :maxZoom="maxZoom"
-      :maxBounds="maxBounds"
-      @update:zoom="onZoomUpdate"
+      :min-zoom="minZoom"
+      :max-zoom="maxZoom"
+      :max-bounds="maxBounds"
       :bounds.sync="bounds"
+      @update:zoom="onZoomUpdate"
     >
       <l-control-fullscreen
         position="topleft"
@@ -23,7 +23,7 @@
           class="btn btn-sm btn-light btn-map-control"
           @click="fitBounds(data)"
         >
-          <a class="fas fa-crosshairs fa-1x"></a>
+          <a class="fas fa-crosshairs fa-1x" />
         </button>
       </l-control>
 
@@ -45,7 +45,7 @@
         :subdomains="['server', 'services']"
       />
 
-      <slot></slot>
+      <slot />
     </l-map>
   </div>
 </template>
@@ -78,13 +78,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: iconShadow,
 });
 
-import {
-  LMap,
-  LTileLayer,
-  LControl,
-  LControlLayers,
-  LPopup,
-} from "vue2-leaflet";
+import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
 import LControlFullscreen from "vue2-leaflet-fullscreen";
 import { Util } from "esri-leaflet";
 import "leaflet-gesture-handling";
@@ -101,27 +95,10 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LPopup,
     LControl,
     LControlFullscreen,
     LControlLayers,
     LeafletMapSettings,
-  },
-  mounted() {
-    Util.setEsriAttribution(this.mapObject);
-    this._getAttributionData(this.tileProviders[0].attributionUrl);
-    let attr = this._updateMapAttribution();
-  },
-  computed: {
-    mapObject() {
-      return this.$refs.map.mapObject;
-    },
-    settingSliders() {
-      return {
-        ...this.addSliders,
-        ...LeafletMapSettings.defaultSliders,
-      };
-    },
   },
   props: {
     data: {
@@ -137,7 +114,10 @@ export default {
         };
       },
     },
-    addSliders: Object,
+    addSliders: {
+      type: Object,
+      default: () => ({}),
+    },
     minZoom: {
       type: Number,
       default: 2,
@@ -164,16 +144,14 @@ export default {
           opacity: 0.9,
           attribution: "",
           attributionUrl: "https://static.arcgis.com/attribution/World_Imagery",
-          url:
-            "https://{s}.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          url: "https://{s}.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         },
         {
           name: "Regions",
           visible: this.regions,
           opacity: 0.75,
           attribution: "",
-          url:
-            "https://{s}.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+          url: "https://{s}.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
         },
       ],
       zoom: 1,
@@ -190,10 +168,26 @@ export default {
       },
     };
   },
+  computed: {
+    mapObject() {
+      return this.$refs.map.mapObject;
+    },
+    settingSliders() {
+      return {
+        ...this.addSliders,
+        ...LeafletMapSettings.defaultSliders,
+      };
+    },
+  },
   watch: {
     data: function (newData, _) {
       if (newData && !this.disableAutoFit) this.fitBounds(newData);
     },
+  },
+  mounted() {
+    Util.setEsriAttribution(this.mapObject);
+    this._getAttributionData(this.tileProviders[0].attributionUrl);
+    let attr = this._updateMapAttribution();
   },
   methods: {
     onZoomUpdate(zoom) {

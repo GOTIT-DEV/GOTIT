@@ -5,7 +5,7 @@
       @mouseover="active = true"
       @mouseleave="active = false"
     >
-      <i v-if="!active" class="fas fa-cog fa-2x"></i>
+      <i v-if="!active" class="fas fa-cog fa-2x" />
       <div v-if="active" class="map-settings">
         <div
           v-for="(slider, name) in sliders"
@@ -60,10 +60,10 @@ export default {
     VueSlider,
   },
   props: {
-    settings: Object,
+    settings: { type: Object, default: () => ({}) },
     sliders: {
       type: Object,
-      default: [],
+      default: () => ({}),
     },
     position: {
       type: String,

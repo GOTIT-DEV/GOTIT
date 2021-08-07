@@ -10,20 +10,20 @@
         height="8"
         v-bind="markerStyle"
         :transform="shape == 'diamond' ? 'rotate(45, 8, 8)' : ''"
-      ></rect>
+      />
       <circle
         v-else-if="shape == 'circle'"
         cx="8"
         cy="8"
         r="5"
         v-bind="markerStyle"
-      ></circle>
+      />
       <polygon
         v-else-if="shape == 'triangle'"
         points="8,2 14,14 2,14"
         r="5"
         v-bind="markerStyle"
-      ></polygon>
+      />
       <line
         v-else-if="shape == 'line'"
         x1="0"
@@ -31,7 +31,7 @@
         y1="8"
         y2="8"
         v-bind="markerStyle"
-      ></line>
+      />
     </svg>
   </div>
 </template>

@@ -30,23 +30,12 @@
 <script>
 export default {
   props: {
-    site: { type: Object },
+    site: { type: Object, default: () => ({}) },
     extraFields: {
       type: Array,
       default() {
         return [];
       },
-    },
-  },
-  computed: {
-    fields() {
-      return [...this.extraFields, ...this.baseFields];
-    },
-    url() {
-      return Routing.generate("station_show", {
-        id: this.site.site_id,
-        _locale: Translator.locale,
-      });
     },
   },
   data() {
@@ -67,6 +56,17 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    fields() {
+      return [...this.extraFields, ...this.baseFields];
+    },
+    url() {
+      return Routing.generate("station_show", {
+        id: this.site.site_id,
+        _locale: Translator.locale,
+      });
+    },
   },
 };
 </script>

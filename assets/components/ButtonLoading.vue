@@ -4,15 +4,15 @@
     type="submit"
     variant="primary"
     v-bind="$props"
-    v-on:click="$emit('click')"
+    @click="$emit('click')"
   >
-    <slot></slot>
-    <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+    <slot />
+    <i v-if="loading" class="fas fa-spinner fa-spin" />
   </b-button>
 </template>
 
 <script>
-import {BButton} from "bootstrap-vue"
+import { BButton } from "bootstrap-vue";
 export default {
   props: {
     ...BButton.options.props,
@@ -24,5 +24,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

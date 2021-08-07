@@ -3,14 +3,11 @@
     <multiselect
       ref="multiselect"
       v-bind="$props"
+      :show-labels="false"
       v-on="$listeners"
-      :showLabels="false"
     >
-      <template
-        v-for="(index, slotName) in $scopedSlots"
-        v-slot:[slotName]="data"
-      >
-        <slot :name="slotName" v-bind="data"></slot>
+      <template v-for="(index, slotName) in $scopedSlots" #[slotName]="data">
+        <slot :name="slotName" v-bind="data" />
       </template>
     </multiselect>
 
@@ -22,8 +19,8 @@
     >
       <option
         v-for="(opt, index) in internalValue"
-        :value="trackBy ? opt[trackBy] : opt"
         :key="trackBy ? opt[trackBy] : index"
+        :value="trackBy ? opt[trackBy] : opt"
         selected
       />
     </select>
@@ -34,12 +31,12 @@
 import Multiselect from "vue-multiselect";
 export default {
   name: "FormMultiselect",
-  mixins: [Multiselect],
   components: { Multiselect },
+  mixins: [Multiselect],
   props: {
     trackBy: {
       type: String,
-      required: false,
+      default: null,
     },
     name: {
       type: String,
@@ -49,5 +46,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

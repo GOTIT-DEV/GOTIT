@@ -3,10 +3,18 @@
     <b-button-toolbar :justify="true" class="mb-1">
       <b-form-group label-cols="auto" :label="$t('pageLength')" class="mb-0">
         <b-form-select v-model="perPage" size="sm">
-          <b-form-select-option value="10">10</b-form-select-option>
-          <b-form-select-option value="25">25</b-form-select-option>
-          <b-form-select-option value="50">50</b-form-select-option>
-          <b-form-select-option value="100">100</b-form-select-option>
+          <b-form-select-option value="10">
+            10
+          </b-form-select-option>
+          <b-form-select-option value="25">
+            25
+          </b-form-select-option>
+          <b-form-select-option value="50">
+            50
+          </b-form-select-option>
+          <b-form-select-option value="100">
+            100
+          </b-form-select-option>
         </b-form-select>
       </b-form-group>
       <b-form-group
@@ -15,22 +23,24 @@
         class="fields-select mb-0 w-25"
       >
         <multiselect
-          multiple
           v-model="selectedFields"
+          multiple
           :close-on-select="false"
           :options="fields"
           track-by="key"
           :searchable="false"
           placeholder="Fields"
-          :selectedLabel="null"
-          :showLabels="false"
-          :optionHeight="30"
-          :allowEmpty="false"
-          :maxHeight="400"
+          :selected-label="null"
+          :show-labels="false"
+          :option-height="30"
+          :allow-empty="false"
+          :max-height="400"
         >
-          <template slot="tag">{{ "" }}</template>
+          <template slot="tag">
+            {{ "" }}
+          </template>
           <template slot="selection" slot-scope="{ values, isOpen }">
-            <span class="multiselect__single" v-if="values.length && !isOpen">
+            <span v-if="values.length && !isOpen" class="multiselect__single">
               {{ values.length }} {{ $tc("visible", values.length) }}
             </span>
           </template>
@@ -42,14 +52,14 @@
               <i
                 v-if="isSelected(props.option)"
                 class="fas fa-check fa-xs text-primary"
-              ></i>
+              />
             </div>
           </template>
         </multiselect>
       </b-form-group>
 
       <div class="search-bar">
-        <i class="fas fa-search icon"></i>
+        <i class="fas fa-search icon" />
         <b-input-group>
           <b-input
             class="search-bar-input"
@@ -77,9 +87,9 @@
     >
       <template
         v-for="slotName in Object.keys($scopedSlots)"
-        v-slot:[slotName]="slotScope"
+        #[slotName]="slotScope"
       >
-        <slot :name="slotName" v-bind="slotScope"></slot>
+        <slot :name="slotName" v-bind="slotScope" />
       </template>
     </b-table>
 
@@ -91,7 +101,7 @@
         :name="exportFilename"
       >
         <b-button size="sm" variant="light" class="border" :disabled="!rows">
-          <i class="fas fa-download"></i>
+          <i class="fas fa-download" />
           {{ $t("exportCSV") }}
         </b-button>
       </json-csv>
@@ -100,10 +110,10 @@
         {{
           rows
             ? $t("pagePosition", {
-                first: displayedItemRange[0],
-                last: displayedItemRange[1],
-                total: rows,
-              })
+              first: displayedItemRange[0],
+              last: displayedItemRange[1],
+              total: rows,
+            })
             : $t("noData")
         }}
       </span>
@@ -142,6 +152,7 @@ export default {
     },
     classes: {
       type: String,
+      default: "",
     },
     busy: {
       type: Boolean,
@@ -208,6 +219,11 @@ export default {
       return this.fields.filter((f) => visibleKeys.has(f.key));
     },
   },
+  watch: {
+    fields(newFields) {
+      this.selectedFields = newFields;
+    },
+  },
   created() {
     if (this.selectedFields.length == 0) this.selectedFields = this.fields;
   },
@@ -217,11 +233,6 @@ export default {
     },
     isSelected(option) {
       return this.selectedFields.some((f) => f.key === option.key);
-    },
-  },
-  watch: {
-    fields(newFields) {
-      this.selectedFields = newFields;
     },
   },
 };
