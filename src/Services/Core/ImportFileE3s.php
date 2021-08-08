@@ -946,9 +946,9 @@ class ImportFileE3s {
         $list_new_pcr[$data['pcr.code_pcr']] = $entity;
       }
 
-      # Record of PcrEstRealisePar
+      # Record of PcrProducer
       if ($flag_new_pcr) {
-        foreach ($columnByTable["pcr_est_realise_par"] as $ColCsv) {
+        foreach ($columnByTable["pcr_producer"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -963,7 +963,7 @@ class ImportFileE3s {
           if ($flag_foreign && trim($dataColCsv) != '') {
             foreach ($tab_foreign_field as $val_foreign_field) {
               $val_foreign_field = trim($val_foreign_field);
-              $entityRel = new \App\Entity\PcrEstRealisePar();
+              $entityRel = new \App\Entity\PcrProducer();
               $method = "setPcrFk";
               $entityRel->$method($entity);
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -1179,8 +1179,8 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
 
-      # Record of PcrEstRealisePar
-      foreach ($columnByTable["pcr_est_realise_par"] as $ColCsv) {
+      # Record of PcrProducer
+      foreach ($columnByTable["pcr_producer"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -1195,7 +1195,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\PcrEstRealisePar();
+            $entityRel = new \App\Entity\PcrProducer();
             $method = "setPcrFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

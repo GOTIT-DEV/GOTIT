@@ -140,13 +140,13 @@ class Pcr extends AbstractTimestampedEntity {
   private $adnFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="PcrEstRealisePar", mappedBy="pcrFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="PcrProducer", mappedBy="pcrFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $pcrEstRealisePars;
+  protected $pcrProducers;
 
   public function __construct() {
-    $this->pcrEstRealisePars = new ArrayCollection();
+    $this->pcrProducers = new ArrayCollection();
   }
 
   /**
@@ -423,34 +423,34 @@ class Pcr extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add pcrEstRealisePar
+   * Add pcrProducer
    *
-   * @param \App\Entity\PcrEstRealisePar $pcrEstRealisePar
+   * @param \App\Entity\PcrProducer $pcrProducer
    *
    * @return Pcr
    */
-  public function addPcrEstRealisePar(\App\Entity\PcrEstRealisePar $pcrEstRealisePar) {
-    $pcrEstRealisePar->setPcrFk($this);
-    $this->pcrEstRealisePars[] = $pcrEstRealisePar;
+  public function addPcrProducer(\App\Entity\PcrProducer $pcrProducer) {
+    $pcrProducer->setPcrFk($this);
+    $this->pcrProducers[] = $pcrProducer;
 
     return $this;
   }
 
   /**
-   * Remove pcrEstRealisePar
+   * Remove pcrProducer
    *
-   * @param \App\Entity\PcrEstRealisePar $pcrEstRealisePar
+   * @param \App\Entity\PcrProducer $pcrProducer
    */
-  public function removePcrEstRealisePar(\App\Entity\PcrEstRealisePar $pcrEstRealisePar) {
-    $this->pcrEstRealisePars->removeElement($pcrEstRealisePar);
+  public function removePcrProducer(\App\Entity\PcrProducer $pcrProducer) {
+    $this->pcrProducers->removeElement($pcrProducer);
   }
 
   /**
-   * Get pcrEstRealisePars
+   * Get pcrProducers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getPcrEstRealisePars() {
-    return $this->pcrEstRealisePars;
+  public function getPcrProducers() {
+    return $this->pcrProducers;
   }
 }

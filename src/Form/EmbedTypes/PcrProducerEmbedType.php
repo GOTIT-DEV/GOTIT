@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PcrEstRealiseParEmbedType extends AbstractType {
+class PcrProducerEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class PcrEstRealiseParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\PcrEstRealisePar',
+      'data_class' => 'App\Entity\PcrProducer',
     ));
   }
 
@@ -28,6 +28,6 @@ class PcrEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_pcrestrealisepar';
+    return 'pcr_producer';
   }
 }

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\PcrEstRealiseParEmbedType;
+use App\Form\EmbedTypes\PcrProducerEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
@@ -63,8 +63,8 @@ class PcrType extends ActionFormType {
       ))
       ->add('detailPcr')
       ->add('remarquePcr')
-      ->add('pcrEstRealisePars', CollectionType::class, array(
-        'entry_type' => PcrEstRealiseParEmbedType::class,
+      ->add('pcrProducers', CollectionType::class, array(
+        'entry_type' => PcrProducerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

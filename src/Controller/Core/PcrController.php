@@ -2,14 +2,14 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
 use App\Entity\Pcr;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Pcr controller.
@@ -119,7 +119,7 @@ class PcrController extends AbstractController {
       $linkChromatogramme = (count($query) > 0) ? $id : '';
       // concatenated list of people
       $query = $em->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp
+        'SELECT p.nomPersonne as nom FROM App:PcrProducer erp
                 JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id
       )->getResult();
       $arrayListePersonne = array();
@@ -237,7 +237,7 @@ class PcrController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $pcrEstRealisePars = $service->setArrayCollection('PcrEstRealisePars', $pcr);
+    $pcrProducers = $service->setArrayCollection('PcrProducers', $pcr);
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
@@ -247,7 +247,7 @@ class PcrController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $service->DelArrayCollection('PcrEstRealisePars', $pcr, $pcrEstRealisePars);
+      $service->DelArrayCollection('PcrProducers', $pcr, $pcrProducers);
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($pcr);

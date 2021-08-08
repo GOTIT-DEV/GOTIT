@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PcrEstRealisePar
+ * PcrProducer
  *
  * @ORM\Table(name="pcr_is_done_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PcrEstRealisePar extends AbstractTimestampedEntity {
+class PcrProducer extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class PcrEstRealisePar extends AbstractTimestampedEntity {
   /**
    * @var \Pcr
    *
-   * @ORM\ManyToOne(targetEntity="Pcr", inversedBy="pcrEstRealisePars")
+   * @ORM\ManyToOne(targetEntity="Pcr", inversedBy="pcrProducers")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class PcrEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Pcr $pcrFk
    *
-   * @return PcrEstRealisePar
+   * @return PcrProducer
    */
   public function setPcrFk(\App\Entity\Pcr $pcrFk = null) {
     $this->pcrFk = $pcrFk;
@@ -81,7 +81,7 @@ class PcrEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return PcrEstRealisePar
+   * @return PcrProducer
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;
