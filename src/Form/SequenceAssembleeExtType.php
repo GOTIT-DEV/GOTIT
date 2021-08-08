@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
+use App\Form\EmbedTypes\ExternalSequenceAssemblerEmbedType;
 use App\Form\EmbedTypes\ExternalSequencePublicationEmbedType;
-use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -67,8 +67,8 @@ class SequenceAssembleeExtType extends ActionFormType {
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAssExt', DateFormattedType::class)
       ->add('commentaireSqcAssExt')
-      ->add('sqcExtEstRealisePars', CollectionType::class, array(
-        'entry_type' => SqcExtEstRealiseParEmbedType::class,
+      ->add('assemblers', CollectionType::class, array(
+        'entry_type' => ExternalSequenceAssemblerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

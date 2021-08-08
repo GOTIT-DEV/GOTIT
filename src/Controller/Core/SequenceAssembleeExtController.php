@@ -281,8 +281,8 @@ class SequenceAssembleeExtController extends AbstractController {
       'ExternalSequencePublications',
       $sequenceAssembleeExt
     );
-    $sqcExtEstRealisePars = $service->setArrayCollection(
-      'SqcExtEstRealisePars',
+    $assemblers = $service->setArrayCollection(
+      'Assemblers',
       $sequenceAssembleeExt
     );
 
@@ -308,9 +308,9 @@ class SequenceAssembleeExtController extends AbstractController {
         $externalSequencePublications
       );
       $service->DelArrayCollection(
-        'SqcExtEstRealisePars',
+        'Assemblers',
         $sequenceAssembleeExt,
-        $sqcExtEstRealisePars
+        $assemblers
       );
 
       $em = $this->getDoctrine()->getManager();

@@ -135,10 +135,10 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   private $statutSqcAssVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="SqcExtEstRealisePar", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalSequenceAssembler", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sqcExtEstRealisePars;
+  protected $assemblers;
 
   /**
    * @ORM\OneToMany(targetEntity="ExternalSequencePublication", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
@@ -153,7 +153,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   protected $taxonIdentifications;
 
   public function __construct() {
-    $this->sqcExtEstRealisePars = new ArrayCollection();
+    $this->assemblers = new ArrayCollection();
     $this->externalSequencePublications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
   }
@@ -432,35 +432,35 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sqcExtEstRealisePar
+   * Add assembler
    *
-   * @param \App\Entity\SqcExtEstRealisePar $sqcExtEstRealisePar
+   * @param \App\Entity\ExternalSequenceAssembler $assembler
    *
    * @return SequenceAssembleeExt
    */
-  public function addSqcExtEstRealisePar(\App\Entity\SqcExtEstRealisePar $sqcExtEstRealisePar) {
-    $sqcExtEstRealisePar->setSequenceAssembleeExtFk($this);
-    $this->sqcExtEstRealisePars[] = $sqcExtEstRealisePar;
+  public function addAssembler(\App\Entity\ExternalSequenceAssembler $assembler) {
+    $assembler->setSequenceAssembleeExtFk($this);
+    $this->assemblers[] = $assembler;
 
     return $this;
   }
 
   /**
-   * Remove sqcExtEstRealisePar
+   * Remove assembler
    *
-   * @param \App\Entity\SqcExtEstRealisePar $sqcExtEstRealisePar
+   * @param \App\Entity\ExternalSequenceAssembler $assembler
    */
-  public function removeSqcExtEstRealisePar(\App\Entity\SqcExtEstRealisePar $sqcExtEstRealisePar) {
-    $this->sqcExtEstRealisePars->removeElement($sqcExtEstRealisePar);
+  public function removeAssembler(\App\Entity\ExternalSequenceAssembler $assembler) {
+    $this->assemblers->removeElement($assembler);
   }
 
   /**
-   * Get sqcExtEstRealisePars
+   * Get assemblers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSqcExtEstRealisePars() {
-    return $this->sqcExtEstRealisePars;
+  public function getAssemblers() {
+    return $this->assemblers;
   }
 
   /**

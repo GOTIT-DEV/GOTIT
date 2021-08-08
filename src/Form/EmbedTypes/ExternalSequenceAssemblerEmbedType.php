@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SqcExtEstRealiseParEmbedType extends AbstractType {
+class ExternalSequenceAssemblerEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class SqcExtEstRealiseParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SqcExtEstRealisePar',
+      'data_class' => 'App\Entity\ExternalSequenceAssembler',
     ));
   }
 
@@ -28,6 +28,6 @@ class SqcExtEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'sqcextestrealisepar';
+    return 'external_sequence_assembler';
   }
 }
