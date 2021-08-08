@@ -7,7 +7,7 @@
 {% set nameOfEntity = (controllerName[:1]|lower) ~ controllerName[1:] %}
 {# initialise la variable entityname à partir de la variable globale _route : 'entityname_index' #}
 {% set route = app.request.attributes.get('_route') %}
-{% set entityname = route|split('_')[0] %}
+{% set entityname = route|split('_')|slice(0, -1)|join('_') %}
 {# initialise les routes : 'importfilesentityname_index' et entityname_new #}
 {% set route_index = entityname ~ '_index' %}
 {% set route_importfiles = 'importfiles' ~ entityname ~ '_index' %}
@@ -18,69 +18,58 @@
 {% set varUrl_nameFk = app.request.query.get('nameFk') | default('') %}
 
 {% block page_title %}
-  <h1>
-    {{ ('core.' ~ entityname)|trans({}, 'sections') }}
-  </h1>
+	<h1>
+		{{ ('core.' ~ entityname)|trans({}, 'sections') }}
+	</h1>
 {% endblock %}
 
 {% block action %}
-  {{ parent() }}
-  <a href="{{ path(route_index) }}"
-    class="btn btn-primary btn-sm"
-    role="button">
-    <i class="fas fa-list"></i>
-    {{ 'button.showAllRecord'|trans }}
-  </a>
+	{{ parent() }}
+	<a href="{{ path(route_index) }}" class="btn btn-primary btn-sm" role="button">
+		<i class="fas fa-list"></i>
+		{{ 'button.showAllRecord'|trans }}
+	</a>
 
-  {% if is_granted('ROLE_COLLABORATION') %}
-    {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
-        <a href="{{ path_action_new }}"
-          class="btn btn-success btn-sm"
-          role="button">
-          <i class="fas fa-plus"></i>
-          {{ ['button.New', entityname|capitalize]|join|trans }}
-        </a>
-  {% else %}
-    <a href="#"
-      class="btn btn-secondary btn-sm disabled"
-      role="button">
-      {{ ['button.New', entityname|capitalize]|join|trans }}
-    </a>
-  {% endif %}
-  <button class="btn btn-light border btn-sm"
-      id="export"
-      data-export="export"
-      data-toggle="tooltip"
-      data-align="right"
-      title="{{ 'button.exportToCSV-title'|trans }}">
-      <i class="fas fa-file-export"></i>
-      {{ 'button.exportToCSV'|trans }}
-    </button>
+	{% if is_granted('ROLE_COLLABORATION') %}
+		{% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
+		<a href="{{ path_action_new }}" class="btn btn-success btn-sm" role="button">
+			<i class="fas fa-plus"></i>
+			{{ ['button.New', entityname|capitalize]|join|trans }}
+		</a>
+	{% else %}
+		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
+			{{ ['button.New', entityname|capitalize]|join|trans }}
+		</a>
+	{% endif %}
+	<button class="btn btn-light border btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{ 'button.exportToCSV-title'|trans }}">
+		<i class="fas fa-file-export"></i>
+		{{ 'button.exportToCSV'|trans }}
+	</button>
 {% endblock %}
 
-{% block templatescripts %}  
-{{ encore_entry_script_tags("index") }}
-  
-{# display of the error message on Delete if there are related records #}
-{% if exception_message is defined %} 
-<script type="text/javascript"> 
-    alert("{{exception_message|raw}}"); 
-</script> 
-{% endif %}
+{% block templatescripts %}
+	{{ encore_entry_script_tags("index") }}
 
-{#  bootgrid list management #} 
-<script type="text/javascript">     
+	{# display of the error message on Delete if there are related records #}
+	{% if exception_message is defined %}
+		<script type="text/javascript">
+			alert("{{ exception_message|raw }}");
+		</script>
+	{% endif %}
 
-const urlParams = new URLSearchParams(window.location.search);
-const current_user_id = {{app.user.id}}
+	{#  bootgrid list management #}
+	<script type="text/javascript">
+
+		const urlParams = new URLSearchParams(window.location.search);
+const current_user_id = {{ app.user.id }}
 
 const is_granted = {
-    ROLE_COLLABORATION : {{is_granted("ROLE_COLLABORATION")|json_encode()}},
-    ROLE_PROJECT: {{is_granted("ROLE_PROJECT")|json_encode()}}
+ROLE_COLLABORATION: {{ is_granted("ROLE_COLLABORATION")|json_encode() }},
+ROLE_PROJECT: {{ is_granted("ROLE_PROJECT")|json_encode() }}
 }
 
-function is_owner(row){
-    return current_user_id == row.userCreId
+function is_owner(row) {
+return current_user_id == row.userCreId
 }
 
 $(document).ready(function(){
@@ -128,48 +117,62 @@ $(document).ready(function(){
                  }  else {
                       return `<a href="#" class="btn btn-sm disabled">
                       <i class="fas fa-plus-circle"></i></a>`;
-                 }
-            },
-            {% endfor %}
+}
+},{% endfor %}
 
-            "show": function(column, row, value)
-            { 
-                return `<a href="${row.id}?${urlParams.toString()}" class="btn btn-sm" >
+"show": function (column, row, value) {
+return `<a href="${
+row.id
+}?${
+urlParams.toString()
+}" class="btn btn-sm" >
                         <i class="fas fa-eye"></i></a>`;
-            },
-            "edit": function(column, row, value)
-            {
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
-                    return `<a href="${row.id}/edit?${urlParams.toString()}" class="btn btn-sm">
-                            <i class="fas fa-edit"></i></a>`;  
-                } else {
-                      return `<a href="#" class="btn btn-sm  disabled" ><i class="fas fa-edit" ></i></a>`;          
-                }
-            },
-            "delete": function(column, row, value)
-            {
-                let form_action = `${row.id}?${urlParams.toString()}`
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
-                    return `<form  method="post" action="${form_action}"
+},
+"edit": function (column, row, value) {
+if (
+is_granted.ROLE_PROJECT ||
+(is_granted.ROLE_COLLABORATION && is_owner(row))
+) {
+return `<a href="${
+row.id
+}/edit?${
+urlParams.toString()
+}" class="btn btn-sm">
+                            <i class="fas fa-edit"></i></a>`;
+} else {
+return `<a href="#" class="btn btn-sm  disabled" ><i class="fas fa-edit" ></i></a>`;
+}
+},
+"delete": function (column, row, value) {
+let form_action = `${
+row.id
+}?${
+urlParams.toString()
+}`
+if (
+is_granted.ROLE_PROJECT ||
+(is_granted.ROLE_COLLABORATION && is_owner(row))
+) {
+return `<form  method="post" action="${form_action}"
                                 onsubmit="return confirm('Do you really want to delete this record?');" >
                             <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
-                            <input name="_method" value="DELETE" type="hidden" /> 
+                            <input name="_method" value="DELETE" type="hidden" />
                             <button class='btn btn-sm' type='submit'>
-                            <i class="fas fa-trash"></i></button></form>`; 
-                } else {
-                    return `<button class="btn btn-sm" disabled><i class="fas fa-trash"></i></button>`
-                }
-            }
-        }
-    }); 
- }); 
- </script>
+                            <i class="fas fa-trash"></i></button></form>`;
+} else {
+return `<button class="btn btn-sm" disabled><i class="fas fa-trash"></i></button>`
+}
+}
+}
+});
+});
+	</script>
 
-<script type="text/javascript">
-    // enable the table to CSV tool
-   $("#export").click(function(){
-        $("#grid-basic").tableToCSV();
-   });
-</script>
+	<script type="text/javascript">
+		// enable the table to CSV tool
+$("#export").click(function () {
+$("#grid-basic").tableToCSV();
+});
+	</script>
 
 {% endblock %}

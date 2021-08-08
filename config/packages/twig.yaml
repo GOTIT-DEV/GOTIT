@@ -41,8 +41,8 @@ twig:
             text: core.specimen
           - route: slide_index
             text: core.slide
-          - route: lotmaterielext_index
-            text: core.lotmaterielext
+          - route: external_lot_index
+            text: core.external_lot
       - route: ~
         icon: fas fa-flask
         text: core.Analyses génétiques

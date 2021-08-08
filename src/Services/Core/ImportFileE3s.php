@@ -3771,11 +3771,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataLotMaterielExt($fichier, $userId = null)
+   *  importCSVDataExternalLot($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is external_biological_external
    */
-  public function importCSVDataLotMaterielExt($fichier, $userId = null) {
+  public function importCSVDataExternalLot($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -3789,9 +3789,9 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #
-      $entity = new \App\Entity\LotMaterielExt();
+      $entity = new \App\Entity\ExternalLot();
       //
-      foreach ($columnByTable["lot_materiel_ext"] as $ColCsv) {
+      foreach ($columnByTable["external_lot"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -3801,14 +3801,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'lot_materiel_ext.code_lot_materiel_ext') {
-            $record_entity = $em->getRepository("App:LotMaterielExt")->findOneBy(array("codeLotMaterielExt" => $dataColCsv));
+          if ($ColCsv == 'external_lot.code_external_lot') {
+            $record_entity = $em->getRepository("App:ExternalLot")->findOneBy(array("codeLotMaterielExt" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'lot_materiel_ext.date_creation_lot_materiel_ext') {
+          if ($ColCsv == 'external_lot.date_creation_external_lot') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -3894,7 +3894,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalLotProducer;
-            $method = "setLotMaterielExtFk";
+            $method = "setExternalLotFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3945,7 +3945,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalLotPublication();
-            $method = "setLotMaterielExtFk";
+            $method = "setExternalLotFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3982,7 +3982,7 @@ class ImportFileE3s {
       # Record of TaxonIdentification
       $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
-      $method = "setLotMaterielExtFk";
+      $method = "setExternalLotFk";
       $entityRel->$method($entity);
       foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');

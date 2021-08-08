@@ -88,14 +88,14 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $sequenceAssembleeExtFk;
 
   /**
-   * @var \LotMaterielExt
+   * @var \ExternalLot
    *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="taxonIdentifications")
+   * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
    */
-  private $lotMaterielExtFk;
+  private $externalLotFk;
 
   /**
    * @var \LotMateriel
@@ -267,25 +267,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set lotMaterielExtFk
+   * Set externalLotFk
    *
-   * @param \App\Entity\LotMaterielExt $lotMaterielExtFk
+   * @param \App\Entity\ExternalLot $externalLotFk
    *
    * @return TaxonIdentification
    */
-  public function setLotMaterielExtFk(\App\Entity\LotMaterielExt $lotMaterielExtFk = null) {
-    $this->lotMaterielExtFk = $lotMaterielExtFk;
+  public function setExternalLotFk(\App\Entity\ExternalLot $externalLotFk = null) {
+    $this->externalLotFk = $externalLotFk;
 
     return $this;
   }
 
   /**
-   * Get lotMaterielExtFk
+   * Get externalLotFk
    *
-   * @return \App\Entity\LotMaterielExt
+   * @return \App\Entity\ExternalLot
    */
-  public function getLotMaterielExtFk() {
-    return $this->lotMaterielExtFk;
+  public function getExternalLotFk() {
+    return $this->externalLotFk;
   }
 
   /**

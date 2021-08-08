@@ -188,8 +188,8 @@ Specimen codeIndTriMorpho typeahead placeholder: Type the first letters of the s
 Specimen typeahead: Specimen
 Lotmateriel typeahead placeholder: Type the first letters of the Internal biological material Code
 Lotmateriel typeahead: Internal biological material
-Lotmaterielext typeahead placeholder: Type the first letters of the External biological material Code
-Lotmaterielext typeahead: External biological material
+ExternalLot typeahead placeholder: Type the first letters of the External biological material Code
+ExternalLot typeahead: External biological material
 Collecte typeahead placeholder: Type the first letters of the Sampling Code
 Collecte typeahead: Sampling
 Station typeahead placeholder: Type the first letters of the Site Code
@@ -234,7 +234,7 @@ list.linkAdn: DNA
 list.linkSlide: Slide
 list.linkPcr: PCR
 list.linkLotmateriel: Lot
-list.linkLotmaterielext: LotExt
+list.linkExternalLot: LotExt
 list.linkSequenceassembleeext: SqcExt
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/Si
@@ -294,7 +294,7 @@ button.Back to collecte: Back to Sampling
 button.Back to lotmateriel: Back to Biological material
 button.Back to specimen: Back to Specimen
 button.Back to slide: Back to Specimen slide
-button.Back to lotmaterielext: Back to External biological material
+button.Back to external_lot: Back to External biological material
 button.Back to adn: Back to DNA
 button.Back to pcr: Back to PCR
 button.Back to chromatogramme: Back to Chromatogram
@@ -310,7 +310,7 @@ button.Back to the list of collecte: Back to the list of Sampling
 button.Back to the list of lotmateriel: Back to the list of Biological material
 button.Back to the list of specimen: Back to the list of Specimen
 button.Back to the list of slide: Back to the list of Specimen slide
-button.Back to the list of lotmaterielext: Back to the list of External biological material
+button.Back to the list of external_lot: Back to the list of External biological material
 button.Back to the list of adn: Back to the list of DNA
 button.Back to the list of pcr: Back to the list of PCR
 button.Back to the list of chromatogramme: Back to the list of Chromatogram
@@ -357,8 +357,8 @@ button.ImportSequenceassembleeext: Import new set of external sequences and rela
 button.NewSequenceassemblee: Create new sequence
 button.ImportSequenceassemblee: Import new set of sequences and related data
 button.NewCommune: Create new municipality
-button.NewLotmaterielext: Create new external biological material
-button.ImportLotmaterielext: Import new set of external biological material and related data
+button.NewlinkExternalLot: Create new external biological material
+button.ImportlinkExternalLot: Import new set of external biological material and related data
 button.NewStation: Create new site
 button.ImportStation: Import new set of sites and related data
 button.NewCollecte: Create new sampling
@@ -421,7 +421,7 @@ import.collecte: Upload sampling
 import.lotmateriel: Upload biological material
 import.specimen: Upload specimen
 import.slide: Upload specimen slide
-import.lotmaterielext: Upload external biological material
+import.external_lot: Upload external biological material
 import.adn: Upload DNA
 import.pcr: Upload PCR
 import.chromatogramme: Upload chromatogram
@@ -488,7 +488,7 @@ Dashboard.nbMotuSqcAss: Internal sequence assigned to MOTU
 Dashboard.nbMotuSqcAssExt: External sequence assigned to  MOTU
 Dashboard.nbTaxon: Taxa
 Dashboard.Données de la litérature: Literature data
-Dashboard.LotMaterielExt: Lot
+Dashboard.ExternalLot: Lot
 Dashboard.nbSequenceAssembleeExt: DNA sequence
 Dashboard.nbSource: Reference
 Dashboard.nbLotMateriel: Lot
@@ -624,7 +624,7 @@ Libelle lame: Slide title
 Libelle motu: MOTU title
 Libelle source: Source title
 Long deg dec: Longitude Dec Deg
-Lot materiel ext fk: External biological material
+External lot fk: External biological material
 Lot materiel fk: Internal Biological material
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method

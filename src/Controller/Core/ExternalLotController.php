@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\LotMaterielExt;
+use App\Entity\ExternalLot;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,26 +12,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Lotmaterielext controller.
+ * ExternalLot controller.
  *
- * @Route("lotmaterielext")
+ * @Route("external_lot")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMaterielExtController extends AbstractController {
+class ExternalLotController extends AbstractController {
   /**
-   * Lists all lotMaterielExt entities.
+   * Lists all externalLot entities.
    *
-   * @Route("/", name="lotmaterielext_index", methods={"GET"})
+   * @Route("/", name="external_lot_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $lotMaterielExts = $em->getRepository('App:LotMaterielExt')->findAll();
+    $externalLots = $em->getRepository('App:ExternalLot')->findAll();
 
     return $this->render(
-      'Core/lotmaterielext/index.html.twig',
-      ['lotMaterielExts' => $lotMaterielExts]
+      'Core/external_lot/index.html.twig',
+      ['externalLots' => $externalLots]
     );
   }
 
@@ -41,7 +41,7 @@ class LotMaterielExtController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="lotmaterielext_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="external_lot_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -157,30 +157,30 @@ class LotMaterielExtController extends AbstractController {
   }
 
   /**
-   * Creates a new lotMaterielExt entity.
+   * Creates a new externalLot entity.
    *
-   * @Route("/new", name="lotmaterielext_new", methods={"GET", "POST"})
+   * @Route("/new", name="external_lot_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $lotMaterielExt = new Lotmaterielext();
+    $externalLot = newExternalLot();
     $em = $this->getDoctrine()->getManager();
 
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $lotMaterielExt->setCollecteFk($sampling);
+      $externalLot->setCollecteFk($sampling);
     }
 
     $form = $this->createForm(
-      'App\Form\LotMaterielExtType',
-      $lotMaterielExt,
+      'App\Form\ExternalLotType',
+      $externalLot,
       ['action_type' => Action::create()]
     );
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($lotMaterielExt);
+      $em->persist($externalLot);
 
       try {
         $em->flush();
@@ -189,69 +189,69 @@ class LotMaterielExtController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmaterielext/index.html.twig',
+          'Core/external_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('lotmaterielext_edit', [
-        'id' => $lotMaterielExt->getId(),
+      return $this->redirectToRoute('external_lot_edit', [
+        'id' => $externalLot->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ]);
     }
 
-    return $this->render('Core/lotmaterielext/edit.html.twig', [
-      'lotMaterielExt' => $lotMaterielExt,
+    return $this->render('Core/external_lot/edit.html.twig', [
+      'externalLot' => $externalLot,
       'edit_form' => $form->createView(),
     ]);
   }
 
   /**
-   * Finds and displays a lotMaterielExt entity.
+   * Finds and displays a externalLot entity.
    *
-   * @Route("/{id}", name="lotmaterielext_show", methods={"GET"})
+   * @Route("/{id}", name="external_lot_show", methods={"GET"})
    */
-  public function showAction(LotMaterielExt $lotMaterielExt) {
-    $deleteForm = $this->createDeleteForm($lotMaterielExt);
+  public function showAction(ExternalLot $externalLot) {
+    $deleteForm = $this->createDeleteForm($externalLot);
     $editForm = $this->createForm(
-      'App\Form\LotMaterielExtType',
-      $lotMaterielExt,
+      'App\Form\ExternalLotType',
+      $externalLot,
       ['action_type' => Action::show()]
     );
 
-    return $this->render('Core/lotmaterielext/edit.html.twig', [
-      'lotMaterielExt' => $lotMaterielExt,
+    return $this->render('Core/external_lot/edit.html.twig', [
+      'externalLot' => $externalLot,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Displays a form to edit an existing lotMaterielExt entity.
+   * Displays a form to edit an existing externalLot entity.
    *
-   * @Route("/{id}/edit", name="lotmaterielext_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="external_lot_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, LotMaterielExt $lotMaterielExt, GenericFunctionE3s $service) {
+  public function editAction(Request $request, ExternalLot $externalLot, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $lotMaterielExt->getUserCre() != $user->getId()
+      $externalLot->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
     // store ArrayCollection
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMaterielExt);
-    $publications = $service->setArrayCollection('Publications', $lotMaterielExt);
-    $producers = $service->setArrayCollection('Producers', $lotMaterielExt);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $externalLot);
+    $publications = $service->setArrayCollection('Publications', $externalLot);
+    $producers = $service->setArrayCollection('Producers', $externalLot);
 
-    $deleteForm = $this->createDeleteForm($lotMaterielExt);
+    $deleteForm = $this->createDeleteForm($externalLot);
     $editForm = $this->createForm(
-      'App\Form\LotMaterielExtType',
-      $lotMaterielExt,
+      'App\Form\ExternalLotType',
+      $externalLot,
       ['action_type' => Action::edit()]
     );
 
@@ -259,10 +259,10 @@ class LotMaterielExtController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMaterielExt, $taxonIdentifications);
-      $service->DelArrayCollection('Publications', $lotMaterielExt, $publications);
-      $service->DelArrayCollection('Producers', $lotMaterielExt, $producers);
-      $this->getDoctrine()->getManager()->persist($lotMaterielExt);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $externalLot, $taxonIdentifications);
+      $service->DelArrayCollection('Publications', $externalLot, $publications);
+      $service->DelArrayCollection('Producers', $externalLot, $producers);
+      $this->getDoctrine()->getManager()->persist($externalLot);
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -270,32 +270,32 @@ class LotMaterielExtController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmaterielext/index.html.twig',
+          'Core/external_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/lotmaterielext/edit.html.twig', [
-        'lotMaterielExt' => $lotMaterielExt,
+      return $this->render('Core/external_lot/edit.html.twig', [
+        'externalLot' => $externalLot,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ]);
     }
 
-    return $this->render('Core/lotmaterielext/edit.html.twig', [
-      'lotMaterielExt' => $lotMaterielExt,
+    return $this->render('Core/external_lot/edit.html.twig', [
+      'externalLot' => $externalLot,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Deletes a lotMaterielExt entity.
+   * Deletes a externalLot entity.
    *
-   * @Route("/{id}", name="lotmaterielext_delete", methods={"DELETE"})
+   * @Route("/{id}", name="external_lot_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, LotMaterielExt $lotMaterielExt) {
-    $form = $this->createDeleteForm($lotMaterielExt);
+  public function deleteAction(Request $request, ExternalLot $externalLot) {
+    $form = $this->createDeleteForm($externalLot);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -304,33 +304,33 @@ class LotMaterielExtController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($lotMaterielExt);
+        $em->remove($externalLot);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmaterielext/index.html.twig',
+          'Core/external_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('lotmaterielext_index');
+    return $this->redirectToRoute('external_lot_index');
   }
 
   /**
-   * Creates a form to delete a lotMaterielExt entity.
+   * Creates a form to delete a externalLot entity.
    *
-   * @param LotMaterielExt $lotMaterielExt The lotMaterielExt entity
+   * @param ExternalLot $externalLot The externalLot entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(LotMaterielExt $lotMaterielExt) {
+  private function createDeleteForm(ExternalLot $externalLot) {
     return $this->createFormBuilder()
       ->setAction(
-        $this->generateUrl('lotmaterielext_delete', ['id' => $lotMaterielExt->getId()])
+        $this->generateUrl('external_lot_delete', ['id' => $externalLot->getId()])
       )
       ->setMethod('DELETE')
       ->getForm();

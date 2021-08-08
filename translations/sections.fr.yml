@@ -7,7 +7,7 @@ core:
   lotmateriel: Lot matériel
   specimen: Individu
   slide: Lame
-  lotmaterielext: Lot matériel externe
+  external_lot: Lot matériel externe
   Etude séquençage: Séquences ADN
   sequenceassemblee: Séquences internes
   sequenceassembleeext: Séquences externes

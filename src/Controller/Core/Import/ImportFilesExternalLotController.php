@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfileslotmaterielext")
+ * @Route("importfilesexternal_lot")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesLotMaterielExtController extends AbstractController {
+class ImportFilesExternalLotController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfileslotmaterielext_index")
+   * @Route("/", name="importfilesexternal_lot_index")
    *
    */
   public function indexAction(
@@ -85,7 +85,7 @@ class ImportFilesLotMaterielExtController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'external_biological_material':
-          $message .= $importFileE3sService->importCSVDataLotMaterielExt($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataExternalLot($fichier, $user->getId());
           break;
         case 'source':
           $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());

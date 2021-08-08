@@ -118,9 +118,9 @@ class CollecteController extends AbstractController {
       $linkLotmaterielFk = (count($query) > 0) ? $id : '';
       // search for external material associated with a sampling
       $query = $em->createQuery(
-        'SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = ' . $id
+        'SELECT lotext.id FROM App:ExternalLot lotext WHERE lotext.collecteFk = ' . $id
       )->getResult();
-      $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
+      $linkExternalLotFk = (count($query) > 0) ? $id : '';
       // search for external sequence associated with a sampling
       $query = $em->createQuery(
         'SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id
@@ -152,7 +152,7 @@ class CollecteController extends AbstractController {
         "collecte.userCre" => $service->GetUserCreUserfullname($entity),
         "collecte.userMaj" => $service->GetUserMajUserfullname($entity),
         "linkLotmateriel" => $linkLotmaterielFk,
-        "linkLotmaterielext" => $linkLotmaterielextFk,
+        "linkExternalLot" => $linkExternalLotFk,
         "linkSequenceassembleeext" => $linkSequenceassembleeextFk,
         "listeTaxonsCibler" => $listeTaxonsCibler,
       );

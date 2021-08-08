@@ -21,7 +21,7 @@ class DashboardController extends AbstractController {
     $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
     $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
     $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
-    $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
+    $nbExternalLot = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalLot u')->getSingleScalarResult();
     $nbSpecimen = $em->createQuery('SELECT COUNT(u.id) FROM App:Specimen u')->getSingleScalarResult();
     $nbSlide = $em->createQuery('SELECT COUNT(u.id) FROM App:Slide u')->getSingleScalarResult();
     $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
@@ -146,8 +146,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the external lot material
-    $entities_toshow = $em->getRepository("App:LotMaterielExt")->createQueryBuilder('lotmaterielext')
-      ->addOrderBy('lotmaterielext.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:ExternalLot")->createQueryBuilder('external_lot')
+      ->addOrderBy('external_lot.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -157,7 +157,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'lotmaterielext',
+        "name" => 'external_lot',
         "code" => $entity->getCodeLotMaterielExt(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -258,7 +258,7 @@ class DashboardController extends AbstractController {
       'nbCollecte' => $nbcollectes,
       'nbStation' => $nbstations,
       'nbLotMateriel' => $nbLotMateriel,
-      'nbLotMaterielExt' => $nbLotMaterielExt,
+      'nbExternalLot' => $nbExternalLot,
       'nbSpecimen' => $nbSpecimen,
       'nbSlide' => $nbSlide,
       'nbDna' => $nbDna,

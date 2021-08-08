@@ -7,7 +7,7 @@ core:
   lotmateriel: Biological material
   specimen: Specimen
   slide: Specimen slide
-  lotmaterielext: External biological material
+  external_lot: External biological material
   Etude séquençage: DNA Sequences
   sequenceassemblee: Internal sequences
   sequenceassembleeext: External sequences

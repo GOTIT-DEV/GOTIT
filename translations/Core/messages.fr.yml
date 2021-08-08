@@ -22,8 +22,8 @@ Specimen codeIndTriMorpho typeahead placeholder: Taper les premières lettres du
 Specimen typeahead: Individu
 Lotmateriel typeahead placeholder: Taper les premières lettres du Code lot matériel
 Lotmateriel typeahead: Lot
-Lotmaterielext typeahead placeholder: Taper les premières lettres du Code lot matériel externe
-Lotmaterielext typeahead: Lot externe
+ExternalLot typeahead placeholder: Taper les premières lettres du Code lot matériel externe
+ExternalLot typeahead: Lot externe
 Collecte typeahead placeholder: Taper les premières lettres du Code Collecte
 Collecte typeahead: Collecte
 Station typeahead placeholder: Taper les premières lettres du Code Station
@@ -68,7 +68,7 @@ list.linkAdn: ADN
 list.linkSlide: Lame
 list.linkPcr: PCR(s)
 list.linkLotmateriel: Lot
-list.linkLotmaterielext: Lot Ext
+list.linkExternalLot: Lot Ext
 list.linkSequenceassembleeext: Sqc Ext
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/St
@@ -128,7 +128,7 @@ button.Back to collecte: Retour à la Collecte
 button.Back to lotmateriel: Retour au Lot matériel
 button.Back to specimen: Retour à l'Individu
 button.Back to slide: Retour à la Lame
-button.Back to lotmaterielext: Retour au Lot matériel externe
+button.Back to external_lot: Retour au Lot matériel externe
 button.Back to adn: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
 button.Back to chromatogramme: Retour au Chromatogramme
@@ -144,7 +144,7 @@ button.Back to the list of collecte: Retour à la liste des Collectes
 button.Back to the list of lotmateriel: Retour à la liste des Lots matériels
 button.Back to the list of individu: Retour à la liste des Individus
 button.Back to the list of slide: Retour à la liste des Lames
-button.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
+button.Back to the list of external_lot: Retour à la liste des Lots matériels externes
 button.Back to the list of adn: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
 button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
@@ -192,8 +192,8 @@ button.ImportSequenceassembleeext: Importer des séquences externes assemblées
 button.NewSequenceassemblee: Créer une séquence assemblée
 button.ImportSequenceassemblee: Importer des séquences assemblées
 button.NewCommune: Créer une nouvelle commune
-button.NewLotmaterielext: Créer un lot matériel externe
-button.ImportLotmaterielext: Importer des lots matériels externes
+button.NewlinkExternalLot: Créer un lot matériel externe
+button.ImportlinkExternalLot: Importer des lots matériels externes
 button.NewStation: Créer une station
 button.ImportStation: Importer des stations
 button.NewCollecte: Créer une collecte
@@ -257,7 +257,7 @@ import.collecte: Importer fichier(s) collecte
 import.lotmateriel: Importer fichier(s) lot matériel
 import.specimen: Importer fichier(s) individu
 import.slide: Importer fichier(s) lame
-import.lotmaterielext: Importer fichier(s) lot matériel externe
+import.external_lot: Importer fichier(s) lot matériel externe
 import.adn: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
 import.chromatogramme: Importer fichier(s) chromatogramme
@@ -323,7 +323,7 @@ Dashboard.nbMotuSqcAss: Séquence vers MOTU
 Dashboard.nbMotuSqcAssExt: Séquence Externe vers MOTU
 Dashboard.nbTaxon: Taxon
 Dashboard.Données de la litérature: Données de la litérature
-Dashboard.LotMaterielExt: Lot
+Dashboard.ExternalLot: Lot
 Dashboard.nbSequenceAssembleeExt: Séquence ADN
 Dashboard.nbSource: Références
 Dashboard.nbLotMateriel: Lot
@@ -461,7 +461,7 @@ Libelle lame: Libellé lame
 Libelle motu: libellé MOTU
 Libelle source: Libellé source
 Long deg dec: Longitude degré decimal
-Lot materiel ext fk: Lot matériel externe
+External lot fk: Lot matériel externe
 Lot materiel fk: Lot matériel
 Methode extraction adn voc fk: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU

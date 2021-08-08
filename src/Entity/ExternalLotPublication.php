@@ -26,14 +26,14 @@ class ExternalLotPublication extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \LotMaterielExt
+   * @var \ExternalLot
    *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="publications")
+   * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="publications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $lotMaterielExtFk;
+  private $externalLotFk;
 
   /**
    * @var \Source
@@ -55,25 +55,25 @@ class ExternalLotPublication extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set lotMaterielExtFk
+   * Set externalLotFk
    *
-   * @param \App\Entity\LotMaterielExt $lotMaterielExtFk
+   * @param \App\Entity\ExternalLot $externalLotFk
    *
    * @return ExternalLotPublication
    */
-  public function setLotMaterielExtFk(\App\Entity\LotMaterielExt $lotMaterielExtFk = null) {
-    $this->lotMaterielExtFk = $lotMaterielExtFk;
+  public function setExternalLotFk(\App\Entity\ExternalLot $externalLotFk = null) {
+    $this->externalLotFk = $externalLotFk;
 
     return $this;
   }
 
   /**
-   * Get lotMaterielExtFk
+   * Get externalLotFk
    *
-   * @return \App\Entity\LotMaterielExt
+   * @return \App\Entity\ExternalLot
    */
-  public function getLotMaterielExtFk() {
-    return $this->lotMaterielExtFk;
+  public function getExternalLotFk() {
+    return $this->externalLotFk;
   }
 
   /**
