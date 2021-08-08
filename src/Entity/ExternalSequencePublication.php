@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SqcExtEstReferenceDans
+ * ExternalSequencePublication
  *
  * @ORM\Table(name="external_sequence_is_published_in",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SqcExtEstReferenceDans extends AbstractTimestampedEntity {
+class ExternalSequencePublication extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -38,7 +38,7 @@ class SqcExtEstReferenceDans extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssembleeExt
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="sqcExtEstReferenceDanss")
+   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="externalSequencePublications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class SqcExtEstReferenceDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Source $sourceFk
    *
-   * @return SqcExtEstReferenceDans
+   * @return ExternalSequencePublication
    */
   public function setSourceFk(\App\Entity\Source $sourceFk = null) {
     $this->sourceFk = $sourceFk;
@@ -81,7 +81,7 @@ class SqcExtEstReferenceDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
    *
-   * @return SqcExtEstReferenceDans
+   * @return ExternalSequencePublication
    */
   public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
     $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;

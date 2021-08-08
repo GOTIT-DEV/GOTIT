@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\ExternalSequencePublicationEmbedType;
 use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
-use App\Form\EmbedTypes\SqcExtEstReferenceDansEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
@@ -92,8 +92,8 @@ class SequenceAssembleeExtType extends ActionFormType {
           'refTaxonLabel' => $options['refTaxonLabel'],
         ),
       ))
-      ->add('sqcExtEstReferenceDanss', CollectionType::class, array(
-        'entry_type' => SqcExtEstReferenceDansEmbedType::class,
+      ->add('externalSequencePublications', CollectionType::class, array(
+        'entry_type' => ExternalSequencePublicationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

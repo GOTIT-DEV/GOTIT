@@ -141,10 +141,10 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   protected $sqcExtEstRealisePars;
 
   /**
-   * @ORM\OneToMany(targetEntity="SqcExtEstReferenceDans", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalSequencePublication", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sqcExtEstReferenceDanss;
+  protected $externalSequencePublications;
 
   /**
    * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
@@ -154,7 +154,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->sqcExtEstRealisePars = new ArrayCollection();
-    $this->sqcExtEstReferenceDanss = new ArrayCollection();
+    $this->externalSequencePublications = new ArrayCollection();
     $this->especeIdentifiees = new ArrayCollection();
   }
 
@@ -464,35 +464,35 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sqcExtEstReferenceDans
+   * Add externalSequencePublication
    *
-   * @param \App\Entity\SqcExtEstReferenceDans $sqcExtEstReferenceDans
+   * @param \App\Entity\ExternalSequencePublication $externalSequencePublication
    *
    * @return SequenceAssembleeExt
    */
-  public function addSqcExtEstReferenceDans(\App\Entity\SqcExtEstReferenceDans $sqcExtEstReferenceDans) {
-    $sqcExtEstReferenceDans->setSequenceAssembleeExtFk($this);
-    $this->sqcExtEstReferenceDanss[] = $sqcExtEstReferenceDans;
+  public function addExternalSequencePublication(\App\Entity\ExternalSequencePublication $externalSequencePublication) {
+    $externalSequencePublication->setSequenceAssembleeExtFk($this);
+    $this->externalSequencePublications[] = $externalSequencePublication;
 
     return $this;
   }
 
   /**
-   * Remove sqcExtEstReferenceDans
+   * Remove externalSequencePublication
    *
-   * @param \App\Entity\SqcExtEstReferenceDans $sqcExtEstReferenceDans
+   * @param \App\Entity\ExternalSequencePublication $externalSequencePublication
    */
-  public function removeSqcExtEstReferenceDans(\App\Entity\SqcExtEstReferenceDans $sqcExtEstReferenceDans) {
-    $this->sqcExtEstReferenceDanss->removeElement($sqcExtEstReferenceDans);
+  public function removeExternalSequencePublication(\App\Entity\ExternalSequencePublication $externalSequencePublication) {
+    $this->externalSequencePublications->removeElement($externalSequencePublication);
   }
 
   /**
-   * Get sqcExtEstReferenceDanss
+   * Get externalSequencePublications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSqcExtEstReferenceDanss() {
-    return $this->sqcExtEstReferenceDanss;
+  public function getExternalSequencePublications() {
+    return $this->externalSequencePublications;
   }
 
   /**

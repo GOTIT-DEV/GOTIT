@@ -277,8 +277,8 @@ class SequenceAssembleeExtController extends AbstractController {
       'PersonSpeciesIds',
       $sequenceAssembleeExt
     );
-    $sqcExtEstReferenceDanss = $service->setArrayCollection(
-      'SqcExtEstReferenceDanss',
+    $externalSequencePublications = $service->setArrayCollection(
+      'ExternalSequencePublications',
       $sequenceAssembleeExt
     );
     $sqcExtEstRealisePars = $service->setArrayCollection(
@@ -303,9 +303,9 @@ class SequenceAssembleeExtController extends AbstractController {
         $especeIdentifiees
       );
       $service->DelArrayCollection(
-        'SqcExtEstReferenceDanss',
+        'ExternalSequencePublications',
         $sequenceAssembleeExt,
-        $sqcExtEstReferenceDanss
+        $externalSequencePublications
       );
       $service->DelArrayCollection(
         'SqcExtEstRealisePars',
