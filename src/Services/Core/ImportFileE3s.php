@@ -3928,8 +3928,8 @@ class ImportFileE3s {
         }
       }
 
-      # Enregistrement de LotMaterielExtEstReferenceDans
-      foreach ($columnByTable["lot_materiel_ext_est_reference_dans"] as $ColCsv) {
+      # Enregistrement de ExternalLotPublication
+      foreach ($columnByTable["publication"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -3944,7 +3944,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\LotMaterielExtEstReferenceDans();
+            $entityRel = new \App\Entity\ExternalLotPublication();
             $method = "setLotMaterielExtFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

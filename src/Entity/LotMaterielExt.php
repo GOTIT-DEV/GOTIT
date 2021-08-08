@@ -117,10 +117,10 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   protected $lotMaterielExtEstRealisePars;
 
   /**
-   * @ORM\OneToMany(targetEntity="LotMaterielExtEstReferenceDans", mappedBy="lotMaterielExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalLotPublication", mappedBy="lotMaterielExtFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $lotMaterielExtEstReferenceDanss;
+  protected $publications;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="lotMaterielExtFk", cascade={"persist"})
@@ -130,7 +130,7 @@ class LotMaterielExt extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->lotMaterielExtEstRealisePars = new ArrayCollection();
-    $this->lotMaterielExtEstReferenceDanss = new ArrayCollection();
+    $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
   }
 
@@ -374,35 +374,35 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add lotMaterielExtEstReferenceDans
+   * Add publication
    *
-   * @param \App\Entity\LotMaterielExtEstReferenceDans $lotMaterielExtEstReferenceDans
+   * @param \App\Entity\ExternalLotPublication $publication
    *
    * @return LotMaterielExt
    */
-  public function addLotMaterielExtEstReferenceDans(\App\Entity\LotMaterielExtEstReferenceDans $lotMaterielExtEstReferenceDans) {
-    $lotMaterielExtEstReferenceDans->setLotMaterielExtFk($this);
-    $this->lotMaterielExtEstReferenceDanss[] = $lotMaterielExtEstReferenceDans;
+  public function addPublication(\App\Entity\ExternalLotPublication $publication) {
+    $publication->setLotMaterielExtFk($this);
+    $this->publications[] = $publication;
 
     return $this;
   }
 
   /**
-   * Remove lotMaterielExtEstReferenceDans
+   * Remove publication
    *
-   * @param \App\Entity\LotMaterielExtEstReferenceDans $lotMaterielExtEstReferenceDans
+   * @param \App\Entity\ExternalLotPublication $publication
    */
-  public function removeLotMaterielExtEstReferenceDans(\App\Entity\LotMaterielExtEstReferenceDans $lotMaterielExtEstReferenceDans) {
-    $this->lotMaterielExtEstReferenceDanss->removeElement($lotMaterielExtEstReferenceDans);
+  public function removePublication(\App\Entity\ExternalLotPublication $publication) {
+    $this->publications->removeElement($publication);
   }
 
   /**
-   * Get lotMaterielExtEstReferenceDanss
+   * Get publications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getLotMaterielExtEstReferenceDanss() {
-    return $this->lotMaterielExtEstReferenceDanss;
+  public function getPublications() {
+    return $this->publications;
   }
 
   /**

@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\ExternalLotPublicationEmbedType;
 use App\Form\EmbedTypes\LotMaterielExtEstRealiseParEmbedType;
-use App\Form\EmbedTypes\LotMaterielExtEstReferenceDansEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -77,8 +77,8 @@ class LotMaterielExtType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => ['label' => false],
       ])
-      ->add('lotMaterielExtEstReferenceDanss', CollectionType::class, [
-        'entry_type' => LotMaterielExtEstReferenceDansEmbedType::class,
+      ->add('publications', CollectionType::class, [
+        'entry_type' => ExternalLotPublicationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

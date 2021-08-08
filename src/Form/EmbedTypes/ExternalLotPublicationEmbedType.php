@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LotMaterielExtEstReferenceDansEmbedType extends AbstractType {
+class ExternalLotPublicationEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -32,7 +32,7 @@ class LotMaterielExtEstReferenceDansEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\LotMaterielExtEstReferenceDans',
+      'data_class' => 'App\Entity\ExternalLotPublication',
     ));
   }
 
@@ -40,6 +40,6 @@ class LotMaterielExtEstReferenceDansEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'lotmaterielextestreferencedans';
+    return 'publication';
   }
 }

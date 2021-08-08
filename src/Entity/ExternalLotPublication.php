@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LotMaterielExtEstReferenceDans
+ * ExternalLotPublication
  *
  * @ORM\Table(name="external_biological_material_is_published_in",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMaterielExtEstReferenceDans extends AbstractTimestampedEntity {
+class ExternalLotPublication extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class LotMaterielExtEstReferenceDans extends AbstractTimestampedEntity {
   /**
    * @var \LotMaterielExt
    *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="lotMaterielExtEstReferenceDanss")
+   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="publications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class LotMaterielExtEstReferenceDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMaterielExt $lotMaterielExtFk
    *
-   * @return LotMaterielExtEstReferenceDans
+   * @return ExternalLotPublication
    */
   public function setLotMaterielExtFk(\App\Entity\LotMaterielExt $lotMaterielExtFk = null) {
     $this->lotMaterielExtFk = $lotMaterielExtFk;
@@ -81,7 +81,7 @@ class LotMaterielExtEstReferenceDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Source $sourceFk
    *
-   * @return LotMaterielExtEstReferenceDans
+   * @return ExternalLotPublication
    */
   public function setSourceFk(\App\Entity\Source $sourceFk = null) {
     $this->sourceFk = $sourceFk;
