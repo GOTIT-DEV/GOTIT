@@ -361,7 +361,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
@@ -440,7 +440,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
@@ -520,7 +520,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielPublie as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
@@ -541,7 +541,7 @@ class ImportFileE3s {
 
       } else {
         $query_lepd = $em->getRepository("App:InternalLotPublication")->createQueryBuilder('lepd')
-          ->where('lepd.lotMaterielFk = :id_lot')
+          ->where('lepd.internalLotFk = :id_lot')
           ->setParameter('id_lot', $query_lot[0]->getId())
           ->andwhere('source.codeSource = :code_source')
           ->setParameter('code_source', $data["source.code_source"])
@@ -554,7 +554,7 @@ class ImportFileE3s {
           $entityRel = new \App\Entity\InternalLotPublication();
           $method = "setSourceFk";
           $entityRel->$method($query_source[0]);
-          $method = "setLotMaterielFk";
+          $method = "setInternalLotFk";
           $entityRel->$method($query_lot[0]);
           $entityRel->setDateCre($DateImport);
           $entityRel->setDateMaj($DateImport);
@@ -2530,7 +2530,7 @@ class ImportFileE3s {
       $compt++;
 
       #
-      $entity = new \App\Entity\LotMateriel();
+      $entity = new \App\Entity\InternalLot();
       //
       foreach ($columnByTable["lot_materiel"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
@@ -2543,7 +2543,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'lot_materiel.code_lot_materiel') {
-            $record_entity = $em->getRepository("App:LotMateriel")->findOneBy(array("codeLotMateriel" => $dataColCsv));
+            $record_entity = $em->getRepository("App:InternalLot")->findOneBy(array("codeLotMateriel" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -2653,7 +2653,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalLotProducer();
-            $method = "setLotMaterielFk";
+            $method = "setInternalLotFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -2704,7 +2704,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalLotPublication();
-            $method = "setLotMaterielFk";
+            $method = "setInternalLotFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -2753,7 +2753,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalLotContent();
-            $method = "setLotMaterielFk";
+            $method = "setInternalLotFk";
             $entityRel->$method($entity);
             $entityRel->setCommentaireCompoLotMateriel($commentaireCompoLotMateriel);
             // We split the information into two variable $specimen_count & $specimen_type
@@ -2786,7 +2786,7 @@ class ImportFileE3s {
       # Record of TaxonIdentification
       $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
-      $method = "setLotMaterielFk";
+      $method = "setInternalLotFk";
       $entityRel->$method($entity);
       foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');

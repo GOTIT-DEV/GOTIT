@@ -472,7 +472,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
       $seqCodeElts[] = $lastTaxonCode;
 
       $specimen = $this->getSpecimenFk();
-      $samplingCode = $specimen->getLotMaterielFk()
+      $samplingCode = $specimen->getInternalLotFk()
         ->getCollecteFk()
         ->getCodeCollecte();
       $seqCodeElts[] = $samplingCode;

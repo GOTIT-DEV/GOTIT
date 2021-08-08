@@ -240,8 +240,8 @@ class SpecimenController extends AbstractController {
 
     $em = $this->getDoctrine()->getManager();
     if ($biomat_id = $request->get('idFk')) {
-      $biomat = $em->getRepository('App:LotMateriel')->find($biomat_id);
-      $specimen->setLotMaterielFk($biomat);
+      $biomat = $em->getRepository('App:InternalLot')->find($biomat_id);
+      $specimen->setInternalLotFk($biomat);
     }
     $form = $this->createForm('App\Form\SpecimenType', $specimen, [
       'action_type' => Action::create(),

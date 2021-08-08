@@ -2,7 +2,6 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\LotMateriel;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,38 +11,38 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Lotmateriel controller.
+ * InternalLot controller.
  *
- * @Route("lotmateriel")
+ * @Route("internal_lot")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMaterielController extends AbstractController {
+class InternalLotController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
-   * Lists all lotMateriel entities.
+   * Lists all internal lot entities.
    *
-   * @Route("/", name="lotmateriel_index", methods={"GET"})
+   * @Route("/", name="internal_lot_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $lotMateriels = $em->getRepository('App:LotMateriel')->findAll();
+    $lots = $em->getRepository('App:InternalLot')->findAll();
 
     return $this->render(
-      'Core/lotmateriel/index.html.twig',
-      ['lotMateriels' => $lotMateriels]
+      'Core/internal_lot/index.html.twig',
+      ['internalLots' => $lots]
     );
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="lotmateriel_search")
+   * @Route("/search/{q}", requirements={"q"=".+"}, name="internal_lot_search")
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('lot.id, lot.codeLotMateriel as code')
-      ->from('App:LotMateriel', 'lot')
+      ->from('App:InternalLot', 'lot')
       ->addOrderBy('code', 'ASC')
       ->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -62,7 +61,7 @@ class LotMaterielController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="lotmateriel_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="internal_lot_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     $em = $this->getDoctrine()->getManager();
@@ -187,28 +186,28 @@ class LotMaterielController extends AbstractController {
   }
 
   /**
-   * Creates a new lotMateriel entity.
+   * Creates a new internal lot entity.
    *
-   * @Route("/new", name="lotmateriel_new", methods={"GET", "POST"})
+   * @Route("/new", name="internal_lot_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $lotMateriel = new Lotmateriel();
+    $lot = new InternalLot();
 
     $em = $this->getDoctrine()->getManager();
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $lotMateriel->setCollecteFk($sampling);
+      $lot->setCollecteFk($sampling);
     }
 
-    $form = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+    $form = $this->createForm('App\Form\InternalLotType', $lot, [
       'action_type' => Action::create(),
     ]);
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($lotMateriel);
+      $em->persist($lot);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -216,79 +215,79 @@ class LotMaterielController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmateriel/index.html.twig',
+          'Core/internal_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('lotmateriel_edit', array(
-        'id' => $lotMateriel->getId(),
+      return $this->redirectToRoute('internal_lot_edit', array(
+        'id' => $lot->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ));
     }
-    return $this->render('Core/lotmateriel/edit.html.twig', array(
-      'lotMateriel' => $lotMateriel,
+    return $this->render('Core/internal_lot/edit.html.twig', array(
+      'internalLot' => $lot,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a lotMateriel entity.
+   * Finds and displays a internal lot entity.
    *
-   * @Route("/{id}", name="lotmateriel_show", methods={"GET"})
+   * @Route("/{id}", name="internal_lot_show", methods={"GET"})
    */
-  public function showAction(LotMateriel $lotMateriel) {
-    $deleteForm = $this->createDeleteForm($lotMateriel);
-    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+  public function showAction(InternalLot $lot) {
+    $deleteForm = $this->createDeleteForm($lot);
+    $editForm = $this->createForm('App\Form\InternalLotType', $lot, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/lotmateriel/edit.html.twig', array(
-      'lotMateriel' => $lotMateriel,
+    return $this->render('Core/internal_lot/edit.html.twig', array(
+      'internalLot' => $lot,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing lotMateriel entity.
+   * Displays a form to edit an existing internal lot entity.
    *
-   * @Route("/{id}/edit", name="lotmateriel_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="internal_lot_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service) {
+  public function editAction(Request $request, InternalLot $lot, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $lotMateriel->getUserCre() != $user->getId()
+      $lot->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
     // store ArrayCollection
-    $contents = $service->setArrayCollection('Contents', $lotMateriel);
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel);
-    $publications = $service->setArrayCollection('Publications', $lotMateriel);
-    $producers = $service->setArrayCollection('Producers', $lotMateriel);
+    $contents = $service->setArrayCollection('Contents', $lot);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lot);
+    $publications = $service->setArrayCollection('Publications', $lot);
+    $producers = $service->setArrayCollection('Producers', $lot);
 
     //
-    $deleteForm = $this->createDeleteForm($lotMateriel);
-    $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
+    $deleteForm = $this->createDeleteForm($lot);
+    $editForm = $this->createForm('App\Form\InternalLotType', $lot, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('Contents', $lotMateriel, $contents);
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel, $taxonIdentifications);
-      $service->DelArrayCollection('Publications', $lotMateriel, $publications);
-      $service->DelArrayCollection('Producers', $lotMateriel, $producers);
+      $service->DelArrayCollection('Contents', $lot, $contents);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lot, $taxonIdentifications);
+      $service->DelArrayCollection('Publications', $lot, $publications);
+      $service->DelArrayCollection('Producers', $lot, $producers);
 
       $em = $this->getDoctrine()->getManager();
-      $em->persist($lotMateriel);
+      $em->persist($lot);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -296,32 +295,32 @@ class LotMaterielController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmateriel/index.html.twig',
+          'Core/internal_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/lotmateriel/edit.html.twig', array(
-        'lotMateriel' => $lotMateriel,
+      return $this->render('Core/internal_lot/edit.html.twig', array(
+        'internalLot' => $lot,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/lotmateriel/edit.html.twig', array(
-      'lotMateriel' => $lotMateriel,
+    return $this->render('Core/internal_lot/edit.html.twig', array(
+      'internalLot' => $lot,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a lotMateriel entity.
+   * Deletes a internal lot entity.
    *
-   * @Route("/{id}", name="lotmateriel_delete", methods={"DELETE"})
+   * @Route("/{id}", name="internal_lot_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, LotMateriel $lotMateriel) {
-    $form = $this->createDeleteForm($lotMateriel);
+  public function deleteAction(Request $request, InternalLot $lot) {
+    $form = $this->createDeleteForm($lot);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -331,33 +330,33 @@ class LotMaterielController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($lotMateriel);
+        $em->remove($lot);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/lotmateriel/index.html.twig',
+          'Core/internal_lot/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('lotmateriel_index');
+    return $this->redirectToRoute('internal_lot_index');
   }
 
   /**
-   * Creates a form to delete a lotMateriel entity.
+   * Creates a form to delete a internal lot entity.
    *
-   * @param LotMateriel $lotMateriel The lotMateriel entity
+   * @param InternalLot $lot The internal lot entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(LotMateriel $lotMateriel) {
+  private function createDeleteForm(InternalLot $lot) {
     return $this->createFormBuilder()
       ->setAction(
-        $this->generateUrl('lotmateriel_delete', ['id' => $lotMateriel->getId()])
+        $this->generateUrl('internal_lot_delete', ['id' => $lot->getId()])
       )
       ->setMethod('DELETE')
       ->getForm();

@@ -20,7 +20,7 @@ class DashboardController extends AbstractController {
     //
     $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
     $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
-    $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
+    $internalLotCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalLot u')->getSingleScalarResult();
     $nbExternalLot = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalLot u')->getSingleScalarResult();
     $nbSpecimen = $em->createQuery('SELECT COUNT(u.id) FROM App:Specimen u')->getSingleScalarResult();
     $nbSlide = $em->createQuery('SELECT COUNT(u.id) FROM App:Slide u')->getSingleScalarResult();
@@ -128,8 +128,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the lot material
-    $entities_toshow = $em->getRepository("App:LotMateriel")->createQueryBuilder('lotMateriel')
-      ->addOrderBy('lotMateriel.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:InternalLot")->createQueryBuilder('InternalLot')
+      ->addOrderBy('InternalLot.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -139,7 +139,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'lotmateriel',
+        "name" => 'internal_lot',
         "code" => $entity->getCodeLotMateriel(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -257,7 +257,7 @@ class DashboardController extends AbstractController {
     return $this->render('Core/dashboard/index.html.twig', array(
       'nbCollecte' => $nbcollectes,
       'nbStation' => $nbstations,
-      'nbLotMateriel' => $nbLotMateriel,
+      'internalLotCount' => $internalLotCount,
       'nbExternalLot' => $nbExternalLot,
       'nbSpecimen' => $nbSpecimen,
       'nbSlide' => $nbSlide,

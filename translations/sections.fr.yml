@@ -4,7 +4,7 @@ core:
   station: Station
   collecte: Collecte
   Analyse morphologique: Analyse morphologique
-  lotmateriel: Lot matériel
+  internal_lot: Lot matériel
   specimen: Individu
   slide: Lame
   external_lot: Lot matériel externe

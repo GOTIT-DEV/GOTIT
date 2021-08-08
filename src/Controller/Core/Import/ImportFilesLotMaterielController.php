@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfileslotmateriel")
+ * @Route("importfilesinternal_lot")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
@@ -27,7 +27,7 @@ class ImportFilesLotMaterielController extends AbstractController {
   private $type_csv;
 
   /**
-   * @Route("/", name="importfileslotmateriel_index")
+   * @Route("/", name="importfilesinternal_lot_index")
    *
    */
   public function indexAction(

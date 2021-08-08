@@ -20,8 +20,8 @@ Adn typeahead: Adn
 Specimen typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
 Specimen codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
 Specimen typeahead: Individu
-Lotmateriel typeahead placeholder: Taper les premières lettres du Code lot matériel
-Lotmateriel typeahead: Lot
+InternalLot typeahead placeholder: Taper les premières lettres du Code lot matériel
+InternalLot typeahead: Lot
 ExternalLot typeahead placeholder: Taper les premières lettres du Code lot matériel externe
 ExternalLot typeahead: Lot externe
 Collecte typeahead placeholder: Taper les premières lettres du Code Collecte
@@ -67,7 +67,7 @@ list.delete: Supp
 list.linkAdn: ADN
 list.linkSlide: Lame
 list.linkPcr: PCR(s)
-list.linkLotmateriel: Lot
+list.linkInternalLot: Lot
 list.linkExternalLot: Lot Ext
 list.linkSequenceassembleeext: Sqc Ext
 list.linkSpecimen: Ind(s)
@@ -125,7 +125,7 @@ button.Back to the list of municipality: Retour à la liste des Municipalities
 # Button titles "Back to Entity"
 button.Back to station: Retour à la Station
 button.Back to collecte: Retour à la Collecte
-button.Back to lotmateriel: Retour au Lot matériel
+button.Back to internal_lot: Retour au Lot matériel
 button.Back to specimen: Retour à l'Individu
 button.Back to slide: Retour à la Lame
 button.Back to external_lot: Retour au Lot matériel externe
@@ -141,7 +141,7 @@ button.Back to source: Retour à la Source
 # Button titles "Back to Entity" in csv file uploading tools
 button.Back to the list of station: Retour à la liste des Stations
 button.Back to the list of collecte: Retour à la liste des Collectes
-button.Back to the list of lotmateriel: Retour à la liste des Lots matériels
+button.Back to the list of internal_lot: Retour à la liste des Lots matériels
 button.Back to the list of individu: Retour à la liste des Individus
 button.Back to the list of slide: Retour à la liste des Lames
 button.Back to the list of external_lot: Retour à la liste des Lots matériels externes
@@ -198,8 +198,8 @@ button.NewStation: Créer une station
 button.ImportStation: Importer des stations
 button.NewCollecte: Créer une collecte
 button.ImportCollecte: Importer des collectes
-button.NewLotmateriel: Créer un lot matériel
-button.ImportLotmateriel: Importer des lots matériels
+button.NewInternalLot: Créer un lot matériel
+button.ImportInternalLot: Importer des lots matériels
 button.NewSpecimen: Créer un individu
 button.ImportSpecimen: Importer des individus
 button.NewSlide: Créer une lame
@@ -249,12 +249,12 @@ importfileService.Import OK: Procédure d'importation terminée. Nombre d'enregi
 
 # BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
 import.liste: Importer des fichiers
-import.boite.lotmaterielrange: Stocker des lots matériels par fichier
+import.boite.internal_lot_range: Stocker des lots matériels par fichier
 import.boite.sliderange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
 import.station: Importer fichier(s) station
 import.collecte: Importer fichier(s) collecte
-import.lotmateriel: Importer fichier(s) lot matériel
+import.internal_lot: Importer fichier(s) lot matériel
 import.specimen: Importer fichier(s) individu
 import.slide: Importer fichier(s) lame
 import.external_lot: Importer fichier(s) lot matériel externe
@@ -266,10 +266,10 @@ import.sequenceassemblee: Importer fichier(s) séquence
 import.sequenceassembleeext: Importer fichier(s) séquence externe
 import.motu: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
-import.boite.lotmaterieldeplace: Déplacer/supprimer des lots matériels
+import.boite.internal_lot_deplace: Déplacer/supprimer des lots matériels
 import.boite.slidedeplace: Déplacer/supprimer des lames
 import.boite.adndeplace: Déplacer/supprimer des ADN
-import.source.lotmaterielpublie: Referencer des lots matériels
+import.source.internal_lot_publie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-delimitation: MOTU
 
@@ -326,7 +326,7 @@ Dashboard.Données de la litérature: Données de la litérature
 Dashboard.ExternalLot: Lot
 Dashboard.nbSequenceAssembleeExt: Séquence ADN
 Dashboard.nbSource: Références
-Dashboard.nbLotMateriel: Lot
+Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Matériel biologique
 Dashboard.nbSpecimen: Individu
 Dashboard.nbSlide: Lame
@@ -462,7 +462,7 @@ Libelle motu: libellé MOTU
 Libelle source: Libellé source
 Long deg dec: Longitude degré decimal
 External lot fk: Lot matériel externe
-Lot materiel fk: Lot matériel
+Internal lot fk: Lot matériel
 Methode extraction adn voc fk: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU
 Motu fk: MOTU
@@ -529,7 +529,7 @@ Yeux voc fk: Vision
 # titles of collections or N-N type relational tables
 Source providers: Est integrée par
 Adns: ADN
-Lot materiels: Lot matériel
+Internal lots: Lot matériel
 Slides: Lames
 Motu delimiters: Est générée par
 Auto generated code: Code auto-généré

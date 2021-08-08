@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfileslotmaterielrange")
+ * @Route("importfilesinternal_lot_range")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
@@ -27,7 +27,7 @@ class ImportFilesLotMaterielRangeController extends AbstractController {
   private $type_csv;
 
   /**
-   * @Route("/", name="importfileslotmaterielrange_index")
+   * @Route("/", name="importfilesinternal_lot_range_index")
    *
    */
   public function indexAction(

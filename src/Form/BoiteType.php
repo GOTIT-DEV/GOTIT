@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\EmbedTypes\DnaEmbedType;
-use App\Form\EmbedTypes\LotMaterielEmbedType;
+use App\Form\EmbedTypes\InternalLotEmbedType;
 use App\Form\EmbedTypes\SlideEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -46,8 +46,8 @@ class BoiteType extends ActionFormType {
     if ($boxType != null and $options["action_type"] != Action::create()) {
       switch ($boxType->getCode()) {
       case 'LOT':
-        $builder->add('lotMateriels', CollectionType::class, array(
-          'entry_type' => LotMaterielEmbedType::class,
+        $builder->add('internalLots', CollectionType::class, array(
+          'entry_type' => InternalLotEmbedType::class,
           // 'allow_add' => true,
           // 'allow_delete' => true,
           'prototype' => true,

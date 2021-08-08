@@ -186,8 +186,8 @@ Adn typeahead: DNA
 Specimen typeahead placeholder: Type the first letters of the Specimen Molecular Code
 Specimen codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
 Specimen typeahead: Specimen
-Lotmateriel typeahead placeholder: Type the first letters of the Internal biological material Code
-Lotmateriel typeahead: Internal biological material
+InternalLot typeahead placeholder: Type the first letters of the Internal biological material Code
+InternalLot typeahead: Internal biological material
 ExternalLot typeahead placeholder: Type the first letters of the External biological material Code
 ExternalLot typeahead: External biological material
 Collecte typeahead placeholder: Type the first letters of the Sampling Code
@@ -233,7 +233,7 @@ list.delete: Del
 list.linkAdn: DNA
 list.linkSlide: Slide
 list.linkPcr: PCR
-list.linkLotmateriel: Lot
+list.linkInternalLot: Lot
 list.linkExternalLot: LotExt
 list.linkSequenceassembleeext: SqcExt
 list.linkSpecimen: Ind(s)
@@ -291,7 +291,7 @@ button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
 button.Back to station: Back to Site
 button.Back to collecte: Back to Sampling
-button.Back to lotmateriel: Back to Biological material
+button.Back to internal_lot: Back to Biological material
 button.Back to specimen: Back to Specimen
 button.Back to slide: Back to Specimen slide
 button.Back to external_lot: Back to External biological material
@@ -307,7 +307,7 @@ button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
 button.Back to the list of station: Back to the list of Sites
 button.Back to the list of collecte: Back to the list of Sampling
-button.Back to the list of lotmateriel: Back to the list of Biological material
+button.Back to the list of internal_lot: Back to the list of Biological material
 button.Back to the list of specimen: Back to the list of Specimen
 button.Back to the list of slide: Back to the list of Specimen slide
 button.Back to the list of external_lot: Back to the list of External biological material
@@ -363,8 +363,8 @@ button.NewStation: Create new site
 button.ImportStation: Import new set of sites and related data
 button.NewCollecte: Create new sampling
 button.ImportCollecte: Import new set of sampling and related data
-button.NewLotmateriel: Create new biological material
-button.ImportLotmateriel: Import new set of biological material and related data
+button.NewInternalLot: Create new biological material
+button.ImportInternalLot: Import new set of biological material and related data
 button.NewSpecimen: Create new specimen
 button.ImportSpecimen: Import new set of specimens and related data
 button.NewSlide: Create new slide
@@ -413,12 +413,12 @@ importfileService.Import OK: Data import is successful. Number of records Import
 
 #  BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ########################
 import.liste: Upload other set of files
-import.boite.lotmaterielrange: Store biological material as file
+import.boite.internal_lot_range: Store biological material as file
 import.boite.sliderange: Store slide as file
 import.boite.adnrange: Store DNA box as file
 import.station: Upload Site
 import.collecte: Upload sampling
-import.lotmateriel: Upload biological material
+import.internal_lot: Upload biological material
 import.specimen: Upload specimen
 import.slide: Upload specimen slide
 import.external_lot: Upload external biological material
@@ -430,10 +430,10 @@ import.sequenceassemblee: Upload internal sequence
 import.sequenceassembleeext: Upload external sequence
 import.motu: Upload MOTU
 import.source: Upload source
-import.boite.lotmaterieldeplace: Move or delete biological material as file
+import.boite.internal_lot_deplace: Move or delete biological material as file
 import.boite.slidedeplace: Move or delete slides as file
 import.boite.adndeplace: Move or delete DNA boxes as file
-import.source.lotmaterielpublie:  Source to biological material as file
+import.source.internal_lot_publie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
 import.motu-delimitation: MOTU
 
@@ -491,7 +491,7 @@ Dashboard.Données de la litérature: Literature data
 Dashboard.ExternalLot: Lot
 Dashboard.nbSequenceAssembleeExt: DNA sequence
 Dashboard.nbSource: Reference
-Dashboard.nbLotMateriel: Lot
+Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Biological material
 Dashboard.nbSpecimen: Specimen
 Dashboard.nbSlide: Slide
@@ -625,7 +625,7 @@ Libelle motu: MOTU title
 Libelle source: Source title
 Long deg dec: Longitude Dec Deg
 External lot fk: External biological material
-Lot materiel fk: Internal Biological material
+Internal lot fk: Internal Biological material
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
 Motu fk: MOTU
@@ -692,7 +692,7 @@ Yeux voc fk: Vision
 # titles of collections or tables related to N-N type relational tables
 Source providers: is integrated by
 Adns: DNA
-Lot materiels: Biological material
+Internal lots: Biological material
 Slides: Specimen slide
 Motu delimiters: is generated by
 Auto generated code: Auto generated code

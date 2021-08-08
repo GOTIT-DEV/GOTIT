@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LotMaterielType extends ActionFormType {
+class InternalLotType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -126,7 +126,7 @@ class LotMaterielType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\LotMateriel',
+      'data_class' => 'App\Entity\InternalLot',
     ));
   }
 
@@ -134,6 +134,6 @@ class LotMaterielType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'lotmateriel';
+    return 'internal_lot';
   }
 }

@@ -11,8 +11,7 @@
 	{% block action %}
 	{{ parent() }}
 
-		<div class="btn-group btn-group-sm"> 
-		<div class="input-group-prepend">
+		<div class="btn-group btn-group-sm"> <div class="input-group-prepend">
 			<i class="input-group-text fas fa-upload"></i>
 		</div>
 		{% if is_granted('ROLE_PROJECT') %}
@@ -25,7 +24,7 @@
 		{% endif %}
 		{% if is_granted('ROLE_COLLABORATION') %}
 
-			<a href="{{ path( 'importfileslotmaterielpublie_index' ) }}" class="btn btn-light border" role="button">
+			<a href="{{ path( 'importfilesinternal_lot_publie_index' ) }}" class="btn btn-light border" role="button">
 				{{'button.Import lot materiel publie'|trans}}
 			</a>
 			<a href="{{ path( 'importfilessqcassembleepublie_index' ) }}" class="btn btn-light border" role="button">

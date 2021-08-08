@@ -19,13 +19,13 @@ class SpecimenType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
     $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
-    $bioMat = $builder->getData()->getLotMaterielFk();
+    $bioMat = $builder->getData()->getInternalLotFk();
 
     $builder
-      ->add('lotMaterielFk', SearchableSelectType::class, [
-        'class' => 'App:LotMateriel',
+      ->add('internalLotFk', SearchableSelectType::class, [
+        'class' => 'App:InternalLot',
         'choice_label' => 'codeLotMateriel',
-        'placeholder' => "Lotmateriel typeahead placeholder",
+        'placeholder' => "InternalLot typeahead placeholder",
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $bioMat != null,

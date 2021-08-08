@@ -26,14 +26,14 @@ class InternalLotPublication extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \LotMateriel
+   * @var \InternalLot
    *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="publications")
+   * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="publications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $lotMaterielFk;
+  private $internalLotFk;
 
   /**
    * @var \Source
@@ -55,25 +55,25 @@ class InternalLotPublication extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set lotMaterielFk
+   * Set internalLotFk
    *
-   * @param \App\Entity\LotMateriel $lotMaterielFk
+   * @param \App\Entity\InternalLot $internalLotFk
    *
    * @return InternalLotPublication
    */
-  public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
-    $this->lotMaterielFk = $lotMaterielFk;
+  public function setInternalLotFk(\App\Entity\InternalLot $internalLotFk = null) {
+    $this->internalLotFk = $internalLotFk;
 
     return $this;
   }
 
   /**
-   * Get lotMaterielFk
+   * Get internalLotFk
    *
-   * @return \App\Entity\LotMateriel
+   * @return \App\Entity\InternalLot
    */
-  public function getLotMaterielFk() {
-    return $this->lotMaterielFk;
+  public function getInternalLotFk() {
+    return $this->internalLotFk;
   }
 
   /**

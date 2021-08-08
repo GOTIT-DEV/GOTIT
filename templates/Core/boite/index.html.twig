@@ -46,7 +46,7 @@
 			</div>
 			{% if box_type == 'LOT' %}
 				{% if is_granted('ROLE_COLLABORATION') %}
-					<a href="{{ path( 'importfileslotmaterielrange_index' ) }}" class="btn btn-light border btn-sm" role="button">
+					<a href="{{ path( 'importfilesinternal_lot_range_index' ) }}" class="btn btn-light border btn-sm" role="button">
 						{{'button.Import lot materiel range'|trans}}
 					</a>
 				{% else %}
@@ -55,7 +55,7 @@
 					</a>
 				{% endif %}
 				{% if is_granted('ROLE_ADMIN') %}
-					<a href="{{ path( 'importfileslotmaterieldeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
+					<a href="{{ path( 'importfilesinternal_lot_deplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
 						{{'button.Import lot materiel deplace'|trans}}
 					</a>
 				{% else %}

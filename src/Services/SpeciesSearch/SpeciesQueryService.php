@@ -99,7 +99,7 @@ class SpeciesQueryService {
   }
 
   private function joinEspeceStation($query, $aliasEsp, $aliasSta) {
-    return $query->leftJoin('App:LotMateriel', 'lm', 'WITH', $aliasEsp . '.lotMaterielFk=lm.id')
+    return $query->leftJoin('App:InternalLot', 'lm', 'WITH', $aliasEsp . '.internalLotFk=lm.id')
       ->leftJoin('App:ExternalLot', 'lmext', 'WITH', $aliasEsp . '.externalLotFk=lmext.id')
       ->join('App:Collecte', 'c', 'WITH', 'c.id=lm.collecteFk OR c.id=lmext.collecteFk')
       ->join('App:Station', $aliasSta, 'WITH', $aliasSta . '.id=c.stationFk');
@@ -136,8 +136,8 @@ class SpeciesQueryService {
       ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
     switch ($level) {
     case 1: #lot matériel
-      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Specimen', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
+        ->join('App:Specimen', 'i', 'WITH', 'i.internalLotFk = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
       break;
 
@@ -206,8 +206,8 @@ class SpeciesQueryService {
       ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
     switch ($level) {
     case 1: # Bio material
-      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Specimen', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
+        ->join('App:Specimen', 'i', 'WITH', 'i.internalLotFk = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
@@ -288,12 +288,12 @@ class SpeciesQueryService {
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
       ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
     // JOIN lot matériel
-      ->from('App:LotMateriel', 'lm')
-      ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
+      ->from('App:InternalLot', 'lm')
+      ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLotFk')
       ->join('App:ReferentielTaxon', 'biomat', 'WITH', 'biomat.id = eidlm.referentielTaxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
     // JOIN specimen
-      ->join('App:Specimen', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
+      ->join('App:Specimen', 'indiv', 'WITH', 'indiv.internalLotFk = lm.id')
       ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimenFk')
       ->join('App:ReferentielTaxon', 'spec', 'WITH', 'spec.id = eidindiv.referentielTaxonFk')
       ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id');

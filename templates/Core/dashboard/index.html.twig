@@ -15,7 +15,7 @@
 
 {% block body %}
 
-	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbSpecimen + nbLotMateriel %}
+	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbSpecimen + internalLotCount %}
 
 	<div class="row">
 
@@ -105,11 +105,11 @@
 				<div class="x_content">
 					<div class="widget_summary">
 						<div class="w_left w_55">
-							<span>{{'Dashboard.nbLotMateriel'|trans}}</span>
+							<span>{{'Dashboard.internalLotCount'|trans}}</span>
 						</div>
 						<div class="w_center w_25"></div>
 						<div class="w_right w_20">
-							<span>{{ nbLotMateriel }}</span>
+							<span>{{ internalLotCount }}</span>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -260,7 +260,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_index') }}">{{'import.internal_lot'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesspecimen_index') }}">{{'import.specimen'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -282,19 +282,19 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_range_index') }}">{{'import.boite.internal_lot_range'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessliderange_index') }}">{{'import.boite.sliderange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterieldeplace_index') }}">{{'import.boite.lotmaterieldeplace'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_deplace_index') }}">{{'import.boite.internal_lot_deplace'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesslidedeplace_index') }}">{{'import.boite.slidedeplace'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadndeplace_index') }}">{{'import.boite.adndeplace'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_publie_index') }}">{{'import.source.internal_lot_publie'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
 						{% elseif  is_granted('ROLE_PROJECT')%}
@@ -303,7 +303,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilescollecte_index') }}">{{'import.collecte'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_index') }}">{{'import.internal_lot'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesspecimen_index') }}">{{'import.specimen'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -327,14 +327,14 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessource_index') }}">{{'import.source'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_range_index') }}">{{'import.boite.internal_lot_range'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessliderange_index') }}">{{'import.boite.sliderange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+								<font color="grey">{{'import.boite.internal_lot_deplace'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -345,7 +345,7 @@
 								<font color="grey">{{'import.boite.adndeplace'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_publie_index') }}">{{'import.source.internal_lot_publie'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
 						{% elseif  is_granted('ROLE_COLLABORATION')%}
@@ -359,7 +359,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.lotmateriel'|trans}}</font>
+								<font color="grey">{{'import.internal_lot'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -392,14 +392,14 @@
 								<font color="grey">{{'import.source'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielrange_index') }}">{{'import.boite.lotmaterielrange'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_range_index') }}">{{'import.boite.internal_lot_range'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessliderange_index') }}">{{'import.boite.sliderange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">{{'import.boite.adnrange'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+								<font color="grey">{{'import.boite.internal_lot_deplace'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -410,7 +410,7 @@
 								<font color="grey">{{'import.boite.adndeplace'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfileslotmaterielpublie_index') }}">{{'import.source.lotmaterielpublie'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_lot_publie_index') }}">{{'import.source.internal_lot_publie'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
 						{% elseif  is_granted('ROLE_INVITED')%}
@@ -424,7 +424,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.lotmateriel'|trans}}</font>
+								<font color="grey">{{'import.internal_lot'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -468,7 +468,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.boite.lotmaterielrange'|trans}}</font>
+								<font color="grey">{{'import.boite.internal_lot_range'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -480,7 +480,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.boite.lotmaterieldeplace'|trans}}</font>
+								<font color="grey">{{'import.boite.internal_lot_deplace'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -492,7 +492,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.source.lotmaterielpublie'|trans}}</font>
+								<font color="grey">{{'import.source.internal_lot_publie'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">

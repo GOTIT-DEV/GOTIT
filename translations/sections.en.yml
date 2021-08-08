@@ -4,7 +4,7 @@ core:
   station: Site
   collecte: Sampling
   Analyse morphologique: Morphological analysis
-  lotmateriel: Biological material
+  internal_lot: Biological material
   specimen: Specimen
   slide: Specimen slide
   external_lot: External biological material

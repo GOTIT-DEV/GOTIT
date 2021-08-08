@@ -2,7 +2,7 @@ import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
   const $form = $("form[name='specimen']");
-  const $biomat = $("#specimen_lotMaterielFk");
+  const $biomat = $("#specimen_internalLotFk");
   const $taxon = $("#specimen_taxonIdentifications_0_referentielTaxonFk");
   const $tube = $("#specimen_codeTube");
   const $spMolNumber = $("#specimen_numIndBiomol");
@@ -10,7 +10,7 @@ $(() => {
   const $codeMorpho = $("#specimen_codeIndTriMorpho");
   const $codeMol = $("#specimen_codeIndBiomol");
 
-  initSearchSelect($biomat, "lotmateriel_search");
+  initSearchSelect($biomat, "internal_lot_search");
 
   if ($form.data("action") == "new") {
     $biomat.change(updateSpecimenMorphoCode);

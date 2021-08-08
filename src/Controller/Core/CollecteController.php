@@ -113,9 +113,9 @@ class CollecteController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // search for material associated with a sampling
       $query = $em->createQuery(
-        'SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = ' . $id
+        'SELECT lot.id FROM App:InternalLot lot WHERE lot.collecteFk = ' . $id
       )->getResult();
-      $linkLotmaterielFk = (count($query) > 0) ? $id : '';
+      $linkInternalLotFk = (count($query) > 0) ? $id : '';
       // search for external material associated with a sampling
       $query = $em->createQuery(
         'SELECT lotext.id FROM App:ExternalLot lotext WHERE lotext.collecteFk = ' . $id
@@ -151,7 +151,7 @@ class CollecteController extends AbstractController {
         "userCreId" => $service->GetUserCreId($entity),
         "collecte.userCre" => $service->GetUserCreUserfullname($entity),
         "collecte.userMaj" => $service->GetUserMajUserfullname($entity),
-        "linkLotmateriel" => $linkLotmaterielFk,
+        "linkInternalLot" => $linkInternalLotFk,
         "linkExternalLot" => $linkExternalLotFk,
         "linkSequenceassembleeext" => $linkSequenceassembleeextFk,
         "listeTaxonsCibler" => $listeTaxonsCibler,

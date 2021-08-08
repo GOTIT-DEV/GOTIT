@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LotMaterielEmbedType extends AbstractType {
+class InternalLotEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class LotMaterielEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\LotMateriel',
+      'data_class' => 'App\Entity\InternalLot',
     ));
   }
 
@@ -28,7 +28,7 @@ class LotMaterielEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'lotmateriel';
+    return 'internal_lot';
   }
 
 }

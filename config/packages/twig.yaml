@@ -35,8 +35,8 @@ twig:
         icon: fas fa-microscope
         text: core.Analyse morphologique
         children:
-          - route: lotmateriel_index
-            text: core.lotmateriel
+          - route: internal_lot_index
+            text: core.internal_lot
           - route: specimen_index
             text: core.specimen
           - route: slide_index
@@ -70,7 +70,7 @@ twig:
           - route: boite_index
             route_args:
               typeBoite: LOT
-            text: core.lotmateriel
+            text: core.internal_lot
           - route: boite_index
             route_args:
               typeBoite: LAME

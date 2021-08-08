@@ -82,10 +82,10 @@ class Boite extends AbstractTimestampedEntity {
   private $typeBoiteVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="LotMateriel", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="internalLot", mappedBy="boiteFk", cascade={"persist"})
    * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
    */
-  protected $lotMateriels;
+  protected $internalLots;
 
   /**
    * @ORM\OneToMany(targetEntity="Dna", mappedBy="boiteFk", cascade={"persist"})
@@ -100,7 +100,7 @@ class Boite extends AbstractTimestampedEntity {
   protected $slides;
 
   public function __construct() {
-    $this->lotMateriels = new ArrayCollection();
+    $this->internalLots = new ArrayCollection();
     $this->adns = new ArrayCollection();
     $this->slides = new ArrayCollection();
   }
@@ -247,35 +247,35 @@ class Boite extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add lotMateriel
+   * Add internalLot
    *
-   * @param \App\Entity\LotMateriel $lotMateriel
+   * @param \App\Entity\internalLot $internalLot
    *
    * @return Boite
    */
-  public function addLotMateriel(\App\Entity\LotMateriel $lotMateriel) {
-    $lotMateriel->setBoiteFk($this);
-    $this->lotMateriels[] = $lotMateriel;
+  public function addInternalLot(\App\Entity\internalLot $internalLot) {
+    $internalLot->setBoiteFk($this);
+    $this->internalLots[] = $internalLot;
 
     return $this;
   }
 
   /**
-   * Remove lotMateriel
+   * Remove internalLot
    *
-   * @param \App\Entity\LotMateriel $lotMateriel
+   * @param \App\Entity\internalLot $internalLot
    */
-  public function removeLotMateriel(\App\Entity\LotMateriel $lotMateriel) {
-    $this->lotMateriels->removeElement($lotMateriel);
+  public function removeInternalLot(\App\Entity\internalLot $internalLot) {
+    $this->internalLots->removeElement($internalLot);
   }
 
   /**
-   * Get lotMateriels
+   * Get internalLots
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getLotMateriels() {
-    return $this->lotMateriels;
+  public function getInternalLots() {
+    return $this->internalLots;
   }
 
   /**
