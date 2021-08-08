@@ -136,16 +136,16 @@ class LotMateriel extends AbstractTimestampedEntity {
   protected $taxonIdentifications;
 
   /**
-   * @ORM\OneToMany(targetEntity="CompositionLotMateriel", mappedBy="lotMaterielFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalLotContent", mappedBy="lotMaterielFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $compositionLotMateriels;
+  protected $contents;
 
   public function __construct() {
     $this->producers = new ArrayCollection();
     $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
-    $this->compositionLotMateriels = new ArrayCollection();
+    $this->contents = new ArrayCollection();
   }
 
   /**
@@ -453,35 +453,35 @@ class LotMateriel extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add compositionLotMateriel
+   * Add content
    *
-   * @param \App\Entity\CompositionLotMateriel $compositionLotMateriel
+   * @param \App\Entity\InternalLotContent $content
    *
    * @return LotMateriel
    */
-  public function addCompositionLotMateriel(\App\Entity\CompositionLotMateriel $compositionLotMateriel) {
-    $compositionLotMateriel->setLotMaterielFk($this);
-    $this->compositionLotMateriels[] = $compositionLotMateriel;
+  public function addContent(\App\Entity\InternalLotContent $content) {
+    $content->setLotMaterielFk($this);
+    $this->contents[] = $content;
 
     return $this;
   }
 
   /**
-   * Remove compositionLotMateriel
+   * Remove content
    *
-   * @param \App\Entity\CompositionLotMateriel $compositionLotMateriel
+   * @param \App\Entity\InternalLotContent $content
    */
-  public function removeCompositionLotMateriel(\App\Entity\CompositionLotMateriel $compositionLotMateriel) {
-    $this->compositionLotMateriels->removeElement($compositionLotMateriel);
+  public function removeContent(\App\Entity\InternalLotContent $content) {
+    $this->contents->removeElement($content);
   }
 
   /**
-   * Get compositionLotMateriels
+   * Get contents
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getCompositionLotMateriels() {
-    return $this->compositionLotMateriels;
+  public function getContents() {
+    return $this->contents;
   }
 
   /**

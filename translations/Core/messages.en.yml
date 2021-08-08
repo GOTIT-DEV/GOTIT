@@ -323,7 +323,7 @@ button.Back to the list of source: Back to the list of Sources
 # Button titles in web interface
 button.Add a Chromatogramme: Add chromatogram
 button.Add a Source: Add source
-button.Add a CompositionLotMateriel: Add composition of biological material
+button.Add a InternalLotContent: Add composition of biological material
 button.Add a TaxonIdentification: Add species taxa
 button.Add a new Municipality: Add new Municipality
 button.Add a SamplingMethod: Add sampling Method
@@ -704,7 +704,7 @@ Dna extractions: is extracted by
 Slide preparations: is mounted by
 Producers: is done by
 Taxon identifications: Identified species
-Composition lot materiels: Composition of biological material
+Contents: Composition of biological material
 Person species ids: is identified by
 Publications: is published in
 Pcr producers: PCR is done by

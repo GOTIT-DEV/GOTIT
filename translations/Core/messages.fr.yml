@@ -157,7 +157,7 @@ button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
 button.Add a Chromatogramme: Ajouter un chromatogramme
 button.Add a Source: Ajouter une source
-button.Add a CompositionLotMateriel: Ajouter une composition de lot matériel
+button.Add a InternalLotContent: Ajouter une composition de lot matériel
 button.Add a TaxonIdentification: Ajouter une espèce identifiée
 button.Add a new Commune: Ajouter une nouvelle commune
 button.add:
@@ -542,7 +542,7 @@ Dna extractions: Est extrait par
 Slide preparations: Est monté par
 Producers: Est realisé par
 Taxon identifications: Espèce identifiée
-Composition lot materiels: Composition du lot matériel
+Contents: Composition du lot matériel
 Person species ids: Est identifié par
 Pcr producers: Est realisée par
 Sampling methods: Méthode échantillonnage

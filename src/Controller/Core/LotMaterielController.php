@@ -268,7 +268,7 @@ class LotMaterielController extends AbstractController {
     }
 
     // store ArrayCollection
-    $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
+    $contents = $service->setArrayCollection('Contents', $lotMateriel);
     $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel);
     $publications = $service->setArrayCollection('Publications', $lotMateriel);
     $producers = $service->setArrayCollection('Producers', $lotMateriel);
@@ -282,7 +282,7 @@ class LotMaterielController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
+      $service->DelArrayCollection('Contents', $lotMateriel, $contents);
       $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel, $taxonIdentifications);
       $service->DelArrayCollection('Publications', $lotMateriel, $publications);
       $service->DelArrayCollection('Producers', $lotMateriel, $producers);

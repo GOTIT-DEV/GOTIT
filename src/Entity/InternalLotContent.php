@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CompositionLotMateriel
+ * InternalLotContent
  *
  * @ORM\Table(name="composition_of_internal_biological_material",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CompositionLotMateriel extends AbstractTimestampedEntity {
+class InternalLotContent extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -52,7 +52,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
   /**
    * @var \LotMateriel
    *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="compositionLotMateriels")
+   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="contents")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -73,7 +73,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *
    * @param integer $specimenCount
    *
-   * @return CompositionLotMateriel
+   * @return InternalLotContent
    */
   public function setSpecimenCount($specimenCount) {
     $this->specimenCount = $specimenCount;
@@ -95,7 +95,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *
    * @param string $commentaireCompoLotMateriel
    *
-   * @return CompositionLotMateriel
+   * @return InternalLotContent
    */
   public function setCommentaireCompoLotMateriel($commentaireCompoLotMateriel) {
     $this->commentaireCompoLotMateriel = $commentaireCompoLotMateriel;
@@ -117,7 +117,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $specimenTypeVocFk
    *
-   * @return CompositionLotMateriel
+   * @return InternalLotContent
    */
   public function setSpecimenTypeVocFk(\App\Entity\Voc $specimenTypeVocFk = null) {
     $this->specimenTypeVocFk = $specimenTypeVocFk;
@@ -139,7 +139,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMateriel $lotMaterielFk
    *
-   * @return CompositionLotMateriel
+   * @return InternalLotContent
    */
   public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
     $this->lotMaterielFk = $lotMaterielFk;

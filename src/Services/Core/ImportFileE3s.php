@@ -2738,21 +2738,21 @@ class ImportFileE3s {
         }
       }
 
-      # Record of CompositionLotMateriel
-      foreach ($columnByTable["composition_lot_materiel"] as $ColCsv) {
+      # Record of InternalLotContent
+      foreach ($columnByTable["content"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
-        if ($ColCsv == 'composition_lot_materiel.commentaire_compo_lot_materiel') {
+        if ($ColCsv == 'content.commentaire_compo_lot_materiel') {
           $commentaireCompoLotMateriel = $dataColCsv;
         }
 
-        if ($ColCsv == 'composition_lot_materiel.specimen_count+specimen_type_voc_fk(voc.code)') {
+        if ($ColCsv == 'content.specimen_count+specimen_type_voc_fk(voc.code)') {
           $tab_foreign_field = explode("$", $dataColCsv); // We transform the contents of the field into a table
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\CompositionLotMateriel();
+            $entityRel = new \App\Entity\InternalLotContent();
             $method = "setLotMaterielFk";
             $entityRel->$method($entity);
             $entityRel->setCommentaireCompoLotMateriel($commentaireCompoLotMateriel);

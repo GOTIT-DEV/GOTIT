@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CompositionLotMaterielEmbedType extends AbstractType {
+class InternalLotContentEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -26,7 +26,7 @@ class CompositionLotMaterielEmbedType extends AbstractType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\CompositionLotMateriel',
+      'data_class' => 'App\Entity\InternalLotContent',
     ));
   }
 
@@ -34,6 +34,6 @@ class CompositionLotMaterielEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'compositionlotmateriel';
+    return 'content';
   }
 }

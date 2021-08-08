@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
 use App\Form\EmbedTypes\InternalLotProducerEmbedType;
 use App\Form\EmbedTypes\InternalLotPublicationEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
@@ -100,8 +99,8 @@ class LotMaterielType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('compositionLotMateriels', CollectionType::class, array(
-        'entry_type' => CompositionLotMaterielEmbedType::class,
+      ->add('contents', CollectionType::class, array(
+        'entry_type' => InternalLotContentEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
