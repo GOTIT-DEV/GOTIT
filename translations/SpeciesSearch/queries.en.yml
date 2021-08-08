@@ -11,7 +11,7 @@ label:
   resultats: Results
   reference: Reference method
   morpho: Morphology
-  morphotaxon: 'Morphology : taxon'
+  morphotaxon: "Morphology : taxon"
   target: Target dataset
 tabs:
   reference: Reference
@@ -33,23 +33,23 @@ plots:
 ui:
   close: Close
 entity:
-  biomaterial: 
+  biomaterial:
     label: Biological material
     id: Bio. mat. ID
     species: BM taxon
     code: Bio. mat. code
-  individu: 
+  specimen:
     label: Specimen
     id: Specimen ID
     species: Specimen taxon
     code:
-       biomol: Specimen mol. code
-       trimorpho: Specimen morph. code
-  seq: 
+      biomol: Specimen mol. code
+      trimorpho: Specimen morph. code
+  seq:
     label: DNA sequence
     id: Seq. ID
-    species : Seq. taxon
-    code : Seq. code
+    species: Seq. taxon
+    code: Seq. code
     type:
       interne: Internal
       externe: External
@@ -64,12 +64,12 @@ maps:
     filter:
       reset: Show all stations
       motu: Filter on this MOTU
-  sampling: 
+  sampling:
     biomaterial:
       internal: Bio. material (Internal)
       external: Bio. material (External)
     co1: CO1 sample
-    lmp: Latitudinal midpoint (LMP) 
+    lmp: Latitudinal midpoint (LMP)
 
 columns:
   id: ID

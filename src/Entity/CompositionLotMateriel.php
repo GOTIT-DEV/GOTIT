@@ -30,7 +30,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="number_of_specimens", type="bigint", nullable=true)
    */
-  private $nbIndividus;
+  private $specimenCount;
 
   /**
    * @var string
@@ -47,7 +47,7 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $typeIndividuVocFk;
+  private $specimenTypeVocFk;
 
   /**
    * @var \LotMateriel
@@ -69,25 +69,25 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set nbIndividus
+   * Set specimenCount
    *
-   * @param integer $nbIndividus
+   * @param integer $specimenCount
    *
    * @return CompositionLotMateriel
    */
-  public function setNbIndividus($nbIndividus) {
-    $this->nbIndividus = $nbIndividus;
+  public function setSpecimenCount($specimenCount) {
+    $this->specimenCount = $specimenCount;
 
     return $this;
   }
 
   /**
-   * Get nbIndividus
+   * Get specimenCount
    *
    * @return integer
    */
-  public function getNbIndividus() {
-    return $this->nbIndividus;
+  public function getSpecimenCount() {
+    return $this->specimenCount;
   }
 
   /**
@@ -113,25 +113,25 @@ class CompositionLotMateriel extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set typeIndividuVocFk
+   * Set specimenTypeVocFk
    *
-   * @param \App\Entity\Voc $typeIndividuVocFk
+   * @param \App\Entity\Voc $specimenTypeVocFk
    *
    * @return CompositionLotMateriel
    */
-  public function setTypeIndividuVocFk(\App\Entity\Voc $typeIndividuVocFk = null) {
-    $this->typeIndividuVocFk = $typeIndividuVocFk;
+  public function setSpecimenTypeVocFk(\App\Entity\Voc $specimenTypeVocFk = null) {
+    $this->specimenTypeVocFk = $specimenTypeVocFk;
 
     return $this;
   }
 
   /**
-   * Get typeIndividuVocFk
+   * Get specimenTypeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getTypeIndividuVocFk() {
-    return $this->typeIndividuVocFk;
+  public function getSpecimenTypeVocFk() {
+    return $this->specimenTypeVocFk;
   }
 
   /**

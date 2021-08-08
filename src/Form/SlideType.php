@@ -19,14 +19,14 @@ class SlideType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $specimen = $builder->getData()->getIndividuFk();
+    $specimen = $builder->getData()->getSpecimenFk();
 
     $builder
-      ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+      ->add('specimenFk', SearchableSelectType::class, [
+        'class' => 'App:Specimen',
         'choice_label' => 'codeIndTriMorpho',
         'placeholder' => $this->translator
-          ->trans("Individu codeIndTriMorpho typeahead placeholder"),
+          ->trans("Specimen codeIndTriMorpho typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $specimen != null,

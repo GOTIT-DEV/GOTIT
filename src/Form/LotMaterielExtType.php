@@ -48,11 +48,11 @@ class LotMaterielExtType extends ActionFormType {
         'placeholder' => 'Choose a Eye',
       ])
       ->add('commentaireLotMaterielExt')
-      ->add('nbIndividusVocFk', BaseVocType::class, [
+      ->add('specimenQuantityVocFk', BaseVocType::class, [
         'voc_parent' => 'nbIndividus',
         'placeholder' => 'Choose an option',
       ])
-      ->add('commentaireNbIndividus')
+      ->add('specimenQuantityComment')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationLotMaterielExt', DateFormattedType::class)
       ->add('lotMaterielExtEstRealisePars', CollectionType::class, [

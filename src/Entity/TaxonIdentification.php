@@ -118,14 +118,14 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $referentielTaxonFk;
 
   /**
-   * @var \Individu
+   * @var \Specimen
    *
-   * @ORM\ManyToOne(targetEntity="Individu", inversedBy="taxonIdentifications")
+   * @ORM\ManyToOne(targetEntity="Specimen", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
    */
-  private $individuFk;
+  private $specimenFk;
 
   /**
    * @var \SequenceAssemblee
@@ -333,25 +333,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set individuFk
+   * Set specimenFk
    *
-   * @param \App\Entity\Individu $individuFk
+   * @param \App\Entity\Specimen $specimenFk
    *
    * @return TaxonIdentification
    */
-  public function setIndividuFk(\App\Entity\Individu $individuFk = null) {
-    $this->individuFk = $individuFk;
+  public function setSpecimenFk(\App\Entity\Specimen $specimenFk = null) {
+    $this->specimenFk = $specimenFk;
 
     return $this;
   }
 
   /**
-   * Get individuFk
+   * Get specimenFk
    *
-   * @return \App\Entity\Individu
+   * @return \App\Entity\Specimen
    */
-  public function getIndividuFk() {
-    return $this->individuFk;
+  public function getSpecimenFk() {
+    return $this->specimenFk;
   }
 
   /**

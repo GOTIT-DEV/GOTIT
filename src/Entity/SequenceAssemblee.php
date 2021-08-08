@@ -428,21 +428,21 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Get individuFk
+   * Get specimenFk
    *
    * this assumes that a sequence matches ONE specimen only,
    * even if it was processed through multiple chromatograms
    *
    * @return mixed
    */
-  public function getIndividuFk() {
+  public function getSpecimenFk() {
     $process = $this->estAligneEtTraites->first();
     return $process
     ? $process
       ->getChromatogrammeFk()
       ->getPcrFk()
       ->getAdnFk()
-      ->getIndividuFk()
+      ->getSpecimenFk()
     : null;
   }
 
@@ -471,7 +471,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
         ->getCodeTaxon();
       $seqCodeElts[] = $lastTaxonCode;
 
-      $specimen = $this->getIndividuFk();
+      $specimen = $this->getSpecimenFk();
       $samplingCode = $specimen->getLotMaterielFk()
         ->getCollecteFk()
         ->getCodeCollecte();

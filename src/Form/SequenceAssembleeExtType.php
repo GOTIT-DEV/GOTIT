@@ -47,7 +47,7 @@ class SequenceAssembleeExtType extends ActionFormType {
       ->add('accessionNumberSqcAssExt', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('numIndividuSqcAssExt', null, [
+      ->add('specimenMolecularNumber', null, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('taxonOrigineSqcAssExt')

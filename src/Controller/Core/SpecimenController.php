@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Individu;
+use App\Entity\Specimen;
 use App\Entity\TaxonIdentification;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -13,37 +13,37 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Individu controller.
+ * Specimen controller.
  *
- * @Route("individu")
+ * @Route("specimen")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuController extends AbstractController {
+class SpecimenController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
-   * Lists all individu entities.
+   * Lists all specimen entities.
    *
-   * @Route("/", name="individu_index", methods={"GET"})
+   * @Route("/", name="specimen_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $individus = $em->getRepository('App:Individu')->findAll();
+    $specimens = $em->getRepository('App:Specimen')->findAll();
 
-    return $this->render('Core/individu/index.html.twig', [
-      'individus' => $individus,
+    return $this->render('Core/specimen/index.html.twig', [
+      'specimens' => $specimens,
     ]);
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="individu_search")
+   * @Route("/search/{q}", requirements={"q"=".+"}, name="specimen_search")
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
-      ->from('App:Individu', 'ind');
+      ->from('App:Specimen', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(ind.codeIndBiomol) like :q' . $i . ')');
@@ -57,13 +57,13 @@ class IndividuController extends AbstractController {
   }
 
   /**
-   * @Route("/search_with_gene/{query}/{gene}", name="individu_search_with_gene")
+   * @Route("/search_with_gene/{query}/{gene}", name="specimen_search_with_gene")
    */
   public function searchWithGeneAction(String $query, int $gene) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
-      ->from('App:Individu', 'ind')
-      ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.individuFk = ind.id')
+      ->from('App:Specimen', 'ind')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.specimenFk = ind.id')
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = dna.id')
       ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
       ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
@@ -79,12 +79,12 @@ class IndividuController extends AbstractController {
   }
 
   /**
-   * @Route("/search_by_codeindmorpho/{q}", requirements={"q"=".+"}, name="individu_search_by_codeindmorpho")
+   * @Route("/search_by_codeindmorpho/{q}", requirements={"q"=".+"}, name="specimen_search_by_codeindmorpho")
    */
   public function searchByCodeIndmorphoAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndTriMorpho as code')
-      ->from('App:Individu', 'ind');
+      ->from('App:Specimen', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     $and = [];
     for ($i = 0; $i < count($query); $i++) {
@@ -109,7 +109,7 @@ class IndividuController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="individu_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="specimen_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     $em = $this->getDoctrine()->getManager();
@@ -229,27 +229,27 @@ class IndividuController extends AbstractController {
   }
 
   /**
-   * Creates a new individu entity.
+   * Creates a new specimen entity.
    *
-   * @Route("/new", name="individu_new", methods={"GET", "POST"})
+   * @Route("/new", name="specimen_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $individu = new Individu();
-    $individu->addTaxonIdentification(new TaxonIdentification());
+    $specimen = new Specimen();
+    $specimen->addTaxonIdentification(new TaxonIdentification());
 
     $em = $this->getDoctrine()->getManager();
     if ($biomat_id = $request->get('idFk')) {
       $biomat = $em->getRepository('App:LotMateriel')->find($biomat_id);
-      $individu->setLotMaterielFk($biomat);
+      $specimen->setLotMaterielFk($biomat);
     }
-    $form = $this->createForm('App\Form\IndividuType', $individu, [
+    $form = $this->createForm('App\Form\SpecimenType', $specimen, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($individu);
+      $em->persist($specimen);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -257,72 +257,72 @@ class IndividuController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individu/index.html.twig',
+          'Core/specimen/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('individu_edit', [
-        'id' => $individu->getId(),
+      return $this->redirectToRoute('specimen_edit', [
+        'id' => $specimen->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ]);
     }
 
-    return $this->render('Core/individu/edit.html.twig', [
-      'individu' => $individu,
+    return $this->render('Core/specimen/edit.html.twig', [
+      'specimen' => $specimen,
       'edit_form' => $form->createView(),
     ]);
   }
 
   /**
-   * Finds and displays a individu entity.
+   * Finds and displays a specimen entity.
    *
-   * @Route("/{id}", name="individu_show", methods={"GET"})
+   * @Route("/{id}", name="specimen_show", methods={"GET"})
    */
-  public function showAction(Individu $individu) {
-    $deleteForm = $this->createDeleteForm($individu);
-    $editForm = $this->createForm('App\Form\IndividuType', $individu, [
+  public function showAction(Specimen $specimen) {
+    $deleteForm = $this->createDeleteForm($specimen);
+    $editForm = $this->createForm('App\Form\SpecimenType', $specimen, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/individu/edit.html.twig', [
-      'individu' => $individu,
+    return $this->render('Core/specimen/edit.html.twig', [
+      'specimen' => $specimen,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Displays a form to edit an existing individu entity.
+   * Displays a form to edit an existing specimen entity.
    *
-   * @Route("/{id}/edit", name="individu_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="specimen_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Individu $individu, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Specimen $specimen, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $individu->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $specimen->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $individu);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $specimen);
 
-    $deleteForm = $this->createDeleteForm($individu);
-    if ($individu->getCodeIndBiomol()) {
-      $editForm = $this->createForm('App\Form\IndividuType', $individu, [
+    $deleteForm = $this->createDeleteForm($specimen);
+    if ($specimen->getCodeIndBiomol()) {
+      $editForm = $this->createForm('App\Form\SpecimenType', $specimen, [
         'action_type' => Action::edit(),
       ]);
     } else {
-      $editForm = $this->createForm('App\Form\IndividuType', $individu, [
+      $editForm = $this->createForm('App\Form\SpecimenType', $specimen, [
         'action_type' => Action::edit(),
       ]);
     }
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $individu, $taxonIdentifications);
-      $this->getDoctrine()->getManager()->persist($individu);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $specimen, $taxonIdentifications);
+      $this->getDoctrine()->getManager()->persist($specimen);
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -330,65 +330,65 @@ class IndividuController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individu/index.html.twig',
+          'Core/specimen/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/individu/edit.html.twig', [
-        'individu' => $individu,
+      return $this->render('Core/specimen/edit.html.twig', [
+        'specimen' => $specimen,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ]);
     }
 
-    return $this->render('Core/individu/edit.html.twig', [
-      'individu' => $individu,
+    return $this->render('Core/specimen/edit.html.twig', [
+      'specimen' => $specimen,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Deletes a individu entity.
+   * Deletes a specimen entity.
    *
-   * @Route("/{id}", name="individu_delete", methods={"DELETE"})
+   * @Route("/{id}", name="specimen_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Individu $individu) {
-    $form = $this->createDeleteForm($individu);
+  public function deleteAction(Request $request, Specimen $specimen) {
+    $form = $this->createDeleteForm($specimen);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($individu);
+        $em->remove($specimen);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individu/index.html.twig',
+          'Core/specimen/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('individu_index');
+    return $this->redirectToRoute('specimen_index');
   }
 
   /**
-   * Creates a form to delete a individu entity.
+   * Creates a form to delete a specimen entity.
    *
-   * @param Individu $individu The individu entity
+   * @param Specimen $specimen The specimen entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Individu $individu) {
+  private function createDeleteForm(Specimen $specimen) {
     return $this->createFormBuilder()
       ->setAction(
-        $this->generateUrl('individu_delete', ['id' => $individu->getId()])
+        $this->generateUrl('specimen_delete', ['id' => $specimen->getId()])
       )
       ->setMethod('DELETE')
       ->getForm();

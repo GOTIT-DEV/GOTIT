@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IndividuType extends ActionFormType {
+class SpecimenType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -40,7 +40,7 @@ class IndividuType extends ActionFormType {
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('typeIndividuVocFk', BaseVocType::class, [
+      ->add('specimenTypeVocFk', BaseVocType::class, [
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
       ]);
@@ -80,7 +80,7 @@ class IndividuType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Individu',
+      'data_class' => 'App\Entity\Specimen',
       'refTaxonLabel' => 'taxname',
     ));
   }
@@ -89,6 +89,6 @@ class IndividuType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_individu';
+    return 'specimen';
   }
 }

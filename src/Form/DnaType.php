@@ -22,12 +22,12 @@ class DnaType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $specimen = $builder->getData()->getIndividuFk();
+    $specimen = $builder->getData()->getSpecimenFk();
     $builder
-      ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+      ->add('specimenFk', SearchableSelectType::class, [
+        'class' => 'App:Specimen',
         'choice_label' => 'codeIndBioMol',
-        'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
+        'placeholder' => $this->translator->trans("Specimen typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $specimen != null,

@@ -22,7 +22,7 @@ class DashboardController extends AbstractController {
     $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
     $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
     $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
-    $nbIndividu = $em->createQuery('SELECT COUNT(u.id) FROM App:Individu u')->getSingleScalarResult();
+    $nbSpecimen = $em->createQuery('SELECT COUNT(u.id) FROM App:Specimen u')->getSingleScalarResult();
     $nbSlide = $em->createQuery('SELECT COUNT(u.id) FROM App:Slide u')->getSingleScalarResult();
     $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
     $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
@@ -92,8 +92,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the specimen
-    $entities_toshow = $em->getRepository("App:Individu")->createQueryBuilder('individu')
-      ->addOrderBy('individu.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Specimen")->createQueryBuilder('specimen')
+      ->addOrderBy('specimen.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -103,7 +103,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'individu',
+        "name" => 'specimen',
         "code" => $entity->getCodeIndTriMorpho(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -259,7 +259,7 @@ class DashboardController extends AbstractController {
       'nbStation' => $nbstations,
       'nbLotMateriel' => $nbLotMateriel,
       'nbLotMaterielExt' => $nbLotMaterielExt,
-      'nbIndividu' => $nbIndividu,
+      'nbSpecimen' => $nbSpecimen,
       'nbSlide' => $nbSlide,
       'nbDna' => $nbDna,
       'nbPcr' => $nbPcr,

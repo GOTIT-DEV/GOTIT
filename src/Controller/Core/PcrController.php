@@ -76,7 +76,7 @@ class PcrController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
+    $where = 'LOWER(specimen.codeIndBiomol) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -91,7 +91,7 @@ class PcrController extends AbstractController {
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
+      ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
       ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
       ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
@@ -130,7 +130,7 @@ class PcrController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
-        "individu.codeIndBiomol" => $entity->getAdnFk()->getIndividuFk()->getCodeIndBiomol(),
+        "specimen.codeIndBiomol" => $entity->getAdnFk()->getSpecimenFk()->getCodeIndBiomol(),
         "adn.codeAdn" => $entity->getAdnFk()->getCodeAdn(),
         "pcr.codePcr" => $entity->getCodePcr(),
         "pcr.numPcr" => $entity->getNumPcr(),

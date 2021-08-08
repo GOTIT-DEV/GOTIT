@@ -37,8 +37,8 @@ twig:
         children:
           - route: lotmateriel_index
             text: core.lotmateriel
-          - route: individu_index
-            text: core.individu
+          - route: specimen_index
+            text: core.specimen
           - route: slide_index
             text: core.slide
           - route: lotmaterielext_index

@@ -12,8 +12,8 @@ class CompositionLotMaterielEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('nbIndividus')
-      ->add('typeIndividuVocFk', BaseVocType::class, [
+    $builder->add('specimentCount')
+      ->add('specimenTypeVocFk', BaseVocType::class, [
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
       ])

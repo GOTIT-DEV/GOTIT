@@ -18,7 +18,7 @@ class GeneSpecimenType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $form_data = $builder->getData();
     $gene = $form_data['geneVocFk'];
-    $specimen = $form_data['individuFk'];
+    $specimen = $form_data['specimenFk'];
 
     $builder
       ->add('geneVocFk', GeneType::class, [
@@ -36,10 +36,10 @@ class GeneSpecimenType extends ActionFormType {
           return $qb;
         },
       ])
-      ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+      ->add('specimenFk', SearchableSelectType::class, [
+        'class' => 'App:Specimen',
         'choice_label' => 'codeIndBiomol',
-        'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
+        'placeholder' => $this->translator->trans("Specimen typeahead placeholder"),
         'attr' => [
           'readonly' => $this->canEditAdminOnly($options) || $specimen != null,
         ],

@@ -22,7 +22,7 @@ class SequenceAssembleeType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sequence = $builder->getData();
     $gene = $options['gene'] ?: $sequence->getGeneVocFk();
-    $specimen = $options['specimen'] ?: $sequence->getIndividuFk();
+    $specimen = $options['specimen'] ?: $sequence->getSpecimenFk();
 
     $builder
       ->add('codeSqcAss', EntityCodeType::class, [
@@ -57,7 +57,7 @@ class SequenceAssembleeType extends ActionFormType {
         'entry_options' => array(
           'label' => false,
           'geneVocFk' => $gene,
-          'individuFk' => $specimen,
+          'specimenFk' => $specimen,
         ),
       ))
       ->add('sequenceAssembleeEstRealisePars', CollectionType::class, array(

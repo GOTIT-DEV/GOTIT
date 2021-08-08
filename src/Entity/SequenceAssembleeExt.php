@@ -68,7 +68,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="external_sequence_specimen_number", type="string", length=255, nullable=false)
    */
-  private $numIndividuSqcAssExt;
+  private $specimenMolecularNumber;
 
   /**
    * @var string
@@ -256,25 +256,25 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set numIndividuSqcAssExt
+   * Set specimenMolecularNumber
    *
-   * @param string $numIndividuSqcAssExt
+   * @param string $specimenMolecularNumber
    *
    * @return SequenceAssembleeExt
    */
-  public function setNumIndividuSqcAssExt($numIndividuSqcAssExt) {
-    $this->numIndividuSqcAssExt = $numIndividuSqcAssExt;
+  public function setSpecimenMolecularNumber($specimenMolecularNumber) {
+    $this->specimenMolecularNumber = $specimenMolecularNumber;
 
     return $this;
   }
 
   /**
-   * Get numIndividuSqcAssExt
+   * Get specimenMolecularNumber
    *
    * @return string
    */
-  public function getNumIndividuSqcAssExt() {
-    return $this->numIndividuSqcAssExt;
+  public function getSpecimenMolecularNumber() {
+    return $this->specimenMolecularNumber;
   }
 
   /**

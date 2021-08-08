@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Individu
+ * Specimen
  *
  * @ORM\Table(name="specimen",
  *  uniqueConstraints={
@@ -22,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Individu extends AbstractTimestampedEntity {
+class Specimen extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -76,7 +76,7 @@ class Individu extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $typeIndividuVocFk;
+  private $specimenTypeVocFk;
 
   /**
    * @var \LotMateriel
@@ -89,7 +89,7 @@ class Individu extends AbstractTimestampedEntity {
   private $lotMaterielFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="individuFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="specimenFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
@@ -112,7 +112,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param string $codeIndBiomol
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setCodeIndBiomol($codeIndBiomol) {
     $this->codeIndBiomol = $codeIndBiomol;
@@ -134,7 +134,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param string $codeIndTriMorpho
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setCodeIndTriMorpho($codeIndTriMorpho) {
     $this->codeIndTriMorpho = $codeIndTriMorpho;
@@ -156,7 +156,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param string $codeTube
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setCodeTube($codeTube) {
     $this->codeTube = $codeTube;
@@ -178,7 +178,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param string $numIndBiomol
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setNumIndBiomol($numIndBiomol) {
     $this->numIndBiomol = $numIndBiomol;
@@ -200,7 +200,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param string $commentaireInd
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setCommentaireInd($commentaireInd) {
     $this->commentaireInd = $commentaireInd;
@@ -218,25 +218,25 @@ class Individu extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set typeIndividuVocFk
+   * Set specimenTypeVocFk
    *
-   * @param \App\Entity\Voc $typeIndividuVocFk
+   * @param \App\Entity\Voc $specimenTypeVocFk
    *
-   * @return Individu
+   * @return Specimen
    */
-  public function setTypeIndividuVocFk(\App\Entity\Voc $typeIndividuVocFk = null) {
-    $this->typeIndividuVocFk = $typeIndividuVocFk;
+  public function setSpecimenTypeVocFk(\App\Entity\Voc $specimenTypeVocFk = null) {
+    $this->specimenTypeVocFk = $specimenTypeVocFk;
 
     return $this;
   }
 
   /**
-   * Get typeIndividuVocFk
+   * Get specimenTypeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getTypeIndividuVocFk() {
-    return $this->typeIndividuVocFk;
+  public function getSpecimenTypeVocFk() {
+    return $this->specimenTypeVocFk;
   }
 
   /**
@@ -244,7 +244,7 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMateriel $lotMaterielFk
    *
-   * @return Individu
+   * @return Specimen
    */
   public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
     $this->lotMaterielFk = $lotMaterielFk;
@@ -266,10 +266,10 @@ class Individu extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
-   * @return Individu
+   * @return Specimen
    */
   public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setIndividuFk($this);
+    $taxonIdentification->setSpecimenFk($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;

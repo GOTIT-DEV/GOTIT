@@ -2,11 +2,11 @@
 
 namespace App\Form\EmbedTypes;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
@@ -19,12 +19,12 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
         $qb = $er->createQueryBuilder('chromatogramme');
         return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
           ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
-          ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
+          ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
           ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
           ->where('pcr.geneVocFk = :geneVocFk')
-          ->andwhere('individu.id = :individuFk')
+          ->andwhere('specimen.id = :specimenFk')
           ->setParameters([
-            'individuFk' => $options['individuFk'],
+            'specimenFk' => $options['specimenFk'],
             'geneVocFk' => $options['geneVocFk'],
           ]);
       },
@@ -44,7 +44,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\EstAligneEtTraite',
       'geneVocFk' => null,
-      'individuFk' => null,
+      'specimenFk' => null,
     ));
   }
 

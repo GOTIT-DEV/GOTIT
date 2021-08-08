@@ -12,7 +12,7 @@ $(() => {
     "#bbees_e3sbundle_sequenceassembleeext_taxonIdentifications_0_referentielTaxonFk"
   );
   const $specimen = $(
-    "#bbees_e3sbundle_sequenceassembleeext_numIndividuSqcAssExt"
+    "#bbees_e3sbundle_sequenceassembleeext_specimenMolecularNumber"
   );
   const $accession = $(
     "#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt"

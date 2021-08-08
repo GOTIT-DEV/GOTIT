@@ -74,14 +74,14 @@ class DnaController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND dna.individuFk = ' . $request->get('idFk');
+      $where .= ' AND dna.specimenFk = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Dna")->createQueryBuilder('dna')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
+      ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
       ->leftJoin('App:Boite', 'boite', 'WITH', 'dna.boiteFk = boite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -123,7 +123,7 @@ class DnaController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "adn.id" => $id,
-        "individu.codeIndBiomol" => $entity->getIndividuFk()->getCodeIndBiomol(),
+        "specimen.codeIndBiomol" => $entity->getSpecimenFk()->getCodeIndBiomol(),
         "adn.codeAdn" => $entity->getCodeAdn(),
         "listePersonne" => $listePersonne,
         "adn.dateAdn" => $DateAdn,
@@ -157,8 +157,8 @@ class DnaController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
-      $specimen = $em->getRepository('App:Individu')->find($specimen_id);
-      $adn->setIndividuFk($specimen);
+      $specimen = $em->getRepository('App:Specimen')->find($specimen_id);
+      $adn->setSpecimenFk($specimen);
     }
 
     $form = $this->createForm('App\Form\DnaType', $adn, [

@@ -15,7 +15,7 @@
 
 {% block body %}
 
-	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbIndividu + nbLotMateriel %}
+	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbSpecimen + nbLotMateriel %}
 
 	<div class="row">
 
@@ -115,11 +115,11 @@
 					</div>
 					<div class="widget_summary">
 						<div class="w_left w_55">
-							<span>{{'Dashboard.nbIndividu'|trans}}</span>
+							<span>{{'Dashboard.nbSpecimen'|trans}}</span>
 						</div>
 						<div class="w_center w_25"></div>
 						<div class="w_right w_20">
-							<span>{{ nbIndividu }}</span>
+							<span>{{ nbSpecimen }}</span>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -262,7 +262,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+							<a href="{{ path('importfilesspecimen_index') }}">{{'import.specimen'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesslide_index') }}">{{'import.slide'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -305,7 +305,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileslotmateriel_index') }}">{{'import.lotmateriel'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividu_index') }}">{{'import.individu'|trans}}</a><br/>
+							<a href="{{ path('importfilesspecimen_index') }}">{{'import.specimen'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesslide_index') }}">{{'import.slide'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -363,7 +363,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.individu'|trans}}</font>
+								<font color="grey">{{'import.specimen'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -428,7 +428,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.individu'|trans}}</font>
+								<font color="grey">{{'import.specimen'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">

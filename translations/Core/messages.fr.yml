@@ -17,9 +17,9 @@ Pcr typeahead placeholder: Taper les premières lettres du Code PCR
 Pcr typeahead: Pcr
 Adn typeahead placeholder: Taper les premières lettres du Code ADN
 Adn typeahead: Adn
-Individu typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
-Individu codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
-Individu typeahead: Individu
+Specimen typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
+Specimen codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
+Specimen typeahead: Individu
 Lotmateriel typeahead placeholder: Taper les premières lettres du Code lot matériel
 Lotmateriel typeahead: Lot
 Lotmaterielext typeahead placeholder: Taper les premières lettres du Code lot matériel externe
@@ -70,8 +70,8 @@ list.linkPcr: PCR(s)
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: Lot Ext
 list.linkSequenceassembleeext: Sqc Ext
-list.linkIndividu: Ind(s)
-list.linkIndividu_codestation: Ind/St
+list.linkSpecimen: Ind(s)
+list.linkSpecimen_codestation: Ind/St
 list.linkChromatogramme: Chrom(s)
 list.linkCollecte: Col
 # Column titles
@@ -126,7 +126,7 @@ button.Back to the list of municipality: Retour à la liste des Municipalities
 button.Back to station: Retour à la Station
 button.Back to collecte: Retour à la Collecte
 button.Back to lotmateriel: Retour au Lot matériel
-button.Back to individu: Retour à l'Individu
+button.Back to specimen: Retour à l'Individu
 button.Back to slide: Retour à la Lame
 button.Back to lotmaterielext: Retour au Lot matériel externe
 button.Back to adn: Retour à l'ADN
@@ -200,8 +200,8 @@ button.NewCollecte: Créer une collecte
 button.ImportCollecte: Importer des collectes
 button.NewLotmateriel: Créer un lot matériel
 button.ImportLotmateriel: Importer des lots matériels
-button.NewIndividu: Créer un individu
-button.ImportIndividu: Importer des individus
+button.NewSpecimen: Créer un individu
+button.ImportSpecimen: Importer des individus
 button.NewSlide: Créer une lame
 button.ImportSlide: Importer des lames
 button.NewAdn: Créer un ADN
@@ -255,7 +255,7 @@ import.boite.adnrange: Stocker des ADN par fichier
 import.station: Importer fichier(s) station
 import.collecte: Importer fichier(s) collecte
 import.lotmateriel: Importer fichier(s) lot matériel
-import.individu: Importer fichier(s) individu
+import.specimen: Importer fichier(s) individu
 import.slide: Importer fichier(s) lame
 import.lotmaterielext: Importer fichier(s) lot matériel externe
 import.adn: Importer fichier(s) ADN
@@ -309,7 +309,7 @@ Choose a Box: Sélectionner une boite
 Choose a Type: Sélectionner un type
 Choose a Lot Materiel: Sélectionner un lot matériel
 Choose a Source: Sélectionner une source
-Choose an individu: Sélectionner un individu
+Choose an specimen: Sélectionner un individu
 Choose a method: Sélectionner une méthode
 Choose a PCR: Sélectionner une PCR
 Choose a primer: Sélectionner une amorce
@@ -328,7 +328,7 @@ Dashboard.nbSequenceAssembleeExt: Séquence ADN
 Dashboard.nbSource: Références
 Dashboard.nbLotMateriel: Lot
 Dashboard.Materiel biologique: Matériel biologique
-Dashboard.nbIndividu: Individu
+Dashboard.nbSpecimen: Individu
 Dashboard.nbSlide: Lame
 Dashboard.nbAdn: ADN
 Dashboard.nbBoite: Boite
@@ -413,7 +413,7 @@ Commentaire lame: Commentaire lame
 Commentaire lot materiel: Commentaire lot matériel
 Commentaire lot materiel ext: Commentaire lot matériel externe
 Commentaire motu: Commentaire MOTU
-Commentaire nb individus: Commentaire nombre d'individus
+Specimen quantity comment: Commentaire nombre d'individus
 Commentaire personne: Commentaire personne
 Commentaire programme: Commentaire programme
 Commentaire ref: Commentaire taxon
@@ -448,7 +448,7 @@ Gene voc fk: Gène
 Genus: Genre
 Habitat type voc fk: Type habitat
 Id: Numero identification
-Individu fk: Individu
+Specimen: Individu
 Slide fk: Lame individu
 Info description: Description station
 Info localisation: Localisation station
@@ -466,8 +466,8 @@ Lot materiel fk: Lot matériel
 Methode extraction adn voc fk: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU
 Motu fk: MOTU
-Nb individus: Nombre d'individus
-Nb individus voc fk: Nombre d'individus
+Nb specimens: Nombre d'individus
+Specimen quantity voc fk: Nombre d'individus
 Nom commune: Nom commune
 Nom complet: Nom complet
 Nom dossier photos: Nom dossier photos
@@ -481,7 +481,7 @@ Nom region: Nom region
 Nom station: Nom station
 Noms responsables: Nom responsables
 Num ind biomol: Numero moléculaire individu
-Num individu sqc ass ext: Numero moléculaire individu séquence externe assemblée
+Specimen molecular number: Numero moléculaire individu séquence externe assemblée
 Num motu: Numero MOTU
 Num pcr: Numero PCR
 Num yas: Numero YAS
@@ -521,7 +521,7 @@ Temperature c: Température Celsius
 Type boite voc fk: Type boite
 Type collection voc fk: Type collection
 Type financeur: Type financeur
-Type individu voc fk: Type individu
+Specimen type voc fk: Type individu
 User cre: Utilisateur création
 User maj: Utilisateur mise à jour
 Validity: Validité

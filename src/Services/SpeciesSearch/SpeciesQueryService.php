@@ -79,7 +79,7 @@ class SpeciesQueryService {
    ****************************************************************************/
 
   private function joinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
+    return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
       ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->join('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
@@ -89,7 +89,7 @@ class SpeciesQueryService {
   }
 
   private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.individuFk")
+    return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->leftJoin('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->leftJoin('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
@@ -111,8 +111,8 @@ class SpeciesQueryService {
       ->leftJoin('App:Chromatogramme', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogrammeFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
       ->leftJoin('App:Dna', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
-      ->leftJoin('App:Individu', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.individuFk")
-      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.individuFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
+      ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.specimenFk")
+      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimenFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodeMotuVocFk")
       ->join('App:Motu', 'motu_date', 'WITH', "motu_date.id = $alias.motuFk");
   }
@@ -137,12 +137,12 @@ class SpeciesQueryService {
     switch ($level) {
     case 1: #lot matériel
       $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+        ->join('App:Specimen', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
       break;
 
-    case 2: #individu
-      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+    case 2: #specimen
+      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimenFk');
       $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
       break;
 
@@ -207,12 +207,12 @@ class SpeciesQueryService {
     switch ($level) {
     case 1: # Bio material
       $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+        ->join('App:Specimen', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
     case 2: # Specimen
-      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimenFk');
       $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
@@ -280,10 +280,10 @@ class SpeciesQueryService {
     $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm')
       ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
       ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
-    // ->addSelect('indiv as ind') // individu
-      ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // individu
-      ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon individu
-      ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere individu
+    // ->addSelect('indiv as ind') // specimen
+      ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // specimen
+      ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon specimen
+      ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere specimen
       ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
       ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
@@ -292,9 +292,9 @@ class SpeciesQueryService {
       ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
       ->join('App:ReferentielTaxon', 'biomat', 'WITH', 'biomat.id = eidlm.referentielTaxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
-    // JOIN individu
-      ->join('App:Individu', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
-      ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.individuFk')
+    // JOIN specimen
+      ->join('App:Specimen', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
+      ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimenFk')
       ->join('App:ReferentielTaxon', 'spec', 'WITH', 'spec.id = eidindiv.referentielTaxonFk')
       ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id');
     // JOIN sequence

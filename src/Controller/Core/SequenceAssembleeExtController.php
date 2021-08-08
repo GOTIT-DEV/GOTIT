@@ -418,10 +418,10 @@ class SequenceAssembleeExtController extends AbstractController {
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
+      $numSpecimenSqcAssExt = $sequenceAssembleeExt->getNumSpecimenSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
       $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
-      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numIndividuSqcAssExt .
+      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numSpecimenSqcAssExt .
         '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
@@ -455,12 +455,12 @@ class SequenceAssembleeExtController extends AbstractController {
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
       $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
+      $numSpecimenSqcAssExt = $sequenceAssembleeExt->getNumSpecimenSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
       $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
       $codeSqcAlignement = $codeSqcAlignement . '_' .
         $codeCollecte . '_' .
-        $numIndividuSqcAssExt . '_' .
+        $numSpecimenSqcAssExt . '_' .
         $accessionNumberSqcAssExt . '_' . $codeOrigineSqcAssExt;
     } else {
       $codeSqcAlignement = 0;

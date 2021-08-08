@@ -1,16 +1,14 @@
 import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
-  const $form = $("form[name='bbees_e3sbundle_individu']");
-  const $biomat = $("#bbees_e3sbundle_individu_lotMaterielFk");
-  const $taxon = $(
-    "#bbees_e3sbundle_individu_taxonIdentifications_0_referentielTaxonFk"
-  );
-  const $tube = $("#bbees_e3sbundle_individu_codeTube");
-  const $spMolNumber = $("#bbees_e3sbundle_individu_numIndBiomol");
+  const $form = $("form[name='specimen']");
+  const $biomat = $("#specimen_lotMaterielFk");
+  const $taxon = $("#specimen_taxonIdentifications_0_referentielTaxonFk");
+  const $tube = $("#specimen_codeTube");
+  const $spMolNumber = $("#specimen_numIndBiomol");
 
-  const $codeMorpho = $("#bbees_e3sbundle_individu_codeIndTriMorpho");
-  const $codeMol = $("#bbees_e3sbundle_individu_codeIndBiomol");
+  const $codeMorpho = $("#specimen_codeIndTriMorpho");
+  const $codeMol = $("#specimen_codeIndBiomol");
 
   initSearchSelect($biomat, "lotmateriel_search");
 

@@ -5,7 +5,7 @@ core:
   collecte: Sampling
   Analyse morphologique: Morphological analysis
   lotmateriel: Biological material
-  individu: Specimen
+  specimen: Specimen
   slide: Specimen slide
   lotmaterielext: External biological material
   Etude séquençage: DNA Sequences

@@ -52,7 +52,7 @@
 <script>
 const route_names = {
   biomaterial: "lotmateriel_show",
-  specimen: "individu_show",
+  specimen: "specimen_show",
   sequence: "sequenceassemblee_show",
 };
 export default {

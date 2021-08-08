@@ -151,7 +151,7 @@ class LotMaterielController extends AbstractController {
     // (count($query) > 0) ? $query[0]['name'] : 'NA'
 
     foreach ($entities_toshow as $key => $val) {
-      $linkIndividu = ($val['list_specimen'] !== null)
+      $linkSpecimen = ($val['list_specimen'] !== null)
       ? strval($val['id']) : '';
       $tab_toshow[] = array(
         "id" => $val['id'],
@@ -172,8 +172,8 @@ class LotMaterielController extends AbstractController {
         "creation_user_name" => $val['creation_user_name'],
         "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
-        "linkIndividu" => $linkIndividu,
-        "linkIndividu_codestation" => "%|" . $val['site_code'] . "_%",
+        "linkSpecimen" => $linkSpecimen,
+        "linkSpecimen_codestation" => "%|" . $val['site_code'] . "_%",
       );
     }
 

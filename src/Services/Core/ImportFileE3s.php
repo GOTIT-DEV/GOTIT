@@ -2157,11 +2157,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataIndividu($fichier, $userId = null)
+   *  importCSVDataSpecimen($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is specimen
    */
-  public function importCSVDataIndividu($fichier, $userId = null) {
+  public function importCSVDataSpecimen($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -2172,10 +2172,10 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      # Enregistrement des données de Individu
-      $entity = new \App\Entity\Individu();
+      # Enregistrement des données de Specimen
+      $entity = new \App\Entity\Specimen();
       //
-      foreach ($columnByTable["individu"] as $ColCsv) {
+      foreach ($columnByTable["specimen"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -2189,14 +2189,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'individu.code_ind_biomol' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndBiomol" => $dataColCsv));
+          if ($ColCsv == 'specimen.code_ind_biomol' && !is_null($dataColCsv)) {
+            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("codeIndBiomol" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           if ($ColCsv == 'code_ind_tri_morpho' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndTriMorpho" => $dataColCsv));
+            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("codeIndTriMorpho" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -2250,7 +2250,7 @@ class ImportFileE3s {
       if ($data[$columnByTable["taxon_identification"][$key_taxname]] != '') {
         $entityRel = new \App\Entity\TaxonIdentification();
         $entityEspeceIdentifie = $entityRel;
-        $method = "setIndividuFk";
+        $method = "setSpecimenFk";
         $entityRel->$method($entity);
         foreach ($columnByTable["taxon_identification"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -2748,7 +2748,7 @@ class ImportFileE3s {
           $commentaireCompoLotMateriel = $dataColCsv;
         }
 
-        if ($ColCsv == 'composition_lot_materiel.nb_individus+type_individu_voc_fk(voc.code)') {
+        if ($ColCsv == 'composition_lot_materiel.specimen_count+specimen_type_voc_fk(voc.code)') {
           $tab_foreign_field = explode("$", $dataColCsv); // We transform the contents of the field into a table
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
@@ -2756,23 +2756,23 @@ class ImportFileE3s {
             $method = "setLotMaterielFk";
             $entityRel->$method($entity);
             $entityRel->setCommentaireCompoLotMateriel($commentaireCompoLotMateriel);
-            // We split the information into two variable $nb_individus & $type_individu
-            $nb_individu = (int) preg_replace('/[^0-9]/', '', $val_foreign_field);
-            $type_individu = preg_replace('/[0-9]/', '', $val_foreign_field);
-            $type_individu = trim($type_individu);
-            if ($nb_individu == 0) {
-              $nb_individu = NULL;
+            // We split the information into two variable $specimen_count & $specimen_type
+            $specimen_count = (int) preg_replace('/[^0-9]/', '', $val_foreign_field);
+            $specimen_type = preg_replace('/[0-9]/', '', $val_foreign_field);
+            $specimen_type = trim($specimen_type);
+            if ($specimen_count == 0) {
+              $specimen_count = NULL;
             }
 
-            $entityRel->setNbIndividus($nb_individu);
-            $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $type_individu, "parent" => 'typeIndividu'));
+            $entityRel->setSpecimentCount($specimen_count);
+            $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $specimen_type, "parent" => 'typeIndividu'));
             if ($foreign_record === NULL) {
               switch ("Voc") {
               default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $type_individu . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $specimen_type . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
-              $entityRel->setTypeIndividuVocFk($foreign_record);
+              $entityRel->setSpecimenTypeVocFk($foreign_record);
             }
             $entityRel->setDateCre($DateImport);
             $entityRel->setDateMaj($DateImport);

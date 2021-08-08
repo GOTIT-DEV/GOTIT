@@ -13,19 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportIndividu controller.
+ * ImportSpecimen controller.
  *
- * @Route("importfilesindividu")
+ * @Route("importfilesspecimen")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesIndividuController extends AbstractController {
+class ImportFilesSpecimenController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesindividu_index")
+   * @Route("/", name="importfilesspecimen_index")
    *
    */
   public function indexAction(
@@ -81,7 +81,7 @@ class ImportFilesIndividuController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'specimen':
-          $message .= $importFileE3sService->importCSVDataIndividu($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataSpecimen($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());

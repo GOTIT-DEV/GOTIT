@@ -11,8 +11,8 @@
 
 		<hr>
 
-		{% if edit_form.vars.action_type != 'new' or 
-    (geneVocFk|default(null) and individuFk|default(null)) %}
+		{% if edit_form.vars.action_type != 'new' or
+    (geneVocFk|default(null) and specimenFk|default(null)) %}
 			{{ parent() }}
 		{% endif %}
 

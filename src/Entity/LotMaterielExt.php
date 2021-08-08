@@ -58,7 +58,7 @@ class LotMaterielExt extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="number_of_specimens_comments", type="text", nullable=true)
    */
-  private $commentaireNbIndividus;
+  private $specimenQuantityComment;
 
   /**
    * @var \Collecte
@@ -88,7 +88,7 @@ class LotMaterielExt extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="number_of_specimens_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $nbIndividusVocFk;
+  private $specimenQuantityVocFk;
 
   /**
    * @var \Voc
@@ -210,25 +210,25 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireNbIndividus
+   * Set specimenQuantityComment
    *
-   * @param string $commentaireNbIndividus
+   * @param string $specimenQuantityComment
    *
    * @return LotMaterielExt
    */
-  public function setCommentaireNbIndividus($commentaireNbIndividus) {
-    $this->commentaireNbIndividus = $commentaireNbIndividus;
+  public function setSpecimenQuantityComment($specimenQuantityComment) {
+    $this->specimenQuantityComment = $specimenQuantityComment;
 
     return $this;
   }
 
   /**
-   * Get commentaireNbIndividus
+   * Get specimenQuantityComment
    *
    * @return string
    */
-  public function getCommentaireNbIndividus() {
-    return $this->commentaireNbIndividus;
+  public function getSpecimenQuantityComment() {
+    return $this->specimenQuantityComment;
   }
 
   /**
@@ -276,25 +276,25 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set nbIndividusVocFk
+   * Set specimenQuantityVocFk
    *
-   * @param \App\Entity\Voc $nbIndividusVocFk
+   * @param \App\Entity\Voc $specimenQuantityVocFk
    *
    * @return LotMaterielExt
    */
-  public function setNbIndividusVocFk(\App\Entity\Voc $nbIndividusVocFk = null) {
-    $this->nbIndividusVocFk = $nbIndividusVocFk;
+  public function setSpecimenQuantityVocFk(\App\Entity\Voc $specimenQuantityVocFk = null) {
+    $this->specimenQuantityVocFk = $specimenQuantityVocFk;
 
     return $this;
   }
 
   /**
-   * Get nbIndividusVocFk
+   * Get specimenQuantityVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getNbIndividusVocFk() {
-    return $this->nbIndividusVocFk;
+  public function getSpecimenQuantityVocFk() {
+    return $this->specimenQuantityVocFk;
   }
 
   /**

@@ -5,7 +5,7 @@ core:
   collecte: Collecte
   Analyse morphologique: Analyse morphologique
   lotmateriel: Lot matériel
-  individu: Individu
+  specimen: Individu
   slide: Lame
   lotmaterielext: Lot matériel externe
   Etude séquençage: Séquences ADN

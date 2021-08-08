@@ -82,7 +82,7 @@ FEMELLE: FEMALE
 FEMELLE OVIGERE: OVIGEROUS FEMALE
 FEMELLE POCHE VIDE: FEMALE WITH EMPTY MARSUPIUM
 FRAGMENT: FRAGMENT
-INDIVIDUS: INDIVIDUALS
+INDIVIDUS: SPECIMENS
 JEUNE MALE: MALE JUVENILE
 JUVENILE: JUVENILE
 MALE: MALE
@@ -183,9 +183,9 @@ Pcr typeahead placeholder: Type the first letters of the PCR Code
 Pcr typeahead: Pcr
 Adn typeahead placeholder: Type the first letters of the DNA Code
 Adn typeahead: DNA
-Individu typeahead placeholder: Type the first letters of the Specimen Molecular Code
-Individu codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
-Individu typeahead: Specimen
+Specimen typeahead placeholder: Type the first letters of the Specimen Molecular Code
+Specimen codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
+Specimen typeahead: Specimen
 Lotmateriel typeahead placeholder: Type the first letters of the Internal biological material Code
 Lotmateriel typeahead: Internal biological material
 Lotmaterielext typeahead placeholder: Type the first letters of the External biological material Code
@@ -236,8 +236,8 @@ list.linkPcr: PCR
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: LotExt
 list.linkSequenceassembleeext: SqcExt
-list.linkIndividu: Ind(s)
-list.linkIndividu_codestation: Ind/Si
+list.linkSpecimen: Ind(s)
+list.linkSpecimen_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Sam
 # Column titles
@@ -292,7 +292,7 @@ button.Back to the list of municipality: Back to the list of Municipality
 button.Back to station: Back to Site
 button.Back to collecte: Back to Sampling
 button.Back to lotmateriel: Back to Biological material
-button.Back to individu: Back to Specimen
+button.Back to specimen: Back to Specimen
 button.Back to slide: Back to Specimen slide
 button.Back to lotmaterielext: Back to External biological material
 button.Back to adn: Back to DNA
@@ -308,7 +308,7 @@ button.Back to source: Back to Sources
 button.Back to the list of station: Back to the list of Sites
 button.Back to the list of collecte: Back to the list of Sampling
 button.Back to the list of lotmateriel: Back to the list of Biological material
-button.Back to the list of individu: Back to the list of Specimen
+button.Back to the list of specimen: Back to the list of Specimen
 button.Back to the list of slide: Back to the list of Specimen slide
 button.Back to the list of lotmaterielext: Back to the list of External biological material
 button.Back to the list of adn: Back to the list of DNA
@@ -365,8 +365,8 @@ button.NewCollecte: Create new sampling
 button.ImportCollecte: Import new set of sampling and related data
 button.NewLotmateriel: Create new biological material
 button.ImportLotmateriel: Import new set of biological material and related data
-button.NewIndividu: Create new specimen
-button.ImportIndividu: Import new set of specimens and related data
+button.NewSpecimen: Create new specimen
+button.ImportSpecimen: Import new set of specimens and related data
 button.NewSlide: Create new slide
 button.ImportSlide: Import new set of slides and related data
 button.NewAdn: Create new DNA
@@ -419,7 +419,7 @@ import.boite.adnrange: Store DNA box as file
 import.station: Upload Site
 import.collecte: Upload sampling
 import.lotmateriel: Upload biological material
-import.individu: Upload specimen
+import.specimen: Upload specimen
 import.slide: Upload specimen slide
 import.lotmaterielext: Upload external biological material
 import.adn: Upload DNA
@@ -474,7 +474,7 @@ Choose a Box: Select box
 Choose a Type: Select type
 Choose a Lot Materiel: Select biological material
 Choose a Source: Select source
-Choose an individu: Select specimen
+Choose an specimen: Select specimen
 Choose a method: Select method
 Choose a PCR: Select PCR code
 Choose a primer: Select primer
@@ -493,7 +493,7 @@ Dashboard.nbSequenceAssembleeExt: DNA sequence
 Dashboard.nbSource: Reference
 Dashboard.nbLotMateriel: Lot
 Dashboard.Materiel biologique: Biological material
-Dashboard.nbIndividu: Specimen
+Dashboard.nbSpecimen: Specimen
 Dashboard.nbSlide: Slide
 Dashboard.nbAdn: DNA
 Dashboard.nbBoite: Box
@@ -576,7 +576,7 @@ Commentaire lame: Slide comments
 Commentaire lot materiel: Biological material comments
 Commentaire lot materiel ext: External biological material comments
 Commentaire motu: MOTU comments
-Commentaire nb individus: Number of specimens comments
+Specimen quantity comment: Number of specimens comments
 Commentaire personne: Person comments
 Commentaire programme: Program comments
 Commentaire ref: Taxon comments
@@ -611,7 +611,7 @@ Gene voc fk: Gene
 Genus: Genus
 Habitat type voc fk: Habitat type
 Id: Identification number
-Individu fk: Specimen
+Specimen: Specimen
 Slide fk: Specimen slide
 Info description: Site description
 Info localisation: Site location
@@ -629,8 +629,8 @@ Lot materiel fk: Internal Biological material
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
 Motu fk: MOTU
-Nb individus: Number of specimens
-Nb individus voc fk: Number of specimens
+Nb specimens: Number of specimens
+Specimen quantity voc fk: Number of specimens
 Nom commune: Municipality name
 Nom complet: Person full name
 Nom dossier photos: Photo folder name
@@ -644,7 +644,7 @@ Nom region: Region name
 Nom station: Site name
 Noms responsables: Program coordinators
 Num ind biomol: Specimen molecular number
-Num individu sqc ass ext: External sequence specimen number
+Specimen molecular number: External sequence specimen number
 Num motu: MOTU number
 Num pcr: PCR number
 Num yas: YAS number
@@ -684,7 +684,7 @@ Temperature c: Temperature (Celcius)
 Type boite voc fk: Box type
 Type collection voc fk: Collection type
 Type financeur: Funding agency
-Type individu voc fk: Specimen type
+Specimen type voc fk: Specimen type
 User cre: Creation user name
 User maj: Updating user name
 Validity: Taxon validity

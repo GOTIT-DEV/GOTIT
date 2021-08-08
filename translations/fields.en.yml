@@ -21,7 +21,7 @@ chromatogram_is_processed_to:
   date_of_update: Update Date
 composition_of_internal_biological_material:
   id: id
-  number_of_specimens: NumberSpecimens
+  number_of_specimens: Specimen Count
   internal_biological_material_composition_comments: Comments
   specimen_type_voc_fk: SpecimenType
   internal_biological_material_fk: InternalLot
@@ -68,7 +68,7 @@ external_biological_material:
   number_of_specimens_comments: SpecimenComment
   sampling_fk: Sampling
   date_precision_voc_fk: DatePrecision
-  number_of_specimens_voc_fk: NumberSpecimens
+  number_of_specimens_voc_fk: Specimen Quantity
   pigmentation_voc_fk: Pigmentation
   eyes_voc_fk: Eyes
   creation_user_name: Creation User

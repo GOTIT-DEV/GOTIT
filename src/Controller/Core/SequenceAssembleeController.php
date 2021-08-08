@@ -24,7 +24,7 @@ class SequenceAssembleeController extends AbstractController {
    * @var integer
    */
   private $geneVocFk = null;
-  private $individuFk = null;
+  private $specimenFk = null;
   /**
    * constante
    */
@@ -193,7 +193,7 @@ class SequenceAssembleeController extends AbstractController {
     $sequence = new Sequenceassemblee();
 
     $chromatoFk = $request->get('idFk');
-    $specimenFk = $request->get('individuFk');
+    $specimenFk = $request->get('specimenFk');
     $geneFk = $request->get('geneVocFk');
 
     $chromatoRepo = $this->getDoctrine()
@@ -204,23 +204,23 @@ class SequenceAssembleeController extends AbstractController {
       $chromato = $chromatoRepo->find($chromatoFk);
       $pcr = $chromato->getPcrFk();
       $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getAdnFk()->getIndividuFk();
+      $specimen = $pcr->getAdnFk()->getSpecimenFk();
     } elseif ($specimenFk && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
         ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
-        ->leftJoin('App:Individu', 'individu', 'WITH', 'dna.individuFk = individu.id')
+        ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
         ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-        ->andWhere('individu.id = :individuId')
+        ->andWhere('specimen.id = :specimenId')
         ->andWhere('vocGene.id = :geneFk')
-        ->setParameter(':individuId', $specimenFk)
+        ->setParameter(':specimenId', $specimenFk)
         ->setParameter(':geneFk', $geneFk)
         ->setMaxResults(1)
         ->getQuery()
         ->getOneOrNullResult();
       $pcr = $chromato->getPcrFk();
       $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getAdnFk()->getIndividuFk();
+      $specimen = $pcr->getAdnFk()->getSpecimenFk();
     } else {
       $gene = null;
       $specimen = null;
@@ -237,7 +237,7 @@ class SequenceAssembleeController extends AbstractController {
       'App\Form\Type\GeneSpecimenType',
       [
         "geneVocFk" => $gene,
-        "individuFk" => $specimen,
+        "specimenFk" => $specimen,
       ],
       ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
     );
@@ -246,9 +246,9 @@ class SequenceAssembleeController extends AbstractController {
 
     if ($geneSpecimenForm->isSubmitted() && $geneSpecimenForm->isValid()) {
       $gene = $geneSpecimenForm->get('geneVocFk')->getData();
-      $specimen = $geneSpecimenForm->get('individuFk')->getData();
+      $specimen = $geneSpecimenForm->get('specimenFk')->getData();
       return $this->redirectToRoute('sequenceassemblee_new', [
-        'individuFk' => $specimen->getId(),
+        'specimenFk' => $specimen->getId(),
         'geneVocFk' => $gene->getId(),
       ]);
     }
@@ -261,7 +261,7 @@ class SequenceAssembleeController extends AbstractController {
       'attr' => ['id' => "sequence-form"],
       "action" => $this->generateUrl('sequenceassemblee_new', [
         'geneVocFk' => $gene ? $gene->getId() : null,
-        'individuFk' => $specimen ? $specimen->getId() : null,
+        'specimenFk' => $specimen ? $specimen->getId() : null,
         'idFk' => $chromato ? $chromato->getId() : null,
       ]),
     ]);
@@ -294,7 +294,7 @@ class SequenceAssembleeController extends AbstractController {
       'edit_form' => $form->createView(),
       'form_gene_indbiomol' => $geneSpecimenForm->createView(),
       'geneVocFk' => $gene,
-      'individuFk' => $specimen,
+      'specimenFk' => $specimen,
     ));
   }
 
@@ -305,7 +305,7 @@ class SequenceAssembleeController extends AbstractController {
    */
   public function showAction(SequenceAssemblee $sequence) {
     $gene = $sequence->getGeneVocFk();
-    $specimen = $sequence->getIndividuFk();
+    $specimen = $sequence->getSpecimenFk();
 
     $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
@@ -321,7 +321,7 @@ class SequenceAssembleeController extends AbstractController {
         'App\Form\Type\GeneSpecimenType',
         [
           'geneVocFk' => $gene,
-          'individuFk' => $specimen,
+          'specimenFk' => $specimen,
         ],
         ["action_type" => Action::show()]
       );
@@ -359,12 +359,12 @@ class SequenceAssembleeController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     $id = $sequence->getId();
     $gene = $sequence->getGeneVocFk();
-    $specimen = $sequence->getIndividuFk();
+    $specimen = $sequence->getSpecimenFk();
 
     $form_gene_indbiomol = $this
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
-        ['geneVocFk' => $gene, 'individuFk' => $specimen],
+        ['geneVocFk' => $gene, 'specimenFk' => $specimen],
         ["action_type" => Action::show()]
       );
 

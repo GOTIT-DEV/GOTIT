@@ -30,7 +30,7 @@ lotmateriel_index: |
   Use this page to browse, create, import, export, show, edit and delete internal biological materials (i.e. specimen lots). Deleting a biological material may not be possible until all data related to a biological material have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Biological material code". To access to specimens extracted from a specimen lot and to the list of specimens for a site, respectively click the "Ind(s)" and “Ind/St” buttons (option: menu). Also, use the "Ind(s)" button (option +) to create specimens for a biological material.
 lotmaterielext_index: |
   Use this page to browse, create, import, export, show, edit and delete external biological materials (i.e. specimen lots from the literature). Deleting an external biological material may not be possible until all data related to an external biological material have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "External biological material code".
-individu_index: |
+specimen_index: |
   Use this page to browse, create, import, export, show, edit and delete specimens. Deleting a specimen may not be possible until all data related to a specimen have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Specimen morphological code". To access to DNA extract and microscope slide of a specimen, respectively click the "DNA" and "Slide" buttons (option: menu). Also, use the "DNA" and "Slide" buttons (option +) to create DNA extract and microscope slide for a specimen.
 slide_index: |
   Use this page to browse, create, import, export, show, edit and delete specimen slides. Deleting a specimen slide may not be possible until all data related to a specimen slide have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Specimen morphological code".
@@ -79,7 +79,7 @@ lotmateriel_new: |
   Use this form to fill in data of a new internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
 lotmaterielext_new: |
   Use this form to fill in data of a new external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
-individu_new: |
+specimen_new: |
   Use this form to fill in data of a new specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
 slide_new: |
   Use this form to fill in data of a new specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
@@ -128,7 +128,7 @@ lotmateriel_show: |
   Use this form to consult data of an internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
 lotmaterielext_show: |
   Use this form to consult data of an external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
-individu_show: |
+specimen_show: |
   Use this form to consult data of a specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
 slide_show: |
   Use this form to consult data of a specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
@@ -177,7 +177,7 @@ lotmateriel_edit: |
   Use this form to edit data of an internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
 lotmaterielext_edit: |
   Use this form to edit data of an external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
-individu_edit: |
+specimen_edit: |
   Use this form to edit data of a specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
 slide_edit: |
   Use this form to edit data of a specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
@@ -274,7 +274,7 @@ importfileslotmaterielext_index: |
   - (if necessary) upload the referential files (templates: taxon, vocabulary, person, source);
   - use and upload the template file “external_biological_material” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesindividu_index: |
+importfilesspecimen_index: |
   Use this form to upload data from multiple specimens and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: taxon, vocabulary, person);
   - use and upload the template file “specimen” to follow appropriate data format.

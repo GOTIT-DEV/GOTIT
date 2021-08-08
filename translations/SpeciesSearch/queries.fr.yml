@@ -33,23 +33,23 @@ plots:
 ui:
   close: Fermer
 entity:
-  biomaterial: 
+  biomaterial:
     label: Lot matériel
     id: ID lot matériel
     species: Espèce lot mat.
     code: Code lot mat.
-  individu: 
+  specimen:
     label: Individu
     id: ID individu
     species: Espèce individu
     code:
-       biomol: Code mol. individu
-       trimorpho: Code morph. individu
-  seq: 
+      biomol: Code mol. individu
+      trimorpho: Code morph. individu
+  seq:
     label: Séquence ADN
     id: ID séq.
-    species : Espèce séq.
-    code : Code séq.
+    species: Espèce séq.
+    code: Code séq.
     type:
       interne: Interne
       externe: Externe
@@ -64,7 +64,7 @@ maps:
     filter:
       reset: Afficher tout
       motu: "Afficher ce MOTU uniquement"
-  sampling: 
+  sampling:
     biomaterial:
       internal: Lot matériel (Interne)
       external: Lot matériel (Externe)

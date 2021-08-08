@@ -21,7 +21,7 @@ chromatogram_is_processed_to:
   date_of_update: Date MàJ
 composition_of_internal_biological_material:
   id: id
-  number_of_specimens: NombreIndividus
+  number_of_specimens: Nombre d'individus
   internal_biological_material_composition_comments: Commentaires
   specimen_type_voc_fk: TypeIndividu
   internal_biological_material_fk: LotInterne
@@ -68,7 +68,7 @@ external_biological_material:
   number_of_specimens_comments: CommentaireIndividu
   sampling_fk: Collecte
   date_precision_voc_fk: PrecisionDate
-  number_of_specimens_voc_fk: NombreIndividus
+  number_of_specimens_voc_fk: Quantité d'individus
   pigmentation_voc_fk: Pigmentation
   eyes_voc_fk: Yeux
   creation_user_name: Utilisateur Création
@@ -377,7 +377,7 @@ site:
   date_of_update: Date MàJ
 slide_is_mounted_by:
   id: id
-  specimen_slide_fk: 'Lame Individu '
+  specimen_slide_fk: "Lame"
   person_fk: Personne
   creation_user_name: Utilisateur Création
   update_user_name: Utilisateur MàJ
