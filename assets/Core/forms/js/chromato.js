@@ -1,32 +1,32 @@
-import { initSearchSelect } from "./field-suggestions"
-import { getSelectedCode } from "./forms"
+import { initSearchSelect } from "./field-suggestions";
+import { getSelectedCode } from "./forms";
 
 $(() => {
-  const $form = $("form[name='bbees_e3sbundle_chromatogramme']")
-  const $pcr = $form.find("#bbees_e3sbundle_chromatogramme_pcrFk")
-  const $yas = $form.find("#bbees_e3sbundle_chromatogramme_numYas")
-  const $primer = $form.find("#bbees_e3sbundle_chromatogramme_primerChromatoVocFk")
+  const $form = $("form[name='chromatogramme']");
+  const $pcr = $form.find("#chromatogramme_pcrFk");
+  const $yas = $form.find("#chromatogramme_numYas");
+  const $primer = $form.find("#chromatogramme_primerChromatoVocFk");
 
-  const $code = $form.find("#bbees_e3sbundle_chromatogramme_codeChromato")
+  const $code = $form.find("#chromatogramme_codeChromato");
 
-  initSearchSelect($pcr, "pcr_search")
+  initSearchSelect($pcr, "pcr_search");
 
-  if ($form.data('action') == "new") {
-    $yas.keyup(updateCodeChromato)
-    $primer.change(updateCodeChromato)
-    updateCodeChromato()
+  if ($form.data("action") == "new") {
+    $yas.keyup(updateCodeChromato);
+    $primer.change(updateCodeChromato);
+    updateCodeChromato();
   }
 
   function updateCodeChromato() {
     const code = generateCodeChromato(
       $yas.val() || undefined,
       getSelectedCode($primer)
-    )
-    $code.val(code)
-    return code
+    );
+    $code.val(code);
+    return code;
   }
 
   function generateCodeChromato(YAS = "{#YAS}", primer = "{PRIMER}") {
-    return `${YAS}|${primer}`
+    return `${YAS}|${primer}`;
   }
-})
+});

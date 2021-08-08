@@ -49,6 +49,6 @@ class MotuType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_motu';
+    return 'motu';
   }
 }

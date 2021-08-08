@@ -4,21 +4,21 @@
 
 {% block body %}
 
-    {{ parent() }}
+	{{ parent() }}
 
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
+	{{ parent() }}
 
-<script type="text/javascript">
-// Form actions
-$(document).ready(function(){
-    $('#bbees_e3sbundle_country_nomPays').keyup(function (e) {
-        let codePays = $(this).val().replace(/ /g, '_');
-        $('#bbees_e3sbundle_country_codePays').val(codePays);
-    })
+	<script type="text/javascript">
+		// Form actions
+$(document).ready(function () {
+$('#country_nomPays').keyup(function (e) {
+let codePays = $(this).val().replace(/ /g, '_');
+$('#country_codePays').val(codePays);
+})
 });
-</script>
+	</script>
 
 {% endblock %}

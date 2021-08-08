@@ -1,33 +1,21 @@
 import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
-  const $form = $("form[name='bbees_e3sbundle_sequenceassembleeext']");
-  const $sampling = $form.find(
-    "#bbees_e3sbundle_sequenceassembleeext_collecteFk"
-  );
+  const $form = $("form[name='sequenceassembleeext']");
+  const $sampling = $form.find("#sequenceassembleeext_collecteFk");
 
   initSearchSelect($sampling, "collecte_search");
 
   const $taxon = $(
-    "#bbees_e3sbundle_sequenceassembleeext_taxonIdentifications_0_referentielTaxonFk"
+    "#sequenceassembleeext_taxonIdentifications_0_referentielTaxonFk"
   );
-  const $specimen = $(
-    "#bbees_e3sbundle_sequenceassembleeext_specimenMolecularNumber"
-  );
-  const $accession = $(
-    "#bbees_e3sbundle_sequenceassembleeext_accessionNumberSqcAssExt"
-  );
-  const $origin = $(
-    "#bbees_e3sbundle_sequenceassembleeext_origineSqcAssExtVocFk"
-  );
-  const $status = $("#bbees_e3sbundle_sequenceassembleeext_statutSqcAssVocFk");
+  const $specimen = $("#sequenceassembleeext_specimenMolecularNumber");
+  const $accession = $("#sequenceassembleeext_accessionNumberSqcAssExt");
+  const $origin = $("#sequenceassembleeext_origineSqcAssExtVocFk");
+  const $status = $("#sequenceassembleeext_statutSqcAssVocFk");
 
-  const $assemblyCode = $(
-    "#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExt"
-  );
-  const $alignmentCode = $(
-    "#bbees_e3sbundle_sequenceassembleeext_codeSqcAssExtAlignement"
-  );
+  const $assemblyCode = $("#sequenceassembleeext_codeSqcAssExt");
+  const $alignmentCode = $("#sequenceassembleeext_codeSqcAssExtAlignement");
 
   if ($form.data("action") == "new") {
     [$taxon, $specimen, $accession, $origin, $status, $sampling].forEach((el) =>

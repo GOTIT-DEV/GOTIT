@@ -28,6 +28,6 @@ class SequenceAssembleeEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_sequenceassembleeestrealisepar';
+    return 'sequenceassembleeestrealisepar';
   }
 }

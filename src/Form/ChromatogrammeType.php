@@ -79,6 +79,6 @@ class ChromatogrammeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_chromatogramme';
+    return 'chromatogramme';
   }
 }

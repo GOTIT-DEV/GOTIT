@@ -55,6 +55,6 @@ class SourceType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_source';
+    return 'source';
   }
 }

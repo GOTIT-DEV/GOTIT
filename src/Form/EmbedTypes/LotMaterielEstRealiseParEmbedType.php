@@ -28,6 +28,6 @@ class LotMaterielEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_lotmaterielestrealisepar';
+    return 'lotmaterielestrealisepar';
   }
 }

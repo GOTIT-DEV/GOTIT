@@ -40,6 +40,6 @@ class LotMaterielExtEstReferenceDansEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_lotmaterielextestreferencedans';
+    return 'lotmaterielextestreferencedans';
   }
 }

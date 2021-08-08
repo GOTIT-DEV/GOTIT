@@ -100,6 +100,6 @@ class LotMaterielExtType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_lotmaterielext';
+    return 'lotmaterielext';
   }
 }

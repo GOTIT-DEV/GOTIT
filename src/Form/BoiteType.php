@@ -108,6 +108,6 @@ class BoiteType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_boite';
+    return 'boite';
   }
 }

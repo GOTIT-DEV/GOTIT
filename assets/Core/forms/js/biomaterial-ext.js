@@ -1,12 +1,10 @@
 import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
-  const $form = $("form[name='bbees_e3sbundle_lotmaterielext']");
-  const $sampling = $("#bbees_e3sbundle_lotmaterielext_collecteFk");
-  const $taxon = $(
-    "#bbees_e3sbundle_lotmaterielext_taxonIdentifications_0_referentielTaxonFk"
-  );
-  const $code = $("#bbees_e3sbundle_lotmaterielext_codeLotMaterielExt");
+  const $form = $("form[name='lotmaterielext']");
+  const $sampling = $("#lotmaterielext_collecteFk");
+  const $taxon = $("#lotmaterielext_taxonIdentifications_0_referentielTaxonFk");
+  const $code = $("#lotmaterielext_codeLotMaterielExt");
 
   initSearchSelect($sampling, "collecte_search");
 

@@ -149,6 +149,6 @@ class CollecteType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_collecte';
+    return 'collecte';
   }
 }
