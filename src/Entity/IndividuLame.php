@@ -96,13 +96,13 @@ class IndividuLame extends AbstractTimestampedEntity {
   private $individuFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="IndividuLameEstRealisePar", mappedBy="individuLameFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SlidePreparation", mappedBy="individuLameFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $individuLameEstRealisePars;
+  protected $slidePreparations;
 
   public function __construct() {
-    $this->individuLameEstRealisePars = new ArrayCollection();
+    $this->slidePreparations = new ArrayCollection();
   }
 
   /**
@@ -291,34 +291,34 @@ class IndividuLame extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add individuLameEstRealisePar
+   * Add slidePreparation
    *
-   * @param \App\Entity\IndividuLameEstRealisePar $individuLameEstRealisePar
+   * @param \App\Entity\SlidePreparation $slidePreparation
    *
    * @return IndividuLame
    */
-  public function addIndividuLameEstRealisePar(\App\Entity\IndividuLameEstRealisePar $individuLameEstRealisePar) {
-    $individuLameEstRealisePar->setIndividuLameFk($this);
-    $this->individuLameEstRealisePars[] = $individuLameEstRealisePar;
+  public function addSlidePreparation(\App\Entity\SlidePreparation $slidePreparation) {
+    $slidePreparation->setIndividuLameFk($this);
+    $this->slidePreparations[] = $slidePreparation;
 
     return $this;
   }
 
   /**
-   * Remove individuLameEstRealisePar
+   * Remove slidePreparation
    *
-   * @param \App\Entity\IndividuLameEstRealisePar $individuLameEstRealisePar
+   * @param \App\Entity\SlidePreparation $slidePreparation
    */
-  public function removeIndividuLameEstRealisePar(\App\Entity\IndividuLameEstRealisePar $individuLameEstRealisePar) {
-    $this->individuLameEstRealisePars->removeElement($individuLameEstRealisePar);
+  public function removeSlidePreparation(\App\Entity\SlidePreparation $slidePreparation) {
+    $this->slidePreparations->removeElement($slidePreparation);
   }
 
   /**
-   * Get individuLameEstRealisePars
+   * Get slidePreparations
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getIndividuLameEstRealisePars() {
-    return $this->individuLameEstRealisePars;
+  public function getSlidePreparations() {
+    return $this->slidePreparations;
   }
 }

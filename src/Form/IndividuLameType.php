@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\IndividuLameEstRealiseParEmbedType;
+use App\Form\EmbedTypes\SlidePreparationEmbedType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\EntityCodeType;
@@ -55,8 +55,8 @@ class IndividuLameType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('individuLameEstRealisePars', CollectionType::class, array(
-        'entry_type' => IndividuLameEstRealiseParEmbedType::class,
+      ->add('slidePreparations', CollectionType::class, array(
+        'entry_type' => SlidePreparationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -234,8 +234,8 @@ class IndividuLameController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $individuLameEstRealisePars = $service->setArrayCollection(
-      'IndividuLameEstRealisePars',
+    $slidePreparations = $service->setArrayCollection(
+      'SlidePreparations',
       $individuLame
     );
     //
@@ -247,9 +247,9 @@ class IndividuLameController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollection(
-        'IndividuLameEstRealisePars',
+        'SlidePreparations',
         $individuLame,
-        $individuLameEstRealisePars
+        $slidePreparations
       );
 
       $em = $this->getDoctrine()->getManager();

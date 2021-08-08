@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * IndividuLameEstRealisePar
+ * SlidePreparation
  *
  * @ORM\Table(name="slide_is_mounted_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuLameEstRealisePar extends AbstractTimestampedEntity {
+class SlidePreparation extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class IndividuLameEstRealisePar extends AbstractTimestampedEntity {
   /**
    * @var \IndividuLame
    *
-   * @ORM\ManyToOne(targetEntity="IndividuLame", inversedBy="individuLameEstRealisePars")
+   * @ORM\ManyToOne(targetEntity="IndividuLame", inversedBy="slidePreparations")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class IndividuLameEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\IndividuLame $individuLameFk
    *
-   * @return IndividuLameEstRealisePar
+   * @return SlidePreparation
    */
   public function setIndividuLameFk(\App\Entity\IndividuLame $individuLameFk = null) {
     $this->individuLameFk = $individuLameFk;
@@ -81,7 +81,7 @@ class IndividuLameEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return IndividuLameEstRealisePar
+   * @return SlidePreparation
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;
