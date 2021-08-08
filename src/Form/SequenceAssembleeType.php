@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\EmbedTypes\EstAligneEtTraiteEmbedType;
 use App\Form\EmbedTypes\SequenceAssembleeEstRealiseParEmbedType;
-use App\Form\EmbedTypes\SqcEstPublieDansEmbedType;
+use App\Form\EmbedTypes\SequencePublicationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
@@ -83,8 +83,8 @@ class SequenceAssembleeType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ))
-      ->add('sqcEstPublieDanss', CollectionType::class, array(
-        'entry_type' => SqcEstPublieDansEmbedType::class,
+      ->add('sequencePublications', CollectionType::class, array(
+        'entry_type' => SequencePublicationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

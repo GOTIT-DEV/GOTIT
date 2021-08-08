@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SqcEstPublieDansEmbedType extends AbstractType {
+class SequencePublicationEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -32,7 +32,7 @@ class SqcEstPublieDansEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SqcEstPublieDans',
+      'data_class' => 'App\Entity\SequencePublication',
     ));
   }
 
@@ -40,6 +40,6 @@ class SqcEstPublieDansEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_sqcestpubliedans';
+    return 'sequence_publication';
   }
 }

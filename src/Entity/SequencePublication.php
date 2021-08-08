@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SqcEstPublieDans
+ * SequencePublication
  *
  * @ORM\Table(name="internal_sequence_is_published_in",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SqcEstPublieDans extends AbstractTimestampedEntity {
+class SequencePublication extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -38,7 +38,7 @@ class SqcEstPublieDans extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssemblee
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sqcEstPublieDanss")
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sequencePublications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class SqcEstPublieDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Source $sourceFk
    *
-   * @return SqcEstPublieDans
+   * @return SequencePublication
    */
   public function setSourceFk(\App\Entity\Source $sourceFk = null) {
     $this->sourceFk = $sourceFk;
@@ -81,7 +81,7 @@ class SqcEstPublieDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return SqcEstPublieDans
+   * @return SequencePublication
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;

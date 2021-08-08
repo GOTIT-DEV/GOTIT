@@ -94,10 +94,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   protected $sequenceAssembleeEstRealisePars;
 
   /**
-   * @ORM\OneToMany(targetEntity="SqcEstPublieDans", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SequencePublication", mappedBy="sequenceAssembleeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sqcEstPublieDanss;
+  protected $sequencePublications;
 
   /**
    * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeFk", cascade={"persist"})
@@ -113,7 +113,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
-    $this->sqcEstPublieDanss = new ArrayCollection();
+    $this->sequencePublications = new ArrayCollection();
     $this->especeIdentifiees = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
   }
@@ -314,35 +314,35 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sqcEstPublieDans
+   * Add sequencePublication
    *
-   * @param \App\Entity\SqcEstPublieDans $sqcEstPublieDans
+   * @param \App\Entity\SequencePublication $sequencePublication
    *
    * @return SequenceAssemblee
    */
-  public function addSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans) {
-    $sqcEstPublieDans->setSequenceAssembleeFk($this);
-    $this->sqcEstPublieDanss[] = $sqcEstPublieDans;
+  public function addSequencePublication(\App\Entity\SequencePublication $sequencePublication) {
+    $sequencePublication->setSequenceAssembleeFk($this);
+    $this->sequencePublications[] = $sequencePublication;
 
     return $this;
   }
 
   /**
-   * Remove sqcEstPublieDans
+   * Remove sequencePublication
    *
-   * @param \App\Entity\SqcEstPublieDans $sqcEstPublieDans
+   * @param \App\Entity\SequencePublication $sequencePublication
    */
-  public function removeSqcEstPublieDans(\App\Entity\SqcEstPublieDans $sqcEstPublieDans) {
-    $this->sqcEstPublieDanss->removeElement($sqcEstPublieDans);
+  public function removeSequencePublication(\App\Entity\SequencePublication $sequencePublication) {
+    $this->sequencePublications->removeElement($sequencePublication);
   }
 
   /**
-   * Get sqcEstPublieDanss
+   * Get sequencePublications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSqcEstPublieDanss() {
-    return $this->sqcEstPublieDanss;
+  public function getSequencePublications() {
+    return $this->sequencePublications;
   }
 
   /**
