@@ -173,7 +173,7 @@ class SourceController extends AbstractController {
     // load service  generic_function_e3s
     //
     // store ArrayCollection
-    $sourceAEteIntegrePars = $service->setArrayCollection('SourceAEteIntegrePars', $source);
+    $sourceProviders = $service->setArrayCollection('SourceProviders', $source);
     //
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
@@ -184,7 +184,7 @@ class SourceController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
         // delete ArrayCollection
-        $service->DelArrayCollection('SourceAEteIntegrePars', $source, $sourceAEteIntegrePars);
+        $service->DelArrayCollection('SourceProviders', $source, $sourceProviders);
         // flush
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {

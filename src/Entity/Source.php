@@ -55,13 +55,13 @@ class Source extends AbstractTimestampedEntity {
   private $commentaireSource;
 
   /**
-   * @ORM\OneToMany(targetEntity="SourceAEteIntegrePar", mappedBy="sourceFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SourceProvider", mappedBy="sourceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sourceAEteIntegrePars;
+  protected $sourceProviders;
 
   public function __construct() {
-    $this->sourceAEteIntegrePars = new ArrayCollection();
+    $this->sourceProviders = new ArrayCollection();
   }
 
   /**
@@ -162,34 +162,34 @@ class Source extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sourceAEteIntegrePar
+   * Add sourceProvider
    *
-   * @param \App\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar
+   * @param \App\Entity\SourceProvider $sourceProvider
    *
    * @return Source
    */
-  public function addSourceAEteIntegrePar(\App\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar) {
-    $sourceAEteIntegrePar->setSourceFk($this);
-    $this->sourceAEteIntegrePars[] = $sourceAEteIntegrePar;
+  public function addSourceProvider(\App\Entity\SourceProvider $sourceProvider) {
+    $sourceProvider->setSourceFk($this);
+    $this->sourceProviders[] = $sourceProvider;
 
     return $this;
   }
 
   /**
-   * Remove sourceAEteIntegrePar
+   * Remove sourceProvider
    *
-   * @param \App\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar
+   * @param \App\Entity\SourceProvider $sourceProvider
    */
-  public function removeSourceAEteIntegrePar(\App\Entity\SourceAEteIntegrePar $sourceAEteIntegrePar) {
-    $this->sourceAEteIntegrePars->removeElement($sourceAEteIntegrePar);
+  public function removeSourceProvider(\App\Entity\SourceProvider $sourceProvider) {
+    $this->sourceProviders->removeElement($sourceProvider);
   }
 
   /**
-   * Get sourceAEteIntegrePars
+   * Get sourceProviders
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSourceAEteIntegrePars() {
-    return $this->sourceAEteIntegrePars;
+  public function getSourceProviders() {
+    return $this->sourceProviders;
   }
 }

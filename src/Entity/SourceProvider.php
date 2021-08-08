@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SourceAEteIntegrePar
+ * SourceProvider
  *
  * @ORM\Table(name="source_is_entered_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SourceAEteIntegrePar extends AbstractTimestampedEntity {
+class SourceProvider extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class SourceAEteIntegrePar extends AbstractTimestampedEntity {
   /**
    * @var \Source
    *
-   * @ORM\ManyToOne(targetEntity="Source", inversedBy="sourceAEteIntegrePars")
+   * @ORM\ManyToOne(targetEntity="Source", inversedBy="sourceProviders")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class SourceAEteIntegrePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Source $sourceFk
    *
-   * @return SourceAEteIntegrePar
+   * @return SourceProvider
    */
   public function setSourceFk(\App\Entity\Source $sourceFk = null) {
     $this->sourceFk = $sourceFk;
@@ -81,7 +81,7 @@ class SourceAEteIntegrePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return SourceAEteIntegrePar
+   * @return SourceProvider
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;

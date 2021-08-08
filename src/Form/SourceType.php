@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\SourceAEteIntegreParEmbedType;
+use App\Form\EmbedTypes\SourceProviderEmbedType;
 use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,8 +25,8 @@ class SourceType extends ActionFormType {
       ])
       ->add('libelleSource')
       ->add('commentaireSource')
-      ->add('sourceAEteIntegrePars', CollectionType::class, array(
-        'entry_type' => SourceAEteIntegreParEmbedType::class,
+      ->add('sourceProviders', CollectionType::class, array(
+        'entry_type' => SourceProviderEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

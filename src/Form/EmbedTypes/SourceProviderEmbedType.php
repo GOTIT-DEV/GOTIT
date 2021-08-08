@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SourceAEteIntegreParEmbedType extends AbstractType {
+class SourceProviderEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class SourceAEteIntegreParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SourceAEteIntegrePar',
+      'data_class' => 'App\Entity\SourceProvider',
     ));
   }
 
@@ -28,7 +28,7 @@ class SourceAEteIntegreParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_sourceaeteintegrepar';
+    return 'source_provider';
   }
 
 }
