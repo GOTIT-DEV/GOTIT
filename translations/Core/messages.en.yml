@@ -324,7 +324,7 @@ button.Back to the list of source: Back to the list of Sources
 button.Add a Chromatogramme: Add chromatogram
 button.Add a Source: Add source
 button.Add a CompositionLotMateriel: Add composition of biological material
-button.Add a EspeceIdentifiee: Add species taxa
+button.Add a TaxonIdentification: Add species taxa
 button.Add a new Municipality: Add new Municipality
 button.Add a SamplingMethod: Add sampling Method
 button.Add a Fixateur: Add fixative
@@ -603,7 +603,7 @@ Date pcr: PCR date
 Date precision voc fk: Date precision
 Detail pcr: PCR details
 Duree echantillonnage mn: Sampling duration
-Espece identifiee fk: Identified species table
+Taxon identification fk: Identified species table
 Etablissement fk: Institution
 Family: Family
 Fixateur voc fk: Fixative
@@ -707,7 +707,7 @@ Lot materiel ext est reference danss: is published in
 Dna extractions: is extracted by
 Individu lame est realise pars: is mounted by
 Lot materiel est realise pars: is done by
-Espece identifiees: Identified species
+Taxon identifications: Identified species
 Composition lot materiels: Composition of biological material
 Person species ids: is identified by
 Lot est publie danss: is published in

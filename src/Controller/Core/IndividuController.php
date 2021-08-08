@@ -2,8 +2,8 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EspeceIdentifiee;
 use App\Entity\Individu;
+use App\Entity\TaxonIdentification;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -236,7 +236,7 @@ class IndividuController extends AbstractController {
    */
   public function newAction(Request $request) {
     $individu = new Individu();
-    $individu->addEspeceIdentifiee(new EspeceIdentifiee());
+    $individu->addTaxonIdentification(new TaxonIdentification());
 
     $em = $this->getDoctrine()->getManager();
     if ($biomat_id = $request->get('idFk')) {
@@ -306,7 +306,7 @@ class IndividuController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $individu);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $individu);
 
     $deleteForm = $this->createDeleteForm($individu);
     if ($individu->getCodeIndBiomol()) {
@@ -321,7 +321,7 @@ class IndividuController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $individu, $especeIdentifiees);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $individu, $taxonIdentifications);
       $this->getDoctrine()->getManager()->persist($individu);
       try {
         $this->getDoctrine()->getManager()->flush();

@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\EmbedTypes\ExternalSequencePublicationEmbedType;
 use App\Form\EmbedTypes\SqcExtEstRealiseParEmbedType;
+use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
@@ -80,8 +80,8 @@ class SequenceAssembleeExtType extends ActionFormType {
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
       ))
-      ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type' => EspeceIdentifieeEmbedType::class,
+      ->add('taxonIdentifications', CollectionType::class, array(
+        'entry_type' => TaxonIdentificationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

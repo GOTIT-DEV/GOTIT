@@ -2243,16 +2243,16 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
 
-      # Record of EspeceIdentifiee
-      $key_taxname = array_keys($columnByTable["espece_identifiee"], "espece_identifiee.referentiel_taxon_fk(referentiel_taxon.taxname)")[0];
-      // var_dump($data[$columnByTable["espece_identifiee"][$key_taxname]]);
+      # Record of TaxonIdentification
+      $key_taxname = array_keys($columnByTable["taxon_identification"], "taxon_identification.referentiel_taxon_fk(referentiel_taxon.taxname)")[0];
+      // var_dump($data[$columnByTable["taxon_identification"][$key_taxname]]);
       $entityEspeceIdentifie = NULL;
-      if ($data[$columnByTable["espece_identifiee"][$key_taxname]] != '') {
-        $entityRel = new \App\Entity\EspeceIdentifiee();
+      if ($data[$columnByTable["taxon_identification"][$key_taxname]] != '') {
+        $entityRel = new \App\Entity\TaxonIdentification();
         $entityEspeceIdentifie = $entityRel;
         $method = "setIndividuFk";
         $entityRel->$method($entity);
-        foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+        foreach ($columnByTable["taxon_identification"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2266,7 +2266,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             // control and standardization of field formats
-            if ($ColCsv == 'espece_identifiee.date_identification') {
+            if ($ColCsv == 'taxon_identification.date_identification') {
               // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
               if (!is_null($dataColCsv)) {
                 if (count(explode("/", $dataColCsv)) == 2) {
@@ -2358,7 +2358,7 @@ class ImportFileE3s {
             foreach ($tab_foreign_field as $val_foreign_field) {
               $val_foreign_field = trim($val_foreign_field);
               $entityRel = new \App\Entity\PersonSpeciesId();
-              $method = "setEspeceIdentifieeFk";
+              $method = "setTaxonIdentificationFk";
               $entityRel->$method($entityEspeceIdentifie);
               if (!is_null($val_foreign_field) && $val_foreign_field != '') {
                 //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -2783,12 +2783,12 @@ class ImportFileE3s {
         }
       }
 
-      # Record of EspeceIdentifiee
-      $entityRel = new \App\Entity\EspeceIdentifiee();
+      # Record of TaxonIdentification
+      $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
       $method = "setLotMaterielFk";
       $entityRel->$method($entity);
-      foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+      foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2798,7 +2798,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'espece_identifiee.date_identification') {
+          if ($ColCsv == 'taxon_identification.date_identification') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -2885,7 +2885,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\PersonSpeciesId();
-            $method = "setEspeceIdentifieeFk";
+            $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3614,12 +3614,12 @@ class ImportFileE3s {
         }
       }
 
-      # Record of EspeceIdentifiee
-      $entityRel = new \App\Entity\EspeceIdentifiee();
+      # Record of TaxonIdentification
+      $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
       $method = "setSequenceAssembleeExtFk";
       $entityRel->$method($entity);
-      foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+      foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -3629,7 +3629,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'espece_identifiee.date_identification') {
+          if ($ColCsv == 'taxon_identification.date_identification') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -3716,7 +3716,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\PersonSpeciesId();
-            $method = "setEspeceIdentifieeFk";
+            $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3979,12 +3979,12 @@ class ImportFileE3s {
         }
       }
 
-      # Record of EspeceIdentifiee
-      $entityRel = new \App\Entity\EspeceIdentifiee();
+      # Record of TaxonIdentification
+      $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
       $method = "setLotMaterielExtFk";
       $entityRel->$method($entity);
-      foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+      foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -3994,7 +3994,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'espece_identifiee.date_identification') {
+          if ($ColCsv == 'taxon_identification.date_identification') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -4081,7 +4081,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\PersonSpeciesId();
-            $method = "setEspeceIdentifieeFk";
+            $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -4530,12 +4530,12 @@ class ImportFileE3s {
         }
       }
 
-      # Record of EspeceIdentifiee
-      $entityRel = new \App\Entity\EspeceIdentifiee();
+      # Record of TaxonIdentification
+      $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
       $method = "setSequenceAssembleeFk";
       $entityRel->$method($entity);
-      foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+      foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4545,7 +4545,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'espece_identifiee.date_identification') {
+          if ($ColCsv == 'taxon_identification.date_identification') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -4632,7 +4632,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\PersonSpeciesId();
-            $method = "setEspeceIdentifieeFk";
+            $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);

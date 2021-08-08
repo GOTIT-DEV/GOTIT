@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EspeceIdentifieeEmbedType extends AbstractType {
+class TaxonIdentificationEmbedType extends AbstractType {
 
   /**
    * {@inheritdoc}
@@ -66,7 +66,7 @@ class EspeceIdentifieeEmbedType extends AbstractType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\EspeceIdentifiee',
+      'data_class' => 'App\Entity\TaxonIdentification',
       'refTaxonLabel' => 'taxname',
     ));
   }
@@ -75,6 +75,6 @@ class EspeceIdentifieeEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_especeidentifiee';
+    return 'taxon_identification';
   }
 }

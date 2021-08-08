@@ -89,13 +89,13 @@ class Individu extends AbstractTimestampedEntity {
   private $lotMaterielFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="individuFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="individuFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $especeIdentifiees;
+  protected $taxonIdentifications;
 
   public function __construct() {
-    $this->especeIdentifiees = new ArrayCollection();
+    $this->taxonIdentifications = new ArrayCollection();
   }
 
   /**
@@ -262,34 +262,34 @@ class Individu extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add especeIdentifiee
+   * Add taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
    * @return Individu
    */
-  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $especeIdentifiee->setIndividuFk($this);
-    $this->especeIdentifiees[] = $especeIdentifiee;
+  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $taxonIdentification->setIndividuFk($this);
+    $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
   }
 
   /**
-   * Remove especeIdentifiee
+   * Remove taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    */
-  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $this->especeIdentifiees->removeElement($especeIdentifiee);
+  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
   /**
-   * Get especeIdentifiees
+   * Get taxonIdentifications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEspeceIdentifiees() {
-    return $this->especeIdentifiees;
+  public function getTaxonIdentifications() {
+    return $this->taxonIdentifications;
   }
 }

@@ -130,10 +130,10 @@ class LotMateriel extends AbstractTimestampedEntity {
   protected $lotEstPublieDanss;
 
   /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="lotMaterielFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="lotMaterielFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $especeIdentifiees;
+  protected $taxonIdentifications;
 
   /**
    * @ORM\OneToMany(targetEntity="CompositionLotMateriel", mappedBy="lotMaterielFk", cascade={"persist"})
@@ -144,7 +144,7 @@ class LotMateriel extends AbstractTimestampedEntity {
   public function __construct() {
     $this->lotMaterielEstRealisePars = new ArrayCollection();
     $this->lotEstPublieDanss = new ArrayCollection();
-    $this->especeIdentifiees = new ArrayCollection();
+    $this->taxonIdentifications = new ArrayCollection();
     $this->compositionLotMateriels = new ArrayCollection();
   }
 
@@ -421,35 +421,35 @@ class LotMateriel extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add especeIdentifiee
+   * Add taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
    * @return LotMateriel
    */
-  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $especeIdentifiee->setLotMaterielFk($this);
-    $this->especeIdentifiees[] = $especeIdentifiee;
+  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $taxonIdentification->setLotMaterielFk($this);
+    $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
   }
 
   /**
-   * Remove especeIdentifiee
+   * Remove taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    */
-  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $this->especeIdentifiees->removeElement($especeIdentifiee);
+  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
   /**
-   * Get especeIdentifiees
+   * Get taxonIdentifications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEspeceIdentifiees() {
-    return $this->especeIdentifiees;
+  public function getTaxonIdentifications() {
+    return $this->taxonIdentifications;
   }
 
   /**

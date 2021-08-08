@@ -100,10 +100,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   protected $sequencePublications;
 
   /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="sequenceAssembleeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $especeIdentifiees;
+  protected $taxonIdentifications;
 
   /**
    * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="sequenceAssembleeFk", cascade={"persist"})
@@ -114,7 +114,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   public function __construct() {
     $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
     $this->sequencePublications = new ArrayCollection();
-    $this->especeIdentifiees = new ArrayCollection();
+    $this->taxonIdentifications = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
   }
 
@@ -346,35 +346,35 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add especeIdentifiee
+   * Add taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
    * @return SequenceAssemblee
    */
-  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $especeIdentifiee->setSequenceAssembleeFk($this);
-    $this->especeIdentifiees[] = $especeIdentifiee;
+  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $taxonIdentification->setSequenceAssembleeFk($this);
+    $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
   }
 
   /**
-   * Remove especeIdentifiee
+   * Remove taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    */
-  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $this->especeIdentifiees->removeElement($especeIdentifiee);
+  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
   /**
-   * Get especeIdentifiees
+   * Get taxonIdentifications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEspeceIdentifiees() {
-    return $this->especeIdentifiees;
+  public function getTaxonIdentifications() {
+    return $this->taxonIdentifications;
   }
 
   /**
@@ -456,7 +456,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    */
   public function generateAlignmentCode() {
     $nbChromato = count($this->getEstAligneEtTraites());
-    $nbIdentifiedSpecies = count($this->getEspeceIdentifiees());
+    $nbIdentifiedSpecies = count($this->getTaxonIdentifications());
     if ($nbChromato < 1 || $nbIdentifiedSpecies < 1) {
       $seqCode = null;
     } else {
@@ -466,7 +466,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
         $seqCodeElts[] = $statusCode;
       }
 
-      $lastTaxonCode = $this->getEspeceIdentifiees()->last()
+      $lastTaxonCode = $this->getTaxonIdentifications()->last()
         ->getReferentielTaxonFk()
         ->getCodeTaxon();
       $seqCodeElts[] = $lastTaxonCode;

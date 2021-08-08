@@ -36,14 +36,14 @@ class PersonSpeciesId extends AbstractTimestampedEntity {
   private $personneFk;
 
   /**
-   * @var \EspeceIdentifiee
+   * @var \TaxonIdentification
    *
-   * @ORM\ManyToOne(targetEntity="EspeceIdentifiee", inversedBy="personSpeciesIds")
+   * @ORM\ManyToOne(targetEntity="TaxonIdentification", inversedBy="personSpeciesIds")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $especeIdentifieeFk;
+  private $taxonIdentificationFk;
 
   /**
    * Get id
@@ -77,24 +77,24 @@ class PersonSpeciesId extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set especeIdentifieeFk
+   * Set taxonIdentificationFk
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifieeFk
+   * @param \App\Entity\TaxonIdentification $taxonIdentificationFk
    *
    * @return PersonSpeciesId
    */
-  public function setEspeceIdentifieeFk(\App\Entity\EspeceIdentifiee $especeIdentifieeFk = null) {
-    $this->especeIdentifieeFk = $especeIdentifieeFk;
+  public function setTaxonIdentificationFk(\App\Entity\TaxonIdentification $taxonIdentificationFk = null) {
+    $this->taxonIdentificationFk = $taxonIdentificationFk;
 
     return $this;
   }
 
   /**
-   * Get especeIdentifieeFk
+   * Get taxonIdentificationFk
    *
-   * @return \App\Entity\EspeceIdentifiee
+   * @return \App\Entity\TaxonIdentification
    */
-  public function getEspeceIdentifieeFk() {
-    return $this->especeIdentifieeFk;
+  public function getTaxonIdentificationFk() {
+    return $this->taxonIdentificationFk;
   }
 }

@@ -272,8 +272,8 @@ class SequenceAssembleeExtController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     // store ArrayCollection
-    $especeIdentifiees = $service->setArrayCollectionEmbed(
-      'EspeceIdentifiees',
+    $taxonIdentifications = $service->setArrayCollectionEmbed(
+      'TaxonIdentifications',
       'PersonSpeciesIds',
       $sequenceAssembleeExt
     );
@@ -297,10 +297,10 @@ class SequenceAssembleeExtController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
       $service->DelArrayCollectionEmbed(
-        'EspeceIdentifiees',
+        'TaxonIdentifications',
         'PersonSpeciesIds',
         $sequenceAssembleeExt,
-        $especeIdentifiees
+        $taxonIdentifications
       );
       $service->DelArrayCollection(
         'ExternalSequencePublications',
@@ -402,15 +402,15 @@ class SequenceAssembleeExtController extends AbstractController {
   private function createCodeSqcAssExt(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqc = '';
     $em = $this->getDoctrine()->getManager();
-    $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
-    $nbEspeceIdentifiees = count($EspeceIdentifiees);
-    if ($nbEspeceIdentifiees > 0) {
+    $TaxonIdentifications = $sequenceAssembleeExt->getTaxonIdentifications();
+    $nbTaxonIdentifications = count($TaxonIdentifications);
+    if ($nbTaxonIdentifications > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
       $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
-      foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
-        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
-        $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+      foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
+        $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
+        $entityTaxonIdentifications->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       reset($arrayReferentielTaxon);
@@ -438,15 +438,15 @@ class SequenceAssembleeExtController extends AbstractController {
   private function createCodeSqcAssExtAlignement(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqcAlignement = '';
     $em = $this->getDoctrine()->getManager();
-    $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
-    $nbEspeceIdentifiees = count($EspeceIdentifiees);
-    if ($nbEspeceIdentifiees > 0) {
+    $TaxonIdentifications = $sequenceAssembleeExt->getTaxonIdentifications();
+    $nbTaxonIdentifications = count($TaxonIdentifications);
+    if ($nbTaxonIdentifications > 0) {
       // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
       $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
-      foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
-        $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
-        $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+      foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
+        $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
+        $entityTaxonIdentifications->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       end($arrayReferentielTaxon);

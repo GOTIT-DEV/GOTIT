@@ -147,15 +147,15 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   protected $externalSequencePublications;
 
   /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $especeIdentifiees;
+  protected $taxonIdentifications;
 
   public function __construct() {
     $this->sqcExtEstRealisePars = new ArrayCollection();
     $this->externalSequencePublications = new ArrayCollection();
-    $this->especeIdentifiees = new ArrayCollection();
+    $this->taxonIdentifications = new ArrayCollection();
   }
 
   /**
@@ -496,34 +496,34 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add especeIdentifiee
+   * Add taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
    * @return SequenceAssembleeExt
    */
-  public function addEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $especeIdentifiee->setSequenceAssembleeExtFk($this);
-    $this->especeIdentifiees[] = $especeIdentifiee;
+  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $taxonIdentification->setSequenceAssembleeExtFk($this);
+    $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
   }
 
   /**
-   * Remove especeIdentifiee
+   * Remove taxonIdentification
    *
-   * @param \App\Entity\EspeceIdentifiee $especeIdentifiee
+   * @param \App\Entity\TaxonIdentification $taxonIdentification
    */
-  public function removeEspeceIdentifiee(\App\Entity\EspeceIdentifiee $especeIdentifiee) {
-    $this->especeIdentifiees->removeElement($especeIdentifiee);
+  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+    $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
   /**
-   * Get especeIdentifiees
+   * Get taxonIdentifications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEspeceIdentifiees() {
-    return $this->especeIdentifiees;
+  public function getTaxonIdentifications() {
+    return $this->taxonIdentifications;
   }
 }

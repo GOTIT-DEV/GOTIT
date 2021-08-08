@@ -270,7 +270,7 @@ class ImportFileCsv {
       'identification_criterion_voc_fk' => 'critere_identification_voc_fk',
       'identification_date' => 'date_identification',
       'identified_species_comments' => 'commentaire_esp_id',
-      'identified_species_fk' => 'espece_identifiee_fk',
+      'identified_species_fk' => 'taxon_identification_fk',
       'institution_comments' => 'commentaire_etablissement',
       'institution_fk' => 'etablissement_fk',
       'institution_name' => 'nom_etablissement',

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EspeceIdentifiee
+ * TaxonIdentification
  *
  * @ORM\Table(name="identified_species",
  *  indexes={
@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EspeceIdentifiee extends AbstractTimestampedEntity {
+class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -80,7 +80,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssembleeExt
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="especeIdentifiees")
+   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
@@ -90,7 +90,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   /**
    * @var \LotMaterielExt
    *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="especeIdentifiees")
+   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
@@ -100,7 +100,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   /**
    * @var \LotMateriel
    *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="especeIdentifiees")
+   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
@@ -120,7 +120,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   /**
    * @var \Individu
    *
-   * @ORM\ManyToOne(targetEntity="Individu", inversedBy="especeIdentifiees")
+   * @ORM\ManyToOne(targetEntity="Individu", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
@@ -130,7 +130,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssemblee
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="especeIdentifiees")
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
@@ -138,7 +138,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   private $sequenceAssembleeFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="PersonSpeciesId", mappedBy="especeIdentifieeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="PersonSpeciesId", mappedBy="taxonIdentificationFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $personSpeciesIds;
@@ -161,7 +161,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateIdentification
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setDateIdentification($dateIdentification) {
     $this->dateIdentification = $dateIdentification;
@@ -183,7 +183,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param string $commentaireEspId
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setCommentaireEspId($commentaireEspId) {
     $this->commentaireEspId = $commentaireEspId;
@@ -205,7 +205,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $critereIdentificationVocFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setCritereIdentificationVocFk(\App\Entity\Voc $critereIdentificationVocFk = null) {
     $this->critereIdentificationVocFk = $critereIdentificationVocFk;
@@ -227,7 +227,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -249,7 +249,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
     $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
@@ -271,7 +271,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMaterielExt $lotMaterielExtFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setLotMaterielExtFk(\App\Entity\LotMaterielExt $lotMaterielExtFk = null) {
     $this->lotMaterielExtFk = $lotMaterielExtFk;
@@ -293,7 +293,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMateriel $lotMaterielFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
     $this->lotMaterielFk = $lotMaterielFk;
@@ -315,7 +315,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\ReferentielTaxon $referentielTaxonFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setReferentielTaxonFk(\App\Entity\ReferentielTaxon $referentielTaxonFk = null) {
     $this->referentielTaxonFk = $referentielTaxonFk;
@@ -337,7 +337,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Individu $individuFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setIndividuFk(\App\Entity\Individu $individuFk = null) {
     $this->individuFk = $individuFk;
@@ -359,7 +359,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;
@@ -381,10 +381,10 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\personSpeciesId $personSpeciesId
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function addPersonSpeciesId(\App\Entity\personSpeciesId $personSpeciesId) {
-    $personSpeciesId->setEspeceIdentifieeFk($this);
+    $personSpeciesId->setTaxonIdentificationFk($this);
     $this->personSpeciesIds[] = $personSpeciesId;
 
     return $this;
@@ -413,7 +413,7 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $typeMaterielVocFk
    *
-   * @return EspeceIdentifiee
+   * @return TaxonIdentification
    */
   public function setTypeMaterielVocFk(\App\Entity\Voc $typeMaterielVocFk = null) {
     $this->typeMaterielVocFk = $typeMaterielVocFk;

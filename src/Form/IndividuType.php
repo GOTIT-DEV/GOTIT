@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\EntityCodeType;
@@ -60,8 +60,8 @@ class IndividuType extends ActionFormType {
 
     $builder
       ->add('commentaireInd')
-      ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type' => EspeceIdentifieeEmbedType::class,
+      ->add('taxonIdentifications', CollectionType::class, array(
+        'entry_type' => TaxonIdentificationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

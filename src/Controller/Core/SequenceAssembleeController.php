@@ -373,8 +373,8 @@ class SequenceAssembleeController extends AbstractController {
       'EstAligneEtTraites',
       $sequence
     );
-    $especeIdentifiees = $service->setArrayCollectionEmbed(
-      'EspeceIdentifiees',
+    $taxonIdentifications = $service->setArrayCollectionEmbed(
+      'TaxonIdentifications',
       'PersonSpeciesIds',
       $sequence
     );
@@ -406,10 +406,10 @@ class SequenceAssembleeController extends AbstractController {
         $estAligneEtTraites
       );
       $service->DelArrayCollectionEmbed(
-        'EspeceIdentifiees',
+        'TaxonIdentifications',
         'PersonSpeciesIds',
         $sequence,
-        $especeIdentifiees
+        $taxonIdentifications
       );
       $service->DelArrayCollection(
         'SequencePublications',

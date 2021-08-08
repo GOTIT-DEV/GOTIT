@@ -34,7 +34,7 @@ class DashboardController extends AbstractController {
     $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:MotuAssignment u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
     $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM App:Boite u')->getSingleScalarResult();
     $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
-    $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
+    $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:TaxonIdentification u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
     //
     $tab_toshow = [];
     // returns the last records of the dna

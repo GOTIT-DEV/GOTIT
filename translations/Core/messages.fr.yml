@@ -158,7 +158,7 @@ button.Back to the list of source: Retour à la liste des Sources
 button.Add a Chromatogramme: Ajouter un chromatogramme
 button.Add a Source: Ajouter une source
 button.Add a CompositionLotMateriel: Ajouter une composition de lot matériel
-button.Add a EspeceIdentifiee: Ajouter une espèce identifiée
+button.Add a TaxonIdentification: Ajouter une espèce identifiée
 button.Add a new Commune: Ajouter une nouvelle commune
 button.add:
   samplingMethods: Ajouter une méthode d'échantillonnage
@@ -440,7 +440,7 @@ Date pcr: Date PCR
 Date precision voc fk: Précision date
 Detail pcr: Detail PCR
 Duree echantillonnage mn: Durée échantillonnage (min)
-Espece identifiee fk: Espèce identifiée
+Taxon identification fk: Espèce identifiée
 Etablissement fk: Établissement
 Family: Famille
 Fixateur voc fk: Fixateur
@@ -544,7 +544,7 @@ Lot materiel ext est reference danss: Est publié dans
 Dna extractions: Est extrait par
 Individu lame est realise pars: Est monté par
 Lot materiel est realise pars: Est realisé par
-Espece identifiees: Espèce identifiée
+Taxon identifications: Espèce identifiée
 Composition lot materiels: Composition du lot matériel
 Person species ids: Est identifié par
 Lot est publie danss: Est publié dans
