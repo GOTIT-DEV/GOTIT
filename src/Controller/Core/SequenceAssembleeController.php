@@ -378,8 +378,8 @@ class SequenceAssembleeController extends AbstractController {
       'PersonSpeciesIds',
       $sequence
     );
-    $sequencePublications = $service->setArrayCollection(
-      'SequencePublications',
+    $publications = $service->setArrayCollection(
+      'Publications',
       $sequence
     );
     $assemblers = $service->setArrayCollection(
@@ -412,9 +412,9 @@ class SequenceAssembleeController extends AbstractController {
         $taxonIdentifications
       );
       $service->DelArrayCollection(
-        'SequencePublications',
+        'Publications',
         $sequence,
-        $sequencePublications
+        $publications
       );
       $service->DelArrayCollection(
         'Assemblers',

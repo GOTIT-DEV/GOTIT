@@ -624,7 +624,7 @@ class ImportFileE3s {
         }
 
       } else {
-        $query_lepd = $em->getRepository("App:SequencePublication")->createQueryBuilder('sepd')
+        $query_lepd = $em->getRepository("App:InternalSequencePublication")->createQueryBuilder('sepd')
           ->where('sepd.sequenceAssembleeFk = :id_sa')
           ->setParameter('id_sa', $query_sa[0]->getId())
           ->getQuery()
@@ -644,7 +644,7 @@ class ImportFileE3s {
           $query_sa[0]->setDateMaj($DateImport);
           $query_sa[0]->setUserMaj($userId);
           $em->persist($query_sa[0]);
-          $entityRel = new \App\Entity\SequencePublication();
+          $entityRel = new \App\Entity\InternalSequencePublication();
           $method = "setSourceFk";
           $entityRel->$method($query_source[0]);
           $method = "setSequenceAssembleeFk";
@@ -4428,8 +4428,8 @@ class ImportFileE3s {
         }
       }
 
-      # Enregistrement de SequencePublication
-      foreach ($columnByTable["sequence_publication"] as $ColCsv) {
+      # Enregistrement de InternalSequencePublication
+      foreach ($columnByTable["publication"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4444,7 +4444,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\SequencePublication();
+            $entityRel = new \App\Entity\InternalSequencePublication();
             $method = "setSequenceAssembleeFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

@@ -94,10 +94,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   protected $assemblers;
 
   /**
-   * @ORM\OneToMany(targetEntity="SequencePublication", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequencePublication", mappedBy="sequenceAssembleeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sequencePublications;
+  protected $publications;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="sequenceAssembleeFk", cascade={"persist"})
@@ -113,7 +113,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->assemblers = new ArrayCollection();
-    $this->sequencePublications = new ArrayCollection();
+    $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
   }
@@ -314,35 +314,35 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sequencePublication
+   * Add publication
    *
-   * @param \App\Entity\SequencePublication $sequencePublication
+   * @param \App\Entity\InternalSequencePublication $publication
    *
    * @return SequenceAssemblee
    */
-  public function addSequencePublication(\App\Entity\SequencePublication $sequencePublication) {
-    $sequencePublication->setSequenceAssembleeFk($this);
-    $this->sequencePublications[] = $sequencePublication;
+  public function addPublication(\App\Entity\InternalSequencePublication $publication) {
+    $publication->setSequenceAssembleeFk($this);
+    $this->publications[] = $publication;
 
     return $this;
   }
 
   /**
-   * Remove sequencePublication
+   * Remove publication
    *
-   * @param \App\Entity\SequencePublication $sequencePublication
+   * @param \App\Entity\InternalSequencePublication $publication
    */
-  public function removeSequencePublication(\App\Entity\SequencePublication $sequencePublication) {
-    $this->sequencePublications->removeElement($sequencePublication);
+  public function removePublication(\App\Entity\InternalSequencePublication $publication) {
+    $this->publications->removeElement($publication);
   }
 
   /**
-   * Get sequencePublications
+   * Get publications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSequencePublications() {
-    return $this->sequencePublications;
+  public function getPublications() {
+    return $this->publications;
   }
 
   /**

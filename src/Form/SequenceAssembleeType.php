@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Form\EmbedTypes\EstAligneEtTraiteEmbedType;
 use App\Form\EmbedTypes\InternalSequenceAssemblerEmbedType;
-use App\Form\EmbedTypes\SequencePublicationEmbedType;
+use App\Form\EmbedTypes\InternalSequencePublicationEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -83,8 +83,8 @@ class SequenceAssembleeType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ))
-      ->add('sequencePublications', CollectionType::class, array(
-        'entry_type' => SequencePublicationEmbedType::class,
+      ->add('publications', CollectionType::class, array(
+        'entry_type' => InternalSequencePublicationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SequencePublicationEmbedType extends AbstractType {
+class InternalSequencePublicationEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -32,7 +32,7 @@ class SequencePublicationEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SequencePublication',
+      'data_class' => 'App\Entity\InternalSequencePublication',
     ));
   }
 
@@ -40,6 +40,6 @@ class SequencePublicationEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'sequence_publication';
+    return 'publication';
   }
 }
