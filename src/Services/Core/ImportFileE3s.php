@@ -4377,8 +4377,8 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
 
-      # Record of sequence_assemblee_est_realise_par
-      foreach ($columnByTable["sequence_assemblee_est_realise_par"] as $ColCsv) {
+      # Record of assembler
+      foreach ($columnByTable["assembler"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4393,7 +4393,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\SequenceAssembleeEstRealisePar();
+            $entityRel = new \App\Entity\InternalSequenceAssembler();
             $method = "setSequenceAssembleeFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

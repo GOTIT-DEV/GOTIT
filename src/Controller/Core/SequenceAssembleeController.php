@@ -382,8 +382,8 @@ class SequenceAssembleeController extends AbstractController {
       'SequencePublications',
       $sequence
     );
-    $sequenceAssembleeEstRealisePars = $service->setArrayCollection(
-      'SequenceAssembleeEstRealisePars',
+    $assemblers = $service->setArrayCollection(
+      'Assemblers',
       $sequence
     );
 
@@ -417,9 +417,9 @@ class SequenceAssembleeController extends AbstractController {
         $sequencePublications
       );
       $service->DelArrayCollection(
-        'SequenceAssembleeEstRealisePars',
+        'Assemblers',
         $sequence,
-        $sequenceAssembleeEstRealisePars
+        $assemblers
       );
       $em->persist($sequence);
       try {

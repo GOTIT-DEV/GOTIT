@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SequenceAssembleeEstRealisePar
+ * InternalSequenceAssembler
  *
  * @ORM\Table(name="internal_sequence_is_assembled_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeEstRealisePar extends AbstractTimestampedEntity {
+class InternalSequenceAssembler extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class SequenceAssembleeEstRealisePar extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssemblee
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="sequenceAssembleeEstRealisePars")
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="assemblers")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class SequenceAssembleeEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return SequenceAssembleeEstRealisePar
+   * @return InternalSequenceAssembler
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;
@@ -81,7 +81,7 @@ class SequenceAssembleeEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return SequenceAssembleeEstRealisePar
+   * @return InternalSequenceAssembler
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;

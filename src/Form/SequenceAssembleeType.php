@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\EmbedTypes\EstAligneEtTraiteEmbedType;
-use App\Form\EmbedTypes\SequenceAssembleeEstRealiseParEmbedType;
+use App\Form\EmbedTypes\InternalSequenceAssemblerEmbedType;
 use App\Form\EmbedTypes\SequencePublicationEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
@@ -60,8 +60,8 @@ class SequenceAssembleeType extends ActionFormType {
           'specimenFk' => $specimen,
         ),
       ))
-      ->add('sequenceAssembleeEstRealisePars', CollectionType::class, array(
-        'entry_type' => SequenceAssembleeEstRealiseParEmbedType::class,
+      ->add('assemblers', CollectionType::class, array(
+        'entry_type' => InternalSequenceAssemblerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -88,10 +88,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   private $statutSqcAssVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="SequenceAssembleeEstRealisePar", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequenceAssembler", mappedBy="sequenceAssembleeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sequenceAssembleeEstRealisePars;
+  protected $assemblers;
 
   /**
    * @ORM\OneToMany(targetEntity="SequencePublication", mappedBy="sequenceAssembleeFk", cascade={"persist"})
@@ -112,7 +112,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   protected $estAligneEtTraites;
 
   public function __construct() {
-    $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
+    $this->assemblers = new ArrayCollection();
     $this->sequencePublications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
@@ -282,35 +282,35 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sequenceAssembleeEstRealisePar
+   * Add assembler
    *
-   * @param \App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar
+   * @param \App\Entity\InternalSequenceAssembler $assembler
    *
    * @return SequenceAssemblee
    */
-  public function addSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar) {
-    $sequenceAssembleeEstRealisePar->setSequenceAssembleeFk($this);
-    $this->sequenceAssembleeEstRealisePars[] = $sequenceAssembleeEstRealisePar;
+  public function addAssembler(\App\Entity\InternalSequenceAssembler $assembler) {
+    $assembler->setSequenceAssembleeFk($this);
+    $this->assemblers[] = $assembler;
 
     return $this;
   }
 
   /**
-   * Remove sequenceAssembleeEstRealisePar
+   * Remove assembler
    *
-   * @param \App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar
+   * @param \App\Entity\InternalSequenceAssembler $assembler
    */
-  public function removeSequenceAssembleeEstRealisePar(\App\Entity\SequenceAssembleeEstRealisePar $sequenceAssembleeEstRealisePar) {
-    $this->sequenceAssembleeEstRealisePars->removeElement($sequenceAssembleeEstRealisePar);
+  public function removeAssembler(\App\Entity\InternalSequenceAssembler $assembler) {
+    $this->assemblers->removeElement($assembler);
   }
 
   /**
-   * Get sequenceAssembleeEstRealisePars
+   * Get assemblers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSequenceAssembleeEstRealisePars() {
-    return $this->sequenceAssembleeEstRealisePars;
+  public function getAssemblers() {
+    return $this->assemblers;
   }
 
   /**
