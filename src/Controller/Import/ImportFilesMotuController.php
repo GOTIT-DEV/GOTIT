@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,18 +17,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilessliderange")
- * @Security("is_granted('ROLE_COLLABORATION')")
+ * @Route("importfilesmotu")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSlideRangeController extends AbstractController {
+class ImportFilesMotuController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilessliderange_index")
+   * @Route("/", name="importfilesmotu_index")
    *
    */
   public function indexAction(
@@ -37,25 +38,30 @@ class ImportFilesSlideRangeController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //creation of the form with a drop-down list
+    //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    $form = $this->createFormBuilder()
-      ->setMethod('POST')
-      ->add('type_csv', ChoiceType::class, array(
-        'choice_translation_domain' => false,
-        'choices' => array(
-          ' ' => array('Slide_store' => 'slide_store'),
-        ),
-      ))
-      ->add('fichier', FileType::class)
-      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-      ->getForm();
+    if ($user->getRole() == 'ROLE_ADMIN') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('motuFk', EntityType::class, array(
+          'class' => 'App:Motu',
+          'query_builder' => function (EntityRepository $er) {
+            return $er->createQueryBuilder('motu')
+              ->leftJoin('App:MotuDelimitation', 'motuDelimitation', 'WITH', 'motuDelimitation.motuFk = motu.id')
+              ->where('motuDelimitation.id IS NULL');
+          },
+          'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false,
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
       $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-      $this->type_csv = $form->get('type_csv')->getData();
+      $this->type_csv = "MOTU";
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
       $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
@@ -65,8 +71,13 @@ class ImportFilesSlideRangeController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'slide_store':
-          $message .= $importFileE3sService->importCSVDataSlideRange($fichier, $user->getId());
+        case 'MOTU':
+          if ($form->get('fichier')->getData() !== NULL) {
+            // suppression des donnéee assignées
+            $message .= $importFileE3sService->importCSVDataMotuFile($fichier, $form->get('motuFk')->getData(), $user->getId());
+          } else {
+            $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
+          }
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

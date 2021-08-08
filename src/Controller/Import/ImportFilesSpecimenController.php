@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,15 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import Voc controller.
+ * ImportSpecimen controller.
  *
- * @Route("importfilesreferentieltaxon")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("importfilesspecimen")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFileReferentielTaxonController extends AbstractController {
+class ImportFilesSpecimenController extends AbstractController {
   /**
-   * @Route("/", name="importfilesreferentieltaxon_index")
+   * @var string
+   */
+  private $type_csv;
+
+  /**
+   * @Route("/", name="importfilesspecimen_index")
    *
    */
   public function indexAction(
@@ -41,7 +44,22 @@ class ImportFileReferentielTaxonController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Taxon' => 'taxon'),
+            ' ' => array('Specimen' => 'specimen'),
+            '  ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Specimen' => 'specimen'),
+            '  ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -62,8 +80,17 @@ class ImportFileReferentielTaxonController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
+        case 'specimen':
+          $message .= $importFileE3sService->importCSVDataSpecimen($fichier, $user->getId());
+          break;
+        case 'vocabulary':
+          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+          break;
         case 'taxon':
           $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

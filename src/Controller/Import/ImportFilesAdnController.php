@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesexternal_lot")
- * @Security("is_granted('ROLE_PROJECT')")
+ * @Route("importfilesadn")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesExternalLotController extends AbstractController {
+class ImportFilesAdnController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesexternal_lot_index")
+   * @Route("/", name="importfilesadn_index")
    *
    */
   public function indexAction(
@@ -37,7 +37,7 @@ class ImportFilesExternalLotController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //create form
+    //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if ($user->getRole() == 'ROLE_ADMIN') {
@@ -46,9 +46,9 @@ class ImportFilesExternalLotController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('External_biological_material' => 'external_biological_material'),
-            '  ' => array('Source' => 'source'),
-            '   ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
+            ' ' => array('DNA' => 'DNA'),
+            '  ' => array('Box' => 'box'),
+            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -61,9 +61,23 @@ class ImportFilesExternalLotController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('External_biological_material' => 'external_biological_material'),
-            '  ' => array('Source' => 'source'),
+            ' ' => array('DNA' => 'DNA'),
+            '  ' => array('Box' => 'box'),
             '   ' => array('Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_COLLABORATION') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('DNA' => 'DNA'),
+            '  ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -84,23 +98,20 @@ class ImportFilesExternalLotController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'external_biological_material':
-          $message .= $importFileE3sService->importCSVDataExternalLot($fichier, $user->getId());
-          break;
-        case 'source':
-          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+        case 'DNA':
+          $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
-        case 'taxon':
-          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+        case 'box':
+          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
-          $message .= "ERROR - Bad SELECTED choice ?";
+          $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));

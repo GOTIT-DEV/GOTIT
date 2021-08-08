@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,15 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import Voc controller.
+ * ImportIndividu controller.
  *
- * @Route("importfilesvoc")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("importfilessequenceassembleeext")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFileVocController extends AbstractController {
+class ImportFilesSequenceAssembleeExtController extends AbstractController {
   /**
-   * @Route("/", name="importfilesvoc_index")
+   * @var string
+   */
+  private $type_csv;
+
+  /**
+   * @Route("/", name="importfilessequenceassembleeext_index")
    *
    */
   public function indexAction(
@@ -32,7 +37,7 @@ class ImportFileVocController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //creation of the form with a drop-down list
+    //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if ($user->getRole() == 'ROLE_ADMIN') {
@@ -41,7 +46,38 @@ class ImportFileVocController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Vocabulary' => 'vocabulary'),
+            ' ' => array('External_sequence' => 'external_sequence'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person', 'Taxon' => 'taxon'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('External_sequence' => 'external_sequence'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_COLLABORATION') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('External_sequence' => 'external_sequence'),
+            '   ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -62,8 +98,20 @@ class ImportFileVocController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
+        case 'external_sequence':
+          $message .= $importFileE3sService->importCSVDataSequenceAssembleeExt($fichier, $user->getId());
+          break;
+        case 'source':
+          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+          break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+          break;
+        case 'taxon':
+          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

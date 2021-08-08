@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesinternal_lot_publie")
- * @Security("is_granted('ROLE_COLLABORATION')")
+ * @Route("importfilesexternal_lot")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesLotMaterielPublieController extends AbstractController {
+class ImportFilesExternalLotController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesinternal_lot_publie_index")
+   * @Route("/", name="importfilesexternal_lot_index")
    *
    */
   public function indexAction(
@@ -40,28 +40,30 @@ class ImportFilesLotMaterielPublieController extends AbstractController {
     //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
+    if ($user->getRole() == 'ROLE_ADMIN') {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Source_attribute_to_lot' => 'source_attribute_to_lot'),
-            '  ' => array('Source' => 'source', 'Person' => 'person'),
+            ' ' => array('External_biological_material' => 'external_biological_material'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
         ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
         ->getForm();
     }
-    if ($user->getRole() == 'ROLE_COLLABORATION') {
+    if ($user->getRole() == 'ROLE_PROJECT') {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Source_attribute_to_lot' => 'source_attribute_to_lot'),
-            '  ' => array('Person' => 'person'),
+            ' ' => array('External_biological_material' => 'external_biological_material'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -82,11 +84,17 @@ class ImportFilesLotMaterielPublieController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'source_attribute_to_lot':
-          $message .= $importFileE3sService->importCSVDataLotMaterielPublie($fichier, $user->getId());
+        case 'external_biological_material':
+          $message .= $importFileE3sService->importCSVDataExternalLot($fichier, $user->getId());
           break;
         case 'source':
           $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+          break;
+        case 'vocabulary':
+          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+          break;
+        case 'taxon':
+          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());

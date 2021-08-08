@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,20 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportIndividu controller.
+ * Import Pays controller.
  *
- * @Route("importfilessource")
+ * @Route("importfilesetablissement")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSourceController extends AbstractController {
+class ImportFileEtablissementController extends AbstractController {
   /**
-   * @var string
-   */
-  private $type_csv;
-
-  /**
-   * @Route("/", name="importfilessource_index")
+   * @Route("/", name="importfilesetablissement_index")
    *
    */
   public function indexAction(
@@ -37,7 +32,7 @@ class ImportFilesSourceController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //create form
+    //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
@@ -45,13 +40,12 @@ class ImportFilesSourceController extends AbstractController {
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
-          'choices' => [
-            'Source' => 'source',
-            ' ' => ['Person' => 'person'],
-          ],
+          'choices' => array(
+            ' ' => array('Institution' => 'institution'),
+          ),
         ))
         ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, ['label' => 'Envoyer'])
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
         ->getForm();
     }
     $form->handleRequest($request);
@@ -68,23 +62,15 @@ class ImportFilesSourceController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'source':
-          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+        case 'institution':
+          $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
+      return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));
     }
-    return $this->render(
-      'Core/importfilecsv/importfiles.html.twig',
-      [
-        "message" => $message,
-        'form' => $form->createView(),
-      ]
-    );
+    return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));
   }
 }

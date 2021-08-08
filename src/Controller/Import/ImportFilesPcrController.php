@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,18 +16,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilessqcassembleepublie")
+ * @Route("importfilespcr")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ *
  */
-class ImportFilesSqcAssembleePublieController extends AbstractController {
+class ImportFilesPcrController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilessqcassembleepublie_index")
+   * @Route("/", name="importfilespcr_index")
    *
    */
   public function indexAction(
@@ -37,17 +38,31 @@ class ImportFilesSqcAssembleePublieController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //creation of the form with a drop-down list
+    //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
+    if ($user->getRole() == 'ROLE_ADMIN') {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Source_attribute_to_sequence' => 'source_attribute_to_sequence'),
-            '  ' => array('Source' => 'source', 'Person' => 'person'),
+            ' ' => array('PCR' => 'PCR'),
+            '  ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('PCR' => 'PCR'),
+            '  ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -60,7 +75,7 @@ class ImportFilesSqcAssembleePublieController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Source_attribute_to_sequence' => 'source_attribute_to_sequence'),
+            ' ' => array('PCR' => 'PCR'),
             '  ' => array('Person' => 'person'),
           ),
         ))
@@ -82,11 +97,11 @@ class ImportFilesSqcAssembleePublieController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'source_attribute_to_sequence':
-          $message .= $importFileE3sService->importCSVDataSqcAssembleePublie($fichier, $user->getId());
+        case 'PCR':
+          $message .= $importFileE3sService->importCSVDataPcr($fichier, $user->getId());
           break;
-        case 'source':
-          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+        case 'vocabulary':
+          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesinternal_lot_range")
- * @Security("is_granted('ROLE_COLLABORATION')")
+ * @Route("importfilessource")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesLotMaterielRangeController extends AbstractController {
+class ImportFilesSourceController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesinternal_lot_range_index")
+   * @Route("/", name="importfilessource_index")
    *
    */
   public function indexAction(
@@ -40,17 +40,20 @@ class ImportFilesLotMaterielRangeController extends AbstractController {
     //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    $form = $this->createFormBuilder()
-      ->setMethod('POST')
-      ->add('type_csv', ChoiceType::class, array(
-        'choice_translation_domain' => false,
-        'choices' => array(
-          ' ' => array('Biological_material_store' => 'biological_material_store'),
-        ),
-      ))
-      ->add('fichier', FileType::class)
-      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-      ->getForm();
+    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => [
+            'Source' => 'source',
+            ' ' => ['Person' => 'person'],
+          ],
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, ['label' => 'Envoyer'])
+        ->getForm();
+    }
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
@@ -65,15 +68,23 @@ class ImportFilesLotMaterielRangeController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'biological_material_store':
-          $message .= $importFileE3sService->importCSVDataLotMaterielRange($fichier, $user->getId());
+        case 'source':
+          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
-      return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));
     }
-    return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));
+    return $this->render(
+      'Core/importfilecsv/importfiles.html.twig',
+      [
+        "message" => $message,
+        'form' => $form->createView(),
+      ]
+    );
   }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,20 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import files station controller.
+ * ImportIndividu controller.
  *
- * @Route("importfilesstation")
- * @Security("is_granted('ROLE_PROJECT')")
+ * @Route("importfilessequenceassemblee")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesStationController extends AbstractController {
+class ImportFilesSequenceAssembleeController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesstation_index")
+   * @Route("/", name="importfilessequenceassemblee_index")
    *
    */
   public function indexAction(
@@ -36,8 +36,8 @@ class ImportFilesStationController extends AbstractController {
     TranslatorInterface $translator,
     ImportFileCsv $service
   ) {
-    $message = '';
-    //creation of the form with a drop-down list
+    $message = "";
+    //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if ($user->getRole() == 'ROLE_ADMIN') {
@@ -46,12 +46,15 @@ class ImportFilesStationController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Site' => 'site'),
-            '  ' => array('Country' => 'country', 'Municipality' => 'municipality', 'Vocabulary' => 'vocabulary'),
+            ' ' => array('Internal_sequence' => 'internal_sequence'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person', 'Taxon' => 'taxon'),
           ),
         ))
         ->add('fichier', FileType::class)
+      // ->add('fichier','file')
         ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      //->add('envoyer','submit')
         ->getForm();
     }
     if ($user->getRole() == 'ROLE_PROJECT') {
@@ -60,11 +63,31 @@ class ImportFilesStationController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Site' => 'site'),
+            ' ' => array('Internal_sequence' => 'internal_sequence'),
+            '  ' => array('Source' => 'source'),
+            '   ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
+      // ->add('fichier','file')
         ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      //->add('envoyer','submit')
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_COLLABORATION') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Internal_sequence' => 'internal_sequence'),
+            '  ' => array('Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+      // ->add('fichier','file')
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      //->add('envoyer','submit')
         ->getForm();
     }
     $form->handleRequest($request);
@@ -81,17 +104,20 @@ class ImportFilesStationController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'country':
-          $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId());
+        case 'internal_sequence':
+          $message .= $importFileE3sService->importCSVDataSequenceAssemblee($fichier, $user->getId());
           break;
-        case 'municipality':
-          $message .= $importFileE3sService->importCSVDataCommune($fichier, $user->getId());
+        case 'source':
+          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
-        case 'site':
-          $message .= $importFileE3sService->importCSVDataStation($fichier, $user->getId());
+        case 'taxon':
+          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,20 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportIndividu controller.
+ * Import Voc controller.
  *
- * @Route("importfilesinternal_lot")
- * @Security("is_granted('ROLE_PROJECT')")
+ * @Route("importfilesreferentieltaxon")
+ * @Security("is_granted('ROLE_ADMIN')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesLotMaterielController extends AbstractController {
+class ImportFileReferentielTaxonController extends AbstractController {
   /**
-   * @var string
-   */
-  private $type_csv;
-
-  /**
-   * @Route("/", name="importfilesinternal_lot_index")
+   * @Route("/", name="importfilesreferentieltaxon_index")
    *
    */
   public function indexAction(
@@ -46,24 +41,7 @@ class ImportFilesLotMaterielController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Internal_biological_material' => 'internal_biological_material'),
-            '  ' => array('Box' => 'box', 'Source' => 'source'),
-            '   ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
-    if ($user->getRole() == 'ROLE_PROJECT') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Internal_biological_material' => 'internal_biological_material'),
-            '  ' => array('Box' => 'box', 'Source' => 'source'),
-            '   ' => array('Person' => 'person'),
+            ' ' => array('Taxon' => 'taxon'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -84,23 +62,8 @@ class ImportFilesLotMaterielController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'internal_biological_material':
-          $message .= $importFileE3sService->importCSVDataLotMateriel($fichier, $user->getId());
-          break;
-        case 'vocabulary':
-          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-          break;
-        case 'source':
-          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
-          break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
-          break;
         case 'taxon':
           $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

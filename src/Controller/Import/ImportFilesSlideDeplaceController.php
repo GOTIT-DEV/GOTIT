@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -13,19 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportSpecimen controller.
+ * ImportIndividu controller.
  *
- * @Route("importfilesspecimen")
+ * @Route("importfilesslidedeplace")
+ * @Security("is_granted('ROLE_ADMIN')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSpecimenController extends AbstractController {
+class ImportFilesSlideDeplaceController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesspecimen_index")
+   * @Route("/", name="importfilesslidedeplace_index")
    *
    */
   public function indexAction(
@@ -38,34 +40,17 @@ class ImportFilesSpecimenController extends AbstractController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Specimen' => 'specimen'),
-            '  ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
-    if ($user->getRole() == 'ROLE_PROJECT') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Specimen' => 'specimen'),
-            '  ' => array('Person' => 'person'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
+    $form = $this->createFormBuilder()
+      ->setMethod('POST')
+      ->add('type_csv', ChoiceType::class, array(
+        'choice_translation_domain' => false,
+        'choices' => array(
+          ' ' => array('Slide_move' => 'slide_move'),
+        ),
+      ))
+      ->add('fichier', FileType::class)
+      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      ->getForm();
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
@@ -80,17 +65,8 @@ class ImportFilesSpecimenController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'specimen':
-          $message .= $importFileE3sService->importCSVDataSpecimen($fichier, $user->getId());
-          break;
-        case 'vocabulary':
-          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-          break;
-        case 'taxon':
-          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+        case 'slide_move':
+          $message .= $importFileE3sService->importCSVDataSlideDeplace($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,20 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportIndividu controller.
+ * Import files station controller.
  *
- * @Route("importfilesslide")
+ * @Route("importfilesstation")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSlideController extends AbstractController {
+class ImportFilesStationController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesslide_index")
+   * @Route("/", name="importfilesstation_index")
    *
    */
   public function indexAction(
@@ -36,7 +36,7 @@ class ImportFilesSlideController extends AbstractController {
     TranslatorInterface $translator,
     ImportFileCsv $service
   ) {
-    $message = "";
+    $message = '';
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -46,9 +46,8 @@ class ImportFilesSlideController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Specimen_slide' => 'specimen_slide'),
-            '  ' => array('Box' => 'box'),
-            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
+            ' ' => array('Site' => 'site'),
+            '  ' => array('Country' => 'country', 'Municipality' => 'municipality', 'Vocabulary' => 'vocabulary'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -61,9 +60,7 @@ class ImportFilesSlideController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Specimen_slide' => 'specimen_slide'),
-            '  ' => array('Box' => 'box'),
-            '   ' => array('Person' => 'person'),
+            ' ' => array('Site' => 'site'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -84,17 +81,17 @@ class ImportFilesSlideController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'specimen_slide':
-          $message .= $importFileE3sService->importCSVDataLame($fichier, $user->getId());
+        case 'country':
+          $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId());
+          break;
+        case 'municipality':
+          $message .= $importFileE3sService->importCSVDataCommune($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+        case 'site':
+          $message .= $importFileE3sService->importCSVDataStation($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

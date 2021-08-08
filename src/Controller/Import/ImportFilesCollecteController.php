@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,15 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import Pays controller.
+ * ImportIndividu controller.
  *
- * @Route("importfilesprogramme")
+ * @Route("importfilescollecte")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFileProgrammeController extends AbstractController {
+class ImportFilesCollecteController extends AbstractController {
   /**
-   * @Route("/", name="importfilesprogramme_index")
-   * @Security("is_granted('ROLE_PROJECT')")
+   * @var string
+   */
+  private $type_csv;
+
+  /**
+   * @Route("/", name="importfilescollecte_index")
+   *
    */
   public function indexAction(
     Request $request,
@@ -34,13 +40,29 @@ class ImportFileProgrammeController extends AbstractController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
+    if ($user->getRole() == 'ROLE_ADMIN') {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('Program' => 'program'),
+            ' ' => array('Sampling' => 'sampling'),
+            '  ' => array('Program' => 'program', 'Person' => 'person'),
+            '   ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Sampling' => 'sampling'),
+            '  ' => array('Program' => 'program', 'Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -61,11 +83,23 @@ class ImportFileProgrammeController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
+        case 'sampling':
+          $message .= $importFileE3sService->importCSVDataCollecte($fichier, $user->getId());
+          break;
+        case 'vocabulary':
+          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+          break;
         case 'program':
           $message .= $importFileE3sService->importCSVDataProgramme($fichier, $user->getId());
           break;
+        case 'taxon':
+          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+          break;
         default:
-          $message .= "ERROR - Bad SELECTED choice ?";
+          $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));

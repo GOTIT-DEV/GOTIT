@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,19 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilespcr")
- * @Security("is_granted('ROLE_COLLABORATION')")
+ * @Route("importfilesslide")
+ * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
- *
  */
-class ImportFilesPcrController extends AbstractController {
+class ImportFilesSlideController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilespcr_index")
+   * @Route("/", name="importfilesslide_index")
    *
    */
   public function indexAction(
@@ -38,7 +37,7 @@ class ImportFilesPcrController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //create form
+    //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if ($user->getRole() == 'ROLE_ADMIN') {
@@ -47,8 +46,9 @@ class ImportFilesPcrController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('PCR' => 'PCR'),
-            '  ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
+            ' ' => array('Specimen_slide' => 'specimen_slide'),
+            '  ' => array('Box' => 'box'),
+            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -61,22 +61,9 @@ class ImportFilesPcrController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('PCR' => 'PCR'),
-            '  ' => array('Person' => 'person'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
-    if ($user->getRole() == 'ROLE_COLLABORATION') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('PCR' => 'PCR'),
-            '  ' => array('Person' => 'person'),
+            ' ' => array('Specimen_slide' => 'specimen_slide'),
+            '  ' => array('Box' => 'box'),
+            '   ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -97,11 +84,14 @@ class ImportFilesPcrController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'PCR':
-          $message .= $importFileE3sService->importCSVDataPcr($fichier, $user->getId());
+        case 'specimen_slide':
+          $message .= $importFileE3sService->importCSVDataLame($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+          break;
+        case 'box':
+          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());

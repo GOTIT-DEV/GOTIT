@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -14,15 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import Pays controller.
+ * ImportIndividu controller.
  *
- * @Route("importfilespersonne")
+ * @Route("importfilesadnrange")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilePersonneController extends AbstractController {
+class ImportFilesAdnRangeController extends AbstractController {
   /**
-   * @Route("/", name="importfilespersonne_index")
-   * @Security("is_granted('ROLE_COLLABORATION')")
+   * @var string
+   */
+  private $type_csv;
+
+  /**
+   * @Route("/", name="importfilesadnrange_index")
+   *
    */
   public function indexAction(
     Request $request,
@@ -34,19 +40,17 @@ class ImportFilePersonneController extends AbstractController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT' || $user->getRole() == 'ROLE_COLLABORATION') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Person' => 'person'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
+    $form = $this->createFormBuilder()
+      ->setMethod('POST')
+      ->add('type_csv', ChoiceType::class, array(
+        'choice_translation_domain' => false,
+        'choices' => array(
+          ' ' => array('DNA_store' => 'DNA_store'),
+        ),
+      ))
+      ->add('fichier', FileType::class)
+      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      ->getForm();
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
@@ -61,8 +65,8 @@ class ImportFilePersonneController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+        case 'DNA_store':
+          $message .= $importFileE3sService->importCSVDataAdnRange($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

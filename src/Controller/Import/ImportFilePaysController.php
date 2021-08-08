@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,20 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * ImportIndividu controller.
+ * Import Pays controller.
  *
- * @Route("importfilesinternal_lot_deplace")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("importfilespays")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesLotMaterielDeplaceController extends AbstractController {
+class ImportFilePaysController extends AbstractController {
   /**
-   * @var string
-   */
-  private $type_csv;
-
-  /**
-   * @Route("/", name="importfilesinternal_lot_deplace_index")
+   * @Route("/", name="importfilescountry_index")
    *
    */
   public function indexAction(
@@ -40,17 +33,19 @@ class ImportFilesLotMaterielDeplaceController extends AbstractController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    $form = $this->createFormBuilder()
-      ->setMethod('POST')
-      ->add('type_csv', ChoiceType::class, array(
-        'choice_translation_domain' => false,
-        'choices' => array(
-          ' ' => array('Biological_material_move' => 'biological_material_move'),
-        ),
-      ))
-      ->add('fichier', FileType::class)
-      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-      ->getForm();
+    if ($user->getRole() == 'ROLE_ADMIN') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Country' => 'country'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
@@ -65,8 +60,8 @@ class ImportFilesLotMaterielDeplaceController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'biological_material_move':
-          $message .= $importFileE3sService->importCSVDataLotMaterielDeplace($fichier, $user->getId());
+        case 'country':
+          $message .= $importFileE3sService->importCSVDataPays($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

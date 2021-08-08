@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesslidedeplace")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("importfilesinternal_lot_publie")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSlideDeplaceController extends AbstractController {
+class ImportFilesLotMaterielPublieController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesslidedeplace_index")
+   * @Route("/", name="importfilesinternal_lot_publie_index")
    *
    */
   public function indexAction(
@@ -37,20 +37,37 @@ class ImportFilesSlideDeplaceController extends AbstractController {
     ImportFileCsv $service
   ) {
     $message = "";
-    //creation of the form with a drop-down list
+    //create form
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    $form = $this->createFormBuilder()
-      ->setMethod('POST')
-      ->add('type_csv', ChoiceType::class, array(
-        'choice_translation_domain' => false,
-        'choices' => array(
-          ' ' => array('Slide_move' => 'slide_move'),
-        ),
-      ))
-      ->add('fichier', FileType::class)
-      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-      ->getForm();
+    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Source_attribute_to_lot' => 'source_attribute_to_lot'),
+            '  ' => array('Source' => 'source', 'Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
+    if ($user->getRole() == 'ROLE_COLLABORATION') {
+      $form = $this->createFormBuilder()
+        ->setMethod('POST')
+        ->add('type_csv', ChoiceType::class, array(
+          'choice_translation_domain' => false,
+          'choices' => array(
+            ' ' => array('Source_attribute_to_lot' => 'source_attribute_to_lot'),
+            '  ' => array('Person' => 'person'),
+          ),
+        ))
+        ->add('fichier', FileType::class)
+        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+        ->getForm();
+    }
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request
@@ -65,8 +82,14 @@ class ImportFilesSlideDeplaceController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'slide_move':
-          $message .= $importFileE3sService->importCSVDataSlideDeplace($fichier, $user->getId());
+        case 'source_attribute_to_lot':
+          $message .= $importFileE3sService->importCSVDataLotMaterielPublie($fichier, $user->getId());
+          break;
+        case 'source':
+          $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
+          break;
+        case 'person':
+          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

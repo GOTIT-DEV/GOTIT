@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Core\Import;
+namespace App\Controller\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
@@ -16,25 +16,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesadn")
+ * @Route("importfileschromatogramme")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesAdnController extends AbstractController {
+class ImportFilesChromatogrammeController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesadn_index")
+   * @Route("/", name="importfileschromatogramme_index")
    *
    */
   public function indexAction(
     Request $request,
     ImportFileE3s $importFileE3sService,
-    TranslatorInterface $translator,
-    ImportFileCsv $service
+    ImportFileCsv $service,
+    TranslatorInterface $translator
   ) {
     $message = "";
     //creation of the form with a drop-down list
@@ -46,9 +46,9 @@ class ImportFilesAdnController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('DNA' => 'DNA'),
-            '  ' => array('Box' => 'box'),
-            '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
+            ' ' => array('Chromatogram' => 'chromatogram'),
+            '  ' => array('Institution' => 'institution'),
+            '   ' => array('Vocabulary' => 'vocabulary'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -61,9 +61,8 @@ class ImportFilesAdnController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('DNA' => 'DNA'),
-            '  ' => array('Box' => 'box'),
-            '   ' => array('Person' => 'person'),
+            ' ' => array('Chromatogram' => 'chromatogram'),
+            '  ' => array('Institution' => 'institution'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -76,8 +75,7 @@ class ImportFilesAdnController extends AbstractController {
         ->add('type_csv', ChoiceType::class, array(
           'choice_translation_domain' => false,
           'choices' => array(
-            ' ' => array('DNA' => 'DNA'),
-            '  ' => array('Person' => 'person'),
+            ' ' => array('Chromatogram' => 'chromatogram'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -98,20 +96,17 @@ class ImportFilesAdnController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'DNA':
-          $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());
+        case 'chromatogram':
+          $message .= $importFileE3sService->importCSVDataChromato($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+        case 'institution':
+          $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
           break;
         default:
-          $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+          $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));
