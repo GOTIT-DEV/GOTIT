@@ -2,11 +2,11 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController {
   /**
@@ -29,9 +29,9 @@ class DashboardController extends AbstractController {
     $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
     $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssemblee u')->getSingleScalarResult();
     $nbSequenceAssembleeExt = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssembleeExt u')->getSingleScalarResult();
-    $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:Assigne u')->getSingleScalarResult();
-    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:Assigne u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
-    $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
+    $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:MotuAssignment u')->getSingleScalarResult();
+    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:MotuAssignment u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
+    $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:MotuAssignment u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
     $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM App:Boite u')->getSingleScalarResult();
     $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
     $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());

@@ -2962,7 +2962,7 @@ class ImportFileE3s {
       $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass !== NULL) {
         $flagSeq = 1;
-        $entityRel = new \App\Entity\Assigne();
+        $entityRel = new \App\Entity\MotuAssignment();
         $method = "setMotuFk";
         $entityRel->$method($entity);
         $method = "setSequenceAssembleeFk";
@@ -2980,7 +2980,7 @@ class ImportFileE3s {
       $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass_ext !== NULL) {
         $flagSeqExt = 1;
-        $entityRel = new \App\Entity\Assigne();
+        $entityRel = new \App\Entity\MotuAssignment();
         $method = "setMotuFk";
         $entityRel->$method($entity);
         $method = "setSequenceAssembleeExtFk";
@@ -3192,7 +3192,7 @@ class ImportFileE3s {
           $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass !== NULL) {
             $flagSeq = 1;
-            $entityRel = new \App\Entity\Assigne();
+            $entityRel = new \App\Entity\MotuAssignment();
             $method = "setMotuFk";
             $entityRel->$method($entity);
             $method = "setSequenceAssembleeFk";
@@ -3210,7 +3210,7 @@ class ImportFileE3s {
           $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass_ext !== NULL) {
             $flagSeqExt = 1;
-            $entityRel = new \App\Entity\Assigne();
+            $entityRel = new \App\Entity\MotuAssignment();
             $method = "setMotuFk";
             $entityRel->$method($entity);
             $method = "setSequenceAssembleeExtFk";

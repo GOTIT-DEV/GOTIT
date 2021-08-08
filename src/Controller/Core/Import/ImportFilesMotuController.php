@@ -48,8 +48,8 @@ class ImportFilesMotuController extends AbstractController {
           'class' => 'App:Motu',
           'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('motu')
-              ->leftJoin('App:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
-              ->where('assigne.id IS NULL');
+              ->leftJoin('App:MotuAssignment', 'motuAssignment', 'WITH', 'motuAssignment.motuFk = motu.id')
+              ->where('motuAssignment.id IS NULL');
           },
           'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false,
         ))

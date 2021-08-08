@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Assigne
+ * MotuAssignment
  *
  * @ORM\Table(name="motu_number",
  *  indexes={
@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Assigne extends AbstractTimestampedEntity {
+class MotuAssignment extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -88,7 +88,7 @@ class Assigne extends AbstractTimestampedEntity {
    *
    * @param integer $numMotu
    *
-   * @return Assigne
+   * @return MotuAssignment
    */
   public function setNumMotu($numMotu) {
     $this->numMotu = $numMotu;
@@ -110,7 +110,7 @@ class Assigne extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
    *
-   * @return Assigne
+   * @return MotuAssignment
    */
   public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
     $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
@@ -132,7 +132,7 @@ class Assigne extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $methodeMotuVocFk
    *
-   * @return Assigne
+   * @return MotuAssignment
    */
   public function setMethodeMotuVocFk(\App\Entity\Voc $methodeMotuVocFk = null) {
     $this->methodeMotuVocFk = $methodeMotuVocFk;
@@ -154,7 +154,7 @@ class Assigne extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return Assigne
+   * @return MotuAssignment
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;
@@ -176,7 +176,7 @@ class Assigne extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Motu $motuFk
    *
-   * @return Assigne
+   * @return MotuAssignment
    */
   public function setMotuFk(\App\Entity\Motu $motuFk = null) {
     $this->motuFk = $motuFk;

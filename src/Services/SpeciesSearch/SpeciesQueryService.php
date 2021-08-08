@@ -33,7 +33,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
-      ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
+      ->join('App:MotuAssignment', 'a', 'WITH', 'a.motuFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :dataset')
       ->setParameter('dataset', $id_dataset)
@@ -48,7 +48,7 @@ class SpeciesQueryService {
     $query = $qb->select('v.id as id_methode, v.code')
       ->addSelect('m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
-      ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
+      ->join('App:MotuAssignment', 'a', 'WITH', 'a.motuFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :id_dataset AND v.id = :id_methode')
       ->setParameters(array(
@@ -65,7 +65,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
       ->from('App:Motu', 'm')
-      ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
+      ->join('App:MotuAssignment', 'a', 'WITH', 'a.motuFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->distinct()
       ->orderBy('m.id, v.id')
@@ -83,7 +83,7 @@ class SpeciesQueryService {
       ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->join('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
-      ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
+      ->join('App:MotuAssignment', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
       ->join('App:SequenceAssemblee', $seqAlias, 'WITH', "$seqAlias.id = at.sequenceAssembleeFk")
       ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
@@ -93,7 +93,7 @@ class SpeciesQueryService {
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
       ->leftJoin('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->leftJoin('App:EstAligneEtTraite', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
-      ->leftJoin('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
+      ->leftJoin('App:MotuAssignment', 'ass', 'WITH', 'ass.sequenceAssembleeFk = at.sequenceAssembleeFk')
       ->leftJoin('App:SequenceAssemblee', $seqAlias, 'WITH', "$seqAlias.id = at.sequenceAssembleeFk")
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
@@ -149,7 +149,7 @@ class SpeciesQueryService {
     case 3: # sequence
       $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
         ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->join('App:MotuAssignment', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
         ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
       break;
     }
@@ -222,7 +222,7 @@ class SpeciesQueryService {
         ->leftJoin('App:EstAligneEtTraite', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
         ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->join('App:MotuAssignment', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
         ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
         ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
       break;
