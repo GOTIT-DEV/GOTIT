@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MotuAssignment
+ * MotuDelimitation
  *
  * @ORM\Table(name="motu_number",
  *  indexes={
@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class MotuAssignment extends AbstractTimestampedEntity {
+class MotuDelimitation extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -88,7 +88,7 @@ class MotuAssignment extends AbstractTimestampedEntity {
    *
    * @param integer $numMotu
    *
-   * @return MotuAssignment
+   * @return MotuDelimitation
    */
   public function setNumMotu($numMotu) {
     $this->numMotu = $numMotu;
@@ -110,7 +110,7 @@ class MotuAssignment extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
    *
-   * @return MotuAssignment
+   * @return MotuDelimitation
    */
   public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
     $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
@@ -132,7 +132,7 @@ class MotuAssignment extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $methodeMotuVocFk
    *
-   * @return MotuAssignment
+   * @return MotuDelimitation
    */
   public function setMethodeMotuVocFk(\App\Entity\Voc $methodeMotuVocFk = null) {
     $this->methodeMotuVocFk = $methodeMotuVocFk;
@@ -154,7 +154,7 @@ class MotuAssignment extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return MotuAssignment
+   * @return MotuDelimitation
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;
@@ -176,7 +176,7 @@ class MotuAssignment extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Motu $motuFk
    *
-   * @return MotuAssignment
+   * @return MotuDelimitation
    */
   public function setMotuFk(\App\Entity\Motu $motuFk = null) {
     $this->motuFk = $motuFk;

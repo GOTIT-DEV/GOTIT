@@ -289,7 +289,7 @@ class MotuController extends AbstractController {
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
       ->from('App:Motu', 'm')
-      ->join('App:MotuAssignment', 'a', 'WITH', 'a.motuFk=m')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->distinct()
       ->getQuery();

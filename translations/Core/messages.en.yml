@@ -264,7 +264,7 @@ list.Liste personnes: List of person(s)
 list.Last taxname: Last taxon name
 list.Last identification date: Last id. date
 list.Last identification critere: Last id. criterion
-list.MotuAssigne: MOTU
+list.MotuDelimitation: MOTU
 
 # BUTTONS ######################################################################
 #
@@ -435,7 +435,7 @@ import.boite.slidedeplace: Move or delete slides as file
 import.boite.adndeplace: Move or delete DNA boxes as file
 import.source.lotmaterielpublie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
-import.motu-assigne: MOTU
+import.motu-delimitation: MOTU
 
 
 # HEADINGS OF SCROLLING LISTS ##################################################

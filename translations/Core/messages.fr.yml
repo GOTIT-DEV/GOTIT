@@ -98,7 +98,7 @@ list.Liste personnes: Liste de personne(s)
 list.Last taxname: Dernier nom de taxon
 list.Last identification date: Dernière date identification
 list.Last identification critere: Dernier critere identification
-list.MotuAssigne: MOTU
+list.MotuDelimitation: MOTU
 
 # BUTTONS ######################################################################
 #
@@ -271,7 +271,7 @@ import.boite.slidedeplace: Déplacer/supprimer des lames
 import.boite.adndeplace: Déplacer/supprimer des ADN
 import.source.lotmaterielpublie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
-import.motu-assigne: MOTU
+import.motu-delimitation: MOTU
 
 # HEADINGS OF SCROLLING LISTS ##################################################
 Choose a Parent: Sélectionner une classe de vocabulaire
