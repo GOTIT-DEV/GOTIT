@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LotEstPublieDansEmbedType extends AbstractType {
+class InternalLotPublicationEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -31,7 +31,7 @@ class LotEstPublieDansEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\LotEstPublieDans',
+      'data_class' => 'App\Entity\InternalLotPublication',
     ));
   }
 
@@ -39,6 +39,6 @@ class LotEstPublieDansEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'lotestpubliedans';
+    return 'publication';
   }
 }

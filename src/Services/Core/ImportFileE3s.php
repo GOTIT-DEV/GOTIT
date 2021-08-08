@@ -540,7 +540,7 @@ class ImportFileE3s {
         }
 
       } else {
-        $query_lepd = $em->getRepository("App:LotEstPublieDans")->createQueryBuilder('lepd')
+        $query_lepd = $em->getRepository("App:InternalLotPublication")->createQueryBuilder('lepd')
           ->where('lepd.lotMaterielFk = :id_lot')
           ->setParameter('id_lot', $query_lot[0]->getId())
           ->andwhere('source.codeSource = :code_source')
@@ -551,7 +551,7 @@ class ImportFileE3s {
         if (count($query_lepd) != 0) {
           $message .= $this->translator->trans('importfileService.ERROR lot already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code_lot_materiel"] . ' </b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $entityRel = new \App\Entity\LotEstPublieDans();
+          $entityRel = new \App\Entity\InternalLotPublication();
           $method = "setSourceFk";
           $entityRel->$method($query_source[0]);
           $method = "setLotMaterielFk";
@@ -2687,8 +2687,8 @@ class ImportFileE3s {
         }
       }
 
-      # Record of LotEstPublieDans
-      foreach ($columnByTable["lot_est_publie_dans"] as $ColCsv) {
+      # Record of InternalLotPublication
+      foreach ($columnByTable["publication"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2703,7 +2703,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\LotEstPublieDans();
+            $entityRel = new \App\Entity\InternalLotPublication();
             $method = "setLotMaterielFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

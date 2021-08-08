@@ -124,10 +124,10 @@ class LotMateriel extends AbstractTimestampedEntity {
   protected $lotMaterielEstRealisePars;
 
   /**
-   * @ORM\OneToMany(targetEntity="LotEstPublieDans", mappedBy="lotMaterielFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalLotPublication", mappedBy="lotMaterielFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $lotEstPublieDanss;
+  protected $publications;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="lotMaterielFk", cascade={"persist"})
@@ -143,7 +143,7 @@ class LotMateriel extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->lotMaterielEstRealisePars = new ArrayCollection();
-    $this->lotEstPublieDanss = new ArrayCollection();
+    $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
     $this->compositionLotMateriels = new ArrayCollection();
   }
@@ -388,36 +388,36 @@ class LotMateriel extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add lotEstPublieDanss
+   * Add publication
    *
-   * @param \App\Entity\LotEstPublieDans $lotEstPublieDanss
+   * @param \App\Entity\InternalLotPublication $publication
    *
    * @return LotMateriel
    */
-  public function addLotEstPublieDans(\App\Entity\LotEstPublieDans $lotEstPublieDanss) {
+  public function addPublication(\App\Entity\InternalLotPublication $publication) {
 
-    $lotEstPublieDanss->setLotMaterielFk($this);
-    $this->lotEstPublieDanss[] = $lotEstPublieDanss;
+    $publication->setLotMaterielFk($this);
+    $this->publications[] = $publication;
 
     return $this;
   }
 
   /**
-   * Remove lotEstPublieDanss
+   * Remove publication
    *
-   * @param \App\Entity\LotEstPublieDans $lotEstPublieDanss
+   * @param \App\Entity\InternalLotPublication $publication
    */
-  public function removeLotEstPublieDans(\App\Entity\LotEstPublieDans $lotEstPublieDanss) {
-    $this->lotEstPublieDanss->removeElement($lotEstPublieDanss);
+  public function removePublication(\App\Entity\InternalLotPublication $publication) {
+    $this->publications->removeElement($publication);
   }
 
   /**
-   * Get lotEstPublieDanss
+   * Get publications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getLotEstPublieDanss() {
-    return $this->lotEstPublieDanss;
+  public function getPublications() {
+    return $this->publications;
   }
 
   /**
@@ -482,28 +482,6 @@ class LotMateriel extends AbstractTimestampedEntity {
    */
   public function getCompositionLotMateriels() {
     return $this->compositionLotMateriels;
-  }
-
-  /**
-   * Add lotEstPublieDanss
-   *
-   * @param \App\Entity\LotEstPublieDans $lotEstPublieDanss
-   *
-   * @return LotMateriel
-   */
-  public function addLotEstPublieDanss(\App\Entity\LotEstPublieDans $lotEstPublieDanss) {
-    $this->lotEstPublieDanss[] = $lotEstPublieDanss;
-
-    return $this;
-  }
-
-  /**
-   * Remove lotEstPublieDanss
-   *
-   * @param \App\Entity\LotEstPublieDans $lotEstPublieDanss
-   */
-  public function removeLotEstPublieDanss(\App\Entity\LotEstPublieDans $lotEstPublieDanss) {
-    $this->lotEstPublieDanss->removeElement($lotEstPublieDanss);
   }
 
   /**

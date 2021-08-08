@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LotEstPublieDans
+ * InternalLotPublication
  *
  * @ORM\Table(name="internal_biological_material_is_published_in",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotEstPublieDans extends AbstractTimestampedEntity {
+class InternalLotPublication extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class LotEstPublieDans extends AbstractTimestampedEntity {
   /**
    * @var \LotMateriel
    *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="lotEstPublieDanss")
+   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="publications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class LotEstPublieDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMateriel $lotMaterielFk
    *
-   * @return LotEstPublieDans
+   * @return InternalLotPublication
    */
   public function setLotMaterielFk(\App\Entity\LotMateriel $lotMaterielFk = null) {
     $this->lotMaterielFk = $lotMaterielFk;
@@ -81,7 +81,7 @@ class LotEstPublieDans extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Source $sourceFk
    *
-   * @return LotEstPublieDans
+   * @return InternalLotPublication
    */
   public function setSourceFk(\App\Entity\Source $sourceFk = null) {
     $this->sourceFk = $sourceFk;

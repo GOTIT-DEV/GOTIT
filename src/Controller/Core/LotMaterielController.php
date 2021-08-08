@@ -270,7 +270,7 @@ class LotMaterielController extends AbstractController {
     // store ArrayCollection
     $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
     $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel);
-    $lotEstPublieDanss = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
+    $publications = $service->setArrayCollection('Publications', $lotMateriel);
     $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
 
     //
@@ -284,7 +284,7 @@ class LotMaterielController extends AbstractController {
       // delete ArrayCollection
       $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
       $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel, $taxonIdentifications);
-      $service->DelArrayCollection('LotEstPublieDanss', $lotMateriel, $lotEstPublieDanss);
+      $service->DelArrayCollection('Publications', $lotMateriel, $publications);
       $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
 
       $em = $this->getDoctrine()->getManager();

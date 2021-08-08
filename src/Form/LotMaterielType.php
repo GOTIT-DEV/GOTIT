@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
-use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
+use App\Form\EmbedTypes\InternalLotPublicationEmbedType;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
@@ -109,8 +109,8 @@ class LotMaterielType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ))
-      ->add('lotEstPublieDanss', CollectionType::class, array(
-        'entry_type' => LotEstPublieDansEmbedType::class,
+      ->add('publications', CollectionType::class, array(
+        'entry_type' => InternalLotPublicationEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
