@@ -269,7 +269,7 @@ class LotMaterielController extends AbstractController {
 
     // store ArrayCollection
     $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
-    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel);
+    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $lotMateriel);
     $lotEstPublieDanss = $service->setArrayCollection('LotEstPublieDanss', $lotMateriel);
     $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
 
@@ -283,7 +283,7 @@ class LotMaterielController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
       $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
-      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMateriel, $especeIdentifiees);
+      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $lotMateriel, $especeIdentifiees);
       $service->DelArrayCollection('LotEstPublieDanss', $lotMateriel, $lotEstPublieDanss);
       $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
 

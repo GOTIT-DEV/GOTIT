@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EstIdentifiePar
+ * PersonSpeciesId
  *
  * @ORM\Table(name="species_is_identified_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EstIdentifiePar extends AbstractTimestampedEntity {
+class PersonSpeciesId extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -38,7 +38,7 @@ class EstIdentifiePar extends AbstractTimestampedEntity {
   /**
    * @var \EspeceIdentifiee
    *
-   * @ORM\ManyToOne(targetEntity="EspeceIdentifiee", inversedBy="estIdentifiePars")
+   * @ORM\ManyToOne(targetEntity="EspeceIdentifiee", inversedBy="personSpeciesIds")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class EstIdentifiePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return EstIdentifiePar
+   * @return PersonSpeciesId
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;
@@ -81,7 +81,7 @@ class EstIdentifiePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\EspeceIdentifiee $especeIdentifieeFk
    *
-   * @return EstIdentifiePar
+   * @return PersonSpeciesId
    */
   public function setEspeceIdentifieeFk(\App\Entity\EspeceIdentifiee $especeIdentifieeFk = null) {
     $this->especeIdentifieeFk = $especeIdentifieeFk;

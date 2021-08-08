@@ -2,15 +2,15 @@
 
 namespace App\Controller\Core;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Services\Core\GenericFunctionE3s;
-use App\Form\Enums\Action;
-use App\Entity\Individu;
 use App\Entity\EspeceIdentifiee;
+use App\Entity\Individu;
+use App\Form\Enums\Action;
+use App\Services\Core\GenericFunctionE3s;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Individu controller.
@@ -306,7 +306,7 @@ class IndividuController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu);
+    $especeIdentifiees = $service->setArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $individu);
 
     $deleteForm = $this->createDeleteForm($individu);
     if ($individu->getCodeIndBiomol()) {
@@ -321,7 +321,7 @@ class IndividuController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu, $especeIdentifiees);
+      $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'PersonSpeciesIds', $individu, $especeIdentifiees);
       $this->getDoctrine()->getManager()->persist($individu);
       try {
         $this->getDoctrine()->getManager()->flush();

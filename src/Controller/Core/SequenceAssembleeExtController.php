@@ -274,7 +274,7 @@ class SequenceAssembleeExtController extends AbstractController {
     // store ArrayCollection
     $especeIdentifiees = $service->setArrayCollectionEmbed(
       'EspeceIdentifiees',
-      'EstIdentifiePars',
+      'PersonSpeciesIds',
       $sequenceAssembleeExt
     );
     $sqcExtEstReferenceDanss = $service->setArrayCollection(
@@ -298,7 +298,7 @@ class SequenceAssembleeExtController extends AbstractController {
       // delete ArrayCollection
       $service->DelArrayCollectionEmbed(
         'EspeceIdentifiees',
-        'EstIdentifiePars',
+        'PersonSpeciesIds',
         $sequenceAssembleeExt,
         $especeIdentifiees
       );

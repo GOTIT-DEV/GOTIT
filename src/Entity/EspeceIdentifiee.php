@@ -138,13 +138,13 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   private $sequenceAssembleeFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="EstIdentifiePar", mappedBy="especeIdentifieeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="PersonSpeciesId", mappedBy="especeIdentifieeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $estIdentifiePars;
+  protected $personSpeciesIds;
 
   public function __construct() {
-    $this->estIdentifiePars = new ArrayCollection();
+    $this->personSpeciesIds = new ArrayCollection();
   }
 
   /**
@@ -377,35 +377,35 @@ class EspeceIdentifiee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add estIdentifiePar
+   * Add personSpeciesId
    *
-   * @param \App\Entity\estIdentifiePar $estIdentifiePar
+   * @param \App\Entity\personSpeciesId $personSpeciesId
    *
    * @return EspeceIdentifiee
    */
-  public function addEstIdentifiePar(\App\Entity\estIdentifiePar $estIdentifiePar) {
-    $estIdentifiePar->setEspeceIdentifieeFk($this);
-    $this->estIdentifiePars[] = $estIdentifiePar;
+  public function addPersonSpeciesId(\App\Entity\personSpeciesId $personSpeciesId) {
+    $personSpeciesId->setEspeceIdentifieeFk($this);
+    $this->personSpeciesIds[] = $personSpeciesId;
 
     return $this;
   }
 
   /**
-   * Remove estIdentifiePar
+   * Remove personSpeciesId
    *
-   * @param \App\Entity\estIdentifiePar $estIdentifiePar
+   * @param \App\Entity\personSpeciesId $personSpeciesId
    */
-  public function removeEstIdentifiePar(\App\Entity\estIdentifiePar $estIdentifiePar) {
-    $this->estIdentifiePars->removeElement($estIdentifiePar);
+  public function removePersonSpeciesId(\App\Entity\personSpeciesId $personSpeciesId) {
+    $this->personSpeciesIds->removeElement($personSpeciesId);
   }
 
   /**
-   * Get estIdentifiePars
+   * Get personSpeciesIds
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEstIdentifiePars() {
-    return $this->estIdentifiePars;
+  public function getPersonSpeciesIds() {
+    return $this->personSpeciesIds;
   }
 
   /**

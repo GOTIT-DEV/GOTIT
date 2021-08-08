@@ -49,8 +49,8 @@ class EspeceIdentifieeEmbedType extends AbstractType {
         'required' => true,
       ))
       ->add('commentaireEspId')
-      ->add('estIdentifiePars', CollectionType::class, array(
-        'entry_type' => EstIdentifieParEmbedType::class,
+      ->add('personSpeciesIds', CollectionType::class, array(
+        'entry_type' => PersonSpeciesIdEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
