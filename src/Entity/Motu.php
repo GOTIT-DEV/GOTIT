@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Motu
@@ -58,13 +58,13 @@ class Motu extends AbstractTimestampedEntity {
   private $commentaireMotu;
 
   /**
-   * @ORM\OneToMany(targetEntity="MotuEstGenerePar", mappedBy="motuFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="MotuDelimiter", mappedBy="motuFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $motuEstGenerePars;
+  protected $motuDelimiters;
 
   public function __construct() {
-    $this->motuEstGenerePars = new ArrayCollection();
+    $this->motuDelimiters = new ArrayCollection();
   }
 
   /**
@@ -143,35 +143,35 @@ class Motu extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add motuEstGenerePar
+   * Add motuDelimiter
    *
-   * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
+   * @param \App\Entity\MotuDelimiter $motuDelimiter
    *
    * @return Motu
    */
-  public function addMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar) {
-    $motuEstGenerePar->setMotuFk($this);
-    $this->motuEstGenerePars[] = $motuEstGenerePar;
+  public function addMotuDelimiter(\App\Entity\MotuDelimiter $motuDelimiter) {
+    $motuDelimiter->setMotuFk($this);
+    $this->motuDelimiters[] = $motuDelimiter;
 
     return $this;
   }
 
   /**
-   * Remove motuEstGenerePar
+   * Remove motuDelimiter
    *
-   * @param \App\Entity\MotuEstGenerePar $motuEstGenerePar
+   * @param \App\Entity\MotuDelimiter $motuDelimiter
    */
-  public function removeMotuEstGenerePar(\App\Entity\MotuEstGenerePar $motuEstGenerePar) {
-    $this->motuEstGenerePars->removeElement($motuEstGenerePar);
+  public function removeMotuDelimiter(\App\Entity\MotuDelimiter $motuDelimiter) {
+    $this->motuDelimiters->removeElement($motuDelimiter);
   }
 
   /**
-   * Get motuEstGenerePars
+   * Get motuDelimiters
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getMotuEstGenerePars() {
-    return $this->motuEstGenerePars;
+  public function getMotuDelimiters() {
+    return $this->motuDelimiters;
   }
 
   /**

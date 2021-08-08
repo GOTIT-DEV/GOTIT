@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MotuEstGenereParEmbedType extends AbstractType {
+class MotuDelimiterEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class MotuEstGenereParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\MotuEstGenerePar',
+      'data_class' => 'App\Entity\MotuDelimiter',
     ));
   }
 
@@ -28,6 +28,6 @@ class MotuEstGenereParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_motuestgenerepar';
+    return 'motu_delimiter';
   }
 }

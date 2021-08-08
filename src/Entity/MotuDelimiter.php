@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MotuEstGenerePar
+ * MotuDelimiter
  *
  * @ORM\Table(name="motu_is_generated_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class MotuEstGenerePar extends AbstractTimestampedEntity {
+class MotuDelimiter extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class MotuEstGenerePar extends AbstractTimestampedEntity {
   /**
    * @var \Motu
    *
-   * @ORM\ManyToOne(targetEntity="Motu", inversedBy="motuEstGenerePars")
+   * @ORM\ManyToOne(targetEntity="Motu", inversedBy="motuDelimiters")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class MotuEstGenerePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Motu $motuFk
    *
-   * @return MotuEstGenerePar
+   * @return MotuDelimiter
    */
   public function setMotuFk(\App\Entity\Motu $motuFk = null) {
     $this->motuFk = $motuFk;
@@ -81,7 +81,7 @@ class MotuEstGenerePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return MotuEstGenerePar
+   * @return MotuDelimiter
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\MotuEstGenereParEmbedType;
+use App\Form\EmbedTypes\MotuDelimiterEmbedType;
 use App\Form\Type\DateFormattedType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,8 +19,8 @@ class MotuType extends ActionFormType {
       ->add('libelleMotu')
       ->add('dateMotu', DateFormattedType::class, ['required' => true])
       ->add('commentaireMotu')
-      ->add('motuEstGenerePars', CollectionType::class, array(
-        'entry_type' => MotuEstGenereParEmbedType::class,
+      ->add('motuDelimiters', CollectionType::class, array(
+        'entry_type' => MotuDelimiterEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -79,7 +79,7 @@ class MotuController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //  concatenated list of people
       $query = $em->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:MotuEstGenerePar megp
+        'SELECT p.nomPersonne as nom FROM App:MotuDelimiter megp
 				JOIN megp.personneFk p WHERE megp.motuFk = ' . $id
       )->getResult();
       $arrayListePersonne = array();
@@ -180,7 +180,7 @@ class MotuController extends AbstractController {
     //
 
     // store ArrayCollection
-    $motuEstGenerePars = $service->setArrayCollection('MotuEstGenerePars', $motu);
+    $motuDelimiters = $service->setArrayCollection('MotuDelimiters', $motu);
 
     //
     $deleteForm = $this->createDeleteForm($motu);
@@ -191,7 +191,7 @@ class MotuController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('MotuEstGenerePars', $motu, $motuEstGenerePars);
+      $service->DelArrayCollection('MotuDelimiters', $motu, $motuDelimiters);
       // flush
       $this->getDoctrine()->getManager()->persist($motu);
       try {
