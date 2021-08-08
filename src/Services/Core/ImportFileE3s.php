@@ -2082,8 +2082,8 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
 
-      # Record of SlidePreparation
-      foreach ($columnByTable["slide_preparation"] as $ColCsv) {
+      # Record of SlideProducer
+      foreach ($columnByTable["slide_producer"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2098,7 +2098,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\SlidePreparation();
+            $entityRel = new \App\Entity\SlideProducer();
             $method = "setSlideFk";
             $entityRel->$method($entity);
             if (!is_null($val_foreign_field) && $val_foreign_field != '') {

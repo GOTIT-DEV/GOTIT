@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SlidePreparationEmbedType extends AbstractType {
+class SlideProducerEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class SlidePreparationEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SlidePreparation',
+      'data_class' => 'App\Entity\SlideProducer',
     ));
   }
 
@@ -28,6 +28,6 @@ class SlidePreparationEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'slide_preparation';
+    return 'slide_producer';
   }
 }

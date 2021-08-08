@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\SlidePreparationEmbedType;
+use App\Form\EmbedTypes\SlideProducerEmbedType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
 use App\Form\Type\EntityCodeType;
@@ -55,8 +55,9 @@ class SlideType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('slidePreparations', CollectionType::class, array(
-        'entry_type' => SlidePreparationEmbedType::class,
+      ->add('producers', CollectionType::class, array(
+        'label' => "Slide producers",
+        'entry_type' => SlideProducerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

@@ -234,8 +234,8 @@ class SlideController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $slidePreparations = $service->setArrayCollection(
-      'SlidePreparations',
+    $producers = $service->setArrayCollection(
+      'Producers',
       $slide
     );
     //
@@ -247,9 +247,9 @@ class SlideController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollection(
-        'SlidePreparations',
+        'Producers',
         $slide,
-        $slidePreparations
+        $producers
       );
 
       $em = $this->getDoctrine()->getManager();

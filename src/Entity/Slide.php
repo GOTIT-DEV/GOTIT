@@ -96,13 +96,13 @@ class Slide extends AbstractTimestampedEntity {
   private $specimenFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="SlidePreparation", mappedBy="slideFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SlideProducer", mappedBy="slideFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $slidePreparations;
+  protected $producers;
 
   public function __construct() {
-    $this->slidePreparations = new ArrayCollection();
+    $this->producers = new ArrayCollection();
   }
 
   /**
@@ -291,34 +291,34 @@ class Slide extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add slidePreparation
+   * Add producer
    *
-   * @param \App\Entity\SlidePreparation $slidePreparation
+   * @param \App\Entity\SlideProducer $producer
    *
    * @return Slide
    */
-  public function addSlidePreparation(\App\Entity\SlidePreparation $slidePreparation) {
-    $slidePreparation->setSlideFk($this);
-    $this->slidePreparations[] = $slidePreparation;
+  public function addProducer(\App\Entity\SlideProducer $producer) {
+    $producer->setSlideFk($this);
+    $this->producers[] = $producer;
 
     return $this;
   }
 
   /**
-   * Remove slidePreparation
+   * Remove producer
    *
-   * @param \App\Entity\SlidePreparation $slidePreparation
+   * @param \App\Entity\SlideProducer $producer
    */
-  public function removeSlidePreparation(\App\Entity\SlidePreparation $slidePreparation) {
-    $this->slidePreparations->removeElement($slidePreparation);
+  public function removeProducer(\App\Entity\SlideProducer $producer) {
+    $this->producers->removeElement($producer);
   }
 
   /**
-   * Get slidePreparations
+   * Get producers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSlidePreparations() {
-    return $this->slidePreparations;
+  public function getProducers() {
+    return $this->producers;
   }
 }

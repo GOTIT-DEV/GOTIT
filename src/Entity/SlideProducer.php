@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SlidePreparation
+ * SlideProducer
  *
  * @ORM\Table(name="slide_is_mounted_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SlidePreparation extends AbstractTimestampedEntity {
+class SlideProducer extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -28,7 +28,7 @@ class SlidePreparation extends AbstractTimestampedEntity {
   /**
    * @var \Slide
    *
-   * @ORM\ManyToOne(targetEntity="Slide", inversedBy="slidePreparations")
+   * @ORM\ManyToOne(targetEntity="Slide", inversedBy="producers")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class SlidePreparation extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Slide $slideFk
    *
-   * @return SlidePreparation
+   * @return SlideProducer
    */
   public function setSlideFk(\App\Entity\Slide $slideFk = null) {
     $this->slideFk = $slideFk;
@@ -81,7 +81,7 @@ class SlidePreparation extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return SlidePreparation
+   * @return SlideProducer
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;
