@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesindividulamerange")
- * @Security("is_granted('ROLE_COLLABORATION')")
+ * @Route("importfilesslidedeplace")
+ * @Security("is_granted('ROLE_ADMIN')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesIndividuLameRangeController extends AbstractController {
+class ImportFilesSlideDeplaceController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesindividulamerange_index")
+   * @Route("/", name="importfilesslidedeplace_index")
    *
    */
   public function indexAction(
@@ -45,7 +45,7 @@ class ImportFilesIndividuLameRangeController extends AbstractController {
       ->add('type_csv', ChoiceType::class, array(
         'choice_translation_domain' => false,
         'choices' => array(
-          ' ' => array('Slide_store' => 'slide_store'),
+          ' ' => array('Slide_move' => 'slide_move'),
         ),
       ))
       ->add('fichier', FileType::class)
@@ -65,8 +65,8 @@ class ImportFilesIndividuLameRangeController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'slide_store':
-          $message .= $importFileE3sService->importCSVDataIndividuLameRange($fichier, $user->getId());
+        case 'slide_move':
+          $message .= $importFileE3sService->importCSVDataSlideDeplace($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

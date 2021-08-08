@@ -15,7 +15,7 @@
 		{% set entityname = 'boite' %}
 		{% set href =  path(route_entity_index,{'typeBoite':'LOT'})  %}
 	{% endif %}
-	{% if route_entity_index == 'individulamerange_index' or route_entity_index == 'individulamedeplace_index' %}
+	{% if route_entity_index == 'sliderange_index' or route_entity_index == 'slidedeplace_index' %}
 		{% set route_entity_index = 'boite_index' %}
 		{% set entityname = 'boite' %}
 		{% set href =  path(route_entity_index,{'typeBoite':'LAME'})  %}
@@ -63,8 +63,8 @@
 								{{'import.individu'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulame_index') }}">
-								{{'import.individulame'|trans}}
+							<a href="{{ path('importfilesslide_index') }}">
+								{{'import.slide'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileslotmaterielext_index') }}">
@@ -103,8 +103,8 @@
 								{{'import.boite.lotmaterielrange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulamerange_index') }}">
-								{{'import.boite.individulamerange'|trans}}
+							<a href="{{ path('importfilessliderange_index') }}">
+								{{'import.boite.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">
@@ -115,8 +115,8 @@
 								{{'import.boite.lotmaterieldeplace'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulamedeplace_index') }}">
-								{{'import.boite.individulamedeplace'|trans}}
+							<a href="{{ path('importfilesslidedeplace_index') }}">
+								{{'import.boite.slidedeplace'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadndeplace_index') }}">
@@ -148,8 +148,8 @@
 								{{'import.individu'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulame_index') }}">
-								{{'import.individulame'|trans}}
+							<a href="{{ path('importfilesslide_index') }}">
+								{{'import.slide'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileslotmaterielext_index') }}">
@@ -190,8 +190,8 @@
 								{{'import.boite.lotmaterielrange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulamerange_index') }}">
-								{{'import.boite.individulamerange'|trans}}
+							<a href="{{ path('importfilessliderange_index') }}">
+								{{'import.boite.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">
@@ -206,7 +206,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.boite.individulamedeplace'|trans}}
+									{{'import.boite.slidedeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -251,7 +251,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.individulame'|trans}}
+									{{'import.slide'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -297,8 +297,8 @@
 								{{'import.boite.lotmaterielrange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesindividulamerange_index') }}">
-								{{'import.boite.individulamerange'|trans}}
+							<a href="{{ path('importfilessliderange_index') }}">
+								{{'import.boite.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesadnrange_index') }}">
@@ -313,7 +313,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.boite.individulamedeplace'|trans}}
+									{{'import.boite.slidedeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -358,7 +358,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.individulame'|trans}}
+									{{'import.slide'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -418,7 +418,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.boite.individulamerange'|trans}}
+									{{'import.boite.sliderange'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -436,7 +436,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.boite.individulamedeplace'|trans}}
+									{{'import.boite.slidedeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>

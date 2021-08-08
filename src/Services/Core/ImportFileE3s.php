@@ -187,22 +187,22 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataIndividuLameDeplace($fichier, $userId = null)
+   *  importCSVDataSlideDeplace($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is slide_move
    */
-  public function importCSVDataIndividuLameDeplace($fichier, $userId = null) {
+  public function importCSVDataSlideDeplace($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
-    $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);
-    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table
+    $csvDataSlidelRange = $importFileCsvService->readCSV($fichier);
+    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataSlidelRange); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
     // line by line processing of the csv file
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    foreach ($csvDataIndividuLamelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
+    foreach ($csvDataSlidelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
+      $query_lame = $em->getRepository("App:Slide")->createQueryBuilder('lame')
         ->where('lame.codeLameColl  LIKE :code_lame_coll')
         ->setParameter('code_lame_coll', $data["code_lame_coll"])
         ->getQuery()
@@ -248,7 +248,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataSlidelRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -266,22 +266,22 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataIndividuLameRange($fichier, $userId = null)
+   *  importCSVDataSlideRange($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is slide_store
    */
-  public function importCSVDataIndividuLameRange($fichier, $userId = null) {
+  public function importCSVDataSlideRange($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
-    $csvDataIndividuLamelRange = $importFileCsvService->readCSV($fichier);
-    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataIndividuLamelRange); // Retrieve CSV fields as a table
+    $csvDataSlidelRange = $importFileCsvService->readCSV($fichier);
+    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataSlidelRange); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
     // line by line processing of the csv file
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    foreach ($csvDataIndividuLamelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
+    foreach ($csvDataSlidelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
+      $query_lame = $em->getRepository("App:Slide")->createQueryBuilder('lame')
         ->where('lame.codeLameColl  LIKE :code_lame_coll')
         ->setParameter('code_lame_coll', $data["code_lame_coll"])
         ->getQuery()
@@ -328,7 +328,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataSlidelRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -1988,9 +1988,9 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       # Enregistrement des données de lame
-      $entity = new \App\Entity\IndividuLame();
+      $entity = new \App\Entity\Slide();
       //
-      foreach ($columnByTable["individu_lame"] as $ColCsv) {
+      foreach ($columnByTable["slide"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -2004,14 +2004,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($field); var_dump($ColCsv);
-          if ($ColCsv == 'individu_lame.code_lame_coll') {
-            $record_entity = $em->getRepository("App:IndividuLame")->findOneBy(array("codeLameColl" => $dataColCsv));
+          if ($ColCsv == 'slide.code_lame_coll') {
+            $record_entity = $em->getRepository("App:Slide")->findOneBy(array("codeLameColl" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'individu_lame.date_lame') {
+          if ($ColCsv == 'slide.date_lame') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -2099,7 +2099,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\SlidePreparation();
-            $method = "setIndividuLameFk";
+            $method = "setSlideFk";
             $entityRel->$method($entity);
             if (!is_null($val_foreign_field) && $val_foreign_field != '') {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

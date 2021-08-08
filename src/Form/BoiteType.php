@@ -2,16 +2,16 @@
 
 namespace App\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Exception\InvalidArgumentException;
-use App\Form\Type\EntityCodeType;
-use App\Form\Type\BaseVocType;
-use App\Form\Enums\Action;
-use App\Form\EmbedTypes\LotMaterielEmbedType;
-use App\Form\EmbedTypes\IndividuLameEmbedType;
 use App\Form\EmbedTypes\DnaEmbedType;
+use App\Form\EmbedTypes\LotMaterielEmbedType;
+use App\Form\EmbedTypes\SlideEmbedType;
+use App\Form\Enums\Action;
+use App\Form\Type\BaseVocType;
+use App\Form\Type\EntityCodeType;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BoiteType extends ActionFormType {
   /**
@@ -74,8 +74,8 @@ class BoiteType extends ActionFormType {
         break;
 
       case 'LAME':
-        $builder->add('individuLames', CollectionType::class, array(
-          'entry_type' => IndividuLameEmbedType::class,
+        $builder->add('slides', CollectionType::class, array(
+          'entry_type' => SlideEmbedType::class,
           // 'allow_add' => true,
           // 'allow_delete' => true,
           'prototype' => true,

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * IndividuLame
+ * Slide
  *
  * @ORM\Table(name="specimen_slide",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_specimen_slide__collection_slide_code", columns={"collection_slide_code"})},
@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeLameColl"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuLame extends AbstractTimestampedEntity {
+class Slide extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -78,7 +78,7 @@ class IndividuLame extends AbstractTimestampedEntity {
   /**
    * @var \Boite
    *
-   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="individuLames")
+   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="slides")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    * })
@@ -96,7 +96,7 @@ class IndividuLame extends AbstractTimestampedEntity {
   private $individuFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="SlidePreparation", mappedBy="individuLameFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SlidePreparation", mappedBy="slideFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $slidePreparations;
@@ -119,7 +119,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param string $codeLameColl
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setCodeLameColl($codeLameColl) {
     $this->codeLameColl = $codeLameColl;
@@ -141,7 +141,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param string $libelleLame
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setLibelleLame($libelleLame) {
     $this->libelleLame = $libelleLame;
@@ -163,7 +163,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateLame
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setDateLame($dateLame) {
     $this->dateLame = $dateLame;
@@ -185,7 +185,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param string $nomDossierPhotos
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setNomDossierPhotos($nomDossierPhotos) {
     $this->nomDossierPhotos = $nomDossierPhotos;
@@ -207,7 +207,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param string $commentaireLame
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setCommentaireLame($commentaireLame) {
     $this->commentaireLame = $commentaireLame;
@@ -229,7 +229,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -251,7 +251,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Boite $boiteFk
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setBoiteFk(\App\Entity\Boite $boiteFk = null) {
     $this->boiteFk = $boiteFk;
@@ -273,7 +273,7 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Individu $individuFk
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function setIndividuFk(\App\Entity\Individu $individuFk = null) {
     $this->individuFk = $individuFk;
@@ -295,10 +295,10 @@ class IndividuLame extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SlidePreparation $slidePreparation
    *
-   * @return IndividuLame
+   * @return Slide
    */
   public function addSlidePreparation(\App\Entity\SlidePreparation $slidePreparation) {
-    $slidePreparation->setIndividuLameFk($this);
+    $slidePreparation->setSlideFk($this);
     $this->slidePreparations[] = $slidePreparation;
 
     return $this;

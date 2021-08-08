@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\IndividuLame;
+use App\Entity\Slide;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,26 +12,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Individulame controller.
+ * Slide controller.
  *
- * @Route("individulame")
+ * @Route("slide")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuLameController extends AbstractController {
+class SlideController extends AbstractController {
   /**
-   * Lists all individuLame entities.
+   * Lists all slide entities.
    *
-   * @Route("/", name="individulame_index", methods={"GET"})
+   * @Route("/", name="slide_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $individuLames = $em->getRepository('App:IndividuLame')->findAll();
+    $slides = $em->getRepository('App:Slide')->findAll();
 
     return $this->render(
-      'Core/individulame/index.html.twig',
-      ['individuLames' => $individuLames]
+      'Core/slide/index.html.twig',
+      ['slides' => $slides]
     );
   }
 
@@ -41,7 +41,7 @@ class IndividuLameController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="individulame_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="slide_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request) {
     // load Doctrine Manager
@@ -145,22 +145,22 @@ class IndividuLameController extends AbstractController {
   }
 
   /**
-   * Creates a new individuLame entity.
+   * Creates a new slide entity.
    *
-   * @Route("/new", name="individulame_new", methods={"GET", "POST"})
+   * @Route("/new", name="slide_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $individuLame = new Individulame();
+    $slide = new Slide();
 
     $em = $this->getDoctrine()->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Individu')->find($specimen_id);
-      $individuLame->setIndividuFk($specimen);
+      $slide->setIndividuFk($specimen);
     }
 
-    $form = $this->createForm('App\Form\IndividuLameType', $individuLame, [
+    $form = $this->createForm('App\Form\SlideType', $slide, [
       'action_type' => Action::create(),
     ]);
 
@@ -168,7 +168,7 @@ class IndividuLameController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($individuLame);
+      $em->persist($slide);
 
       try {
         $em->flush();
@@ -177,51 +177,51 @@ class IndividuLameController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individulame/index.html.twig',
+          'Core/slide/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
 
-      return $this->redirectToRoute('individulame_edit', [
-        'id' => $individuLame->getId(),
+      return $this->redirectToRoute('slide_edit', [
+        'id' => $slide->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ]);
     }
 
-    return $this->render('Core/individulame/edit.html.twig', [
-      'individuLame' => $individuLame,
+    return $this->render('Core/slide/edit.html.twig', [
+      'slide' => $slide,
       'edit_form' => $form->createView(),
     ]);
   }
 
   /**
-   * Finds and displays a individuLame entity.
+   * Finds and displays a slide entity.
    *
-   * @Route("/{id}", name="individulame_show", methods={"GET"})
+   * @Route("/{id}", name="slide_show", methods={"GET"})
    */
-  public function showAction(IndividuLame $individuLame) {
-    $deleteForm = $this->createDeleteForm($individuLame);
-    $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
+  public function showAction(Slide $slide) {
+    $deleteForm = $this->createDeleteForm($slide);
+    $editForm = $this->createForm('App\Form\SlideType', $slide, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/individulame/edit.html.twig', [
-      'individuLame' => $individuLame,
+    return $this->render('Core/slide/edit.html.twig', [
+      'slide' => $slide,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Displays a form to edit an existing individuLame entity.
+   * Displays a form to edit an existing slide entity.
    *
-   * @Route("/{id}/edit", name="individulame_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="slide_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(
     Request $request,
-    IndividuLame $individuLame,
+    Slide $slide,
     GenericFunctionE3s $service
   ) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -229,18 +229,18 @@ class IndividuLameController extends AbstractController {
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $individuLame->getUserCre() != $user->getId()
+      $slide->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
     $slidePreparations = $service->setArrayCollection(
       'SlidePreparations',
-      $individuLame
+      $slide
     );
     //
-    $deleteForm = $this->createDeleteForm($individuLame);
-    $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
+    $deleteForm = $this->createDeleteForm($slide);
+    $editForm = $this->createForm('App\Form\SlideType', $slide, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -248,12 +248,12 @@ class IndividuLameController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollection(
         'SlidePreparations',
-        $individuLame,
+        $slide,
         $slidePreparations
       );
 
       $em = $this->getDoctrine()->getManager();
-      $em->persist($individuLame);
+      $em->persist($slide);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -261,32 +261,32 @@ class IndividuLameController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individulame/index.html.twig',
+          'Core/slide/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/individulame/edit.html.twig', [
-        'individuLame' => $individuLame,
+      return $this->render('Core/slide/edit.html.twig', [
+        'slide' => $slide,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ]);
     }
 
-    return $this->render('Core/individulame/edit.html.twig', [
-      'individuLame' => $individuLame,
+    return $this->render('Core/slide/edit.html.twig', [
+      'slide' => $slide,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Deletes a individuLame entity.
+   * Deletes a slide entity.
    *
-   * @Route("/{id}", name="individulame_delete", methods={"DELETE"})
+   * @Route("/{id}", name="slide_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, IndividuLame $individuLame) {
-    $form = $this->createDeleteForm($individuLame);
+  public function deleteAction(Request $request, Slide $slide) {
+    $form = $this->createDeleteForm($slide);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -295,33 +295,33 @@ class IndividuLameController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($individuLame);
+        $em->remove($slide);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/individulame/index.html.twig',
+          'Core/slide/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
-    return $this->redirectToRoute('individulame_index');
+    return $this->redirectToRoute('slide_index');
   }
 
   /**
-   * Creates a form to delete a individuLame entity.
+   * Creates a form to delete a slide entity.
    *
-   * @param IndividuLame $individuLame The individuLame entity
+   * @param Slide $slide The slide entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(IndividuLame $individuLame) {
+  private function createDeleteForm(Slide $slide) {
     return $this->createFormBuilder()
       ->setAction(
-        $this->generateUrl('individulame_delete', ['id' => $individuLame->getId()])
+        $this->generateUrl('slide_delete', ['id' => $slide->getId()])
       )
       ->setMethod('DELETE')
       ->getForm();

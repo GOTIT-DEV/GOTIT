@@ -196,7 +196,7 @@ class IndividuController extends AbstractController {
 
     foreach ($entities_toshow as $key => $val) {
       $linkDna = $val['list_dna'] ? strval($val['id']) : '';
-      $linkIndividulame = $val['list_specimen_slide'] ? strval($val['id']) : '';
+      $linkSlide = $val['list_specimen_slide'] ? strval($val['id']) : '';
       $tab_toshow[] = array(
         "id" => $val['id'],
         "sp.id" => $val['id'],
@@ -215,7 +215,7 @@ class IndividuController extends AbstractController {
         "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "linkDna" => $linkDna,
-        "linkIndividulame" => $linkIndividulame,
+        "linkSlide" => $linkSlide,
       );
     }
 

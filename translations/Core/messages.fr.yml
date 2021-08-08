@@ -65,7 +65,7 @@ list.show: Lire
 list.edit: Edit
 list.delete: Supp
 list.linkAdn: ADN
-list.linkIndividulame: Lame
+list.linkSlide: Lame
 list.linkPcr: PCR(s)
 list.linkLotmateriel: Lot
 list.linkLotmaterielext: Lot Ext
@@ -127,7 +127,7 @@ button.Back to station: Retour à la Station
 button.Back to collecte: Retour à la Collecte
 button.Back to lotmateriel: Retour au Lot matériel
 button.Back to individu: Retour à l'Individu
-button.Back to individulame: Retour à la Lame
+button.Back to slide: Retour à la Lame
 button.Back to lotmaterielext: Retour au Lot matériel externe
 button.Back to adn: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
@@ -143,7 +143,7 @@ button.Back to the list of station: Retour à la liste des Stations
 button.Back to the list of collecte: Retour à la liste des Collectes
 button.Back to the list of lotmateriel: Retour à la liste des Lots matériels
 button.Back to the list of individu: Retour à la liste des Individus
-button.Back to the list of individulame: Retour à la liste des Lames
+button.Back to the list of slide: Retour à la liste des Lames
 button.Back to the list of lotmaterielext: Retour à la liste des Lots matériels externes
 button.Back to the list of adn: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
@@ -170,8 +170,8 @@ button.Add a new Personne: Ajouter une nouvelle personne
 button.Add a TaxonSampling: Ajouter un taxon cible
 button.Import adn deplace: Déplacer/supprimer des boites ADN
 button.Import adn range: Stocker des boites ADN
-button.Import individu lame deplace: Déplacer/supprimer des lames
-button.Import individu lame range: Stocker des lames
+button.Import slide deplace: Déplacer/supprimer des lames
+button.Import slide range: Stocker des lames
 button.Import lot materiel deplace: Déplacer/supprimer des lots matériels
 button.Import lot materiel range: Stocker des lots matériels
 button.NewBoite: Créer une nouvelle boite
@@ -202,8 +202,8 @@ button.NewLotmateriel: Créer un lot matériel
 button.ImportLotmateriel: Importer des lots matériels
 button.NewIndividu: Créer un individu
 button.ImportIndividu: Importer des individus
-button.NewIndividulame: Créer une lame
-button.ImportIndividulame: Importer des lames
+button.NewSlide: Créer une lame
+button.ImportSlide: Importer des lames
 button.NewAdn: Créer un ADN
 button.ImportAdn: Importer des ADN
 button.NewPcr: Créer une PCR
@@ -250,13 +250,13 @@ importfileService.Import OK: Procédure d'importation terminée. Nombre d'enregi
 # BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
 import.liste: Importer des fichiers
 import.boite.lotmaterielrange: Stocker des lots matériels par fichier
-import.boite.individulamerange: Stocker des lames par fichier
+import.boite.sliderange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
 import.station: Importer fichier(s) station
 import.collecte: Importer fichier(s) collecte
 import.lotmateriel: Importer fichier(s) lot matériel
 import.individu: Importer fichier(s) individu
-import.individulame: Importer fichier(s) lame
+import.slide: Importer fichier(s) lame
 import.lotmaterielext: Importer fichier(s) lot matériel externe
 import.adn: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
@@ -267,7 +267,7 @@ import.sequenceassembleeext: Importer fichier(s) séquence externe
 import.motu: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
 import.boite.lotmaterieldeplace: Déplacer/supprimer des lots matériels
-import.boite.individulamedeplace: Déplacer/supprimer des lames
+import.boite.slidedeplace: Déplacer/supprimer des lames
 import.boite.adndeplace: Déplacer/supprimer des ADN
 import.source.lotmaterielpublie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
@@ -329,7 +329,7 @@ Dashboard.nbSource: Références
 Dashboard.nbLotMateriel: Lot
 Dashboard.Materiel biologique: Matériel biologique
 Dashboard.nbIndividu: Individu
-Dashboard.nbIndividuLame: Lame
+Dashboard.nbSlide: Lame
 Dashboard.nbAdn: ADN
 Dashboard.nbBoite: Boite
 Dashboard.nbStation: Stations
@@ -449,7 +449,7 @@ Genus: Genre
 Habitat type voc fk: Type habitat
 Id: Numero identification
 Individu fk: Individu
-Individu lame fk: Lame individu
+Slide fk: Lame individu
 Info description: Description station
 Info localisation: Localisation station
 Lat deg dec: Latitude degré décimal
@@ -530,7 +530,7 @@ Yeux voc fk: Vision
 Source providers: Est integrée par
 Adns: ADN
 Lot materiels: Lot matériel
-Individu lames: Lames
+Slides: Lames
 Motu est genere pars: Est générée par
 Auto generated code: Code auto-généré
 Code Chromato | Specificite: Code chromatogramme | spécificité

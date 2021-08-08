@@ -23,7 +23,7 @@ class DashboardController extends AbstractController {
     $nbLotMateriel = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
     $nbLotMaterielExt = $em->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
     $nbIndividu = $em->createQuery('SELECT COUNT(u.id) FROM App:Individu u')->getSingleScalarResult();
-    $nbIndividuLame = $em->createQuery('SELECT COUNT(u.id) FROM App:IndividuLame u')->getSingleScalarResult();
+    $nbSlide = $em->createQuery('SELECT COUNT(u.id) FROM App:Slide u')->getSingleScalarResult();
     $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
     $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
     $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
@@ -110,8 +110,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the slide
-    $entities_toshow = $em->getRepository("App:IndividuLame")->createQueryBuilder('individulame')
-      ->addOrderBy('individulame.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Slide")->createQueryBuilder('slide')
+      ->addOrderBy('slide.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -121,7 +121,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'individulame',
+        "name" => 'slide',
         "code" => $entity->getCodeLameColl(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -260,7 +260,7 @@ class DashboardController extends AbstractController {
       'nbLotMateriel' => $nbLotMateriel,
       'nbLotMaterielExt' => $nbLotMaterielExt,
       'nbIndividu' => $nbIndividu,
-      'nbIndividuLame' => $nbIndividuLame,
+      'nbSlide' => $nbSlide,
       'nbDna' => $nbDna,
       'nbPcr' => $nbPcr,
       'nbChromatogramme' => $nbChromatogramme,

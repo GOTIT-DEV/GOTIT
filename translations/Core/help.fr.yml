@@ -32,7 +32,7 @@ lotmaterielext_index: |
   Use this page to browse, create, import, export, show, edit and delete external biological materials (i.e. specimen lots from the literature). Deleting an external biological material may not be possible until all data related to an external biological material have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "External biological material code".
 individu_index: |
   Use this page to browse, create, import, export, show, edit and delete specimens. Deleting a specimen may not be possible until all data related to a specimen have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Specimen morphological code". To access to DNA extract and microscope slide of a specimen, respectively click the "Adn" and “Lame” buttons (option: menu). Also, use the "Adn" and “Lame” buttons (option +) to create DNA extract and microscope slide for a specimen.
-individulame_index: |
+slide_index: |
   Use this page to browse, create, import, export, show, edit and delete specimen slides. Deleting a specimen slide may not be possible until all data related to a specimen slide have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Specimen morphological code".
 adn_index: |
   Use this page to browse, create, import, export, show, edit and delete DNA extracts. Deleting a DNA extract may not be possible until all data related to a DNA extract have been deleted. Additional fields can be listed using the top right button. To access to PCRs made from a DNA extract, click the "Pcr(s)" button (option: menu). Also, use the same button (option +) to create PCR from a DNA extract. The search button applies to the field "DNA code".
@@ -50,7 +50,7 @@ boite_index: |
   Use this page to browse, create, export, show, edit and delete storing boxes. Also, use this page to store sets of items (i.e. biological materials, specimen slides and DNA extracts) in boxes and move sets of items from one box to another. Deleting of a box may not be possible until all items stored in that box have been removed and/or moved to another box. Use the appropriate tools to this end and refer to GOTIT HELP sections 9.1.3 and 9.1.4 for biological materials, sections 9.2.3 and 9.2.4 for specimen slides and sections 9.3.3 and 9.3.4 for DNA extracts). Additional fields can be listed using the top right button. The search button applies to the field "Box code".
 boite_lotmateriel_index: |
   Use this page to browse, create, export, show, edit and delete storing boxes for biological material. Deleting of a box may not be possible until all biological materials stored in that box have been removed and/or moved to another box (use the appropriate tools in 9.1.3 and 9.1.4 in GOTIT HELP to this end). Also use this page to store sets of biological materials in boxes and move sets of biological materials from one box to another. Additional fields can be listed using the top right button. The search button applies to the field "Box code".
-boite_individulame_index: |
+boite_slide_index: |
   Use this page to browse, create, export, show, edit and delete storing boxes for specimen slides. Deleting of a box may not be possible until all specimen slides stored in that box have been removed and/or moved to another box (use the appropriate tools in 9.2.3 and 9.2.4 in GOTIT HELP to this end). Also, use this page to store sets of specimen slides in boxes and move sets of specimen slides from one box to another. Additional fields can be listed using the top right button. The search button applies to the field "Box code".
 boite_adn_index: |
   Use this page to browse, create, export, show, edit and delete storing boxes for DNA extracts. Deleting of a box may not be possible until all DNA extracts stored in that box have been removed and/or moved to another box (use the appropriate tools in 9.3.3 and 9.3.4 in GOTIT HELP to this end). Also, use this page to store sets of DNA extracts in boxes and move sets of DNA extracts from one box to another. Additional fields can be listed using the top right button. The search button applies to the field "Box code".
@@ -81,7 +81,7 @@ lotmaterielext_new: |
   Use this form to fill in data of a new external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
 individu_new: |
   Use this form to fill in data of a new specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
-individulame_new: |
+slide_new: |
   Use this form to fill in data of a new specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
 adn_new: |
   Use this form to fill in data of a new DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
@@ -99,7 +99,7 @@ boite_new: |
   Use this form to fill in characteristics of a new storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
 boite_lotmateriel_new: |
   Use this form to fill in characteristics of a new storing box for biological material. See appendix 9.1.2 in GOTIT HELP for content of fields.
-boite_individulame_new: |
+boite_slide_new: |
   Use this form to fill in characteristics of a new storing box for specimen slides. See appendix 9.2.2 in GOTIT HELP for content of fields.
 boite_adn_new: |
   Use this form to fill in characteristics of a new storing box for DNA extracts. See appendix 9.3.2 in GOTIT HELP for content of fields.
@@ -130,7 +130,7 @@ lotmaterielext_show: |
   Use this form to consult data of an external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
 individu_show: |
   Use this form to consult data of a specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
-individulame_show: |
+slide_show: |
   Use this form to consult data of a specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
 adn_show: |
   Use this form to consult data of a DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
@@ -148,7 +148,7 @@ boite_show: |
   Use this form to consult characteristics and content of a storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
 boite_lotmateriel_show: |
   Use this form to consult characteristics and content of a storing box for biological material. See appendix 9.1.2 in GOTIT HELP for content of fields.
-boite_individulame_show: |
+boite_slide_show: |
   Use this form to consult characteristics and content of a storing box for specimen slides. See appendix 9.2.2 in GOTIT HELP for content of fields.
 boite_adn_show: |
   Use this form to consult characteristics and content of a storing box for DNA extracts. See appendix 9.3.2 in GOTIT HELP for content of fields.
@@ -179,7 +179,7 @@ lotmaterielext_edit: |
   Use this form to edit data of an external biological material. See appendix 6.4.2 in GOTIT HELP for content of fields.
 individu_edit: |
   Use this form to edit data of a specimen. See appendix 6.2.2 in GOTIT HELP for content of fields.
-individulame_edit: |
+slide_edit: |
   Use this form to edit data of a specimen slide. See appendix 6.3.2 in GOTIT HELP for content of fields.
 adn_edit: |
   Use this form to edit data of a DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
@@ -197,7 +197,7 @@ boite_edit: |
   Use this form to edit characteristics of a storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
 boite_lotmateriel_edit: |
   Use this form to edit characteristics of a storing box for biological material. See appendix 9.1.2 in GOTIT HELP for content of fields.
-boite_individulame_edit: |
+boite_slide_edit: |
   Use this form to edit characteristics of a storing box for specimen slides. See appendix 9.2.2 in GOTIT HELP for content of fields.
 boite_adn_edit: |
   Use this form to edit characteristics of a storing box for DNA extracts. See appendix 9.3.2 in GOTIT HELP for content of fields.
@@ -227,9 +227,9 @@ importfilesadndeplace _index: |
   Use this form to move or remove sets of DNA extracts that are already stored in boxes. Use and upload the template file “DNA_move” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilesadnrange_index: |
   Use this form to store sets of DNA extracts that have not yet been allocated to boxes. Use and upload the template file “DNA_store” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesindividulamedeplace _index: |
+importfilesslidedeplace _index: |
   Use this form to move or remove sets of specimen slides that are already stored in boxes. Use and upload the template file “slide_move” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesindividulamerange_index: |
+importfilessliderange_index: |
   Use this form to store sets of specimen slides that have not yet been allocated to boxes. Use and upload the template file “slide_store” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfileslotmaterieldeplace_index: |
   Use this form to move or remove sets of biological materials that are already stored in boxes. Use and upload the template file “biological_material_move” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
@@ -279,7 +279,7 @@ importfilesindividu_index: |
   - (if necessary) upload the referential files (templates: taxon, vocabulary, person);
   - use and upload the template file “specimen” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesindividulame_index: |
+importfilesslide_index: |
   Use this form to upload data from multiple specimen slides and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: box, vocabulary, person);
   - use and upload the template file “specimen_slide” to follow appropriate data format.

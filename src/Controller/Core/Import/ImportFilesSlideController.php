@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesindividulame")
+ * @Route("importfilesslide")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesIndividuLameController extends AbstractController {
+class ImportFilesSlideController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesindividulame_index")
+   * @Route("/", name="importfilesslide_index")
    *
    */
   public function indexAction(

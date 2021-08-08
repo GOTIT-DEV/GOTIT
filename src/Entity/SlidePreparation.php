@@ -26,14 +26,14 @@ class SlidePreparation extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \IndividuLame
+   * @var \Slide
    *
-   * @ORM\ManyToOne(targetEntity="IndividuLame", inversedBy="slidePreparations")
+   * @ORM\ManyToOne(targetEntity="Slide", inversedBy="slidePreparations")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $individuLameFk;
+  private $slideFk;
 
   /**
    * @var \Personne
@@ -55,25 +55,25 @@ class SlidePreparation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set individuLameFk
+   * Set slideFk
    *
-   * @param \App\Entity\IndividuLame $individuLameFk
+   * @param \App\Entity\Slide $slideFk
    *
    * @return SlidePreparation
    */
-  public function setIndividuLameFk(\App\Entity\IndividuLame $individuLameFk = null) {
-    $this->individuLameFk = $individuLameFk;
+  public function setSlideFk(\App\Entity\Slide $slideFk = null) {
+    $this->slideFk = $slideFk;
 
     return $this;
   }
 
   /**
-   * Get individuLameFk
+   * Get slideFk
    *
-   * @return \App\Entity\IndividuLame
+   * @return \App\Entity\Slide
    */
-  public function getIndividuLameFk() {
-    return $this->individuLameFk;
+  public function getSlideFk() {
+    return $this->slideFk;
   }
 
   /**

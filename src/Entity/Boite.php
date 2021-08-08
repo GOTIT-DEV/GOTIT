@@ -94,15 +94,15 @@ class Boite extends AbstractTimestampedEntity {
   protected $adns;
 
   /**
-   * @ORM\OneToMany(targetEntity="IndividuLame", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Slide", mappedBy="boiteFk", cascade={"persist"})
    * @ORM\OrderBy({"codeLameColl" = "ASC"})
    */
-  protected $individuLames;
+  protected $slides;
 
   public function __construct() {
     $this->lotMateriels = new ArrayCollection();
     $this->adns = new ArrayCollection();
-    $this->individuLames = new ArrayCollection();
+    $this->slides = new ArrayCollection();
   }
 
   /**
@@ -311,34 +311,34 @@ class Boite extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add individuLame
+   * Add slide
    *
-   * @param \App\Entity\IndividuLame $individuLame
+   * @param \App\Entity\Slide $slide
    *
    * @return Boite
    */
-  public function addIndividuLame(\App\Entity\IndividuLame $individuLame) {
-    $individuLame->setBoiteFk($this);
-    $this->individuLames[] = $individuLame;
+  public function addSlide(\App\Entity\Slide $slide) {
+    $slide->setBoiteFk($this);
+    $this->slides[] = $slide;
 
     return $this;
   }
 
   /**
-   * Remove individuLame
+   * Remove slide
    *
-   * @param \App\Entity\IndividuLame $individuLame
+   * @param \App\Entity\Slide $slide
    */
-  public function removeIndividuLame(\App\Entity\IndividuLame $individuLame) {
-    $this->individuLames->removeElement($individuLame);
+  public function removeSlide(\App\Entity\Slide $slide) {
+    $this->slides->removeElement($slide);
   }
 
   /**
-   * Get individuLames
+   * Get slides
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getIndividuLames() {
-    return $this->individuLames;
+  public function getSlides() {
+    return $this->slides;
   }
 }

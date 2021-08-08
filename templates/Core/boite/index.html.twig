@@ -67,21 +67,21 @@
 			{% if box_type == 'LAME' %}
 
 				{% if is_granted('ROLE_COLLABORATION') %}
-					<a href="{{ path( 'importfilesindividulamerange_index' ) }}" class="btn btn-light border btn-sm" role="button">
-						{{'button.Import individu lame range'|trans}}
+					<a href="{{ path( 'importfilessliderange_index' ) }}" class="btn btn-light border btn-sm" role="button">
+						{{'button.Import slide range'|trans}}
 					</a>
 				{% else %}
 					<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
-						{{'button.Import individu lame range'|trans}}
+						{{'button.Import slide range'|trans}}
 					</a>
 				{% endif %}
 				{% if is_granted('ROLE_ADMIN') %}
-					<a href="{{ path( 'importfilesindividulamedeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
-						{{'button.Import individu lame deplace'|trans}}
+					<a href="{{ path( 'importfilesslidedeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
+						{{'button.Import slide deplace'|trans}}
 					</a>
 				{% else %}
 					<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
-						{{'button.Import individu lame deplace'|trans}}
+						{{'button.Import slide deplace'|trans}}
 					</a>
 				{% endif %}
 			{% endif %}

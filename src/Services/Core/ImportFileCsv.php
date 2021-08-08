@@ -360,7 +360,7 @@ class ImportFileCsv {
       'specimen_molecular_code' => 'code_ind_biomol',
       'specimen_molecular_number' => 'num_ind_biomol',
       'specimen_morphological_code' => 'code_ind_tri_morpho',
-      'specimen_slide_fk' => 'individu_lame_fk',
+      'specimen_slide_fk' => 'slide_fk',
       'specimen_type_voc_fk' => 'type_individu_voc_fk',
       'starting_year' => 'annee_debut',
       'storage_box_fk' => 'boite_fk',

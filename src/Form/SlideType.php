@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IndividuLameType extends ActionFormType {
+class SlideType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -77,7 +77,7 @@ class IndividuLameType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\IndividuLame',
+      'data_class' => 'App\Entity\Slide',
     ));
   }
 
@@ -85,6 +85,6 @@ class IndividuLameType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_e3sbundle_individulame';
+    return 'slide';
   }
 }
