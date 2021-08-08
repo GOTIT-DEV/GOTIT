@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\ExternalLotProducerEmbedType;
 use App\Form\EmbedTypes\ExternalLotPublicationEmbedType;
-use App\Form\EmbedTypes\LotMaterielExtEstRealiseParEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -55,8 +55,8 @@ class LotMaterielExtType extends ActionFormType {
       ->add('specimenQuantityComment')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationLotMaterielExt', DateFormattedType::class)
-      ->add('lotMaterielExtEstRealisePars', CollectionType::class, [
-        'entry_type' => LotMaterielExtEstRealiseParEmbedType::class,
+      ->add('producers', CollectionType::class, [
+        'entry_type' => ExternalLotProducerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

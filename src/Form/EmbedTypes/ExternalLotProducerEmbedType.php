@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LotMaterielExtEstRealiseParEmbedType extends AbstractType {
+class ExternalLotProducerEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class LotMaterielExtEstRealiseParEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\LotMaterielExtEstRealisePar',
+      'data_class' => 'App\Entity\ExternalLotProducer',
     ));
   }
 
@@ -28,6 +28,6 @@ class LotMaterielExtEstRealiseParEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'lotmaterielextestrealisepar';
+    return 'producer';
   }
 }

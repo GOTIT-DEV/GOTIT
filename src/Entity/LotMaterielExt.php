@@ -111,10 +111,10 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   private $yeuxVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="LotMaterielExtEstRealisePar", mappedBy="lotMaterielExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalLotProducer", mappedBy="lotMaterielExtFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $lotMaterielExtEstRealisePars;
+  protected $producers;
 
   /**
    * @ORM\OneToMany(targetEntity="ExternalLotPublication", mappedBy="lotMaterielExtFk", cascade={"persist"})
@@ -129,7 +129,7 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   protected $taxonIdentifications;
 
   public function __construct() {
-    $this->lotMaterielExtEstRealisePars = new ArrayCollection();
+    $this->producers = new ArrayCollection();
     $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
   }
@@ -342,35 +342,35 @@ class LotMaterielExt extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add lotMaterielExtEstRealisePar
+   * Add producer
    *
-   * @param \App\Entity\LotMaterielExtEstRealisePar $lotMaterielExtEstRealisePar
+   * @param \App\Entity\ExternalLotProducer $producer
    *
    * @return LotMaterielExt
    */
-  public function addLotMaterielExtEstRealisePar(\App\Entity\LotMaterielExtEstRealisePar $lotMaterielExtEstRealisePar) {
-    $lotMaterielExtEstRealisePar->setLotMaterielExtFk($this);
-    $this->lotMaterielExtEstRealisePars[] = $lotMaterielExtEstRealisePar;
+  public function addProducer(\App\Entity\ExternalLotProducer $producer) {
+    $producer->setLotMaterielExtFk($this);
+    $this->producers[] = $producer;
 
     return $this;
   }
 
   /**
-   * Remove lotMaterielExtEstRealisePar
+   * Remove producer
    *
-   * @param \App\Entity\LotMaterielExtEstRealisePar $lotMaterielExtEstRealisePar
+   * @param \App\Entity\ExternalLotProducer $producer
    */
-  public function removeLotMaterielExtEstRealisePar(\App\Entity\LotMaterielExtEstRealisePar $lotMaterielExtEstRealisePar) {
-    $this->lotMaterielExtEstRealisePars->removeElement($lotMaterielExtEstRealisePar);
+  public function removeProducer(\App\Entity\ExternalLotProducer $producer) {
+    $this->producers->removeElement($producer);
   }
 
   /**
-   * Get lotMaterielExtEstRealisePars
+   * Get producers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getLotMaterielExtEstRealisePars() {
-    return $this->lotMaterielExtEstRealisePars;
+  public function getProducers() {
+    return $this->producers;
   }
 
   /**

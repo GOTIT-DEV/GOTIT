@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LotMaterielExtEstRealisePar
+ * ExternalLotProducer
  *
  * @ORM\Table(name="external_biological_material_is_processed_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMaterielExtEstRealisePar extends AbstractTimestampedEntity {
+class ExternalLotProducer extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -38,7 +38,7 @@ class LotMaterielExtEstRealisePar extends AbstractTimestampedEntity {
   /**
    * @var \LotMaterielExt
    *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="lotMaterielExtEstRealisePars")
+   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="producers")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class LotMaterielExtEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Personne $personneFk
    *
-   * @return LotMaterielExtEstRealisePar
+   * @return ExternalLotProducer
    */
   public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
     $this->personneFk = $personneFk;
@@ -81,7 +81,7 @@ class LotMaterielExtEstRealisePar extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\LotMaterielExt $lotMaterielExtFk
    *
-   * @return LotMaterielExtEstRealisePar
+   * @return ExternalLotProducer
    */
   public function setLotMaterielExtFk(\App\Entity\LotMaterielExt $lotMaterielExtFk = null) {
     $this->lotMaterielExtFk = $lotMaterielExtFk;
