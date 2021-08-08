@@ -62,7 +62,7 @@ class BoiteController extends AbstractController {
     if ($request->get('typeBoite') == 'LAME' || $request->get('typeBoite') == 'ADN' || $request->get('typeBoite') == 'LOT') {
       $where .= " AND vocTypeBoite.code LIKE '" . $request->get('typeBoite') . "'";
     }
-    // Search for the list to show EstAligneEtTraite
+    // Search for the list to show InternalSequenceAssembly
     $tab_toshow = [];
     $entities_toshow = $em
       ->getRepository("App:Boite")

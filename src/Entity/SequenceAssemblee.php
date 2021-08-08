@@ -106,16 +106,16 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   protected $taxonIdentifications;
 
   /**
-   * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequenceAssembly", mappedBy="sequenceAssembleeFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $estAligneEtTraites;
+  protected $assemblies;
 
   public function __construct() {
     $this->assemblers = new ArrayCollection();
     $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
-    $this->estAligneEtTraites = new ArrayCollection();
+    $this->assemblies = new ArrayCollection();
   }
 
   /**
@@ -378,35 +378,35 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add estAligneEtTraite
+   * Add assembly
    *
-   * @param \App\Entity\EstAligneEtTraite $estAligneEtTraite
+   * @param \App\Entity\InternalSequenceAssembly $assembly
    *
    * @return SequenceAssemblee
    */
-  public function addEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite) {
-    $estAligneEtTraite->setSequenceAssembleeFk($this);
-    $this->estAligneEtTraites[] = $estAligneEtTraite;
+  public function addAssembly(\App\Entity\InternalSequenceAssembly $assembly) {
+    $assembly->setSequenceAssembleeFk($this);
+    $this->assemblies[] = $assembly;
 
     return $this;
   }
 
   /**
-   * Remove estAligneEtTraite
+   * Remove assembly
    *
-   * @param \App\Entity\EstAligneEtTraite $estAligneEtTraite
+   * @param \App\Entity\InternalSequenceAssembly $assembly
    */
-  public function removeEstAligneEtTraite(\App\Entity\EstAligneEtTraite $estAligneEtTraite) {
-    $this->estAligneEtTraites->removeElement($estAligneEtTraite);
+  public function removeAssembly(\App\Entity\InternalSequenceAssembly $assembly) {
+    $this->assemblies->removeElement($assembly);
   }
 
   /**
-   * Get estAligneEtTraite
+   * Get assembly
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getEstAligneEtTraites() {
-    return $this->estAligneEtTraites;
+  public function getAssemblies() {
+    return $this->assemblies;
   }
 
   /**
@@ -418,7 +418,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    * @return mixed
    */
   public function getGeneVocFk() {
-    $process = $this->estAligneEtTraites->first();
+    $process = $this->assemblies->first();
     return $process
     ? $process
       ->getChromatogrammeFk()
@@ -436,7 +436,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    * @return mixed
    */
   public function getSpecimenFk() {
-    $process = $this->estAligneEtTraites->first();
+    $process = $this->assemblies->first();
     return $process
     ? $process
       ->getChromatogrammeFk()
@@ -455,7 +455,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    * @return string
    */
   public function generateAlignmentCode() {
-    $nbChromato = count($this->getEstAligneEtTraites());
+    $nbChromato = count($this->getAssemblies());
     $nbIdentifiedSpecies = count($this->getTaxonIdentifications());
     if ($nbChromato < 1 || $nbIdentifiedSpecies < 1) {
       $seqCode = null;
@@ -480,7 +480,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
       $specimenCode = $specimen->getNumIndBiomol();
       $seqCodeElts[] = $specimenCode;
 
-      $chromatoCodeList = $this->getEstAligneEtTraites()
+      $chromatoCodeList = $this->getAssemblies()
         ->map(
           function ($seqProcessing) {
             $chromato = $seqProcessing->getChromatogrammeFk();

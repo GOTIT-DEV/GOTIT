@@ -2,9 +2,9 @@
 
 namespace App\Services\Querybuilder;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SchemaInspectorService {
 
@@ -100,7 +100,7 @@ class SchemaInspectorService {
   }
 
   private function guess_type($entity) {
-    return (int) preg_match('/(^APour|Par$|Dans$|EstAligneEtTraite|TaxonSampling|SamplingFixative|SamplingMethod)/', $entity);
+    return (int) preg_match('/(^APour|Par$|Dans$|InternalSequenceAssembly|TaxonSampling|SamplingFixative|SamplingMethod)/', $entity);
   }
 
   private function parse_metadata(ClassMetadata $metadata) {

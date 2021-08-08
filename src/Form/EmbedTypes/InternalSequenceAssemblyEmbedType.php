@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EstAligneEtTraiteEmbedType extends AbstractType {
+class InternalSequenceAssemblyEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -42,7 +42,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\EstAligneEtTraite',
+      'data_class' => 'App\Entity\InternalSequenceAssembly',
       'geneVocFk' => null,
       'specimenFk' => null,
     ));
@@ -52,6 +52,6 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'estaligneettraite';
+    return 'assembly';
   }
 }

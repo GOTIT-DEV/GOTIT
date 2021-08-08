@@ -23,7 +23,7 @@ $(() => {
   if ($sequenceForm.length) {
     const $status = $("#sequence_assemblee_statutSqcAssVocFk");
     const chromatoWrapper = document.getElementById(
-      "wrapper_sequence_assemblee_estAligneEtTraites"
+      "wrapper_sequence_assemblee_assemblies"
     );
     const $code = $("#sequence_assemblee_codeSqcAss");
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\EstAligneEtTraite;
 use App\Entity\SequenceAssemblee;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -228,9 +227,9 @@ class SequenceAssembleeController extends AbstractController {
     }
 
     if ($chromato) {
-      $processing = new EstAligneEtTraite();
+      $processing = new InternalSequenceAssembly();
       $processing->setChromatogrammeFk($chromato);
-      $sequence->addEstAligneEtTraite($processing);
+      $sequence->addAssembly($processing);
     }
 
     $geneSpecimenForm = $this->createForm(
@@ -369,8 +368,8 @@ class SequenceAssembleeController extends AbstractController {
       );
 
     // store ArrayCollection
-    $estAligneEtTraites = $service->setArrayCollection(
-      'EstAligneEtTraites',
+    $assemblies = $service->setArrayCollection(
+      'Assemblies',
       $sequence
     );
     $taxonIdentifications = $service->setArrayCollectionEmbed(
@@ -401,9 +400,9 @@ class SequenceAssembleeController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
       $service->DelArrayCollection(
-        'EstAligneEtTraites',
+        'Assemblies',
         $sequence,
-        $estAligneEtTraites
+        $assemblies
       );
       $service->DelArrayCollectionEmbed(
         'TaxonIdentifications',

@@ -4479,8 +4479,8 @@ class ImportFileE3s {
         }
       }
 
-      # Enregistrement de EstAligneEtTraite    (liaison aux chromatogramme)
-      foreach ($columnByTable["est_aligne_et_traite"] as $ColCsv) {
+      # Enregistrement de InternalSequenceAssembly    (liaison aux chromatogramme)
+      foreach ($columnByTable["assembly"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4495,7 +4495,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\EstAligneEtTraite();
+            $entityRel = new \App\Entity\InternalSequenceAssembly();
             $method = "setSequenceAssembleeFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

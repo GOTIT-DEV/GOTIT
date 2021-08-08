@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * EstAligneEtTraite
+ * InternalSequenceAssembly
  *
  * @ORM\Table(name="chromatogram_is_processed_to",
  *  indexes={
@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EstAligneEtTraite extends AbstractTimestampedEntity {
+class InternalSequenceAssembly extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -43,7 +43,7 @@ class EstAligneEtTraite extends AbstractTimestampedEntity {
   /**
    * @var \SequenceAssemblee
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="estAligneEtTraites")
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="assemblies")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -64,7 +64,7 @@ class EstAligneEtTraite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Chromatogramme $chromatogrammeFk
    *
-   * @return EstAligneEtTraite
+   * @return InternalSequenceAssembly
    */
   public function setChromatogrammeFk(\App\Entity\Chromatogramme $chromatogrammeFk = null) {
     $this->chromatogrammeFk = $chromatogrammeFk;
@@ -86,7 +86,7 @@ class EstAligneEtTraite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
    *
-   * @return EstAligneEtTraite
+   * @return InternalSequenceAssembly
    */
   public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
     $this->sequenceAssembleeFk = $sequenceAssembleeFk;

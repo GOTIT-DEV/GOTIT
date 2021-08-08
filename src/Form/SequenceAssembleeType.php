@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\EstAligneEtTraiteEmbedType;
 use App\Form\EmbedTypes\InternalSequenceAssemblerEmbedType;
+use App\Form\EmbedTypes\InternalSequenceAssemblyEmbedType;
 use App\Form\EmbedTypes\InternalSequencePublicationEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
@@ -46,9 +46,9 @@ class SequenceAssembleeType extends ActionFormType {
         'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('estAligneEtTraites', CollectionType::class, array(
+      ->add('assemblies', CollectionType::class, array(
         'disabled' => $this->canEditAdminOnly($options),
-        'entry_type' => EstAligneEtTraiteEmbedType::class,
+        'entry_type' => InternalSequenceAssemblyEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
