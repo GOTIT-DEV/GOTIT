@@ -271,7 +271,7 @@ class LotMaterielController extends AbstractController {
     $compositionLotMateriels = $service->setArrayCollection('CompositionLotMateriels', $lotMateriel);
     $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel);
     $publications = $service->setArrayCollection('Publications', $lotMateriel);
-    $lotMaterielEstRealisePars = $service->setArrayCollection('LotMaterielEstRealisePars', $lotMateriel);
+    $producers = $service->setArrayCollection('Producers', $lotMateriel);
 
     //
     $deleteForm = $this->createDeleteForm($lotMateriel);
@@ -285,7 +285,7 @@ class LotMaterielController extends AbstractController {
       $service->DelArrayCollection('CompositionLotMateriels', $lotMateriel, $compositionLotMateriels);
       $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lotMateriel, $taxonIdentifications);
       $service->DelArrayCollection('Publications', $lotMateriel, $publications);
-      $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
+      $service->DelArrayCollection('Producers', $lotMateriel, $producers);
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($lotMateriel);

@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
+use App\Form\EmbedTypes\InternalLotProducerEmbedType;
 use App\Form\EmbedTypes\InternalLotPublicationEmbedType;
-use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -45,8 +45,8 @@ class LotMaterielType extends ActionFormType {
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateLotMateriel', DateFormattedType::class)
-      ->add('lotMaterielEstRealisePars', CollectionType::class, array(
-        'entry_type' => LotMaterielEstRealiseParEmbedType::class,
+      ->add('producers', CollectionType::class, array(
+        'entry_type' => InternalLotProducerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
