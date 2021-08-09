@@ -115,14 +115,14 @@ class ExternalSequence extends AbstractTimestampedEntity {
   private $origineSqcAssExtVocFk;
 
   /**
-   * @var \Collecte
+   * @var \Sampling
    *
-   * @ORM\ManyToOne(targetEntity="Collecte")
+   * @ORM\ManyToOne(targetEntity="Sampling")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $collecteFk;
+  private $samplingFk;
 
   /**
    * @var \Voc
@@ -388,25 +388,25 @@ class ExternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collecteFk
+   * Set samplingFk
    *
-   * @param \App\Entity\Collecte $collecteFk
+   * @param \App\Entity\Sampling $samplingFk
    *
    * @return ExternalSequence
    */
-  public function setCollecteFk(\App\Entity\Collecte $collecteFk = null) {
-    $this->collecteFk = $collecteFk;
+  public function setSamplingFk(\App\Entity\Sampling $samplingFk = null) {
+    $this->samplingFk = $samplingFk;
 
     return $this;
   }
 
   /**
-   * Get collecteFk
+   * Get samplingFk
    *
-   * @return \App\Entity\Collecte
+   * @return \App\Entity\Sampling
    */
-  public function getCollecteFk() {
-    return $this->collecteFk;
+  public function getSamplingFk() {
+    return $this->samplingFk;
   }
 
   /**

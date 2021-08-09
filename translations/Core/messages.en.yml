@@ -190,8 +190,8 @@ InternalLot typeahead placeholder: Type the first letters of the Internal biolog
 InternalLot typeahead: Internal biological material
 ExternalLot typeahead placeholder: Type the first letters of the External biological material Code
 ExternalLot typeahead: External biological material
-Collecte typeahead placeholder: Type the first letters of the Sampling Code
-Collecte typeahead: Sampling
+Sampling typeahead placeholder: Type the first letters of the Sampling Code
+Sampling typeahead: Sampling
 Station typeahead placeholder: Type the first letters of the Site Code
 Station typeahead: Site
 
@@ -239,7 +239,7 @@ list.linkExternalSequence: SqcExt
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
-list.linkCollecte: Sam
+list.linkSampling: Sam
 # Column titles
 list.Parent libelle: Parent (label)
 list.Parent code: Parent (code)
@@ -290,7 +290,7 @@ button.Back to the list of etablissement: Back to the list of Institution
 button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
 button.Back to station: Back to Site
-button.Back to collecte: Back to Sampling
+button.Back to sampling: Back to Sampling
 button.Back to internal_lot: Back to Biological material
 button.Back to specimen: Back to Specimen
 button.Back to slide: Back to Specimen slide
@@ -306,7 +306,7 @@ button.Back to boite: Back to Boxes
 button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
 button.Back to the list of station: Back to the list of Sites
-button.Back to the list of collecte: Back to the list of Sampling
+button.Back to the list of sampling: Back to the list of Sampling
 button.Back to the list of internal_lot: Back to the list of Biological material
 button.Back to the list of specimen: Back to the list of Specimen
 button.Back to the list of slide: Back to the list of Specimen slide
@@ -361,8 +361,8 @@ button.NewlinkExternalLot: Create new external biological material
 button.ImportlinkExternalLot: Import new set of external biological material and related data
 button.NewStation: Create new site
 button.ImportStation: Import new set of sites and related data
-button.NewCollecte: Create new sampling
-button.ImportCollecte: Import new set of sampling and related data
+button.NewSampling: Create new sampling
+button.ImportSampling: Import new set of sampling and related data
 button.NewInternalLot: Create new biological material
 button.ImportInternalLot: Import new set of biological material and related data
 button.NewSpecimen: Create new specimen
@@ -417,7 +417,7 @@ import.boite.internal_lot_range: Store biological material as file
 import.boite.sliderange: Store slide as file
 import.boite.adnrange: Store DNA box as file
 import.station: Upload Site
-import.collecte: Upload sampling
+import.sampling: Upload sampling
 import.internal_lot: Upload biological material
 import.specimen: Upload specimen
 import.slide: Upload specimen slide
@@ -467,7 +467,7 @@ Choose a Sampling method: Select sampling method
 Choose a Fixateur: Select fixative
 Choose a Program: Select program
 Choose a Taxon: Select taxon
-Choose a Collecte: Select sampling
+Choose a Sampling: Select sampling
 Choose a Pigmentation: Select pigmentation
 Choose a Eye: Select vision
 Choose a Box: Select box
@@ -498,7 +498,7 @@ Dashboard.nbSlide: Slide
 Dashboard.nbAdn: DNA
 Dashboard.nbBoite: Box
 Dashboard.nbStation: Site
-Dashboard.nbCollecte: Sample
+Dashboard.samplingCount: Sample
 Dashboard.nbPcr: PCR
 Dashboard.nbChromatogramme: Chromatogram
 Dashboard.internalSequenceCount: DNA Sequence
@@ -561,7 +561,7 @@ Code sqc ass ext alignement: External sequence alignment code
 Code station: Site code
 Code taxon: Taxon code
 Code tube: Tube code
-Collecte fk: Sampling
+Sampling fk: Sampling
 Commentaire: Comments
 Commentaire adn: DNA comments
 Commentaire boite: Box comments

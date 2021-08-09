@@ -24,7 +24,7 @@ importfiles.form: |
 # liste
 station_index: |
   Use this page to browse, create, import, export, show, edit and delete sampling sites. Deleting a site may not be possible until all data related to a site have been deleted. Additional fields can be listed using the top right button. To access to sampling carried out at a site, click the "col" button. The search button applies to the field "site code".
-collecte_index: |
+sampling_index: |
   Use this page to browse, create, import, export, show, edit and delete sampling surveys. Deleting a sampling may not be possible until all data related to a sampling have been deleted. Additional fields can be listed using the top right button. To access to internal biological materials, external biological materials and external sequences linked to sampling, respectively click the "Lot", “LotExt” and “SqcExt” buttons (option: menu). Also, use these same buttons (option +) to create internal biological materials, external biological materials and external sequences for a sampling. The search button applies to the field "Sample code".
 internal_lot_index: |
   Use this page to browse, create, import, export, show, edit and delete internal biological materials (i.e. specimen lots). Deleting a biological material may not be possible until all data related to a biological material have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Biological material code". To access to specimens extracted from a specimen lot and to the list of specimens for a site, respectively click the "Ind(s)" and “Ind/St” buttons (option: menu). Also, use the "Ind(s)" button (option +) to create specimens for a biological material.
@@ -73,7 +73,7 @@ municipality_index: |
 # formulaire new
 station_new: |
   Use this form to fill in data of a new site. See appendix 5.1.2 in GOTIT HELP for content of fields. Use the button “See nearby sites” to obtain a distribution of sites nearby the new site, once latitude and longitude of this new site have been filled in.
-collecte_new: |
+sampling_new: |
   Use this form to fill in data of a new sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
 internal_lot_new: |
   Use this form to fill in data of a new internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
@@ -122,7 +122,7 @@ municipality_new: |
 # formulaire show
 station_show: |
   Use this form to consult data of a site. See appendix 5.1.2 in GOTIT HELP for content of fields.
-collecte_show: |
+sampling_show: |
   Use this form to consult data of a sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
 internal_lot_show: |
   Use this form to consult data of an internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
@@ -171,7 +171,7 @@ municipality_show: |
 # formulaire edit
 station_edit: |
   Use this form to edit data of a site. See appendix 5.1.2 in GOTIT HELP for content of fields.
-collecte_edit: |
+sampling_edit: |
   Use this form to edit data of a sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
 internal_lot_edit: |
   Use this form to edit data of an internal biological material. See appendix 6.1.2 in GOTIT HELP for content of fields.
@@ -259,7 +259,7 @@ importfilesstation_index: |
   - (if necessary) upload the referential files (templates: vocabulary, country, municipality);
   - use and upload the template file “site” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilescollecte_index: |
+importfilessampling_index: |
   Use this form to upload data from multiple samplings and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: program, person, taxon, vocabulary);
   - use and upload the template file “sampling” to follow appropriate data format.

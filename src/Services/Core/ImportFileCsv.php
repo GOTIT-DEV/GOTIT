@@ -337,7 +337,7 @@ class ImportFileCsv {
       'sampling_comments' => 'commentaire_collecte',
       'sampling_date' => 'date_collecte',
       'sampling_duration' => 'duree_echantillonnage_mn',
-      'sampling_fk' => 'collecte_fk',
+      'sampling_fk' => 'sampling_fk',
       'sampling_method_voc_fk' => 'sampling_method_voc_fk',
       'sequencing_advice' => 'commentaire_conseil_sqc',
       'site_code' => 'code_station',

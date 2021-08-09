@@ -36,14 +36,14 @@ class SamplingParticipant extends AbstractTimestampedEntity {
   private $personneFk;
 
   /**
-   * @var Collecte
+   * @var Sampling
    *
-   * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="samplingParticipants")
+   * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingParticipants")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $collecteFk;
+  private $samplingFk;
 
   /**
    * Get id
@@ -76,23 +76,23 @@ class SamplingParticipant extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collecteFk
+   * Set samplingFk
    *
-   * @param Collecte $collecteFk
+   * @param Sampling $samplingFk
    * @return SamplingParticipant
    */
-  public function setCollecteFk(Collecte $collecteFk = null) {
-    $this->collecteFk = $collecteFk;
+  public function setSamplingFk(Sampling $samplingFk = null) {
+    $this->samplingFk = $samplingFk;
 
     return $this;
   }
 
   /**
-   * Get collecteFk
+   * Get samplingFk
    *
-   * @return Collecte
+   * @return Sampling
    */
-  public function getCollecteFk() {
-    return $this->collecteFk;
+  public function getSamplingFk() {
+    return $this->samplingFk;
   }
 }

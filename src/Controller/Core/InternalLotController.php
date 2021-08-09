@@ -196,8 +196,8 @@ class InternalLotController extends AbstractController {
 
     $em = $this->getDoctrine()->getManager();
     if ($sampling_id = $request->get('idFk')) {
-      $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $lot->setCollecteFk($sampling);
+      $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
+      $lot->setSamplingFk($sampling);
     }
 
     $form = $this->createForm('App\Form\InternalLotType', $lot, [

@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CollecteType extends ActionFormType {
+class SamplingType extends ActionFormType {
 
   /**
    * {@inheritdoc}
@@ -141,7 +141,7 @@ class CollecteType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults([
-      'data_class' => 'App\Entity\Collecte',
+      'data_class' => 'App\Entity\Sampling',
     ]);
   }
 
@@ -149,6 +149,6 @@ class CollecteType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'collecte';
+    return 'sampling';
   }
 }

@@ -18,7 +18,7 @@ class DashboardController extends AbstractController {
     // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
     //
-    $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
+    $samplingCounts = $em->createQuery('SELECT COUNT(u.id) FROM App:Sampling u')->getSingleScalarResult();
     $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
     $internalLotCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalLot u')->getSingleScalarResult();
     $nbExternalLot = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalLot u')->getSingleScalarResult();
@@ -74,8 +74,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the sampling
-    $entities_toshow = $em->getRepository("App:Collecte")->createQueryBuilder('collecte')
-      ->addOrderBy('collecte.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Sampling")->createQueryBuilder('sampling')
+      ->addOrderBy('sampling.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -85,7 +85,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'collecte',
+        "name" => 'sampling',
         "code" => $entity->getCodeCollecte(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -255,7 +255,7 @@ class DashboardController extends AbstractController {
     }
 
     return $this->render('Core/dashboard/index.html.twig', array(
-      'nbCollecte' => $nbcollectes,
+      'samplingCount' => $samplingCounts,
       'nbStation' => $nbstations,
       'internalLotCount' => $internalLotCount,
       'nbExternalLot' => $nbExternalLot,

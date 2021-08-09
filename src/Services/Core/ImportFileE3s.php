@@ -1596,11 +1596,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataCollecte($fichier, $userId = null)
+   *  importCSVDataSampling($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is sampling
    */
-  public function importCSVDataCollecte($fichier, $userId = null) {
+  public function importCSVDataSampling($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -1612,8 +1612,8 @@ class ImportFileE3s {
     $list_new_personne = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Collecte();
-      foreach ($columnByTable["collecte"] as $ColCsv) {
+      $entity = new \App\Entity\Sampling();
+      foreach ($columnByTable["sampling"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -1623,14 +1623,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($field == 'collecte.codeCollecte') {
-            $record_entity = $em->getRepository("App:Collecte")->findOneBy(array("codeCollecte" => $dataColCsv));
+          if ($field == 'sampling.codeCollecte') {
+            $record_entity = $em->getRepository("App:Sampling")->findOneBy(array("codeCollecte" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'collecte.conductivite_micro_sie_cm' || $ColCsv == 'collecte.temperature_c') {
+          if ($ColCsv == 'sampling.conductivite_micro_sie_cm' || $ColCsv == 'sampling.temperature_c') {
             if ($dataColCsv != '') {
               $dataColCsv = floatval(str_replace(",", ".", $dataColCsv));
               if ($dataColCsv == '') {
@@ -1641,14 +1641,14 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'collecte.duree_echantillonnage_mn') {
+          if ($ColCsv == 'sampling.duree_echantillonnage_mn') {
             if ($dataColCsv != '') {
               $dataColCsv = intval(str_replace(",", ".", $dataColCsv));
             } else {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'collecte.a_faire') {
+          if ($ColCsv == 'sampling.a_faire') {
             if ($dataColCsv != '') {
               if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {
                 $dataColCsv = 1;
@@ -1663,7 +1663,7 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'collecte.date_collecte') {
+          if ($ColCsv == 'sampling.date_collecte') {
             if ($dataColCsv != '') {
               $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
               if (!$eventDate) {
@@ -1741,7 +1741,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\TaxonSampling();
-            $method = "setCollecteFk";
+            $method = "setSamplingFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -1792,7 +1792,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\SamplingFixative();
-            $method = "setCollecteFk";
+            $method = "setSamplingFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -1836,7 +1836,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\SamplingMethod();
-            $method = "setCollecteFk";
+            $method = "setSamplingFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -1880,7 +1880,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\SamplingParticipant();
-            $method = "setCollecteFk";
+            $method = "setSamplingFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -1924,7 +1924,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\SamplingFunding();
-            $method = "setCollecteFk";
+            $method = "setSamplingFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);

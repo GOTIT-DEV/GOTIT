@@ -167,8 +167,8 @@ class ExternalLotController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     if ($sampling_id = $request->get('idFk')) {
-      $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $externalLot->setCollecteFk($sampling);
+      $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
+      $externalLot->setSamplingFk($sampling);
     }
 
     $form = $this->createForm(

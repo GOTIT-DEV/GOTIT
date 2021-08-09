@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\AbstractTimestampedEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SamplingFixative
@@ -37,14 +37,14 @@ class SamplingFixative extends AbstractTimestampedEntity {
   private $fixateurVocFk;
 
   /**
-   * @var Collecte
+   * @var Sampling
    *
-   * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="samplingFixatives")
+   * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingFixatives")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $collecteFk;
+  private $samplingFk;
 
   /**
    * Get id
@@ -78,24 +78,24 @@ class SamplingFixative extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collecteFk
+   * Set samplingFk
    *
-   * @param Collecte $collecteFk
+   * @param Sampling $samplingFk
    *
    * @return SamplingFixative
    */
-  public function setCollecteFk(Collecte $collecteFk = null) {
-    $this->collecteFk = $collecteFk;
+  public function setSamplingFk(Sampling $samplingFk = null) {
+    $this->samplingFk = $samplingFk;
 
     return $this;
   }
 
   /**
-   * Get collecteFk
+   * Get samplingFk
    *
-   * @return Collecte
+   * @return Sampling
    */
-  public function getCollecteFk() {
-    return $this->collecteFk;
+  public function getSamplingFk() {
+    return $this->samplingFk;
   }
 }

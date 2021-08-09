@@ -101,7 +101,7 @@ class SpeciesQueryService {
   private function joinEspeceStation($query, $aliasEsp, $aliasSta) {
     return $query->leftJoin('App:InternalLot', 'lm', 'WITH', $aliasEsp . '.internalLotFk=lm.id')
       ->leftJoin('App:ExternalLot', 'lmext', 'WITH', $aliasEsp . '.externalLotFk=lmext.id')
-      ->join('App:Collecte', 'c', 'WITH', 'c.id=lm.collecteFk OR c.id=lmext.collecteFk')
+      ->join('App:Sampling', 'c', 'WITH', 'c.id=lm.samplingFk OR c.id=lmext.samplingFk')
       ->join('App:Station', $aliasSta, 'WITH', $aliasSta . '.id=c.stationFk');
   }
 

@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilescollecte")
+ * @Route("importfilessampling")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesCollecteController extends AbstractController {
+class ImportFilesSamplingController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilescollecte_index")
+   * @Route("/", name="importfilessampling_index")
    *
    */
   public function indexAction(
@@ -84,7 +84,7 @@ class ImportFilesCollecteController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'sampling':
-          $message .= $importFileE3sService->importCSVDataCollecte($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataSampling($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());

@@ -2,11 +2,11 @@ import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
   const $form = $("form[name='external_lot']");
-  const $sampling = $("#external_lot_collecteFk");
+  const $sampling = $("#external_lot_samplingFk");
   const $taxon = $("#external_lot_taxonIdentifications_0_referentielTaxonFk");
   const $code = $("#external_lot_codeLotMaterielExt");
 
-  initSearchSelect($sampling, "collecte_search");
+  initSearchSelect($sampling, "sampling_search");
 
   if ($form.data("action") == "new") {
     $sampling.change(updateBiomatCode);

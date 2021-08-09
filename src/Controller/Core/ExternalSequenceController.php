@@ -188,10 +188,10 @@ class ExternalSequenceController extends AbstractController {
   public function newAction(Request $request) {
     $sequence = new ExternalSequence();
     $em = $this->getDoctrine()->getManager();
-    // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
+    // check if the relational Entity (Sampling) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
-      $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $sequence->setCollecteFk($sampling);
+      $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
+      $sequence->setSamplingFk($sampling);
     }
     $form = $this->createForm(
       'App\Form\ExternalSequenceType',
@@ -417,7 +417,7 @@ class ExternalSequenceController extends AbstractController {
       $firstTaxname = current($arrayReferentielTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
-      $codeCollecte = $sequence->getCollecteFk()->getCodeCollecte();
+      $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
       $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();
@@ -454,7 +454,7 @@ class ExternalSequenceController extends AbstractController {
       $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
-      $codeCollecte = $sequence->getCollecteFk()->getCodeCollecte();
+      $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
       $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();

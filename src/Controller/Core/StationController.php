@@ -98,8 +98,8 @@ class StationController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $query = $em->createQuery(
-        'SELECT collecte.id FROM App:Collecte collecte
-                WHERE collecte.stationFk = ' . $id
+        'SELECT sampling.id FROM App:Sampling sampling
+                WHERE sampling.stationFk = ' . $id
       )->getResult();
       $stationFk = (count($query) > 0) ? $id : '';
       $tab_toshow[] = array(
@@ -116,7 +116,7 @@ class StationController extends AbstractController {
         "userCreId" => $service->GetUserCreId($entity),
         "station.userCre" => $service->GetUserCreUserfullname($entity),
         "station.userMaj" => $service->GetUserMajUserfullname($entity),
-        "linkCollecte" => $stationFk,
+        "linkSampling" => $stationFk,
       );
     }
 

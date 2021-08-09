@@ -3,8 +3,8 @@ import { getPrecisionOf } from "./date-mask";
 import moment from "moment";
 
 $(() => {
-  const $form = $("form[name='collecte']");
-  const $site = $("#collecte_stationFk");
+  const $form = $("form[name='sampling']");
+  const $site = $("#sampling_stationFk");
   const $date_precision = $("form:first .date-precision:first");
   const $date = $("form:first .date-autoformat");
 

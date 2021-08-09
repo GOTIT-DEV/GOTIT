@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Entity\AbstractTimestampedEntity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SamplingFunding
@@ -37,9 +37,9 @@ class SamplingFunding extends AbstractTimestampedEntity {
   private $programmeFk;
 
   /**
-   * @var Collecte
+   * @var Sampling
    *
-   * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="samplingFundings")
+   * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingFundings")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(
    *      name="sampling_fk",
@@ -48,7 +48,7 @@ class SamplingFunding extends AbstractTimestampedEntity {
    *      onDelete="CASCADE")
    * })
    */
-  private $collecteFk;
+  private $samplingFk;
 
   /**
    * Get id
@@ -80,22 +80,22 @@ class SamplingFunding extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collecteFk
+   * Set samplingFk
    *
-   * @param Collecte $collecteFk
+   * @param Sampling $samplingFk
    * @return SamplingFunding
    */
-  public function setCollecteFk(Collecte $collecteFk = null) {
-    $this->collecteFk = $collecteFk;
+  public function setSamplingFk(Sampling $samplingFk = null) {
+    $this->samplingFk = $samplingFk;
     return $this;
   }
 
   /**
-   * Get collecteFk
+   * Get samplingFk
    *
-   * @return Collecte
+   * @return Sampling
    */
-  public function getCollecteFk() {
-    return $this->collecteFk;
+  public function getSamplingFk() {
+    return $this->samplingFk;
   }
 }

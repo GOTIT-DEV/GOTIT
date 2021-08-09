@@ -29,8 +29,8 @@ twig:
         children:
           - route: station_index
             text: core.station
-          - route: collecte_index
-            text: core.collecte
+          - route: sampling_index
+            text: core.sampling
       - route: ~
         icon: fas fa-microscope
         text: core.Analyse morphologique

@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\TaxonSampling;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Collecte
+ * Sampling
  *
  * @ORM\Table(name="sampling",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_sampling__sample_code", columns={"sample_code"})},
@@ -20,7 +20,7 @@ use App\Entity\TaxonSampling;
  * @UniqueEntity(fields={"codeCollecte"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Collecte extends AbstractTimestampedEntity {
+class Sampling extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -111,31 +111,31 @@ class Collecte extends AbstractTimestampedEntity {
   private $stationFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingMethod", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingMethod", mappedBy="samplingFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $samplingMethods;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingFixative", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingFixative", mappedBy="samplingFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $samplingFixatives;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingFunding", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingFunding", mappedBy="samplingFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $samplingFundings;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingParticipant", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="SamplingParticipant", mappedBy="samplingFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $samplingParticipants;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonSampling", mappedBy="collecteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonSampling", mappedBy="samplingFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonSamplings;
@@ -162,7 +162,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param string $codeCollecte
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setCodeCollecte($codeCollecte) {
     $this->codeCollecte = $codeCollecte;
@@ -183,7 +183,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateCollecte
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setDateCollecte($dateCollecte) {
     $this->dateCollecte = $dateCollecte;
@@ -204,7 +204,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param integer $dureeEchantillonnageMn
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setDureeEchantillonnageMn($dureeEchantillonnageMn) {
     $this->dureeEchantillonnageMn = $dureeEchantillonnageMn;
@@ -225,7 +225,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param float $temperatureC
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setTemperatureC($temperatureC) {
     $this->temperatureC = $temperatureC;
@@ -246,7 +246,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param float $conductiviteMicroSieCm
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setConductiviteMicroSieCm($conductiviteMicroSieCm) {
     $this->conductiviteMicroSieCm = $conductiviteMicroSieCm;
@@ -267,7 +267,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param integer $aFaire
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setAFaire($aFaire) {
     $this->aFaire = $aFaire;
@@ -288,7 +288,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param string $commentaireCollecte
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setCommentaireCollecte($commentaireCollecte) {
     $this->commentaireCollecte = $commentaireCollecte;
@@ -309,7 +309,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -330,7 +330,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $legVocFk
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setLegVocFk(\App\Entity\Voc $legVocFk = null) {
     $this->legVocFk = $legVocFk;
@@ -351,7 +351,7 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Station $stationFk
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function setStationFk(\App\Entity\Station $stationFk = null) {
     $this->stationFk = $stationFk;
@@ -372,10 +372,10 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SamplingMethod $samplingMethod
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function addSamplingMethod(\App\Entity\SamplingMethod $samplingMethod) {
-    $samplingMethod->setCollecteFk($this);
+    $samplingMethod->setSamplingFk($this);
     $this->samplingMethods[] = $samplingMethod;
     return $this;
   }
@@ -403,10 +403,10 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SamplingFixative $fixative
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function addSamplingFixative(\App\Entity\SamplingFixative $samplingFixative) {
-    $samplingFixative->setCollecteFk($this);
+    $samplingFixative->setSamplingFk($this);
     $this->samplingFixatives[] = $samplingFixative;
     return $this;
   }
@@ -434,10 +434,10 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SamplingFunding $samplingFunding
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function addSamplingFunding(\App\Entity\SamplingFunding $samplingFunding) {
-    $samplingFunding->setCollecteFk($this);
+    $samplingFunding->setSamplingFk($this);
     $this->samplingFundings[] = $samplingFunding;
     return $this;
   }
@@ -465,10 +465,10 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\SamplingParticipant $samplingParticipant
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function addSamplingParticipant(\App\Entity\SamplingParticipant $samplingParticipant) {
-    $samplingParticipant->setCollecteFk($this);
+    $samplingParticipant->setSamplingFk($this);
     $this->samplingParticipants[] = $samplingParticipant;
     return $this;
   }
@@ -496,10 +496,10 @@ class Collecte extends AbstractTimestampedEntity {
    *
    * @param TaxonSampling $taxonSampling
    *
-   * @return Collecte
+   * @return Sampling
    */
   public function addTaxonSampling(TaxonSampling $taxonSampling) {
-    $taxonSampling->setCollecteFk($this);
+    $taxonSampling->setSamplingFk($this);
     $this->taxonSamplings[] = $taxonSampling;
 
     return $this;

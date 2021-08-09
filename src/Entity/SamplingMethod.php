@@ -52,14 +52,14 @@ class SamplingMethod extends AbstractTimestampedEntity {
   private $samplingMethodVocFk;
 
   /**
-   * @var Collecte
+   * @var Sampling
    *
-   * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="samplingMethods")
+   * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingMethods")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $collecteFk;
+  private $samplingFk;
 
   /**
    * Get id
@@ -92,23 +92,23 @@ class SamplingMethod extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collecteFk
+   * Set samplingFk
    *
-   * @param Collecte $collecteFk
+   * @param Sampling $samplingFk
    * @return SamplingMethod
    */
-  public function setCollecteFk(Collecte $collecteFk = null) {
-    $this->collecteFk = $collecteFk;
+  public function setSamplingFk(Sampling $samplingFk = null) {
+    $this->samplingFk = $samplingFk;
 
     return $this;
   }
 
   /**
-   * Get collecteFk
+   * Get samplingFk
    *
-   * @return Collecte
+   * @return Sampling
    */
-  public function getCollecteFk() {
-    return $this->collecteFk;
+  public function getSamplingFk() {
+    return $this->samplingFk;
   }
 }
