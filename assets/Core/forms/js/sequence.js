@@ -25,7 +25,7 @@ $(() => {
     const chromatoWrapper = document.getElementById(
       "wrapper_internal_sequence_assemblies"
     );
-    const $code = $("#internal_sequence_codeSqcAss");
+    const $code = $("#internal_sequence_code");
 
     if ($sequenceForm.data("action") == "new") {
       $status.change(updateSequenceCode);

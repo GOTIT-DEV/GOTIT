@@ -436,7 +436,7 @@ class ExternalSequenceController extends AbstractController {
    *
    */
   private function createAlignmentCode(ExternalSequence $sequence) {
-    $codeSqcAlignement = '';
+    $alignmentCode = '';
     $em = $this->getDoctrine()->getManager();
     $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
@@ -451,20 +451,20 @@ class ExternalSequenceController extends AbstractController {
       ksort($arrayTaxon);
       end($arrayTaxon);
       $lastCodeTaxon = current($arrayTaxon);
-      $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
+      $alignmentCode = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
       $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
       $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
-      $codeSqcAlignement = $codeSqcAlignement . '_' .
+      $alignmentCode = $alignmentCode . '_' .
         $codeCollecte . '_' .
         $numSpecimenSqcAssExt . '_' .
         $accessionNumber . '_' . $codeOrigineSqcAssExt;
     } else {
-      $codeSqcAlignement = 0;
+      $alignmentCode = 0;
     }
-    return $codeSqcAlignement;
+    return $alignmentCode;
   }
 }

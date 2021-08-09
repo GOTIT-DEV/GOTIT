@@ -17,8 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}),
  *      @ORM\Index(name="IDX_353CF66988085E0F", columns={"internal_sequence_status_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeSqcAss"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeSqcAlignement"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
+ * @UniqueEntity(fields={"alignmentCode"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class InternalSequence extends AbstractTimestampedEntity {
@@ -37,14 +37,14 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_sequence_code", type="string", length=1024, nullable=false)
    */
-  private $codeSqcAss;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="internal_sequence_creation_date", type="date", nullable=true)
    */
-  private $dateCreationSqcAss;
+  private $creationDate;
 
   /**
    * @var string
@@ -58,7 +58,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
-  private $codeSqcAlignement;
+  private $alignmentCode;
 
   /**
    * @var string
@@ -128,47 +128,47 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeSqcAss
+   * Set code
    *
-   * @param string $codeSqcAss
+   * @param string $code
    *
    * @return InternalSequence
    */
-  public function setCodeSqcAss($codeSqcAss) {
-    $this->codeSqcAss = $codeSqcAss;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeSqcAss
+   * Get code
    *
    * @return string
    */
-  public function getCodeSqcAss() {
-    return $this->codeSqcAss;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateCreationSqcAss
+   * Set creationDate
    *
-   * @param \DateTime $dateCreationSqcAss
+   * @param \DateTime $creationDate
    *
    * @return InternalSequence
    */
-  public function setDateCreationSqcAss($dateCreationSqcAss) {
-    $this->dateCreationSqcAss = $dateCreationSqcAss;
+  public function setCreationDate($creationDate) {
+    $this->creationDate = $creationDate;
 
     return $this;
   }
 
   /**
-   * Get dateCreationSqcAss
+   * Get creationDate
    *
    * @return \DateTime
    */
-  public function getDateCreationSqcAss() {
-    return $this->dateCreationSqcAss;
+  public function getCreationDate() {
+    return $this->creationDate;
   }
 
   /**
@@ -194,25 +194,25 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeSqcAlignement
+   * Set alignmentCode
    *
-   * @param string $codeSqcAlignement
+   * @param string $alignmentCode
    *
    * @return InternalSequence
    */
-  public function setCodeSqcAlignement($codeSqcAlignement) {
-    $this->codeSqcAlignement = $codeSqcAlignement;
+  public function setAlignmentCode($alignmentCode) {
+    $this->alignmentCode = $alignmentCode;
 
     return $this;
   }
 
   /**
-   * Get codeSqcAlignement
+   * Get alignmentCode
    *
    * @return string
    */
-  public function getCodeSqcAlignement() {
-    return $this->codeSqcAlignement;
+  public function getAlignmentCode() {
+    return $this->alignmentCode;
   }
 
   /**
@@ -494,7 +494,7 @@ class InternalSequence extends AbstractTimestampedEntity {
       $seqCodeElts[] = $chromatoCodeStr;
       $seqCode = implode("_", $seqCodeElts);
     }
-    $this->setCodeSqcAlignement($seqCode);
+    $this->setAlignmentCode($seqCode);
     return $seqCode;
   }
 }

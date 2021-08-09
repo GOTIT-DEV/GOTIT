@@ -604,8 +604,8 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataSqcAssembleePublie as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_sa = $em->getRepository("App:InternalSequence")->createQueryBuilder('sa')
-        ->where('sa.codeSqcAss LIKE :code_sqc_ass')
-        ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
+        ->where('sa.code LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
@@ -615,7 +615,7 @@ class ImportFileE3s {
         ->getResult();
       if (count($query_sa) == 0 || count($query_source) == 0) {
         if (count($query_sa) == 0) {
-          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_sqc_ass"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
 
         if (count($query_source) == 0) {
@@ -630,11 +630,11 @@ class ImportFileE3s {
           ->getResult();
         if (count($query_lepd) != 0 || $query_sa[0]->getAccessionNumber() != '') {
           if (count($query_lepd) != 0) {
-            $message .= $this->translator->trans('importfileService.ERROR sqc already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code_sqc_ass"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+            $message .= $this->translator->trans('importfileService.ERROR sqc already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
 
           if ($query_sa[0]->getAccessionNumber() != '') {
-            $message .= $this->translator->trans('importfileService.ERROR assession number already assign') . '<b> : ' . $query_sa[0]->getAccessionNumber() . ' / ' . $data["code_sqc_ass"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+            $message .= $this->translator->trans('importfileService.ERROR assession number already assign') . '<b> : ' . $query_sa[0]->getAccessionNumber() . ' / ' . $data["code"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
 
         } else {
@@ -2958,7 +2958,7 @@ class ImportFileE3s {
     foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
       $flagSeq = 0;
       $flagSeqExt = 0;
-      $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+      $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass !== NULL) {
         $flagSeq = 1;
         $entityRel = new \App\Entity\MotuDelimitation();
@@ -3188,7 +3188,7 @@ class ImportFileE3s {
         foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
-          $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+          $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass !== NULL) {
             $flagSeq = 1;
             $entityRel = new \App\Entity\MotuDelimitation();
@@ -4300,14 +4300,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'internal_sequence.code_sqc_ass') {
-            $record_entity = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $dataColCsv));
+          if ($ColCsv == 'internal_sequence.code') {
+            $record_entity = $em->getRepository("App:InternalSequence")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'internal_sequence.date_creation_sqc_ass') {
+          if ($ColCsv == 'internal_sequence.creation_date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {

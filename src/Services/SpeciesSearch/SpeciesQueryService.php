@@ -197,7 +197,7 @@ class SpeciesQueryService {
     $query = $qb->select('rt.id as idesp, rt.taxname')
       ->addSelect('vocabulary.code as method')
       ->addSelect('m.dateMotu as motu_date')
-      ->addSelect('seq.id, seq.codeSqcAss as code, seq.accessionNumber as acc')
+      ->addSelect('seq.id, seq.code as code, seq.accessionNumber as acc')
       ->addSelect('ass.numMotu as motu_dataset')
       ->addSelect('v.code as criterion')
       ->addSelect('vocGene.code as gene')
@@ -284,7 +284,7 @@ class SpeciesQueryService {
       ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // specimen
       ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon specimen
       ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere specimen
-      ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
+      ->addSelect('seq.id as id_seq, seq.code as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
       ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
     // JOIN lot matériel

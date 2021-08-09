@@ -25,12 +25,12 @@ class InternalSequenceType extends ActionFormType {
     $specimen = $options['specimen'] ?: $sequence->getSpecimenFk();
 
     $builder
-      ->add('codeSqcAss', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => ['readonly' => Action::create() == $options['action_type']],
       ])
       ->add('accessionNumber')
-      ->add('codeSqcAlignement', EntityCodeType::class, [
+      ->add('alignmentCode', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],
@@ -39,7 +39,7 @@ class InternalSequenceType extends ActionFormType {
       ])
       ->add('comment')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateCreationSqcAss', DateFormattedType::class)
+      ->add('creationDate', DateFormattedType::class)
       ->add('status', BaseVocType::class, [
         'voc_parent' => 'statutSqcAss',
         'choice_label' => 'code',

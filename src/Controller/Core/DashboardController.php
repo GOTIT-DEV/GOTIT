@@ -212,7 +212,7 @@ class DashboardController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'internal_sequence',
-        "code" => $entity->getCodeSqcAss(),
+        "code" => $entity->getCode(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
       );
