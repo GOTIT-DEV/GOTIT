@@ -67,15 +67,15 @@ twig:
         text: core.Stock
         icon: fas fa-tasks
         children:
-          - route: boite_index
+          - route: store_index
             route_args:
               typeBoite: LOT
             text: core.internal_lot
-          - route: boite_index
+          - route: store_index
             route_args:
               typeBoite: LAME
             text: core.slide
-          - route: boite_index
+          - route: store_index
             route_args:
               typeBoite: ADN
             text: core.adn

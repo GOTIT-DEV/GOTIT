@@ -220,7 +220,7 @@ vocParent.qualitePcr: PCR quality
 vocParent.samplingMethod: sampling method
 vocParent.specificite: PCR specificity
 vocParent.statutSqcAss: Sequence status
-vocParent.typeBoite: Box type
+vocParent.typeBoite: Store type
 vocParent.typeCollection: Collection type
 vocParent.typeIndividu: Specimen type
 vocParent.yeux: Vision
@@ -302,7 +302,7 @@ button.Back to pcrchromato: Back to PCR
 button.Back to internal_sequence: Back to Internal sequence
 button.Back to external_sequence: Back to External sequence
 button.Back to motu_dataset: Back to MOTU
-button.Back to boite: Back to Boxes
+button.Back to store: Back to Stores
 button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
 button.Back to the list of site: Back to the list of Sites
@@ -318,7 +318,7 @@ button.Back to the list of pcrchromato: Back to the list of PCR
 button.Back to the list of internal_sequence: Back to the list of Internal sequence
 button.Back to the list of external_sequence: Back to the list of External sequence
 button.Back to the list of motu_dataset: Back to the list of MOTU
-button.Back to the list of boite: Back to the list of Boxes
+button.Back to the list of store: Back to the list of Stores
 button.Back to the list of source: Back to the list of Sources
 # Button titles in web interface
 button.Add a Chromatogram: Add chromatogram
@@ -333,13 +333,13 @@ button.Add a new Program: Add new program
 button.Add a Person: Add person
 button.Add a new Person: Add new person
 button.Add a TaxonSampling: Add targeted taxa
-button.Import adn deplace: Move or delete DNA boxes as file
-button.Import adn range: Store DNA boxes as file
+button.Import adn deplace: Move or delete DNA stores as file
+button.Import adn range: Store DNA stores as file
 button.Import slide deplace: Move or delete slides as file
 button.Import slide range: Store slides as file
 button.Import lot materiel deplace: Move or delete biological material as file
 button.Import lot materiel range: Store biological material as file
-button.NewBoite: Create new box
+button.NewStore: Create new store
 button.Import sqc assemblee publie: Source to sequence as file
 button.Import lot materiel publie: Source to biological material as file
 button.ImportSource: Import new set of sources
@@ -396,14 +396,14 @@ importfileService.ERROR bad date format: ERROR - Wrong date format ( dd / mm / y
 importfileService.ERROR unknown record: ERROR - UNKNOWN record
 importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
 importfileService.ERROR assession number already assign: ERROR - Accession number is already assigned to the sequence
-importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a box
+importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a store
 importfileService.ERROR sqc already publish: ERROR - The sequence is already assigned to a source
 importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
-importfileService.ERROR lot already store: ERROR - The material is already assigned to a box
-importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
-importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
-importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
-importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code Slide coll
+importfileService.ERROR lot already store: ERROR - The material is already assigned to a store
+importfileService.ERROR slide already store: ERROR - The slide is already assigned to a store
+importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a store
+importfileService.ERROR no store code for material: ERROR - the store code has not been entered for the code material
+importfileService.ERROR no store code: ERROR -  the store code has not been entered for the code Slide coll
 importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
 importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
 importfileService.ERROR bad code: ERROR - UNKNOWN code
@@ -413,9 +413,9 @@ importfileService.Import OK: Data import is successful. Number of records Import
 
 #  BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ########################
 import.liste: Upload other set of files
-import.boite.internal_lot_range: Store biological material as file
-import.boite.sliderange: Store slide as file
-import.boite.adnrange: Store DNA box as file
+import.store.internal_lot_range: Store biological material as file
+import.store.sliderange: Store slide as file
+import.store.adnrange: Store DNA box as file
 import.site: Upload Site
 import.sampling: Upload sampling
 import.internal_lot: Upload biological material
@@ -430,9 +430,9 @@ import.internal_sequence: Upload internal sequence
 import.external_sequence: Upload external sequence
 import.motu_dataset: Upload MOTU
 import.source: Upload source
-import.boite.internal_lot_deplace: Move or delete biological material as file
-import.boite.slidedeplace: Move or delete slides as file
-import.boite.adndeplace: Move or delete DNA boxes as file
+import.store.internal_lot_deplace: Move or delete biological material as file
+import.store.slidedeplace: Move or delete slides as file
+import.store.adndeplace: Move or delete DNA stores as file
 import.source.internal_lot_publie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
 import.motu-delimitation: MOTU
@@ -442,7 +442,7 @@ import.motu-delimitation: MOTU
 Choose a Parent: Select a class of vocabulary
 Choose a typeCollection: Select collection type
 Choose a codeCollection: Select collection code
-Choose a typeBoite: Select box type
+Choose a typeBoite: Select store type
 Choose an option: Select an option
 Choose a Motu File: Select MOTU file
 Choose a origineSqcAssExt: Select external sequence origin
@@ -470,7 +470,7 @@ Choose a Taxon: Select taxon
 Choose a Sampling: Select sampling
 Choose a Pigmentation: Select pigmentation
 Choose a Eye: Select vision
-Choose a Box: Select box
+Choose a Store: Select store
 Choose a Type: Select type
 Choose a Lot Materiel: Select biological material
 Choose a Source: Select source
@@ -496,7 +496,7 @@ Dashboard.Materiel biologique: Biological material
 Dashboard.nbSpecimen: Specimen
 Dashboard.nbSlide: Slide
 Dashboard.nbAdn: DNA
-Dashboard.nbBoite: Box
+Dashboard.nbBoite: Store
 Dashboard.nbStation: Site
 Dashboard.samplingCount: Sample
 Dashboard.nbPcr: PCR
@@ -534,12 +534,12 @@ Altitude m: Elevation (m)
 Annee debut: Starting year
 Annee fin: Ending year
 Annee source: Source year
-Boite fk: Box
+Store fk: Store
 Chromatogram fk: Chromatogram table
 Clade: Clade
 Code: Code
 Code adn: DNA code
-Code boite: Box code
+Code boite: Store code
 Code chromato: Chromatogram code
 Code collecte: Sample code
 Code collection voc fk: Collection
@@ -563,7 +563,7 @@ Code tube: Tube code
 Sampling fk: Sampling
 Commentaire: Comments
 Commentaire adn: DNA comments
-Commentaire boite: Box comments
+Commentaire boite: Store comments
 Commentaire chromato: Chromatogram comments
 Commentaire collecte: Sampling comments
 Commentaire compo lot materiel: Biological material composition comments
@@ -617,7 +617,7 @@ Info localisation: Site location
 Lat deg dec: Latitude Dec Deg
 Leg voc fk: Donation
 Libelle: Title
-Libelle boite: Box title
+Libelle boite: Store title
 Libelle collection: Collection title
 Libelle lame: Slide title
 Libelle motu: MOTU title
@@ -680,7 +680,7 @@ Taxname: Taxon name
 Taxname ref: Taxon name synonym
 Taxon origine sqc ass ext: External sequence primary taxon
 Temperature c: Temperature (Celcius)
-Type boite voc fk: Box type
+Type boite voc fk: Store type
 Type collection voc fk: Collection type
 Type financeur: Funding agency
 Specimen type voc fk: Specimen type

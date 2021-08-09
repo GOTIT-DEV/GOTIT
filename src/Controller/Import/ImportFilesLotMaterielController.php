@@ -47,7 +47,7 @@ class ImportFilesLotMaterielController extends AbstractController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Internal_biological_material' => 'internal_biological_material'),
-            '  ' => array('Box' => 'box', 'Source' => 'source'),
+            '  ' => array('Box' => 'store', 'Source' => 'source'),
             '   ' => array('Taxon' => 'taxon', 'Vocabulary' => 'vocabulary', 'Person' => 'person'),
           ),
         ))
@@ -62,7 +62,7 @@ class ImportFilesLotMaterielController extends AbstractController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Internal_biological_material' => 'internal_biological_material'),
-            '  ' => array('Box' => 'box', 'Source' => 'source'),
+            '  ' => array('Box' => 'store', 'Source' => 'source'),
             '   ' => array('Person' => 'person'),
           ),
         ))
@@ -93,8 +93,8 @@ class ImportFilesLotMaterielController extends AbstractController {
         case 'source':
           $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());
           break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
+        case 'store':
+          $message .= $importFileE3sService->importCSVDataStore($fichier, $user->getId());
           break;
         case 'taxon':
           $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());

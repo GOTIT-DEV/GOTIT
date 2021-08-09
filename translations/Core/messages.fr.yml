@@ -54,7 +54,7 @@ vocParent.qualitePcr: Qualité PCR
 vocParent.samplingMethod: Méthode échantillonnage
 vocParent.specificite: Specificité
 vocParent.statutSqcAss: Statut Séquence
-vocParent.typeBoite: Type Boite
+vocParent.typeBoite: Type Stock
 vocParent.typeCollection: Type Collection
 vocParent.typeIndividu: Type Individu
 vocParent.yeux: Yeux
@@ -135,7 +135,7 @@ button.Back to pcrchromato: Retour à la PCR
 button.Back to internal_sequence: Retour à la Séquence interne
 button.Back to external_sequence: Retour à la Séquence externe
 button.Back to motu_dataset: Retour au MOTU
-button.Back to boite: Retour à la Boite
+button.Back to store: Retour au stock
 button.Back to source: Retour à la Source
 # Button titles "Back to Entity" in csv file uploading tools
 button.Back to the list of site: Retour à la liste des Stations
@@ -151,7 +151,7 @@ button.Back to the list of pcrchromato: Retour à la liste des PCR
 button.Back to the list of internal_sequence: Retour à la liste des Séquences internes
 button.Back to the list of external_sequence: Retour à la liste des Séquences externes
 button.Back to the list of motu_dataset: Retour à la liste des MOTU
-button.Back to the list of boite: Retour à la liste des Boites
+button.Back to the list of store: Retour à la liste des stocks
 button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
 button.Add a Chromatogram: Ajouter un chromatogramme
@@ -167,13 +167,13 @@ button.Add a new Program: Ajouter un nouveau programme
 button.Add a Person: Ajouter une personne
 button.Add a new Person: Ajouter une nouvelle personne
 button.Add a TaxonSampling: Ajouter un taxon cible
-button.Import adn deplace: Déplacer/supprimer des boites ADN
-button.Import adn range: Stocker des boites ADN
+button.Import adn deplace: Déplacer/supprimer des stocks ADN
+button.Import adn range: Stocker ADN
 button.Import slide deplace: Déplacer/supprimer des lames
 button.Import slide range: Stocker des lames
 button.Import lot materiel deplace: Déplacer/supprimer des lots matériels
 button.Import lot materiel range: Stocker des lots matériels
-button.NewBoite: Créer une nouvelle boite
+button.NewStore: Créer un stock
 button.Import sqc assemblee publie: Référencer des séquences assemblées
 button.Import lot materiel publie: Référencer des lots matériels
 button.ImportSource: Importer des sources
@@ -231,14 +231,14 @@ importfileService.ERROR bad date format: ERREUR - Format de date INVALIDE ( d / 
 importfileService.ERROR unknown record: ERREUR - Enregistrement INCONNU
 importfileService.ERROR bad character: ERREUR - Des caractères spéciaux sont à supprimer dans
 importfileService.ERROR assession number already assign: ERREUR - Accession number déjà affecté à la séquence assemblée
-importfileService.ERROR sqc already store: ERREUR - La séquence est déjà affectée à une boite
+importfileService.ERROR sqc already store: ERREUR - La séquence est déjà affectée à unstock
 importfileService.ERROR sqc already publish: ERREUR - La séquence est déjà affectée à une source
 importfileService.ERROR lot already publish: ERREUR - Lot matériel déjà affectée à une source
-importfileService.ERROR lot already store: ERREUR - Lot matériel déjà affectée à une boite
-importfileService.ERROR slide already store: ERREUR - Lame déjà affectée à une boite
-importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à une boite
-importfileService.ERROR no box code for material: ERREUR - le code boite n'a pas été renseigné pour le code lot matériel
-importfileService.ERROR no box code: ERREUR - le code boite n'a pas été renseigné pour le code lame coll
+importfileService.ERROR lot already store: ERREUR - Lot matériel déjà affectée à unstock
+importfileService.ERROR slide already store: ERREUR - Lame déjà affectée à unstock
+importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à unstock
+importfileService.ERROR no store code for material: ERREUR - le code stock n'a pas été renseigné pour le code lot matériel
+importfileService.ERROR no store code: ERREUR - le code stock n'a pas été renseigné pour le code lame coll
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la BDD
 importfileService.ERROR duplicate code: ERREUR - Code déja présent dans la BDD
 importfileService.ERROR bad code: ERREUR - Code INCONNU
@@ -248,9 +248,9 @@ importfileService.Import OK: Procédure d'importation terminée. Nombre d'enregi
 
 # BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES #########################
 import.liste: Importer des fichiers
-import.boite.internal_lot_range: Stocker des lots matériels par fichier
-import.boite.sliderange: Stocker des lames par fichier
-import.boite.adnrange: Stocker des ADN par fichier
+import.store.internal_lot_range: Stocker des lots matériels par fichier
+import.store.sliderange: Stocker des lames par fichier
+import.store.adnrange: Stocker des ADN par fichier
 import.site: Importer fichier(s) station
 import.sampling: Importer fichier(s) collecte
 import.internal_lot: Importer fichier(s) lot matériel
@@ -265,9 +265,9 @@ import.internal_sequence: Importer fichier(s) séquence
 import.external_sequence: Importer fichier(s) séquence externe
 import.motu_dataset: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
-import.boite.internal_lot_deplace: Déplacer/supprimer des lots matériels
-import.boite.slidedeplace: Déplacer/supprimer des lames
-import.boite.adndeplace: Déplacer/supprimer des ADN
+import.store.internal_lot_deplace: Déplacer/supprimer des lots matériels
+import.store.slidedeplace: Déplacer/supprimer des lames
+import.store.adndeplace: Déplacer/supprimer des ADN
 import.source.internal_lot_publie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-delimitation: MOTU
@@ -276,7 +276,7 @@ import.motu-delimitation: MOTU
 Choose a Parent: Sélectionner une classe de vocabulaire
 Choose a typeCollection: Sélectionner un type de collection
 Choose a codeCollection: Sélectionner un code collection
-Choose a typeBoite: Sélectionner un type de boite
+Choose a typeBoite: Sélectionner un type de stock
 Choose an option: Sélectionner une option
 Choose a Motu Dataset File: Sélectionner le fichier MOTU a importer
 Choose a origineSqcAssExt: Sélectionner une origine
@@ -304,7 +304,7 @@ Choose a Taxon: Sélectionner un taxon
 Choose a Sampling: Sélectionner une collecte
 Choose a Pigmentation: Sélectionner pigmentation
 Choose a Eye: Sélectionner vision
-Choose a Box: Sélectionner une boite
+Choose a Store: Sélectionner un stock
 Choose a Type: Sélectionner un type
 Choose a Lot Materiel: Sélectionner un lot matériel
 Choose a Source: Sélectionner une source
@@ -330,7 +330,7 @@ Dashboard.Materiel biologique: Matériel biologique
 Dashboard.nbSpecimen: Individu
 Dashboard.nbSlide: Lame
 Dashboard.nbAdn: ADN
-Dashboard.nbBoite: Boite
+Dashboard.nbBoite: Stock
 Dashboard.nbStation: Stations
 Dashboard.samplingCount: Collectes
 Dashboard.nbPcr: PCR
@@ -370,12 +370,12 @@ Altitude m: Altitude (m)
 Annee debut: Année debut
 Annee fin: Année fin
 Annee source: Année source
-Boite fk: Boite
+Store fk: Stock
 Chromatogram fk: Chromatogramme
 Clade: Clade
 Code: Code
 Code adn: Code ADN
-Code boite: Code boite
+Code boite: Code stock
 Code chromato: Code chromatogramme
 Code collecte: Code collecte
 Code collection voc fk: Collection
@@ -399,7 +399,7 @@ Code tube: Code tube
 Sampling fk: Collecte
 Commentaire: Commentaire
 Commentaire adn: Commentaire ADN
-Commentaire boite: Commentaire boite
+Commentaire boite: Commentaire stock
 Commentaire chromato: Commentaire chromatogramme
 Commentaire collecte: Commentaire collecte
 Commentaire compo lot materiel: Commentaire composition lot matériel
@@ -453,7 +453,7 @@ Info localisation: Localisation station
 Lat deg dec: Latitude degré décimal
 Leg voc fk: Don
 Libelle: Libellé
-Libelle boite: Libellé boite
+Libelle boite: Libellé stock
 Libelle collection: Libellé collection
 Libelle lame: Libellé lame
 Libelle motu: libellé MOTU
@@ -516,7 +516,7 @@ Taxname: Nom taxon
 Taxname ref: Nom synonyme
 Taxon origine sqc ass ext: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
-Type boite voc fk: Type boite
+Type boite voc fk: Type stock
 Type collection voc fk: Type collection
 Type financeur: Type financeur
 Specimen type voc fk: Type individu

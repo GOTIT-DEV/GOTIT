@@ -102,14 +102,14 @@ class Dna extends AbstractTimestampedEntity {
   private $qualiteAdnVocFk;
 
   /**
-   * @var \Boite
+   * @var \Store
    *
-   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="adns")
+   * @ORM\ManyToOne(targetEntity="Store", inversedBy="adns")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    * })
    */
-  private $boiteFk;
+  private $storeFk;
 
   /**
    * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="adnFk", cascade={"persist"})
@@ -307,25 +307,25 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set boiteFk
+   * Set storeFk
    *
-   * @param \App\Entity\Boite $boiteFk
+   * @param \App\Entity\Store $storeFk
    *
    * @return Dna
    */
-  public function setBoiteFk(\App\Entity\Boite $boiteFk = null) {
-    $this->boiteFk = $boiteFk;
+  public function setStoreFk(\App\Entity\Store $storeFk = null) {
+    $this->storeFk = $storeFk;
 
     return $this;
   }
 
   /**
-   * Get boiteFk
+   * Get storeFk
    *
-   * @return \App\Entity\Boite
+   * @return \App\Entity\Store
    */
-  public function getBoiteFk() {
-    return $this->boiteFk;
+  public function getStoreFk() {
+    return $this->storeFk;
   }
 
   /**

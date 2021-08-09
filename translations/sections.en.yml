@@ -13,10 +13,10 @@ core:
   external_sequence: External sequences
   motu_dataset: MOTU Dataset
   Stock: Storage
-  boiteLOT: "Box : biological material"
-  boiteLAME: "Box : specimen slide"
-  boiteADN: "Box : DNA"
-  boite: Box
+  storeLOT: "Store : biological material"
+  storeLAME: "Store : specimen slide"
+  storeADN: "Store : DNA"
+  store: Store
   Analyses génétiques: Molecular analysis
   adn: DNA
   pcr: PCR

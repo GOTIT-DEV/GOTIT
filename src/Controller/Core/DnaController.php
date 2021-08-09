@@ -82,7 +82,7 @@ class DnaController extends AbstractController {
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-      ->leftJoin('App:Boite', 'boite', 'WITH', 'dna.boiteFk = boite.id')
+      ->leftJoin('App:Store', 'store', 'WITH', 'dna.storeFk = store.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -94,8 +94,8 @@ class DnaController extends AbstractController {
       $id = $entity->getId();
       $DateAdn = $entity->getDateAdn()
       ? $entity->getDateAdn()->format('Y-m-d') : null;
-      $codeBoite = $entity->getBoiteFk()
-      ? $entity->getBoiteFk()->getCodeBoite() : null;
+      $codeBoite = $entity->getStoreFk()
+      ? $entity->getStoreFk()->getCodeBoite() : null;
       $DateMaj = $entity->getDateMaj()
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = $entity->getDateCre()
@@ -127,7 +127,7 @@ class DnaController extends AbstractController {
         "adn.codeAdn" => $entity->getCodeAdn(),
         "listePerson" => $listePerson,
         "adn.dateAdn" => $DateAdn,
-        "boite.codeBoite" => $codeBoite,
+        "store.codeBoite" => $codeBoite,
         "adn.dateCre" => $DateCre,
         "adn.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

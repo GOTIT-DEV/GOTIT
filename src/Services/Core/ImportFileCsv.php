@@ -363,7 +363,7 @@ class ImportFileCsv {
       'specimen_slide_fk' => 'slide_fk',
       'specimen_type_voc_fk' => 'specimen_type_voc_fk',
       'starting_year' => 'annee_debut',
-      'storage_box_fk' => 'boite_fk',
+      'storage_box_fk' => 'store_fk',
       'subclass' => 'subclass',
       'subspecies' => 'subspecies',
       'taxon_code' => 'code_taxon',

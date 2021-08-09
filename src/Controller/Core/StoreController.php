@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Boite;
+use App\Entity\Store;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -13,25 +13,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Boite controller.
+ * Store controller.
  *
- * @Route("boite")
+ * @Route("store")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class BoiteController extends AbstractController {
+class StoreController extends AbstractController {
   /**
-   * Lists all boite entities.
+   * Lists all store entities.
    *
-   * @Route("/", name="boite_index", methods={"GET"})
+   * @Route("/", name="store_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $boites = $em->getRepository('App:Boite')->findAll();
+    $stores = $em->getRepository('App:Store')->findAll();
 
-    return $this->render('Core/boite/index.html.twig', array(
-      'boites' => $boites,
+    return $this->render('Core/store/index.html.twig', array(
+      'stores' => $stores,
     ));
   }
 
@@ -41,7 +41,7 @@ class BoiteController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="boite_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="store_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -50,11 +50,11 @@ class BoiteController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('boite.dateMaj' => 'desc', 'boite.id' => 'desc');
+    : array('store.dateMaj' => 'desc', 'store.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(boite.codeBoite) LIKE :criteriaLower';
+    $where = 'LOWER(store.codeBoite) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -65,21 +65,21 @@ class BoiteController extends AbstractController {
     // Search for the list to show InternalSequenceAssembly
     $tab_toshow = [];
     $entities_toshow = $em
-      ->getRepository("App:Boite")
-      ->createQueryBuilder('boite')
+      ->getRepository("App:Store")
+      ->createQueryBuilder('store')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin(
         'App:Voc',
         'vocCodeCollection',
         'WITH',
-        'boite.codeCollectionVocFk = vocCodeCollection.id'
+        'store.codeCollectionVocFk = vocCodeCollection.id'
       )
       ->leftJoin(
         'App:Voc',
         'vocTypeBoite',
         'WITH',
-        'boite.typeBoiteVocFk = vocTypeBoite.id'
+        'store.typeBoiteVocFk = vocTypeBoite.id'
       )
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -96,16 +96,16 @@ class BoiteController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id, "boite.id" => $id,
-        "boite.codeBoite" => $entity->getCodeBoite(),
+        "id" => $id, "store.id" => $id,
+        "store.codeBoite" => $entity->getCodeBoite(),
         "vocCodeCollection.code" => $entity->getCodeCollectionVocFk()->getCode(),
-        "boite.libelleBoite" => $entity->getLibelleBoite(),
+        "store.libelleBoite" => $entity->getLibelleBoite(),
         "vocCodeCollection.libelle" => $entity->getCodeCollectionVocFk()->getLibelle(),
-        "boite.dateCre" => $DateCre,
-        "boite.dateMaj" => $DateMaj,
+        "store.dateCre" => $DateCre,
+        "store.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "boite.userCre" => $service->GetUserCreUserfullname($entity),
-        "boite.userMaj" => $service->GetUserMajUserfullname($entity),
+        "store.userCre" => $service->GetUserCreUserfullname($entity),
+        "store.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
@@ -119,32 +119,32 @@ class BoiteController extends AbstractController {
   }
 
   /**
-   * Creates a new boite entity.
+   * Creates a new store entity.
    *
-   * @Route("/new", name="boite_new", methods={"GET", "POST"})
+   * @Route("/new", name="store_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
 
-    $boite = new Boite();
+    $store = new Store();
 
     if ($request->get("typeBoite")) {
-      $boxTypeRepo = $this->getDoctrine()->getRepository(Voc::class);
-      $boxType = $boxTypeRepo->findOneBy([
+      $storeTypeRepo = $this->getDoctrine()->getRepository(Voc::class);
+      $storeType = $storeTypeRepo->findOneBy([
         'code' => $request->get('typeBoite'),
         'parent' => 'typeBoite',
       ]);
-      $boite->setTypeBoiteVocFk($boxType);
+      $store->setTypeBoiteVocFk($storeType);
     }
 
-    $form = $this->createForm('App\Form\BoiteType', $boite, [
+    $form = $this->createForm('App\Form\StoreType', $store, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($boite);
+      $em->persist($store);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -152,69 +152,69 @@ class BoiteController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/boite/index.html.twig',
+          'Core/store/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('boite_edit', array(
-        'id' => $boite->getId(),
+      return $this->redirectToRoute('store_edit', array(
+        'id' => $store->getId(),
         'valid' => 1,
         'typeBoite' => $request->get('typeBoite'),
       ));
     }
 
-    return $this->render('Core/boite/edit.html.twig', array(
-      'boite' => $boite,
+    return $this->render('Core/store/edit.html.twig', array(
+      'store' => $store,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a boite entity.
+   * Finds and displays a store entity.
    *
-   * @Route("/{id}", name="boite_show", methods={"GET"})
+   * @Route("/{id}", name="store_show", methods={"GET"})
    */
-  public function showAction(Boite $boite) {
-    $deleteForm = $this->createDeleteForm($boite);
-    $editForm = $this->createForm('App\Form\BoiteType', $boite, [
+  public function showAction(Store $store) {
+    $deleteForm = $this->createDeleteForm($store);
+    $editForm = $this->createForm('App\Form\StoreType', $store, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/boite/edit.html.twig', array(
-      'boite' => $boite,
+    return $this->render('Core/store/edit.html.twig', array(
+      'store' => $store,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing boite entity.
+   * Displays a form to edit an existing store entity.
    *
-   * @Route("/{id}/edit", name="boite_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="store_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Boite $boite) {
+  public function editAction(Request $request, Store $store) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $boite->getUserCre() != $user->getId()
+      $store->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load the Entity Manager
     $em = $this->getDoctrine()->getManager();
 
-    $deleteForm = $this->createDeleteForm($boite);
-    $editForm = $this->createForm('App\Form\BoiteType', $boite, [
+    $deleteForm = $this->createDeleteForm($store);
+    $editForm = $this->createForm('App\Form\StoreType', $store, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em->persist($boite);
+      $em->persist($store);
       // flush
       try {
         $em->flush();
@@ -223,37 +223,37 @@ class BoiteController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/boite/index.html.twig',
+          'Core/store/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      $editForm = $this->createForm('App\Form\BoiteType', $boite, [
+      $editForm = $this->createForm('App\Form\StoreType', $store, [
         'action_type' => Action::edit(),
       ]);
 
-      return $this->render('Core/boite/edit.html.twig', array(
-        'boite' => $boite,
+      return $this->render('Core/store/edit.html.twig', array(
+        'store' => $store,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/boite/edit.html.twig', array(
-      'boite' => $boite,
+    return $this->render('Core/store/edit.html.twig', array(
+      'store' => $store,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a boite entity.
+   * Deletes a store entity.
    *
-   * @Route("/{id}", name="boite_delete", methods={"DELETE"})
+   * @Route("/{id}", name="store_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Boite $boite) {
-    $form = $this->createDeleteForm($boite);
+  public function deleteAction(Request $request, Store $store) {
+    $form = $this->createDeleteForm($store);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -262,37 +262,37 @@ class BoiteController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($boite);
+        $em->remove($store);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/boite/index.html.twig',
+          'Core/store/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('boite_index', array(
+    return $this->redirectToRoute('store_index', array(
       'typeBoite' => $request->get('typeBoite'),
     ));
   }
 
   /**
-   * Creates a form to delete a boite entity.
+   * Creates a form to delete a store entity.
    *
-   * @param Boite $boite The boite entity
+   * @param Store $store The store entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Boite $boite) {
+  private function createDeleteForm(Store $store) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl(
-        'boite_delete',
-        array('id' => $boite->getId())
+        'store_delete',
+        array('id' => $store->getId())
       ))
       ->setMethod('DELETE')
       ->getForm();

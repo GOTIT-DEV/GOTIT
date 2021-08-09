@@ -52,14 +52,14 @@ class DnaType extends ActionFormType {
         'voc_parent' => 'qualiteAdn',
         'placeholder' => 'Choose a quality',
       ])
-      ->add('boiteFk', EntityType::class, array(
-        'class' => 'App:Boite',
+      ->add('storeFk', EntityType::class, array(
+        'class' => 'App:Store',
         'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('boite')
-            ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
+          return $er->createQueryBuilder('store')
+            ->leftJoin('App:Voc', 'voc', 'WITH', 'store.typeBoiteVocFk = voc.id')
             ->where('voc.code LIKE :codetype')
             ->setParameter('codetype', 'ADN')
-            ->orderBy('LOWER(boite.codeBoite)', 'ASC');
+            ->orderBy('LOWER(store.codeBoite)', 'ASC');
         },
         'placeholder' => 'Choose a Box',
         'choice_label' => 'codeBoite',

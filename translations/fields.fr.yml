@@ -438,12 +438,12 @@ specimen_slide:
   date_of_update: Date MàJ
 storage_box:
   id: id
-  box_code: Code Boite
-  box_title: Libellé Boite
+  box_code: Code Stock
+  box_title: Libellé Stock
   box_comments: Commentaires
   collection_type_voc_fk: Type Collection
   collection_code_voc_fk: Code Collection
-  box_type_voc_fk: Type Boite
+  box_type_voc_fk: Type Stock
   creation_user_name: Utilisateur Création
   update_user_name: Utilisateur MàJ
   date_of_creation: Date Création

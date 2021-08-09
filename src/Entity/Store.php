@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Boite
+ * Store
  *
  * @ORM\Table(name="storage_box",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_storage_box__box_code", columns={"box_code"})},
@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeBoite"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Boite extends AbstractTimestampedEntity {
+class Store extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -82,19 +82,19 @@ class Boite extends AbstractTimestampedEntity {
   private $typeBoiteVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="internalLot", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
    */
   protected $internalLots;
 
   /**
-   * @ORM\OneToMany(targetEntity="Dna", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Dna", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"codeAdn" = "ASC"})
    */
   protected $adns;
 
   /**
-   * @ORM\OneToMany(targetEntity="Slide", mappedBy="boiteFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Slide", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"codeLameColl" = "ASC"})
    */
   protected $slides;
@@ -119,7 +119,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param string $codeBoite
    *
-   * @return Boite
+   * @return Store
    */
   public function setCodeBoite($codeBoite) {
     $this->codeBoite = $codeBoite;
@@ -141,7 +141,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param string $libelleBoite
    *
-   * @return Boite
+   * @return Store
    */
   public function setLibelleBoite($libelleBoite) {
     $this->libelleBoite = $libelleBoite;
@@ -163,7 +163,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param string $commentaireBoite
    *
-   * @return Boite
+   * @return Store
    */
   public function setCommentaireBoite($commentaireBoite) {
     $this->commentaireBoite = $commentaireBoite;
@@ -185,7 +185,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $typeCollectionVocFk
    *
-   * @return Boite
+   * @return Store
    */
   public function setTypeCollectionVocFk(\App\Entity\Voc $typeCollectionVocFk = null) {
     $this->typeCollectionVocFk = $typeCollectionVocFk;
@@ -207,7 +207,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $codeCollectionVocFk
    *
-   * @return Boite
+   * @return Store
    */
   public function setCodeCollectionVocFk(\App\Entity\Voc $codeCollectionVocFk = null) {
     $this->codeCollectionVocFk = $codeCollectionVocFk;
@@ -229,7 +229,7 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $typeBoiteVocFk
    *
-   * @return Boite
+   * @return Store
    */
   public function setTypeBoiteVocFk(\App\Entity\Voc $typeBoiteVocFk = null) {
     $this->typeBoiteVocFk = $typeBoiteVocFk;
@@ -251,10 +251,10 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\internalLot $internalLot
    *
-   * @return Boite
+   * @return Store
    */
   public function addInternalLot(\App\Entity\internalLot $internalLot) {
-    $internalLot->setBoiteFk($this);
+    $internalLot->setStoreFk($this);
     $this->internalLots[] = $internalLot;
 
     return $this;
@@ -283,10 +283,10 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Dna $adn
    *
-   * @return Boite
+   * @return Store
    */
   public function addAdn(\App\Entity\Dna $adn) {
-    $adn->setBoiteFk($this);
+    $adn->setStoreFk($this);
     $this->adns[] = $adn;
 
     return $this;
@@ -315,10 +315,10 @@ class Boite extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Slide $slide
    *
-   * @return Boite
+   * @return Store
    */
   public function addSlide(\App\Entity\Slide $slide) {
-    $slide->setBoiteFk($this);
+    $slide->setStoreFk($this);
     $this->slides[] = $slide;
 
     return $this;

@@ -52,32 +52,32 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagAdn && $flagBoite) {
-        if ($flagBoiteAffecte) {
-          $query_adn[0]->setBoiteFk($query_boite[0]);
+      if ($flagAdn && $flagStore) {
+        if ($flagStoreAffecte) {
+          $query_adn[0]->setStoreFk($query_store[0]);
           $query_adn[0]->setDateMaj($DateImport);
           $query_adn[0]->setUserMaj($userId);
           $em->persist($query_adn[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         } else {
-          $query_adn[0]->setBoiteFk(null);
+          $query_adn[0]->setStoreFk(null);
           $query_adn[0]->setDateMaj($DateImport);
           $query_adn[0]->setUserMaj($userId);
           $em->persist($query_adn[0]);
@@ -131,36 +131,36 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no box code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagStoreAffecte == 0) {
+        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagAdn && $flagBoite && $flagBoiteAffecte) {
-        if ($query_adn[0]->getBoiteFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR adn already store') . '<b> : ' . $data["code_adn"] . '</b> / ' . $query_adn[0]->getBoiteFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagAdn && $flagStore && $flagStoreAffecte) {
+        if ($query_adn[0]->getStoreFk() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR adn already store') . '<b> : ' . $data["code_adn"] . '</b> / ' . $query_adn[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_adn[0]->setBoiteFk($query_boite[0]);
+          $query_adn[0]->setStoreFk($query_store[0]);
           $query_adn[0]->setDateMaj($DateImport);
           $query_adn[0]->setUserMaj($userId);
           $em->persist($query_adn[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         }
       }
     }
@@ -211,32 +211,32 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lame_coll"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagLame && $flagBoite) {
-        if ($flagBoiteAffecte) {
-          $query_lame[0]->setBoiteFk($query_boite[0]);
+      if ($flagLame && $flagStore) {
+        if ($flagStoreAffecte) {
+          $query_lame[0]->setStoreFk($query_store[0]);
           $query_lame[0]->setDateMaj($DateImport);
           $query_lame[0]->setUserMaj($userId);
           $em->persist($query_lame[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         } else {
-          $query_lame[0]->setBoiteFk(null);
+          $query_lame[0]->setStoreFk(null);
           $query_lame[0]->setDateMaj($DateImport);
           $query_lame[0]->setUserMaj($userId);
           $em->persist($query_lame[0]);
@@ -290,36 +290,36 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lame_coll"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no box code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagStoreAffecte == 0) {
+        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagLame && $flagBoite && $flagBoiteAffecte) {
-        if ($query_lame[0]->getBoiteFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code_lame_coll"] . '</b> / ' . $query_lame[0]->getBoiteFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagLame && $flagStore && $flagStoreAffecte) {
+        if ($query_lame[0]->getStoreFk() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code_lame_coll"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_lame[0]->setBoiteFk($query_boite[0]);
+          $query_lame[0]->setStoreFk($query_store[0]);
           $query_lame[0]->setDateMaj($DateImport);
           $query_lame[0]->setUserMaj($userId);
           $em->persist($query_lame[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         }
       }
     }
@@ -370,32 +370,32 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lot_materiel"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagLot && $flagBoite) {
-        if ($flagBoiteAffecte) {
-          $query_lot[0]->setBoiteFk($query_boite[0]);
+      if ($flagLot && $flagStore) {
+        if ($flagStoreAffecte) {
+          $query_lot[0]->setStoreFk($query_store[0]);
           $query_lot[0]->setDateMaj($DateImport);
           $query_lot[0]->setUserMaj($userId);
           $em->persist($query_lot[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         } else {
-          $query_lot[0]->setBoiteFk(null);
+          $query_lot[0]->setStoreFk(null);
           $query_lot[0]->setDateMaj($DateImport);
           $query_lot[0]->setUserMaj($userId);
           $em->persist($query_lot[0]);
@@ -449,36 +449,36 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lot_materiel"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      $flagBoite = 1;
-      $flagBoiteAffecte = 0;
+      $flagStore = 1;
+      $flagStoreAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
+        $flagStoreAffecte = 1;
+        $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
+          ->where('store.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
           ->getResult();
-        $flagBoite = count($query_boite);
+        $flagStore = count($query_store);
       }
-      if ($flagBoiteAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no box code for material") . '<b> : ' . $data["code_lot_materiel"] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagStoreAffecte == 0) {
+        $message .= $this->translator->trans("importfileService.ERROR no store code for material") . '<b> : ' . $data["code_lot_materiel"] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagBoiteAffecte && $flagBoite == 0) {
+      if ($flagStoreAffecte && $flagStore == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagLot && $flagBoite && $flagBoiteAffecte) {
-        if ($query_lot[0]->getBoiteFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code_lot_materiel"] . '</b> / ' . $query_lot[0]->getBoiteFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagLot && $flagStore && $flagStoreAffecte) {
+        if ($query_lot[0]->getStoreFk() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code_lot_materiel"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_lot[0]->setBoiteFk($query_boite[0]);
+          $query_lot[0]->setStoreFk($query_store[0]);
           $query_lot[0]->setDateMaj($DateImport);
           $query_lot[0]->setUserMaj($userId);
           $em->persist($query_lot[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+          $query_store[0]->setDateMaj($DateImport);
+          $query_store[0]->setUserMaj($userId);
+          $em->persist($query_store[0]);
         }
       }
     }
@@ -2416,11 +2416,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataBoite($fichier, $userId = null)
+   *  importCSVDataStore($fichier, $userId = null)
    *  $fichier : path to the download csv file
-   *  NOTE : the template of csv file to import is box
+   *  NOTE : the template of csv file to import is store
    */
-  public function importCSVDataBoite($fichier, $userId = null) {
+  public function importCSVDataStore($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -2431,9 +2431,9 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Boite();
-      if (array_key_exists("boite", $columnByTable)) {
-        foreach ($columnByTable["boite"] as $ColCsv) {
+      $entity = new \App\Entity\Store();
+      if (array_key_exists("store", $columnByTable)) {
+        foreach ($columnByTable["store"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -2442,8 +2442,8 @@ class ImportFileE3s {
           }
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($field == 'boite.codeBoite') {
-              $record_entity = $em->getRepository("App:Boite")->findOneBy(array("codeBoite" => $dataColCsv));
+            if ($field == 'store.codeBoite') {
+              $record_entity = $em->getRepository("App:Store")->findOneBy(array("codeBoite" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -2610,7 +2610,7 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Boite":
+            case "Store":
               // la valeur NULL est permise
               break;
             case "Voc":

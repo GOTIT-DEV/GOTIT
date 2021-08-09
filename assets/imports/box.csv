@@ -1,1 +1,1 @@
-boite.code_boite;boite.type_boite_voc_fk(voc.code);boite.libelle_boite;boite.code_collection_voc_fk(voc.code);boite.type_collection_voc_fk(voc.code);boite.commentaire_boite
+store.code_boite;store.type_boite_voc_fk(voc.code);store.libelle_boite;store.code_collection_voc_fk(voc.code);store.type_collection_voc_fk(voc.code);store.commentaire_boite

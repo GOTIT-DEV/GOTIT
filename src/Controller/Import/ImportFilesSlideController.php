@@ -47,7 +47,7 @@ class ImportFilesSlideController extends AbstractController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Specimen_slide' => 'specimen_slide'),
-            '  ' => array('Box' => 'box'),
+            '  ' => array('Box' => 'store'),
             '   ' => array('Vocabulary' => 'vocabulary', 'Person' => 'person'),
           ),
         ))
@@ -62,7 +62,7 @@ class ImportFilesSlideController extends AbstractController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Specimen_slide' => 'specimen_slide'),
-            '  ' => array('Box' => 'box'),
+            '  ' => array('Box' => 'store'),
             '   ' => array('Person' => 'person'),
           ),
         ))
@@ -90,8 +90,8 @@ class ImportFilesSlideController extends AbstractController {
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
+        case 'store':
+          $message .= $importFileE3sService->importCSVDataStore($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPerson($fichier, $user->getId());

@@ -4,23 +4,23 @@
 
 {% set links =  [] %}
 
-{% set box_type = app.request.query.get('typeBoite')|default(null) %}
+{% set store_type = app.request.query.get('typeBoite')|default(null) %}
 
 {% block page_title %}
 	<h1>
-		{{('core.' ~ entityname ~ box_type)|trans({}, 'sections')}}
+		{{('core.' ~ entityname ~ store_type)|trans({}, 'sections')}}
 	</h1>
 {% endblock %}
 
 {% block action %}
-	<a href="{{ path(route_index) }}?typeBoite={{box_type}}" class="btn btn-primary btn-sm" role="button">
+	<a href="{{ path(route_index) }}?typeBoite={{store_type}}" class="btn btn-primary btn-sm" role="button">
 		<i class="fas fa-list"></i>
 		{{'button.showAllRecord'|trans}}
 	</a>
 
 	{% if is_granted('ROLE_COLLABORATION') %}
 
-		<a href="{{ path( route_new ) }}?typeBoite={{box_type}}" class="btn btn-success btn-sm" role="button">
+		<a href="{{ path( route_new ) }}?typeBoite={{store_type}}" class="btn btn-success btn-sm" role="button">
 			<i class="fas fa-plus"></i>
 			{{ ('button.New' ~ entityname|capitalize)|trans }}
 		</a>
@@ -39,12 +39,12 @@
 
 	{% endif %}
 
-	{% if box_type != NULL %}
+	{% if store_type != NULL %}
 		<div class="btn-group btn-group-sm">
 			<div class="input-group-prepend">
 				<i class="input-group-text fas fa-upload"></i>
 			</div>
-			{% if box_type == 'LOT' %}
+			{% if store_type == 'LOT' %}
 				{% if is_granted('ROLE_COLLABORATION') %}
 					<a href="{{ path( 'importfilesinternal_lot_range_index' ) }}" class="btn btn-light border btn-sm" role="button">
 						{{'button.Import lot materiel range'|trans}}
@@ -64,7 +64,7 @@
 					</a>
 				{% endif %}
 			{% endif %}
-			{% if box_type == 'LAME' %}
+			{% if store_type == 'LAME' %}
 
 				{% if is_granted('ROLE_COLLABORATION') %}
 					<a href="{{ path( 'importfilessliderange_index' ) }}" class="btn btn-light border btn-sm" role="button">
@@ -85,7 +85,7 @@
 					</a>
 				{% endif %}
 			{% endif %}
-			{% if box_type == 'ADN' %}
+			{% if store_type == 'ADN' %}
 				{% if is_granted('ROLE_COLLABORATION') %}
 					<a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-light border btn-sm" role="button">
 						{{'button.Import adn range'|trans}}
@@ -115,10 +115,10 @@
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th data-column-id="boite.id" data-type="numeric" data-visible="false">
+					<th data-column-id="store.id" data-type="numeric" data-visible="false">
 						Id
 					</th>
-					<th data-column-id="boite.codeBoite" data-sortable="true">
+					<th data-column-id="store.codeBoite" data-sortable="true">
 						{{'Code boite'|trans}}
 					</th>
 					<th
@@ -127,7 +127,7 @@
 						data-visible="true">
 						{{'Code collection voc fk'|trans}}
 					</th>
-					<th data-column-id="boite.libelleBoite" data-sortable="true">
+					<th data-column-id="store.libelleBoite" data-sortable="true">
 						{{'Libelle boite'|trans}}
 					</th>
 					<th
@@ -136,16 +136,16 @@
 						data-visible="false">
 						{{'Libelle collection'|trans}}
 					</th>
-					<th data-column-id="boite.dateMaj" data-width="100">
+					<th data-column-id="store.dateMaj" data-width="100">
 						{{'list.Date maj'|trans}}
 					</th>
-					<th data-column-id="boite.dateCre" data-width="100" data-visible="false">
+					<th data-column-id="store.dateCre" data-width="100" data-visible="false">
 						{{'list.Date cre'|trans}}
 					</th>
-					<th data-column-id="boite.userCre" data-width="10" data-visible="false">
+					<th data-column-id="store.userCre" data-width="10" data-visible="false">
 						{{'list.User cre'|trans}}
 					</th>
-					<th data-column-id="boite.userMaj" data-width="10" data-visible="false">
+					<th data-column-id="store.userMaj" data-width="10" data-visible="false">
 						{{'list.User maj'|trans}}
 					</th>
 					<th

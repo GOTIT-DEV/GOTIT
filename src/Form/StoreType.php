@@ -13,13 +13,13 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BoiteType extends ActionFormType {
+class StoreType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
-    $boxType = $builder->getData()->getTypeBoiteVocFk();
+    $storeType = $builder->getData()->getTypeBoiteVocFk();
 
     $builder
     # Is not auto-generated : editable in create mode
@@ -40,11 +40,11 @@ class BoiteType extends ActionFormType {
         'voc_parent' => 'typeBoite',
         'placeholder' => 'Choose a typeBoite',
         'choice_label' => 'code',
-        'disabled' => ($boxType != null),
+        'disabled' => ($storeType != null),
       ));
 
-    if ($boxType != null and $options["action_type"] != Action::create()) {
-      switch ($boxType->getCode()) {
+    if ($storeType != null and $options["action_type"] != Action::create()) {
+      switch ($storeType->getCode()) {
       case 'LOT':
         $builder->add('internalLots', CollectionType::class, array(
           'entry_type' => InternalLotEmbedType::class,
@@ -87,7 +87,7 @@ class BoiteType extends ActionFormType {
         ));
         break;
       default:
-        throw new InvalidArgumentException("Unknown box type : " . $boxType->getCode());
+        throw new InvalidArgumentException("Unknown store type : " . $storeType->getCode());
         break;
       }
     }
@@ -100,7 +100,7 @@ class BoiteType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Boite',
+      'data_class' => 'App\Entity\Store',
     ));
   }
 
@@ -108,6 +108,6 @@ class BoiteType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'boite';
+    return 'store';
   }
 }

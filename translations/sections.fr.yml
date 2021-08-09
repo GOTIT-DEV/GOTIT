@@ -13,10 +13,10 @@ core:
   external_sequence: Séquences externes
   motu_dataset: Jeu de données MOTU
   Stock: Stock
-  boiteLOT: Boite lot matériel
-  boiteLAME: Boite lame
-  boiteADN: Boite ADN
-  boite: Boite
+  storeLOT: Stock lot matériel
+  storeLAME: Stock lame
+  storeADN: Stock ADN
+  store: Stock
   Analyses génétiques: Analyse moléculaire
   adn: ADN
   pcr: PCR
