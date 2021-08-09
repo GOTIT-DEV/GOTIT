@@ -35,14 +35,14 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   private $numMotu;
 
   /**
-   * @var \SequenceAssembleeExt
+   * @var \ExternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt")
+   * @ORM\ManyToOne(targetEntity="ExternalSequence")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
    * })
    */
-  private $sequenceAssembleeExtFk;
+  private $externalSequenceFk;
 
   /**
    * @var \Voc
@@ -106,25 +106,25 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeExtFk
+   * Set externalSequenceFk
    *
-   * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
+   * @param \App\Entity\ExternalSequence $externalSequenceFk
    *
    * @return MotuDelimitation
    */
-  public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
-    $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
+  public function setExternalSequenceFk(\App\Entity\ExternalSequence $externalSequenceFk = null) {
+    $this->externalSequenceFk = $externalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeExtFk
+   * Get externalSequenceFk
    *
-   * @return \App\Entity\SequenceAssembleeExt
+   * @return \App\Entity\ExternalSequence
    */
-  public function getSequenceAssembleeExtFk() {
-    return $this->sequenceAssembleeExtFk;
+  public function getExternalSequenceFk() {
+    return $this->externalSequenceFk;
   }
 
   /**

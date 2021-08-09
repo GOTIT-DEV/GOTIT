@@ -10,7 +10,7 @@ core:
   external_lot: Lot matériel externe
   Etude séquençage: Séquences ADN
   sequenceassemblee: Séquences internes
-  sequenceassembleeext: Séquences externes
+  external_sequence: Séquences externes
   motu: MOTU
   Stock: Stock
   boiteLOT: Boite lot matériel

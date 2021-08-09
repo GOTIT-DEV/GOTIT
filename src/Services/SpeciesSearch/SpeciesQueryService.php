@@ -106,13 +106,12 @@ class SpeciesQueryService {
   }
 
   private function joinMotuCountMorpho($query, $alias = 'ass') {
-    return $query->leftJoin('App:SequenceAssembleeExt', 'motu_sext', 'WITH', "motu_sext.id=$alias.sequenceAssembleExtFk")
-      ->leftJoin('App:InternalSequenceAssembly', 'motu_at', 'WITH', "motu_at.sequenceAssembleeFk = $alias.sequenceAssembleeFk")
+    return $query->leftJoin('App:ExternalSequence', 'motu_sext', 'WITH', "motu_sext.id=$alias.externalSequenceFk")
       ->leftJoin('App:Chromatogramme', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogrammeFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
       ->leftJoin('App:Dna', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
       ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.specimenFk")
-      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimenFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
+      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimenFk = motu_ind.id OR motu_eid.externalSequenceFk=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodeMotuVocFk")
       ->join('App:Motu', 'motu_date', 'WITH', "motu_date.id = $alias.motuFk");
   }
@@ -148,8 +147,8 @@ class SpeciesQueryService {
 
     case 3: # sequence
       $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequenceFk')
+        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
         ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
       break;
     }
@@ -218,11 +217,11 @@ class SpeciesQueryService {
 
     case 3: # Sequence
       $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
+        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequenceFk')
         ->leftJoin('App:InternalSequenceAssembly', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
         ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
         ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
         ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
       break;

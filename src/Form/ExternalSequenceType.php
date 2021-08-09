@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SequenceAssembleeExtType extends ActionFormType {
+class ExternalSequenceType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -109,7 +109,7 @@ class SequenceAssembleeExtType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\SequenceAssembleeExt',
+      'data_class' => 'App\Entity\ExternalSequence',
       'refTaxonLabel' => 'taxname',
     ));
   }
@@ -118,6 +118,6 @@ class SequenceAssembleeExtType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'sequenceassembleeext';
+    return 'external_sequence';
   }
 }

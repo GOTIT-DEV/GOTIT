@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilessequenceassembleeext")
+ * @Route("import_files_external_sequence")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesSequenceAssembleeExtController extends AbstractController {
+class ImportFilesExternalSequenceController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilessequenceassembleeext_index")
+   * @Route("/", name="import_files_external_sequence_index")
    *
    */
   public function indexAction(
@@ -99,7 +99,7 @@ class ImportFilesSequenceAssembleeExtController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'external_sequence':
-          $message .= $importFileE3sService->importCSVDataSequenceAssembleeExt($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataExternalSequence($fichier, $user->getId());
           break;
         case 'source':
           $message .= $importFileE3sService->importCSVDataSource($fichier, $user->getId());

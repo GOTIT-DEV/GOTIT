@@ -123,9 +123,9 @@ class CollecteController extends AbstractController {
       $linkExternalLotFk = (count($query) > 0) ? $id : '';
       // search for external sequence associated with a sampling
       $query = $em->createQuery(
-        'SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id
+        'SELECT sqcext.id FROM App:ExternalSequence sqcext WHERE sqcext.collecteFk = ' . $id
       )->getResult();
-      $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
+      $linkExternalSequenceFk = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
       $query = $em->createQuery(
         'SELECT rt.taxname as taxname FROM App:TaxonSampling ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
@@ -153,7 +153,7 @@ class CollecteController extends AbstractController {
         "collecte.userMaj" => $service->GetUserMajUserfullname($entity),
         "linkInternalLot" => $linkInternalLotFk,
         "linkExternalLot" => $linkExternalLotFk,
-        "linkSequenceassembleeext" => $linkSequenceassembleeextFk,
+        "linkExternalSequence" => $linkExternalSequenceFk,
         "listeTaxonsCibler" => $listeTaxonsCibler,
       );
     }

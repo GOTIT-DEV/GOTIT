@@ -59,8 +59,8 @@ twig:
         children:
           - route: sequenceassemblee_index
             text: core.sequenceassemblee
-          - route: sequenceassembleeext_index
-            text: core.sequenceassembleeext
+          - route: external_sequence_index
+            text: core.external_sequence
           - route: motu_index
             text: core.motu
       - route: ~

@@ -69,7 +69,7 @@ list.linkSlide: Lame
 list.linkPcr: PCR(s)
 list.linkInternalLot: Lot
 list.linkExternalLot: Lot Ext
-list.linkSequenceassembleeext: Sqc Ext
+list.linkExternalSequence: Sqc Ext
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/St
 list.linkChromatogramme: Chrom(s)
@@ -134,7 +134,7 @@ button.Back to pcr: Retour à la PCR
 button.Back to chromatogramme: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
 button.Back to sequenceassemblee: Retour à la Séquence interne
-button.Back to sequenceassembleeext: Retour à la Séquence externe
+button.Back to external_sequence: Retour à la Séquence externe
 button.Back to motu: Retour au MOTU
 button.Back to boite: Retour à la Boite
 button.Back to source: Retour à la Source
@@ -150,7 +150,7 @@ button.Back to the list of pcr: Retour à la liste des PCR
 button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
 button.Back to the list of pcrchromato: Retour à la liste des PCR
 button.Back to the list of sequenceassemblee: Retour à la liste des Séquences internes
-button.Back to the list of sequenceassembleeext: Retour à la liste des Séquences externes
+button.Back to the list of external_sequence: Retour à la liste des Séquences externes
 button.Back to the list of motu: Retour à la liste des MOTU
 button.Back to the list of boite: Retour à la liste des Boites
 button.Back to the list of source: Retour à la liste des Sources
@@ -187,8 +187,8 @@ button.NewProgramme: Créer un programme
 button.NewPays: Créer un Pays
 button.NewMotu: Créer un MOTU
 button.ImportMotu: Importer des MOTUs
-button.NewSequenceassembleeext: Créer une séquence externe assemblée
-button.ImportSequenceassembleeext: Importer des séquences externes assemblées
+button.NewExternalSequence: Créer une séquence externe assemblée
+button.ImportExternalSequence: Importer des séquences externes assemblées
 button.NewSequenceassemblee: Créer une séquence assemblée
 button.ImportSequenceassemblee: Importer des séquences assemblées
 button.NewCommune: Créer une nouvelle commune
@@ -263,7 +263,7 @@ import.pcr: Importer fichier(s) PCR
 import.chromatogramme: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
 import.sequenceassemblee: Importer fichier(s) séquence
-import.sequenceassembleeext: Importer fichier(s) séquence externe
+import.external_sequence: Importer fichier(s) séquence externe
 import.motu: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
 import.boite.internal_lot_deplace: Déplacer/supprimer des lots matériels
@@ -324,7 +324,7 @@ Dashboard.nbMotuSqcAssExt: Séquence Externe vers MOTU
 Dashboard.nbTaxon: Taxon
 Dashboard.Données de la litérature: Données de la litérature
 Dashboard.ExternalLot: Lot
-Dashboard.nbSequenceAssembleeExt: Séquence ADN
+Dashboard.externalSeqCount: Séquence ADN
 Dashboard.nbSource: Références
 Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Matériel biologique
@@ -505,7 +505,7 @@ Rank: Rang
 Referentiel taxon fk: Referentiel taxon
 Remarque pcr: Remarque PCR
 Sampling method voc fk: Méthode echantillonnage
-Sequence assemblee ext fk: Séquence externe assemblée
+External sequence fk: Séquence externe assemblée
 Sequence assemblee fk: Séquence assemblée
 Source fk: Source
 Species: Espèce

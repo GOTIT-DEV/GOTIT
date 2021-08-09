@@ -39,7 +39,7 @@
               :href="
                 generateRoute(
                   data.item.seq_type
-                    ? 'sequenceassembleeext_show'
+                    ? 'external_sequence_show'
                     : 'sequenceassemblee_show',
                   {
                     id: data.item.id,

@@ -253,7 +253,7 @@ class ImportFileCsv {
       'external_sequence_code' => 'code_sqc_ass_ext',
       'external_sequence_comments' => 'commentaire_sqc_ass_ext',
       'external_sequence_creation_date' => 'date_creation_sqc_ass_ext',
-      'external_sequence_fk' => 'sequence_assemblee_ext_fk',
+      'external_sequence_fk' => 'external_sequence_fk',
       'external_sequence_origin_voc_fk' => 'origine_sqc_ass_ext_voc_fk',
       'external_sequence_primary_taxon' => 'taxon_origine_sqc_ass_ext',
       'external_sequence_specimen_number' => 'specimen_molecular_number',

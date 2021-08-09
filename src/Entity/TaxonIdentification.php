@@ -78,14 +78,14 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $datePrecisionVocFk;
 
   /**
-   * @var \SequenceAssembleeExt
+   * @var \ExternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="taxonIdentifications")
+   * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
    */
-  private $sequenceAssembleeExtFk;
+  private $externalSequenceFk;
 
   /**
    * @var \ExternalLot
@@ -245,25 +245,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeExtFk
+   * Set externalSequenceFk
    *
-   * @param \App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk
+   * @param \App\Entity\ExternalSequence $externalSequenceFk
    *
    * @return TaxonIdentification
    */
-  public function setSequenceAssembleeExtFk(\App\Entity\SequenceAssembleeExt $sequenceAssembleeExtFk = null) {
-    $this->sequenceAssembleeExtFk = $sequenceAssembleeExtFk;
+  public function setExternalSequenceFk(\App\Entity\ExternalSequence $externalSequenceFk = null) {
+    $this->externalSequenceFk = $externalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeExtFk
+   * Get externalSequenceFk
    *
-   * @return \App\Entity\SequenceAssembleeExt
+   * @return \App\Entity\ExternalSequence
    */
-  public function getSequenceAssembleeExtFk() {
-    return $this->sequenceAssembleeExtFk;
+  public function getExternalSequenceFk() {
+    return $this->externalSequenceFk;
   }
 
   /**

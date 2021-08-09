@@ -11,7 +11,7 @@
           :href="
             generateRoute(
               data.item.seq_type
-                ? 'sequenceassembleeext_show'
+                ? 'external_sequence_show'
                 : 'sequenceassemblee_show',
               {
                 id: data.item.id,
@@ -80,5 +80,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

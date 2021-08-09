@@ -42,7 +42,7 @@ chromatogramme_index: |
   Use this page to browse, create, import, export, show, edit and delete chromatograms. Deleting a chromatogram may not be possible until all data related to a chromatogram have been deleted. Additional fields can be listed using the top right button. To access the internal sequences made from a chromatogram, click the "Seq(s)" button (option: menu). Also, use the same button (option +) to create an internal sequence from a chromatogram. The search button applies to the field "Chromatogram code".
 sequenceassemblee_index: |
   Use this page to browse, create, import, export, show, edit and delete internal sequences. Additional fields can be listed using the top right button. Deleting an internal sequence may not be possible until all data related to an internal sequence have been deleted. The search button applies to the field "Sequence code".
-sequenceassembleeext_index: |
+external_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete external sequences. Deleting an external sequence may not be possible until all data related to an external sequence have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "External sequence code".
 motu_index: |
   Use this page to browse, create, import, export, show, edit and delete data and metadata related to molecular operational units (MOTU). WARNING: confirming deletion would not only delete metadata but also all the MOTU data imported under a particular data set. Additional fields can be listed using the top right button. The search button applies to the field "MOTU title ".
@@ -91,7 +91,7 @@ chromatogramme_new: |
   Use this form to fill in data of a new chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 sequenceassemblee_new: |
   Use this form to fill in data of a new internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
-sequenceassembleeext_new: |
+external_sequence_new: |
   Use this form to fill in data of a new external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
 motu_new: |
   Use this form to fill in metadata for a new set of MOTUs to be imported. See appendix 8.3.2 in GOTIT HELP for content of fields.
@@ -140,7 +140,7 @@ chromatogramme_show: |
   Use this form to consult data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 sequenceassemblee_show: |
   Use this form to consult data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
-sequenceassembleeext_show: |
+external_sequence_show: |
   Use this form to consult data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
 motu_show: |
   Use this form to consult metadata for a set of MOTUs. See appendix 8.3.2 in GOTIT HELP for content of fields.
@@ -189,7 +189,7 @@ chromatogramme_edit: |
   Use this form to edit data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 sequenceassemblee_edit: |
   Use this form to edit data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
-sequenceassembleeext_edit: |
+external_sequence_edit: |
   Use this form to edit data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
 motu_edit: |
   Use this form to edit metadata for a set of MOTUs. See appendix 8.3.2 in GOTIT HELP for content of fields.
@@ -244,7 +244,7 @@ importfilessequenceassemblee_index: |
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template “internal_sequence” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilessequenceassembleeext_index: |
+import_files_external_sequence_index: |
   Use this form to upload data from multiple external sequences and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template file “external_sequence” to follow appropriate data format.

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\SequenceAssembleeExt;
+use App\Entity\ExternalSequence;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -13,27 +13,27 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Sequenceassembleeext controller.
+ * ExternalSequence controller.
  *
- * @Route("sequenceassembleeext")
+ * @Route("external_sequence")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeExtController extends AbstractController {
+class ExternalSequenceController extends AbstractController {
   /**
-   * Lists all sequenceAssembleeExt entities.
+   * Lists all external sequence entities.
    *
-   * @Route("/", name="sequenceassembleeext_index", methods={"GET"})
+   * @Route("/", name="external_sequence_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')
+    $sequences = $em->getRepository('App:ExternalSequence')
       ->findAll();
 
     return $this->render(
-      'Core/sequenceassembleeext/index.html.twig',
-      ['sequenceAssembleeExts' => $sequenceAssembleeExts]
+      'Core/external_sequence/index.html.twig',
+      ['externalSequences' => $sequences]
     );
   }
 
@@ -43,7 +43,7 @@ class SequenceAssembleeExtController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="sequenceassembleeext_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="external_sequence_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
     // load Doctrine Manager
@@ -180,22 +180,22 @@ class SequenceAssembleeExtController extends AbstractController {
   }
 
   /**
-   * Creates a new sequenceAssembleeExt entity.
+   * Creates a new external sequence entity.
    *
-   * @Route("/new", name="sequenceassembleeext_new", methods={"GET", "POST"})
+   * @Route("/new", name="external_sequence_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $sequenceAssembleeExt = new Sequenceassembleeext();
+    $sequence = new ExternalSequence();
     $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
-      $sequenceAssembleeExt->setCollecteFk($sampling);
+      $sequence->setCollecteFk($sampling);
     }
     $form = $this->createForm(
-      'App\Form\SequenceAssembleeExtType',
-      $sequenceAssembleeExt,
+      'App\Form\ExternalSequenceType',
+      $sequence,
       [
         'refTaxonLabel' => 'codeTaxon',
         'action_type' => Action::create(),
@@ -205,7 +205,7 @@ class SequenceAssembleeExtController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($sequenceAssembleeExt);
+      $em->persist($sequence);
 
       try {
         $em->flush();
@@ -216,54 +216,54 @@ class SequenceAssembleeExtController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassembleeext/index.html.twig',
+          'Core/external_sequence/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('sequenceassembleeext_edit', [
-        'id' => $sequenceAssembleeExt->getId(),
+      return $this->redirectToRoute('external_sequence_edit', [
+        'id' => $sequence->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ]);
     }
 
-    return $this->render('Core/sequenceassembleeext/edit.html.twig', [
-      'sequenceAssembleeExt' => $sequenceAssembleeExt,
+    return $this->render('Core/external_sequence/edit.html.twig', [
+      'externalSequence' => $sequence,
       'edit_form' => $form->createView(),
     ]);
   }
 
   /**
-   * Finds and displays a sequenceAssembleeExt entity.
+   * Finds and displays a external sequence entity.
    *
-   * @Route("/{id}", name="sequenceassembleeext_show", methods={"GET"})
+   * @Route("/{id}", name="external_sequence_show", methods={"GET"})
    */
-  public function showAction(SequenceAssembleeExt $sequenceAssembleeExt) {
-    $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
+  public function showAction(ExternalSequence $sequence) {
+    $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
-      'App\Form\SequenceAssembleeExtType',
-      $sequenceAssembleeExt,
+      'App\Form\ExternalSequenceType',
+      $sequence,
       ['action_type' => Action::show()]
     );
 
-    return $this->render('Core/sequenceassembleeext/edit.html.twig', [
-      'sequenceAssembleeExt' => $sequenceAssembleeExt,
+    return $this->render('Core/external_sequence/edit.html.twig', [
+      'externalSequence' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ]);
   }
 
   /**
-   * Displays a form to edit an existing sequenceAssembleeExt entity.
+   * Displays a form to edit an existing external sequence entity.
    *
-   * @Route("/{id}/edit", name="sequenceassembleeext_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="external_sequence_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
+  public function editAction(Request $request, ExternalSequence $sequence, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $sequenceAssembleeExt->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $sequence->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load service  generic_function_e3s
@@ -275,21 +275,21 @@ class SequenceAssembleeExtController extends AbstractController {
     $taxonIdentifications = $service->setArrayCollectionEmbed(
       'TaxonIdentifications',
       'PersonSpeciesIds',
-      $sequenceAssembleeExt
+      $sequence
     );
     $externalSequencePublications = $service->setArrayCollection(
       'ExternalSequencePublications',
-      $sequenceAssembleeExt
+      $sequence
     );
     $assemblers = $service->setArrayCollection(
       'Assemblers',
-      $sequenceAssembleeExt
+      $sequence
     );
 
-    $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
+    $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
-      'App\Form\SequenceAssembleeExtType',
-      $sequenceAssembleeExt,
+      'App\Form\ExternalSequenceType',
+      $sequence,
       ['action_type' => Action::edit()]
     );
     $editForm->handleRequest($request);
@@ -299,22 +299,22 @@ class SequenceAssembleeExtController extends AbstractController {
       $service->DelArrayCollectionEmbed(
         'TaxonIdentifications',
         'PersonSpeciesIds',
-        $sequenceAssembleeExt,
+        $sequence,
         $taxonIdentifications
       );
       $service->DelArrayCollection(
         'ExternalSequencePublications',
-        $sequenceAssembleeExt,
+        $sequence,
         $externalSequencePublications
       );
       $service->DelArrayCollection(
         'Assemblers',
-        $sequenceAssembleeExt,
+        $sequence,
         $assemblers
       );
 
       $em = $this->getDoctrine()->getManager();
-      $em->persist($sequenceAssembleeExt);
+      $em->persist($sequence);
 
       try {
         $em->flush();
@@ -323,72 +323,72 @@ class SequenceAssembleeExtController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassembleeext/index.html.twig',
+          'Core/external_sequence/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       $editForm = $this->createForm(
-        'App\Form\SequenceAssembleeExtType',
-        $sequenceAssembleeExt,
+        'App\Form\ExternalSequenceType',
+        $sequence,
         ['action_type' => Action::edit()]
       );
 
-      return $this->render('Core/sequenceassembleeext/edit.html.twig', array(
-        'sequenceAssembleeExt' => $sequenceAssembleeExt,
+      return $this->render('Core/external_sequence/edit.html.twig', array(
+        'externalSequence' => $sequence,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/sequenceassembleeext/edit.html.twig', array(
-      'sequenceAssembleeExt' => $sequenceAssembleeExt,
+    return $this->render('Core/external_sequence/edit.html.twig', array(
+      'externalSequence' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a sequenceAssembleeExt entity.
+   * Deletes a external sequence entity.
    *
-   * @Route("/{id}", name="sequenceassembleeext_delete", methods={"DELETE"})
+   * @Route("/{id}", name="external_sequence_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt) {
-    $form = $this->createDeleteForm($sequenceAssembleeExt);
+  public function deleteAction(Request $request, ExternalSequence $sequence) {
+    $form = $this->createDeleteForm($sequence);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($sequenceAssembleeExt);
+        $em->remove($sequence);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassembleeext/index.html.twig',
+          'Core/external_sequence/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('sequenceassembleeext_index');
+    return $this->redirectToRoute('external_sequence_index');
   }
 
   /**
-   * Creates a form to delete a sequenceAssembleeExt entity.
+   * Creates a form to delete a external sequence entity.
    *
-   * @param SequenceAssembleeExt $sequenceAssembleeExt The sequenceAssembleeExt entity
+   * @param ExternalSequence $sequence The external sequence entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(SequenceAssembleeExt $sequenceAssembleeExt) {
+  private function createDeleteForm(ExternalSequence $sequence) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('sequenceassembleeext_delete', array('id' => $sequenceAssembleeExt->getId())))
+      ->setAction($this->generateUrl('external_sequence_delete', array('id' => $sequence->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }
@@ -396,17 +396,17 @@ class SequenceAssembleeExtController extends AbstractController {
   /**
    * Creates a createCodeSqcAssExt
    *
-   * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
+   * @param ExternalSequence $sequenceAssemblee The sequenceAssemblee entity
    *
    */
-  private function createCodeSqcAssExt(SequenceAssembleeExt $sequenceAssembleeExt) {
+  private function createCodeSqcAssExt(ExternalSequence $sequence) {
     $codeSqc = '';
     $em = $this->getDoctrine()->getManager();
-    $TaxonIdentifications = $sequenceAssembleeExt->getTaxonIdentifications();
+    $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
     if ($nbTaxonIdentifications > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
-      $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
@@ -417,10 +417,10 @@ class SequenceAssembleeExtController extends AbstractController {
       $firstTaxname = current($arrayReferentielTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
-      $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numSpecimenSqcAssExt = $sequenceAssembleeExt->getNumSpecimenSqcAssExt();
-      $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
+      $codeCollecte = $sequence->getCollecteFk()->getCodeCollecte();
+      $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
+      $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
+      $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();
       $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numSpecimenSqcAssExt .
         '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
     } else {
@@ -432,17 +432,17 @@ class SequenceAssembleeExtController extends AbstractController {
   /**
    * Creates a createCodeSqcAssExtAlignement
    *
-   * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
+   * @param ExternalSequence $sequenceAssemblee The sequenceAssemblee entity
    *
    */
-  private function createCodeSqcAssExtAlignement(SequenceAssembleeExt $sequenceAssembleeExt) {
+  private function createCodeSqcAssExtAlignement(ExternalSequence $sequence) {
     $codeSqcAlignement = '';
     $em = $this->getDoctrine()->getManager();
-    $TaxonIdentifications = $sequenceAssembleeExt->getTaxonIdentifications();
+    $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
     if ($nbTaxonIdentifications > 0) {
       // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
-      $codeStatutSqcAss = $sequenceAssembleeExt->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
       $arrayReferentielTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
@@ -454,10 +454,10 @@ class SequenceAssembleeExtController extends AbstractController {
       $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
-      $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
-      $numSpecimenSqcAssExt = $sequenceAssembleeExt->getNumSpecimenSqcAssExt();
-      $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt = $sequenceAssembleeExt->getOrigineSqcAssExtVocFk()->getCode();
+      $codeCollecte = $sequence->getCollecteFk()->getCodeCollecte();
+      $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
+      $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
+      $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();
       $codeSqcAlignement = $codeSqcAlignement . '_' .
         $codeCollecte . '_' .
         $numSpecimenSqcAssExt . '_' .

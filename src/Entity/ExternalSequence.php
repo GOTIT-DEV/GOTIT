@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * SequenceAssembleeExt
+ * ExternalSequence
  *
  * @ORM\Table(name="external_sequence",
  *  uniqueConstraints={
@@ -24,7 +24,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeSqcAssExtAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeExt extends AbstractTimestampedEntity {
+class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -135,19 +135,19 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
   private $statutSqcAssVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="ExternalSequenceAssembler", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalSequenceAssembler", mappedBy="externalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblers;
 
   /**
-   * @ORM\OneToMany(targetEntity="ExternalSequencePublication", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="ExternalSequencePublication", mappedBy="externalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $externalSequencePublications;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
@@ -172,7 +172,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $codeSqcAssExt
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setCodeSqcAssExt($codeSqcAssExt) {
     $this->codeSqcAssExt = $codeSqcAssExt;
@@ -194,7 +194,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateCreationSqcAssExt
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setDateCreationSqcAssExt($dateCreationSqcAssExt) {
     $this->dateCreationSqcAssExt = $dateCreationSqcAssExt;
@@ -216,7 +216,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $accessionNumberSqcAssExt
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setAccessionNumberSqcAssExt($accessionNumberSqcAssExt) {
     $this->accessionNumberSqcAssExt = $accessionNumberSqcAssExt;
@@ -238,7 +238,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $codeSqcAssExtAlignement
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setCodeSqcAssExtAlignement($codeSqcAssExtAlignement) {
     $this->codeSqcAssExtAlignement = $codeSqcAssExtAlignement;
@@ -260,7 +260,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $specimenMolecularNumber
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setSpecimenMolecularNumber($specimenMolecularNumber) {
     $this->specimenMolecularNumber = $specimenMolecularNumber;
@@ -282,7 +282,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $taxonOrigineSqcAssExt
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setTaxonOrigineSqcAssExt($taxonOrigineSqcAssExt) {
     $this->taxonOrigineSqcAssExt = $taxonOrigineSqcAssExt;
@@ -304,7 +304,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param string $commentaireSqcAssExt
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setCommentaireSqcAssExt($commentaireSqcAssExt) {
     $this->commentaireSqcAssExt = $commentaireSqcAssExt;
@@ -326,7 +326,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $geneVocFk
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setGeneVocFk(\App\Entity\Voc $geneVocFk = null) {
     $this->geneVocFk = $geneVocFk;
@@ -348,7 +348,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -370,7 +370,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $origineSqcAssExtVocFk
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setOrigineSqcAssExtVocFk(\App\Entity\Voc $origineSqcAssExtVocFk = null) {
     $this->origineSqcAssExtVocFk = $origineSqcAssExtVocFk;
@@ -392,7 +392,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Collecte $collecteFk
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setCollecteFk(\App\Entity\Collecte $collecteFk = null) {
     $this->collecteFk = $collecteFk;
@@ -414,7 +414,7 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $statutSqcAssVocFk
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null) {
     $this->statutSqcAssVocFk = $statutSqcAssVocFk;
@@ -436,10 +436,10 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\ExternalSequenceAssembler $assembler
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function addAssembler(\App\Entity\ExternalSequenceAssembler $assembler) {
-    $assembler->setSequenceAssembleeExtFk($this);
+    $assembler->setExternalSequenceFk($this);
     $this->assemblers[] = $assembler;
 
     return $this;
@@ -468,10 +468,10 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\ExternalSequencePublication $externalSequencePublication
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function addExternalSequencePublication(\App\Entity\ExternalSequencePublication $externalSequencePublication) {
-    $externalSequencePublication->setSequenceAssembleeExtFk($this);
+    $externalSequencePublication->setExternalSequenceFk($this);
     $this->externalSequencePublications[] = $externalSequencePublication;
 
     return $this;
@@ -500,10 +500,10 @@ class SequenceAssembleeExt extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
-   * @return SequenceAssembleeExt
+   * @return ExternalSequence
    */
   public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setSequenceAssembleeExtFk($this);
+    $taxonIdentification->setExternalSequenceFk($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;

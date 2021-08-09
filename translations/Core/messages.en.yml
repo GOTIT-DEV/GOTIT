@@ -235,7 +235,7 @@ list.linkSlide: Slide
 list.linkPcr: PCR
 list.linkInternalLot: Lot
 list.linkExternalLot: LotExt
-list.linkSequenceassembleeext: SqcExt
+list.linkExternalSequence: SqcExt
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
@@ -300,7 +300,7 @@ button.Back to pcr: Back to PCR
 button.Back to chromatogramme: Back to Chromatogram
 button.Back to pcrchromato: Back to PCR
 button.Back to sequenceassemblee: Back to Internal sequence
-button.Back to sequenceassembleeext: Back to External sequence
+button.Back to external_sequence: Back to External sequence
 button.Back to motu: Back to MOTU
 button.Back to boite: Back to Boxes
 button.Back to source: Back to Sources
@@ -316,7 +316,7 @@ button.Back to the list of pcr: Back to the list of PCR
 button.Back to the list of chromatogramme: Back to the list of Chromatogram
 button.Back to the list of pcrchromato: Back to the list of PCR
 button.Back to the list of sequenceassemblee: Back to the list of Internal sequence
-button.Back to the list of sequenceassembleeext: Back to the list of External sequence
+button.Back to the list of external_sequence: Back to the list of External sequence
 button.Back to the list of motu: Back to the list of MOTU
 button.Back to the list of boite: Back to the list of Boxes
 button.Back to the list of source: Back to the list of Sources
@@ -352,8 +352,8 @@ button.NewProgramme: Create new program
 button.NewPays: Create new country
 button.NewMotu: Create new set of MOTU
 button.ImportMotu: Import new set of MOTU and related data
-button.NewSequenceassembleeext: Create new external sequence
-button.ImportSequenceassembleeext: Import new set of external sequences and related data
+button.NewExternalSequence: Create new external sequence
+button.ImportExternalSequence: Import new set of external sequences and related data
 button.NewSequenceassemblee: Create new sequence
 button.ImportSequenceassemblee: Import new set of sequences and related data
 button.NewCommune: Create new municipality
@@ -427,7 +427,7 @@ import.pcr: Upload PCR
 import.chromatogramme: Upload chromatogram
 import.pcrchromato: Upload PCR and chromatogram
 import.sequenceassemblee: Upload internal sequence
-import.sequenceassembleeext: Upload external sequence
+import.external_sequence: Upload external sequence
 import.motu: Upload MOTU
 import.source: Upload source
 import.boite.internal_lot_deplace: Move or delete biological material as file
@@ -489,7 +489,7 @@ Dashboard.nbMotuSqcAssExt: External sequence assigned to  MOTU
 Dashboard.nbTaxon: Taxa
 Dashboard.Données de la litérature: Literature data
 Dashboard.ExternalLot: Lot
-Dashboard.nbSequenceAssembleeExt: DNA sequence
+Dashboard.externalSeqCount: DNA sequence
 Dashboard.nbSource: Reference
 Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Biological material
@@ -668,7 +668,7 @@ Rank: Taxon rank
 Referentiel taxon fk: Taxa
 Remarque pcr: PCR comments
 Sampling method voc fk: Sampling method
-Sequence assemblee ext fk: External sequence
+External sequence fk: External sequence
 Sequence assemblee fk: Inernal Sequence
 Source fk: Source
 Species: Species

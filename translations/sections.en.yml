@@ -10,7 +10,7 @@ core:
   external_lot: External biological material
   Etude séquençage: DNA Sequences
   sequenceassemblee: Internal sequences
-  sequenceassembleeext: External sequences
+  external_sequence: External sequences
   motu: MOTU
   Stock: Storage
   boiteLOT: "Box : biological material"

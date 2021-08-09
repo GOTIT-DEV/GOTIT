@@ -1,21 +1,21 @@
 import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
-  const $form = $("form[name='sequenceassembleeext']");
-  const $sampling = $form.find("#sequenceassembleeext_collecteFk");
+  const $form = $("form[name='external_sequence']");
+  const $sampling = $form.find("#external_sequence_collecteFk");
 
   initSearchSelect($sampling, "collecte_search");
 
   const $taxon = $(
-    "#sequenceassembleeext_taxonIdentifications_0_referentielTaxonFk"
+    "#external_sequence_taxonIdentifications_0_referentielTaxonFk"
   );
-  const $specimen = $("#sequenceassembleeext_specimenMolecularNumber");
-  const $accession = $("#sequenceassembleeext_accessionNumberSqcAssExt");
-  const $origin = $("#sequenceassembleeext_origineSqcAssExtVocFk");
-  const $status = $("#sequenceassembleeext_statutSqcAssVocFk");
+  const $specimen = $("#external_sequence_specimenMolecularNumber");
+  const $accession = $("#external_sequence_accessionNumberSqcAssExt");
+  const $origin = $("#external_sequence_origineSqcAssExtVocFk");
+  const $status = $("#external_sequence_statutSqcAssVocFk");
 
-  const $assemblyCode = $("#sequenceassembleeext_codeSqcAssExt");
-  const $alignmentCode = $("#sequenceassembleeext_codeSqcAssExtAlignement");
+  const $assemblyCode = $("#external_sequence_codeSqcAssExt");
+  const $alignmentCode = $("#external_sequence_codeSqcAssExtAlignement");
 
   if ($form.data("action") == "new") {
     [$taxon, $specimen, $accession, $origin, $status, $sampling].forEach((el) =>
