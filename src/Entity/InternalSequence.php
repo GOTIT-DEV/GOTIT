@@ -65,7 +65,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_sequence_comments", type="text", nullable=true)
    */
-  private $commentaireSqcAss;
+  private $comment;
 
   /**
    * @var \Voc
@@ -216,25 +216,25 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireSqcAss
+   * Set comment
    *
-   * @param string $commentaireSqcAss
+   * @param string $comment
    *
    * @return InternalSequence
    */
-  public function setCommentaireSqcAss($commentaireSqcAss) {
-    $this->commentaireSqcAss = $commentaireSqcAss;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireSqcAss
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireSqcAss() {
-    return $this->commentaireSqcAss;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

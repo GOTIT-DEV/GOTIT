@@ -110,7 +110,7 @@ class Taxon extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="taxon_comments", type="text", nullable=true)
    */
-  private $commentaireRef;
+  private $comment;
 
   /**
    * @var string
@@ -356,25 +356,25 @@ class Taxon extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireRef
+   * Set comment
    *
-   * @param string $commentaireRef
+   * @param string $comment
    *
    * @return Taxon
    */
-  public function setCommentaireRef($commentaireRef) {
-    $this->commentaireRef = $commentaireRef;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireRef
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireRef() {
-    return $this->commentaireRef;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

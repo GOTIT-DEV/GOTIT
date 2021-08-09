@@ -29,7 +29,7 @@ class ProgramType extends ActionFormType {
           'max' => 3000,
         ],
       ])
-      ->add('commentaireProgramme');
+      ->add('comment');
 
     $this->upperCaseFields($builder, ['codeProgramme']);
   }

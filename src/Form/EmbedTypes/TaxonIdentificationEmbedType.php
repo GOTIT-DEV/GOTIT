@@ -48,7 +48,7 @@ class TaxonIdentificationEmbedType extends AbstractType {
         'label_attr' => array('class' => 'radio-inline'),
         'required' => true,
       ))
-      ->add('commentaireEspId')
+      ->add('comment')
       ->add('taxonCurators', CollectionType::class, array(
         'entry_type' => TaxonCuratorEmbedType::class,
         'allow_add' => true,

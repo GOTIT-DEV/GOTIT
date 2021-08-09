@@ -397,28 +397,9 @@ Code station: Code station
 Code taxon: Code taxon
 Code tube: Code tube
 Sampling fk: Collecte
-Commentaire: Commentaire
-Commentaire adn: Commentaire ADN
-Commentaire boite: Commentaire stock
-Commentaire chromato: Commentaire chromatogramme
-Commentaire collecte: Commentaire collecte
-Commentaire compo lot materiel: Commentaire composition lot matériel
 Sequencing advice: Conseil séquencage
-Commentaire esp id: Commentaire espèce identifiée
-Commentaire etablissement: Commentaire etablissement
-Commentaire ind: Commentaire individu
-Commentaire lame: Commentaire lame
-Commentaire lot materiel: Commentaire lot matériel
-Commentaire lot materiel ext: Commentaire lot matériel externe
-Commentaire motu: Commentaire MOTU
+Commentaire: Commentaire
 Specimen quantity comment: Commentaire nombre d'individus
-Commentaire personne: Commentaire personne
-Commentaire programme: Commentaire programme
-Commentaire ref: Commentaire taxon
-Commentaire source: Commentaire source
-Commentaire sqc ass: Commentaire séquence assemblée
-Commentaire sqc ass ext: Commentaire séquence externe assemblée
-Commentaire station: Commentaire station
 Municipality fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
 Conductivite micro sie cm: Conductivité (µS/cm)

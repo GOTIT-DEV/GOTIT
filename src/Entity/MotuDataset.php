@@ -55,7 +55,7 @@ class MotuDataset extends AbstractTimestampedEntity {
    * @Groups("motu_dataset")
    * @ORM\Column(name="motu_comments", type="text", nullable=true)
    */
-  private $commentaireMotu;
+  private $comment;
 
   /**
    * @ORM\OneToMany(targetEntity="MotuDelimiter", mappedBy="motuDatasetFk", cascade={"persist"})
@@ -121,25 +121,25 @@ class MotuDataset extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireMotu
+   * Set comment
    *
-   * @param string $commentaireMotu
+   * @param string $comment
    *
    * @return MotuDataset
    */
-  public function setCommentaireMotu($commentaireMotu) {
-    $this->commentaireMotu = $commentaireMotu;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireMotu
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireMotu() {
-    return $this->commentaireMotu;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

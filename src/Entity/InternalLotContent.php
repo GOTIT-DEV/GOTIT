@@ -37,7 +37,7 @@ class InternalLotContent extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_biological_material_composition_comments", type="text", nullable=true)
    */
-  private $commentaireCompoLotMateriel;
+  private $comment;
 
   /**
    * @var \Voc
@@ -91,25 +91,25 @@ class InternalLotContent extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireCompoLotMateriel
+   * Set comment
    *
-   * @param string $commentaireCompoLotMateriel
+   * @param string $comment
    *
    * @return InternalLotContent
    */
-  public function setCommentaireCompoLotMateriel($commentaireCompoLotMateriel) {
-    $this->commentaireCompoLotMateriel = $commentaireCompoLotMateriel;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireCompoLotMateriel
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireCompoLotMateriel() {
-    return $this->commentaireCompoLotMateriel;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

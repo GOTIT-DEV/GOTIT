@@ -49,7 +49,7 @@ class Store extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="box_comments", type="text", nullable=true)
    */
-  private $commentaireBoite;
+  private $comment;
 
   /**
    * @var \Voc
@@ -159,25 +159,25 @@ class Store extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireBoite
+   * Set comment
    *
-   * @param string $commentaireBoite
+   * @param string $comment
    *
    * @return Store
    */
-  public function setCommentaireBoite($commentaireBoite) {
-    $this->commentaireBoite = $commentaireBoite;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireBoite
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireBoite() {
-    return $this->commentaireBoite;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

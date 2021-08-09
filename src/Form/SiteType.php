@@ -93,7 +93,7 @@ class SiteType extends ActionFormType {
         "sort_by_id" => true,
       ))
       ->add('altitudeM')
-      ->add('commentaireStation');
+      ->add('comment');
 
     $this->upperCaseFields($builder, [
       'codeStation', 'nomStation',

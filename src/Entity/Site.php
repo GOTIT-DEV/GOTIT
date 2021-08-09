@@ -85,7 +85,7 @@ class Site extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="site_comments", type="text", nullable=true)
    */
-  private $commentaireStation;
+  private $comment;
 
   /**
    * @var \Municipality
@@ -301,25 +301,25 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireStation
+   * Set comment
    *
-   * @param string $commentaireStation
+   * @param string $comment
    *
    * @return Site
    */
-  public function setCommentaireStation($commentaireStation) {
-    $this->commentaireStation = $commentaireStation;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireStation
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireStation() {
-    return $this->commentaireStation;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

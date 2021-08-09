@@ -32,7 +32,7 @@ class PersonType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ])
-      ->add('commentairePersonne');
+      ->add('comment');
 
     $this->upperCaseFields($builder, [
       'nomPersonne', 'nomComplet', 'nomPersonneRef',

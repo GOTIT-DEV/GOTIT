@@ -78,7 +78,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="sampling_comments", type="text", nullable=true)
    */
-  private $commentaireCollecte;
+  private $comment;
 
   /**
    * @var \Voc
@@ -284,24 +284,24 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireCollecte
+   * Set comment
    *
-   * @param string $commentaireCollecte
+   * @param string $comment
    *
    * @return Sampling
    */
-  public function setCommentaireCollecte($commentaireCollecte) {
-    $this->commentaireCollecte = $commentaireCollecte;
+  public function setComment($comment) {
+    $this->comment = $comment;
     return $this;
   }
 
   /**
-   * Get commentaireCollecte
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireCollecte() {
-    return $this->commentaireCollecte;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

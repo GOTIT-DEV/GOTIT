@@ -12,7 +12,7 @@ class InstitutionType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('nomEtablissement')
-      ->add('commentaireEtablissement');
+      ->add('comment');
 
     $this->upperCaseFields($builder, ['nomEtablissement']);
   }

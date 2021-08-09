@@ -1,1 +1,1 @@
-source.code_source;source.annee_source;source.libelle_source;source.commentaire_source;source_provider.person_fk(person.nom_personne)
+source.code_source;source.annee_source;source.libelle_source;source.comment;source_provider.person_fk(person.nom_personne)

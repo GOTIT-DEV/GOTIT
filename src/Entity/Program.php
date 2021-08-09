@@ -72,7 +72,7 @@ class Program extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="program_comments", type="text", nullable=true)
    */
-  private $commentaireProgramme;
+  private $comment;
 
   /**
    * Get id
@@ -216,24 +216,24 @@ class Program extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireProgramme
+   * Set comment
    *
-   * @param string $commentaireProgramme
+   * @param string $comment
    *
    * @return Program
    */
-  public function setCommentaireProgramme($commentaireProgramme) {
-    $this->commentaireProgramme = $commentaireProgramme;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireProgramme
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireProgramme() {
-    return $this->commentaireProgramme;
+  public function getComment() {
+    return $this->comment;
   }
 }

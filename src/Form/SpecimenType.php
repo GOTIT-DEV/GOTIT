@@ -59,7 +59,7 @@ class SpecimenType extends ActionFormType {
     }
 
     $builder
-      ->add('commentaireInd')
+      ->add('comment')
       ->add('taxonIdentifications', CollectionType::class, array(
         'entry_type' => TaxonIdentificationEmbedType::class,
         'allow_add' => true,

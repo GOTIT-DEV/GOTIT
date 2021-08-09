@@ -116,7 +116,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    *
    * @ORM\Column(name="user_comments", type="text", nullable=true)
    */
-  private $commentaireUser;
+  private $comment;
 
   public function __construct() {
     $this->isActive = true;
@@ -279,25 +279,25 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   }
 
   /**
-   * Set commentaireUser
+   * Set comment
    *
-   * @param string $commentaireUser
+   * @param string $comment
    *
    * @return User
    */
-  public function setCommentaireUser($commentaireUser) {
-    $this->commentaireUser = $commentaireUser;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireUser
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireUser() {
-    return $this->commentaireUser;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

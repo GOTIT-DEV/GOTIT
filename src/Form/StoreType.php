@@ -27,7 +27,7 @@ class StoreType extends ActionFormType {
       'disabled' => $this->canEditAdminOnly($options),
     ])
       ->add('libelleBoite')
-      ->add('commentaireBoite')
+      ->add('comment')
       ->add('typeCollectionVocFk', BaseVocType::class, array(
         'voc_parent' => 'typeCollection',
         'placeholder' => 'Choose a typeCollection',

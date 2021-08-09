@@ -45,7 +45,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="identified_species_comments", type="text", nullable=true)
    */
-  private $commentaireEspId;
+  private $comment;
 
   /**
    * @var \Voc
@@ -179,25 +179,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireEspId
+   * Set comment
    *
-   * @param string $commentaireEspId
+   * @param string $comment
    *
    * @return TaxonIdentification
    */
-  public function setCommentaireEspId($commentaireEspId) {
-    $this->commentaireEspId = $commentaireEspId;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireEspId
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireEspId() {
-    return $this->commentaireEspId;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

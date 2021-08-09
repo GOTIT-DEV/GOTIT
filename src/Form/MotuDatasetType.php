@@ -18,7 +18,7 @@ class MotuDatasetType extends ActionFormType {
       ->add('nomFichierCsv')
       ->add('libelleMotu')
       ->add('dateMotu', DateFormattedType::class, ['required' => true])
-      ->add('commentaireMotu')
+      ->add('comment')
       ->add('motuDelimiters', CollectionType::class, array(
         'entry_type' => MotuDelimiterEmbedType::class,
         'allow_add' => true,

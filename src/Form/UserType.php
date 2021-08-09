@@ -45,7 +45,7 @@ class UserType extends ActionFormType {
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
       ))
-      ->add('commentaireUser');
+      ->add('comment');
   }
 
   /**

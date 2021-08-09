@@ -66,7 +66,7 @@ class Specimen extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="specimen_comments", type="text", nullable=true)
    */
-  private $commentaireInd;
+  private $comment;
 
   /**
    * @var \Voc
@@ -196,25 +196,25 @@ class Specimen extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireInd
+   * Set comment
    *
-   * @param string $commentaireInd
+   * @param string $comment
    *
    * @return Specimen
    */
-  public function setCommentaireInd($commentaireInd) {
-    $this->commentaireInd = $commentaireInd;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireInd
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireInd() {
-    return $this->commentaireInd;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

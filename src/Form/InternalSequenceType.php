@@ -37,7 +37,7 @@ class InternalSequenceType extends ActionFormType {
           'placeholder' => $this->translator->trans('Auto generated code'),
         ],
       ])
-      ->add('commentaireSqcAss')
+      ->add('comment')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAss', DateFormattedType::class)
       ->add('status', BaseVocType::class, [

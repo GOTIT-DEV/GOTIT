@@ -52,7 +52,7 @@ class Person extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="person_comments", type="text", nullable=true)
    */
-  private $commentairePersonne;
+  private $comment;
 
   /**
    * @var \Institution
@@ -140,25 +140,25 @@ class Person extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentairePersonne
+   * Set comment
    *
-   * @param string $commentairePersonne
+   * @param string $comment
    *
    * @return Person
    */
-  public function setCommentairePersonne($commentairePersonne) {
-    $this->commentairePersonne = $commentairePersonne;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentairePersonne
+   * Get comment
    *
    * @return string
    */
-  public function getCommentairePersonne() {
-    return $this->commentairePersonne;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

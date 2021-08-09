@@ -93,7 +93,7 @@ class MotuDatasetController extends AbstractController {
         "motu_dataset.libelleMotu" => $entity->getLibelleMotu(),
         "motu_dataset.nomFichierCsv" => $entity->getNomFichierCsv(),
         "listePerson" => $listePerson,
-        "motu_dataset.commentaireMotu" => $entity->getCommentaireMotu(),
+        "motu_dataset.comment" => $entity->getComment(),
         "motu_dataset.dateMotu" => $DateMotu,
         "motu_dataset.dateCre" => $DateCre, "motu_dataset.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

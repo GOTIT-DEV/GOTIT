@@ -1,1 +1,1 @@
-taxon.taxname;taxon.rank;taxon.subclass;taxon.ordre;taxon.family;taxon.genus;taxon.species;taxon.subspecies;taxon.commentaire_ref;taxon.validity;taxon.code_taxon;taxon.clade;taxon.taxname_ref;taxon.taxon_full_name
+taxon.taxname;taxon.rank;taxon.subclass;taxon.ordre;taxon.family;taxon.genus;taxon.species;taxon.subspecies;taxon.comment;taxon.validity;taxon.code_taxon;taxon.clade;taxon.taxname_ref;taxon.taxon_full_name

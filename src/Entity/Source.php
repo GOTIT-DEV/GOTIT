@@ -52,7 +52,7 @@ class Source extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="source_comments", type="text", nullable=true)
    */
-  private $commentaireSource;
+  private $comment;
 
   /**
    * @ORM\OneToMany(targetEntity="SourceProvider", mappedBy="sourceFk", cascade={"persist"})
@@ -140,25 +140,25 @@ class Source extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireSource
+   * Set comment
    *
-   * @param string $commentaireSource
+   * @param string $comment
    *
    * @return Source
    */
-  public function setCommentaireSource($commentaireSource) {
-    $this->commentaireSource = $commentaireSource;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireSource
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireSource() {
-    return $this->commentaireSource;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

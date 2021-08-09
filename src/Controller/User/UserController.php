@@ -110,7 +110,7 @@ class UserController extends AbstractController {
         "user.role" => $entity->getRole(),
         "user.name" => $entity->getName(),
         "user.institution" => $entity->getInstitution(),
-        "user.commentaireUser" => $entity->getCommentaireUser(),
+        "user.comment" => $entity->getComment(),
         "user.dateCre" => $DateCre,
         "user.dateMaj" => $DateMaj,
       );

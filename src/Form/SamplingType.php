@@ -126,7 +126,7 @@ class SamplingType extends ActionFormType {
         'expanded' => true,
         'label_attr' => ['class' => 'radio-inline'],
       ])
-      ->add('commentaireCollecte')
+      ->add('comment')
       ->add('legVocFk', BaseVocType::class, [
         'voc_parent' => 'leg',
         'sort_by_id' => true,

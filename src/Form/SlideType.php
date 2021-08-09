@@ -39,7 +39,7 @@ class SlideType extends ActionFormType {
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateLame', DateFormattedType::class)
       ->add('nomDossierPhotos')
-      ->add('commentaireLame')
+      ->add('comment')
       ->add('storeFk', EntityType::class, array(
         'class' => 'App:Store',
         'query_builder' => function (EntityRepository $er) {

@@ -37,7 +37,7 @@ class Institution extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="institution_comments", type="text", nullable=true)
    */
-  private $commentaireEtablissement;
+  private $comment;
 
   /**
    * Get id
@@ -71,24 +71,24 @@ class Institution extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireEtablissement
+   * Set comment
    *
-   * @param string $commentaireEtablissement
+   * @param string $comment
    *
    * @return Institution
    */
-  public function setCommentaireEtablissement($commentaireEtablissement) {
-    $this->commentaireEtablissement = $commentaireEtablissement;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireEtablissement
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireEtablissement() {
-    return $this->commentaireEtablissement;
+  public function getComment() {
+    return $this->comment;
   }
 }

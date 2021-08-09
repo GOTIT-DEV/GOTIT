@@ -35,7 +35,7 @@ class TaxonType extends ActionFormType {
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
       ))
-      ->add('commentaireRef');
+      ->add('comment');
 
     $uppercase_fields = [
       'taxname', 'rank', 'subclass', 'ordre', 'family',

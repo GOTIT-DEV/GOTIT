@@ -58,7 +58,7 @@ class InternalLot extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_biological_material_comments", type="text", nullable=true)
    */
-  private $commentaireLotMateriel;
+  private $comment;
 
   /**
    * @var integer
@@ -224,25 +224,25 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireLotMateriel
+   * Set comment
    *
-   * @param string $commentaireLotMateriel
+   * @param string $comment
    *
    * @return InternalLot
    */
-  public function setCommentaireLotMateriel($commentaireLotMateriel) {
-    $this->commentaireLotMateriel = $commentaireLotMateriel;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireLotMateriel
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireLotMateriel() {
-    return $this->commentaireLotMateriel;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

@@ -2524,7 +2524,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     $list_new_person = array();
-    $commentaireCompoLotMateriel = "";
+    $comment = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
 
@@ -2743,8 +2743,8 @@ class ImportFileE3s {
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
-        if ($ColCsv == 'content.commentaire_compo_lot_materiel') {
-          $commentaireCompoLotMateriel = $dataColCsv;
+        if ($ColCsv == 'content.comment') {
+          $comment = $dataColCsv;
         }
 
         if ($ColCsv == 'content.specimen_count+specimen_type_voc_fk(voc.code)') {
@@ -2754,7 +2754,7 @@ class ImportFileE3s {
             $entityRel = new \App\Entity\InternalLotContent();
             $method = "setInternalLotFk";
             $entityRel->$method($entity);
-            $entityRel->setCommentaireCompoLotMateriel($commentaireCompoLotMateriel);
+            $entityRel->setComment($comment);
             // We split the information into two variable $specimen_count & $specimen_type
             $specimen_count = (int) preg_replace('/[^0-9]/', '', $val_foreign_field);
             $specimen_type = preg_replace('/[0-9]/', '', $val_foreign_field);
@@ -3419,7 +3419,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     $list_new_person = array();
-    $commentaireCompoLotMateriel = "";
+    $comment = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #
@@ -3784,7 +3784,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     $list_new_person = array();
-    $commentaireCompoLotMateriel = "";
+    $comment = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #
@@ -4284,7 +4284,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     $list_new_person = array();
-    $commentaireCompoLotMateriel = "";
+    $comment = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #

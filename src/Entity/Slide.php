@@ -63,7 +63,7 @@ class Slide extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="slide_comments", type="text", nullable=true)
    */
-  private $commentaireLame;
+  private $comment;
 
   /**
    * @var \Voc
@@ -203,25 +203,25 @@ class Slide extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireLame
+   * Set comment
    *
-   * @param string $commentaireLame
+   * @param string $comment
    *
    * @return Slide
    */
-  public function setCommentaireLame($commentaireLame) {
-    $this->commentaireLame = $commentaireLame;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireLame
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireLame() {
-    return $this->commentaireLame;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**

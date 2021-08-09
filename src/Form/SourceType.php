@@ -24,7 +24,7 @@ class SourceType extends ActionFormType {
         ],
       ])
       ->add('libelleSource')
-      ->add('commentaireSource')
+      ->add('comment')
       ->add('sourceProviders', CollectionType::class, array(
         'entry_type' => SourceProviderEmbedType::class,
         'allow_add' => true,

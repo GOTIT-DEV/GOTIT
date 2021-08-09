@@ -17,7 +17,7 @@ class InternalLotContentEmbedType extends AbstractType {
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
       ])
-      ->add('commentaireCompoLotMateriel');
+      ->add('comment');
   }
 
   /**
