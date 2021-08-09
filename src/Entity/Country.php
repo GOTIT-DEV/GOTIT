@@ -42,7 +42,7 @@ class Country extends AbstractTimestampedEntity {
 
   /**
    * @ORM\OneToMany(targetEntity="Municipality", mappedBy="countryFk")
-   * @ORM\OrderBy({"codeCommune" = "asc"})
+   * @ORM\OrderBy({"code" = "asc"})
    */
   private $municipalities;
 

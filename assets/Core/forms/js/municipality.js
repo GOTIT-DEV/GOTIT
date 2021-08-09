@@ -8,9 +8,9 @@ export function initMunicipalityCodeGeneration(formSelector) {
 
   if ($form.data('action') == 'new') {
     let $country = $form.find("select#municipality_countryFk")
-    let $region = $form.find("input#municipality_nomRegion")
-    let $name = $form.find("input#municipality_nomCommune")
-    let $code = $form.find("input#municipality_codeCommune")
+    let $region = $form.find("input#municipality_region")
+    let $name = $form.find("input#municipality_name")
+    let $code = $form.find("input#municipality_code")
 
     function updateMunicipalityCode() {
       const code = generateMunicipalityCode(

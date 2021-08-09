@@ -15,17 +15,17 @@ class MunicipalityType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('codeCommune', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('nomCommune')
-      ->add('nomRegion')
+      ->add('name')
+      ->add('region')
       ->add('countryFk', CountryVocType::class);
 
-    $uppercase_fields = ['codeCommune', 'nomCommune', 'nomRegion'];
+    $uppercase_fields = ['code', 'name', 'region'];
     $this->upperCaseFields($builder, $uppercase_fields);
   }
 

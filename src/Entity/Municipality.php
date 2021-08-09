@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_municipality__municipality_code", columns={"municipality_code"})},
  *  indexes={@ORM\Index(name="IDX_E2E2D1EEB1C3431A", columns={"country_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeCommune"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Municipality extends AbstractTimestampedEntity {
@@ -34,7 +34,7 @@ class Municipality extends AbstractTimestampedEntity {
    * @Groups("own")
    * @ORM\Column(name="municipality_code", type="string", length=255, nullable=false)
    */
-  private $codeCommune;
+  private $code;
 
   /**
    * @var string
@@ -42,7 +42,7 @@ class Municipality extends AbstractTimestampedEntity {
    * @Groups("own")
    * @ORM\Column(name="municipality_name", type="string", length=1024, nullable=false)
    */
-  private $nomCommune;
+  private $name;
 
   /**
    * @var string
@@ -50,7 +50,7 @@ class Municipality extends AbstractTimestampedEntity {
    * @Groups("own")
    * @ORM\Column(name="region_name", type="string", length=1024, nullable=false)
    */
-  private $nomRegion;
+  private $region;
 
   /**
    * @var \Country
@@ -72,69 +72,69 @@ class Municipality extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeCommune
+   * Set code
    *
-   * @param string $codeCommune
+   * @param string $code
    *
    * @return Municipality
    */
-  public function setCodeCommune($codeCommune) {
-    $this->codeCommune = $codeCommune;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeCommune
+   * Get code
    *
    * @return string
    */
-  public function getCodeCommune() {
-    return $this->codeCommune;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set nomCommune
+   * Set name
    *
-   * @param string $nomCommune
+   * @param string $name
    *
    * @return Municipality
    */
-  public function setNomCommune($nomCommune) {
-    $this->nomCommune = $nomCommune;
+  public function setName($name) {
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * Get nomCommune
+   * Get name
    *
    * @return string
    */
-  public function getNomCommune() {
-    return $this->nomCommune;
+  public function getName() {
+    return $this->name;
   }
 
   /**
-   * Set nomRegion
+   * Set region
    *
-   * @param string $nomRegion
+   * @param string $region
    *
    * @return Municipality
    */
-  public function setNomRegion($nomRegion) {
-    $this->nomRegion = $nomRegion;
+  public function setRegion($region) {
+    $this->region = $region;
 
     return $this;
   }
 
   /**
-   * Get nomRegion
+   * Get region
    *
    * @return string
    */
-  public function getNomRegion() {
-    return $this->nomRegion;
+  public function getRegion() {
+    return $this->region;
   }
 
   /**

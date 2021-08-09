@@ -141,7 +141,7 @@ class SamplingController extends AbstractController {
         "sampling.codeCollecte" => $entity->getCodeCollecte(),
         "site.codeStation" => $entity->getSiteFk()->getCodeStation(),
         "country.name" => $entity->getSiteFk()->getCountryFk()->getName(),
-        "municipality.codeCommune" => $entity->getSiteFk()->getMunicipalityFk()->getCodeCommune(),
+        "municipality.code" => $entity->getSiteFk()->getMunicipalityFk()->getCode(),
         "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),
         "sampling.dateCollecte" => $DateCollecte,
         "sampling.status" => $entity->getStatus(),

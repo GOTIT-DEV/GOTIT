@@ -1686,7 +1686,7 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv);
         }
-        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : site.municipality(municipality.nom_commune)
+        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : site.municipality(municipality.name)
           $varfield = explode(".", strstr($field, '(', true))[1];
           $linker = explode('.', trim($foreign_content[0], "()"));
           $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
@@ -4198,12 +4198,12 @@ class ImportFileE3s {
                 $CodeCommune = $dataColCsv;
                 if (array_key_exists($CodeCommune, $list_new_commune)) {
                   $municipality = $list_new_commune[$CodeCommune];
-                } else { // if CodeCommune is null create a new commune with a codeCommune as Nom_Commune|Nom_Region|Nom_Pays and field site_name = "Nom Commune" and municipality_name = "Nom Region"
+                } else { // if CodeCommune is null create a new commune with a codeCommune as Name|Region|Nom_Pays and field site_name = "Name" and municipality_name = "Region"
                   $municipality = new \App\Entity\Municipality();
                   $municipality->setCodeCommune($CodeCommune);
                   $list_field_commune = explode("|", $dataColCsv);
-                  $municipality->setNomCommune(str_replace("_", " ", $list_field_commune[0]));
-                  $municipality->setNomRegion(str_replace("_", " ", $list_field_commune[1]));
+                  $municipality->setName(str_replace("_", " ", $list_field_commune[0]));
+                  $municipality->setRegion(str_replace("_", " ", $list_field_commune[1]));
                   $municipality->setDateCre($DateImport);
                   $municipality->setDateMaj($DateImport);
                   $municipality->setUserCre($userId);
@@ -4247,7 +4247,7 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
     }
-    // A FAIRE : ajouter les champ municipality.nom_commune +municipality.nom_region
+    // A FAIRE : ajouter les champ municipality.name +municipality.region
 
     if ($message == '') {
       try {

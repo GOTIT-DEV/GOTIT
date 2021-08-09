@@ -107,7 +107,7 @@ class SiteController extends AbstractController {
         "site.id" => $id,
         "site.codeStation" => $entity->getCodeStation(),
         "site.nomStation" => $entity->getNomStation(),
-        "municipality.codeCommune" => $entity->getMunicipalityFk()->getCodeCommune(),
+        "municipality.code" => $entity->getMunicipalityFk()->getCode(),
         "country.code" => $entity->getCountryFk()->getCode(),
         "site.latDegDec" => $entity->getLatDegDec(),
         "site.longDegDec" => $entity->getLongDegDec(),

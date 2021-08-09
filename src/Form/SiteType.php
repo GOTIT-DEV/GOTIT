@@ -30,14 +30,14 @@ class SiteType extends ActionFormType {
         'class' => 'App:Municipality',
         'query_builder' => function (EntityRepository $er) use ($site) {
           $query = $er->createQueryBuilder('municipality')
-            ->orderBy('municipality.codeCommune', 'ASC');
+            ->orderBy('municipality.code', 'ASC');
           if ($site->getCountryFk()) {
             $query = $query->where('municipality.countryFk = :country')
               ->setParameter('country', $site->getCountryFk()->getId());
           }
           return $query;
         },
-        'choice_label' => 'codeCommune',
+        'choice_label' => 'code',
         'multiple' => false,
         'expanded' => false,
         'placeholder' => 'Choose a Municipality',

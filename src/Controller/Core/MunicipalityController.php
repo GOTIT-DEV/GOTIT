@@ -53,7 +53,7 @@ class MunicipalityController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(municipality.codeCommune) LIKE :criteriaLower';
+    $where = 'LOWER(municipality.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -79,9 +79,9 @@ class MunicipalityController extends AbstractController {
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id, "municipality.id" => $id,
-        "municipality.codeCommune" => $entity->getCodeCommune(),
-        "municipality.nomCommune" => $entity->getNomCommune(),
-        "municipality.nomRegion" => $entity->getNomRegion(),
+        "municipality.code" => $entity->getCode(),
+        "municipality.name" => $entity->getName(),
+        "municipality.region" => $entity->getRegion(),
         "country.code" => $entity->getCountryFk()->getCode(),
         "municipality.dateCre" => $DateCre,
         "municipality.dateMaj" => $DateMaj,
@@ -167,7 +167,7 @@ class MunicipalityController extends AbstractController {
         try {
           $flush = $em->flush();
           $select_id = $municipality->getId();
-          $select_name = $municipality->getCodeCommune();
+          $select_name = $municipality->getCode();
           return new JsonResponse([
             'select_id' => $select_id,
             'select_name' => $select_name,

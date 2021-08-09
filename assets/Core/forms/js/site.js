@@ -62,7 +62,7 @@ $(() => {
       .then((response) => response.json())
       .then((json) => {
         const options = json.map(
-          (item) => `<option value="${item.id}">${item.codeCommune}</option>`
+          (item) => `<option value="${item.id}">${item.code}</option>`
         );
         $("#site_municipalityFk")
           .empty()
