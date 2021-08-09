@@ -268,7 +268,7 @@ class InternalLotController extends AbstractController {
 
     // store ArrayCollection
     $contents = $service->setArrayCollection('Contents', $lot);
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lot);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $lot);
     $publications = $service->setArrayCollection('Publications', $lot);
     $producers = $service->setArrayCollection('Producers', $lot);
 
@@ -282,7 +282,7 @@ class InternalLotController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
       $service->DelArrayCollection('Contents', $lot, $contents);
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $lot, $taxonIdentifications);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $lot, $taxonIdentifications);
       $service->DelArrayCollection('Publications', $lot, $publications);
       $service->DelArrayCollection('Producers', $lot, $producers);
 

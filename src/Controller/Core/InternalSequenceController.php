@@ -374,7 +374,7 @@ class InternalSequenceController extends AbstractController {
     );
     $taxonIdentifications = $service->setArrayCollectionEmbed(
       'TaxonIdentifications',
-      'PersonSpeciesIds',
+      'TaxonCurators',
       $sequence
     );
     $publications = $service->setArrayCollection(
@@ -406,7 +406,7 @@ class InternalSequenceController extends AbstractController {
       );
       $service->DelArrayCollectionEmbed(
         'TaxonIdentifications',
-        'PersonSpeciesIds',
+        'TaxonCurators',
         $sequence,
         $taxonIdentifications
       );

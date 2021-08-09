@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PersonSpeciesId
+ * TaxonCurator
  *
  * @ORM\Table(name="species_is_identified_by",
  *  indexes={
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PersonSpeciesId extends AbstractTimestampedEntity {
+class TaxonCurator extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -38,7 +38,7 @@ class PersonSpeciesId extends AbstractTimestampedEntity {
   /**
    * @var \TaxonIdentification
    *
-   * @ORM\ManyToOne(targetEntity="TaxonIdentification", inversedBy="personSpeciesIds")
+   * @ORM\ManyToOne(targetEntity="TaxonIdentification", inversedBy="taxonCurators")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
@@ -59,7 +59,7 @@ class PersonSpeciesId extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Person $personFk
    *
-   * @return PersonSpeciesId
+   * @return TaxonCurator
    */
   public function setPersonFk(\App\Entity\Person $personFk = null) {
     $this->personFk = $personFk;
@@ -81,7 +81,7 @@ class PersonSpeciesId extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\TaxonIdentification $taxonIdentificationFk
    *
-   * @return PersonSpeciesId
+   * @return TaxonCurator
    */
   public function setTaxonIdentificationFk(\App\Entity\TaxonIdentification $taxonIdentificationFk = null) {
     $this->taxonIdentificationFk = $taxonIdentificationFk;

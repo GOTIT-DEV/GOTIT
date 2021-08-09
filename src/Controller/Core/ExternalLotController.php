@@ -244,7 +244,7 @@ class ExternalLotController extends AbstractController {
     }
 
     // store ArrayCollection
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $externalLot);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $externalLot);
     $publications = $service->setArrayCollection('Publications', $externalLot);
     $producers = $service->setArrayCollection('Producers', $externalLot);
 
@@ -259,7 +259,7 @@ class ExternalLotController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $externalLot, $taxonIdentifications);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $externalLot, $taxonIdentifications);
       $service->DelArrayCollection('Publications', $externalLot, $publications);
       $service->DelArrayCollection('Producers', $externalLot, $producers);
       $this->getDoctrine()->getManager()->persist($externalLot);

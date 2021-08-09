@@ -306,7 +306,7 @@ class SpecimenController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $specimen);
+    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $specimen);
 
     $deleteForm = $this->createDeleteForm($specimen);
     if ($specimen->getCodeIndBiomol()) {
@@ -321,7 +321,7 @@ class SpecimenController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'PersonSpeciesIds', $specimen, $taxonIdentifications);
+      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $specimen, $taxonIdentifications);
       $this->getDoctrine()->getManager()->persist($specimen);
       try {
         $this->getDoctrine()->getManager()->flush();

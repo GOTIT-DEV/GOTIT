@@ -274,7 +274,7 @@ class ExternalSequenceController extends AbstractController {
     // store ArrayCollection
     $taxonIdentifications = $service->setArrayCollectionEmbed(
       'TaxonIdentifications',
-      'PersonSpeciesIds',
+      'TaxonCurators',
       $sequence
     );
     $externalSequencePublications = $service->setArrayCollection(
@@ -298,7 +298,7 @@ class ExternalSequenceController extends AbstractController {
       // delete ArrayCollection
       $service->DelArrayCollectionEmbed(
         'TaxonIdentifications',
-        'PersonSpeciesIds',
+        'TaxonCurators',
         $sequence,
         $taxonIdentifications
       );

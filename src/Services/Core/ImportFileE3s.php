@@ -2335,9 +2335,9 @@ class ImportFileE3s {
         $em->persist($entityRel);
       }
 
-      # Record of PersonSpeciesId
+      # Record of TaxonCurator
       if (!is_null($entityEspeceIdentifie)) {
-        foreach ($columnByTable["person_species_id"] as $ColCsv) {
+        foreach ($columnByTable["taxon_curator"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2356,7 +2356,7 @@ class ImportFileE3s {
           if ($flag_foreign && !is_null($dataColCsv)) {
             foreach ($tab_foreign_field as $val_foreign_field) {
               $val_foreign_field = trim($val_foreign_field);
-              $entityRel = new \App\Entity\PersonSpeciesId();
+              $entityRel = new \App\Entity\TaxonCurator();
               $method = "setTaxonIdentificationFk";
               $entityRel->$method($entityEspeceIdentifie);
               if (!is_null($val_foreign_field) && $val_foreign_field != '') {
@@ -2867,8 +2867,8 @@ class ImportFileE3s {
       $entityRel->setUserMaj($userId);
       $em->persist($entityRel);
 
-      # Record of PersonSpeciesId
-      foreach ($columnByTable["person_species_id"] as $ColCsv) {
+      # Record of TaxonCurator
+      foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -2883,7 +2883,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\PersonSpeciesId();
+            $entityRel = new \App\Entity\TaxonCurator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -3698,8 +3698,8 @@ class ImportFileE3s {
       $entityRel->setUserMaj($userId);
       $em->persist($entityRel);
 
-      # Record of PersonSpeciesId
-      foreach ($columnByTable["person_species_id"] as $ColCsv) {
+      # Record of TaxonCurator
+      foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -3714,7 +3714,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\PersonSpeciesId();
+            $entityRel = new \App\Entity\TaxonCurator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -4063,8 +4063,8 @@ class ImportFileE3s {
       $entityRel->setUserMaj($userId);
       $em->persist($entityRel);
 
-      # Record of PersonSpeciesId
-      foreach ($columnByTable["person_species_id"] as $ColCsv) {
+      # Record of TaxonCurator
+      foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4079,7 +4079,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\PersonSpeciesId();
+            $entityRel = new \App\Entity\TaxonCurator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -4614,8 +4614,8 @@ class ImportFileE3s {
       $entityRel->setUserMaj($userId);
       $em->persist($entityRel);
 
-      # Record of PersonSpeciesId
-      foreach ($columnByTable["person_species_id"] as $ColCsv) {
+      # Record of TaxonCurator
+      foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4630,7 +4630,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\PersonSpeciesId();
+            $entityRel = new \App\Entity\TaxonCurator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

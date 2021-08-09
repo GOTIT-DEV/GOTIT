@@ -138,13 +138,13 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $internalSequenceFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="PersonSpeciesId", mappedBy="taxonIdentificationFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonCurator", mappedBy="taxonIdentificationFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $personSpeciesIds;
+  protected $taxonCurators;
 
   public function __construct() {
-    $this->personSpeciesIds = new ArrayCollection();
+    $this->taxonCurators = new ArrayCollection();
   }
 
   /**
@@ -377,35 +377,35 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add personSpeciesId
+   * Add taxonCurator
    *
-   * @param \App\Entity\personSpeciesId $personSpeciesId
+   * @param \App\Entity\taxonCurator $taxonCurator
    *
    * @return TaxonIdentification
    */
-  public function addPersonSpeciesId(\App\Entity\personSpeciesId $personSpeciesId) {
-    $personSpeciesId->setTaxonIdentificationFk($this);
-    $this->personSpeciesIds[] = $personSpeciesId;
+  public function addTaxonCurator(\App\Entity\taxonCurator $taxonCurator) {
+    $taxonCurator->setTaxonIdentificationFk($this);
+    $this->taxonCurators[] = $taxonCurator;
 
     return $this;
   }
 
   /**
-   * Remove personSpeciesId
+   * Remove taxonCurator
    *
-   * @param \App\Entity\personSpeciesId $personSpeciesId
+   * @param \App\Entity\taxonCurator $taxonCurator
    */
-  public function removePersonSpeciesId(\App\Entity\personSpeciesId $personSpeciesId) {
-    $this->personSpeciesIds->removeElement($personSpeciesId);
+  public function removeTaxonCurator(\App\Entity\taxonCurator $taxonCurator) {
+    $this->taxonCurators->removeElement($taxonCurator);
   }
 
   /**
-   * Get personSpeciesIds
+   * Get taxonCurators
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getPersonSpeciesIds() {
-    return $this->personSpeciesIds;
+  public function getTaxonCurators() {
+    return $this->taxonCurators;
   }
 
   /**

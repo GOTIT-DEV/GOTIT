@@ -49,8 +49,8 @@ class TaxonIdentificationEmbedType extends AbstractType {
         'required' => true,
       ))
       ->add('commentaireEspId')
-      ->add('personSpeciesIds', CollectionType::class, array(
-        'entry_type' => PersonSpeciesIdEmbedType::class,
+      ->add('taxonCurators', CollectionType::class, array(
+        'entry_type' => TaxonCuratorEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,

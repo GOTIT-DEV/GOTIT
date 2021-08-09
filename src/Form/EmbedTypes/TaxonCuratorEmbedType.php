@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonSpeciesIdEmbedType extends AbstractType {
+class TaxonCuratorEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
@@ -20,7 +20,7 @@ class PersonSpeciesIdEmbedType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\PersonSpeciesId',
+      'data_class' => 'App\Entity\TaxonCurator',
     ));
   }
 
@@ -28,6 +28,6 @@ class PersonSpeciesIdEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'person_species_id';
+    return 'taxon_curator';
   }
 }
