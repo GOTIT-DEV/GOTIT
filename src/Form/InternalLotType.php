@@ -36,14 +36,14 @@ class InternalLotType extends ActionFormType {
           'readonly' => $sampling != null,
         ],
       ])
-      ->add('codeLotMateriel', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateLotMateriel', DateFormattedType::class)
+      ->add('date', DateFormattedType::class)
       ->add('producers', CollectionType::class, array(
         'entry_type' => InternalLotProducerEmbedType::class,
         'allow_add' => true,
@@ -74,7 +74,7 @@ class InternalLotType extends ActionFormType {
         'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
       ))
-      ->add('aFaire', ChoiceType::class, array(
+      ->add('status', ChoiceType::class, array(
         'choices' => array('NO' => 0, 'YES' => 1),
         'required' => true,
         'choice_translation_domain' => true,

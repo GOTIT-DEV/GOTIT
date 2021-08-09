@@ -41,13 +41,13 @@ class InternalLotController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('lot.id, lot.codeLotMateriel as code')
+    $qb->select('lot.id, lot.code as code')
       ->from('App:InternalLot', 'lot')
       ->addOrderBy('code', 'ASC')
       ->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(lot.codeLotMateriel) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(lot.code) like :q' . $i . ')');
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }
 

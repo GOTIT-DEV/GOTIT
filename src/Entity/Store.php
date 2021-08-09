@@ -83,7 +83,7 @@ class Store extends AbstractTimestampedEntity {
 
   /**
    * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="storeFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
+   * @ORM\OrderBy({"code" = "ASC"})
    */
   protected $internalLots;
 

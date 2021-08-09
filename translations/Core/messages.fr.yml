@@ -362,7 +362,7 @@ alert.BadFormatDate: mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=
 Type materiel voc fk: Type matériel
 Taxon full name: Nom Taxon de référence
 # db v1
-A faire: État
+Status: État
 Accession number: Numéro d'ordre
 Accession number sqc ass ext: Numéro d'ordre
 Dna fk: ADN

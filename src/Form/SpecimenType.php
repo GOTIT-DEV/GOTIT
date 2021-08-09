@@ -24,7 +24,7 @@ class SpecimenType extends ActionFormType {
     $builder
       ->add('internalLotFk', SearchableSelectType::class, [
         'class' => 'App:InternalLot',
-        'choice_label' => 'codeLotMateriel',
+        'choice_label' => 'code',
         'placeholder' => "InternalLot typeahead placeholder",
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [

@@ -118,7 +118,7 @@ class SamplingType extends ActionFormType {
         'attr' => ["min" => "0"],
         'required' => false,
       ])
-      ->add('aFaire', ChoiceType::class, [
+      ->add('status', ChoiceType::class, [
         'choices' => ['YES' => 1, 'NO' => 0],
         'required' => true,
         'choice_translation_domain' => true,

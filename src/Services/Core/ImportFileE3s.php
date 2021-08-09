@@ -361,13 +361,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
-        ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
-        ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+        ->where('lot.code LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagLot = count($query_lot);
       if ($flagLot == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lot_materiel"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -440,13 +440,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
-        ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
-        ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+        ->where('lot.code LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagLot = count($query_lot);
       if ($flagLot == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lot_materiel"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -461,7 +461,7 @@ class ImportFileE3s {
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no store code for material") . '<b> : ' . $data["code_lot_materiel"] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans("importfileService.ERROR no store code for material") . '<b> : ' . $data["code"] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
@@ -470,7 +470,7 @@ class ImportFileE3s {
 
       if ($flagLot && $flagStore && $flagStoreAffecte) {
         if ($query_lot[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code_lot_materiel"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lot[0]->setStoreFk($query_store[0]);
           $query_lot[0]->setDateMaj($DateImport);
@@ -520,8 +520,8 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielPublie as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_lot = $em->getRepository("App:InternalLot")->createQueryBuilder('lot')
-        ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
-        ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
+        ->where('lot.code LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
@@ -531,7 +531,7 @@ class ImportFileE3s {
         ->getResult();
       if (count($query_lot) == 0 || count($query_source) == 0) {
         if (count($query_lot) == 0) {
-          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lot_materiel"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
 
         if (count($query_source) == 0) {
@@ -548,7 +548,7 @@ class ImportFileE3s {
           ->getQuery()
           ->getResult();
         if (count($query_lepd) != 0) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code_lot_materiel"] . ' </b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR lot already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code"] . ' </b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $entityRel = new \App\Entity\InternalLotPublication();
           $method = "setSourceFk";
@@ -1647,7 +1647,7 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'sampling.a_faire') {
+          if ($ColCsv == 'sampling.status') {
             if ($dataColCsv != '') {
               if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {
                 $dataColCsv = 1;
@@ -2541,14 +2541,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'lot_materiel.code_lot_materiel') {
-            $record_entity = $em->getRepository("App:InternalLot")->findOneBy(array("codeLotMateriel" => $dataColCsv));
+          if ($ColCsv == 'lot_materiel.code') {
+            $record_entity = $em->getRepository("App:InternalLot")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'lot_materiel.date_lot_materiel') {
+          if ($ColCsv == 'lot_materiel.date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -2577,7 +2577,7 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'lot_materiel.a_faire') {
+          if ($ColCsv == 'lot_materiel.status') {
             if ($dataColCsv != '') {
               if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {
                 $dataColCsv = 1;

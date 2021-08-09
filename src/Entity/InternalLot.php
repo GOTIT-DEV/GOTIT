@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_BA1841A5662D9B98", columns={"sampling_fk"}),
  *      @ORM\Index(name="IDX_BA1841A52B644673", columns={"storage_box_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeLotMateriel"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class InternalLot extends AbstractTimestampedEntity {
@@ -37,14 +37,14 @@ class InternalLot extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_biological_material_code", type="string", length=255, nullable=false)
    */
-  private $codeLotMateriel;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="internal_biological_material_date", type="date", nullable=true)
    */
-  private $dateLotMateriel;
+  private $date;
 
   /**
    * @var string
@@ -65,7 +65,7 @@ class InternalLot extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="internal_biological_material_status", type="smallint", nullable=false)
    */
-  private $aFaire;
+  private $status;
 
   /**
    * @var \Voc
@@ -158,47 +158,47 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeLotMateriel
+   * Set code
    *
-   * @param string $codeLotMateriel
+   * @param string $code
    *
    * @return InternalLot
    */
-  public function setCodeLotMateriel($codeLotMateriel) {
-    $this->codeLotMateriel = $codeLotMateriel;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeLotMateriel
+   * Get code
    *
    * @return string
    */
-  public function getCodeLotMateriel() {
-    return $this->codeLotMateriel;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateLotMateriel
+   * Set date
    *
-   * @param \DateTime $dateLotMateriel
+   * @param \DateTime $date
    *
    * @return InternalLot
    */
-  public function setDateLotMateriel($dateLotMateriel) {
-    $this->dateLotMateriel = $dateLotMateriel;
+  public function setDate($date) {
+    $this->date = $date;
 
     return $this;
   }
 
   /**
-   * Get dateLotMateriel
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDateLotMateriel() {
-    return $this->dateLotMateriel;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
@@ -485,24 +485,24 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set aFaire
+   * Set status
    *
-   * @param integer $aFaire
+   * @param integer $status
    *
    * @return InternalLot
    */
-  public function setAFaire($aFaire) {
-    $this->aFaire = $aFaire;
+  public function setStatus($status) {
+    $this->status = $status;
 
     return $this;
   }
 
   /**
-   * Get aFaire
+   * Get status
    *
    * @return integer
    */
-  public function getAFaire() {
-    return $this->aFaire;
+  public function getStatus() {
+    return $this->status;
   }
 }

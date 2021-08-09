@@ -71,7 +71,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="sample_status", type="smallint", nullable=false)
    */
-  private $aFaire;
+  private $status;
 
   /**
    * @var string
@@ -263,24 +263,24 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set aFaire
+   * Set status
    *
-   * @param integer $aFaire
+   * @param integer $status
    *
    * @return Sampling
    */
-  public function setAFaire($aFaire) {
-    $this->aFaire = $aFaire;
+  public function setStatus($status) {
+    $this->status = $status;
     return $this;
   }
 
   /**
-   * Get aFaire
+   * Get status
    *
    * @return integer
    */
-  public function getAFaire() {
-    return $this->aFaire;
+  public function getStatus() {
+    return $this->status;
   }
 
   /**

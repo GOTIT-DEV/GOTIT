@@ -277,7 +277,7 @@ class SpeciesQueryService {
 
     $qb = $this->entityManager->createQueryBuilder();
     $query =
-    $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm')
+    $qb->select('lm.id as id_lm, lm.code as code_lm')
       ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
       ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
     // ->addSelect('indiv as ind') // specimen

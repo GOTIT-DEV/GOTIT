@@ -12,7 +12,7 @@ class InternalLotEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeLotMateriel', TextType::class);
+    $builder->add('code', TextType::class);
   }
 
   /**
