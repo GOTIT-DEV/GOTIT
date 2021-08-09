@@ -20,7 +20,7 @@ class InternalSequenceAssemblyEmbedType extends AbstractType {
         return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
           ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
           ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-          ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+          ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificityVocFk = vocSpecificite.id')
           ->where('pcr.geneVocFk = :geneVocFk')
           ->andwhere('specimen.id = :specimenFk')
           ->setParameters([

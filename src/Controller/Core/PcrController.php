@@ -43,11 +43,11 @@ class PcrController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('pcr.id, pcr.codePcr as code')
+    $qb->select('pcr.id, pcr.code as code')
       ->from('App:Pcr', 'pcr');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(pcr.codePcr) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(pcr.code) like :q' . $i . ')');
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
@@ -93,8 +93,8 @@ class PcrController extends AbstractController {
       ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
       ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-      ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
-      ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+      ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualityVocFk = vocQualitePcr.id')
+      ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificityVocFk = vocSpecificite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -105,8 +105,8 @@ class PcrController extends AbstractController {
     $lastTaxname = '';
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DatePcr = ($entity->getDatePcr() !== null)
-      ? $entity->getDatePcr()->format('Y-m-d') : null;
+      $Date = ($entity->getDate() !== null)
+      ? $entity->getDate()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
@@ -132,13 +132,13 @@ class PcrController extends AbstractController {
         "id" => $id, "pcr.id" => $id,
         "specimen.codeIndBiomol" => $entity->getDnaFk()->getSpecimenFk()->getCodeIndBiomol(),
         "dna.code" => $entity->getDnaFk()->getCode(),
-        "pcr.codePcr" => $entity->getCodePcr(),
-        "pcr.numPcr" => $entity->getNumPcr(),
+        "pcr.code" => $entity->getCode(),
+        "pcr.number" => $entity->getNumber(),
         "vocGene.code" => $entity->getGeneVocFk()->getCode(),
         "listePerson" => $listePerson,
-        "pcr.datePcr" => $DatePcr,
-        "vocQualitePcr.code" => $entity->getQualitePcrVocFk()->getCode(),
-        "vocSpecificite.code" => $entity->getSpecificiteVocFk()->getCode(),
+        "pcr.date" => $Date,
+        "vocQualitePcr.code" => $entity->getQualityVocFk()->getCode(),
+        "vocSpecificite.code" => $entity->getSpecificityVocFk()->getCode(),
         "pcr.dateCre" => $DateCre,
         "pcr.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

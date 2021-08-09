@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_5B6B9936A30C442F", columns={"date_precision_voc_fk"}),
  *      @ORM\Index(name="IDX_5B6B99364B06319D", columns={"dna_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codePcr"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Pcr extends AbstractTimestampedEntity {
@@ -39,35 +39,35 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false)
    */
-  private $codePcr;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="pcr_number", type="string", length=255, nullable=false)
    */
-  private $numPcr;
+  private $number;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="pcr_date", type="date", nullable=true)
    */
-  private $datePcr;
+  private $date;
 
   /**
    * @var string
    *
    * @ORM\Column(name="pcr_details", type="text", nullable=true)
    */
-  private $detailPcr;
+  private $details;
 
   /**
    * @var string
    *
    * @ORM\Column(name="pcr_comments", type="text", nullable=true)
    */
-  private $remarquePcr;
+  private $comment;
 
   /**
    * @var \Voc
@@ -87,7 +87,7 @@ class Pcr extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="pcr_quality_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $qualitePcrVocFk;
+  private $qualityVocFk;
 
   /**
    * @var \Voc
@@ -97,7 +97,7 @@ class Pcr extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="pcr_specificity_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $specificiteVocFk;
+  private $specificityVocFk;
 
   /**
    * @var \Voc
@@ -107,7 +107,7 @@ class Pcr extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="forward_primer_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $primerPcrStartVocFk;
+  private $primerStartVocFk;
 
   /**
    * @var \Voc
@@ -117,7 +117,7 @@ class Pcr extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="reverse_primer_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $primerPcrEndVocFk;
+  private $primerEndVocFk;
 
   /**
    * @var \Voc
@@ -159,113 +159,113 @@ class Pcr extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codePcr
+   * Set code
    *
-   * @param string $codePcr
+   * @param string $code
    *
    * @return Pcr
    */
-  public function setCodePcr($codePcr) {
-    $this->codePcr = $codePcr;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codePcr
+   * Get code
    *
    * @return string
    */
-  public function getCodePcr() {
-    return $this->codePcr;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set numPcr
+   * Set number
    *
-   * @param string $numPcr
+   * @param string $number
    *
    * @return Pcr
    */
-  public function setNumPcr($numPcr) {
-    $this->numPcr = $numPcr;
+  public function setNumber($number) {
+    $this->number = $number;
 
     return $this;
   }
 
   /**
-   * Get numPcr
+   * Get number
    *
    * @return string
    */
-  public function getNumPcr() {
-    return $this->numPcr;
+  public function getNumber() {
+    return $this->number;
   }
 
   /**
-   * Set datePcr
+   * Set date
    *
-   * @param \DateTime $datePcr
+   * @param \DateTime $date
    *
    * @return Pcr
    */
-  public function setDatePcr($datePcr) {
-    $this->datePcr = $datePcr;
+  public function setDate($date) {
+    $this->date = $date;
 
     return $this;
   }
 
   /**
-   * Get datePcr
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDatePcr() {
-    return $this->datePcr;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
-   * Set detailPcr
+   * Set details
    *
-   * @param string $detailPcr
+   * @param string $details
    *
    * @return Pcr
    */
-  public function setDetailPcr($detailPcr) {
-    $this->detailPcr = $detailPcr;
+  public function setDetails($details) {
+    $this->details = $details;
 
     return $this;
   }
 
   /**
-   * Get detailPcr
+   * Get details
    *
    * @return string
    */
-  public function getDetailPcr() {
-    return $this->detailPcr;
+  public function getDetails() {
+    return $this->details;
   }
 
   /**
-   * Set remarquePcr
+   * Set comment
    *
-   * @param string $remarquePcr
+   * @param string $comment
    *
    * @return Pcr
    */
-  public function setRemarquePcr($remarquePcr) {
-    $this->remarquePcr = $remarquePcr;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get remarquePcr
+   * Get comment
    *
    * @return string
    */
-  public function getRemarquePcr() {
-    return $this->remarquePcr;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**
@@ -291,91 +291,91 @@ class Pcr extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set qualitePcrVocFk
+   * Set qualityVocFk
    *
-   * @param \App\Entity\Voc $qualitePcrVocFk
+   * @param \App\Entity\Voc $qualityVocFk
    *
    * @return Pcr
    */
-  public function setQualitePcrVocFk(\App\Entity\Voc $qualitePcrVocFk = null) {
-    $this->qualitePcrVocFk = $qualitePcrVocFk;
+  public function setQualityVocFk(\App\Entity\Voc $qualityVocFk = null) {
+    $this->qualityVocFk = $qualityVocFk;
 
     return $this;
   }
 
   /**
-   * Get qualitePcrVocFk
+   * Get qualityVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getQualitePcrVocFk() {
-    return $this->qualitePcrVocFk;
+  public function getQualityVocFk() {
+    return $this->qualityVocFk;
   }
 
   /**
-   * Set specificiteVocFk
+   * Set specificityVocFk
    *
-   * @param \App\Entity\Voc $specificiteVocFk
+   * @param \App\Entity\Voc $specificityVocFk
    *
    * @return Pcr
    */
-  public function setSpecificiteVocFk(\App\Entity\Voc $specificiteVocFk = null) {
-    $this->specificiteVocFk = $specificiteVocFk;
+  public function setSpecificityVocFk(\App\Entity\Voc $specificityVocFk = null) {
+    $this->specificityVocFk = $specificityVocFk;
 
     return $this;
   }
 
   /**
-   * Get specificiteVocFk
+   * Get specificityVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getSpecificiteVocFk() {
-    return $this->specificiteVocFk;
+  public function getSpecificityVocFk() {
+    return $this->specificityVocFk;
   }
 
   /**
-   * Set primerPcrStartVocFk
+   * Set primerStartVocFk
    *
-   * @param \App\Entity\Voc $primerPcrStartVocFk
+   * @param \App\Entity\Voc $primerStartVocFk
    *
    * @return Pcr
    */
-  public function setPrimerPcrStartVocFk(\App\Entity\Voc $primerPcrStartVocFk = null) {
-    $this->primerPcrStartVocFk = $primerPcrStartVocFk;
+  public function setPrimerStartVocFk(\App\Entity\Voc $primerStartVocFk = null) {
+    $this->primerStartVocFk = $primerStartVocFk;
 
     return $this;
   }
 
   /**
-   * Get primerPcrStartVocFk
+   * Get primerStartVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getPrimerPcrStartVocFk() {
-    return $this->primerPcrStartVocFk;
+  public function getPrimerStartVocFk() {
+    return $this->primerStartVocFk;
   }
 
   /**
-   * Set primerPcrEndVocFk
+   * Set primerEndVocFk
    *
-   * @param \App\Entity\Voc $primerPcrEndVocFk
+   * @param \App\Entity\Voc $primerEndVocFk
    *
    * @return Pcr
    */
-  public function setPrimerPcrEndVocFk(\App\Entity\Voc $primerPcrEndVocFk = null) {
-    $this->primerPcrEndVocFk = $primerPcrEndVocFk;
+  public function setPrimerEndVocFk(\App\Entity\Voc $primerEndVocFk = null) {
+    $this->primerEndVocFk = $primerEndVocFk;
 
     return $this;
   }
 
   /**
-   * Get primerPcrEndVocFk
+   * Get primerEndVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getPrimerPcrEndVocFk() {
-    return $this->primerPcrEndVocFk;
+  public function getPrimerEndVocFk() {
+    return $this->primerEndVocFk;
   }
 
   /**

@@ -862,14 +862,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'pcr.code_pcr') {
-            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv));
+          if ($ColCsv == 'pcr.code') {
+            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'pcr.date_pcr') {
+          if ($ColCsv == 'pcr.date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -933,16 +933,16 @@ class ImportFileE3s {
         }
       }
       // management of the pcr which gave rise to several chromato (n lines)
-      if (array_key_exists($data['pcr.code_pcr'], $list_new_pcr)) {
+      if (array_key_exists($data['pcr.code'], $list_new_pcr)) {
         $flag_new_pcr = 0;
-        $entity = $list_new_pcr[$data['pcr.code_pcr']];
+        $entity = $list_new_pcr[$data['pcr.code']];
       } else {
         $entity->setDateCre($DateImport);
         $entity->setDateMaj($DateImport);
         $entity->setUserCre($userId);
         $entity->setUserMaj($userId);
         $em->persist($entity);
-        $list_new_pcr[$data['pcr.code_pcr']] = $entity;
+        $list_new_pcr[$data['pcr.code']] = $entity;
       }
 
       # Record of PcrProducer
@@ -1018,7 +1018,7 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entityRel->$method($dataColCsv);
         }
-        if ($flag_foreign && $ColCsv != 'chromatogram.pcr_fk(pcr.code_pcr)') { // case of a foreign key (where there are parentheses in the field name)
+        if ($flag_foreign && $ColCsv != 'chromatogram.pcr_fk(pcr.code)') { // case of a foreign key (where there are parentheses in the field name)
           $varfield = explode(".", strstr($field, '(', true))[1];
           $linker = explode('.', trim($foreign_content[0], "()"));
           $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
@@ -1101,14 +1101,14 @@ class ImportFileE3s {
         $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
-          if ($ColCsv == 'pcr.code_pcr') {
-            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv));
+          if ($ColCsv == 'pcr.code') {
+            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'pcr.date_pcr') {
+          if ($ColCsv == 'pcr.date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {

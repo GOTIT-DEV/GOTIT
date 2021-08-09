@@ -31,38 +31,38 @@ class PcrType extends ActionFormType {
           'readonly' => $dna != null,
         ],
       ])
-      ->add('codePcr', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('numPcr', EntityCodeType::class, [
+      ->add('number', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)
-      ->add('primerPcrStartVocFk', BaseVocType::class, array(
+      ->add('primerStartVocFk', BaseVocType::class, array(
         'voc_parent' => 'primerPcrStart',
         'placeholder' => 'Choose a primer start',
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('primerPcrEndVocFk', BaseVocType::class, array(
+      ->add('primerEndVocFk', BaseVocType::class, array(
         'voc_parent' => 'primerPcrEnd',
         'placeholder' => 'Choose a primer end',
         'disabled' => $this->canEditAdminOnly($options),
       ))
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('datePcr', DateFormattedType::class)
-      ->add('qualitePcrVocFk', BaseVocType::class, array(
+      ->add('date', DateFormattedType::class)
+      ->add('qualityVocFk', BaseVocType::class, array(
         'voc_parent' => 'qualitePcr',
         'placeholder' => 'Choose a quality',
       ))
-      ->add('specificiteVocFk', BaseVocType::class, array(
+      ->add('specificityVocFk', BaseVocType::class, array(
         'voc_parent' => 'specificite',
         'placeholder' => 'Choose a specificity',
       ))
-      ->add('detailPcr')
-      ->add('remarquePcr')
+      ->add('details')
+      ->add('comment')
       ->add('pcrProducers', CollectionType::class, array(
         'entry_type' => PcrProducerEmbedType::class,
         'allow_add' => true,

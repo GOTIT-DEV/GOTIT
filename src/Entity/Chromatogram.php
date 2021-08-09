@@ -260,7 +260,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @return string
    */
   public function getCodeSpecificity() {
-    $specificite = $this->pcrFk->getSpecificiteVocFk()->getCode();
+    $specificite = $this->pcrFk->getSpecificityVocFk()->getCode();
     return $this->code . '|' . $specificite;
   }
 }

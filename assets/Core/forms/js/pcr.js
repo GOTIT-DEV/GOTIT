@@ -4,11 +4,11 @@ import { getSelectedCode } from "./forms";
 $(() => {
   const $form = $("form[name='pcr']");
   const $dna = $form.find("#pcr_dnaFk");
-  const $primerStart = $("#pcr_primerPcrStartVocFk");
-  const $primerEnd = $("#pcr_primerPcrEndVocFk");
-  const $numPcr = $("#pcr_numPcr");
+  const $primerStart = $("#pcr_primerStartVocFk");
+  const $primerEnd = $("#pcr_primerEndVocFk");
+  const $number = $("#pcr_number");
 
-  const $pcrCode = $("#pcr_codePcr");
+  const $pcrCode = $("#pcr_code");
 
   initSearchSelect($dna, "dna_search");
 

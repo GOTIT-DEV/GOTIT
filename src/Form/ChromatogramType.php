@@ -23,7 +23,7 @@ class ChromatogramType extends ActionFormType {
     $builder
       ->add('pcrFk', SearchableSelectType::class, [
         'class' => 'App:Pcr',
-        'choice_label' => 'codePcr',
+        'choice_label' => 'code',
         'placeholder' => $this->translator->trans("Pcr typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [

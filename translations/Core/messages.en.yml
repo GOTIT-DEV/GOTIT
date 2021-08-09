@@ -581,7 +581,7 @@ Date maj: Updating date
 Date motu: MOTU date
 Date pcr: PCR date
 Date precision voc fk: Date precision
-Detail pcr: PCR details
+Details: PCR details
 Duree echantillonnage mn: Sampling duration
 Taxon identification fk: Identified species table
 Institution fk: Institution
@@ -638,21 +638,21 @@ Pigmentation voc fk: Pigmentation
 Point acces voc fk: Access type
 Precision lat long voc fk: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
-Primer pcr end voc fk: PCR reverse primer
-Primer pcr start voc fk: PCR forward primer
+Primer end voc fk: PCR reverse primer
+Primer Start Voc Fk: PCR forward primer
 Program fk: Program
 Qualite adn voc fk: DNA quality
 Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
 Taxon fk: Taxon
-Remarque pcr: PCR comments
+Comment: PCR comments
 Sampling method voc fk: Sampling method
 External sequence fk: External sequence
 Internal sequence fk: Internal Sequence
 Source fk: Source
 Species: Species
-Specificite voc fk: PCR specificity
+Specificity voc fk: PCR specificity
 Site fk: Site
 Subclass: Subclass
 Subspecies: Subspecies

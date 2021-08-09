@@ -417,7 +417,7 @@ Date maj: Date mise à jour
 Date motu: Date MOTU
 Date pcr: Date PCR
 Date precision voc fk: Précision date
-Detail pcr: Detail PCR
+Details: Detail PCR
 Duree echantillonnage mn: Durée échantillonnage (min)
 Taxon identification fk: Espèce identifiée
 Institution fk: Établissement
@@ -474,21 +474,21 @@ Pigmentation voc fk: Pigmentation
 Point acces voc fk: Point accès
 Precision lat long voc fk: Précision latitude longitude
 Primer chromato voc fk: Amorce chromatogramme
-Primer pcr end voc fk: Amorce PCR antisens
-Primer pcr start voc fk: Amorce PCR sens
+Primer end voc fk: Amorce PCR antisens
+Primer Start Voc Fk: Amorce PCR sens
 Program fk: Programme
 Qualite adn voc fk: Qualite ADN
 Qualite chromato voc fk: Qualite chromatogramme
 Qualite pcr voc fk: Qualite PCR
 Rank: Rang
 Taxon fk: Taxon
-Remarque pcr: Remarque PCR
+Comment: Remarque PCR
 Sampling method voc fk: Méthode echantillonnage
 External sequence fk: Séquence externe assemblée
 Internal sequence fk: Séquence assemblée
 Source fk: Source
 Species: Espèce
-Specificite voc fk: Spécificité
+Specificity voc fk: Spécificité
 Site fk: Station
 Subclass: Sous classe
 Subspecies: Sous espèce
