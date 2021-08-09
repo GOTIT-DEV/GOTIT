@@ -16,13 +16,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Import Voc controller.
  *
- * @Route("importfilesreferentieltaxon")
+ * @Route("importfilestaxon")
  * @Security("is_granted('ROLE_ADMIN')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFileReferentielTaxonController extends AbstractController {
+class ImportFileTaxonController extends AbstractController {
   /**
-   * @Route("/", name="importfilesreferentieltaxon_index")
+   * @Route("/", name="importfilestaxon_index")
    *
    */
   public function indexAction(
@@ -63,7 +63,7 @@ class ImportFileReferentielTaxonController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'taxon':
-          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataTaxon($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

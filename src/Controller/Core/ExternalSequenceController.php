@@ -407,14 +407,14 @@ class ExternalSequenceController extends AbstractController {
     if ($nbTaxonIdentifications > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
       $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
-      $arrayReferentielTaxon = array();
+      $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
-        $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getReferentielTaxonFk()->getCodeTaxon();
+        $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
+        $entityTaxonIdentifications->getTaxonFk()->getCodeTaxon();
       }
-      ksort($arrayReferentielTaxon);
-      reset($arrayReferentielTaxon);
-      $firstTaxname = current($arrayReferentielTaxon);
+      ksort($arrayTaxon);
+      reset($arrayTaxon);
+      $firstTaxname = current($arrayTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
@@ -441,16 +441,16 @@ class ExternalSequenceController extends AbstractController {
     $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
     if ($nbTaxonIdentifications > 0) {
-      // Le statut de la sequence ET le referentiel Taxon = au derenier taxname attribué
+      // Le statut de la sequence ET le taxon = au derenier taxname attribué
       $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
-      $arrayReferentielTaxon = array();
+      $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
-        $arrayReferentielTaxon[$entityTaxonIdentifications->getReferentielTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getReferentielTaxonFk()->getCodeTaxon();
+        $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
+        $entityTaxonIdentifications->getTaxonFk()->getCodeTaxon();
       }
-      ksort($arrayReferentielTaxon);
-      end($arrayReferentielTaxon);
-      $lastCodeTaxon = current($arrayReferentielTaxon);
+      ksort($arrayTaxon);
+      end($arrayTaxon);
+      $lastCodeTaxon = current($arrayTaxon);
       $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCodeTaxon
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;

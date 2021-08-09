@@ -275,14 +275,14 @@ button.See Sites Around: See nearby sites
 button.Close: Close
 # Button titles in csv file uploading tools
 button.ImportVoc: Import new set of Vocabulary
-button.ImportReferentieltaxon: Import new set of Taxa
+button.ImportTaxon: Import new set of Taxa
 button.ImportPays: Import new set of Country
 button.ImportPerson: Import new set of Person
 button.ImportProgram: Import new set of Program
 button.ImportInstitution: Import new set of Institution
 button.ImportCommune: Import new set of Municipality
 button.Back to the list of voc: Back to the list of Vocabulary
-button.Back to the list of referentieltaxon: Back to the list of Taxon
+button.Back to the list of taxon: Back to the list of Taxon
 button.Back to the list of country: Back to the list of Country
 button.Back to the list of person: Back to the list of Person
 button.Back to the list of program: Back to the list of Program
@@ -345,7 +345,7 @@ button.Import lot materiel publie: Source to biological material as file
 button.ImportSource: Import new set of sources
 button.NewSource: Create new source
 button.NewVoc: Create new vocabulary
-button.NewReferentieltaxon: Add taxon name
+button.NewTaxon: Add taxon name
 button.NewPerson: Create new person
 button.NewInstitution: Create new institution
 button.NewProgram: Create new program
@@ -664,7 +664,7 @@ Qualite adn voc fk: DNA quality
 Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
-Referentiel taxon fk: Taxa
+Taxon fk: Taxon
 Remarque pcr: PCR comments
 Sampling method voc fk: Sampling method
 External sequence fk: External sequence

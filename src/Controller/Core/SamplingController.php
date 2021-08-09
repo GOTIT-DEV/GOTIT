@@ -127,7 +127,7 @@ class SamplingController extends AbstractController {
       $linkExternalSequenceFk = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
       $query = $em->createQuery(
-        'SELECT rt.taxname as taxname FROM App:TaxonSampling ac JOIN ac.referentielTaxonFk rt WHERE ac.samplingFk = ' . $id
+        'SELECT rt.taxname as taxname FROM App:TaxonSampling ac JOIN ac.taxonFk rt WHERE ac.samplingFk = ' . $id
       )->getResult();
       $arrayTaxonsCibler = array();
       foreach ($query as $taxon) {

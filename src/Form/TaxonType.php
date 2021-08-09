@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReferentielTaxonType extends ActionFormType {
+class TaxonType extends ActionFormType {
 
   /**
    * {@inheritdoc}
@@ -50,7 +50,7 @@ class ReferentielTaxonType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\ReferentielTaxon',
+      'data_class' => 'App\Entity\Taxon',
     ));
   }
 
@@ -58,6 +58,6 @@ class ReferentielTaxonType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'referentieltaxon';
+    return 'taxon';
   }
 }

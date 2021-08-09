@@ -467,7 +467,7 @@ class InternalSequence extends AbstractTimestampedEntity {
       }
 
       $lastTaxonCode = $this->getTaxonIdentifications()->last()
-        ->getReferentielTaxonFk()
+        ->getTaxonFk()
         ->getCodeTaxon();
       $seqCodeElts[] = $lastTaxonCode;
 

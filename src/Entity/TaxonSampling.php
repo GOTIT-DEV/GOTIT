@@ -37,14 +37,14 @@ class TaxonSampling extends AbstractTimestampedEntity {
   private $samplingFk;
 
   /**
-   * @var ReferentielTaxon
+   * @var Taxon
    *
-   * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
+   * @ORM\ManyToOne(targetEntity="Taxon")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $referentielTaxonFk;
+  private $taxonFk;
 
   /**
    * Get id
@@ -76,22 +76,22 @@ class TaxonSampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set referentielTaxonFk
+   * Set taxonFk
    *
-   * @param ReferentielTaxon $referentielTaxonFk
+   * @param Taxon $taxonFk
    * @return TaxonSampling
    */
-  public function setReferentielTaxonFk(ReferentielTaxon $referentielTaxonFk = null) {
-    $this->referentielTaxonFk = $referentielTaxonFk;
+  public function setTaxonFk(Taxon $taxonFk = null) {
+    $this->taxonFk = $taxonFk;
     return $this;
   }
 
   /**
-   * Get referentielTaxonFk
+   * Get taxonFk
 
-   * @return ReferentielTaxon
+   * @return Taxon
    */
-  public function getReferentielTaxonFk() {
-    return $this->referentielTaxonFk;
+  public function getTaxonFk() {
+    return $this->taxonFk;
   }
 }

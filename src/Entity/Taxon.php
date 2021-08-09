@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * ReferentielTaxon
+ * Taxon
  *
  * @ORM\Table(name="taxon",
  *  uniqueConstraints={
@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeTaxon"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ReferentielTaxon extends AbstractTimestampedEntity {
+class Taxon extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -140,7 +140,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $taxname
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setTaxname($taxname) {
     $this->taxname = $taxname;
@@ -162,7 +162,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $rank
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setRank($rank) {
     $this->rank = $rank;
@@ -184,7 +184,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $subclass
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setSubclass($subclass) {
     $this->subclass = $subclass;
@@ -206,7 +206,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $ordre
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setOrdre($ordre) {
     $this->ordre = $ordre;
@@ -228,7 +228,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $family
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setFamily($family) {
     $this->family = $family;
@@ -250,7 +250,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $genus
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setGenus($genus) {
     $this->genus = $genus;
@@ -272,7 +272,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $species
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setSpecies($species) {
     $this->species = $species;
@@ -294,7 +294,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $subspecies
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setSubspecies($subspecies) {
     $this->subspecies = $subspecies;
@@ -316,7 +316,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param integer $validity
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setValidity($validity) {
     $this->validity = $validity;
@@ -338,7 +338,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $codeTaxon
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setCodeTaxon($codeTaxon) {
     $this->codeTaxon = $codeTaxon;
@@ -360,7 +360,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $commentaireRef
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setCommentaireRef($commentaireRef) {
     $this->commentaireRef = $commentaireRef;
@@ -382,7 +382,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $clade
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setClade($clade) {
     $this->clade = $clade;
@@ -404,7 +404,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $taxnameRef
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setTaxnameRef($taxnameRef) {
     $this->taxnameRef = $taxnameRef;
@@ -426,7 +426,7 @@ class ReferentielTaxon extends AbstractTimestampedEntity {
    *
    * @param string $taxonFullName
    *
-   * @return ReferentielTaxon
+   * @return Taxon
    */
   public function setTaxonFullName($taxonFullName) {
     $this->taxonFullName = $taxonFullName;

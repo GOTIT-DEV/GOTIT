@@ -114,7 +114,7 @@ class ImportFilesInternalSequenceController extends AbstractController {
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
         case 'taxon':
-          $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataTaxon($fichier, $user->getId());
           break;
         case 'person':
           $message .= $importFileE3sService->importCSVDataPerson($fichier, $user->getId());

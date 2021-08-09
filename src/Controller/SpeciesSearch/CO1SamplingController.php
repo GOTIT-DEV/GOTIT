@@ -17,7 +17,7 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Entity\ReferentielTaxon;
+use App\Entity\Taxon;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -91,7 +91,7 @@ class CO1SamplingController extends AbstractController {
    * Returns a JSON response with sampling geographical coordinates for target species
    * Used to plot sampling on a world map projection
    */
-  public function speciesSamplingCoverage(ReferentielTaxon $taxon,
+  public function speciesSamplingCoverage(Taxon $taxon,
     SpeciesQueryService $service, SerializerInterface $serializer) {
 
     # fetch sampling sites

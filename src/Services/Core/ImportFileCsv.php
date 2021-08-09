@@ -368,7 +368,7 @@ class ImportFileCsv {
       'subspecies' => 'subspecies',
       'taxon_code' => 'code_taxon',
       'taxon_comments' => 'commentaire_ref',
-      'taxon_fk' => 'referentiel_taxon_fk',
+      'taxon_fk' => 'taxon_fk',
       'taxon_name' => 'taxname',
       'taxon_order' => 'ordre',
       'taxon_rank' => 'rank',

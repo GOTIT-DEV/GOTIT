@@ -58,7 +58,7 @@ source_index: |
   Use this page to browse, create, import, export, show, edit and delete reference sources. WARNING: confirming deletion would not only delete the reference source but also all the attributions of that source to biological materials, external biological materials, internal sequences and external sequences. Also, use this page to attribute reference sources to biological materials and internal sequences that are not linked to a reference source. Additional fields can be listed using the top right button. The search button applies to the field "Source code".
 voc_index: |
   Use this page to browse, create, import, export, show, edit and delete vocabulary. Deletion may not be possible until all data links pointed to a vocabulary have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Title".
-referentieltaxon_index: |
+taxon_index: |
   Use this page to browse, create, import, export, show, edit and delete species taxa. Deletion may not be possible until all data links pointed to a species taxon have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Taxon name".
 person_index: |
   Use this page to browse, create, import, export, show, edit and delete person characteristics. Deletion may not be possible until all data links pointed to a person have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Person list".
@@ -107,7 +107,7 @@ source_new: |
   Use this form to fill in characteristics of a new reference source. See appendix 10.2 in GOTIT HELP for content of fields.
 voc_new: |
   Use this form to fill in characteristics of a new vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
-referentieltaxon_new: |
+taxon_new: |
   Use this form to fill in characteristics of a species taxon added to the list. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_new: |
   Use this form to fill in characteristics of a new person. See appendix 11.3.2 in GOTIT HELP for content of fields.
@@ -156,7 +156,7 @@ source_show: |
   Use this form to consult data of a reference source. See appendix 10.2 in GOTIT HELP for content of fields.
 voc_show: |
   Use this form to consult characteristics of a vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
-referentieltaxon_show: |
+taxon_show: |
   Use this form to consult characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_show: |
   Use this form to consult characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
@@ -205,7 +205,7 @@ source_edit: |
   Use this form to edit data of a reference source. See appendix 10.2 in GOTIT HELP for content of fields.
 voc_edit: |
   Use this form to edit characteristics of a vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
-referentieltaxon_edit: |
+taxon_edit: |
   Use this form to edit characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_edit: |
   Use this form to edit characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
@@ -304,7 +304,7 @@ importfilesvoc_index: |
   Use this form to upload data from vocabulary repository data set:
   - use and upload the template file “vocabulary” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesreferentieltaxon_index: |
+importfilestaxon_index: |
   Use this form to upload data from taxon repository data set:
   - use and upload the template file “taxon” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

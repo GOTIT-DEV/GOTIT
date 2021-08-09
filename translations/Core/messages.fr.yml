@@ -108,14 +108,14 @@ button.exportToCSV-title: Encodage UTF-8 et Séparateur point virgule
 button.Close: Fermer
 # Button titles in csv file uploading tools
 button.ImportVoc: Importer fichier Vocabulaire
-button.ImportReferentieltaxon: Importer fichier Taxon
+button.ImportTaxon: Importer fichier Taxon
 button.ImportPays: Importer fichier Pays
 button.ImportPerson: Importer fichier Personne
 button.ImportProgram: Importer fichier Programme
 button.ImportInstitution: Importer fichier Etablissement
 button.ImportCommune: Importer fichier Commune
 button.Back to the list of voc: Retour à la liste des Vocabulaires
-button.Back to the list of referentieltaxon: Retour à la liste des Taxons
+button.Back to the list of taxon: Retour à la liste des Taxons
 button.Back to the list of pays: Retour à la liste des Pays
 button.Back to the list of person: Retour à la liste des Personnes
 button.Back to the list of program: Retour à la liste des Programmes
@@ -179,7 +179,7 @@ button.Import lot materiel publie: Référencer des lots matériels
 button.ImportSource: Importer des sources
 button.NewSource: Créer une source
 button.NewVoc: Créer un vocabulaire
-button.NewReferentieltaxon: Créer un taxon
+button.NewTaxon: Créer un taxon
 button.NewPerson: Créer une personne
 button.NewInstitution: Créer un etablissement
 button.NewProgram: Créer un programme
@@ -500,7 +500,7 @@ Qualite adn voc fk: Qualite ADN
 Qualite chromato voc fk: Qualite chromatogramme
 Qualite pcr voc fk: Qualite PCR
 Rank: Rang
-Referentiel taxon fk: Referentiel taxon
+Taxon fk: Taxon
 Remarque pcr: Remarque PCR
 Sampling method voc fk: Méthode echantillonnage
 External sequence fk: Séquence externe assemblée

@@ -2243,7 +2243,7 @@ class ImportFileE3s {
       $em->persist($entity);
 
       # Record of TaxonIdentification
-      $key_taxname = array_keys($columnByTable["taxon_identification"], "taxon_identification.referentiel_taxon_fk(referentiel_taxon.taxname)")[0];
+      $key_taxname = array_keys($columnByTable["taxon_identification"], "taxon_identification.taxon_fk(taxon.taxname)")[0];
       // var_dump($data[$columnByTable["taxon_identification"][$key_taxname]]);
       $entityEspeceIdentifie = NULL;
       if ($data[$columnByTable["taxon_identification"][$key_taxname]] != '') {
@@ -4686,11 +4686,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataReferentielTaxon($fichier, $userId = null)
+   *  importCSVDataTaxon($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is taxon
    */
-  public function importCSVDataReferentielTaxon($fichier, $userId = null) {
+  public function importCSVDataTaxon($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -4702,22 +4702,22 @@ class ImportFileE3s {
     $list_new_commune = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\ReferentielTaxon();
-      if (array_key_exists("referentiel_taxon", $columnByTable)) {
-        foreach ($columnByTable["referentiel_taxon"] as $ColCsv) {
+      $entity = new \App\Entity\Taxon();
+      if (array_key_exists("taxon", $columnByTable)) {
+        foreach ($columnByTable["taxon"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $varfield = explode(".", $field)[1];
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
-          if ($ColCsv == 'referentiel_taxon.taxname') { // On teste pour savoir si le taxname a déja été créé.
-            $record_entity = $em->getRepository("App:ReferentielTaxon")->findOneBy(array("taxname" => $dataColCsv));
+          if ($ColCsv == 'taxon.taxname') { // On teste pour savoir si le taxname a déja été créé.
+            $record_entity = $em->getRepository("App:Taxon")->findOneBy(array("taxname" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
-          if ($ColCsv == 'referentiel_taxon.validity') {
+          if ($ColCsv == 'taxon.validity') {
             if ($dataColCsv != '') {
               if ($dataColCsv == 'YES' || $dataColCsv == 'NO') {
                 $dataColCsv = ($dataColCsv == 'YES') ? 1 : 0;

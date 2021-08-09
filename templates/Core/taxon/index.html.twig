@@ -22,35 +22,23 @@
 {% endblock %}
 
 {% block body %}
-	{# definition of collones to display 
-		     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+	{# definition of collones to display
+			     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th
-						data-column-id="referentielTaxon.id"
-						data-type="numeric"
-						data-visible="false">Id</th>
-					<th data-column-id="referentielTaxon.taxname" data-sortable="true">{{'Taxname'|trans}}</th>
-					<th data-column-id="referentielTaxon.rank" data-sortable="true">{{'Rank'|trans}}</th>
-					<th data-column-id="referentielTaxon.family" data-sortable="true">{{'Family'|trans}}</th>
-					<th data-column-id="referentielTaxon.validity" data-sortable="true">{{'Validity'|trans}}</th>
-					<th data-column-id="referentielTaxon.codeTaxon" data-sortable="true">{{'Code taxon'|trans}}</th>
-					<th data-column-id="referentielTaxon.clade" data-sortable="true">{{'Clade'|trans}}</th>
-					<th data-column-id="referentielTaxon.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
-					<th
-						data-column-id="referentielTaxon.dateCre"
-						data-width="100"
-						data-visible="false">{{'list.Date cre'|trans}}</th>
-					<th
-						data-column-id="referentielTaxon.userCre"
-						data-width="10"
-						data-visible="false">{{'list.User cre'|trans}}</th>
-					<th
-						data-column-id="referentielTaxon.userMaj"
-						data-width="10"
-						data-visible="false">{{'list.User maj'|trans}}</th>
+					<th data-column-id="taxon.id" data-type="numeric" data-visible="false">Id</th>
+					<th data-column-id="taxon.taxname" data-sortable="true">{{'Taxname'|trans}}</th>
+					<th data-column-id="taxon.rank" data-sortable="true">{{'Rank'|trans}}</th>
+					<th data-column-id="taxon.family" data-sortable="true">{{'Family'|trans}}</th>
+					<th data-column-id="taxon.validity" data-sortable="true">{{'Validity'|trans}}</th>
+					<th data-column-id="taxon.codeTaxon" data-sortable="true">{{'Code taxon'|trans}}</th>
+					<th data-column-id="taxon.clade" data-sortable="true">{{'Clade'|trans}}</th>
+					<th data-column-id="taxon.dateMaj" data-width="100">{{'list.Date maj'|trans}}</th>
+					<th data-column-id="taxon.dateCre" data-width="100" data-visible="false">{{'list.Date cre'|trans}}</th>
+					<th data-column-id="taxon.userCre" data-width="10" data-visible="false">{{'list.User cre'|trans}}</th>
+					<th data-column-id="taxon.userMaj" data-width="10" data-visible="false">{{'list.User maj'|trans}}</th>
 					<th
 						data-column-id="show"
 						data-formatter="show"

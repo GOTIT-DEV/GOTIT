@@ -108,14 +108,14 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $internalLotFk;
 
   /**
-   * @var \ReferentielTaxon
+   * @var \Taxon
    *
-   * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
+   * @ORM\ManyToOne(targetEntity="Taxon")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $referentielTaxonFk;
+  private $taxonFk;
 
   /**
    * @var \Specimen
@@ -311,25 +311,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set referentielTaxonFk
+   * Set taxonFk
    *
-   * @param \App\Entity\ReferentielTaxon $referentielTaxonFk
+   * @param \App\Entity\Taxon $taxonFk
    *
    * @return TaxonIdentification
    */
-  public function setReferentielTaxonFk(\App\Entity\ReferentielTaxon $referentielTaxonFk = null) {
-    $this->referentielTaxonFk = $referentielTaxonFk;
+  public function setTaxonFk(\App\Entity\Taxon $taxonFk = null) {
+    $this->taxonFk = $taxonFk;
 
     return $this;
   }
 
   /**
-   * Get referentielTaxonFk
+   * Get taxonFk
    *
-   * @return \App\Entity\ReferentielTaxon
+   * @return \App\Entity\Taxon
    */
-  public function getReferentielTaxonFk() {
-    return $this->referentielTaxonFk;
+  public function getTaxonFk() {
+    return $this->taxonFk;
   }
 
   /**

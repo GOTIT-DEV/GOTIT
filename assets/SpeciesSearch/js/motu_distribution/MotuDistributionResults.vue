@@ -24,7 +24,7 @@
           <template #cell(taxon_name)="data">
             <a
               :href="
-                generateRoute('referentieltaxon_show', {
+                generateRoute('taxon_show', {
                   id: data.item.taxon_id,
                 })
               "

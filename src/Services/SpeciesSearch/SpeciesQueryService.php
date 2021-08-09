@@ -21,7 +21,7 @@ class SpeciesQueryService {
   public function getGenusSet() {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.genus')
-      ->from('App:ReferentielTaxon', 'rt')
+      ->from('App:Taxon', 'rt')
       ->where('rt.genus IS NOT NULL')
       ->distinct()
       ->orderBy('rt.genus')
@@ -132,8 +132,8 @@ class SpeciesQueryService {
       ->addSelect('vocabulary.id as id_method, vocabulary.code as method')
       ->addSelect('motu_dataset.id as id_dataset, motu_dataset.dateMotu as dataset_date, motu_dataset.libelleMotu as dataset')
       ->addSelect('COUNT(DISTINCT ass.numMotu ) as count_motus')
-      ->from('App:ReferentielTaxon', 'rt')
-      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
+      ->from('App:Taxon', 'rt')
+      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk');
     switch ($level) {
     case 1: #lot matériel
       $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
@@ -201,8 +201,8 @@ class SpeciesQueryService {
       ->addSelect('ass.numMotu as motu_dataset')
       ->addSelect('v.code as criterion')
       ->addSelect('vocGene.code as gene')
-      ->from('App:ReferentielTaxon', 'rt')
-      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.referentielTaxonFk')
+      ->from('App:Taxon', 'rt')
+      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk')
       ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
     switch ($level) {
     case 1: # Bio material
@@ -290,17 +290,17 @@ class SpeciesQueryService {
     // JOIN lot matériel
       ->from('App:InternalLot', 'lm')
       ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLotFk')
-      ->join('App:ReferentielTaxon', 'biomat', 'WITH', 'biomat.id = eidlm.referentielTaxonFk')
+      ->join('App:Taxon', 'biomat', 'WITH', 'biomat.id = eidlm.taxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
     // JOIN specimen
       ->join('App:Specimen', 'indiv', 'WITH', 'indiv.internalLotFk = lm.id')
       ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimenFk')
-      ->join('App:ReferentielTaxon', 'spec', 'WITH', 'spec.id = eidindiv.referentielTaxonFk')
+      ->join('App:Taxon', 'spec', 'WITH', 'spec.id = eidindiv.taxonFk')
       ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id');
     // JOIN sequence
     $query = $this->leftJoinIndivSeq($query, 'indiv', 'seq')
       ->leftJoin('App:TaxonIdentification', 'eidseq', 'WITH', 'seq.id = eidseq.internalSequenceFk')
-      ->leftJoin('App:ReferentielTaxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.referentielTaxonFk')
+      ->leftJoin('App:Taxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.taxonFk')
       ->leftJoin('App:Voc', 'seqvoc', 'WITH', 'eidseq.critereIdentificationVocFk=seqvoc.id');
     if ($undefinedSeq) {
       $query = $query->andWhere('seq.id IS NULL');

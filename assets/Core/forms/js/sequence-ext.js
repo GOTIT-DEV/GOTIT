@@ -6,9 +6,7 @@ $(() => {
 
   initSearchSelect($sampling, "sampling_search");
 
-  const $taxon = $(
-    "#external_sequence_taxonIdentifications_0_referentielTaxonFk"
-  );
+  const $taxon = $("#external_sequence_taxonIdentifications_0_taxonFk");
   const $specimen = $("#external_sequence_specimenMolecularNumber");
   const $accession = $("#external_sequence_accessionNumberSqcAssExt");
   const $origin = $("#external_sequence_origineSqcAssExtVocFk");

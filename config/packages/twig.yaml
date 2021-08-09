@@ -90,8 +90,8 @@ twig:
         children:
           - route: voc_index
             text: core.voc
-          - route: referentieltaxon_index
-            text: core.referentieltaxon
+          - route: taxon_index
+            text: core.taxon
           - route: country_index
             text: core.country
           - route: municipality_index

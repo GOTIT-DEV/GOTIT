@@ -2,17 +2,17 @@
 
 namespace App\Form\EmbedTypes;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
 use App\Form\Type\TaxnameType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaxonSamplingEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('referentielTaxonFk', TaxnameType::class);
+    $builder->add('taxonFk', TaxnameType::class);
   }
 
   /**

@@ -3,7 +3,7 @@
     <template #cell(taxon)="data">
       <a
         :href="
-          generateRoute('referentieltaxon_show', {
+          generateRoute('taxon_show', {
             id: data.item.id,
           })
         "
@@ -19,7 +19,7 @@
         class="border"
         @click="$emit('show-details', data.item)"
       >
-        <i class="fas fa-th-list"></i>
+        <i class="fas fa-th-list" />
       </b-button>
     </template>
   </b-data-table>
@@ -80,5 +80,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

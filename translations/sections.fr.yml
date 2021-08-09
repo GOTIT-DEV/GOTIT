@@ -24,7 +24,7 @@ core:
   source: Source
   Référentiels: Référentiels
   voc: Vocabulaire
-  referentieltaxon: Taxon
+  taxon: Taxon
   person: Personne
   country: Pays
   municipality: Commune

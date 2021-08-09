@@ -21,7 +21,7 @@ class TaxonIdentificationEmbedType extends AbstractType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
     $builder
-      ->add('referentielTaxonFk', TaxnameType::class, [
+      ->add('taxonFk', TaxnameType::class, [
         'choice_label' => $options['refTaxonLabel'],
       ])
       ->add('critereIdentificationVocFk', BaseVocType::class, array(

@@ -24,7 +24,7 @@ core:
   source: Source
   Référentiels: Repositories
   voc: Vocabulary
-  referentieltaxon: Taxon
+  taxon: Taxon
   person: Person
   country: Country
   municipality: Municipality

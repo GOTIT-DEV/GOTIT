@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\ReferentielTaxon;
+use App\Entity\Taxon;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,25 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Referentieltaxon controller.
+ * Taxon controller.
  *
- * @Route("referentieltaxon")
+ * @Route("taxon")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ReferentielTaxonController extends AbstractController {
+class TaxonController extends AbstractController {
   /**
-   * Lists all referentielTaxon entities.
+   * Lists all taxon entities.
    *
-   * @Route("/", name="referentieltaxon_index", methods={"GET"})
+   * @Route("/", name="taxon_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $referentielTaxons = $em->getRepository('App:ReferentielTaxon')->findAll();
+    $taxons = $em->getRepository('App:Taxon')->findAll();
 
-    return $this->render('Core/referentieltaxon/index.html.twig', array(
-      'referentielTaxons' => $referentielTaxons,
+    return $this->render('Core/taxon/index.html.twig', array(
+      'taxons' => $taxons,
     ));
   }
 
@@ -40,7 +40,7 @@ class ReferentielTaxonController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="referentieltaxon_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="taxon_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -49,11 +49,11 @@ class ReferentielTaxonController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('referentielTaxon.dateMaj' => 'desc', 'referentielTaxon.id' => 'desc');
+    : array('taxon.dateMaj' => 'desc', 'taxon.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(referentielTaxon.taxname) LIKE :criteriaLower';
+    $where = 'LOWER(taxon.taxname) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -61,8 +61,8 @@ class ReferentielTaxonController extends AbstractController {
     // Search for the list to show
     $tab_toshow = [];
     $entities_toshow = $em
-      ->getRepository("App:ReferentielTaxon")
-      ->createQueryBuilder('referentielTaxon')
+      ->getRepository("App:Taxon")
+      ->createQueryBuilder('taxon')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -80,18 +80,18 @@ class ReferentielTaxonController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id, "referentielTaxon.id" => $id,
-        "referentielTaxon.taxname" => $entity->getTaxname(),
-        "referentielTaxon.rank" => $entity->getRank(),
-        "referentielTaxon.family" => $entity->getFamily(),
-        "referentielTaxon.validity" => $entity->getValidity(),
-        "referentielTaxon.codeTaxon" => $entity->getCodeTaxon(),
-        "referentielTaxon.clade" => $entity->getClade(),
-        "referentielTaxon.dateCre" => $DateCre,
-        "referentielTaxon.dateMaj" => $DateMaj,
+        "id" => $id, "taxon.id" => $id,
+        "taxon.taxname" => $entity->getTaxname(),
+        "taxon.rank" => $entity->getRank(),
+        "taxon.family" => $entity->getFamily(),
+        "taxon.validity" => $entity->getValidity(),
+        "taxon.codeTaxon" => $entity->getCodeTaxon(),
+        "taxon.clade" => $entity->getClade(),
+        "taxon.dateCre" => $DateCre,
+        "taxon.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "referentielTaxon.userCre" => $service->GetUserCreUserfullname($entity),
-        "referentielTaxon.userMaj" => $service->GetUserMajUserfullname($entity),
+        "taxon.userCre" => $service->GetUserCreUserfullname($entity),
+        "taxon.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
@@ -105,21 +105,21 @@ class ReferentielTaxonController extends AbstractController {
   }
 
   /**
-   * Creates a new referentielTaxon entity.
+   * Creates a new taxon entity.
    *
-   * @Route("/new", name="referentieltaxon_new", methods={"GET", "POST"})
+   * @Route("/new", name="taxon_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
-    $referentielTaxon = new Referentieltaxon();
-    $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
+    $taxon = new Taxon();
+    $form = $this->createForm('App\Form\TaxonType', $taxon, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($referentielTaxon);
+      $em->persist($taxon);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -127,53 +127,53 @@ class ReferentielTaxonController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/referentieltaxon/index.html.twig',
+          'Core/taxon/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('referentieltaxon_edit', array(
-        'id' => $referentielTaxon->getId(),
+      return $this->redirectToRoute('taxon_edit', array(
+        'id' => $taxon->getId(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/referentieltaxon/edit.html.twig', array(
-      'referentielTaxon' => $referentielTaxon,
+    return $this->render('Core/taxon/edit.html.twig', array(
+      'taxon' => $taxon,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a referentielTaxon entity.
+   * Finds and displays a taxon entity.
    *
-   * @Route("/{id}", name="referentieltaxon_show", methods={"GET"})
+   * @Route("/{id}", name="taxon_show", methods={"GET"})
    */
-  public function showAction(ReferentielTaxon $referentielTaxon) {
-    $deleteForm = $this->createDeleteForm($referentielTaxon);
+  public function showAction(Taxon $taxon) {
+    $deleteForm = $this->createDeleteForm($taxon);
     $editForm = $this->createForm(
-      'App\Form\ReferentielTaxonType',
-      $referentielTaxon,
+      'App\Form\TaxonType',
+      $taxon,
       ['action_type' => Action::show()]
     );
 
-    return $this->render('Core/referentieltaxon/edit.html.twig', array(
-      'referentielTaxon' => $referentielTaxon,
+    return $this->render('Core/taxon/edit.html.twig', array(
+      'taxon' => $taxon,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing referentielTaxon entity.
+   * Displays a form to edit an existing taxon entity.
    *
-   * @Route("/{id}/edit", name="referentieltaxon_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="taxon_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, ReferentielTaxon $referentielTaxon) {
-    $deleteForm = $this->createDeleteForm($referentielTaxon);
+  public function editAction(Request $request, Taxon $taxon) {
+    $deleteForm = $this->createDeleteForm($taxon);
     $editForm = $this->createForm(
-      'App\Form\ReferentielTaxonType',
-      $referentielTaxon,
+      'App\Form\TaxonType',
+      $taxon,
       ['action_type' => Action::edit()]
     );
     $editForm->handleRequest($request);
@@ -186,64 +186,64 @@ class ReferentielTaxonController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/referentieltaxon/index.html.twig',
+          'Core/taxon/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/referentieltaxon/edit.html.twig', array(
-        'referentielTaxon' => $referentielTaxon,
+      return $this->render('Core/taxon/edit.html.twig', array(
+        'taxon' => $taxon,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/referentieltaxon/edit.html.twig', array(
-      'referentielTaxon' => $referentielTaxon,
+    return $this->render('Core/taxon/edit.html.twig', array(
+      'taxon' => $taxon,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a referentielTaxon entity.
+   * Deletes a taxon entity.
    *
-   * @Route("/{id}", name="referentieltaxon_delete", methods={"DELETE"})
+   * @Route("/{id}", name="taxon_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon) {
-    $form = $this->createDeleteForm($referentielTaxon);
+  public function deleteAction(Request $request, Taxon $taxon) {
+    $form = $this->createDeleteForm($taxon);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($referentielTaxon);
+        $em->remove($taxon);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/referentieltaxon/index.html.twig',
+          'Core/taxon/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('referentieltaxon_index');
+    return $this->redirectToRoute('taxon_index');
   }
 
   /**
-   * Creates a form to delete a referentielTaxon entity.
+   * Creates a form to delete a taxon entity.
    *
-   * @param ReferentielTaxon $referentielTaxon The referentielTaxon entity
+   * @param Taxon $taxon The taxon entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(ReferentielTaxon $referentielTaxon) {
+  private function createDeleteForm(Taxon $taxon) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('referentieltaxon_delete', array('id' => $referentielTaxon->getId())))
+      ->setAction($this->generateUrl('taxon_delete', array('id' => $taxon->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }
@@ -255,7 +255,7 @@ class ReferentielTaxonController extends AbstractController {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $query = $qb->select('rt')
     // index results by genus
-      ->from('App:ReferentielTaxon', 'rt')
+      ->from('App:Taxon', 'rt')
       ->where('rt.species IS NOT NULL')
       ->orderBy('rt.genus, rt.species')
       ->getQuery();

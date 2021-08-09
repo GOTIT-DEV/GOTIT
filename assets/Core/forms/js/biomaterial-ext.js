@@ -3,7 +3,7 @@ import { initSearchSelect } from "./field-suggestions";
 $(() => {
   const $form = $("form[name='external_lot']");
   const $sampling = $("#external_lot_samplingFk");
-  const $taxon = $("#external_lot_taxonIdentifications_0_referentielTaxonFk");
+  const $taxon = $("#external_lot_taxonIdentifications_0_taxonFk");
   const $code = $("#external_lot_codeLotMaterielExt");
 
   initSearchSelect($sampling, "sampling_search");
