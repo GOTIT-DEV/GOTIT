@@ -34,12 +34,12 @@ class DnaType extends ActionFormType {
         ],
       ])
       # Is not auto-generated : editable in create mode
-      ->add('codeAdn', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateAdn', DateFormattedType::class)
-      ->add('methodeExtractionAdnVocFk', BaseVocType::class, [
+      ->add('date', DateFormattedType::class)
+      ->add('extractionMethodVocFk', BaseVocType::class, [
         'voc_parent' => "methodeExtractionAdn",
         'placeholder' => 'Choose a method',
       ])
@@ -47,7 +47,7 @@ class DnaType extends ActionFormType {
         'scale' => 4,
         'required' => false,
       ))
-      ->add('commentaireAdn')
+      ->add('comment')
       ->add('qualiteAdnVocFk', BaseVocType::class, [
         'voc_parent' => 'qualiteAdn',
         'placeholder' => 'Choose a quality',

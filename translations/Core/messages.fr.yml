@@ -461,7 +461,7 @@ Libelle source: Libellé source
 Long deg dec: Longitude degré decimal
 External lot fk: Lot matériel externe
 Internal lot fk: Lot matériel
-Methode extraction adn voc fk: Méthode extraction ADN
+Extraction method voc fk: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU
 Motu dataset fk: MOTU
 Nb specimens: Nombre d'individus

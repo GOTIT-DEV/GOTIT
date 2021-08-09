@@ -89,7 +89,7 @@ class Store extends AbstractTimestampedEntity {
 
   /**
    * @ORM\OneToMany(targetEntity="Dna", mappedBy="storeFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeAdn" = "ASC"})
+   * @ORM\OrderBy({"code" = "ASC"})
    */
   protected $dnas;
 

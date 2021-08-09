@@ -43,13 +43,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataDnaRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_dna = $em->getRepository("App:Dna")->createQueryBuilder('dna')
-        ->where('dna.codeAdn  LIKE :code_adn')
-        ->setParameter('code_adn', $data["code_adn"])
+        ->where('dna.code  LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagDna = count($query_dna);
       if ($flagDna == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -122,13 +122,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataDnaRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_dna = $em->getRepository("Dna")->createQueryBuilder('dna')
-        ->where('dna.codeAdn  LIKE :code_adn')
-        ->setParameter('code_adn', $data["code_adn"])
+        ->where('dna.code  LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagDna = count($query_dna);
       if ($flagDna == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -152,7 +152,7 @@ class ImportFileE3s {
 
       if ($flagDna && $flagStore && $flagStoreAffecte) {
         if ($query_dna[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code_adn"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_dna[0]->setStoreFk($query_store[0]);
           $query_dna[0]->setDateMaj($DateImport);
@@ -1373,8 +1373,8 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'dna.code_adn') {
-            $record_entity = $em->getRepository("App:Dna")->findOneBy(array("codeAdn" => $dataColCsv));
+          if ($ColCsv == 'dna.code') {
+            $record_entity = $em->getRepository("App:Dna")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1385,7 +1385,7 @@ class ImportFileE3s {
             $dataColCsv = floatval(str_replace(",", ".", $dataColCsv));
           }
           // test of the date format
-          if ($ColCsv == 'dna.date_adn') {
+          if ($ColCsv == 'dna.date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if (!is_null($dataColCsv)) {
               if (count(explode("/", $dataColCsv)) == 2) {

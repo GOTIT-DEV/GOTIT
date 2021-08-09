@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
  * @ORM\Entity
- * @UniqueEntity(fields={"codeAdn"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Dna extends AbstractTimestampedEntity {
@@ -38,14 +38,14 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false)
    */
-  private $codeAdn;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
    */
-  private $dateAdn;
+  private $date;
 
   /**
    * @var float
@@ -59,7 +59,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="dna_comments", type="text", nullable=true)
    */
-  private $commentaireAdn;
+  private $comment;
 
   /**
    * @var \Voc
@@ -79,7 +79,7 @@ class Dna extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $methodeExtractionAdnVocFk;
+  private $extractionMethodVocFk;
 
   /**
    * @var \Specimen
@@ -131,47 +131,47 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeAdn
+   * Set code
    *
-   * @param string $codeAdn
+   * @param string $code
    *
    * @return Dna
    */
-  public function setCodeAdn($codeAdn) {
-    $this->codeAdn = $codeAdn;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeAdn
+   * Get code
    *
    * @return string
    */
-  public function getCodeAdn() {
-    return $this->codeAdn;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateAdn
+   * Set date
    *
-   * @param \DateTime $dateAdn
+   * @param \DateTime $date
    *
    * @return Dna
    */
-  public function setDateAdn($dateAdn) {
-    $this->dateAdn = $dateAdn;
+  public function setDate($date) {
+    $this->date = $date;
 
     return $this;
   }
 
   /**
-   * Get dateAdn
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDateAdn() {
-    return $this->dateAdn;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
@@ -197,25 +197,25 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireAdn
+   * Set comment
    *
-   * @param string $commentaireAdn
+   * @param string $comment
    *
    * @return Dna
    */
-  public function setCommentaireAdn($commentaireAdn) {
-    $this->commentaireAdn = $commentaireAdn;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireAdn
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireAdn() {
-    return $this->commentaireAdn;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**
@@ -241,25 +241,25 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set methodeExtractionAdnVocFk
+   * Set extractionMethodVocFk
    *
-   * @param \App\Entity\Voc $methodeExtractionAdnVocFk
+   * @param \App\Entity\Voc $extractionMethodVocFk
    *
    * @return Dna
    */
-  public function setMethodeExtractionAdnVocFk(\App\Entity\Voc $methodeExtractionAdnVocFk = null) {
-    $this->methodeExtractionAdnVocFk = $methodeExtractionAdnVocFk;
+  public function setExtractionMethodVocFk(\App\Entity\Voc $extractionMethodVocFk = null) {
+    $this->extractionMethodVocFk = $extractionMethodVocFk;
 
     return $this;
   }
 
   /**
-   * Get methodeExtractionAdnVocFk
+   * Get extractionMethodVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getMethodeExtractionAdnVocFk() {
-    return $this->methodeExtractionAdnVocFk;
+  public function getExtractionMethodVocFk() {
+    return $this->extractionMethodVocFk;
   }
 
   /**

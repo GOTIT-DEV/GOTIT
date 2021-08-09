@@ -39,10 +39,10 @@ class DnaController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('dna.id, dna.codeAdn as code')->from('App:Dna', 'dna');
+    $qb->select('dna.id, dna.code as code')->from('App:Dna', 'dna');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(dna.codeAdn) like :q' . $i . ')')
+      $qb->andWhere('(LOWER(dna.code) like :q' . $i . ')')
         ->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
@@ -68,7 +68,7 @@ class DnaController extends AbstractController {
       'dna.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $where = 'LOWER(dna.codeAdn) LIKE :criteriaLower';
+    $where = 'LOWER(dna.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -92,8 +92,8 @@ class DnaController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateAdn = $entity->getDateAdn()
-      ? $entity->getDateAdn()->format('Y-m-d') : null;
+      $Date = $entity->getDate()
+      ? $entity->getDate()->format('Y-m-d') : null;
       $codeBoite = $entity->getStoreFk()
       ? $entity->getStoreFk()->getCodeBoite() : null;
       $DateMaj = $entity->getDateMaj()
@@ -124,9 +124,9 @@ class DnaController extends AbstractController {
         "id" => $id,
         "dna.id" => $id,
         "specimen.codeIndBiomol" => $entity->getSpecimenFk()->getCodeIndBiomol(),
-        "dna.codeAdn" => $entity->getCodeAdn(),
+        "dna.code" => $entity->getCode(),
         "listePerson" => $listePerson,
-        "dna.dateAdn" => $DateAdn,
+        "dna.date" => $Date,
         "store.codeBoite" => $codeBoite,
         "dna.dateCre" => $DateCre,
         "dna.dateMaj" => $DateMaj,

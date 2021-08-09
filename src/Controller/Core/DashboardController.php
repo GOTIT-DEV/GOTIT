@@ -50,7 +50,7 @@ class DashboardController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'dna',
-        "code" => $entity->getCodeAdn(),
+        "code" => $entity->getCode(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
       );

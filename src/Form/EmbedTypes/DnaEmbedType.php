@@ -11,7 +11,7 @@ class DnaEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeAdn');
+    $builder->add('code');
   }
 
   /**

@@ -131,7 +131,7 @@ class PcrController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
         "specimen.codeIndBiomol" => $entity->getDnaFk()->getSpecimenFk()->getCodeIndBiomol(),
-        "dna.codeAdn" => $entity->getDnaFk()->getCodeAdn(),
+        "dna.code" => $entity->getDnaFk()->getCode(),
         "pcr.codePcr" => $entity->getCodePcr(),
         "pcr.numPcr" => $entity->getNumPcr(),
         "vocGene.code" => $entity->getGeneVocFk()->getCode(),

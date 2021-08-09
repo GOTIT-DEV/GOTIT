@@ -625,7 +625,7 @@ Libelle source: Source title
 Long deg dec: Longitude Dec Deg
 External lot fk: External biological material
 Internal lot fk: Internal Biological material
-Methode extraction adn voc fk: DNA extraction method
+Extraction method voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
 Motu dataset fk: MOTU
 Nb specimens: Number of specimens
