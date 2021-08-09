@@ -54,10 +54,10 @@ class ChromatogramType extends ActionFormType {
         'class' => 'App:Institution',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('institution')
-            ->orderBy('institution.nomEtablissement', 'ASC');
+            ->orderBy('institution.name', 'ASC');
         },
         'placeholder' => 'Choose a society',
-        'choice_label' => 'nom_etablissement',
+        'choice_label' => 'name',
         'multiple' => false,
         'expanded' => false,
       ))

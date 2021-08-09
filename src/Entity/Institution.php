@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="institution",
  * uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"nomEtablissement"}, message="This name already exists")
+ * @UniqueEntity(fields={"name"}, message="This name already exists")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Institution extends AbstractTimestampedEntity {
@@ -30,7 +30,7 @@ class Institution extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false)
    */
-  private $nomEtablissement;
+  private $name;
 
   /**
    * @var string
@@ -49,25 +49,25 @@ class Institution extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set nomEtablissement
+   * Set name
    *
-   * @param string $nomEtablissement
+   * @param string $name
    *
    * @return Institution
    */
-  public function setNomEtablissement($nomEtablissement) {
-    $this->nomEtablissement = $nomEtablissement;
+  public function setName($name) {
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * Get nomEtablissement
+   * Get name
    *
    * @return string
    */
-  public function getNomEtablissement() {
-    return $this->nomEtablissement;
+  public function getName() {
+    return $this->name;
   }
 
   /**

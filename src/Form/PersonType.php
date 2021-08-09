@@ -23,10 +23,10 @@ class PersonType extends ActionFormType {
       ->add('institutionFk', EntityType::class, [
         'class' => 'App:Institution',
         'placeholder' => 'Choose a Institution',
-        'choice_label' => 'nom_etablissement',
+        'choice_label' => 'name',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('institution')
-            ->orderBy('institution.nomEtablissement');
+            ->orderBy('institution.name');
         },
         'multiple' => false,
         'expanded' => false,

@@ -82,14 +82,14 @@ class PersonController extends AbstractController {
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $NomEtablissement = ($entity->getInstitutionFk() !== null)
-      ? $entity->getInstitutionFk()->getNomEtablissement() : null;
+      $Name = ($entity->getInstitutionFk() !== null)
+      ? $entity->getInstitutionFk()->getName() : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "person.id" => $id,
         "person.nomPersonne" => $entity->getNomPersonne(),
         "person.nomComplet" => $entity->getNomComplet(),
-        "institution.nomEtablissement" => $NomEtablissement,
+        "institution.name" => $Name,
         "person.dateCre" => $DateCre,
         "person.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

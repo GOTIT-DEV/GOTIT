@@ -11,10 +11,10 @@ class InstitutionType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('nomEtablissement')
+    $builder->add('name')
       ->add('comment');
 
-    $this->upperCaseFields($builder, ['nomEtablissement']);
+    $this->upperCaseFields($builder, ['name']);
   }
 
   /**

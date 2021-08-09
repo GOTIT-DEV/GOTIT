@@ -53,7 +53,7 @@ class InstitutionController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(institution.nomEtablissement) LIKE :criteriaLower';
+    $where = 'LOWER(institution.name) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -82,7 +82,7 @@ class InstitutionController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "institution.id" => $id,
-        "institution.nomEtablissement" => $entity->getNomEtablissement(),
+        "institution.name" => $entity->getName(),
         "institution.dateCre" => $DateCre,
         "institution.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

@@ -1,1 +1,1 @@
-chromatogram.pcr_fk(pcr.code_pcr);chromatogram.code;chromatogram.yas_number;chromatogram.primer_voc_fk(voc.code);chromatogram.quality_voc_fk(voc.code);chromatogram.comment;chromatogram.institution_fk(institution.nom_etablissement)
+chromatogram.pcr_fk(pcr.code_pcr);chromatogram.code;chromatogram.yas_number;chromatogram.primer_voc_fk(voc.code);chromatogram.quality_voc_fk(voc.code);chromatogram.comment;chromatogram.institution_fk(institution.name)
