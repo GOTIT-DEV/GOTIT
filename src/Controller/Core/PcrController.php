@@ -113,10 +113,10 @@ class PcrController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // Search chromatograms associated to a PCR
       $query = $em->createQuery(
-        'SELECT chromato.id FROM App:Chromatogramme chromato
+        'SELECT chromato.id FROM App:Chromatogram chromato
                 WHERE chromato.pcrFk = ' . $id
       )->getResult();
-      $linkChromatogramme = (count($query) > 0) ? $id : '';
+      $linkChromatogram = (count($query) > 0) ? $id : '';
       // concatenated list of people
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom FROM App:PcrProducer erp
@@ -144,7 +144,7 @@ class PcrController extends AbstractController {
         "userCreId" => $service->GetUserCreId($entity),
         "pcr.userCre" => $service->GetUserCreUserfullname($entity),
         "pcr.userMaj" => $service->GetUserMajUserfullname($entity),
-        "linkChromatogramme" => $linkChromatogramme,
+        "linkChromatogram" => $linkChromatogram,
       );
     }
 

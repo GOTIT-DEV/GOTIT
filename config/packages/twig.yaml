@@ -51,8 +51,8 @@ twig:
             text: core.adn
           - route: pcr_index
             text: core.pcr
-          - route: chromatogramme_index
-            text: core.chromatogramme
+          - route: chromatogram_index
+            text: core.chromatogram
       - route: ~
         text: core.Etude séquençage
         icon: fas fa-dna

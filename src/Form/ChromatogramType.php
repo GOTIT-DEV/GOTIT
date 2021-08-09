@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ChromatogrammeType extends ActionFormType {
+class ChromatogramType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -71,7 +71,7 @@ class ChromatogrammeType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Chromatogramme',
+      'data_class' => 'App\Entity\Chromatogram',
     ));
   }
 
@@ -79,6 +79,6 @@ class ChromatogrammeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'chromatogramme';
+    return 'chromatogram';
   }
 }

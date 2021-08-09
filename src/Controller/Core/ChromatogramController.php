@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Chromatogramme;
+use App\Entity\Chromatogram;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,25 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Chromatogramme controller.
+ * Chromatogram controller.
  *
- * @Route("chromatogramme")
+ * @Route("chromatogram")
  * @Security("is_granted('ROLE_INVITED')")
  *
  */
-class ChromatogrammeController extends AbstractController {
+class ChromatogramController extends AbstractController {
 
   /**
-   * Lists all chromatogramme entities.
+   * Lists all chromatogram entities.
    *
-   * @Route("/", name="chromatogramme_index", methods={"GET"})
+   * @Route("/", name="chromatogram_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
-    $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
+    $chromatograms = $em->getRepository('App:Chromatogram')->findAll();
 
-    return $this->render('Core/chromatogramme/index.html.twig', array(
-      'chromatogrammes' => $chromatogrammes,
+    return $this->render('Core/chromatogram/index.html.twig', array(
+      'chromatograms' => $chromatograms,
     ));
   }
 
@@ -40,7 +40,7 @@ class ChromatogrammeController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="chromatogramme_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="chromatogram_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -158,27 +158,27 @@ class ChromatogrammeController extends AbstractController {
   }
 
   /**
-   * Creates a new chromatogramme entity.
+   * Creates a new chromatogram entity.
    *
-   * @Route("/new", name="chromatogramme_new", methods={"GET", "POST"})
+   * @Route("/new", name="chromatogram_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $chromatogramme = new Chromatogramme();
+    $chromatogram = new Chromatogram();
     $em = $this->getDoctrine()->getManager();
     // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
     if ($pcr_id = $request->get('idFk')) {
       $pcr = $em->getRepository('App:Pcr')->find($pcr_id);
-      $chromatogramme->setPcrFk($pcr);
+      $chromatogram->setPcrFk($pcr);
     }
-    $form = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
+    $form = $this->createForm('App\Form\ChromatogramType', $chromatogram, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($chromatogramme);
+      $em->persist($chromatogram);
 
       try {
         $em->flush();
@@ -187,60 +187,60 @@ class ChromatogrammeController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/chromatogramme/index.html.twig',
+          'Core/chromatogram/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('chromatogramme_edit', array(
-        'id' => $chromatogramme->getId(),
+      return $this->redirectToRoute('chromatogram_edit', array(
+        'id' => $chromatogram->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ));
     }
 
-    return $this->render('Core/chromatogramme/edit.html.twig', array(
-      'chromatogramme' => $chromatogramme,
+    return $this->render('Core/chromatogram/edit.html.twig', array(
+      'chromatogram' => $chromatogram,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a chromatogramme entity.
+   * Finds and displays a chromatogram entity.
    *
-   * @Route("/{id}", name="chromatogramme_show", methods={"GET"})
+   * @Route("/{id}", name="chromatogram_show", methods={"GET"})
    */
-  public function showAction(Chromatogramme $chromatogramme) {
-    $deleteForm = $this->createDeleteForm($chromatogramme);
-    $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
+  public function showAction(Chromatogram $chromatogram) {
+    $deleteForm = $this->createDeleteForm($chromatogram);
+    $editForm = $this->createForm('App\Form\ChromatogramType', $chromatogram, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/chromatogramme/edit.html.twig', array(
-      'chromatogramme' => $chromatogramme,
+    return $this->render('Core/chromatogram/edit.html.twig', array(
+      'chromatogram' => $chromatogram,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing chromatogramme entity.
+   * Displays a form to edit an existing chromatogram entity.
    *
-   * @Route("/{id}/edit", name="chromatogramme_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="chromatogram_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Chromatogramme $chromatogramme) {
+  public function editAction(Request $request, Chromatogram $chromatogram) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $chromatogramme->getUserCre() != $user->getId()
+      $chromatogram->getUserCre() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     //
-    $deleteForm = $this->createDeleteForm($chromatogramme);
-    $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
+    $deleteForm = $this->createDeleteForm($chromatogram);
+    $editForm = $this->createForm('App\Form\ChromatogramType', $chromatogram, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -248,7 +248,7 @@ class ChromatogrammeController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
       $em = $this->getDoctrine()->getManager();
-      $em->persist($chromatogramme);
+      $em->persist($chromatogram);
 
       try {
         $em->flush();
@@ -257,64 +257,64 @@ class ChromatogrammeController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/chromatogramme/index.html.twig',
+          'Core/chromatogram/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/chromatogramme/edit.html.twig', array(
-        'chromatogramme' => $chromatogramme,
+      return $this->render('Core/chromatogram/edit.html.twig', array(
+        'chromatogram' => $chromatogram,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/chromatogramme/edit.html.twig', array(
-      'chromatogramme' => $chromatogramme,
+    return $this->render('Core/chromatogram/edit.html.twig', array(
+      'chromatogram' => $chromatogram,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a chromatogramme entity.
+   * Deletes a chromatogram entity.
    *
-   * @Route("/{id}", name="chromatogramme_delete", methods={"DELETE"})
+   * @Route("/{id}", name="chromatogram_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
-    $form = $this->createDeleteForm($chromatogramme);
+  public function deleteAction(Request $request, Chromatogram $chromatogram) {
+    $form = $this->createDeleteForm($chromatogram);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($chromatogramme);
+        $em->remove($chromatogram);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/chromatogramme/index.html.twig',
+          'Core/chromatogram/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('chromatogramme_index');
+    return $this->redirectToRoute('chromatogram_index');
   }
 
   /**
-   * Creates a form to delete a chromatogramme entity.
+   * Creates a form to delete a chromatogram entity.
    *
-   * @param Chromatogramme $chromatogramme The chromatogramme entity
+   * @param Chromatogram $chromatogram The chromatogram entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Chromatogramme $chromatogramme) {
+  private function createDeleteForm(Chromatogram $chromatogram) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('chromatogramme_delete', array('id' => $chromatogramme->getId())))
+      ->setAction($this->generateUrl('chromatogram_delete', array('id' => $chromatogram->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }

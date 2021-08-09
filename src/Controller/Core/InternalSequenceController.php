@@ -197,7 +197,7 @@ class InternalSequenceController extends AbstractController {
 
     $chromatoRepo = $this->getDoctrine()
       ->getManager()
-      ->getRepository("App:Chromatogramme");
+      ->getRepository("App:Chromatogram");
 
     if ($chromatoFk) {
       $chromato = $chromatoRepo->find($chromatoFk);
@@ -205,8 +205,8 @@ class InternalSequenceController extends AbstractController {
       $gene = $pcr->getGeneVocFk();
       $specimen = $pcr->getAdnFk()->getSpecimenFk();
     } elseif ($specimenFk && $geneFk) {
-      $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
-        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+      $chromato = $chromatoRepo->createQueryBuilder('chromatogram')
+        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
         ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
         ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
         ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
@@ -228,7 +228,7 @@ class InternalSequenceController extends AbstractController {
 
     if ($chromato) {
       $processing = new InternalSequenceAssembly();
-      $processing->setChromatogrammeFk($chromato);
+      $processing->setChromatogramFk($chromato);
       $sequence->addAssembly($processing);
     }
 

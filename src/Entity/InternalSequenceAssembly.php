@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_BD45639E5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @UniqueEntity(
- *  fields={"chromatogrammeFk", "internalSequenceFk"},
+ *  fields={"chromatogramFk", "internalSequenceFk"},
  *  message = "Duplicated sequence to chromatogram relation"
  * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
@@ -31,14 +31,14 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \Chromatogramme
+   * @var \Chromatogram
    *
-   * @ORM\ManyToOne(targetEntity="Chromatogramme")
+   * @ORM\ManyToOne(targetEntity="Chromatogram")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $chromatogrammeFk;
+  private $chromatogramFk;
 
   /**
    * @var \InternalSequence
@@ -60,25 +60,25 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set chromatogrammeFk
+   * Set chromatogramFk
    *
-   * @param \App\Entity\Chromatogramme $chromatogrammeFk
+   * @param \App\Entity\Chromatogram $chromatogramFk
    *
    * @return InternalSequenceAssembly
    */
-  public function setChromatogrammeFk(\App\Entity\Chromatogramme $chromatogrammeFk = null) {
-    $this->chromatogrammeFk = $chromatogrammeFk;
+  public function setChromatogramFk(\App\Entity\Chromatogram $chromatogramFk = null) {
+    $this->chromatogramFk = $chromatogramFk;
 
     return $this;
   }
 
   /**
-   * Get chromatogrammeFk
+   * Get chromatogramFk
    *
-   * @return \App\Entity\Chromatogramme
+   * @return \App\Entity\Chromatogram
    */
-  public function getChromatogrammeFk() {
-    return $this->chromatogrammeFk;
+  public function getChromatogramFk() {
+    return $this->chromatogramFk;
   }
 
   /**

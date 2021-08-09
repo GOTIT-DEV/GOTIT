@@ -2,12 +2,12 @@ import { initSearchSelect } from "./field-suggestions";
 import { getSelectedCode } from "./forms";
 
 $(() => {
-  const $form = $("form[name='chromatogramme']");
-  const $pcr = $form.find("#chromatogramme_pcrFk");
-  const $yas = $form.find("#chromatogramme_numYas");
-  const $primer = $form.find("#chromatogramme_primerChromatoVocFk");
+  const $form = $("form[name='chromatogram']");
+  const $pcr = $form.find("#chromatogram_pcrFk");
+  const $yas = $form.find("#chromatogram_numYas");
+  const $primer = $form.find("#chromatogram_primerChromatoVocFk");
 
-  const $code = $form.find("#chromatogramme_codeChromato");
+  const $code = $form.find("#chromatogram_codeChromato");
 
   initSearchSelect($pcr, "pcr_search");
 

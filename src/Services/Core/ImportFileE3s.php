@@ -994,11 +994,11 @@ class ImportFileE3s {
         }
       }
 
-      # Record of chromatogramme
-      $entityRel = new \App\Entity\Chromatogramme();
+      # Record of chromatogram
+      $entityRel = new \App\Entity\Chromatogram();
       $method = "setPcrFk";
       $entityRel->$method($entity);
-      foreach ($columnByTable["chromatogramme"] as $ColCsv) {
+      foreach ($columnByTable["chromatogram"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1007,8 +1007,8 @@ class ImportFileE3s {
         $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
-          if ($ColCsv == 'chromatogramme.code_chromato') { // On teste pour savoir si le chromatogramme.code_chromato a déja été créé.
-            $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv));
+          if ($ColCsv == 'chromatogram.code_chromato') { // On teste pour savoir si le chromatogram.code_chromato a déja été créé.
+            $record_entity = $em->getRepository("App:Chromatogram")->findOneBy(array("codeChromato" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1018,7 +1018,7 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entityRel->$method($dataColCsv);
         }
-        if ($flag_foreign && $ColCsv != 'chromatogramme.pcr_fk(pcr.code_pcr)') { // case of a foreign key (where there are parentheses in the field name)
+        if ($flag_foreign && $ColCsv != 'chromatogram.pcr_fk(pcr.code_pcr)') { // case of a foreign key (where there are parentheses in the field name)
           $varfield = explode(".", strstr($field, '(', true))[1];
           $linker = explode('.', trim($foreign_content[0], "()"));
           $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
@@ -1262,8 +1262,8 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       # Record of the chromatogram
-      $entity = new \App\Entity\Chromatogramme();
-      foreach ($columnByTable["chromatogramme"] as $ColCsv) {
+      $entity = new \App\Entity\Chromatogram();
+      foreach ($columnByTable["chromatogram"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1273,8 +1273,8 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'chromatogramme.code_chromato') {
-            $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv));
+          if ($ColCsv == 'chromatogram.code_chromato') {
+            $record_entity = $em->getRepository("App:Chromatogram")->findOneBy(array("codeChromato" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

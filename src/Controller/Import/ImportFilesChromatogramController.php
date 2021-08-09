@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfileschromatogramme")
+ * @Route("importfileschromatogram")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesChromatogrammeController extends AbstractController {
+class ImportFilesChromatogramController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfileschromatogramme_index")
+   * @Route("/", name="importfileschromatogram_index")
    *
    */
   public function indexAction(

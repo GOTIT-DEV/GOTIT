@@ -13,11 +13,11 @@ class InternalSequenceAssemblyEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('chromatogrammeFk', EntityType::class, [
-      'class' => 'App:Chromatogramme',
+    $builder->add('chromatogramFk', EntityType::class, [
+      'class' => 'App:Chromatogram',
       'query_builder' => function (EntityRepository $er) use ($options) {
-        $qb = $er->createQueryBuilder('chromatogramme');
-        return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+        $qb = $er->createQueryBuilder('chromatogram');
+        return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
           ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
           ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
           ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
@@ -33,7 +33,7 @@ class InternalSequenceAssemblyEmbedType extends AbstractType {
       'expanded' => false,
       'required' => true,
       'label' => 'Code Chromato | Specificite',
-      'placeholder' => 'Choose a chromatogramme',
+      'placeholder' => 'Choose a chromatogram',
     ]);
   }
 

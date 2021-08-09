@@ -38,7 +38,7 @@ adn_index: |
   Use this page to browse, create, import, export, show, edit and delete DNA extracts. Deleting a DNA extract may not be possible until all data related to a DNA extract have been deleted. Additional fields can be listed using the top right button. To access to PCRs made from a DNA extract, click the "Pcr(s)" button (option: menu). Also, use the same button (option +) to create PCR from a DNA extract. The search button applies to the field "DNA code".
 pcr_index: |
   Use this page to browse, create, import, export, show, edit and delete PCRs. Deleting a PCR may not be possible until all data related to a PCR have been deleted. Additional fields can be listed using the top right button. To access to chromatograms obtained from a PCR click the "Chr(s)" button (option: menu). The same button (option +) allows to create "Chr(s)" for a PCR. The search button applies to the field "Specimen molecular code".”
-chromatogramme_index: |
+chromatogram_index: |
   Use this page to browse, create, import, export, show, edit and delete chromatograms. Deleting a chromatogram may not be possible until all data related to a chromatogram have been deleted. Additional fields can be listed using the top right button. To access the internal sequences made from a chromatogram, click the "Seq(s)" button (option: menu). Also, use the same button (option +) to create an internal sequence from a chromatogram. The search button applies to the field "Chromatogram code".
 internal_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete internal sequences. Additional fields can be listed using the top right button. Deleting an internal sequence may not be possible until all data related to an internal sequence have been deleted. The search button applies to the field "Sequence code".
@@ -87,7 +87,7 @@ adn_new: |
   Use this form to fill in data of a new DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
 pcr_new: |
   Use this form to fill in data of a new PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
-chromatogramme_new: |
+chromatogram_new: |
   Use this form to fill in data of a new chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 internal_sequence_new: |
   Use this form to fill in data of a new internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
@@ -136,7 +136,7 @@ adn_show: |
   Use this form to consult data of a DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
 pcr_show: |
   Use this form to consult data of a PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
-chromatogramme_show: |
+chromatogram_show: |
   Use this form to consult data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 internal_sequence_show: |
   Use this form to consult data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
@@ -185,7 +185,7 @@ adn_edit: |
   Use this form to edit data of a DNA extract. See appendix 7.1.2 in GOTIT HELP for content of fields.
 pcr_edit: |
   Use this form to edit data of a PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
-chromatogramme_edit: |
+chromatogram_edit: |
   Use this form to edit data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
 internal_sequence_edit: |
   Use this form to edit data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
@@ -294,7 +294,7 @@ importfilespcr_index: |
   - (if necessary) upload the referential files (templates: vocabulary, person);
   - use and upload the template file “PCR” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfileschromatogramme_index: |
+importfileschromatogram_index: |
   Use this form to upload data from multiple chromatograms and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: institution, vocabulary);
   - use and upload the template file “chromatogram” to follow appropriate data format.

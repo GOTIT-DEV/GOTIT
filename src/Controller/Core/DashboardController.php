@@ -26,7 +26,7 @@ class DashboardController extends AbstractController {
     $nbSlide = $em->createQuery('SELECT COUNT(u.id) FROM App:Slide u')->getSingleScalarResult();
     $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
     $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
-    $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
+    $nbChromatogram = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogram u')->getSingleScalarResult();
     $internalSequenceCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalSequence u')->getSingleScalarResult();
     $externalSeqCount = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalSequence u')->getSingleScalarResult();
     $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:MotuDelimitation u')->getSingleScalarResult();
@@ -56,8 +56,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the chromatogram
-    $entities_toshow = $em->getRepository("App:Chromatogramme")->createQueryBuilder('chromatogramme')
-      ->addOrderBy('chromatogramme.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Chromatogram")->createQueryBuilder('chromatogram')
+      ->addOrderBy('chromatogram.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -67,7 +67,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'chromatogramme',
+        "name" => 'chromatogram',
         "code" => $entity->getCodeChromato(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -263,7 +263,7 @@ class DashboardController extends AbstractController {
       'nbSlide' => $nbSlide,
       'nbDna' => $nbDna,
       'nbPcr' => $nbPcr,
-      'nbChromatogramme' => $nbChromatogramme,
+      'nbChromatogram' => $nbChromatogram,
       'internalSequenceCount' => $internalSequenceCount,
       'externalSeqCount' => $externalSeqCount,
       'nbMotu' => $nbMotu,

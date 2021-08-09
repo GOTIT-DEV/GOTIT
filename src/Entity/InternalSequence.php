@@ -421,7 +421,7 @@ class InternalSequence extends AbstractTimestampedEntity {
     $process = $this->assemblies->first();
     return $process
     ? $process
-      ->getChromatogrammeFk()
+      ->getChromatogramFk()
       ->getPcrFk()
       ->getGeneVocFk()
     : null;
@@ -439,7 +439,7 @@ class InternalSequence extends AbstractTimestampedEntity {
     $process = $this->assemblies->first();
     return $process
     ? $process
-      ->getChromatogrammeFk()
+      ->getChromatogramFk()
       ->getPcrFk()
       ->getAdnFk()
       ->getSpecimenFk()
@@ -483,7 +483,7 @@ class InternalSequence extends AbstractTimestampedEntity {
       $chromatoCodeList = $this->getAssemblies()
         ->map(
           function ($seqProcessing) {
-            $chromato = $seqProcessing->getChromatogrammeFk();
+            $chromato = $seqProcessing->getChromatogramFk();
             $code = $chromato->getCodeChromato();
             $specificite = $chromato->getPcrFk()->getSpecificiteVocFk()->getCode();
             return $code . '|' . $specificite;

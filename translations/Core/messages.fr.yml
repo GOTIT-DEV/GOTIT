@@ -11,8 +11,8 @@ alert.codeIndBiomol empty: le code moléculaire est vide , vous devez le renseig
 alert.codeIndTriMorpho empty: le code morphologique est vide , vous devez le renseigner dans le formulaire Individu
 
 # autocomplete field form
-Chromatogramme typeahead placeholder: Taper les premières lettres du Code chromatogramme
-Chromatogramme typeahead: Chromatogramme
+Chromatogram typeahead placeholder: Taper les premières lettres du Code chromatogramme
+Chromatogram typeahead: Chromatogramme
 Pcr typeahead placeholder: Taper les premières lettres du Code PCR
 Pcr typeahead: Pcr
 Adn typeahead placeholder: Taper les premières lettres du Code ADN
@@ -72,7 +72,7 @@ list.linkExternalLot: Lot Ext
 list.linkExternalSequence: Sqc Ext
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/St
-list.linkChromatogramme: Chrom(s)
+list.linkChromatogram: Chrom(s)
 list.linkSampling: Col
 # Column titles
 list.Parent libelle: Parent (libellé)
@@ -130,7 +130,7 @@ button.Back to slide: Retour à la Lame
 button.Back to external_lot: Retour au Lot matériel externe
 button.Back to adn: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
-button.Back to chromatogramme: Retour au Chromatogramme
+button.Back to chromatogram: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
 button.Back to internal_sequence: Retour à la Séquence interne
 button.Back to external_sequence: Retour à la Séquence externe
@@ -146,7 +146,7 @@ button.Back to the list of slide: Retour à la liste des Lames
 button.Back to the list of external_lot: Retour à la liste des Lots matériels externes
 button.Back to the list of adn: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
-button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
+button.Back to the list of chromatogram: Retour à la liste des Chromatogrammes
 button.Back to the list of pcrchromato: Retour à la liste des PCR
 button.Back to the list of internal_sequence: Retour à la liste des Séquences internes
 button.Back to the list of external_sequence: Retour à la liste des Séquences externes
@@ -154,7 +154,7 @@ button.Back to the list of motu_dataset: Retour à la liste des MOTU
 button.Back to the list of boite: Retour à la liste des Boites
 button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
-button.Add a Chromatogramme: Ajouter un chromatogramme
+button.Add a Chromatogram: Ajouter un chromatogramme
 button.Add a Source: Ajouter une source
 button.Add a InternalLotContent: Ajouter une composition de lot matériel
 button.Add a TaxonIdentification: Ajouter une espèce identifiée
@@ -207,8 +207,8 @@ button.NewAdn: Créer un ADN
 button.ImportAdn: Importer des ADN
 button.NewPcr: Créer une PCR
 button.ImportPcr: Importer des PCR
-button.NewChromatogramme: Créer un chromatogramme
-button.ImportChromatogramme: Importer des chromatogrammes
+button.NewChromatogram: Créer un chromatogramme
+button.ImportChromatogram: Importer des chromatogrammes
 button.Valid: Valider
 button.BackToTheSelection: Retour à la selection
 button.BackToTheList: Afficher la Liste
@@ -259,7 +259,7 @@ import.slide: Importer fichier(s) lame
 import.external_lot: Importer fichier(s) lot matériel externe
 import.adn: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
-import.chromatogramme: Importer fichier(s) chromatogramme
+import.chromatogram: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
 import.internal_sequence: Importer fichier(s) séquence
 import.external_sequence: Importer fichier(s) séquence externe
@@ -280,7 +280,7 @@ Choose a typeBoite: Sélectionner un type de boite
 Choose an option: Sélectionner une option
 Choose a Motu Dataset File: Sélectionner le fichier MOTU a importer
 Choose a origineSqcAssExt: Sélectionner une origine
-Choose a chromatogramme: Sélectionner un chromatogramme
+Choose a chromatogram: Sélectionner un chromatogramme
 Choose a statut: Sélectionner un status
 Choose a status: Sélectionner un status
 Choose a Person: Sélectionner une personne
@@ -334,7 +334,7 @@ Dashboard.nbBoite: Boite
 Dashboard.nbStation: Stations
 Dashboard.samplingCount: Collectes
 Dashboard.nbPcr: PCR
-Dashboard.nbChromatogramme: Chromatogramme
+Dashboard.nbChromatogram: Chromatogram
 Dashboard.internalSequenceCount: Séquence ADN
 Dashboard.Données de terrain: Données de terrain
 Dashboard.Données moléculaire: Données moléculaires
@@ -371,7 +371,7 @@ Annee debut: Année debut
 Annee fin: Année fin
 Annee source: Année source
 Boite fk: Boite
-Chromatogramme fk: Chromatogramme
+Chromatogram fk: Chromatogramme
 Clade: Clade
 Code: Code
 Code adn: Code ADN

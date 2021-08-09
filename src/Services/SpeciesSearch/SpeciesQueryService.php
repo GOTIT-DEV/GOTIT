@@ -81,8 +81,8 @@ class SpeciesQueryService {
   private function joinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
       ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
-      ->join('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
-      ->join('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
+      ->join('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
+      ->join('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
       ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
       ->join('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequenceFk")
       ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
@@ -91,8 +91,8 @@ class SpeciesQueryService {
   private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
-      ->leftJoin('App:Chromatogramme', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
-      ->leftJoin('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogrammeFk = ch.id')
+      ->leftJoin('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
+      ->leftJoin('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
       ->leftJoin('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
       ->leftJoin('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequenceFk")
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
@@ -108,7 +108,7 @@ class SpeciesQueryService {
   private function joinMotuCountMorpho($query, $alias = 'ass') {
     return $query->leftJoin('App:ExternalSequence', 'motu_sext', 'WITH', "motu_sext.id=$alias.externalSequenceFk")
       ->leftJoin('App:InternalSequenceAssembly', 'motu_at', 'WITH', "motu_at.internalSequenceFk = $alias.internalSequenceFk")
-      ->leftJoin('App:Chromatogramme', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogrammeFk")
+      ->leftJoin('App:Chromatogram', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogramFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
       ->leftJoin('App:Dna', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
       ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.specimenFk")
@@ -220,7 +220,7 @@ class SpeciesQueryService {
       $query = $query->leftJoin('App:InternalSequence', 'seq', 'WITH', 'seq.id=e.internalSequenceFk')
         ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequenceFk')
         ->leftJoin('App:InternalSequenceAssembly', 'chrom_proc', 'WITH', 'chrom_proc.internalSequenceFk = seq.id')
-        ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
+        ->leftJoin('App:Chromatogram', 'chromatogram', 'WITH', 'chrom_proc.chromatogramFk = chromatogram.id')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
         ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.internalSequenceFk=seq.id')
         ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')

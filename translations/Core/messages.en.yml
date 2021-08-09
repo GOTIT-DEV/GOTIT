@@ -177,8 +177,8 @@ alert.codeIndBiomol empty: specimen molecular code is empty. You have to enter i
 alert.codeIndTriMorpho empty: specimen morphological code is empty. You have to enter it in the Specimen form
 
 # autocomplete field form
-Chromatogramme typeahead placeholder: Type the first letters of the chromatogram Code
-Chromatogramme typeahead: Chromatogram
+Chromatogram typeahead placeholder: Type the first letters of the chromatogram Code
+Chromatogram typeahead: Chromatogram
 Pcr typeahead placeholder: Type the first letters of the PCR Code
 Pcr typeahead: Pcr
 Adn typeahead placeholder: Type the first letters of the DNA Code
@@ -238,7 +238,7 @@ list.linkExternalLot: LotExt
 list.linkExternalSequence: SqcExt
 list.linkSpecimen: Ind(s)
 list.linkSpecimen_codestation: Ind/Si
-list.linkChromatogramme: Chr(s)
+list.linkChromatogram: Chr(s)
 list.linkSampling: Sam
 # Column titles
 list.Parent libelle: Parent (label)
@@ -297,7 +297,7 @@ button.Back to slide: Back to Specimen slide
 button.Back to external_lot: Back to External biological material
 button.Back to adn: Back to DNA
 button.Back to pcr: Back to PCR
-button.Back to chromatogramme: Back to Chromatogram
+button.Back to chromatogram: Back to Chromatogram
 button.Back to pcrchromato: Back to PCR
 button.Back to internal_sequence: Back to Internal sequence
 button.Back to external_sequence: Back to External sequence
@@ -313,7 +313,7 @@ button.Back to the list of slide: Back to the list of Specimen slide
 button.Back to the list of external_lot: Back to the list of External biological material
 button.Back to the list of adn: Back to the list of DNA
 button.Back to the list of pcr: Back to the list of PCR
-button.Back to the list of chromatogramme: Back to the list of Chromatogram
+button.Back to the list of chromatogram: Back to the list of Chromatogram
 button.Back to the list of pcrchromato: Back to the list of PCR
 button.Back to the list of internal_sequence: Back to the list of Internal sequence
 button.Back to the list of external_sequence: Back to the list of External sequence
@@ -321,7 +321,7 @@ button.Back to the list of motu_dataset: Back to the list of MOTU
 button.Back to the list of boite: Back to the list of Boxes
 button.Back to the list of source: Back to the list of Sources
 # Button titles in web interface
-button.Add a Chromatogramme: Add chromatogram
+button.Add a Chromatogram: Add chromatogram
 button.Add a Source: Add source
 button.Add a InternalLotContent: Add composition of biological material
 button.Add a TaxonIdentification: Add species taxa
@@ -373,8 +373,8 @@ button.NewAdn: Create new DNA
 button.ImportAdn: Import new set of DNA and related data
 button.NewPcr: Create new PCR
 button.ImportPcr: Import new set of PCR and related data
-button.NewChromatogramme: Create new chromatogram
-button.ImportChromatogramme: Import new set of chromatograms and related data
+button.NewChromatogram: Create new chromatogram
+button.ImportChromatogram: Import new set of chromatograms and related data
 button.Valid: Validate
 button.BackToTheSelection: Back to selection
 button.BackToTheList: Show list
@@ -424,7 +424,7 @@ import.slide: Upload specimen slide
 import.external_lot: Upload external biological material
 import.adn: Upload DNA
 import.pcr: Upload PCR
-import.chromatogramme: Upload chromatogram
+import.chromatogram: Upload chromatogram
 import.pcrchromato: Upload PCR and chromatogram
 import.internal_sequence: Upload internal sequence
 import.external_sequence: Upload external sequence
@@ -446,7 +446,7 @@ Choose a typeBoite: Select box type
 Choose an option: Select an option
 Choose a Motu File: Select MOTU file
 Choose a origineSqcAssExt: Select external sequence origin
-Choose a chromatogramme: Select chromatogram
+Choose a chromatogram: Select chromatogram
 Choose a statut: Select status
 Choose a status: Select status
 Choose a Person: Select person
@@ -500,7 +500,7 @@ Dashboard.nbBoite: Box
 Dashboard.nbStation: Site
 Dashboard.samplingCount: Sample
 Dashboard.nbPcr: PCR
-Dashboard.nbChromatogramme: Chromatogram
+Dashboard.nbChromatogram: Chromatogram
 Dashboard.internalSequenceCount: DNA Sequence
 Dashboard.Données de terrain: Field data
 Dashboard.Données moléculaire: Molecular data
@@ -535,7 +535,7 @@ Annee debut: Starting year
 Annee fin: Ending year
 Annee source: Source year
 Boite fk: Box
-Chromatogramme fk: Chromatogram table
+Chromatogram fk: Chromatogram table
 Clade: Clade
 Code: Code
 Code adn: DNA code

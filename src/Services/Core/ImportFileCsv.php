@@ -216,7 +216,7 @@ class ImportFileCsv {
       'chromato_quality_voc_fk' => 'qualite_chromato_voc_fk',
       'chromatogram_code' => 'code_chromato',
       'chromatogram_comments' => 'commentaire_chromato',
-      'chromatogram_fk' => 'chromatogramme_fk',
+      'chromatogram_fk' => 'chromatogram_fk',
       'chromatogram_number' => 'num_yas',
       'clade' => 'clade',
       'collection_code_voc_fk' => 'code_collection_voc_fk',

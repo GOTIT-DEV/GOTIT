@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Chromatogramme
+ * Chromatogram
  *
  * @ORM\Table(name="chromatogram",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_chromatogram__chromatogram_code", columns={"chromatogram_code"})},
@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeChromato"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Chromatogramme extends AbstractTimestampedEntity {
+class Chromatogram extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -111,7 +111,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param string $codeChromato
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setCodeChromato($codeChromato) {
     $this->codeChromato = $codeChromato;
@@ -133,7 +133,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param string $numYas
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setNumYas($numYas) {
     $this->numYas = $numYas;
@@ -155,7 +155,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param string $commentaireChromato
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setCommentaireChromato($commentaireChromato) {
     $this->commentaireChromato = $commentaireChromato;
@@ -177,7 +177,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $primerChromatoVocFk
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setPrimerChromatoVocFk(\App\Entity\Voc $primerChromatoVocFk = null) {
     $this->primerChromatoVocFk = $primerChromatoVocFk;
@@ -199,7 +199,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $qualiteChromatoVocFk
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setQualiteChromatoVocFk(\App\Entity\Voc $qualiteChromatoVocFk = null) {
     $this->qualiteChromatoVocFk = $qualiteChromatoVocFk;
@@ -221,7 +221,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Institution $institutionFk
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
     $this->institutionFk = $institutionFk;
@@ -243,7 +243,7 @@ class Chromatogramme extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Pcr $pcrFk
    *
-   * @return Chromatogramme
+   * @return Chromatogram
    */
   public function setPcrFk(\App\Entity\Pcr $pcrFk = null) {
     $this->pcrFk = $pcrFk;

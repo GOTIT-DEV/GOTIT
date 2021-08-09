@@ -20,7 +20,7 @@ core:
   Analyses génétiques: Molecular analysis
   adn: DNA
   pcr: PCR
-  chromatogramme: Chromatogram
+  chromatogram: Chromatogram
   source: Source
   Référentiels: Repositories
   voc: Vocabulary
