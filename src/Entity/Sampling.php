@@ -101,14 +101,14 @@ class Sampling extends AbstractTimestampedEntity {
   private $legVocFk;
 
   /**
-   * @var \Station
+   * @var \Site
    *
-   * @ORM\ManyToOne(targetEntity="Station")
+   * @ORM\ManyToOne(targetEntity="Site")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $stationFk;
+  private $siteFk;
 
   /**
    * @ORM\OneToMany(targetEntity="SamplingMethod", mappedBy="samplingFk", cascade={"persist"})
@@ -347,24 +347,24 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set stationFk
+   * Set siteFk
    *
-   * @param \App\Entity\Station $stationFk
+   * @param \App\Entity\Site $siteFk
    *
    * @return Sampling
    */
-  public function setStationFk(\App\Entity\Station $stationFk = null) {
-    $this->stationFk = $stationFk;
+  public function setSiteFk(\App\Entity\Site $siteFk = null) {
+    $this->siteFk = $siteFk;
     return $this;
   }
 
   /**
-   * Get stationFk
+   * Get siteFk
    *
-   * @return \App\Entity\Station
+   * @return \App\Entity\Site
    */
-  public function getStationFk() {
-    return $this->stationFk;
+  public function getSiteFk() {
+    return $this->siteFk;
   }
 
   /**

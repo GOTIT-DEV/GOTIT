@@ -37,7 +37,7 @@
     </template>
 
     <template #cell(site_code)="data">
-      <a :href="generateRoute('station_show', { id: data.item.site_id })">
+      <a :href="generateRoute('site_show', { id: data.item.site_id })">
         {{ data.value }}
       </a>
     </template>

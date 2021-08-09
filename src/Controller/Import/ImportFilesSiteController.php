@@ -14,20 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Import files station controller.
+ * Import files site controller.
  *
- * @Route("importfilesstation")
+ * @Route("importfilessite")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesStationController extends AbstractController {
+class ImportFilesSiteController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesstation_index")
+   * @Route("/", name="importfilessite_index")
    *
    */
   public function indexAction(
@@ -91,7 +91,7 @@ class ImportFilesStationController extends AbstractController {
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
         case 'site':
-          $message .= $importFileE3sService->importCSVDataStation($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataSite($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

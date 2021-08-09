@@ -98,11 +98,11 @@ class SpeciesQueryService {
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
   }
 
-  private function joinEspeceStation($query, $aliasEsp, $aliasSta) {
+  private function joinTaxonSite($query, $aliasEsp, $aliasSta) {
     return $query->leftJoin('App:InternalLot', 'lm', 'WITH', $aliasEsp . '.internalLotFk=lm.id')
       ->leftJoin('App:ExternalLot', 'lmext', 'WITH', $aliasEsp . '.externalLotFk=lmext.id')
       ->join('App:Sampling', 'c', 'WITH', 'c.id=lm.samplingFk OR c.id=lmext.samplingFk')
-      ->join('App:Station', $aliasSta, 'WITH', $aliasSta . '.id=c.stationFk');
+      ->join('App:Site', $aliasSta, 'WITH', $aliasSta . '.id=c.siteFk');
   }
 
   private function joinMotuCountMorpho($query, $alias = 'ass') {
@@ -451,11 +451,11 @@ class SpeciesQueryService {
 
   public function getSpeciesGeoSummary($data, $co1 = false) {
 
-    // Prepare subquery to list stations depending on CO1 sampling events requested (or not)
+    // Prepare subquery to list sites depending on CO1 sampling events requested (or not)
     $FIELD_SUFFIX = $co1 ? "_co1" : "";
 
     if ($co1) {
-      $station_subquery = "SELECT DISTINCT
+      $site_subquery = "SELECT DISTINCT
             eid.taxon_fk,
             sta.id as id_sta, sta.longitude as longitude, sta.latitude as latitude
             FROM identified_species eid
@@ -483,7 +483,7 @@ class SpeciesQueryService {
               statut.code LIKE 'VALID%'
             )";
     } else {
-      $station_subquery = "SELECT DISTINCT
+      $site_subquery = "SELECT DISTINCT
              eid.taxon_fk,
              sta.id as id_sta, sta.longitude as longitude, sta.latitude as latitude
             FROM identified_species eid
@@ -522,7 +522,7 @@ class SpeciesQueryService {
       );
     }
 
-    $rawSql = "WITH esta AS ($station_subquery),
+    $rawSql = "WITH esta AS ($site_subquery),
                     mle AS ($mle_subquery),
                     main AS ($main_subquery)";
     $rawSql .= " SELECT

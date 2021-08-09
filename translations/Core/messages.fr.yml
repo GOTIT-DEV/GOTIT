@@ -26,8 +26,8 @@ ExternalLot typeahead placeholder: Taper les premières lettres du Code lot mat�
 ExternalLot typeahead: Lot externe
 Sampling typeahead placeholder: Taper les premières lettres du Code Collecte
 Sampling typeahead: Collecte
-Station typeahead placeholder: Taper les premières lettres du Code Station
-Station typeahead: Station
+Site typeahead placeholder: Taper les premières lettres du Code Station
+Site typeahead: Station
 
 # class of vocabulary (table = Voc , field = parent)
 vocParent.typeMateriel: Type matériel
@@ -105,7 +105,6 @@ list.MotuDelimitation: MOTU
 button.Back: Retour
 button.exportToCSV: Exporter au format CSV
 button.exportToCSV-title: Encodage UTF-8 et Séparateur point virgule
-button.See Stations Around: Afficher les Stations autour du point GPS
 button.Close: Fermer
 # Button titles in csv file uploading tools
 button.ImportVoc: Importer fichier Vocabulaire
@@ -123,7 +122,7 @@ button.Back to the list of programme: Retour à la liste des Programmes
 button.Back to the list of institution: Retour à la liste des Etablissements
 button.Back to the list of municipality: Retour à la liste des Municipalities
 # Button titles "Back to Entity"
-button.Back to station: Retour à la Station
+button.Back to site: Retour à la Station
 button.Back to sampling: Retour à la Collecte
 button.Back to internal_lot: Retour au Lot matériel
 button.Back to specimen: Retour à l'Individu
@@ -139,7 +138,7 @@ button.Back to motu_dataset: Retour au MOTU
 button.Back to boite: Retour à la Boite
 button.Back to source: Retour à la Source
 # Button titles "Back to Entity" in csv file uploading tools
-button.Back to the list of station: Retour à la liste des Stations
+button.Back to the list of site: Retour à la liste des Stations
 button.Back to the list of sampling: Retour à la liste des Collectes
 button.Back to the list of internal_lot: Retour à la liste des Lots matériels
 button.Back to the list of individu: Retour à la liste des Individus
@@ -194,8 +193,8 @@ button.ImportInternalSequence: Importer des séquences assemblées
 button.NewCommune: Créer une nouvelle commune
 button.NewlinkExternalLot: Créer un lot matériel externe
 button.ImportlinkExternalLot: Importer des lots matériels externes
-button.NewStation: Créer une station
-button.ImportStation: Importer des stations
+button.NewSite: Créer une station
+button.ImportSite: Importer des stations
 button.NewSampling: Créer une collecte
 button.ImportSampling: Importer des collectes
 button.NewInternalLot: Créer un lot matériel
@@ -214,7 +213,7 @@ button.Valid: Valider
 button.BackToTheSelection: Retour à la selection
 button.BackToTheList: Afficher la Liste
 button.showAllRecord: Liste de tous les enregistrements
-button.showNearbyStations: Afficher les stations à proximité
+button.showNearbySites: Afficher les stations à proximité
 Envoyer: Importer le fichier CSV
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -252,7 +251,7 @@ import.liste: Importer des fichiers
 import.boite.internal_lot_range: Stocker des lots matériels par fichier
 import.boite.sliderange: Stocker des lames par fichier
 import.boite.adnrange: Stocker des ADN par fichier
-import.station: Importer fichier(s) station
+import.site: Importer fichier(s) station
 import.sampling: Importer fichier(s) collecte
 import.internal_lot: Importer fichier(s) lot matériel
 import.specimen: Importer fichier(s) individu
@@ -297,7 +296,7 @@ Choose a Municipality: Sélectionner une commune
 Choose an Habitat Type: Sélectionner un habitat
 Choose an Access Point: Sélectionner un acces
 Choose a GPS Distance Quality: Sélectionner précision latitude longitude
-Choose a Station: Sélectionner une station
+Choose a Site: Sélectionner une station
 Choose a Sampling method: Sélectionner une méthode d'échantillonnage
 Choose a Fixateur: Sélectionner un fixateur
 Choose a Program: Sélectionner un programme
@@ -346,7 +345,6 @@ Dashboard.Tools: Outils métiers
 legales_mentions: Mentions légales
 NO: NON
 YES: OUI
-modal-title.Station - Localisation: Carte des plus proches Stations (0.1x0.1deg ~ 10x10km) du point GPS (centre)
 Switch version: Changer de version
 DAY: JOUR
 MONTH: MOIS
@@ -510,7 +508,7 @@ Internal sequence fk: Séquence assemblée
 Source fk: Source
 Species: Espèce
 Specificite voc fk: Spécificité
-Station fk: Station
+Site fk: Station
 Statut sqc ass voc fk: Statut séquence assemblée
 Subclass: Sous classe
 Subspecies: Sous espèce

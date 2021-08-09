@@ -132,7 +132,7 @@ export default {
         return Math.max(
           acc,
           ...Array.from(Object.values(motu_data.sites)).map(
-            (station) => station.sequences.length
+            (site) => site.sequences.length
           )
         );
       }

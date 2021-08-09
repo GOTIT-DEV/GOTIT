@@ -4,11 +4,11 @@ import moment from "moment";
 
 $(() => {
   const $form = $("form[name='sampling']");
-  const $site = $("#sampling_stationFk");
+  const $site = $("#sampling_siteFk");
   const $date_precision = $("form:first .date-precision:first");
   const $date = $("form:first .date-autoformat");
 
-  initSearchSelect($site, "station_search");
+  initSearchSelect($site, "site_search");
 
   if ($form.data("action") == "new") {
     $site.change(updateSamplingCode);
@@ -26,7 +26,7 @@ $(() => {
     $(".sampling-code").val(code);
   }
 
-  function generateSamplingCode(station = "{Site}", date_str, precision) {
+  function generateSamplingCode(site = "{Site}", date_str, precision) {
     let dateCode = "{Date}";
     let date = moment(date_str, "d-mm-Y");
     if (precision === 3) dateCode = "0".repeat(6);
@@ -34,6 +34,6 @@ $(() => {
       if (precision === 2) dateCode = date.format("Y") + "00";
       else dateCode = date.format("Ymm");
     }
-    return `${station}_${dateCode}`;
+    return `${site}_${dateCode}`;
   }
 });

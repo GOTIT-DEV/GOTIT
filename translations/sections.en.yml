@@ -1,7 +1,7 @@
 core:
   Dashboard: Dashboard
   Terrain: Field data
-  station: Site
+  site: Site
   sampling: Sampling
   Analyse morphologique: Morphological analysis
   internal_lot: Biological material

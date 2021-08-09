@@ -19,7 +19,7 @@ class DashboardController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     //
     $samplingCounts = $em->createQuery('SELECT COUNT(u.id) FROM App:Sampling u')->getSingleScalarResult();
-    $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
+    $siteCount = $em->createQuery('SELECT COUNT(u.id) FROM App:Site u')->getSingleScalarResult();
     $internalLotCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalLot u')->getSingleScalarResult();
     $nbExternalLot = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalLot u')->getSingleScalarResult();
     $nbSpecimen = $em->createQuery('SELECT COUNT(u.id) FROM App:Specimen u')->getSingleScalarResult();
@@ -236,8 +236,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the site
-    $entities_toshow = $em->getRepository("App:Station")->createQueryBuilder('station')
-      ->addOrderBy('station.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:Site")->createQueryBuilder('station')
+      ->addOrderBy('site.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -256,7 +256,7 @@ class DashboardController extends AbstractController {
 
     return $this->render('Core/dashboard/index.html.twig', array(
       'samplingCount' => $samplingCounts,
-      'nbStation' => $nbstations,
+      'nbStation' => $siteCount,
       'internalLotCount' => $internalLotCount,
       'nbExternalLot' => $nbExternalLot,
       'nbSpecimen' => $nbSpecimen,

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Station;
+use App\Entity\Site;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,40 +12,40 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Station controller.
+ * Site controller.
  *
- * @Route("station")
+ * @Route("site")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class StationController extends AbstractController {
+class SiteController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
-   * Lists all station entities.
+   * Lists all site entities.
    *
-   * @Route("/", name="station_index", methods={"GET"})
+   * @Route("/", name="site_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $stations = $em->getRepository('App:Station')->findAll();
+    $sites = $em->getRepository('App:Site')->findAll();
 
-    return $this->render('Core/station/index.html.twig', array(
-      'stations' => $stations,
+    return $this->render('Core/site/index.html.twig', array(
+      'sites' => $sites,
     ));
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="station_search")
+   * @Route("/search/{q}", requirements={"q"=".+"}, name="site_search")
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('station.id, station.codeStation as code')
-      ->from('App:Station', 'station');
+    $qb->select('site.id, site.codeStation as code')
+      ->from('App:Site', 'site');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(station.codeStation) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(site.codeStation) like :q' . $i . ')');
     }
     for ($i = 0; $i < count($query); $i++) {
       $qb->setParameter('q' . $i, $query[$i] . '%');
@@ -65,7 +65,7 @@ class StationController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="station_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="site_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -74,16 +74,16 @@ class StationController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('station.dateMaj' => 'desc', 'station.id' => 'desc');
+    : array('site.dateMaj' => 'desc', 'site.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Station")
-      ->createQueryBuilder('station')
-      ->where('LOWER(station.codeStation) LIKE :criteriaLower')
+    $entities_toshow = $em->getRepository("App:Site")
+      ->createQueryBuilder('site')
+      ->where('LOWER(site.codeStation) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
-      ->leftJoin('App:Country', 'country', 'WITH', 'station.countryFk = country.id')
-      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'station.municipalityFk = municipality.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'site.countryFk = country.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipalityFk = municipality.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -99,24 +99,24 @@ class StationController extends AbstractController {
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $query = $em->createQuery(
         'SELECT sampling.id FROM App:Sampling sampling
-                WHERE sampling.stationFk = ' . $id
+                WHERE sampling.siteFk = ' . $id
       )->getResult();
-      $stationFk = (count($query) > 0) ? $id : '';
+      $siteFk = (count($query) > 0) ? $id : '';
       $tab_toshow[] = array(
         "id" => $id,
-        "station.id" => $id,
-        "station.codeStation" => $entity->getCodeStation(),
-        "station.nomStation" => $entity->getNomStation(),
+        "site.id" => $id,
+        "site.codeStation" => $entity->getCodeStation(),
+        "site.nomStation" => $entity->getNomStation(),
         "municipality.codeCommune" => $entity->getMunicipalityFk()->getCodeCommune(),
         "country.codePays" => $entity->getCountryFk()->getCodePays(),
-        "station.latDegDec" => $entity->getLatDegDec(),
-        "station.longDegDec" => $entity->getLongDegDec(),
-        "station.dateCre" => $DateCre,
-        "station.dateMaj" => $DateMaj,
+        "site.latDegDec" => $entity->getLatDegDec(),
+        "site.longDegDec" => $entity->getLongDegDec(),
+        "site.dateCre" => $DateCre,
+        "site.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "station.userCre" => $service->GetUserCreUserfullname($entity),
-        "station.userMaj" => $service->GetUserMajUserfullname($entity),
-        "linkSampling" => $stationFk,
+        "site.userCre" => $service->GetUserCreUserfullname($entity),
+        "site.userMaj" => $service->GetUserMajUserfullname($entity),
+        "linkSampling" => $siteFk,
       );
     }
 
@@ -129,7 +129,7 @@ class StationController extends AbstractController {
   }
 
   /**
-   * @Route("/proximity/", name="nearby_stations", methods={"POST"})
+   * @Route("/proximity/", name="nearby_sites", methods={"POST"})
    */
   public function geoCoords(Request $request) {
     $data = $request->request;
@@ -174,77 +174,77 @@ class StationController extends AbstractController {
   }
 
   /**
-   * Creates a new station entity.
+   * Creates a new site entity.
    *
-   * @Route("/new", name="station_new", methods={"GET", "POST"})
+   * @Route("/new", name="site_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $station = new Station();
-    $form = $this->createForm('App\Form\StationType', $station, [
+    $site = new Site();
+    $form = $this->createForm('App\Form\SiteType', $site, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($station);
+      $em->persist($site);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
-        return $this->render('Core/station/index.html.twig', array(
+        return $this->render('Core/site/index.html.twig', array(
           'exception_message' => explode("\n", $exception_message)[0],
         ));
       }
-      return $this->redirectToRoute('station_edit', array(
-        'id' => $station->getId(),
+      return $this->redirectToRoute('site_edit', array(
+        'id' => $site->getId(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/station/edit.html.twig', array(
-      'station' => $station,
+    return $this->render('Core/site/edit.html.twig', array(
+      'site' => $site,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a station entity.
+   * Finds and displays a site entity.
    *
-   * @Route("/{id}", name="station_show", methods={"GET"})
+   * @Route("/{id}", name="site_show", methods={"GET"})
    */
-  public function showAction(Station $station) {
-    $deleteForm = $this->createDeleteForm($station);
+  public function showAction(Site $site) {
+    $deleteForm = $this->createDeleteForm($site);
 
-    $editForm = $this->createForm('App\Form\StationType', $station, [
+    $editForm = $this->createForm('App\Form\SiteType', $site, [
       'action_type' => Action::show(),
     ]);
-    return $this->render('Core/station/edit.html.twig', array(
-      'station' => $station,
+    return $this->render('Core/site/edit.html.twig', array(
+      'site' => $site,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing station entity.
+   * Displays a form to edit an existing site entity.
    *
-   * @Route("/{id}/edit", name="station_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="site_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Station $station) {
+  public function editAction(Request $request, Site $site) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $station->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $site->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $deleteForm = $this->createDeleteForm($station);
-    $editForm = $this->createForm('App\Form\StationType', $station, [
+    $deleteForm = $this->createDeleteForm($site);
+    $editForm = $this->createForm('App\Form\SiteType', $site, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -258,63 +258,63 @@ class StationController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/station/index.html.twig',
+          'Core/site/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/station/edit.html.twig', array(
-        'station' => $station,
+      return $this->render('Core/site/edit.html.twig', array(
+        'site' => $site,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/station/edit.html.twig', array(
-      'station' => $station,
+    return $this->render('Core/site/edit.html.twig', array(
+      'site' => $site,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a station entity.
+   * Deletes a site entity.
    *
-   * @Route("/{id}", name="station_delete", methods={"DELETE","POST"})
+   * @Route("/{id}", name="site_delete", methods={"DELETE","POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Station $station) {
-    $form = $this->createDeleteForm($station);
+  public function deleteAction(Request $request, Site $site) {
+    $form = $this->createDeleteForm($site);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($station);
+        $em->remove($site);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/station/index.html.twig',
+          'Core/site/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
-    return $this->redirectToRoute('station_index');
+    return $this->redirectToRoute('site_index');
   }
 
   /**
-   * Creates a form to delete a station entity.
+   * Creates a form to delete a site entity.
    *
-   * @param Station $station The station entity
+   * @param Site $site The site entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Station $station) {
+  private function createDeleteForm(Site $site) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('station_delete', array('id' => $station->getId())))
+      ->setAction($this->generateUrl('site_delete', array('id' => $site->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }

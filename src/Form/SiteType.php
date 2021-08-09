@@ -13,12 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StationType extends ActionFormType {
+class SiteType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $station = $builder->getData();
+    $site = $builder->getData();
     $builder
       ->add('codeStation', EntityCodeType::class, [
         "disabled" => $this->canEditAdminOnly($options),
@@ -28,12 +28,12 @@ class StationType extends ActionFormType {
       ->add('countryFk', CountryVocType::class)
       ->add('municipalityFk', EntityType::class, array(
         'class' => 'App:Municipality',
-        'query_builder' => function (EntityRepository $er) use ($station) {
+        'query_builder' => function (EntityRepository $er) use ($site) {
           $query = $er->createQueryBuilder('municipality')
             ->orderBy('municipality.codeCommune', 'ASC');
-          if ($station->getCountryFk()) {
+          if ($site->getCountryFk()) {
             $query = $query->where('municipality.countryFk = :country')
-              ->setParameter('country', $station->getCountryFk()->getId());
+              ->setParameter('country', $site->getCountryFk()->getId());
           }
           return $query;
         },
@@ -79,7 +79,7 @@ class StationType extends ActionFormType {
         ),
       ))
       ->add('showNearbySites', ModalButtonType::class, [
-        'label' => 'button.showNearbyStations',
+        'label' => 'button.showNearbySites',
         'attr' => [
           'class' => "btn-info btn-sm",
           // 'data-target' => "#map-modal",
@@ -106,7 +106,7 @@ class StationType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Station',
+      'data_class' => 'App\Entity\Site',
     ));
   }
 
@@ -114,6 +114,6 @@ class StationType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'station';
+    return 'site';
   }
 }

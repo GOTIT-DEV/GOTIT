@@ -22,7 +22,7 @@ importfiles.form: |
        - the "semicolon" as record delimiter
        - quotation marks as text field delimiter
 # liste
-station_index: |
+site_index: |
   Use this page to browse, create, import, export, show, edit and delete sampling sites. Deleting a site may not be possible until all data related to a site have been deleted. Additional fields can be listed using the top right button. To access to sampling carried out at a site, click the "Sam" button. The search button applies to the field "site code".
 sampling_index: |
   Use this page to browse, create, import, export, show, edit and delete sampling surveys. Deleting a sampling may not be possible until all data related to a sampling have been deleted. Additional fields can be listed using the top right button. To access to internal biological materials, external biological materials and external sequences linked to sampling, respectively click the "Lot", “LotExt” and “SqcExt” buttons (option: menu). Also, use these same buttons (option +) to create internal biological materials, external biological materials and external sequences for a sampling. The search button applies to the field "Sample code".
@@ -71,7 +71,7 @@ country_index: |
 municipality_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a municipality. Deletion may not be possible until all data links pointed to a municipality have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Municipality name".
 # formulaire new
-station_new: |
+site_new: |
   Use this form to fill in data of a new site. See appendix 5.1.2 in GOTIT HELP for content of fields. Use the button “See nearby sites” to obtain a distribution of sites nearby the new site, once latitude and longitude of this new site have been filled in.
 sampling_new: |
   Use this form to fill in data of a new sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
@@ -120,7 +120,7 @@ country_new: |
 municipality_new: |
   Use this form to fill in characteristics of a new municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # formulaire show
-station_show: |
+site_show: |
   Use this form to consult data of a site. See appendix 5.1.2 in GOTIT HELP for content of fields.
 sampling_show: |
   Use this form to consult data of a sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
@@ -169,7 +169,7 @@ country_show: |
 municipality_show: |
   Use this form to consult characteristics of a municipality. See appendix 11.7.2 in GOTIT HELP for content of fields.
 # formulaire edit
-station_edit: |
+site_edit: |
   Use this form to edit data of a site. See appendix 5.1.2 in GOTIT HELP for content of fields.
 sampling_edit: |
   Use this form to edit data of a sampling. See appendix 5.2.2 in GOTIT HELP for content of fields.
@@ -254,7 +254,7 @@ importfilesmotu_dataset_index: |
   - (if necessary) upload the referential files (templates: vocabulary);
   - Use and upload the template file “MOTU” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesstation_index: |
+importfilessite_index: |
   Use this form to upload data from multiple sites and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: vocabulary, country, municipality);
   - use and upload the template file “site” to follow appropriate data format.

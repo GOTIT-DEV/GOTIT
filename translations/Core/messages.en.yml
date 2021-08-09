@@ -192,8 +192,8 @@ ExternalLot typeahead placeholder: Type the first letters of the External biolog
 ExternalLot typeahead: External biological material
 Sampling typeahead placeholder: Type the first letters of the Sampling Code
 Sampling typeahead: Sampling
-Station typeahead placeholder: Type the first letters of the Site Code
-Station typeahead: Site
+Site typeahead placeholder: Type the first letters of the Site Code
+Site typeahead: Site
 
 # Class of vocabulary (table = Voc , field = parent)
 vocParent.typeMateriel: Material type
@@ -271,7 +271,7 @@ list.MotuDelimitation: MOTU
 button.Back: Back
 button.exportToCSV: Export to CSV file
 button.exportToCSV-title: UTF-8 encoding and comma point separator
-button.See Stations Around: See nearby sites
+button.See Sites Around: See nearby sites
 button.Close: Close
 # Button titles in csv file uploading tools
 button.ImportVoc: Import new set of Vocabulary
@@ -289,7 +289,7 @@ button.Back to the list of programme: Back to the list of Program
 button.Back to the list of institution: Back to the list of Institution
 button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
-button.Back to station: Back to Site
+button.Back to site: Back to Site
 button.Back to sampling: Back to Sampling
 button.Back to internal_lot: Back to Biological material
 button.Back to specimen: Back to Specimen
@@ -305,7 +305,7 @@ button.Back to motu_dataset: Back to MOTU
 button.Back to boite: Back to Boxes
 button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
-button.Back to the list of station: Back to the list of Sites
+button.Back to the list of site: Back to the list of Sites
 button.Back to the list of sampling: Back to the list of Sampling
 button.Back to the list of internal_lot: Back to the list of Biological material
 button.Back to the list of specimen: Back to the list of Specimen
@@ -359,8 +359,8 @@ button.ImportInternalSequence: Import new set of sequences and related data
 button.NewCommune: Create new municipality
 button.NewlinkExternalLot: Create new external biological material
 button.ImportlinkExternalLot: Import new set of external biological material and related data
-button.NewStation: Create new site
-button.ImportStation: Import new set of sites and related data
+button.NewSite: Create new site
+button.ImportSite: Import new set of sites and related data
 button.NewSampling: Create new sampling
 button.ImportSampling: Import new set of sampling and related data
 button.NewInternalLot: Create new biological material
@@ -379,7 +379,7 @@ button.Valid: Validate
 button.BackToTheSelection: Back to selection
 button.BackToTheList: Show list
 button.showAllRecord: Show all records
-button.showNearbyStations: Show nearby sites
+button.showNearbySites: Show nearby sites
 Envoyer: Import CSV file
 
 # UPLODAING FILE SERVICE ERROR MESSAGES ########################################
@@ -416,7 +416,7 @@ import.liste: Upload other set of files
 import.boite.internal_lot_range: Store biological material as file
 import.boite.sliderange: Store slide as file
 import.boite.adnrange: Store DNA box as file
-import.station: Upload Site
+import.site: Upload Site
 import.sampling: Upload sampling
 import.internal_lot: Upload biological material
 import.specimen: Upload specimen
@@ -462,7 +462,7 @@ Choose a Municipality: Select municipality
 Choose an Habitat Type: Select habitat type
 Choose an Access Point: Select access type
 Choose a GPS Distance Quality: Select coordinate precision
-Choose a Station: Select site
+Choose a Site: Select site
 Choose a Sampling method: Select sampling method
 Choose a Fixateur: Select fixative
 Choose a Program: Select program
@@ -512,7 +512,6 @@ NO: NO
 YES: YES
 legales_mentions: Legal notices
 Switch version: Switch version
-modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
 # PopUp alert messages related to date management
 alert.datePrecisionINCONNU:  date fields must be left blank
 alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
@@ -673,7 +672,7 @@ Internal sequence fk: Internal Sequence
 Source fk: Source
 Species: Species
 Specificite voc fk: PCR specificity
-Station fk: Site
+Site fk: Site
 Statut sqc ass voc fk: Sequence status
 Subclass: Subclass
 Subspecies: Subspecies

@@ -47,8 +47,8 @@
 					<ul class="dropdown-menu">
 						{% if is_granted('ROLE_ADMIN') %}
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesstation_index') }}">
-								{{'import.station'|trans}}
+							<a href="{{ path('importfilessite_index') }}">
+								{{'import.site'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessampling_index') }}">
@@ -132,8 +132,8 @@
 							</a><br/>
 						{% elseif  is_granted('ROLE_PROJECT')%}
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesstation_index') }}">
-								{{'import.station'|trans}}
+							<a href="{{ path('importfilessite_index') }}">
+								{{'import.site'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessampling_index') }}">
@@ -227,7 +227,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.station'|trans}}
+									{{'import.site'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -334,7 +334,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.station'|trans}}
+									{{'import.site'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>

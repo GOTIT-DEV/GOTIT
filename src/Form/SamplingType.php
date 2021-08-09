@@ -28,15 +28,15 @@ class SamplingType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sampling = $builder->getData();
     $builder
-      ->add('stationFk', SearchableSelectType::class, [
-        'class' => 'App:Station',
+      ->add('siteFk', SearchableSelectType::class, [
+        'class' => 'App:Site',
         'choice_label' => 'codeStation',
         'placeholder' =>
-        $this->translator->trans("Station typeahead placeholder"),
+        $this->translator->trans("Site typeahead placeholder"),
         'attr' => [
           "maxlength" => "255",
           'readonly' => ($options['action_type'] == Action::create() &&
-            $sampling->getStationFk()),
+            $sampling->getSiteFk()),
         ],
       ])
       ->add('codeCollecte', EntityCodeType::class, [

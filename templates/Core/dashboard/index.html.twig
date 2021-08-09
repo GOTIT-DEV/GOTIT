@@ -256,7 +256,7 @@
 
 						{% if is_granted('ROLE_ADMIN') %}
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+							<a href="{{ path('importfilessite_index') }}">{{'import.site'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessampling_index') }}">{{'import.sampling'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -299,7 +299,7 @@
 							<a href="{{ path('importfilessqcassembleepublie_index') }}">{{'import.source.sequencepublie'|trans}}</a><br/>
 						{% elseif  is_granted('ROLE_PROJECT')%}
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesstation_index') }}">{{'import.station'|trans}}</a><br/>
+							<a href="{{ path('importfilessite_index') }}">{{'import.site'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilessampling_index') }}">{{'import.sampling'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -351,7 +351,7 @@
 						{% elseif  is_granted('ROLE_COLLABORATION')%}
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.station'|trans}}</font>
+								<font color="grey">{{'import.site'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -416,7 +416,7 @@
 						{% elseif  is_granted('ROLE_INVITED')%}
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.station'|trans}}</font>
+								<font color="grey">{{'import.site'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -513,7 +513,7 @@
 					<h2>{{'Dashboard.LastUpdate'|trans}}</h2>
 					<div class="clearfix"></div>
 				</div>
-				<div id="stations" class="x_content">
+				<div id="sites" class="x_content">
 					<div class="table-responsive">
 						<table
 							id="last-updates-table"

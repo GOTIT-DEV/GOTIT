@@ -84,16 +84,16 @@ class SamplingController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND sampling.stationFk  = ' . $request->get('idFk');
+      $where .= ' AND sampling.siteFk  = ' . $request->get('idFk');
     }
     // Search the list to show
     $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Sampling")->createQueryBuilder('sampling')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Station', 'station', 'WITH', 'sampling.stationFk = station.id')
-      ->leftJoin('App:Country', 'country', 'WITH', 'station.countryFk = country.id')
-      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'station.municipalityFk = municipality.id')
+      ->leftJoin('App:Site', 'site', 'WITH', 'sampling.siteFk = site.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'site.countryFk = country.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipalityFk = municipality.id')
       ->leftJoin('App:Voc', 'voc', 'WITH', 'sampling.legVocFk = voc.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -139,9 +139,9 @@ class SamplingController extends AbstractController {
         "id" => $id,
         "sampling.id" => $id,
         "sampling.codeCollecte" => $entity->getCodeCollecte(),
-        "station.codeStation" => $entity->getStationFk()->getCodeStation(),
-        "country.nomPays" => $entity->getStationFk()->getCountryFk()->getNomPays(),
-        "municipality.codeCommune" => $entity->getStationFk()->getMunicipalityFk()->getCodeCommune(),
+        "site.codeStation" => $entity->getSiteFk()->getCodeStation(),
+        "country.nomPays" => $entity->getSiteFk()->getCountryFk()->getNomPays(),
+        "municipality.codeCommune" => $entity->getSiteFk()->getMunicipalityFk()->getCodeCommune(),
         "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),
         "sampling.dateCollecte" => $DateCollecte,
         "sampling.aFaire" => $entity->getAfaire(),
@@ -176,11 +176,11 @@ class SamplingController extends AbstractController {
     $sampling = new Sampling();
     $em = $this->getDoctrine()->getManager();
 
-    // check if the relational Entity (Station) is given
+    // check if the relational Entity (Site) is given
     if ($site_id = $request->get('idFk')) {
       // set the RelationalEntityFk for the new Entity
-      $site = $em->getRepository('App:Station')->find($site_id);
-      $sampling->setStationFk($site);
+      $site = $em->getRepository('App:Site')->find($site_id);
+      $sampling->setSiteFk($site);
     }
 
     $form = $this->createForm('App\Form\SamplingType', $sampling, [

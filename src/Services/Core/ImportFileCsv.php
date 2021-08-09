@@ -343,7 +343,7 @@ class ImportFileCsv {
       'site_code' => 'code_station',
       'site_comments' => 'commentaire_station',
       'site_description' => 'info_description',
-      'site_fk' => 'station_fk',
+      'site_fk' => 'site_fk',
       'site_name' => 'nom_station',
       'slide_comments' => 'commentaire_lame',
       'slide_date' => 'date_lame',

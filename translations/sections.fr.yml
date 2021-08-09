@@ -1,7 +1,7 @@
 core:
   Dashboard: Tableau de bord
   Terrain: Données de terrain
-  station: Station
+  site: Station
   sampling: Collecte
   Analyse morphologique: Analyse morphologique
   internal_lot: Lot matériel

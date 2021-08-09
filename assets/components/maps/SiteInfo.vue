@@ -1,7 +1,7 @@
 <template>
   <div class="site-info">
     <label>
-      <a :href="url">
+      <a :href="url" class="site-code-link">
         <b>{{ site.site_code }}</b>
       </a>
     </label>
@@ -62,7 +62,7 @@ export default {
       return [...this.extraFields, ...this.baseFields];
     },
     url() {
-      return Routing.generate("station_show", {
+      return Routing.generate("site_show", {
         id: this.site.site_id,
         _locale: Translator.locale,
       });
@@ -84,6 +84,9 @@ export default {
   }
   .site-location {
     align-self: flex-end;
+  }
+  a.site-code-link {
+    color: #00c1fc;
   }
 }
 </style>

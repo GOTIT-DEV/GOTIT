@@ -76,8 +76,8 @@ columns:
   code: Code
   nbseq: Seq. count
   nbsta: Sites count
-  stations: Sites
-  station: Site
+  sites: Sites
+  site: Site
   accession: Accession
   critere: Criterion
   motu: MOTU

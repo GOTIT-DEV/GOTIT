@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Station
+ * Site
  *
  * @ORM\Table(name="site",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_site__site_code", columns={"site_code"})},
@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeStation"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Station extends AbstractTimestampedEntity {
+class Site extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -151,7 +151,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param string $codeStation
    *
-   * @return Station
+   * @return Site
    */
   public function setCodeStation($codeStation) {
     $this->codeStation = $codeStation;
@@ -173,7 +173,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param string $nomStation
    *
-   * @return Station
+   * @return Site
    */
   public function setNomStation($nomStation) {
     $this->nomStation = $nomStation;
@@ -195,7 +195,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param float $latDegDec
    *
-   * @return Station
+   * @return Site
    */
   public function setLatDegDec($latDegDec) {
     $this->latDegDec = $latDegDec;
@@ -217,7 +217,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param float $longDegDec
    *
-   * @return Station
+   * @return Site
    */
   public function setLongDegDec($longDegDec) {
     $this->longDegDec = $longDegDec;
@@ -239,7 +239,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param integer $altitudeM
    *
-   * @return Station
+   * @return Site
    */
   public function setAltitudeM($altitudeM) {
     $this->altitudeM = $altitudeM;
@@ -261,7 +261,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param string $infoLocalisation
    *
-   * @return Station
+   * @return Site
    */
   public function setInfoLocalisation($infoLocalisation) {
     $this->infoLocalisation = $infoLocalisation;
@@ -283,7 +283,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param string $infoDescription
    *
-   * @return Station
+   * @return Site
    */
   public function setInfoDescription($infoDescription) {
     $this->infoDescription = $infoDescription;
@@ -305,7 +305,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param string $commentaireStation
    *
-   * @return Station
+   * @return Site
    */
   public function setCommentaireStation($commentaireStation) {
     $this->commentaireStation = $commentaireStation;
@@ -327,7 +327,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Municipality $municipalityFk
    *
-   * @return Station
+   * @return Site
    */
   public function setMunicipalityFk(\App\Entity\Municipality $municipalityFk = null) {
     $this->municipalityFk = $municipalityFk;
@@ -349,7 +349,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Country $countryFk
    *
-   * @return Station
+   * @return Site
    */
   public function setCountryFk(\App\Entity\Country $countryFk = null) {
     $this->countryFk = $countryFk;
@@ -371,7 +371,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $pointAccesVocFk
    *
-   * @return Station
+   * @return Site
    */
   public function setPointAccesVocFk(\App\Entity\Voc $pointAccesVocFk = null) {
     $this->pointAccesVocFk = $pointAccesVocFk;
@@ -393,7 +393,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $habitatTypeVocFk
    *
-   * @return Station
+   * @return Site
    */
   public function setHabitatTypeVocFk(\App\Entity\Voc $habitatTypeVocFk = null) {
     $this->habitatTypeVocFk = $habitatTypeVocFk;
@@ -415,7 +415,7 @@ class Station extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $precisionLatLongVocFk
    *
-   * @return Station
+   * @return Site
    */
   public function setPrecisionLatLongVocFk(\App\Entity\Voc $precisionLatLongVocFk = null) {
     $this->precisionLatLongVocFk = $precisionLatLongVocFk;

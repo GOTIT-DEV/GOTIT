@@ -76,8 +76,8 @@ columns:
   code: Code
   nbseq: Nb. séq.
   nbsta: Nb. sta.
-  stations: Stations
-  station: Station
+  sites: Stations
+  site: Station
   accession: Accession
   critere: Critère
   motu: MOTU

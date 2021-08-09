@@ -27,8 +27,8 @@ twig:
         icon: fas fa-edit
         text: core.Terrain
         children:
-          - route: station_index
-            text: core.station
+          - route: site_index
+            text: core.site
           - route: sampling_index
             text: core.sampling
       - route: ~

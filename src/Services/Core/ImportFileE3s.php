@@ -1686,7 +1686,7 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv);
         }
-        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : station.municipality(municipality.nom_commune)
+        if ($flag_foreign) { // case of a foreign key (where there are parentheses in the field name) ex. : site.municipality(municipality.nom_commune)
           $varfield = explode(".", strstr($field, '(', true))[1];
           $linker = explode('.', trim($foreign_content[0], "()"));
           $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
@@ -4135,11 +4135,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataStation($fichier, $userId = null)
+   *  importCSVDataSite($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is site
    */
-  public function importCSVDataStation($fichier, $userId = null) {
+  public function importCSVDataSite($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -4151,8 +4151,8 @@ class ImportFileE3s {
     $list_new_commune = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Station();
-      foreach ($columnByTable["station"] as $ColCsv) {
+      $entity = new \App\Entity\Site();
+      foreach ($columnByTable["site"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -4162,17 +4162,17 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($field == 'station.codeStation') { // On teste pour savoir si le code_station a déja été créé.
-            $record_station = $em->getRepository("App:Station")->findOneBy(array("codeStation" => $dataColCsv));
+          if ($field == 'site.codeStation') { // On teste pour savoir si le code_station a déja été créé.
+            $record_station = $em->getRepository("App:Site")->findOneBy(array("codeStation" => $dataColCsv));
             if ($record_station !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }
           }
           // we adapt the format of long and lat
-          if ($field == 'station.latDegDec' || $field == 'station.longDegDec') {
+          if ($field == 'site.latDegDec' || $field == 'site.longDegDec') {
             $dataColCsv = ($dataColCsv != '') ? floatval(str_replace(",", ".", $dataColCsv)) : null;
           }
-          if ($field == 'station.altitudeM') {
+          if ($field == 'site.altitudeM') {
             $dataColCsv = ($dataColCsv != '') ? intval(str_replace(",", ".", $dataColCsv)) : null;
           }
           // save the values ​​of the field

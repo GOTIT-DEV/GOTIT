@@ -2,8 +2,8 @@
   <leaflet-map
     ref="map"
     :data="[{ latitude, longitude }]"
-    :markerSettings="markerSettings"
-    :disableAutoFit="true"
+    :marker-settings="markerSettings"
+    :disable-auto-fit="true"
     regions
   >
     <l-marker :lat-lng="[latitude, longitude]" />
@@ -12,20 +12,20 @@
       :radius="radius"
       :opacity="0.5"
     />
-    <l-layer-group layerType="overlay" :name="$t('nearby_sites_legend')">
+    <l-layer-group layer-type="overlay" :name="$t('nearby_sites_legend')">
       <shape-marker
         v-for="site in nearbySites"
         :key="site.id"
         :lat-lng="[site.latitude, site.longitude]"
         v-bind="markerSettings"
-        :fillOpacity="markerSettings.opacity / 2"
+        :fill-opacity="markerSettings.opacity / 2"
         color="red"
         :weight="1"
-        fillColor="red"
+        fill-color="red"
         shape="triangle"
       >
         <l-popup ref="sitePopups">
-          <site-info :site="site"></site-info>
+          <site-info :site="site" />
         </l-popup>
       </shape-marker>
     </l-layer-group>
@@ -96,7 +96,7 @@ export default {
       postData.append("latitude", this.latitude);
       postData.append("longitude", this.longitude);
       postData.append("radius", this.radius);
-      const response = await fetch(Routing.generate("nearby_stations"), {
+      const response = await fetch(Routing.generate("nearby_sites"), {
         method: "POST",
         body: postData,
       });
@@ -104,7 +104,7 @@ export default {
       this.nearbySites = fetchData.sites.map((site) => {
         return {
           ...site,
-          site_url: Routing.generate("station_show", { id: site.id }),
+          site_url: Routing.generate("site_show", { id: site.id }),
         };
       });
     },
@@ -112,5 +112,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
