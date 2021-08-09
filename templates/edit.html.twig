@@ -3,7 +3,7 @@
 
 {# initialization of TWIG general variables #}
 {% set route = app.request.attributes.get('_route') %}
-{% set entityname = route|split('_')[0] %}
+{% set entityname = route|split('_')|slice(0, -1)|join('_') %}
 {% set action = route|split('_')[1] %}
 {% set route_new = entityname ~ '_new' %}
 {% set route_index = entityname ~ '_index' %}
