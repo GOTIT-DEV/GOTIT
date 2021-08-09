@@ -64,7 +64,7 @@ class SpecimenController extends AbstractController {
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Specimen', 'ind')
       ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.specimenFk = ind.id')
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = dna.id')
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.dnaFk = dna.id')
       ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
       ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
       ->andWhere('vocgene.id = :idvocgene ')

@@ -18,7 +18,7 @@ core:
   storeADN: Stock ADN
   store: Stock
   Analyses génétiques: Analyse moléculaire
-  adn: ADN
+  dna: ADN
   pcr: PCR
   chromatogram: Chromatogramme
   source: Source

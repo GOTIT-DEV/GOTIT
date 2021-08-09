@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesadn")
+ * @Route("importfilesdna")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesAdnController extends AbstractController {
+class ImportFilesDnaController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesadn_index")
+   * @Route("/", name="importfilesdna_index")
    *
    */
   public function indexAction(
@@ -99,7 +99,7 @@ class ImportFilesAdnController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'DNA':
-          $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataDna($fichier, $user->getId());
           break;
         case 'vocabulary':
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());

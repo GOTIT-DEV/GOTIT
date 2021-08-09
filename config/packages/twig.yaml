@@ -47,8 +47,8 @@ twig:
         icon: fas fa-flask
         text: core.Analyses génétiques
         children:
-          - route: adn_index
-            text: core.adn
+          - route: dna_index
+            text: core.dna
           - route: pcr_index
             text: core.pcr
           - route: chromatogram_index
@@ -78,7 +78,7 @@ twig:
           - route: store_index
             route_args:
               typeBoite: ADN
-            text: core.adn
+            text: core.dna
       - route: source_index
         text: core.source
         icon: far fa-newspaper

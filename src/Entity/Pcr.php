@@ -137,7 +137,7 @@ class Pcr extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $adnFk;
+  private $dnaFk;
 
   /**
    * @ORM\OneToMany(targetEntity="PcrProducer", mappedBy="pcrFk", cascade={"persist"})
@@ -401,25 +401,25 @@ class Pcr extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set adnFk
+   * Set dnaFk
    *
-   * @param \App\Entity\Dna $adnFk
+   * @param \App\Entity\Dna $dnaFk
    *
    * @return Pcr
    */
-  public function setAdnFk(\App\Entity\Dna $adnFk = null) {
-    $this->adnFk = $adnFk;
+  public function setDnaFk(\App\Entity\Dna $dnaFk = null) {
+    $this->dnaFk = $dnaFk;
 
     return $this;
   }
 
   /**
-   * Get adnFk
+   * Get dnaFk
    *
    * @return \App\Entity\Dna
    */
-  public function getAdnFk() {
-    return $this->adnFk;
+  public function getDnaFk() {
+    return $this->dnaFk;
   }
 
   /**

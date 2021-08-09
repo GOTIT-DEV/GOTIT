@@ -91,7 +91,7 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\OneToMany(targetEntity="Dna", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"codeAdn" = "ASC"})
    */
-  protected $adns;
+  protected $dnas;
 
   /**
    * @ORM\OneToMany(targetEntity="Slide", mappedBy="storeFk", cascade={"persist"})
@@ -101,7 +101,7 @@ class Store extends AbstractTimestampedEntity {
 
   public function __construct() {
     $this->internalLots = new ArrayCollection();
-    $this->adns = new ArrayCollection();
+    $this->dnas = new ArrayCollection();
     $this->slides = new ArrayCollection();
   }
 
@@ -279,35 +279,35 @@ class Store extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add adn
+   * Add dna
    *
-   * @param \App\Entity\Dna $adn
+   * @param \App\Entity\Dna $dna
    *
    * @return Store
    */
-  public function addAdn(\App\Entity\Dna $adn) {
-    $adn->setStoreFk($this);
-    $this->adns[] = $adn;
+  public function addDna(\App\Entity\Dna $dna) {
+    $dna->setStoreFk($this);
+    $this->dnas[] = $dna;
 
     return $this;
   }
 
   /**
-   * Remove adn
+   * Remove dna
    *
-   * @param \App\Entity\Dna $adn
+   * @param \App\Entity\Dna $dna
    */
-  public function removeAdn(\App\Entity\Dna $adn) {
-    $this->adns->removeElement($adn);
+  public function removeDna(\App\Entity\Dna $dna) {
+    $this->dnas->removeElement($dna);
   }
 
   /**
-   * Get adns
+   * Get dnas
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAdns() {
-    return $this->adns;
+  public function getDnas() {
+    return $this->dnas;
   }
 
   /**

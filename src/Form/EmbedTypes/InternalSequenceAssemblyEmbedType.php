@@ -18,7 +18,7 @@ class InternalSequenceAssemblyEmbedType extends AbstractType {
       'query_builder' => function (EntityRepository $er) use ($options) {
         $qb = $er->createQueryBuilder('chromatogram');
         return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-          ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
+          ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
           ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
           ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
           ->where('pcr.geneVocFk = :geneVocFk')

@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="dna",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
  *  indexes={
- *      @ORM\Index(name="adn_code_adn", columns={"dna_code"}),
+ *      @ORM\Index(name="dna_code_adn", columns={"dna_code"}),
  *      @ORM\Index(name="idx_dna__date_precision_voc_fk", columns={"date_precision_voc_fk"}),
  *      @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}),
  *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}),
@@ -104,7 +104,7 @@ class Dna extends AbstractTimestampedEntity {
   /**
    * @var \Store
    *
-   * @ORM\ManyToOne(targetEntity="Store", inversedBy="adns")
+   * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    * })
@@ -112,7 +112,7 @@ class Dna extends AbstractTimestampedEntity {
   private $storeFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="adnFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="dnaFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $dnaExtractions;
@@ -336,7 +336,7 @@ class Dna extends AbstractTimestampedEntity {
    * @return Dna
    */
   public function addDnaExtraction(\App\Entity\DnaExtraction $dnaExtraction) {
-    $dnaExtraction->setAdnFk($this);
+    $dnaExtraction->setDnaFk($this);
     $this->dnaExtractions[] = $dnaExtraction;
 
     return $this;

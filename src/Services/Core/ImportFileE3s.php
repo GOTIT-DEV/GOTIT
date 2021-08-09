@@ -27,28 +27,28 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataAdnDeplace($fichier, $userId = null)
+   *  importCSVDataDnaDeplace($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is DNA_move
    */
-  public function importCSVDataAdnDeplace($fichier, $userId = null) {
+  public function importCSVDataDnaDeplace($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
-    $csvDataAdnRange = $importFileCsvService->readCSV($fichier);
-    //$columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table
+    $csvDataDnaRange = $importFileCsvService->readCSV($fichier);
+    //$columnByTable =  $importFileCsvService->readColumnByTableSV($csvDataDnaRange); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
     // line by line processing of the csv file
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("App:Dna")->createQueryBuilder('dna')
+    foreach ($csvDataDnaRange as $l => $data) { // 1- Line-to-line data processing ($ l)
+      $query_dna = $em->getRepository("App:Dna")->createQueryBuilder('dna')
         ->where('dna.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
         ->getResult();
-      $flagAdn = count($query_adn);
-      if ($flagAdn == 0) {
+      $flagDna = count($query_dna);
+      if ($flagDna == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
@@ -67,20 +67,20 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagAdn && $flagStore) {
+      if ($flagDna && $flagStore) {
         if ($flagStoreAffecte) {
-          $query_adn[0]->setStoreFk($query_store[0]);
-          $query_adn[0]->setDateMaj($DateImport);
-          $query_adn[0]->setUserMaj($userId);
-          $em->persist($query_adn[0]);
+          $query_dna[0]->setStoreFk($query_store[0]);
+          $query_dna[0]->setDateMaj($DateImport);
+          $query_dna[0]->setUserMaj($userId);
+          $em->persist($query_dna[0]);
           $query_store[0]->setDateMaj($DateImport);
           $query_store[0]->setUserMaj($userId);
           $em->persist($query_store[0]);
         } else {
-          $query_adn[0]->setStoreFk(null);
-          $query_adn[0]->setDateMaj($DateImport);
-          $query_adn[0]->setUserMaj($userId);
-          $em->persist($query_adn[0]);
+          $query_dna[0]->setStoreFk(null);
+          $query_dna[0]->setDateMaj($DateImport);
+          $query_dna[0]->setUserMaj($userId);
+          $em->persist($query_dna[0]);
         }
       }
     }
@@ -88,7 +88,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataDnaRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -106,28 +106,28 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataAdnRange($fichier, $userId = null)
+   *  importCSVDataDnaRange($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is DNA_store
    */
-  public function importCSVDataAdnRange($fichier, $userId = null) {
+  public function importCSVDataDnaRange($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
-    $csvDataAdnRange = $importFileCsvService->readCSV($fichier);
-    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataAdnRange); // Retrieve CSV fields as a table
+    $csvDataDnaRange = $importFileCsvService->readCSV($fichier);
+    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataDnaRange); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
     // line by line processing of the csv file
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("Dna")->createQueryBuilder('dna')
+    foreach ($csvDataDnaRange as $l => $data) { // 1- Line-to-line data processing ($ l)
+      $query_dna = $em->getRepository("Dna")->createQueryBuilder('dna')
         ->where('dna.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
         ->getResult();
-      $flagAdn = count($query_adn);
-      if ($flagAdn == 0) {
+      $flagDna = count($query_dna);
+      if ($flagDna == 0) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_adn"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
@@ -150,14 +150,14 @@ class ImportFileE3s {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagAdn && $flagStore && $flagStoreAffecte) {
-        if ($query_adn[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR adn already store') . '<b> : ' . $data["code_adn"] . '</b> / ' . $query_adn[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+      if ($flagDna && $flagStore && $flagStoreAffecte) {
+        if ($query_dna[0]->getStoreFk() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code_adn"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_adn[0]->setStoreFk($query_store[0]);
-          $query_adn[0]->setDateMaj($DateImport);
-          $query_adn[0]->setUserMaj($userId);
-          $em->persist($query_adn[0]);
+          $query_dna[0]->setStoreFk($query_store[0]);
+          $query_dna[0]->setDateMaj($DateImport);
+          $query_dna[0]->setUserMaj($userId);
+          $em->persist($query_dna[0]);
           $query_store[0]->setDateMaj($DateImport);
           $query_store[0]->setUserMaj($userId);
           $em->persist($query_store[0]);
@@ -168,7 +168,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataDnaRange) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -1341,11 +1341,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataAdn($fichier, $userId = null)
+   *  importCSVDataDna($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is DNA
    */
-  public function importCSVDataAdn($fichier, $userId = null) {
+  public function importCSVDataDna($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -1359,7 +1359,7 @@ class ImportFileE3s {
       #
       $entity = new \App\Entity\Dna();
       //
-      foreach ($columnByTable["adn"] as $ColCsv) {
+      foreach ($columnByTable["dna"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1373,7 +1373,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'adn.code_adn') {
+          if ($ColCsv == 'dna.code_adn') {
             $record_entity = $em->getRepository("App:Dna")->findOneBy(array("codeAdn" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -1381,11 +1381,11 @@ class ImportFileE3s {
           }
 
           // control and standardization of field formats
-          if ($ColCsv == 'adn.concentration_ng_microlitre' && !is_null($dataColCsv)) {
+          if ($ColCsv == 'dna.concentration_ng_microlitre' && !is_null($dataColCsv)) {
             $dataColCsv = floatval(str_replace(",", ".", $dataColCsv));
           }
           // test of the date format
-          if ($ColCsv == 'adn.date_adn') {
+          if ($ColCsv == 'dna.date_adn') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if (!is_null($dataColCsv)) {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -1455,7 +1455,7 @@ class ImportFileE3s {
       $em->persist($entity);
 
       # Record of DnaExtraction
-      foreach ($columnByTable["adn_est_realise_par"] as $ColCsv) {
+      foreach ($columnByTable["dna_est_realise_par"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
           $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -1471,7 +1471,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\DnaExtraction();
-            $method = "setAdnFk";
+            $method = "setDnaFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);

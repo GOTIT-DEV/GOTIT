@@ -15,8 +15,8 @@ Chromatogram typeahead placeholder: Taper les premières lettres du Code chromat
 Chromatogram typeahead: Chromatogramme
 Pcr typeahead placeholder: Taper les premières lettres du Code PCR
 Pcr typeahead: Pcr
-Adn typeahead placeholder: Taper les premières lettres du Code ADN
-Adn typeahead: Adn
+Dna typeahead placeholder: Taper les premières lettres du Code ADN
+Dna typeahead: Adn
 Specimen typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
 Specimen codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
 Specimen typeahead: Individu
@@ -64,7 +64,7 @@ vocParent.yeux: Yeux
 list.show: Lire
 list.edit: Edit
 list.delete: Supp
-list.linkAdn: ADN
+list.linkDna: ADN
 list.linkSlide: Lame
 list.linkPcr: PCR(s)
 list.linkInternalLot: Lot
@@ -83,7 +83,7 @@ list.Date creation sqc ass ext: Date de création
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
 list.List source: Source(s)
-list.List code adn: Liste de codes ADN
+list.List code dna: Liste de codes ADN
 list.Date creation lot materiel: Date création
 list.lastCodeSeqAss: Dernier code séquence assemblée
 list.lastStatutSeqAss: Dernier statut
@@ -128,7 +128,7 @@ button.Back to internal_lot: Retour au Lot matériel
 button.Back to specimen: Retour à l'Individu
 button.Back to slide: Retour à la Lame
 button.Back to external_lot: Retour au Lot matériel externe
-button.Back to adn: Retour à l'ADN
+button.Back to dna: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
 button.Back to chromatogram: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
@@ -144,7 +144,7 @@ button.Back to the list of internal_lot: Retour à la liste des Lots matériels
 button.Back to the list of individu: Retour à la liste des Individus
 button.Back to the list of slide: Retour à la liste des Lames
 button.Back to the list of external_lot: Retour à la liste des Lots matériels externes
-button.Back to the list of adn: Retour à la liste des ADN
+button.Back to the list of dna: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
 button.Back to the list of chromatogram: Retour à la liste des Chromatogrammes
 button.Back to the list of pcrchromato: Retour à la liste des PCR
@@ -167,8 +167,8 @@ button.Add a new Program: Ajouter un nouveau programme
 button.Add a Person: Ajouter une personne
 button.Add a new Person: Ajouter une nouvelle personne
 button.Add a TaxonSampling: Ajouter un taxon cible
-button.Import adn deplace: Déplacer/supprimer des stocks ADN
-button.Import adn range: Stocker ADN
+button.Import dna deplace: Déplacer/supprimer des stocks ADN
+button.Import dna range: Stocker ADN
 button.Import slide deplace: Déplacer/supprimer des lames
 button.Import slide range: Stocker des lames
 button.Import lot materiel deplace: Déplacer/supprimer des lots matériels
@@ -203,8 +203,8 @@ button.NewSpecimen: Créer un individu
 button.ImportSpecimen: Importer des individus
 button.NewSlide: Créer une lame
 button.ImportSlide: Importer des lames
-button.NewAdn: Créer un ADN
-button.ImportAdn: Importer des ADN
+button.NewDna: Créer un ADN
+button.ImportDna: Importer des ADN
 button.NewPcr: Créer une PCR
 button.ImportPcr: Importer des PCR
 button.NewChromatogram: Créer un chromatogramme
@@ -236,7 +236,7 @@ importfileService.ERROR sqc already publish: ERREUR - La séquence est déjà af
 importfileService.ERROR lot already publish: ERREUR - Lot matériel déjà affectée à une source
 importfileService.ERROR lot already store: ERREUR - Lot matériel déjà affectée à unstock
 importfileService.ERROR slide already store: ERREUR - Lame déjà affectée à unstock
-importfileService.ERROR adn already store: ERREUR - ADN déjà affecté à unstock
+importfileService.ERROR dna already store: ERREUR - ADN déjà affecté à unstock
 importfileService.ERROR no store code for material: ERREUR - le code stock n'a pas été renseigné pour le code lot matériel
 importfileService.ERROR no store code: ERREUR - le code stock n'a pas été renseigné pour le code lame coll
 importfileService.ERROR duplicate record: ERREUR - Enregistrement déja présent dans la BDD
@@ -250,14 +250,14 @@ importfileService.Import OK: Procédure d'importation terminée. Nombre d'enregi
 import.liste: Importer des fichiers
 import.store.internal_lot_range: Stocker des lots matériels par fichier
 import.store.sliderange: Stocker des lames par fichier
-import.store.adnrange: Stocker des ADN par fichier
+import.store.dnarange: Stocker des ADN par fichier
 import.site: Importer fichier(s) station
 import.sampling: Importer fichier(s) collecte
 import.internal_lot: Importer fichier(s) lot matériel
 import.specimen: Importer fichier(s) individu
 import.slide: Importer fichier(s) lame
 import.external_lot: Importer fichier(s) lot matériel externe
-import.adn: Importer fichier(s) ADN
+import.dna: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
 import.chromatogram: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
@@ -267,7 +267,7 @@ import.motu_dataset: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
 import.store.internal_lot_deplace: Déplacer/supprimer des lots matériels
 import.store.slidedeplace: Déplacer/supprimer des lames
-import.store.adndeplace: Déplacer/supprimer des ADN
+import.store.dnadeplace: Déplacer/supprimer des ADN
 import.source.internal_lot_publie: Referencer des lots matériels
 import.source.sequencepublie: Référencer des séquences assemblées
 import.motu-delimitation: MOTU
@@ -329,7 +329,7 @@ Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Matériel biologique
 Dashboard.nbSpecimen: Individu
 Dashboard.nbSlide: Lame
-Dashboard.nbAdn: ADN
+Dashboard.dnaCount: ADN
 Dashboard.nbBoite: Stock
 Dashboard.nbStation: Stations
 Dashboard.samplingCount: Collectes
@@ -365,7 +365,7 @@ Taxon full name: Nom Taxon de référence
 A faire: État
 Accession number: Numéro d'ordre
 Accession number sqc ass ext: Numéro d'ordre
-Adn fk: ADN
+Dna fk: ADN
 Altitude m: Altitude (m)
 Annee debut: Année debut
 Annee fin: Année fin
@@ -526,7 +526,7 @@ Validity: Validité
 Yeux voc fk: Vision
 # titles of collections or N-N type relational tables
 Source providers: Est integrée par
-Adns: ADN
+Dnas: ADN
 Internal lots: Lot matériel
 Slides: Lames
 Motu delimiters: Est générée par

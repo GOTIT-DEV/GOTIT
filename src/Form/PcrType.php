@@ -20,15 +20,15 @@ class PcrType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $adn = $builder->getData()->getAdnFk();
+    $dna = $builder->getData()->getDnaFk();
     $builder
-      ->add('adnFk', SearchableSelectType::class, [
+      ->add('dnaFk', SearchableSelectType::class, [
         'class' => 'App:Dna',
         'choice_label' => 'codeAdn',
-        'placeholder' => $this->translator->trans("Adn typeahead placeholder"),
+        'placeholder' => $this->translator->trans("Dna typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $adn != null,
+          'readonly' => $dna != null,
         ],
       ])
       ->add('codePcr', EntityCodeType::class, [

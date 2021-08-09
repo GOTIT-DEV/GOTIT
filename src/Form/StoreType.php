@@ -60,7 +60,7 @@ class StoreType extends ActionFormType {
         break;
 
       case 'ADN':
-        $builder->add('adns', CollectionType::class, array(
+        $builder->add('dnas', CollectionType::class, array(
           'entry_type' => DnaEmbedType::class,
           // 'allow_add' => true,
           // 'allow_delete' => true,

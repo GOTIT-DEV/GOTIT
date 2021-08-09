@@ -87,21 +87,21 @@
 			{% endif %}
 			{% if store_type == 'ADN' %}
 				{% if is_granted('ROLE_COLLABORATION') %}
-					<a href="{{ path( 'importfilesadnrange_index' ) }}" class="btn btn-light border btn-sm" role="button">
-						{{'button.Import adn range'|trans}}
+					<a href="{{ path( 'importfilesdnarange_index' ) }}" class="btn btn-light border btn-sm" role="button">
+						{{'button.Import dna range'|trans}}
 					</a>
 				{% else %}
 					<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
-						{{'button.Import adn range'|trans}}
+						{{'button.Import dna range'|trans}}
 					</a>
 				{% endif %}
 				{% if is_granted('ROLE_ADMIN') %}
-					<a href="{{ path( 'importfilesadndeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
-						{{'button.Import adn deplace'|trans}}
+					<a href="{{ path( 'importfilesdnadeplace_index' ) }}" class="btn btn-light border btn-sm" role="button">
+						{{'button.Import dna deplace'|trans}}
 					</a>
 				{% else %}
 					<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
-						{{'button.Import adn deplace'|trans}}
+						{{'button.Import dna deplace'|trans}}
 					</a>
 				{% endif %}
 			{% endif %}

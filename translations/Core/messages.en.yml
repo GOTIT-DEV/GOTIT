@@ -181,8 +181,8 @@ Chromatogram typeahead placeholder: Type the first letters of the chromatogram C
 Chromatogram typeahead: Chromatogram
 Pcr typeahead placeholder: Type the first letters of the PCR Code
 Pcr typeahead: Pcr
-Adn typeahead placeholder: Type the first letters of the DNA Code
-Adn typeahead: DNA
+Dna typeahead placeholder: Type the first letters of the DNA Code
+Dna typeahead: DNA
 Specimen typeahead placeholder: Type the first letters of the Specimen Molecular Code
 Specimen codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
 Specimen typeahead: Specimen
@@ -230,7 +230,7 @@ vocParent.yeux: Vision
 list.show: Show
 list.edit: Edit
 list.delete: Del
-list.linkAdn: DNA
+list.linkDna: DNA
 list.linkSlide: Slide
 list.linkPcr: PCR
 list.linkInternalLot: Lot
@@ -249,7 +249,7 @@ list.Date creation sqc ass ext: Date creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
 list.List source: Source(s)
-list.List code adn: List of DNA code(s)
+list.List code dna: List of DNA code(s)
 list.Date creation lot materiel: Date creation
 list.lastCodeSeqAss: Last sequence code
 list.lastStatutSeqAss: Last status
@@ -295,7 +295,7 @@ button.Back to internal_lot: Back to Biological material
 button.Back to specimen: Back to Specimen
 button.Back to slide: Back to Specimen slide
 button.Back to external_lot: Back to External biological material
-button.Back to adn: Back to DNA
+button.Back to dna: Back to DNA
 button.Back to pcr: Back to PCR
 button.Back to chromatogram: Back to Chromatogram
 button.Back to pcrchromato: Back to PCR
@@ -311,7 +311,7 @@ button.Back to the list of internal_lot: Back to the list of Biological material
 button.Back to the list of specimen: Back to the list of Specimen
 button.Back to the list of slide: Back to the list of Specimen slide
 button.Back to the list of external_lot: Back to the list of External biological material
-button.Back to the list of adn: Back to the list of DNA
+button.Back to the list of dna: Back to the list of DNA
 button.Back to the list of pcr: Back to the list of PCR
 button.Back to the list of chromatogram: Back to the list of Chromatogram
 button.Back to the list of pcrchromato: Back to the list of PCR
@@ -333,8 +333,8 @@ button.Add a new Program: Add new program
 button.Add a Person: Add person
 button.Add a new Person: Add new person
 button.Add a TaxonSampling: Add targeted taxa
-button.Import adn deplace: Move or delete DNA stores as file
-button.Import adn range: Store DNA stores as file
+button.Import dna deplace: Move or delete DNA stores as file
+button.Import dna range: Store DNA stores as file
 button.Import slide deplace: Move or delete slides as file
 button.Import slide range: Store slides as file
 button.Import lot materiel deplace: Move or delete biological material as file
@@ -369,8 +369,8 @@ button.NewSpecimen: Create new specimen
 button.ImportSpecimen: Import new set of specimens and related data
 button.NewSlide: Create new slide
 button.ImportSlide: Import new set of slides and related data
-button.NewAdn: Create new DNA
-button.ImportAdn: Import new set of DNA and related data
+button.NewDna: Create new DNA
+button.ImportDna: Import new set of DNA and related data
 button.NewPcr: Create new PCR
 button.ImportPcr: Import new set of PCR and related data
 button.NewChromatogram: Create new chromatogram
@@ -401,7 +401,7 @@ importfileService.ERROR sqc already publish: ERROR - The sequence is already ass
 importfileService.ERROR lot already publish: ERROR - The material is already assigned to a source
 importfileService.ERROR lot already store: ERROR - The material is already assigned to a store
 importfileService.ERROR slide already store: ERROR - The slide is already assigned to a store
-importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a store
+importfileService.ERROR dna already store: ERROR - The DNA extract is already assigned to a store
 importfileService.ERROR no store code for material: ERROR - the store code has not been entered for the code material
 importfileService.ERROR no store code: ERROR -  the store code has not been entered for the code Slide coll
 importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
@@ -415,14 +415,14 @@ importfileService.Import OK: Data import is successful. Number of records Import
 import.liste: Upload other set of files
 import.store.internal_lot_range: Store biological material as file
 import.store.sliderange: Store slide as file
-import.store.adnrange: Store DNA box as file
+import.store.dnarange: Store DNA box as file
 import.site: Upload Site
 import.sampling: Upload sampling
 import.internal_lot: Upload biological material
 import.specimen: Upload specimen
 import.slide: Upload specimen slide
 import.external_lot: Upload external biological material
-import.adn: Upload DNA
+import.dna: Upload DNA
 import.pcr: Upload PCR
 import.chromatogram: Upload chromatogram
 import.pcrchromato: Upload PCR and chromatogram
@@ -432,7 +432,7 @@ import.motu_dataset: Upload MOTU
 import.source: Upload source
 import.store.internal_lot_deplace: Move or delete biological material as file
 import.store.slidedeplace: Move or delete slides as file
-import.store.adndeplace: Move or delete DNA stores as file
+import.store.dnadeplace: Move or delete DNA stores as file
 import.source.internal_lot_publie:  Source to biological material as file
 import.source.sequencepublie: Source to sequence as file
 import.motu-delimitation: MOTU
@@ -495,7 +495,7 @@ Dashboard.internalLotCount: Lot
 Dashboard.Materiel biologique: Biological material
 Dashboard.nbSpecimen: Specimen
 Dashboard.nbSlide: Slide
-Dashboard.nbAdn: DNA
+Dashboard.dnaCount: DNA
 Dashboard.nbBoite: Store
 Dashboard.nbStation: Site
 Dashboard.samplingCount: Sample
@@ -529,7 +529,7 @@ Taxon full name: Taxon full name
 A faire: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
-Adn fk: DNA
+Dna fk: DNA
 Altitude m: Elevation (m)
 Annee debut: Starting year
 Annee fin: Ending year
@@ -690,7 +690,7 @@ Validity: Taxon validity
 Yeux voc fk: Vision
 # titles of collections or tables related to N-N type relational tables
 Source providers: is integrated by
-Adns: DNA
+Dnas: DNA
 Internal lots: Biological material
 Slides: Specimen slide
 Motu delimiters: is generated by

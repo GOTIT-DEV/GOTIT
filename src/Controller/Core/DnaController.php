@@ -22,20 +22,20 @@ class DnaController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
-   * Lists all adn entities.
+   * Lists all dna entities.
    *
-   * @Route("/", name="adn_index", methods={"GET"})
+   * @Route("/", name="dna_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
     $items = $em->getRepository('App:Dna')->findAll();
 
-    return $this->render('Core/dna/index.html.twig', ['adns' => $items]);
+    return $this->render('Core/dna/index.html.twig', ['dnas' => $items]);
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="adn_search")
+   * @Route("/search/{q}", requirements={"q"=".+"}, name="dna_search")
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
@@ -57,7 +57,7 @@ class DnaController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="adn_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="dna_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     $em = $this->getDoctrine()->getManager();
@@ -103,7 +103,7 @@ class DnaController extends AbstractController {
 
       // search the PCRs from the DNA
       $query = $em->createQuery(
-        'SELECT pcr.id FROM App:Pcr pcr WHERE pcr.adnFk = ' . $id
+        'SELECT pcr.id FROM App:Pcr pcr WHERE pcr.dnaFk = ' . $id
       )->getResult();
       $linkPcr = (count($query) > 0) ? $id : '';
 
@@ -112,7 +112,7 @@ class DnaController extends AbstractController {
         'SELECT p.nomPersonne as nom
         FROM App:DnaExtraction erp
         JOIN erp.personFk p
-        WHERE erp.adnFk = ' . $id
+        WHERE erp.dnaFk = ' . $id
       )->getResult();
       $arrayListePerson = array();
       foreach ($query as $taxon) {
@@ -122,17 +122,17 @@ class DnaController extends AbstractController {
 
       $tab_toshow[] = array(
         "id" => $id,
-        "adn.id" => $id,
+        "dna.id" => $id,
         "specimen.codeIndBiomol" => $entity->getSpecimenFk()->getCodeIndBiomol(),
-        "adn.codeAdn" => $entity->getCodeAdn(),
+        "dna.codeAdn" => $entity->getCodeAdn(),
         "listePerson" => $listePerson,
-        "adn.dateAdn" => $DateAdn,
+        "dna.dateAdn" => $DateAdn,
         "store.codeBoite" => $codeBoite,
-        "adn.dateCre" => $DateCre,
-        "adn.dateMaj" => $DateMaj,
+        "dna.dateCre" => $DateCre,
+        "dna.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "adn.userCre" => $service->GetUserCreUserfullname($entity),
-        "adn.userMaj" => $service->GetUserMajUserfullname($entity),
+        "dna.userCre" => $service->GetUserCreUserfullname($entity),
+        "dna.userMaj" => $service->GetUserMajUserfullname($entity),
         "linkPcr" => $linkPcr,
       );
     }
@@ -147,21 +147,21 @@ class DnaController extends AbstractController {
   }
 
   /**
-   * Creates a new adn entity.
+   * Creates a new dna entity.
    *
-   * @Route("/new", name="adn_new", methods={"GET", "POST"})
+   * @Route("/new", name="dna_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $adn = new Dna();
+    $dna = new Dna();
     $em = $this->getDoctrine()->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Specimen')->find($specimen_id);
-      $adn->setSpecimenFk($specimen);
+      $dna->setSpecimenFk($specimen);
     }
 
-    $form = $this->createForm('App\Form\DnaType', $adn, [
+    $form = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::create(),
     ]);
 
@@ -169,7 +169,7 @@ class DnaController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($adn);
+      $em->persist($dna);
 
       try {
         $em->flush();
@@ -183,62 +183,62 @@ class DnaController extends AbstractController {
         );
       }
 
-      return $this->redirectToRoute('adn_edit', array(
-        'id' => $adn->getId(),
+      return $this->redirectToRoute('dna_edit', array(
+        'id' => $dna->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
       ));
     }
 
     return $this->render('Core/dna/edit.html.twig', array(
-      'adn' => $adn,
+      'dna' => $dna,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a adn entity.
+   * Finds and displays a dna entity.
    *
-   * @Route("/{id}", name="adn_show", methods={"GET"})
+   * @Route("/{id}", name="dna_show", methods={"GET"})
    */
-  public function showAction(Dna $adn) {
-    $deleteForm = $this->createDeleteForm($adn);
-    $editForm = $this->createForm('App\Form\DnaType', $adn, [
+  public function showAction(Dna $dna) {
+    $deleteForm = $this->createDeleteForm($dna);
+    $editForm = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::show(),
     ]);
 
     return $this->render('Core/dna/edit.html.twig', array(
-      'adn' => $adn,
+      'dna' => $dna,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing adn entity.
+   * Displays a form to edit an existing dna entity.
    *
-   * @Route("/{id}/edit", name="adn_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="dna_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Dna $adn, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Dna $dna, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $adn->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $dna->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $dnaExtractions = $service->setArrayCollection('DnaExtractions', $adn);
-    $deleteForm = $this->createDeleteForm($adn);
-    $editForm = $this->createForm('App\Form\DnaType', $adn, [
+    $dnaExtractions = $service->setArrayCollection('DnaExtractions', $dna);
+    $deleteForm = $this->createDeleteForm($dna);
+    $editForm = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollection('DnaExtractions', $adn, $dnaExtractions);
+      $service->DelArrayCollection('DnaExtractions', $dna, $dnaExtractions);
       $em = $this->getDoctrine()->getManager();
-      $em->persist($adn);
+      $em->persist($dna);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -251,34 +251,34 @@ class DnaController extends AbstractController {
         );
       }
       return $this->render('Core/dna/edit.html.twig', array(
-        'adn' => $adn,
+        'dna' => $dna,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
     return $this->render('Core/dna/edit.html.twig', array(
-      'adn' => $adn,
+      'dna' => $dna,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a adn entity.
+   * Deletes a dna entity.
    *
-   * @Route("/{id}", name="adn_delete", methods={"DELETE"})
+   * @Route("/{id}", name="dna_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, Dna $adn) {
-    $form = $this->createDeleteForm($adn);
+  public function deleteAction(Request $request, Dna $dna) {
+    $form = $this->createDeleteForm($dna);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($adn);
+        $em->remove($dna);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
@@ -291,20 +291,20 @@ class DnaController extends AbstractController {
       }
     }
 
-    return $this->redirectToRoute('adn_index');
+    return $this->redirectToRoute('dna_index');
   }
 
   /**
-   * Creates a form to delete a adn entity.
+   * Creates a form to delete a dna entity.
    *
-   * @param Dna $adn The adn entity
+   * @param Dna $dna The dna entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Dna $adn) {
+  private function createDeleteForm(Dna $dna) {
     return $this->createFormBuilder()
       ->setAction(
-        $this->generateUrl('adn_delete', ['id' => $adn->getId()])
+        $this->generateUrl('dna_delete', ['id' => $dna->getId()])
       )
       ->setMethod('DELETE')
       ->getForm();

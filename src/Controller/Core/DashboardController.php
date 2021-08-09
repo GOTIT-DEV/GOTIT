@@ -49,7 +49,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'adn',
+        "name" => 'dna',
         "code" => $entity->getCodeAdn(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),

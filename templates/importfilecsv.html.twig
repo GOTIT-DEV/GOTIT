@@ -20,7 +20,7 @@
 		{% set entityname = 'store' %}
 		{% set href =  path(route_entity_index,{'typeBoite':'LAME'})  %}
 	{% endif %}
-	{% if route_entity_index == 'adnrange_index' or route_entity_index == 'adndeplace_index' %}
+	{% if route_entity_index == 'dnarange_index' or route_entity_index == 'dnadeplace_index' %}
 		{% set route_entity_index = 'store_index' %}
 		{% set entityname = 'store' %}
 		{% set href =  path(route_entity_index,{'typeBoite':'ADN'})  %}
@@ -71,8 +71,8 @@
 								{{'import.external_lot'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadn_index') }}">
-								{{'import.adn'|trans}}
+							<a href="{{ path('importfilesdna_index') }}">
+								{{'import.dna'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilespcr_index') }}">
@@ -107,8 +107,8 @@
 								{{'import.store.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadnrange_index') }}">
-								{{'import.store.adnrange'|trans}}
+							<a href="{{ path('importfilesdnarange_index') }}">
+								{{'import.store.dnarange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesinternal_lot_deplace_index') }}">
@@ -119,8 +119,8 @@
 								{{'import.store.slidedeplace'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadndeplace_index') }}">
-								{{'import.store.adndeplace'|trans}}
+							<a href="{{ path('importfilesdnadeplace_index') }}">
+								{{'import.store.dnadeplace'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilesinternal_lot_publie_index') }}">
@@ -156,8 +156,8 @@
 								{{'import.external_lot'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadn_index') }}">
-								{{'import.adn'|trans}}
+							<a href="{{ path('importfilesdna_index') }}">
+								{{'import.dna'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilespcr_index') }}">
@@ -194,8 +194,8 @@
 								{{'import.store.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadnrange_index') }}">
-								{{'import.store.adnrange'|trans}}
+							<a href="{{ path('importfilesdnarange_index') }}">
+								{{'import.store.dnarange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -212,7 +212,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.store.adndeplace'|trans}}
+									{{'import.store.dnadeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -261,8 +261,8 @@
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadn_index') }}">
-								{{'import.adn'|trans}}
+							<a href="{{ path('importfilesdna_index') }}">
+								{{'import.dna'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfilespcr_index') }}">
@@ -301,8 +301,8 @@
 								{{'import.store.sliderange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilesadnrange_index') }}">
-								{{'import.store.adnrange'|trans}}
+							<a href="{{ path('importfilesdnarange_index') }}">
+								{{'import.store.dnarange'|trans}}
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
@@ -319,7 +319,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.store.adndeplace'|trans}}
+									{{'import.store.dnadeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -370,7 +370,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.adn'|trans}}
+									{{'import.dna'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -424,7 +424,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.store.adnrange'|trans}}
+									{{'import.store.dnarange'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -442,7 +442,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
 								<font color="grey">
-									{{'import.store.adndeplace'|trans}}
+									{{'import.store.dnadeplace'|trans}}
 								</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>

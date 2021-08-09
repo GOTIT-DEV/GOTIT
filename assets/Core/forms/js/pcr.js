@@ -3,14 +3,14 @@ import { getSelectedCode } from "./forms";
 
 $(() => {
   const $form = $("form[name='pcr']");
-  const $dna = $form.find("#pcr_adnFk");
+  const $dna = $form.find("#pcr_dnaFk");
   const $primerStart = $("#pcr_primerPcrStartVocFk");
   const $primerEnd = $("#pcr_primerPcrEndVocFk");
   const $numPcr = $("#pcr_numPcr");
 
   const $pcrCode = $("#pcr_codePcr");
 
-  initSearchSelect($dna, "adn_search");
+  initSearchSelect($dna, "dna_search");
 
   if ($form.data("action") == "new") {
     updatePcrCode();

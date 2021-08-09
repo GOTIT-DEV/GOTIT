@@ -82,7 +82,7 @@ class PcrController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND pcr.adnFk = ' . $request->get('idFk');
+      $where .= ' AND pcr.dnaFk = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
@@ -90,7 +90,7 @@ class PcrController extends AbstractController {
       ->createQueryBuilder('pcr')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
       ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
       ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
@@ -130,8 +130,8 @@ class PcrController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
-        "specimen.codeIndBiomol" => $entity->getAdnFk()->getSpecimenFk()->getCodeIndBiomol(),
-        "adn.codeAdn" => $entity->getAdnFk()->getCodeAdn(),
+        "specimen.codeIndBiomol" => $entity->getDnaFk()->getSpecimenFk()->getCodeIndBiomol(),
+        "dna.codeAdn" => $entity->getDnaFk()->getCodeAdn(),
         "pcr.codePcr" => $entity->getCodePcr(),
         "pcr.numPcr" => $entity->getNumPcr(),
         "vocGene.code" => $entity->getGeneVocFk()->getCode(),
@@ -169,7 +169,7 @@ class PcrController extends AbstractController {
     // check if the relational Entity (Dna) is given and set the RelationalEntityFk for the new Entity
     if ($dna_id = $request->get('idFk')) {
       $dna = $em->getRepository('App:Dna')->find($dna_id);
-      $pcr->setAdnFk($dna);
+      $pcr->setDnaFk($dna);
     }
     $form = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::create(),

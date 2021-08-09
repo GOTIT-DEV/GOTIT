@@ -16,18 +16,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesadndeplace")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Route("importfilesdnarange")
+ * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesAdnDeplaceController extends AbstractController {
+class ImportFilesDnaRangeController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesadndeplace_index")
+   * @Route("/", name="importfilesdnarange_index")
    *
    */
   public function indexAction(
@@ -45,7 +45,7 @@ class ImportFilesAdnDeplaceController extends AbstractController {
       ->add('type_csv', ChoiceType::class, array(
         'choice_translation_domain' => false,
         'choices' => array(
-          ' ' => array('DNA_move' => 'DNA_move'),
+          ' ' => array('DNA_store' => 'DNA_store'),
         ),
       ))
       ->add('fichier', FileType::class)
@@ -65,8 +65,8 @@ class ImportFilesAdnDeplaceController extends AbstractController {
       $message .= $checkName;
       if ($checkName == '') {
         switch ($this->type_csv) {
-        case 'DNA_move':
-          $message .= $importFileE3sService->importCSVDataAdnDeplace($fichier, $user->getId());
+        case 'DNA_store':
+          $message .= $importFileE3sService->importCSVDataDnaRange($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

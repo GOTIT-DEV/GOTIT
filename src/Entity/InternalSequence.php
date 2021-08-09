@@ -441,7 +441,7 @@ class InternalSequence extends AbstractTimestampedEntity {
     ? $process
       ->getChromatogramFk()
       ->getPcrFk()
-      ->getAdnFk()
+      ->getDnaFk()
       ->getSpecimenFk()
     : null;
   }

@@ -18,7 +18,7 @@ core:
   storeADN: "Store : DNA"
   store: Store
   Analyses génétiques: Molecular analysis
-  adn: DNA
+  dna: DNA
   pcr: PCR
   chromatogram: Chromatogram
   source: Source

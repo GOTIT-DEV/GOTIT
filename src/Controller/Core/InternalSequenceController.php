@@ -203,11 +203,11 @@ class InternalSequenceController extends AbstractController {
       $chromato = $chromatoRepo->find($chromatoFk);
       $pcr = $chromato->getPcrFk();
       $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getAdnFk()->getSpecimenFk();
+      $specimen = $pcr->getDnaFk()->getSpecimenFk();
     } elseif ($specimenFk && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogram')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.adnFk = dna.id')
+        ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
         ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
         ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
         ->andWhere('specimen.id = :specimenId')
@@ -219,7 +219,7 @@ class InternalSequenceController extends AbstractController {
         ->getOneOrNullResult();
       $pcr = $chromato->getPcrFk();
       $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getAdnFk()->getSpecimenFk();
+      $specimen = $pcr->getDnaFk()->getSpecimenFk();
     } else {
       $gene = null;
       $specimen = null;

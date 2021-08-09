@@ -80,7 +80,7 @@ class SpeciesQueryService {
 
   private function joinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
-      ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
+      ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dnaFk')
       ->join('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
       ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
@@ -90,7 +90,7 @@ class SpeciesQueryService {
 
   private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
     return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.adnFk')
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dnaFk')
       ->leftJoin('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->leftJoin('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
       ->leftJoin('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
@@ -110,8 +110,8 @@ class SpeciesQueryService {
       ->leftJoin('App:InternalSequenceAssembly', 'motu_at', 'WITH', "motu_at.internalSequenceFk = $alias.internalSequenceFk")
       ->leftJoin('App:Chromatogram', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogramFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
-      ->leftJoin('App:Dna', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
-      ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.specimenFk")
+      ->leftJoin('App:Dna', 'motu_dna', 'WITH', "motu_dna.id = motu_pcr.dnaFk")
+      ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_dna.specimenFk")
       ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimenFk = motu_ind.id OR motu_eid.externalSequenceFk=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodeMotuVocFk")
       ->join('App:MotuDataset', 'motu_date', 'WITH', "motu_date.id = $alias.motuDatasetFk");
