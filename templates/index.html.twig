@@ -118,9 +118,7 @@ $(document).ready(function(){
                       return `<a href="#" class="btn btn-sm disabled">
                       <i class="fas fa-plus-circle"></i></a>`;
 }
-},{% endfor %}
-
-"show": function (column, row, value) {
+},{% endfor %}"show": function (column, row, value) {
 return `<a href="${
 row.id
 }?${
