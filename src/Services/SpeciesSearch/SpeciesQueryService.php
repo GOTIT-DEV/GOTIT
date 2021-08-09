@@ -31,7 +31,7 @@ class SpeciesQueryService {
 
   public function getMethodsByDate($id_dataset) {
     $qb = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.libelleMotu as motu_title')
+    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -46,7 +46,7 @@ class SpeciesQueryService {
   public function getMethod($id_methode, $id_dataset) {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id as id_methode, v.code')
-      ->addSelect('m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
+      ->addSelect('m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -63,7 +63,7 @@ class SpeciesQueryService {
 
   public function listMethodsByDate() {
     $qb = $this->entityManager->createQueryBuilder();
-    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.dateMotu as date_dataset, m.libelleMotu as motu_title')
+    $query = $qb->select('v.id, v.code, m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
@@ -130,7 +130,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.taxname as taxon, rt.id')
       ->addSelect('vocabulary.id as id_method, vocabulary.code as method')
-      ->addSelect('motu_dataset.id as id_dataset, motu_dataset.dateMotu as dataset_date, motu_dataset.libelleMotu as dataset')
+      ->addSelect('motu_dataset.id as id_dataset, motu_dataset.date as dataset_date, motu_dataset.title as dataset')
       ->addSelect('COUNT(DISTINCT ass.numMotu ) as count_motus')
       ->from('App:Taxon', 'rt')
       ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk');
@@ -196,7 +196,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.id as idesp, rt.taxname')
       ->addSelect('vocabulary.code as method')
-      ->addSelect('m.dateMotu as motu_date')
+      ->addSelect('m.date as motu_date')
       ->addSelect('seq.id, seq.code as code, seq.accessionNumber as acc')
       ->addSelect('ass.numMotu as motu_dataset')
       ->addSelect('v.code as criterion')

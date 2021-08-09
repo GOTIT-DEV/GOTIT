@@ -15,9 +15,9 @@ class MotuDatasetType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('nomFichierCsv')
-      ->add('libelleMotu')
-      ->add('dateMotu', DateFormattedType::class, ['required' => true])
+      ->add('filename')
+      ->add('title')
+      ->add('date', DateFormattedType::class, ['required' => true])
       ->add('comment')
       ->add('motuDelimiters', CollectionType::class, array(
         'entry_type' => MotuDelimiterEmbedType::class,

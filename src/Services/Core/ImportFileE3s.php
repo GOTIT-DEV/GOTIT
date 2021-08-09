@@ -3066,11 +3066,11 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // we memorize the name of the file to treat it later
-          if ($ColCsv == 'motu_dataset.nom_fichier_csv') {
-            $nom_fichier_csv = $dataColCsv;
+          if ($ColCsv == 'motu_dataset.filename') {
+            $filename = $dataColCsv;
           }
-          // we adapt the date format of the column motu_dataset.date_motu
-          if ($ColCsv == 'motu_dataset.date_motu') {
+          // we adapt the date format of the column motu_dataset.date
+          if ($ColCsv == 'motu_dataset.date') {
             if ($dataColCsv != '') {
               $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
               if (!$eventDate) {

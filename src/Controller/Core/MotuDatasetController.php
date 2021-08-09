@@ -62,7 +62,7 @@ class MotuDatasetController extends AbstractController {
     // Search for the list to show
     $tab_toshow = [];
     $toshow = $em->getRepository("App:MotuDataset")->createQueryBuilder('motu_dataset')
-      ->where('LOWER(motu_dataset.libelleMotu) LIKE :criteriaLower')
+      ->where('LOWER(motu_dataset.title) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -71,8 +71,8 @@ class MotuDatasetController extends AbstractController {
     $toshow = array_slice($toshow, $minRecord, $rowCount);
     foreach ($toshow as $entity) {
       $id = $entity->getId();
-      $DateMotu = ($entity->getDateMotu() !== null)
-      ? $entity->getDateMotu()->format('Y-m-d') : null;
+      $Date = ($entity->getDate() !== null)
+      ? $entity->getDate()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
@@ -90,11 +90,11 @@ class MotuDatasetController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "motu_dataset.id" => $id,
-        "motu_dataset.libelleMotu" => $entity->getLibelleMotu(),
-        "motu_dataset.nomFichierCsv" => $entity->getNomFichierCsv(),
+        "motu_dataset.title" => $entity->getTitle(),
+        "motu_dataset.filename" => $entity->getFilename(),
         "listePerson" => $listePerson,
         "motu_dataset.comment" => $entity->getComment(),
-        "motu_dataset.dateMotu" => $DateMotu,
+        "motu_dataset.date" => $Date,
         "motu_dataset.dateCre" => $DateCre, "motu_dataset.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
         "motu_dataset.userCre" => $service->GetUserCreUserfullname($entity),
@@ -287,7 +287,7 @@ class MotuDatasetController extends AbstractController {
   public function datasetMethodList() {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $query = $qb
-      ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
+      ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.title as dataset_name')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")

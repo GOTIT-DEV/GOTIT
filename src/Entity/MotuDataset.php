@@ -31,7 +31,7 @@ class MotuDataset extends AbstractTimestampedEntity {
    * @Groups("motu_dataset")
    * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
    */
-  private $libelleMotu;
+  private $title;
 
   /**
    * @var string
@@ -39,7 +39,7 @@ class MotuDataset extends AbstractTimestampedEntity {
    * @Groups("motu_dataset")
    * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
    */
-  private $nomFichierCsv;
+  private $filename;
 
   /**
    * @var \DateTime
@@ -47,7 +47,7 @@ class MotuDataset extends AbstractTimestampedEntity {
    * @Groups("motu_dataset")
    * @ORM\Column(name="motu_date", type="date", nullable=false)
    */
-  private $dateMotu;
+  private $date;
 
   /**
    * @var string
@@ -77,47 +77,47 @@ class MotuDataset extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set nomFichierCsv
+   * Set filename
    *
-   * @param string $nomFichierCsv
+   * @param string $filename
    *
    * @return MotuDataset
    */
-  public function setNomFichierCsv($nomFichierCsv) {
-    $this->nomFichierCsv = $nomFichierCsv;
+  public function setFilename($filename) {
+    $this->filename = $filename;
 
     return $this;
   }
 
   /**
-   * Get nomFichierCsv
+   * Get filename
    *
    * @return string
    */
-  public function getNomFichierCsv() {
-    return $this->nomFichierCsv;
+  public function getFilename() {
+    return $this->filename;
   }
 
   /**
-   * Set dateMotu
+   * Set date
    *
-   * @param \DateTime $dateMotu
+   * @param \DateTime $date
    *
    * @return MotuDataset
    */
-  public function setDateMotu($dateMotu) {
-    $this->dateMotu = $dateMotu;
+  public function setDate($date) {
+    $this->date = $date;
 
     return $this;
   }
 
   /**
-   * Get dateMotu
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDateMotu() {
-    return $this->dateMotu;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
@@ -175,24 +175,24 @@ class MotuDataset extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set libelleMotu
+   * Set title
    *
-   * @param string $libelleMotu
+   * @param string $title
    *
    * @return MotuDataset
    */
-  public function setLibelleMotu($libelleMotu) {
-    $this->libelleMotu = $libelleMotu;
+  public function setTitle($title) {
+    $this->title = $title;
 
     return $this;
   }
 
   /**
-   * Get libelleMotu
+   * Get title
    *
    * @return string
    */
-  public function getLibelleMotu() {
-    return $this->libelleMotu;
+  public function getTitle() {
+    return $this->title;
   }
 }

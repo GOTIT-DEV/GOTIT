@@ -176,7 +176,7 @@ class DashboardController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'motu',
-        "code" => $entity->getLibelleMotu(),
+        "code" => $entity->getTitle(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
       );

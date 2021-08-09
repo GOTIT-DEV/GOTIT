@@ -615,7 +615,7 @@ Nom commune: Municipality name
 Nom complet: Person full name
 Nom dossier photos: Photo folder name
 Nom etablissement: Institution name
-Nom fichier csv: csv file name
+CSV Filename: csv file name
 Nom pays: Country name
 Nom personne: Person name
 Nom personne ref: Person name bis
@@ -654,7 +654,6 @@ Source fk: Source
 Species: Species
 Specificite voc fk: PCR specificity
 Site fk: Site
-Status: Sequence status
 Subclass: Subclass
 Subspecies: Subspecies
 Taxname: Taxon name

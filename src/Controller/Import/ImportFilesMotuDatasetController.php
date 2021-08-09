@@ -51,7 +51,7 @@ class ImportFilesMotuDatasetController extends AbstractController {
               ->leftJoin('App:MotuDelimitation', 'motuDelimitation', 'WITH', 'motuDelimitation.motuDatasetFk = motu_dataset.id')
               ->where('motuDelimitation.id IS NULL');
           },
-          'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false,
+          'placeholder' => 'MOTU', 'choice_label' => 'filename', 'multiple' => false, 'expanded' => false,
         ))
         ->add('fichier', FileType::class)
         ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))

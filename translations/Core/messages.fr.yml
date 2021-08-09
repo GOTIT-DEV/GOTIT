@@ -451,7 +451,7 @@ Nom commune: Nom commune
 Nom complet: Nom complet
 Nom dossier photos: Nom dossier photos
 Nom etablissement: Nom établissement
-Nom fichier csv: Nom fichier csv
+CSV Filename: CSV Filename
 Nom pays: Nom pays
 Nom personne: Nom personne
 Nom personne ref: Synonyme
@@ -490,7 +490,6 @@ Source fk: Source
 Species: Espèce
 Specificite voc fk: Spécificité
 Site fk: Station
-Status: Statut séquence assemblée
 Subclass: Sous classe
 Subspecies: Sous espèce
 Taxname: Nom taxon
