@@ -272,7 +272,7 @@ class ImportFileCsv {
       'identified_species_comments' => 'commentaire_esp_id',
       'identified_species_fk' => 'taxon_identification_fk',
       'institution_comments' => 'commentaire_etablissement',
-      'institution_fk' => 'etablissement_fk',
+      'institution_fk' => 'institution_fk',
       'institution_name' => 'nom_etablissement',
       'institution' => 'institution',
       'internal_biological_material_code' => 'code_lot_materiel',

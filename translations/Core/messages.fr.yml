@@ -113,14 +113,14 @@ button.ImportReferentieltaxon: Importer fichier Taxon
 button.ImportPays: Importer fichier Pays
 button.ImportPersonne: Importer fichier Personne
 button.ImportProgramme: Importer fichier Programme
-button.ImportEtablissement: Importer fichier Etablissement
+button.ImportInstitution: Importer fichier Etablissement
 button.ImportCommune: Importer fichier Commune
 button.Back to the list of voc: Retour à la liste des Vocabulaires
 button.Back to the list of referentieltaxon: Retour à la liste des Taxons
 button.Back to the list of pays: Retour à la liste des Pays
 button.Back to the list of personne: Retour à la liste des Personnes
 button.Back to the list of programme: Retour à la liste des Programmes
-button.Back to the list of etablissement: Retour à la liste des Etablissements
+button.Back to the list of institution: Retour à la liste des Etablissements
 button.Back to the list of municipality: Retour à la liste des Municipalities
 # Button titles "Back to Entity"
 button.Back to station: Retour à la Station
@@ -182,7 +182,7 @@ button.NewSource: Créer une source
 button.NewVoc: Créer un vocabulaire
 button.NewReferentieltaxon: Créer un taxon
 button.NewPersonne: Créer une personne
-button.NewEtablissement: Créer un etablissement
+button.NewInstitution: Créer un etablissement
 button.NewProgramme: Créer un programme
 button.NewPays: Créer un Pays
 button.NewMotu: Créer un MOTU
@@ -285,7 +285,7 @@ Choose a chromatogramme: Sélectionner un chromatogramme
 Choose a statut: Sélectionner un status
 Choose a status: Sélectionner un status
 Choose a Person: Sélectionner une personne
-Choose a Etablissement: Sélectionner un etablissement
+Choose a Institution: Sélectionner un etablissement
 Choose a DNA: Sélectionner un ADN
 Choose a gene: Sélectionner un gene
 Choose a quality: Sélectionner une qualite
@@ -441,7 +441,7 @@ Date precision voc fk: Précision date
 Detail pcr: Detail PCR
 Duree echantillonnage mn: Durée échantillonnage (min)
 Taxon identification fk: Espèce identifiée
-Etablissement fk: Établissement
+Institution fk: Établissement
 Family: Famille
 Fixateur voc fk: Fixateur
 Gene voc fk: Gène

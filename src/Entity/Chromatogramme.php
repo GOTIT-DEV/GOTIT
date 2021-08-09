@@ -72,14 +72,14 @@ class Chromatogramme extends AbstractTimestampedEntity {
   private $qualiteChromatoVocFk;
 
   /**
-   * @var \Etablissement
+   * @var \Institution
    *
-   * @ORM\ManyToOne(targetEntity="Etablissement")
+   * @ORM\ManyToOne(targetEntity="Institution")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $etablissementFk;
+  private $institutionFk;
 
   /**
    * @var \Pcr
@@ -217,25 +217,25 @@ class Chromatogramme extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set etablissementFk
+   * Set institutionFk
    *
-   * @param \App\Entity\Etablissement $etablissementFk
+   * @param \App\Entity\Institution $institutionFk
    *
    * @return Chromatogramme
    */
-  public function setEtablissementFk(\App\Entity\Etablissement $etablissementFk = null) {
-    $this->etablissementFk = $etablissementFk;
+  public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
+    $this->institutionFk = $institutionFk;
 
     return $this;
   }
 
   /**
-   * Get etablissementFk
+   * Get institutionFk
    *
-   * @return \App\Entity\Etablissement
+   * @return \App\Entity\Institution
    */
-  public function getEtablissementFk() {
-    return $this->etablissementFk;
+  public function getInstitutionFk() {
+    return $this->institutionFk;
   }
 
   /**

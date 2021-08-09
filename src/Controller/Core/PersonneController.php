@@ -64,10 +64,10 @@ class PersonneController extends AbstractController {
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin(
-        'App:Etablissement',
-        'etablissement',
+        'App:Institution',
+        'institution',
         'WITH',
-        'personne.etablissementFk = etablissement.id'
+        'personne.institutionFk = institution.id'
       )
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -82,14 +82,14 @@ class PersonneController extends AbstractController {
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $NomEtablissement = ($entity->getEtablissementFk() !== null)
-      ? $entity->getEtablissementFk()->getNomEtablissement() : null;
+      $NomEtablissement = ($entity->getInstitutionFk() !== null)
+      ? $entity->getInstitutionFk()->getNomEtablissement() : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "personne.id" => $id,
         "personne.nomPersonne" => $entity->getNomPersonne(),
         "personne.nomComplet" => $entity->getNomComplet(),
-        "etablissement.nomEtablissement" => $NomEtablissement,
+        "institution.nomEtablissement" => $NomEtablissement,
         "personne.dateCre" => $DateCre,
         "personne.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

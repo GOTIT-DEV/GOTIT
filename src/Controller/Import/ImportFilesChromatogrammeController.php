@@ -103,7 +103,7 @@ class ImportFilesChromatogrammeController extends AbstractController {
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
         case 'institution':
-          $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataInstitution($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

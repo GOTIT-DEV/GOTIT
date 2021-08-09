@@ -55,14 +55,14 @@ class Personne extends AbstractTimestampedEntity {
   private $commentairePersonne;
 
   /**
-   * @var \Etablissement
+   * @var \Institution
    *
-   * @ORM\ManyToOne(targetEntity="Etablissement")
+   * @ORM\ManyToOne(targetEntity="Institution")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
    * })
    */
-  private $etablissementFk;
+  private $institutionFk;
 
   /**
    * Get id
@@ -162,24 +162,24 @@ class Personne extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set etablissementFk
+   * Set institutionFk
    *
-   * @param \App\Entity\Etablissement $etablissementFk
+   * @param \App\Entity\Institution $institutionFk
    *
    * @return Personne
    */
-  public function setEtablissementFk(\App\Entity\Etablissement $etablissementFk = null) {
-    $this->etablissementFk = $etablissementFk;
+  public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
+    $this->institutionFk = $institutionFk;
 
     return $this;
   }
 
   /**
-   * Get etablissementFk
+   * Get institutionFk
    *
-   * @return \App\Entity\Etablissement
+   * @return \App\Entity\Institution
    */
-  public function getEtablissementFk() {
-    return $this->etablissementFk;
+  public function getInstitutionFk() {
+    return $this->institutionFk;
   }
 }

@@ -50,11 +50,11 @@ class ChromatogrammeType extends ActionFormType {
         'voc_parent' => 'qualiteChromato',
         'placeholder' => 'Choose a quality',
       ))
-      ->add('etablissementFk', EntityType::class, array(
-        'class' => 'App:Etablissement',
+      ->add('institutionFk', EntityType::class, array(
+        'class' => 'App:Institution',
         'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('etablissement')
-            ->orderBy('etablissement.nomEtablissement', 'ASC');
+          return $er->createQueryBuilder('institution')
+            ->orderBy('institution.nomEtablissement', 'ASC');
         },
         'placeholder' => 'Choose a society',
         'choice_label' => 'nom_etablissement',

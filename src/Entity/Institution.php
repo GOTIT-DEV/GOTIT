@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Etablissement
+ * Institution
  *
  * @ORM\Table(name="institution",
  * uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"nomEtablissement"}, message="This name already exists")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Etablissement extends AbstractTimestampedEntity {
+class Institution extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -53,7 +53,7 @@ class Etablissement extends AbstractTimestampedEntity {
    *
    * @param string $nomEtablissement
    *
-   * @return Etablissement
+   * @return Institution
    */
   public function setNomEtablissement($nomEtablissement) {
     $this->nomEtablissement = $nomEtablissement;
@@ -75,7 +75,7 @@ class Etablissement extends AbstractTimestampedEntity {
    *
    * @param string $commentaireEtablissement
    *
-   * @return Etablissement
+   * @return Institution
    */
   public function setCommentaireEtablissement($commentaireEtablissement) {
     $this->commentaireEtablissement = $commentaireEtablissement;

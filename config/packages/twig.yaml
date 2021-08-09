@@ -102,8 +102,8 @@ twig:
           - route: programme_index
             text: core.programme
             auth_required: ROLE_PROJECT
-          - route: etablissement_index
-            text: core.etablissement
+          - route: institution_index
+            text: core.institution
             auth_required: ROLE_PROJECT
       - route: user_index
         text: core.users

@@ -279,14 +279,14 @@ button.ImportReferentieltaxon: Import new set of Taxa
 button.ImportPays: Import new set of Country
 button.ImportPersonne: Import new set of Person
 button.ImportProgramme: Import new set of Program
-button.ImportEtablissement: Import new set of Institution
+button.ImportInstitution: Import new set of Institution
 button.ImportCommune: Import new set of Municipality
 button.Back to the list of voc: Back to the list of Vocabulary
 button.Back to the list of referentieltaxon: Back to the list of Taxon
 button.Back to the list of country: Back to the list of Country
 button.Back to the list of personne: Back to the list of Person
 button.Back to the list of programme: Back to the list of Program
-button.Back to the list of etablissement: Back to the list of Institution
+button.Back to the list of institution: Back to the list of Institution
 button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
 button.Back to station: Back to Site
@@ -347,7 +347,7 @@ button.NewSource: Create new source
 button.NewVoc: Create new vocabulary
 button.NewReferentieltaxon: Add taxon name
 button.NewPersonne: Create new person
-button.NewEtablissement: Create new institution
+button.NewInstitution: Create new institution
 button.NewProgramme: Create new program
 button.NewPays: Create new country
 button.NewMotu: Create new set of MOTU
@@ -450,7 +450,7 @@ Choose a chromatogramme: Select chromatogram
 Choose a statut: Select status
 Choose a status: Select status
 Choose a Person: Select person
-Choose a Etablissement: Select institution
+Choose a Institution: Select institution
 Choose a DNA:  Select DNA code
 Choose a gene: Select gene
 Choose a quality: Select quality
@@ -604,7 +604,7 @@ Date precision voc fk: Date precision
 Detail pcr: PCR details
 Duree echantillonnage mn: Sampling duration
 Taxon identification fk: Identified species table
-Etablissement fk: Institution
+Institution fk: Institution
 Family: Family
 Fixateur voc fk: Fixative
 Gene voc fk: Gene

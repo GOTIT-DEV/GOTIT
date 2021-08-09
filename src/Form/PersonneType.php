@@ -20,9 +20,9 @@ class PersonneType extends ActionFormType {
       ->add('nomPersonneRef', null, [
         'required' => false,
       ])
-      ->add('etablissementFk', EntityType::class, [
-        'class' => 'App:Etablissement',
-        'placeholder' => 'Choose a Etablissement',
+      ->add('institutionFk', EntityType::class, [
+        'class' => 'App:Institution',
+        'placeholder' => 'Choose a Institution',
         'choice_label' => 'nom_etablissement',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('institution')

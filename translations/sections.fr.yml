@@ -28,7 +28,7 @@ core:
   personne: Personne
   country: Pays
   municipality: Commune
-  etablissement: Établissement
+  institution: Établissement
   programme: Programme
   users: Utilisateurs
   user: Utilisateur

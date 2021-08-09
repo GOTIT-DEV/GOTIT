@@ -3265,11 +3265,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataEtablissement($fichier, $userId = null)
+   *  importCSVDataInstitution($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is institution
    */
-  public function importCSVDataEtablissement($fichier, $userId = null) {
+  public function importCSVDataInstitution($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -3280,10 +3280,10 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Etablissement();
+      $entity = new \App\Entity\Institution();
       //
-      if (array_key_exists("etablissement", $columnByTable)) {
-        foreach ($columnByTable["etablissement"] as $ColCsv) {
+      if (array_key_exists("institution", $columnByTable)) {
+        foreach ($columnByTable["institution"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
@@ -3296,8 +3296,8 @@ class ImportFileE3s {
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($ColCsv == 'etablissement.nom_etablissement') {
-              $record_entity = $em->getRepository("App:Etablissement")->findOneBy(array("nomEtablissement" => $dataColCsv));
+            if ($ColCsv == 'institution.nom_etablissement') {
+              $record_entity = $em->getRepository("App:Institution")->findOneBy(array("nomEtablissement" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -4891,7 +4891,7 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case 'etablissement':
+                case 'institution':
                   // la valeur NULL est permise
                   break;
                 case "Voc":

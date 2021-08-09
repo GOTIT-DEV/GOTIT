@@ -22,37 +22,28 @@
 {% endblock %}
 
 {% block body %}
-	{# definition of collones to display 
-			     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+	{# definition of collones to display
+				     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th data-column-id="etablissement.id" data-type="numeric" data-visible="false">
+					<th data-column-id="institution.id" data-type="numeric" data-visible="false">
 						Id
 					</th>
-					<th data-column-id="etablissement.nomEtablissement" data-sortable="true">
+					<th data-column-id="institution.nomEtablissement" data-sortable="true">
 						{{'Nom etablissement'|trans}}
 					</th>
-					<th data-column-id="etablissement.dateMaj" data-width="100">
+					<th data-column-id="institution.dateMaj" data-width="100">
 						{{'list.Date maj'|trans}}
 					</th>
-					<th
-						data-column-id="etablissement.dateCre"
-						data-width="100"
-						data-visible="false">
+					<th data-column-id="institution.dateCre" data-width="100" data-visible="false">
 						{{'list.Date cre'|trans}}
 					</th>
-					<th
-						data-column-id="etablissement.userCre"
-						data-width="10"
-						data-visible="false">
+					<th data-column-id="institution.userCre" data-width="10" data-visible="false">
 						{{'list.User cre'|trans}}
 					</th>
-					<th
-						data-column-id="etablissement.userMaj"
-						data-width="10"
-						data-visible="false">
+					<th data-column-id="institution.userMaj" data-width="10" data-visible="false">
 						{{'list.User maj'|trans}}
 					</th>
 					<th

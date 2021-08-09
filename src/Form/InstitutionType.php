@@ -6,7 +6,7 @@ use App\Form\ActionFormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EtablissementType extends ActionFormType {
+class InstitutionType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -23,7 +23,7 @@ class EtablissementType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Etablissement',
+      'data_class' => 'App\Entity\Institution',
     ));
   }
 
@@ -31,6 +31,6 @@ class EtablissementType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'etablissement';
+    return 'institution';
   }
 }
