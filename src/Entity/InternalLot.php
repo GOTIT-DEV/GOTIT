@@ -95,7 +95,7 @@ class InternalLot extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $yeuxVocFk;
+  private $eyesVocFk;
 
   /**
    * @var \Sampling
@@ -290,25 +290,25 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set yeuxVocFk
+   * Set eyesVocFk
    *
-   * @param \App\Entity\Voc $yeuxVocFk
+   * @param \App\Entity\Voc $eyesVocFk
    *
    * @return InternalLot
    */
-  public function setYeuxVocFk(\App\Entity\Voc $yeuxVocFk = null) {
-    $this->yeuxVocFk = $yeuxVocFk;
+  public function setEyesVocFk(\App\Entity\Voc $eyesVocFk = null) {
+    $this->eyesVocFk = $eyesVocFk;
 
     return $this;
   }
 
   /**
-   * Get yeuxVocFk
+   * Get eyesVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getYeuxVocFk() {
-    return $this->yeuxVocFk;
+  public function getEyesVocFk() {
+    return $this->eyesVocFk;
   }
 
   /**

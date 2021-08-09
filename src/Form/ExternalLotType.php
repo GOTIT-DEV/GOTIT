@@ -33,7 +33,7 @@ class ExternalLotType extends ActionFormType {
           'readonly' => $sampling != null,
         ],
       ])
-      ->add('codeLotMaterielExt', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         "attr" => [
           'readonly' => ($options['action_type'] == Action::create()),
@@ -43,18 +43,18 @@ class ExternalLotType extends ActionFormType {
         'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
       ])
-      ->add('yeuxVocFk', BaseVocType::class, [
+      ->add('eyesVocFk', BaseVocType::class, [
         'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
       ])
-      ->add('commentaireLotMaterielExt')
+      ->add('comment')
       ->add('specimenQuantityVocFk', BaseVocType::class, [
         'voc_parent' => 'nbIndividus',
         'placeholder' => 'Choose an option',
       ])
       ->add('specimenQuantityComment')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateCreationLotMaterielExt', DateFormattedType::class)
+      ->add('creationDate', DateFormattedType::class)
       ->add('producers', CollectionType::class, [
         'entry_type' => ExternalLotProducerEmbedType::class,
         'allow_add' => true,

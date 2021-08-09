@@ -66,7 +66,7 @@ class InternalLotType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ))
-      ->add('yeuxVocFk', BaseVocType::class, array(
+      ->add('eyesVocFk', BaseVocType::class, array(
         'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
       ))

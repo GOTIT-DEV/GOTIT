@@ -3801,7 +3801,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'external_lot.code_external_lot') {
-            $record_entity = $em->getRepository("App:ExternalLot")->findOneBy(array("codeLotMaterielExt" => $dataColCsv));
+            $record_entity = $em->getRepository("App:ExternalLot")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

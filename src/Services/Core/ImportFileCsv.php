@@ -258,7 +258,7 @@ class ImportFileCsv {
       'external_sequence_primary_taxon' => 'taxon_origine_sqc_ass_ext',
       'external_sequence_specimen_number' => 'specimen_molecular_number',
       'external_sequence_status_voc_fk' => 'statut_sqc_ass_voc_fk',
-      'eyes_voc_fk' => 'yeux_voc_fk',
+      'eyes_voc_fk' => 'eyes_voc_fk',
       'family' => 'family',
       'fixative_voc_fk' => 'fixateur_voc_fk',
       'forward_primer_voc_fk' => 'primer_pcr_start_voc_fk',

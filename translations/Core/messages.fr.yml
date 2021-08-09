@@ -426,7 +426,7 @@ Critere identification voc fk: Critère identification
 Date adn: Date ADN
 Date collecte: Date collecte
 Date cre: Date création
-Date creation lot materiel ext: Date création lot matériel externe
+Creation date: Date création
 Date creation sqc ass: Date création séquence assemblée
 Date creation sqc ass ext: Date création séquence externe assemblée
 Date identification: Date identification
@@ -523,7 +523,7 @@ Specimen type voc fk: Type individu
 User cre: Utilisateur création
 User maj: Utilisateur mise à jour
 Validity: Validité
-Yeux voc fk: Vision
+Eyes voc fk: Vision
 # titles of collections or N-N type relational tables
 Source providers: Est integrée par
 Dnas: ADN

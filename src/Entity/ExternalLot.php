@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}),
  *      @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"eyes_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeLotMaterielExt"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ExternalLot extends AbstractTimestampedEntity {
@@ -37,21 +37,21 @@ class ExternalLot extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="external_biological_material_code", type="string", length=255, nullable=false, unique=true)
    */
-  private $codeLotMaterielExt;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="external_biological_material_creation_date", type="date", nullable=true)
    */
-  private $dateCreationLotMaterielExt;
+  private $creationDate;
 
   /**
    * @var string
    *
    * @ORM\Column(name="external_biological_material_comments", type="text", nullable=true)
    */
-  private $commentaireLotMaterielExt;
+  private $comment;
 
   /**
    * @var string
@@ -108,7 +108,7 @@ class ExternalLot extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $yeuxVocFk;
+  private $eyesVocFk;
 
   /**
    * @ORM\OneToMany(targetEntity="ExternalLotProducer", mappedBy="externalLotFk", cascade={"persist"})
@@ -144,69 +144,69 @@ class ExternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeLotMaterielExt
+   * Set code
    *
-   * @param string $codeLotMaterielExt
+   * @param string $code
    *
    * @return ExternalLot
    */
-  public function setCodeLotMaterielExt($codeLotMaterielExt) {
-    $this->codeLotMaterielExt = $codeLotMaterielExt;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeLotMaterielExt
+   * Get code
    *
    * @return string
    */
-  public function getCodeLotMaterielExt() {
-    return $this->codeLotMaterielExt;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateCreationLotMaterielExt
+   * Set creationDate
    *
-   * @param \DateTime $dateCreationLotMaterielExt
+   * @param \DateTime $creationDate
    *
    * @return ExternalLot
    */
-  public function setDateCreationLotMaterielExt($dateCreationLotMaterielExt) {
-    $this->dateCreationLotMaterielExt = $dateCreationLotMaterielExt;
+  public function setCreationDate($date) {
+    $this->creationDate = $date;
 
     return $this;
   }
 
   /**
-   * Get dateCreationLotMaterielExt
+   * Get creationDate
    *
    * @return \DateTime
    */
-  public function getDateCreationLotMaterielExt() {
-    return $this->dateCreationLotMaterielExt;
+  public function getCreationDate() {
+    return $this->creationDate;
   }
 
   /**
-   * Set commentaireLotMaterielExt
+   * Set comment
    *
-   * @param string $commentaireLotMaterielExt
+   * @param string $comment
    *
    * @return ExternalLot
    */
-  public function setCommentaireLotMaterielExt($commentaireLotMaterielExt) {
-    $this->commentaireLotMaterielExt = $commentaireLotMaterielExt;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireLotMaterielExt
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireLotMaterielExt() {
-    return $this->commentaireLotMaterielExt;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**
@@ -234,11 +234,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Set samplingFk
    *
-   * @param \App\Entity\Sampling $samplingFk
+   * @param Sampling $samplingFk
    *
    * @return ExternalLot
    */
-  public function setSamplingFk(\App\Entity\Sampling $samplingFk = null) {
+  public function setSamplingFk(Sampling $samplingFk = null) {
     $this->samplingFk = $samplingFk;
 
     return $this;
@@ -247,7 +247,7 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Get samplingFk
    *
-   * @return \App\Entity\Sampling
+   * @return Sampling
    */
   public function getSamplingFk() {
     return $this->samplingFk;
@@ -256,11 +256,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return ExternalLot
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
 
     return $this;
@@ -269,7 +269,7 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getDatePrecisionVocFk() {
     return $this->datePrecisionVocFk;
@@ -278,11 +278,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Set specimenQuantityVocFk
    *
-   * @param \App\Entity\Voc $specimenQuantityVocFk
+   * @param Voc $specimenQuantityVocFk
    *
    * @return ExternalLot
    */
-  public function setSpecimenQuantityVocFk(\App\Entity\Voc $specimenQuantityVocFk = null) {
+  public function setSpecimenQuantityVocFk(Voc $specimenQuantityVocFk = null) {
     $this->specimenQuantityVocFk = $specimenQuantityVocFk;
 
     return $this;
@@ -291,7 +291,7 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Get specimenQuantityVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getSpecimenQuantityVocFk() {
     return $this->specimenQuantityVocFk;
@@ -300,11 +300,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Set pigmentationVocFk
    *
-   * @param \App\Entity\Voc $pigmentationVocFk
+   * @param Voc $pigmentationVocFk
    *
    * @return ExternalLot
    */
-  public function setPigmentationVocFk(\App\Entity\Voc $pigmentationVocFk = null) {
+  public function setPigmentationVocFk(Voc $pigmentationVocFk = null) {
     $this->pigmentationVocFk = $pigmentationVocFk;
 
     return $this;
@@ -313,42 +313,42 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Get pigmentationVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getPigmentationVocFk() {
     return $this->pigmentationVocFk;
   }
 
   /**
-   * Set yeuxVocFk
+   * Set eyesVocFk
    *
-   * @param \App\Entity\Voc $yeuxVocFk
+   * @param Voc $eyesVocFk
    *
    * @return ExternalLot
    */
-  public function setYeuxVocFk(\App\Entity\Voc $yeuxVocFk = null) {
-    $this->yeuxVocFk = $yeuxVocFk;
+  public function setEyesVocFk(Voc $eyesVocFk = null) {
+    $this->eyesVocFk = $eyesVocFk;
 
     return $this;
   }
 
   /**
-   * Get yeuxVocFk
+   * Get eyesVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getYeuxVocFk() {
-    return $this->yeuxVocFk;
+  public function getEyesVocFk() {
+    return $this->eyesVocFk;
   }
 
   /**
    * Add producer
    *
-   * @param \App\Entity\ExternalLotProducer $producer
+   * @param ExternalLotProducer $producer
    *
    * @return ExternalLot
    */
-  public function addProducer(\App\Entity\ExternalLotProducer $producer) {
+  public function addProducer(ExternalLotProducer $producer) {
     $producer->setExternalLotFk($this);
     $this->producers[] = $producer;
 
@@ -358,9 +358,9 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Remove producer
    *
-   * @param \App\Entity\ExternalLotProducer $producer
+   * @param ExternalLotProducer $producer
    */
-  public function removeProducer(\App\Entity\ExternalLotProducer $producer) {
+  public function removeProducer(ExternalLotProducer $producer) {
     $this->producers->removeElement($producer);
   }
 
@@ -376,11 +376,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Add publication
    *
-   * @param \App\Entity\ExternalLotPublication $publication
+   * @param ExternalLotPublication $publication
    *
    * @return ExternalLot
    */
-  public function addPublication(\App\Entity\ExternalLotPublication $publication) {
+  public function addPublication(ExternalLotPublication $publication) {
     $publication->setExternalLotFk($this);
     $this->publications[] = $publication;
 
@@ -390,9 +390,9 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Remove publication
    *
-   * @param \App\Entity\ExternalLotPublication $publication
+   * @param ExternalLotPublication $publication
    */
-  public function removePublication(\App\Entity\ExternalLotPublication $publication) {
+  public function removePublication(ExternalLotPublication $publication) {
     $this->publications->removeElement($publication);
   }
 
@@ -408,11 +408,11 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Add taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    *
    * @return ExternalLot
    */
-  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+  public function addTaxonIdentification(TaxonIdentification $taxonIdentification) {
     $taxonIdentification->setExternalLotFk($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
@@ -422,9 +422,9 @@ class ExternalLot extends AbstractTimestampedEntity {
   /**
    * Remove taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    */
-  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+  public function removeTaxonIdentification(TaxonIdentification $taxonIdentification) {
     $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
