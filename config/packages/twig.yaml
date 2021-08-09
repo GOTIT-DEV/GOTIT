@@ -96,8 +96,8 @@ twig:
             text: core.country
           - route: municipality_index
             text: core.municipality
-          - route: personne_index
-            text: core.personne
+          - route: person_index
+            text: core.person
             auth_required: ROLE_COLLABORATION
           - route: programme_index
             text: core.programme

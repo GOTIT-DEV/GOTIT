@@ -36,14 +36,14 @@ class ExternalSequenceAssembler extends AbstractTimestampedEntity {
   private $externalSequenceFk;
 
   /**
-   * @var \Personne
+   * @var \Person
    *
-   * @ORM\ManyToOne(targetEntity="Personne")
+   * @ORM\ManyToOne(targetEntity="Person")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $personneFk;
+  private $personFk;
 
   /**
    * Get id
@@ -77,24 +77,24 @@ class ExternalSequenceAssembler extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set personneFk
+   * Set personFk
    *
-   * @param \App\Entity\Personne $personneFk
+   * @param \App\Entity\Person $personFk
    *
    * @return ExternalSequenceAssembler
    */
-  public function setPersonneFk(\App\Entity\Personne $personneFk = null) {
-    $this->personneFk = $personneFk;
+  public function setPersonFk(\App\Entity\Person $personFk = null) {
+    $this->personFk = $personFk;
 
     return $this;
   }
 
   /**
-   * Get personneFk
+   * Get personFk
    *
-   * @return \App\Entity\Personne
+   * @return \App\Entity\Person
    */
-  public function getPersonneFk() {
-    return $this->personneFk;
+  public function getPersonFk() {
+    return $this->personFk;
   }
 }

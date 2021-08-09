@@ -30,7 +30,7 @@ class MotuDatasetType extends ActionFormType {
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>
-          'App\\Controller\\Core\\PersonneController::newmodalAction',
+          'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
       ));
   }

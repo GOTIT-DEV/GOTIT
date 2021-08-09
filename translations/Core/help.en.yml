@@ -60,7 +60,7 @@ voc_index: |
   Use this page to browse, create, import, export, show, edit and delete vocabulary. Deletion may not be possible until all data links pointed to a vocabulary have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Title". In case a bilingual version of GOTIT is installed, the list of vocabularies is provided in all languages selected during installation.
 referentieltaxon_index: |
   Use this page to browse, create, import, export, show, edit and delete species taxa. Deletion may not be possible until all data links pointed to a species taxon have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Taxon name".
-personne_index: |
+person_index: |
   Use this page to browse, create, import, export, show, edit and delete person characteristics. Deletion may not be possible until all data links pointed to a person have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Person list".
 programme_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a funding program. Deletion may not be possible until all data links pointed to a funding program have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Program code".
@@ -109,7 +109,7 @@ voc_new: |
   Use this form to fill in characteristics of a new vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
 referentieltaxon_new: |
   Use this form to fill in characteristics of a species taxon added to the list. See appendix 11.2.2 in GOTIT HELP for content of fields.
-personne_new: |
+person_new: |
   Use this form to fill in characteristics of a new person. See appendix 11.3.2 in GOTIT HELP for content of fields.
 programme_new: |
   Use this form to fill in characteristics of a new funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
@@ -158,7 +158,7 @@ voc_show: |
   Use this form to consult characteristics of a vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
 referentieltaxon_show: |
   Use this form to consult characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
-personne_show: |
+person_show: |
   Use this form to consult characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
 programme_show: |
   Use this form to consult characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
@@ -207,7 +207,7 @@ voc_edit: |
   Use this form to edit characteristics of a vocabulary. See appendix 11.1.2 in GOTIT HELP for content of fields.
 referentieltaxon_edit: |
   Use this form to edit characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
-personne_edit: |
+person_edit: |
   Use this form to edit characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
 programme_edit: |
   Use this form to edit characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
@@ -316,7 +316,7 @@ importfilesmunicipality_index: |
   Use this form to upload data from municipality repository data set:
   - use and upload the template file “municipality” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilespersonne_index: |
+importfilesperson_index: |
   Use this form to upload data from person repository data set:
   - use and upload the template file “person” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Personne
+ * Person
  *
  * @ORM\Table(name="person",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})},
@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"nomPersonne"}, message="A person with this name is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Personne extends AbstractTimestampedEntity {
+class Person extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -78,7 +78,7 @@ class Personne extends AbstractTimestampedEntity {
    *
    * @param string $nomPersonne
    *
-   * @return Personne
+   * @return Person
    */
   public function setNomPersonne($nomPersonne) {
     $this->nomPersonne = $nomPersonne;
@@ -100,7 +100,7 @@ class Personne extends AbstractTimestampedEntity {
    *
    * @param string $nomComplet
    *
-   * @return Personne
+   * @return Person
    */
   public function setNomComplet($nomComplet) {
     $this->nomComplet = $nomComplet;
@@ -122,7 +122,7 @@ class Personne extends AbstractTimestampedEntity {
    *
    * @param string $nomPersonneRef
    *
-   * @return Personne
+   * @return Person
    */
   public function setNomPersonneRef($nomPersonneRef) {
     $this->nomPersonneRef = $nomPersonneRef;
@@ -144,7 +144,7 @@ class Personne extends AbstractTimestampedEntity {
    *
    * @param string $commentairePersonne
    *
-   * @return Personne
+   * @return Person
    */
   public function setCommentairePersonne($commentairePersonne) {
     $this->commentairePersonne = $commentairePersonne;
@@ -166,7 +166,7 @@ class Personne extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Institution $institutionFk
    *
-   * @return Personne
+   * @return Person
    */
   public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
     $this->institutionFk = $institutionFk;

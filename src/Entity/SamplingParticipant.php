@@ -26,14 +26,14 @@ class SamplingParticipant extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var Personne
+   * @var Person
    *
-   * @ORM\ManyToOne(targetEntity="Personne")
+   * @ORM\ManyToOne(targetEntity="Person")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $personneFk;
+  private $personFk;
 
   /**
    * @var Sampling
@@ -55,24 +55,24 @@ class SamplingParticipant extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set personneFk
+   * Set personFk
    *
-   * @param Personne $personneFk
+   * @param Person $personFk
    * @return SamplingParticipant
    */
-  public function setPersonneFk(Personne $personneFk = null) {
-    $this->personneFk = $personneFk;
+  public function setPersonFk(Person $personFk = null) {
+    $this->personFk = $personFk;
 
     return $this;
   }
 
   /**
-   * Get personneFk
+   * Get personFk
    *
-   * @return Personne
+   * @return Person
    */
-  public function getPersonneFk() {
-    return $this->personneFk;
+  public function getPersonFk() {
+    return $this->personFk;
   }
 
   /**

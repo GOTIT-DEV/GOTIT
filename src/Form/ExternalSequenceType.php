@@ -77,7 +77,7 @@ class ExternalSequenceType extends ActionFormType {
         'entry_options' => array('label' => false),
         'attr' => [
           "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
+          "data-modal-controller" => 'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
       ))
       ->add('taxonIdentifications', CollectionType::class, array(

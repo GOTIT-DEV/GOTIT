@@ -25,7 +25,7 @@ core:
   Référentiels: Référentiels
   voc: Vocabulaire
   referentieltaxon: Taxon
-  personne: Personne
+  person: Personne
   country: Pays
   municipality: Commune
   institution: Établissement

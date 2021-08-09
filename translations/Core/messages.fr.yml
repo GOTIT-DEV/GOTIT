@@ -111,14 +111,14 @@ button.Close: Fermer
 button.ImportVoc: Importer fichier Vocabulaire
 button.ImportReferentieltaxon: Importer fichier Taxon
 button.ImportPays: Importer fichier Pays
-button.ImportPersonne: Importer fichier Personne
+button.ImportPerson: Importer fichier Personne
 button.ImportProgramme: Importer fichier Programme
 button.ImportInstitution: Importer fichier Etablissement
 button.ImportCommune: Importer fichier Commune
 button.Back to the list of voc: Retour à la liste des Vocabulaires
 button.Back to the list of referentieltaxon: Retour à la liste des Taxons
 button.Back to the list of pays: Retour à la liste des Pays
-button.Back to the list of personne: Retour à la liste des Personnes
+button.Back to the list of person: Retour à la liste des Personnes
 button.Back to the list of programme: Retour à la liste des Programmes
 button.Back to the list of institution: Retour à la liste des Etablissements
 button.Back to the list of municipality: Retour à la liste des Municipalities
@@ -165,8 +165,8 @@ button.add:
 button.Add a Fixateur: Ajouter un fixateur
 button.Add a Programme: Ajouter un programme
 button.Add a new Programme: Ajouter un nouveau programme
-button.Add a Personne: Ajouter une personne
-button.Add a new Personne: Ajouter une nouvelle personne
+button.Add a Person: Ajouter une personne
+button.Add a new Person: Ajouter une nouvelle personne
 button.Add a TaxonSampling: Ajouter un taxon cible
 button.Import adn deplace: Déplacer/supprimer des boites ADN
 button.Import adn range: Stocker des boites ADN
@@ -181,7 +181,7 @@ button.ImportSource: Importer des sources
 button.NewSource: Créer une source
 button.NewVoc: Créer un vocabulaire
 button.NewReferentieltaxon: Créer un taxon
-button.NewPersonne: Créer une personne
+button.NewPerson: Créer une personne
 button.NewInstitution: Créer un etablissement
 button.NewProgramme: Créer un programme
 button.NewPays: Créer un Pays
@@ -490,7 +490,7 @@ Origine sqc ass ext voc fk: Origine séquence externe assemblée
 Parent: Parent
 Pays fk: Pays
 Pcr fk: PCR
-Personne fk: Personne
+Person fk: Personne
 Pigmentation voc fk: Pigmentation
 Point acces voc fk: Point accès
 Precision lat long voc fk: Précision latitude longitude
@@ -567,7 +567,7 @@ title.user: Utilisateur
 title.users: Utilisateurs
 list.User cre: User Create
 list.User maj: User Update
-title.Personne: Personne
+title.Person: Personne
 ROLE_ADMIN: ADMIN
 ROLE_PROJECT: MEMBRE PROJET
 ROLE_COLLABORATION: MEMBRE COLLABORATION

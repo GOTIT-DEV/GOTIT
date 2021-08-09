@@ -2,7 +2,7 @@
 
 namespace App\Form\EmbedTypes;
 
-use App\Form\EmbedTypes\PersonneEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +12,7 @@ class PcrProducerEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('personneFk', PersonneEmbedType::class);
+    $builder->add('personFk', PersonEmbedType::class);
   }
 
   /**

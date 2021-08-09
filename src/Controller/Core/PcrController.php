@@ -120,13 +120,13 @@ class PcrController extends AbstractController {
       // concatenated list of people
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom FROM App:PcrProducer erp
-                JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id
+                JOIN erp.personFk p WHERE erp.pcrFk = ' . $id
       )->getResult();
-      $arrayListePersonne = array();
+      $arrayListePerson = array();
       foreach ($query as $taxon) {
-        $arrayListePersonne[] = $taxon['nom'];
+        $arrayListePerson[] = $taxon['nom'];
       }
-      $listePersonne = implode(", ", $arrayListePersonne);
+      $listePerson = implode(", ", $arrayListePerson);
       //
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
@@ -135,7 +135,7 @@ class PcrController extends AbstractController {
         "pcr.codePcr" => $entity->getCodePcr(),
         "pcr.numPcr" => $entity->getNumPcr(),
         "vocGene.code" => $entity->getGeneVocFk()->getCode(),
-        "listePersonne" => $listePersonne,
+        "listePerson" => $listePerson,
         "pcr.datePcr" => $DatePcr,
         "vocQualitePcr.code" => $entity->getQualitePcrVocFk()->getCode(),
         "vocSpecificite.code" => $entity->getSpecificiteVocFk()->getCode(),

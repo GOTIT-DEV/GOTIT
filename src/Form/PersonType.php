@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonneType extends ActionFormType {
+class PersonType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -45,7 +45,7 @@ class PersonneType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Personne',
+      'data_class' => 'App\Entity\Person',
     ));
   }
 
@@ -53,6 +53,6 @@ class PersonneType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'personne';
+    return 'person';
   }
 }

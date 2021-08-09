@@ -111,21 +111,21 @@ class DnaController extends AbstractController {
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom
         FROM App:DnaExtraction erp
-        JOIN erp.personneFk p
+        JOIN erp.personFk p
         WHERE erp.adnFk = ' . $id
       )->getResult();
-      $arrayListePersonne = array();
+      $arrayListePerson = array();
       foreach ($query as $taxon) {
-        $arrayListePersonne[] = $taxon['nom'];
+        $arrayListePerson[] = $taxon['nom'];
       }
-      $listePersonne = implode(", ", $arrayListePersonne);
+      $listePerson = implode(", ", $arrayListePerson);
 
       $tab_toshow[] = array(
         "id" => $id,
         "adn.id" => $id,
         "specimen.codeIndBiomol" => $entity->getSpecimenFk()->getCodeIndBiomol(),
         "adn.codeAdn" => $entity->getCodeAdn(),
-        "listePersonne" => $listePersonne,
+        "listePerson" => $listePerson,
         "adn.dateAdn" => $DateAdn,
         "boite.codeBoite" => $codeBoite,
         "adn.dateCre" => $DateCre,

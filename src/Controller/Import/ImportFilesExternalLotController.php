@@ -97,7 +97,7 @@ class ImportFilesExternalLotController extends AbstractController {
           $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());
           break;
         case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataPerson($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

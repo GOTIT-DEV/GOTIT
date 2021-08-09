@@ -1608,7 +1608,7 @@ class ImportFileE3s {
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    $list_new_personne = array();
+    $list_new_person = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Sampling();
@@ -2523,7 +2523,7 @@ class ImportFileE3s {
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    $list_new_personne = array();
+    $list_new_person = array();
     $commentaireCompoLotMateriel = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
@@ -3418,7 +3418,7 @@ class ImportFileE3s {
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    $list_new_personne = array();
+    $list_new_person = array();
     $commentaireCompoLotMateriel = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
@@ -3783,7 +3783,7 @@ class ImportFileE3s {
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    $list_new_personne = array();
+    $list_new_person = array();
     $commentaireCompoLotMateriel = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
@@ -4283,7 +4283,7 @@ class ImportFileE3s {
     $compt = 0;
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
-    $list_new_personne = array();
+    $list_new_person = array();
     $commentaireCompoLotMateriel = "";
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
@@ -4833,11 +4833,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataPersonne($fichier, $userId = null)
+   *  importCSVDataPerson($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is person
    */
-  public function importCSVDataPersonne($fichier, $userId = null) {
+  public function importCSVDataPerson($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -4848,11 +4848,11 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      # Enregistrement des données de Personne
-      $entity = new \App\Entity\Personne();
+      # Enregistrement des données de Person
+      $entity = new \App\Entity\Person();
       //
-      if (array_key_exists("personne", $columnByTable)) {
-        foreach ($columnByTable["personne"] as $ColCsv) {
+      if (array_key_exists("person", $columnByTable)) {
+        foreach ($columnByTable["person"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
@@ -4865,8 +4865,8 @@ class ImportFileE3s {
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($ColCsv == 'personne.nom_personne') {
-              $record_entity = $em->getRepository("App:Personne")->findOneBy(array("nomPersonne" => $dataColCsv));
+            if ($ColCsv == 'person.nom_personne') {
+              $record_entity = $em->getRepository("App:Person")->findOneBy(array("nomPersonne" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -4958,7 +4958,7 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      # Enregistrement des données de Personne
+      # Enregistrement des données de Person
       $entity = new \App\Entity\Municipality();
       //
       if (array_key_exists("commune", $columnByTable)) {

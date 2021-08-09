@@ -80,19 +80,19 @@ class MotuDatasetController extends AbstractController {
       //  concatenated list of people
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom FROM App:MotuDelimiter megp
-				JOIN megp.personneFk p WHERE megp.motuDatasetFk = ' . $id
+				JOIN megp.personFk p WHERE megp.motuDatasetFk = ' . $id
       )->getResult();
-      $arrayListePersonne = array();
+      $arrayListePerson = array();
       foreach ($query as $taxon) {
-        $arrayListePersonne[] = $taxon['nom'];
+        $arrayListePerson[] = $taxon['nom'];
       }
-      $listePersonne = implode(", ", $arrayListePersonne);
+      $listePerson = implode(", ", $arrayListePerson);
       //
       $tab_toshow[] = array(
         "id" => $id, "motu_dataset.id" => $id,
         "motu_dataset.libelleMotu" => $entity->getLibelleMotu(),
         "motu_dataset.nomFichierCsv" => $entity->getNomFichierCsv(),
-        "listePersonne" => $listePersonne,
+        "listePerson" => $listePerson,
         "motu_dataset.commentaireMotu" => $entity->getCommentaireMotu(),
         "motu_dataset.dateMotu" => $DateMotu,
         "motu_dataset.dateCre" => $DateCre, "motu_dataset.dateMaj" => $DateMaj,
