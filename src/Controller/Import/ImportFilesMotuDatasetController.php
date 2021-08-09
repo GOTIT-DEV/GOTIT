@@ -17,18 +17,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesmotu")
+ * @Route("importfilesmotu_dataset")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesMotuController extends AbstractController {
+class ImportFilesMotuDatasetController extends AbstractController {
   /**
    * @var string
    */
   private $type_csv;
 
   /**
-   * @Route("/", name="importfilesmotu_index")
+   * @Route("/", name="importfilesmotu_dataset_index")
    *
    */
   public function indexAction(
@@ -44,11 +44,11 @@ class ImportFilesMotuController extends AbstractController {
     if ($user->getRole() == 'ROLE_ADMIN') {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
-        ->add('motuFk', EntityType::class, array(
-          'class' => 'App:Motu',
+        ->add('motuDatasetFk', EntityType::class, array(
+          'class' => 'App:MotuDataset',
           'query_builder' => function (EntityRepository $er) {
-            return $er->createQueryBuilder('motu')
-              ->leftJoin('App:MotuDelimitation', 'motuDelimitation', 'WITH', 'motuDelimitation.motuFk = motu.id')
+            return $er->createQueryBuilder('motu_dataset')
+              ->leftJoin('App:MotuDelimitation', 'motuDelimitation', 'WITH', 'motuDelimitation.motuDatasetFk = motu_dataset.id')
               ->where('motuDelimitation.id IS NULL');
           },
           'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false,
@@ -74,7 +74,7 @@ class ImportFilesMotuController extends AbstractController {
         case 'MOTU':
           if ($form->get('fichier')->getData() !== NULL) {
             // suppression des donnéee assignées
-            $message .= $importFileE3sService->importCSVDataMotuFile($fichier, $form->get('motuFk')->getData(), $user->getId());
+            $message .= $importFileE3sService->importCSVDataMotuDatasetFile($fichier, $form->get('motuDatasetFk')->getData(), $user->getId());
           } else {
             $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
           }

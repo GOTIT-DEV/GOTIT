@@ -26,14 +26,14 @@ class MotuDelimiter extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \Motu
+   * @var \MotuDataset
    *
-   * @ORM\ManyToOne(targetEntity="Motu", inversedBy="motuDelimiters")
+   * @ORM\ManyToOne(targetEntity="MotuDataset", inversedBy="motuDelimiters")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $motuFk;
+  private $motuDatasetFk;
 
   /**
    * @var \Personne
@@ -55,25 +55,25 @@ class MotuDelimiter extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set motuFk
+   * Set motuDatasetFk
    *
-   * @param \App\Entity\Motu $motuFk
+   * @param \App\Entity\MotuDataset $motuDatasetFk
    *
    * @return MotuDelimiter
    */
-  public function setMotuFk(\App\Entity\Motu $motuFk = null) {
-    $this->motuFk = $motuFk;
+  public function setMotuDatasetFk(\App\Entity\MotuDataset $motuDatasetFk = null) {
+    $this->motuDatasetFk = $motuDatasetFk;
 
     return $this;
   }
 
   /**
-   * Get motuFk
+   * Get motuDatasetFk
    *
-   * @return \App\Entity\Motu
+   * @return \App\Entity\MotuDataset
    */
-  public function getMotuFk() {
-    return $this->motuFk;
+  public function getMotuDatasetFk() {
+    return $this->motuDatasetFk;
   }
 
   /**

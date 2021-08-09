@@ -164,8 +164,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the motu
-    $entities_toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
-      ->addOrderBy('motu.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:MotuDataset")->createQueryBuilder('motu_dataset')
+      ->addOrderBy('motu_dataset.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();

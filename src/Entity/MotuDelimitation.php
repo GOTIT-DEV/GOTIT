@@ -65,14 +65,14 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   private $internalSequenceFk;
 
   /**
-   * @var \Motu
+   * @var \MotuDataset
    *
-   * @ORM\ManyToOne(targetEntity="Motu")
+   * @ORM\ManyToOne(targetEntity="MotuDataset")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $motuFk;
+  private $motuDatasetFk;
 
   /**
    * Get id
@@ -172,24 +172,24 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set motuFk
+   * Set motuDatasetFk
    *
-   * @param \App\Entity\Motu $motuFk
+   * @param \App\Entity\MotuDataset $motuDatasetFk
    *
    * @return MotuDelimitation
    */
-  public function setMotuFk(\App\Entity\Motu $motuFk = null) {
-    $this->motuFk = $motuFk;
+  public function setMotuDatasetFk(\App\Entity\MotuDataset $motuDatasetFk = null) {
+    $this->motuDatasetFk = $motuDatasetFk;
 
     return $this;
   }
 
   /**
-   * Get motuFk
+   * Get motuDatasetFk
    *
-   * @return \App\Entity\Motu
+   * @return \App\Entity\MotuDataset
    */
-  public function getMotuFk() {
-    return $this->motuFk;
+  public function getMotuDatasetFk() {
+    return $this->motuDatasetFk;
   }
 }

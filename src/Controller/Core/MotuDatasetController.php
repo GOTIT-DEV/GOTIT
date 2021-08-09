@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Motu;
+use App\Entity\MotuDataset;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -13,25 +13,25 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Motu controller.
+ * MotuDataset controller.
  *
- * @Route("motu")
+ * @Route("motu_dataset")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class MotuController extends AbstractController {
+class MotuDatasetController extends AbstractController {
   /**
    * Lists all motu entities.
    *
-   * @Route("/", name="motu_index", methods={"GET"})
+   * @Route("/", name="motu_dataset_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $motus = $em->getRepository('App:Motu')->findAll();
+    $motu_datasets = $em->getRepository('App:MotuDataset')->findAll();
 
-    return $this->render('Core/motu/index.html.twig', array(
-      'motus' => $motus,
+    return $this->render('Core/motu_dataset/index.html.twig', array(
+      'motu_datasets' => $motu_datasets,
     ));
   }
 
@@ -41,7 +41,7 @@ class MotuController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="motu_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="motu_dataset_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -50,7 +50,7 @@ class MotuController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('motu.dateMaj' => 'desc', 'motu.id' => 'desc');
+    : array('motu_dataset.dateMaj' => 'desc', 'motu_dataset.id' => 'desc');
 
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
@@ -61,8 +61,8 @@ class MotuController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $toshow = $em->getRepository("App:Motu")->createQueryBuilder('motu')
-      ->where('LOWER(motu.libelleMotu) LIKE :criteriaLower')
+    $toshow = $em->getRepository("App:MotuDataset")->createQueryBuilder('motu_dataset')
+      ->where('LOWER(motu_dataset.libelleMotu) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -80,7 +80,7 @@ class MotuController extends AbstractController {
       //  concatenated list of people
       $query = $em->createQuery(
         'SELECT p.nomPersonne as nom FROM App:MotuDelimiter megp
-				JOIN megp.personneFk p WHERE megp.motuFk = ' . $id
+				JOIN megp.personneFk p WHERE megp.motuDatasetFk = ' . $id
       )->getResult();
       $arrayListePersonne = array();
       foreach ($query as $taxon) {
@@ -89,16 +89,16 @@ class MotuController extends AbstractController {
       $listePersonne = implode(", ", $arrayListePersonne);
       //
       $tab_toshow[] = array(
-        "id" => $id, "motu.id" => $id,
-        "motu.libelleMotu" => $entity->getLibelleMotu(),
-        "motu.nomFichierCsv" => $entity->getNomFichierCsv(),
+        "id" => $id, "motu_dataset.id" => $id,
+        "motu_dataset.libelleMotu" => $entity->getLibelleMotu(),
+        "motu_dataset.nomFichierCsv" => $entity->getNomFichierCsv(),
         "listePersonne" => $listePersonne,
-        "motu.commentaireMotu" => $entity->getCommentaireMotu(),
-        "motu.dateMotu" => $DateMotu,
-        "motu.dateCre" => $DateCre, "motu.dateMaj" => $DateMaj,
+        "motu_dataset.commentaireMotu" => $entity->getCommentaireMotu(),
+        "motu_dataset.dateMotu" => $DateMotu,
+        "motu_dataset.dateCre" => $DateCre, "motu_dataset.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "motu.userCre" => $service->GetUserCreUserfullname($entity),
-        "motu.userMaj" => $service->GetUserMajUserfullname($entity),
+        "motu_dataset.userCre" => $service->GetUserCreUserfullname($entity),
+        "motu_dataset.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
@@ -114,19 +114,19 @@ class MotuController extends AbstractController {
   /**
    * Creates a new motu entity.
    *
-   * @Route("/new", name="motu_new", methods={"GET", "POST"})
+   * @Route("/new", name="motu_dataset_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function newAction(Request $request) {
-    $motu = new Motu();
-    $form = $this->createForm('App\Form\MotuType', $motu, [
+    $motu_dataset = new MotuDataset();
+    $form = $this->createForm('App\Form\MotuDatasetType', $motu_dataset, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($motu);
+      $em->persist($motu_dataset);
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -134,19 +134,19 @@ class MotuController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/motu/index.html.twig',
+          'Core/motu_dataset/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
       return $this->redirectToRoute(
-        'motu_edit',
-        array('id' => $motu->getId(), 'valid' => 1)
+        'motu_dataset_edit',
+        array('id' => $motu_dataset->getId(), 'valid' => 1)
       );
     }
 
-    return $this->render('Core/motu/edit.html.twig', array(
-      'motu' => $motu,
+    return $this->render('Core/motu_dataset/edit.html.twig', array(
+      'motu_dataset' => $motu_dataset,
       'edit_form' => $form->createView(),
     ));
   }
@@ -154,16 +154,16 @@ class MotuController extends AbstractController {
   /**
    * Finds and displays a motu entity.
    *
-   * @Route("/{id}", name="motu_show", methods={"GET"})
+   * @Route("/{id}", name="motu_dataset_show", methods={"GET"})
    */
-  public function showAction(Motu $motu) {
-    $deleteForm = $this->createDeleteForm($motu);
-    $editForm = $this->createForm('App\Form\MotuType', $motu, [
+  public function showAction(MotuDataset $motu_dataset) {
+    $deleteForm = $this->createDeleteForm($motu_dataset);
+    $editForm = $this->createForm('App\Form\MotuDatasetType', $motu_dataset, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/motu/edit.html.twig', array(
-      'motu' => $motu,
+    return $this->render('Core/motu_dataset/edit.html.twig', array(
+      'motu_dataset' => $motu_dataset,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
@@ -172,28 +172,28 @@ class MotuController extends AbstractController {
   /**
    * Displays a form to edit an existing motu entity.
    *
-   * @Route("/{id}/edit", name="motu_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="motu_dataset_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, Motu $motu, GenericFunctionE3s $service) {
+  public function editAction(Request $request, MotuDataset $motu_dataset, GenericFunctionE3s $service) {
     // load service  generic_function_e3s
     //
 
     // store ArrayCollection
-    $motuDelimiters = $service->setArrayCollection('MotuDelimiters', $motu);
+    $motuDelimiters = $service->setArrayCollection('MotuDelimiters', $motu_dataset);
 
     //
-    $deleteForm = $this->createDeleteForm($motu);
-    $editForm = $this->createForm('App\Form\MotuType', $motu, [
+    $deleteForm = $this->createDeleteForm($motu_dataset);
+    $editForm = $this->createForm('App\Form\MotuDatasetType', $motu_dataset, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('MotuDelimiters', $motu, $motuDelimiters);
+      $service->DelArrayCollection('MotuDelimiters', $motu_dataset, $motuDelimiters);
       // flush
-      $this->getDoctrine()->getManager()->persist($motu);
+      $this->getDoctrine()->getManager()->persist($motu_dataset);
       try {
         $this->getDoctrine()->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -201,19 +201,19 @@ class MotuController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/motu/index.html.twig',
+          'Core/motu_dataset/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/motu/edit.html.twig', array(
-        'motu' => $motu,
+      return $this->render('Core/motu_dataset/edit.html.twig', array(
+        'motu_dataset' => $motu_dataset,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
-    return $this->render('Core/motu/edit.html.twig', array(
-      'motu' => $motu,
+    return $this->render('Core/motu_dataset/edit.html.twig', array(
+      'motu_dataset' => $motu_dataset,
       'edit_form' => $editForm->createView(),
     ));
   }
@@ -221,11 +221,11 @@ class MotuController extends AbstractController {
   /**
    * Deletes a motu entity.
    *
-   * @Route("/{id}", name="motu_delete", methods={"DELETE"})
+   * @Route("/{id}", name="motu_dataset_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function deleteAction(Request $request, Motu $motu) {
-    $form = $this->createDeleteForm($motu);
+  public function deleteAction(Request $request, MotuDataset $motu_dataset) {
+    $form = $this->createDeleteForm($motu_dataset);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -234,33 +234,33 @@ class MotuController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($motu);
+        $em->remove($motu_dataset);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/motu/index.html.twig',
+          'Core/motu_dataset/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('motu_index');
+    return $this->redirectToRoute('motu_dataset_index');
   }
 
   /**
    * Creates a form to delete a motu entity.
    *
-   * @param Motu $motu The motu entity
+   * @param MotuDataset $motu_dataset The motu entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Motu $motu) {
+  private function createDeleteForm(MotuDataset $motu_dataset) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('motu_delete', array('id' => $motu->getId())))
+      ->setAction($this->generateUrl('motu_dataset_delete', array('id' => $motu_dataset->getId())))
       ->setMethod('DELETE')
       ->getForm();
   }
@@ -271,11 +271,11 @@ class MotuController extends AbstractController {
    * @Route("/json/list", name="datasets-list", methods={"GET"})
    */
   public function datasetList(SerializerInterface $serializer) {
-    $datasets = $this->getDoctrine()->getRepository(Motu::class)->findAll();
+    $datasets = $this->getDoctrine()->getRepository(MotuDataset::class)->findAll();
     $datasetsSerialized = $serializer->serialize(
       $datasets,
       "json",
-      ["groups" => "motu"]
+      ["groups" => "motu_dataset"]
     );
     return JsonResponse::fromJsonString($datasetsSerialized);
   }
@@ -288,8 +288,8 @@ class MotuController extends AbstractController {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
-      ->from('App:Motu', 'm')
-      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuFk=m')
+      ->from('App:MotuDataset', 'm')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
       ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->distinct()
       ->getQuery();

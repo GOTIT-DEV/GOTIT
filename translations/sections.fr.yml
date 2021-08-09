@@ -11,7 +11,7 @@ core:
   Etude séquençage: Séquences ADN
   internal_sequence: Séquences internes
   external_sequence: Séquences externes
-  motu: MOTU
+  motu_dataset: Jeu de données MOTU
   Stock: Stock
   boiteLOT: Boite lot matériel
   boiteLAME: Boite lame

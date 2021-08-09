@@ -2,7 +2,6 @@
 
 namespace App\Services\Core;
 
-use App\Entity\Motu;
 use App\Services\Core\ImportFileCsv;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -2940,14 +2939,14 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataMotuFile($fichier, ,\App\Entity\Motu $motu, $userId = null)
+   *  importCSVDataMotuDatasetFile($fichier, ,\App\Entity\MotuDataset $motu_dataset, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is MOTU
    */
-  public function importCSVDataMotuFile($fichier, \App\Entity\Motu $motu, $userId = null) {
+  public function importCSVDataMotuDatasetFile($fichier, \App\Entity\MotuDataset $motu_dataset, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
-    $csvDataMotu = $importFileCsvService->readCSV($fichier);
-    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataMotu); // Retrieve CSV fields as a table
+    $csvDataMotuDataset = $importFileCsvService->readCSV($fichier);
+    $columnByTable = $importFileCsvService->readColumnByTableSV($csvDataMotuDataset); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
     // line by line processing of the csv file
@@ -2955,15 +2954,15 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
 
-    $entity = $motu;
-    foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
+    $entity = $motu_dataset;
+    foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
       $flagSeq = 0;
       $flagSeqExt = 0;
       $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass !== NULL) {
         $flagSeq = 1;
         $entityRel = new \App\Entity\MotuDelimitation();
-        $method = "setMotuFk";
+        $method = "setMotuDatasetFk";
         $entityRel->$method($entity);
         $method = "setInternalSequenceFk";
         $entityRel->$method($record_entity_sqc_ass);
@@ -2981,7 +2980,7 @@ class ImportFileE3s {
       if ($record_entity_sqc_ass_ext !== NULL) {
         $flagSeqExt = 1;
         $entityRel = new \App\Entity\MotuDelimitation();
-        $method = "setMotuFk";
+        $method = "setMotuDatasetFk";
         $entityRel->$method($entity);
         $method = "setExternalSequenceFk";
         $entityRel->$method($record_entity_sqc_ass_ext);
@@ -3014,7 +3013,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotuDataset) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -3032,14 +3031,14 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataMotu($fichier, $fichier_motu)
+   *  importCSVDataMotuDataset($fichier, $fichier_motu)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import IS NOT YET SUPPORTED in V1.1
    */
-  public function importCSVDataMotu($fichier, $fichier_motu) {
+  public function importCSVDataMotuDataset($fichier, $fichier_motu) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
-    $csvDataMotu = $importFileCsvService->readCSV($fichier_motu);
+    $csvDataMotuDataset = $importFileCsvService->readCSV($fichier_motu);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
     $DateImport = $importFileCsvService->GetCurrentTimestamp();
     $em = $this->entityManager; // call of Doctrine manager
@@ -3051,9 +3050,9 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       # Enregistrement des données de motu
-      $entity = new \App\Entity\Motu();
+      $entity = new \App\Entity\MotuDataset();
       //
-      foreach ($columnByTable["motu"] as $ColCsv) {
+      foreach ($columnByTable["motu_dataset"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -3067,11 +3066,11 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // we memorize the name of the file to treat it later
-          if ($ColCsv == 'motu.nom_fichier_csv') {
+          if ($ColCsv == 'motu_dataset.nom_fichier_csv') {
             $nom_fichier_csv = $dataColCsv;
           }
-          // we adapt the date format of the column motu.date_motu
-          if ($ColCsv == 'motu.date_motu') {
+          // we adapt the date format of the column motu_dataset.date_motu
+          if ($ColCsv == 'motu_dataset.date_motu') {
             if ($dataColCsv != '') {
               $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
               if (!$eventDate) {
@@ -3150,7 +3149,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\MotuDelimiter();
-            $method = "setMotuFk";
+            $method = "setMotuDatasetFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3185,15 +3184,15 @@ class ImportFileE3s {
       }
 
       # Process of file motus
-      if (array_key_exists("code_seq_ass", $csvDataMotu[0]) && array_key_exists("num_motu", $csvDataMotu[0]) && array_key_exists("code_methode_motu", $csvDataMotu[0])) {
-        foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
+      if (array_key_exists("code_seq_ass", $csvDataMotuDataset[0]) && array_key_exists("num_motu", $csvDataMotuDataset[0]) && array_key_exists("code_methode_motu", $csvDataMotuDataset[0])) {
+        foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
           $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass !== NULL) {
             $flagSeq = 1;
             $entityRel = new \App\Entity\MotuDelimitation();
-            $method = "setMotuFk";
+            $method = "setMotuDatasetFk";
             $entityRel->$method($entity);
             $method = "setInternalSequenceFk";
             $entityRel->$method($record_entity_sqc_ass);
@@ -3211,7 +3210,7 @@ class ImportFileE3s {
           if ($record_entity_sqc_ass_ext !== NULL) {
             $flagSeqExt = 1;
             $entityRel = new \App\Entity\MotuDelimitation();
-            $method = "setMotuFk";
+            $method = "setMotuDatasetFk";
             $entityRel->$method($entity);
             $method = "setExternalSequenceFk";
             $entityRel->$method($record_entity_sqc_ass_ext);
@@ -3248,7 +3247,7 @@ class ImportFileE3s {
     if ($message == '') {
       try {
         $flush = $em->flush();
-        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
+        return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotuDataset) . '</br>' . $info;
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')

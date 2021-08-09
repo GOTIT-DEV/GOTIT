@@ -34,9 +34,9 @@
 						{{ form_errors(form) }}
 						<div class="form-group">
 
-							{% if (form.motuFk is defined) %}
+							{% if (form.motuDatasetFk is defined) %}
 								<div class="col-md-6 col-sm-6 col-xs-12 ">
-									{{ form_widget(form.motuFk, { 'attr': {'class': 'form-control'} }) }}
+									{{ form_widget(form.motuDatasetFk, { 'attr': {'class': 'form-control'} }) }}
 								</div>
 							{% endif %}
 

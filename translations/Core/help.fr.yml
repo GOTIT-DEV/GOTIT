@@ -44,7 +44,7 @@ internal_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete internal sequences. Additional fields can be listed using the top right button. Deleting an internal sequence may not be possible until all data related to an internal sequence have been deleted. The search button applies to the field "Sequence code".
 external_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete external sequences. Deleting an external sequence may not be possible until all data related to an external sequence have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "External sequence code".
-motu_index: |
+motu_dataset_index: |
   Use this page to browse, create, import, export, show, edit and delete data and metadata related to molecular operational units (MOTU). WARNING: confirming deletion would not only delete metadata but also all the MOTU data imported under a particular data set. Additional fields can be listed using the top right button. The search button applies to the field "MOTU title ".
 boite_index: |
   Use this page to browse, create, export, show, edit and delete storing boxes. Also, use this page to store sets of items (i.e. biological materials, specimen slides and DNA extracts) in boxes and move sets of items from one box to another. Deleting of a box may not be possible until all items stored in that box have been removed and/or moved to another box. Use the appropriate tools to this end and refer to GOTIT HELP sections 9.1.3 and 9.1.4 for biological materials, sections 9.2.3 and 9.2.4 for specimen slides and sections 9.3.3 and 9.3.4 for DNA extracts). Additional fields can be listed using the top right button. The search button applies to the field "Box code".
@@ -93,7 +93,7 @@ internal_sequence_new: |
   Use this form to fill in data of a new internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_new: |
   Use this form to fill in data of a new external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
-motu_new: |
+motu_dataset_new: |
   Use this form to fill in metadata for a new set of MOTUs to be imported. See appendix 8.3.2 in GOTIT HELP for content of fields.
 boite_new: |
   Use this form to fill in characteristics of a new storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
@@ -142,7 +142,7 @@ internal_sequence_show: |
   Use this form to consult data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_show: |
   Use this form to consult data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
-motu_show: |
+motu_dataset_show: |
   Use this form to consult metadata for a set of MOTUs. See appendix 8.3.2 in GOTIT HELP for content of fields.
 boite_show: |
   Use this form to consult characteristics and content of a storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
@@ -191,7 +191,7 @@ internal_sequence_edit: |
   Use this form to edit data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_edit: |
   Use this form to edit data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
-motu_edit: |
+motu_dataset_edit: |
   Use this form to edit metadata for a set of MOTUs. See appendix 8.3.2 in GOTIT HELP for content of fields.
 boite_edit: |
   Use this form to edit characteristics of a storing box. For content of fields, see GOTIT HELP appendix 9.1.2 for biological materials, appendix 9.2.2 for specimen slides and appendix 9.3.2 for DNA extracts.
@@ -249,7 +249,7 @@ import_files_external_sequence_index: |
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template file “external_sequence” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesmotu_index: |
+importfilesmotu_dataset_index: |
   Use this form to upload a new set of MOTUs and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: vocabulary);
   - Use and upload the template file “MOTU” to follow appropriate data format.

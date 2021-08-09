@@ -135,7 +135,7 @@ button.Back to chromatogramme: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
 button.Back to internal_sequence: Retour à la Séquence interne
 button.Back to external_sequence: Retour à la Séquence externe
-button.Back to motu: Retour au MOTU
+button.Back to motu_dataset: Retour au MOTU
 button.Back to boite: Retour à la Boite
 button.Back to source: Retour à la Source
 # Button titles "Back to Entity" in csv file uploading tools
@@ -151,7 +151,7 @@ button.Back to the list of chromatogramme: Retour à la liste des Chromatogramme
 button.Back to the list of pcrchromato: Retour à la liste des PCR
 button.Back to the list of internal_sequence: Retour à la liste des Séquences internes
 button.Back to the list of external_sequence: Retour à la liste des Séquences externes
-button.Back to the list of motu: Retour à la liste des MOTU
+button.Back to the list of motu_dataset: Retour à la liste des MOTU
 button.Back to the list of boite: Retour à la liste des Boites
 button.Back to the list of source: Retour à la liste des Sources
 # Button titles in web interface
@@ -264,7 +264,7 @@ import.chromatogramme: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
 import.internal_sequence: Importer fichier(s) séquence
 import.external_sequence: Importer fichier(s) séquence externe
-import.motu: Importer fichier(s) MOTU
+import.motu_dataset: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
 import.boite.internal_lot_deplace: Déplacer/supprimer des lots matériels
 import.boite.slidedeplace: Déplacer/supprimer des lames
@@ -279,7 +279,7 @@ Choose a typeCollection: Sélectionner un type de collection
 Choose a codeCollection: Sélectionner un code collection
 Choose a typeBoite: Sélectionner un type de boite
 Choose an option: Sélectionner une option
-Choose a Motu File: Sélectionner le fichier MOTU a importer
+Choose a Motu Dataset File: Sélectionner le fichier MOTU a importer
 Choose a origineSqcAssExt: Sélectionner une origine
 Choose a chromatogramme: Sélectionner un chromatogramme
 Choose a statut: Sélectionner un status
@@ -465,7 +465,7 @@ External lot fk: Lot matériel externe
 Internal lot fk: Lot matériel
 Methode extraction adn voc fk: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU
-Motu fk: MOTU
+Motu dataset fk: MOTU
 Nb specimens: Nombre d'individus
 Specimen quantity voc fk: Nombre d'individus
 Nom commune: Nom commune

@@ -18,7 +18,7 @@ internal_biological_material_is_treated_by: Traité Par
 internal_sequence: Séquence Interne
 internal_sequence_is_assembled_by: Assemblée Par
 internal_sequence_is_published_in: SeqInPublieeDans
-motu: Motu
+motu: Dataset MOTU
 motu_is_generated_by: Généré Par
 motu_number: Numéro Motu
 municipality: Commune

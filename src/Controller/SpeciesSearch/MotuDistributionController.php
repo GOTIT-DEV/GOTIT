@@ -17,7 +17,6 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +41,7 @@ class MotuDistributionController extends AbstractController {
   public function index(SpeciesQueryService $service) {
     $doctrine = $this->getDoctrine();
     # fetch datasets
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $doctrine->getRepository(MotuDataset::class)->findAll();
     # fetch genus and method sets
     $genus_set = $service->getGenusSet();
     $methods_list = $service->listMethodsByDate();

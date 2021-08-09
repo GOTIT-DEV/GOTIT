@@ -223,7 +223,7 @@ motu:
   date_of_update: Update Date
 motu_is_generated_by:
   id: id
-  motu_fk: Motu
+  motu_fk: Motu Dataset
   person_fk: Person
   creation_user_name: Creation User
   update_user_name: Update User
@@ -235,7 +235,7 @@ motu_number:
   external_sequence_fk: External Sequence
   delimitation_method_voc_fk: Method Motu
   internal_sequence_fk: Internal Sequence
-  motu_fk: Motu
+  motu_fk: Motu Dataset
   creation_user_name: Creation User
   update_user_name: Update User
   date_of_creation: Creation Date

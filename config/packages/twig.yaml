@@ -61,8 +61,8 @@ twig:
             text: core.internal_sequence
           - route: external_sequence_index
             text: core.external_sequence
-          - route: motu_index
-            text: core.motu
+          - route: motu_dataset_index
+            text: core.motu_dataset
       - route: ~
         text: core.Stock
         icon: fas fa-tasks

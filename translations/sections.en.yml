@@ -11,7 +11,7 @@ core:
   Etude séquençage: DNA Sequences
   internal_sequence: Internal sequences
   external_sequence: External sequences
-  motu: MOTU
+  motu_dataset: MOTU Dataset
   Stock: Storage
   boiteLOT: "Box : biological material"
   boiteLAME: "Box : specimen slide"

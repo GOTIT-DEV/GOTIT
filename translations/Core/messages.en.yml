@@ -301,7 +301,7 @@ button.Back to chromatogramme: Back to Chromatogram
 button.Back to pcrchromato: Back to PCR
 button.Back to internal_sequence: Back to Internal sequence
 button.Back to external_sequence: Back to External sequence
-button.Back to motu: Back to MOTU
+button.Back to motu_dataset: Back to MOTU
 button.Back to boite: Back to Boxes
 button.Back to source: Back to Sources
 #  Button titles "Back to Entity" in csv file uploading tools
@@ -317,7 +317,7 @@ button.Back to the list of chromatogramme: Back to the list of Chromatogram
 button.Back to the list of pcrchromato: Back to the list of PCR
 button.Back to the list of internal_sequence: Back to the list of Internal sequence
 button.Back to the list of external_sequence: Back to the list of External sequence
-button.Back to the list of motu: Back to the list of MOTU
+button.Back to the list of motu_dataset: Back to the list of MOTU
 button.Back to the list of boite: Back to the list of Boxes
 button.Back to the list of source: Back to the list of Sources
 # Button titles in web interface
@@ -428,7 +428,7 @@ import.chromatogramme: Upload chromatogram
 import.pcrchromato: Upload PCR and chromatogram
 import.internal_sequence: Upload internal sequence
 import.external_sequence: Upload external sequence
-import.motu: Upload MOTU
+import.motu_dataset: Upload MOTU
 import.source: Upload source
 import.boite.internal_lot_deplace: Move or delete biological material as file
 import.boite.slidedeplace: Move or delete slides as file
@@ -628,7 +628,7 @@ External lot fk: External biological material
 Internal lot fk: Internal Biological material
 Methode extraction adn voc fk: DNA extraction method
 Methode motu voc fk: MOTU method
-Motu fk: MOTU
+Motu dataset fk: MOTU
 Nb specimens: Number of specimens
 Specimen quantity voc fk: Number of specimens
 Nom commune: Municipality name

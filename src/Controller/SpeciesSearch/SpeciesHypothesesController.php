@@ -17,7 +17,6 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -44,7 +43,7 @@ class SpeciesHypothesesController extends AbstractController {
     $genus_set = $service->getGenusSet();
     # fetch MOTU datasets
     $doctrine = $this->getDoctrine();
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $doctrine->getRepository(MotuDataset::class)->findAll();
     # render form template
     return $this->render('SpeciesSearch/species-hypotheses/index.html.twig', array(
       'datasets' => $datasets,

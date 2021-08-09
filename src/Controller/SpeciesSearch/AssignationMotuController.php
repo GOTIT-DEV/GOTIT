@@ -17,7 +17,6 @@
 
 namespace App\Controller\SpeciesSearch;
 
-use App\Entity\Motu;
 use App\Entity\Voc;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -47,7 +46,7 @@ class AssignationMotuController extends AbstractController {
     # fetch species identification criterions
     $criteres = $doctrine->getRepository(Voc::class)->findByParent('critereIdentification');
     # fetch motu datasets
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $doctrine->getRepository(MotuDataset::class)->findAll();
 
     # render form
     return $this->render('SpeciesSearch/assign-motu/index.html.twig', array(

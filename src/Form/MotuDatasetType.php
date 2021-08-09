@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MotuType extends ActionFormType {
+class MotuDatasetType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -41,7 +41,7 @@ class MotuType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Motu',
+      'data_class' => 'App\Entity\MotuDataset',
     ));
   }
 
@@ -49,6 +49,6 @@ class MotuType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'motu';
+    return 'motu_dataset';
   }
 }

@@ -7,17 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Motu
+ * MotuDataset
  *
  * @ORM\Table(name="motu")
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Motu extends AbstractTimestampedEntity {
+class MotuDataset extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
-   * @Groups("motu")
+   * @Groups("motu_dataset")
    * @ORM\Column(name="id", type="bigint", nullable=false)
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -28,7 +28,7 @@ class Motu extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @Groups("motu")
+   * @Groups("motu_dataset")
    * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
    */
   private $libelleMotu;
@@ -36,7 +36,7 @@ class Motu extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @Groups("motu")
+   * @Groups("motu_dataset")
    * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
    */
   private $nomFichierCsv;
@@ -44,7 +44,7 @@ class Motu extends AbstractTimestampedEntity {
   /**
    * @var \DateTime
    *
-   * @Groups("motu")
+   * @Groups("motu_dataset")
    * @ORM\Column(name="motu_date", type="date", nullable=false)
    */
   private $dateMotu;
@@ -52,13 +52,13 @@ class Motu extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @Groups("motu")
+   * @Groups("motu_dataset")
    * @ORM\Column(name="motu_comments", type="text", nullable=true)
    */
   private $commentaireMotu;
 
   /**
-   * @ORM\OneToMany(targetEntity="MotuDelimiter", mappedBy="motuFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="MotuDelimiter", mappedBy="motuDatasetFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $motuDelimiters;
@@ -81,7 +81,7 @@ class Motu extends AbstractTimestampedEntity {
    *
    * @param string $nomFichierCsv
    *
-   * @return Motu
+   * @return MotuDataset
    */
   public function setNomFichierCsv($nomFichierCsv) {
     $this->nomFichierCsv = $nomFichierCsv;
@@ -103,7 +103,7 @@ class Motu extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateMotu
    *
-   * @return Motu
+   * @return MotuDataset
    */
   public function setDateMotu($dateMotu) {
     $this->dateMotu = $dateMotu;
@@ -125,7 +125,7 @@ class Motu extends AbstractTimestampedEntity {
    *
    * @param string $commentaireMotu
    *
-   * @return Motu
+   * @return MotuDataset
    */
   public function setCommentaireMotu($commentaireMotu) {
     $this->commentaireMotu = $commentaireMotu;
@@ -147,10 +147,10 @@ class Motu extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\MotuDelimiter $motuDelimiter
    *
-   * @return Motu
+   * @return MotuDataset
    */
   public function addMotuDelimiter(\App\Entity\MotuDelimiter $motuDelimiter) {
-    $motuDelimiter->setMotuFk($this);
+    $motuDelimiter->setMotuDatasetFk($this);
     $this->motuDelimiters[] = $motuDelimiter;
 
     return $this;
@@ -179,7 +179,7 @@ class Motu extends AbstractTimestampedEntity {
    *
    * @param string $libelleMotu
    *
-   * @return Motu
+   * @return MotuDataset
    */
   public function setLibelleMotu($libelleMotu) {
     $this->libelleMotu = $libelleMotu;
