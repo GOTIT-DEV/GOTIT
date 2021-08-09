@@ -4,21 +4,21 @@ import { getSelectedCode } from "./forms";
 $(() => {
   const $form = $("form[name='chromatogram']");
   const $pcr = $form.find("#chromatogram_pcrFk");
-  const $yas = $form.find("#chromatogram_numYas");
-  const $primer = $form.find("#chromatogram_primerChromatoVocFk");
+  const $yas = $form.find("#chromatogram_yasNumber");
+  const $primer = $form.find("#chromatogram_primerVocFk");
 
-  const $code = $form.find("#chromatogram_codeChromato");
+  const $code = $form.find("#chromatogram_code");
 
   initSearchSelect($pcr, "pcr_search");
 
   if ($form.data("action") == "new") {
-    $yas.keyup(updateCodeChromato);
-    $primer.change(updateCodeChromato);
-    updateCodeChromato();
+    $yas.keyup(updateCode);
+    $primer.change(updateCode);
+    updateCode();
   }
 
-  function updateCodeChromato() {
-    const code = generateCodeChromato(
+  function updateCode() {
+    const code = generateCode(
       $yas.val() || undefined,
       getSelectedCode($primer)
     );
@@ -26,7 +26,7 @@ $(() => {
     return code;
   }
 
-  function generateCodeChromato(YAS = "{#YAS}", primer = "{PRIMER}") {
+  function generateCode(YAS = "{#YAS}", primer = "{PRIMER}") {
     return `${YAS}|${primer}`;
   }
 });

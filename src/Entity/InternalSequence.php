@@ -484,7 +484,7 @@ class InternalSequence extends AbstractTimestampedEntity {
         ->map(
           function ($seqProcessing) {
             $chromato = $seqProcessing->getChromatogramFk();
-            $code = $chromato->getCodeChromato();
+            $code = $chromato->getCode();
             $specificite = $chromato->getPcrFk()->getSpecificiteVocFk()->getCode();
             return $code . '|' . $specificite;
           }

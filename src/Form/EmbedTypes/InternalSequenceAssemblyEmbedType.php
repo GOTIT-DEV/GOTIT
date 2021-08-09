@@ -28,11 +28,11 @@ class InternalSequenceAssemblyEmbedType extends AbstractType {
             'geneVocFk' => $options['geneVocFk'],
           ]);
       },
-      'choice_label' => 'codeChromatoSpecificite',
+      'choice_label' => 'codeSpecificity',
       'multiple' => false,
       'expanded' => false,
       'required' => true,
-      'label' => 'Code Chromato | Specificite',
+      'label' => 'Code | Specificite',
       'placeholder' => 'Choose a chromatogram',
     ]);
   }

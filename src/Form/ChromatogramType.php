@@ -31,22 +31,22 @@ class ChromatogramType extends ActionFormType {
         ],
       ])
 
-      ->add('codeChromato', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('numYas', TextType::class, array(
+      ->add('yasNumber', TextType::class, array(
         'required' => true,
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('primerChromatoVocFk', BaseVocType::class, array(
+      ->add('primerVocFk', BaseVocType::class, array(
         'voc_parent' => 'primerChromato',
         'placeholder' => 'Choose a primer',
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('qualiteChromatoVocFk', BaseVocType::class, array(
+      ->add('qualityVocFk', BaseVocType::class, array(
         'voc_parent' => 'qualiteChromato',
         'placeholder' => 'Choose a quality',
       ))
@@ -61,7 +61,7 @@ class ChromatogramType extends ActionFormType {
         'multiple' => false,
         'expanded' => false,
       ))
-      ->add('commentaireChromato');
+      ->add('comment');
 
   }
 

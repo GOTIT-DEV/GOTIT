@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_FCB2DAB7E8441376", columns={"institution_fk"}),
  *      @ORM\Index(name="IDX_FCB2DAB72B63D494", columns={"pcr_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeChromato"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Chromatogram extends AbstractTimestampedEntity {
@@ -35,21 +35,21 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="chromatogram_code", type="string", length=255, nullable=false)
    */
-  private $codeChromato;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="chromatogram_number", type="string", length=255, nullable=false)
    */
-  private $numYas;
+  private $yasNumber;
 
   /**
    * @var string
    *
    * @ORM\Column(name="chromatogram_comments", type="text", nullable=true)
    */
-  private $commentaireChromato;
+  private $comment;
 
   /**
    * @var \Voc
@@ -59,7 +59,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $primerChromatoVocFk;
+  private $primerVocFk;
 
   /**
    * @var \Voc
@@ -69,7 +69,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $qualiteChromatoVocFk;
+  private $qualityVocFk;
 
   /**
    * @var \Institution
@@ -92,12 +92,6 @@ class Chromatogram extends AbstractTimestampedEntity {
   private $pcrFk;
 
   /**
-   * @var string
-   *
-   */
-  private $codeChromatoSpecificite;
-
-  /**
    * Get id
    *
    * @return integer
@@ -107,123 +101,123 @@ class Chromatogram extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeChromato
+   * Set code
    *
-   * @param string $codeChromato
+   * @param string $code
    *
    * @return Chromatogram
    */
-  public function setCodeChromato($codeChromato) {
-    $this->codeChromato = $codeChromato;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeChromato
+   * Get code
    *
    * @return string
    */
-  public function getCodeChromato() {
-    return $this->codeChromato;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set numYas
+   * Set yasNumber
    *
-   * @param string $numYas
+   * @param string $yasNumber
    *
    * @return Chromatogram
    */
-  public function setNumYas($numYas) {
-    $this->numYas = $numYas;
+  public function setYasNumber($yasNumber) {
+    $this->yasNumber = $yasNumber;
 
     return $this;
   }
 
   /**
-   * Get numYas
+   * Get yasNumber
    *
    * @return string
    */
-  public function getNumYas() {
-    return $this->numYas;
+  public function getYasNumber() {
+    return $this->yasNumber;
   }
 
   /**
-   * Set commentaireChromato
+   * Set comment
    *
-   * @param string $commentaireChromato
+   * @param string $comment
    *
    * @return Chromatogram
    */
-  public function setCommentaireChromato($commentaireChromato) {
-    $this->commentaireChromato = $commentaireChromato;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireChromato
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireChromato() {
-    return $this->commentaireChromato;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**
-   * Set primerChromatoVocFk
+   * Set primerVocFk
    *
-   * @param \App\Entity\Voc $primerChromatoVocFk
+   * @param Voc $primerVocFk
    *
    * @return Chromatogram
    */
-  public function setPrimerChromatoVocFk(\App\Entity\Voc $primerChromatoVocFk = null) {
-    $this->primerChromatoVocFk = $primerChromatoVocFk;
+  public function setPrimerVocFk(Voc $primerVocFk = null) {
+    $this->primerVocFk = $primerVocFk;
 
     return $this;
   }
 
   /**
-   * Get primerChromatoVocFk
+   * Get primerVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getPrimerChromatoVocFk() {
-    return $this->primerChromatoVocFk;
+  public function getPrimerVocFk() {
+    return $this->primerVocFk;
   }
 
   /**
-   * Set qualiteChromatoVocFk
+   * Set qualityVocFk
    *
-   * @param \App\Entity\Voc $qualiteChromatoVocFk
+   * @param Voc $qualityVocFk
    *
    * @return Chromatogram
    */
-  public function setQualiteChromatoVocFk(\App\Entity\Voc $qualiteChromatoVocFk = null) {
-    $this->qualiteChromatoVocFk = $qualiteChromatoVocFk;
+  public function setQualityVocFk(Voc $qualityVocFk = null) {
+    $this->qualityVocFk = $qualityVocFk;
 
     return $this;
   }
 
   /**
-   * Get qualiteChromatoVocFk
+   * Get qualityVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getQualiteChromatoVocFk() {
-    return $this->qualiteChromatoVocFk;
+  public function getQualityVocFk() {
+    return $this->qualityVocFk;
   }
 
   /**
    * Set institutionFk
    *
-   * @param \App\Entity\Institution $institutionFk
+   * @param Institution $institutionFk
    *
    * @return Chromatogram
    */
-  public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
+  public function setInstitutionFk(Institution $institutionFk = null) {
     $this->institutionFk = $institutionFk;
 
     return $this;
@@ -232,7 +226,7 @@ class Chromatogram extends AbstractTimestampedEntity {
   /**
    * Get institutionFk
    *
-   * @return \App\Entity\Institution
+   * @return Institution
    */
   public function getInstitutionFk() {
     return $this->institutionFk;
@@ -241,11 +235,11 @@ class Chromatogram extends AbstractTimestampedEntity {
   /**
    * Set pcrFk
    *
-   * @param \App\Entity\Pcr $pcrFk
+   * @param Pcr $pcrFk
    *
    * @return Chromatogram
    */
-  public function setPcrFk(\App\Entity\Pcr $pcrFk = null) {
+  public function setPcrFk(Pcr $pcrFk = null) {
     $this->pcrFk = $pcrFk;
 
     return $this;
@@ -254,21 +248,19 @@ class Chromatogram extends AbstractTimestampedEntity {
   /**
    * Get pcrFk
    *
-   * @return \App\Entity\Pcr
+   * @return Pcr
    */
   public function getPcrFk() {
     return $this->pcrFk;
   }
 
   /**
-   * Get CodeChromatoSpecificite
+   * Get CodeSpecificity
    *
    * @return string
    */
-  public function getCodeChromatoSpecificite() {
+  public function getCodeSpecificity() {
     $specificite = $this->pcrFk->getSpecificiteVocFk()->getCode();
-    $codeChromato = $this->codeChromato;
-    $this->codeChromatoSpecificite = $codeChromato . '|' . $specificite;
-    return $this->codeChromatoSpecificite;
+    return $this->code . '|' . $specificite;
   }
 }
