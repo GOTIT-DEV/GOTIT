@@ -82,7 +82,7 @@ class SamplingType extends ActionFormType {
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>
-          'App\\Controller\\Core\\ProgrammeController::newmodalAction',
+          'App\\Controller\\Core\\ProgramController::newmodalAction',
         ],
         'entry_options' => array('label' => false),
       ])

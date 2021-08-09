@@ -90,7 +90,7 @@ class ImportFilesSamplingController extends AbstractController {
           $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
           break;
         case 'program':
-          $message .= $importFileE3sService->importCSVDataProgramme($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataProgram($fichier, $user->getId());
           break;
         case 'taxon':
           $message .= $importFileE3sService->importCSVDataReferentielTaxon($fichier, $user->getId());

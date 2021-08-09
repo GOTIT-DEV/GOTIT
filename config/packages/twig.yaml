@@ -99,8 +99,8 @@ twig:
           - route: person_index
             text: core.person
             auth_required: ROLE_COLLABORATION
-          - route: programme_index
-            text: core.programme
+          - route: program_index
+            text: core.program
             auth_required: ROLE_PROJECT
           - route: institution_index
             text: core.institution

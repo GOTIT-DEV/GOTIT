@@ -16,12 +16,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Import Pays controller.
  *
- * @Route("importfilesprogramme")
+ * @Route("importfilesprogram")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFileProgrammeController extends AbstractController {
+class ImportFileProgramController extends AbstractController {
   /**
-   * @Route("/", name="importfilesprogramme_index")
+   * @Route("/", name="importfilesprogram_index")
    * @Security("is_granted('ROLE_PROJECT')")
    */
   public function indexAction(
@@ -62,7 +62,7 @@ class ImportFileProgrammeController extends AbstractController {
       if ($checkName == '') {
         switch ($this->type_csv) {
         case 'program':
-          $message .= $importFileE3sService->importCSVDataProgramme($fichier, $user->getId());
+          $message .= $importFileE3sService->importCSVDataProgram($fichier, $user->getId());
           break;
         default:
           $message .= "ERROR - Bad SELECTED choice ?";

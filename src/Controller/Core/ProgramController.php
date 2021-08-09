@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\Programme;
+use App\Entity\Program;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,25 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Programme controller.
+ * Program controller.
  *
- * @Route("programme")
+ * @Route("program")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ProgrammeController extends AbstractController {
+class ProgramController extends AbstractController {
   /**
-   * Lists all programme entities.
+   * Lists all program entities.
    *
-   * @Route("/", name="programme_index", methods={"GET"})
+   * @Route("/", name="program_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $programmes = $em->getRepository('App:Programme')->findAll();
+    $programs = $em->getRepository('App:Program')->findAll();
 
-    return $this->render('Core/programme/index.html.twig', array(
-      'programmes' => $programmes,
+    return $this->render('Core/program/index.html.twig', array(
+      'programs' => $programs,
     ));
   }
 
@@ -40,7 +40,7 @@ class ProgrammeController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="programme_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="program_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -49,11 +49,11 @@ class ProgrammeController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('programme.dateMaj' => 'desc', 'programme.id' => 'desc');
+    : array('program.dateMaj' => 'desc', 'program.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(programme.codeProgramme) LIKE :criteriaLower';
+    $where = 'LOWER(program.codeProgramme) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -61,8 +61,8 @@ class ProgrammeController extends AbstractController {
     // Search for the list to show
     $tab_toshow = [];
     $entities_toshow = $em
-      ->getRepository("App:Programme")
-      ->createQueryBuilder('programme')
+      ->getRepository("App:Program")
+      ->createQueryBuilder('program')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -80,18 +80,18 @@ class ProgrammeController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
-        "id" => $id, "programme.id" => $id,
-        "programme.codeProgramme" => $entity->getCodeProgramme(),
-        "programme.typeFinanceur" => $entity->getTypeFinanceur(),
-        "programme.nomProgramme" => $entity->getNomProgramme(),
-        "programme.nomsResponsables" => $entity->getNomsResponsables(),
-        "programme.anneeDebut" => $entity->getAnneeDebut(),
-        "programme.anneeFin" => $entity->getAnneeFin(),
-        "programme.dateCre" => $DateCre,
-        "programme.dateMaj" => $DateMaj,
+        "id" => $id, "program.id" => $id,
+        "program.codeProgramme" => $entity->getCodeProgramme(),
+        "program.typeFinanceur" => $entity->getTypeFinanceur(),
+        "program.nomProgramme" => $entity->getNomProgramme(),
+        "program.nomsResponsables" => $entity->getNomsResponsables(),
+        "program.anneeDebut" => $entity->getAnneeDebut(),
+        "program.anneeFin" => $entity->getAnneeFin(),
+        "program.dateCre" => $DateCre,
+        "program.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
-        "programme.userCre" => $service->GetUserCreUserfullname($entity),
-        "programme.userMaj" => $service->GetUserMajUserfullname($entity),
+        "program.userCre" => $service->GetUserCreUserfullname($entity),
+        "program.userMaj" => $service->GetUserMajUserfullname($entity),
       );
     }
 
@@ -105,51 +105,51 @@ class ProgrammeController extends AbstractController {
   }
 
   /**
-   * Creates a new programme entity.
+   * Creates a new program entity.
    *
-   * @Route("/new", name="programme_new", methods={"GET", "POST"})
+   * @Route("/new", name="program_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
   public function newAction(Request $request) {
-    $programme = new Programme();
-    $form = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $program = new Program();
+    $form = $this->createForm('App\Form\ProgramType', $program, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $em->persist($programme);
+      $em->persist($program);
       try {
         $flush = $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
-        return $this->render('Core/programme/index.html.twig', array(
+        return $this->render('Core/program/index.html.twig', array(
           'exception_message' => explode("\n", $exception_message)[0],
         ));
       }
-      return $this->redirectToRoute('programme_edit', array(
-        'id' => $programme->getId(),
+      return $this->redirectToRoute('program_edit', array(
+        'id' => $program->getId(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/programme/edit.html.twig', array(
-      'programme' => $programme,
+    return $this->render('Core/program/edit.html.twig', array(
+      'program' => $program,
       'edit_form' => $form->createView(),
     ));
   }
 
   /**
-   * Creates a new programme entity for modal windows
+   * Creates a new program entity for modal windows
    *
-   * @Route("/newmodal", name="programme_newmodal", methods={"GET", "POST"})
+   * @Route("/newmodal", name="program_newmodal", methods={"GET", "POST"})
    */
   public function newmodalAction(Request $request) {
-    $programme = new Programme();
-    $form = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $program = new Program();
+    $form = $this->createForm('App\Form\ProgramType', $program, [
       'action_type' => Action::create(),
     ]);
     $form->handleRequest($request);
@@ -157,79 +157,79 @@ class ProgrammeController extends AbstractController {
     if ($form->isSubmitted() && $form->isValid()) {
       // flush des données du formulaire
       $em = $this->getDoctrine()->getManager();
-      $em->persist($programme);
+      $em->persist($program);
 
       try {
         $flush = $em->flush();
         // mémorize the id and the name of the Program
-        $select_id = $programme->getId();
-        $select_name = $programme->getCodeProgramme();
+        $select_id = $program->getId();
+        $select_name = $program->getCodeProgramme();
         // return an empty Program Entity
-        $programme_new = new Programme();
-        $form = $this->createForm('App\Form\ProgrammeType', $programme_new, [
+        $program_new = new Program();
+        $form = $this->createForm('App\Form\ProgramType', $program_new, [
           'action_type' => Action::create(),
         ]);
         //returns an empty form and the parameters of the new record created
         return new JsonResponse([
-          'html_form' => $this->render('modal.html.twig', array('entityname' => 'programme', 'form' => $form->createView()))->getContent(),
+          'html_form' => $this->render('modal.html.twig', array('entityname' => 'program', 'form' => $form->createView()))->getContent(),
           'select_id' => $select_id,
           'select_name' => $select_name,
           'exception_message' => "",
-          'entityname' => 'programme',
+          'entityname' => 'program',
         ]);
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = strval($e);
         // return an empty Program Entity
-        $programme_new = new Programme();
-        $form = $this->createForm('App\Form\ProgrammeType', $programme_new);
+        $program_new = new Program();
+        $form = $this->createForm('App\Form\ProgramType', $program_new);
         // returns a form with the error message
         return new JsonResponse([
           'html_form' => $this->render('modal.html.twig', array(
-            'entityname' => 'programme',
+            'entityname' => 'program',
             'form' => $form->createView(),
           ))->getContent(),
           'select_id' => 0,
           'select_name' => "",
           'exception_message' => $exception_message,
-          'entityname' => 'programme',
+          'entityname' => 'program',
         ]);
       }
     }
 
     return $this->render('modal.html.twig', array(
-      'entityname' => 'programme',
+      'entityname' => 'program',
       'form' => $form->createView(),
     ));
   }
 
   /**
-   * Finds and displays a programme entity.
+   * Finds and displays a program entity.
    *
-   * @Route("/{id}", name="programme_show", methods={"GET"})
+   * @Route("/{id}", name="program_show", methods={"GET"})
    */
-  public function showAction(Programme $programme) {
-    $deleteForm = $this->createDeleteForm($programme);
-    $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
+  public function showAction(Program $program) {
+    $deleteForm = $this->createDeleteForm($program);
+    $editForm = $this->createForm('App\Form\ProgramType', $program, [
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/programme/edit.html.twig', array(
-      'programme' => $programme,
+    return $this->render('Core/program/edit.html.twig', array(
+      'program' => $program,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Displays a form to edit an existing programme entity.
+   * Displays a form to edit an existing program entity.
    *
-   * @Route("/{id}/edit", name="programme_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="program_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
-  public function editAction(Request $request, Programme $programme) {
+  public function editAction(Request $request, Program $program) {
     //
-    $deleteForm = $this->createDeleteForm($programme);
-    $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
+    $deleteForm = $this->createDeleteForm($program);
+    $editForm = $this->createForm('App\Form\ProgramType', $program, [
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
@@ -241,32 +241,32 @@ class ProgrammeController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
-        return $this->render('Core/programme/index.html.twig', array(
+        return $this->render('Core/program/index.html.twig', array(
           'exception_message' => explode("\n", $exception_message)[0],
         ));
       }
-      return $this->render('Core/programme/edit.html.twig', array(
-        'programme' => $programme,
+      return $this->render('Core/program/edit.html.twig', array(
+        'program' => $program,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
       ));
     }
 
-    return $this->render('Core/programme/edit.html.twig', array(
-      'programme' => $programme,
+    return $this->render('Core/program/edit.html.twig', array(
+      'program' => $program,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ));
   }
 
   /**
-   * Deletes a programme entity.
+   * Deletes a program entity.
    *
-   * @Route("/{id}", name="programme_delete", methods={"DELETE"})
+   * @Route("/{id}", name="program_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
-  public function deleteAction(Request $request, Programme $programme) {
-    $form = $this->createDeleteForm($programme);
+  public function deleteAction(Request $request, Program $program) {
+    $form = $this->createDeleteForm($program);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -275,33 +275,33 @@ class ProgrammeController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($programme);
+        $em->remove($program);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
-        return $this->render('Core/programme/index.html.twig', array(
+        return $this->render('Core/program/index.html.twig', array(
           'exception_message' => explode("\n", $exception_message)[0],
         ));
       }
     }
 
-    return $this->redirectToRoute('programme_index');
+    return $this->redirectToRoute('program_index');
   }
 
   /**
-   * Creates a form to delete a programme entity.
+   * Creates a form to delete a program entity.
    *
-   * @param Programme $programme The programme entity
+   * @param Program $program The program entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(Programme $programme) {
+  private function createDeleteForm(Program $program) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl(
-        'programme_delete',
-        array('id' => $programme->getId())
+        'program_delete',
+        array('id' => $program->getId())
       ))
       ->setMethod('DELETE')
       ->getForm();

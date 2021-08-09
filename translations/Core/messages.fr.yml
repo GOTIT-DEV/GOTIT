@@ -111,14 +111,14 @@ button.ImportVoc: Importer fichier Vocabulaire
 button.ImportReferentieltaxon: Importer fichier Taxon
 button.ImportPays: Importer fichier Pays
 button.ImportPerson: Importer fichier Personne
-button.ImportProgramme: Importer fichier Programme
+button.ImportProgram: Importer fichier Programme
 button.ImportInstitution: Importer fichier Etablissement
 button.ImportCommune: Importer fichier Commune
 button.Back to the list of voc: Retour à la liste des Vocabulaires
 button.Back to the list of referentieltaxon: Retour à la liste des Taxons
 button.Back to the list of pays: Retour à la liste des Pays
 button.Back to the list of person: Retour à la liste des Personnes
-button.Back to the list of programme: Retour à la liste des Programmes
+button.Back to the list of program: Retour à la liste des Programmes
 button.Back to the list of institution: Retour à la liste des Etablissements
 button.Back to the list of municipality: Retour à la liste des Municipalities
 # Button titles "Back to Entity"
@@ -162,8 +162,8 @@ button.Add a new Commune: Ajouter une nouvelle commune
 button.add:
   samplingMethods: Ajouter une méthode d'échantillonnage
 button.Add a Fixateur: Ajouter un fixateur
-button.Add a Programme: Ajouter un programme
-button.Add a new Programme: Ajouter un nouveau programme
+button.Add a Program: Ajouter un programme
+button.Add a new Program: Ajouter un nouveau programme
 button.Add a Person: Ajouter une personne
 button.Add a new Person: Ajouter une nouvelle personne
 button.Add a TaxonSampling: Ajouter un taxon cible
@@ -182,7 +182,7 @@ button.NewVoc: Créer un vocabulaire
 button.NewReferentieltaxon: Créer un taxon
 button.NewPerson: Créer une personne
 button.NewInstitution: Créer un etablissement
-button.NewProgramme: Créer un programme
+button.NewProgram: Créer un programme
 button.NewPays: Créer un Pays
 button.NewMotu: Créer un MOTU
 button.ImportMotu: Importer des MOTUs
@@ -495,7 +495,7 @@ Precision lat long voc fk: Précision latitude longitude
 Primer chromato voc fk: Amorce chromatogramme
 Primer pcr end voc fk: Amorce PCR antisens
 Primer pcr start voc fk: Amorce PCR sens
-Programme fk: Programme
+Program fk: Programme
 Qualite adn voc fk: Qualite ADN
 Qualite chromato voc fk: Qualite chromatogramme
 Qualite pcr voc fk: Qualite PCR

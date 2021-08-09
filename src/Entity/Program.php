@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Programme
+ * Program
  *
  * @ORM\Table(name="program",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeProgramme"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class Programme extends AbstractTimestampedEntity {
+class Program extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -88,7 +88,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param string $codeProgramme
    *
-   * @return Programme
+   * @return Program
    */
   public function setCodeProgramme($codeProgramme) {
     $this->codeProgramme = $codeProgramme;
@@ -110,7 +110,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param string $nomProgramme
    *
-   * @return Programme
+   * @return Program
    */
   public function setNomProgramme($nomProgramme) {
     $this->nomProgramme = $nomProgramme;
@@ -132,7 +132,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param string $nomsResponsables
    *
-   * @return Programme
+   * @return Program
    */
   public function setNomsResponsables($nomsResponsables) {
     $this->nomsResponsables = $nomsResponsables;
@@ -154,7 +154,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param string $typeFinanceur
    *
-   * @return Programme
+   * @return Program
    */
   public function setTypeFinanceur($typeFinanceur) {
     $this->typeFinanceur = $typeFinanceur;
@@ -176,7 +176,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param integer $anneeDebut
    *
-   * @return Programme
+   * @return Program
    */
   public function setAnneeDebut($anneeDebut) {
     $this->anneeDebut = $anneeDebut;
@@ -198,7 +198,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param integer $anneeFin
    *
-   * @return Programme
+   * @return Program
    */
   public function setAnneeFin($anneeFin) {
     $this->anneeFin = $anneeFin;
@@ -220,7 +220,7 @@ class Programme extends AbstractTimestampedEntity {
    *
    * @param string $commentaireProgramme
    *
-   * @return Programme
+   * @return Program
    */
   public function setCommentaireProgramme($commentaireProgramme) {
     $this->commentaireProgramme = $commentaireProgramme;

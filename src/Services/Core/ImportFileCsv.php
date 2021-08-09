@@ -326,7 +326,7 @@ class ImportFileCsv {
       'program_code' => 'code_programme',
       'program_comments' => 'if ($db_version == 2) {
         commentaire_programme',
-      'program_fk' => 'programme_fk',
+      'program_fk' => 'program_fk',
       'program_name' => 'nom_programme',
       'region_name' => 'nom_region',
       'reverse_primer_voc_fk' => 'primer_pcr_end_voc_fk',

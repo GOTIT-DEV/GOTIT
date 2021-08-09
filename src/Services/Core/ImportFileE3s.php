@@ -1526,11 +1526,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataProgramme($fichier, $userId = null)
+   *  importCSVDataProgram($fichier, $userId = null)
    * $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is program
    */
-  public function importCSVDataProgramme($fichier, $userId = null) {
+  public function importCSVDataProgram($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -1542,17 +1542,17 @@ class ImportFileE3s {
     $list_new_commune = array();
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
-      $entity = new \App\Entity\Programme();
-      if (array_key_exists("programme", $columnByTable)) {
-        foreach ($columnByTable["programme"] as $ColCsv) {
+      $entity = new \App\Entity\Program();
+      if (array_key_exists("program", $columnByTable)) {
+        foreach ($columnByTable["program"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
           $varfield = explode(".", $field)[1];
-          if ($field == 'programme.codeProgramme') {
-            $record_entity = $em->getRepository("App:Programme")->findOneBy(array("codeProgramme" => $dataColCsv));
+          if ($field == 'program.codeProgramme') {
+            $record_entity = $em->getRepository("App:Program")->findOneBy(array("codeProgramme" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

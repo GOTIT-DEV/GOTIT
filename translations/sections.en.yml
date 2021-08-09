@@ -29,7 +29,7 @@ core:
   country: Country
   municipality: Municipality
   institution: Institution
-  programme: Program
+  program: Program
   users: Users
   user: User
   Import Files CSV: Import CSV files

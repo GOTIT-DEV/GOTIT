@@ -7,7 +7,7 @@ use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProgrammeType extends ActionFormType {
+class ProgramType extends ActionFormType {
 
   /**
    * {@inheritdoc}
@@ -40,7 +40,7 @@ class ProgrammeType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\Programme',
+      'data_class' => 'App\Entity\Program',
     ));
   }
 
@@ -48,6 +48,6 @@ class ProgrammeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'programme';
+    return 'program';
   }
 }

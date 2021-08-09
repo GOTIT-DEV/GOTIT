@@ -62,7 +62,7 @@ referentieltaxon_index: |
   Use this page to browse, create, import, export, show, edit and delete species taxa. Deletion may not be possible until all data links pointed to a species taxon have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Taxon name".
 person_index: |
   Use this page to browse, create, import, export, show, edit and delete person characteristics. Deletion may not be possible until all data links pointed to a person have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Person list".
-programme_index: |
+program_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of a funding program. Deletion may not be possible until all data links pointed to a funding program have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Program code".
 institution_index: |
   Use this page to browse, create, import, export, show, edit and delete characteristics of an institution. Deletion may not be possible until all data links pointed to an institution have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "Institution name".
@@ -111,7 +111,7 @@ referentieltaxon_new: |
   Use this form to fill in characteristics of a species taxon added to the list. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_new: |
   Use this form to fill in characteristics of a new person. See appendix 11.3.2 in GOTIT HELP for content of fields.
-programme_new: |
+program_new: |
   Use this form to fill in characteristics of a new funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 institution_new: |
   Use this form to fill in characteristics of a new institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
@@ -160,7 +160,7 @@ referentieltaxon_show: |
   Use this form to consult characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_show: |
   Use this form to consult characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
-programme_show: |
+program_show: |
   Use this form to consult characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 institution_show: |
   Use this form to consult characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
@@ -209,7 +209,7 @@ referentieltaxon_edit: |
   Use this form to edit characteristics of a species taxon. See appendix 11.2.2 in GOTIT HELP for content of fields.
 person_edit: |
   Use this form to edit characteristics of a person. See appendix 11.3.2 in GOTIT HELP for content of fields.
-programme_edit: |
+program_edit: |
   Use this form to edit characteristics of a funding program. See appendix 11.4.2 in GOTIT HELP for content of fields.
 institution_edit: |
   Use this form to edit characteristics of an institution. See appendix 11.5.2 in GOTIT HELP for content of fields.
@@ -320,7 +320,7 @@ importfilesperson_index: |
   Use this form to upload data from person repository data set:
   - use and upload the template file “person” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilesprogramme_index: |
+importfilesprogram_index: |
   Use this form to upload data from program repository data set:
   - use and upload the template file “program” to follow appropriate data format.
   Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.

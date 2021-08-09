@@ -278,14 +278,14 @@ button.ImportVoc: Import new set of Vocabulary
 button.ImportReferentieltaxon: Import new set of Taxa
 button.ImportPays: Import new set of Country
 button.ImportPerson: Import new set of Person
-button.ImportProgramme: Import new set of Program
+button.ImportProgram: Import new set of Program
 button.ImportInstitution: Import new set of Institution
 button.ImportCommune: Import new set of Municipality
 button.Back to the list of voc: Back to the list of Vocabulary
 button.Back to the list of referentieltaxon: Back to the list of Taxon
 button.Back to the list of country: Back to the list of Country
 button.Back to the list of person: Back to the list of Person
-button.Back to the list of programme: Back to the list of Program
+button.Back to the list of program: Back to the list of Program
 button.Back to the list of institution: Back to the list of Institution
 button.Back to the list of municipality: Back to the list of Municipality
 #  Button titles "Back to Entity"
@@ -328,8 +328,8 @@ button.Add a TaxonIdentification: Add species taxa
 button.Add a new Municipality: Add new Municipality
 button.Add a SamplingMethod: Add sampling Method
 button.Add a Fixateur: Add fixative
-button.Add a Programme: Add program
-button.Add a new Programme: Add new program
+button.Add a Program: Add program
+button.Add a new Program: Add new program
 button.Add a Person: Add person
 button.Add a new Person: Add new person
 button.Add a TaxonSampling: Add targeted taxa
@@ -348,7 +348,7 @@ button.NewVoc: Create new vocabulary
 button.NewReferentieltaxon: Add taxon name
 button.NewPerson: Create new person
 button.NewInstitution: Create new institution
-button.NewProgramme: Create new program
+button.NewProgram: Create new program
 button.NewPays: Create new country
 button.NewMotu: Create new set of MOTU
 button.ImportMotu: Import new set of MOTU and related data
@@ -659,7 +659,7 @@ Precision lat long voc fk: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
 Primer pcr end voc fk: PCR reverse primer
 Primer pcr start voc fk: PCR forward primer
-Programme fk: Program
+Program fk: Program
 Qualite adn voc fk: DNA quality
 Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality

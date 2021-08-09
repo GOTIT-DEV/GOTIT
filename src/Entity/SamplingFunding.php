@@ -27,14 +27,14 @@ class SamplingFunding extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var Programme
+   * @var Program
    *
-   * @ORM\ManyToOne(targetEntity="Programme")
+   * @ORM\ManyToOne(targetEntity="Program")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="program_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $programmeFk;
+  private $programFk;
 
   /**
    * @var Sampling
@@ -60,23 +60,23 @@ class SamplingFunding extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set programmeFk
+   * Set programFk
    *
-   * @param Programme $programmeFk
+   * @param Program $programFk
    * @return SamplingFunding
    */
-  public function setProgrammeFk(Programme $programmeFk = null) {
-    $this->programmeFk = $programmeFk;
+  public function setProgramFk(Program $programFk = null) {
+    $this->programFk = $programFk;
     return $this;
   }
 
   /**
-   * Get programmeFk
+   * Get programFk
    *
-   * @return Programme
+   * @return Program
    */
-  public function getProgrammeFk() {
-    return $this->programmeFk;
+  public function getProgramFk() {
+    return $this->programFk;
   }
 
   /**
