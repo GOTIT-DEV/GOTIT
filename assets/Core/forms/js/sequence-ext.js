@@ -8,12 +8,12 @@ $(() => {
 
   const $taxon = $("#external_sequence_taxonIdentifications_0_taxonFk");
   const $specimen = $("#external_sequence_specimenMolecularNumber");
-  const $accession = $("#external_sequence_accessionNumberSqcAssExt");
-  const $origin = $("#external_sequence_origineSqcAssExtVocFk");
-  const $status = $("#external_sequence_statutSqcAssVocFk");
+  const $accession = $("#external_sequence_accessionNumber");
+  const $origin = $("#external_sequence_originVocFk");
+  const $status = $("#external_sequence_status");
 
-  const $assemblyCode = $("#external_sequence_codeSqcAssExt");
-  const $alignmentCode = $("#external_sequence_codeSqcAssExtAlignement");
+  const $assemblyCode = $("#external_sequence_code");
+  const $alignmentCode = $("#external_sequence_alignmentCode");
 
   if ($form.data("action") == "new") {
     [$taxon, $specimen, $accession, $origin, $status, $sampling].forEach((el) =>

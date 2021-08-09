@@ -85,7 +85,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="internal_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $statutSqcAssVocFk;
+  private $status;
 
   /**
    * @ORM\OneToMany(targetEntity="InternalSequenceAssembler", mappedBy="internalSequenceFk", cascade={"persist"})
@@ -260,25 +260,25 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set statutSqcAssVocFk
+   * Set status
    *
-   * @param \App\Entity\Voc $statutSqcAssVocFk
+   * @param \App\Entity\Voc $status
    *
    * @return InternalSequence
    */
-  public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null) {
-    $this->statutSqcAssVocFk = $statutSqcAssVocFk;
+  public function setStatus(\App\Entity\Voc $status = null) {
+    $this->status = $status;
 
     return $this;
   }
 
   /**
-   * Get statutSqcAssVocFk
+   * Get status
    *
    * @return \App\Entity\Voc
    */
-  public function getStatutSqcAssVocFk() {
-    return $this->statutSqcAssVocFk;
+  public function getStatus() {
+    return $this->status;
   }
 
   /**
@@ -461,7 +461,7 @@ class InternalSequence extends AbstractTimestampedEntity {
       $seqCode = null;
     } else {
       $seqCodeElts = [];
-      $statusCode = $this->getStatutSqcAssVocFk()->getCode();
+      $statusCode = $this->getStatus()->getCode();
       if (substr($statusCode, 0, 5) != 'VALID') {
         $seqCodeElts[] = $statusCode;
       }

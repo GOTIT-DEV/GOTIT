@@ -32,41 +32,41 @@ class ExternalSequenceType extends ActionFormType {
           'readonly' => $sampling != null,
         ],
       ])
-      ->add('codeSqcAssExt', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],
         ],
       ])
-      ->add('codeSqcAssExtAlignement', EntityCodeType::class, [
+      ->add('alignmentCode', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => Action::create() == $options['action_type'],
         ],
       ])
-      ->add('accessionNumberSqcAssExt', EntityCodeType::class, [
+      ->add('accessionNumber', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('specimenMolecularNumber', null, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('taxonOrigineSqcAssExt')
-      ->add('origineSqcAssExtVocFk', BaseVocType::class, [
+      ->add('primaryTaxon')
+      ->add('originVocFk', BaseVocType::class, [
         'voc_parent' => 'origineSqcAssExt',
         'choice_label' => 'code',
         'placeholder' => 'Choose a origineSqcAssExt',
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('geneVocFk', GeneType::class)
-      ->add('statutSqcAssVocFk', BaseVocType::class, [
+      ->add('status', BaseVocType::class, [
         'voc_parent' => 'statutSqcAss',
         'choice_label' => 'code',
         'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateCreationSqcAssExt', DateFormattedType::class)
-      ->add('commentaireSqcAssExt')
+      ->add('dateCreation', DateFormattedType::class)
+      ->add('comment')
       ->add('assemblers', CollectionType::class, array(
         'entry_type' => ExternalSequenceAssemblerEmbedType::class,
         'allow_add' => true,

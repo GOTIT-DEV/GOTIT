@@ -21,7 +21,7 @@ $(() => {
   const $sequenceForm = $("form[name='internal_sequence']");
 
   if ($sequenceForm.length) {
-    const $status = $("#internal_sequence_statutSqcAssVocFk");
+    const $status = $("#internal_sequence_status");
     const chromatoWrapper = document.getElementById(
       "wrapper_internal_sequence_assemblies"
     );

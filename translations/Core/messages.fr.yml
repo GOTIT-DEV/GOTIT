@@ -484,7 +484,7 @@ Num motu: Numero MOTU
 Num pcr: Numero PCR
 Yas number: Numero YAS
 Ordre: Ordre
-Origine sqc ass ext voc fk: Origine séquence externe assemblée
+Origin voc fk: Origine séquence externe assemblée
 Parent: Parent
 Pays fk: Pays
 Pcr fk: PCR
@@ -509,12 +509,12 @@ Source fk: Source
 Species: Espèce
 Specificite voc fk: Spécificité
 Site fk: Station
-Statut sqc ass voc fk: Statut séquence assemblée
+Status: Statut séquence assemblée
 Subclass: Sous classe
 Subspecies: Sous espèce
 Taxname: Nom taxon
 Taxname ref: Nom synonyme
-Taxon origine sqc ass ext: Taxon origine séquence externe assemblée
+Primary taxon: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
 Type boite voc fk: Type stock
 Type collection voc fk: Type collection

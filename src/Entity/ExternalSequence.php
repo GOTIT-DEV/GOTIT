@@ -20,8 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"sampling_fk"}),
  *      @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"external_sequence_status_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeSqcAssExt"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeSqcAssExtAlignement"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
+ * @UniqueEntity(fields={"alignmentCode"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ExternalSequence extends AbstractTimestampedEntity {
@@ -40,28 +40,28 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="external_sequence_code", type="string", length=1024, nullable=false, unique=true)
    */
-  private $codeSqcAssExt;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="external_sequence_creation_date", type="date", nullable=true)
    */
-  private $dateCreationSqcAssExt;
+  private $dateCreation;
 
   /**
    * @var string
    *
    * @ORM\Column(name="external_sequence_accession_number", type="string", length=255, nullable=false)
    */
-  private $accessionNumberSqcAssExt;
+  private $accessionNumber;
 
   /**
    * @var string
    *
    * @ORM\Column(name="external_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
-  private $codeSqcAssExtAlignement;
+  private $alignmentCode;
 
   /**
    * @var string
@@ -75,14 +75,14 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="external_sequence_primary_taxon", type="string", length=255, nullable=true)
    */
-  private $taxonOrigineSqcAssExt;
+  private $primaryTaxon;
 
   /**
    * @var string
    *
    * @ORM\Column(name="external_sequence_comments", type="text", nullable=true)
    */
-  private $commentaireSqcAssExt;
+  private $comment;
 
   /**
    * @var \Voc
@@ -112,7 +112,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="external_sequence_origin_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $origineSqcAssExtVocFk;
+  private $originVocFk;
 
   /**
    * @var \Sampling
@@ -132,7 +132,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="external_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $statutSqcAssVocFk;
+  private $status;
 
   /**
    * @ORM\OneToMany(targetEntity="ExternalSequenceAssembler", mappedBy="externalSequenceFk", cascade={"persist"})
@@ -168,91 +168,91 @@ class ExternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeSqcAssExt
+   * Set code
    *
-   * @param string $codeSqcAssExt
+   * @param string $code
    *
    * @return ExternalSequence
    */
-  public function setCodeSqcAssExt($codeSqcAssExt) {
-    $this->codeSqcAssExt = $codeSqcAssExt;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeSqcAssExt
+   * Get code
    *
    * @return string
    */
-  public function getCodeSqcAssExt() {
-    return $this->codeSqcAssExt;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateCreationSqcAssExt
+   * Set dateCreation
    *
-   * @param \DateTime $dateCreationSqcAssExt
+   * @param \DateTime $dateCreation
    *
    * @return ExternalSequence
    */
-  public function setDateCreationSqcAssExt($dateCreationSqcAssExt) {
-    $this->dateCreationSqcAssExt = $dateCreationSqcAssExt;
+  public function setDateCreation($date) {
+    $this->dateCreation = $date;
 
     return $this;
   }
 
   /**
-   * Get dateCreationSqcAssExt
+   * Get dateCreation
    *
    * @return \DateTime
    */
-  public function getDateCreationSqcAssExt() {
-    return $this->dateCreationSqcAssExt;
+  public function getDateCreation() {
+    return $this->dateCreation;
   }
 
   /**
-   * Set accessionNumberSqcAssExt
+   * Set accessionNumber
    *
-   * @param string $accessionNumberSqcAssExt
+   * @param string $accessionNumber
    *
    * @return ExternalSequence
    */
-  public function setAccessionNumberSqcAssExt($accessionNumberSqcAssExt) {
-    $this->accessionNumberSqcAssExt = $accessionNumberSqcAssExt;
+  public function setAccessionNumber($accessionNumber) {
+    $this->accessionNumber = $accessionNumber;
 
     return $this;
   }
 
   /**
-   * Get accessionNumberSqcAssExt
+   * Get accessionNumber
    *
    * @return string
    */
-  public function getAccessionNumberSqcAssExt() {
-    return $this->accessionNumberSqcAssExt;
+  public function getAccessionNumber() {
+    return $this->accessionNumber;
   }
 
   /**
-   * Set codeSqcAssExtAlignement
+   * Set alignmentCode
    *
-   * @param string $codeSqcAssExtAlignement
+   * @param string $alignmentCode
    *
    * @return ExternalSequence
    */
-  public function setCodeSqcAssExtAlignement($codeSqcAssExtAlignement) {
-    $this->codeSqcAssExtAlignement = $codeSqcAssExtAlignement;
+  public function setAlignmentCode($alignmentCode) {
+    $this->alignmentCode = $alignmentCode;
 
     return $this;
   }
 
   /**
-   * Get codeSqcAssExtAlignement
+   * Get alignmentCode
    *
    * @return string
    */
-  public function getCodeSqcAssExtAlignement() {
-    return $this->codeSqcAssExtAlignement;
+  public function getAlignmentCode() {
+    return $this->alignmentCode;
   }
 
   /**
@@ -278,57 +278,57 @@ class ExternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set taxonOrigineSqcAssExt
+   * Set primaryTaxon
    *
-   * @param string $taxonOrigineSqcAssExt
+   * @param string $primaryTaxon
    *
    * @return ExternalSequence
    */
-  public function setTaxonOrigineSqcAssExt($taxonOrigineSqcAssExt) {
-    $this->taxonOrigineSqcAssExt = $taxonOrigineSqcAssExt;
+  public function setPrimaryTaxon($taxon) {
+    $this->primaryTaxon = $taxon;
 
     return $this;
   }
 
   /**
-   * Get taxonOrigineSqcAssExt
+   * Get primaryTaxon
    *
    * @return string
    */
-  public function getTaxonOrigineSqcAssExt() {
-    return $this->taxonOrigineSqcAssExt;
+  public function getPrimaryTaxon() {
+    return $this->primaryTaxon;
   }
 
   /**
-   * Set commentaireSqcAssExt
+   * Set comment
    *
-   * @param string $commentaireSqcAssExt
+   * @param string $comment
    *
    * @return ExternalSequence
    */
-  public function setCommentaireSqcAssExt($commentaireSqcAssExt) {
-    $this->commentaireSqcAssExt = $commentaireSqcAssExt;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaireSqcAssExt
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaireSqcAssExt() {
-    return $this->commentaireSqcAssExt;
+  public function getComment() {
+    return $this->comment;
   }
 
   /**
    * Set geneVocFk
    *
-   * @param \App\Entity\Voc $geneVocFk
+   * @param Voc $geneVocFk
    *
    * @return ExternalSequence
    */
-  public function setGeneVocFk(\App\Entity\Voc $geneVocFk = null) {
+  public function setGeneVocFk(Voc $geneVocFk = null) {
     $this->geneVocFk = $geneVocFk;
 
     return $this;
@@ -337,7 +337,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Get geneVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getGeneVocFk() {
     return $this->geneVocFk;
@@ -346,11 +346,11 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return ExternalSequence
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
 
     return $this;
@@ -359,42 +359,42 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getDatePrecisionVocFk() {
     return $this->datePrecisionVocFk;
   }
 
   /**
-   * Set origineSqcAssExtVocFk
+   * Set originVocFk
    *
-   * @param \App\Entity\Voc $origineSqcAssExtVocFk
+   * @param Voc $originVocFk
    *
    * @return ExternalSequence
    */
-  public function setOrigineSqcAssExtVocFk(\App\Entity\Voc $origineSqcAssExtVocFk = null) {
-    $this->origineSqcAssExtVocFk = $origineSqcAssExtVocFk;
+  public function setOriginVocFk(Voc $originVocFk = null) {
+    $this->originVocFk = $originVocFk;
 
     return $this;
   }
 
   /**
-   * Get origineSqcAssExtVocFk
+   * Get originVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getOrigineSqcAssExtVocFk() {
-    return $this->origineSqcAssExtVocFk;
+  public function getOriginVocFk() {
+    return $this->originVocFk;
   }
 
   /**
    * Set samplingFk
    *
-   * @param \App\Entity\Sampling $samplingFk
+   * @param Sampling $samplingFk
    *
    * @return ExternalSequence
    */
-  public function setSamplingFk(\App\Entity\Sampling $samplingFk = null) {
+  public function setSamplingFk(Sampling $samplingFk = null) {
     $this->samplingFk = $samplingFk;
 
     return $this;
@@ -403,42 +403,42 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Get samplingFk
    *
-   * @return \App\Entity\Sampling
+   * @return Sampling
    */
   public function getSamplingFk() {
     return $this->samplingFk;
   }
 
   /**
-   * Set statutSqcAssVocFk
+   * Set status
    *
-   * @param \App\Entity\Voc $statutSqcAssVocFk
+   * @param Voc $status
    *
    * @return ExternalSequence
    */
-  public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null) {
-    $this->statutSqcAssVocFk = $statutSqcAssVocFk;
+  public function setStatus(Voc $status = null) {
+    $this->status = $status;
 
     return $this;
   }
 
   /**
-   * Get statutSqcAssVocFk
+   * Get status
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getStatutSqcAssVocFk() {
-    return $this->statutSqcAssVocFk;
+  public function getStatus() {
+    return $this->status;
   }
 
   /**
    * Add assembler
    *
-   * @param \App\Entity\ExternalSequenceAssembler $assembler
+   * @param ExternalSequenceAssembler $assembler
    *
    * @return ExternalSequence
    */
-  public function addAssembler(\App\Entity\ExternalSequenceAssembler $assembler) {
+  public function addAssembler(ExternalSequenceAssembler $assembler) {
     $assembler->setExternalSequenceFk($this);
     $this->assemblers[] = $assembler;
 
@@ -448,9 +448,9 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove assembler
    *
-   * @param \App\Entity\ExternalSequenceAssembler $assembler
+   * @param ExternalSequenceAssembler $assembler
    */
-  public function removeAssembler(\App\Entity\ExternalSequenceAssembler $assembler) {
+  public function removeAssembler(ExternalSequenceAssembler $assembler) {
     $this->assemblers->removeElement($assembler);
   }
 
@@ -466,11 +466,11 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Add externalSequencePublication
    *
-   * @param \App\Entity\ExternalSequencePublication $externalSequencePublication
+   * @param ExternalSequencePublication $externalSequencePublication
    *
    * @return ExternalSequence
    */
-  public function addExternalSequencePublication(\App\Entity\ExternalSequencePublication $externalSequencePublication) {
+  public function addExternalSequencePublication(ExternalSequencePublication $externalSequencePublication) {
     $externalSequencePublication->setExternalSequenceFk($this);
     $this->externalSequencePublications[] = $externalSequencePublication;
 
@@ -480,9 +480,9 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove externalSequencePublication
    *
-   * @param \App\Entity\ExternalSequencePublication $externalSequencePublication
+   * @param ExternalSequencePublication $externalSequencePublication
    */
-  public function removeExternalSequencePublication(\App\Entity\ExternalSequencePublication $externalSequencePublication) {
+  public function removeExternalSequencePublication(ExternalSequencePublication $externalSequencePublication) {
     $this->externalSequencePublications->removeElement($externalSequencePublication);
   }
 
@@ -498,11 +498,11 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Add taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    *
    * @return ExternalSequence
    */
-  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+  public function addTaxonIdentification(TaxonIdentification $taxonIdentification) {
     $taxonIdentification->setExternalSequenceFk($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
@@ -512,9 +512,9 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    */
-  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+  public function removeTaxonIdentification(TaxonIdentification $taxonIdentification) {
     $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 

@@ -394,19 +394,19 @@ class ExternalSequenceController extends AbstractController {
   }
 
   /**
-   * Creates a createCodeSqcAssExt
+   * Creates a createCode
    *
    * @param ExternalSequence $internalSequence The internalSequence entity
    *
    */
-  private function createCodeSqcAssExt(ExternalSequence $sequence) {
+  private function createCode(ExternalSequence $sequence) {
     $codeSqc = '';
     $em = $this->getDoctrine()->getManager();
     $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
     if ($nbTaxonIdentifications > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
-      $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequence->getStatus()->getCode();
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
@@ -419,10 +419,10 @@ class ExternalSequenceController extends AbstractController {
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
-      $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();
+      $accessionNumber = $sequence->getAccessionNumber();
+      $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
       $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numSpecimenSqcAssExt .
-        '_' . $accessionNumberSqcAssExt . '|' . $codeOrigineSqcAssExt;
+        '_' . $accessionNumber . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
     }
@@ -430,19 +430,19 @@ class ExternalSequenceController extends AbstractController {
   }
 
   /**
-   * Creates a createCodeSqcAssExtAlignement
+   * Creates a createAlignmentCode
    *
    * @param ExternalSequence $internalSequence The internalSequence entity
    *
    */
-  private function createCodeSqcAssExtAlignement(ExternalSequence $sequence) {
+  private function createAlignmentCode(ExternalSequence $sequence) {
     $codeSqcAlignement = '';
     $em = $this->getDoctrine()->getManager();
     $TaxonIdentifications = $sequence->getTaxonIdentifications();
     $nbTaxonIdentifications = count($TaxonIdentifications);
     if ($nbTaxonIdentifications > 0) {
       // Le statut de la sequence ET le taxon = au derenier taxname attribué
-      $codeStatutSqcAss = $sequence->getStatutSqcAssVocFk()->getCode();
+      $codeStatutSqcAss = $sequence->getStatus()->getCode();
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
@@ -456,12 +456,12 @@ class ExternalSequenceController extends AbstractController {
       : $codeStatutSqcAss . '_' . $lastCodeTaxon;
       $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
-      $accessionNumberSqcAssExt = $sequence->getAccessionNumberSqcAssExt();
-      $codeOrigineSqcAssExt = $sequence->getOrigineSqcAssExtVocFk()->getCode();
+      $accessionNumber = $sequence->getAccessionNumber();
+      $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
       $codeSqcAlignement = $codeSqcAlignement . '_' .
         $codeCollecte . '_' .
         $numSpecimenSqcAssExt . '_' .
-        $accessionNumberSqcAssExt . '_' . $codeOrigineSqcAssExt;
+        $accessionNumber . '_' . $codeOrigineSqcAssExt;
     } else {
       $codeSqcAlignement = 0;
     }

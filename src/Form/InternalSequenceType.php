@@ -40,7 +40,7 @@ class InternalSequenceType extends ActionFormType {
       ->add('commentaireSqcAss')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('dateCreationSqcAss', DateFormattedType::class)
-      ->add('statutSqcAssVocFk', BaseVocType::class, [
+      ->add('status', BaseVocType::class, [
         'voc_parent' => 'statutSqcAss',
         'choice_label' => 'code',
         'placeholder' => 'Choose a statut',

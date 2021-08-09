@@ -2976,7 +2976,7 @@ class ImportFileE3s {
         $method = "setMethodeMotuVocFk";
         $entityRel->$method($foreign_record);
       }
-      $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
+      $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass_ext !== NULL) {
         $flagSeqExt = 1;
         $entityRel = new \App\Entity\MotuDelimitation();
@@ -3206,7 +3206,7 @@ class ImportFileE3s {
             $method = "setMethodeMotuVocFk";
             $entityRel->$method($foreign_record);
           }
-          $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
+          $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass_ext !== NULL) {
             $flagSeqExt = 1;
             $entityRel = new \App\Entity\MotuDelimitation();
@@ -3435,14 +3435,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'external_sequence.code_sqc_ass_ext') {
-            $record_entity = $em->getRepository("App:ExternalSequence")->findOneBy(array("codeSqcAssExt" => $dataColCsv));
+          if ($ColCsv == 'external_sequence.code') {
+            $record_entity = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'external_sequence.date_creation_sqc_ass_ext') {
+          if ($ColCsv == 'external_sequence.date_creation') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {

@@ -224,7 +224,7 @@ class SpeciesQueryService {
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
         ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.internalSequenceFk=seq.id')
         ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
-        ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
+        ->addSelect('seqext.id as id_ext, seqext.code as codeExt, seqext.accessionNumber as acc_ext');
       break;
     }
 
