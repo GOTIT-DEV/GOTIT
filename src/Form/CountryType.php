@@ -14,15 +14,15 @@ class CountryType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('nomPays')
-      ->add('codePays', EntityCodeType::class, [
+      ->add('name')
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ]);
 
-    $this->upperCaseFields($builder, ['nomPays', 'codePays']);
+    $this->upperCaseFields($builder, ['name', 'code']);
   }
 
   /**

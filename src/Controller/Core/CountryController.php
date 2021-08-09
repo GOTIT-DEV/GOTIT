@@ -54,7 +54,7 @@ class CountryController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(country.codePays) LIKE :criteriaLower';
+    $where = 'LOWER(country.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -80,8 +80,8 @@ class CountryController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "country.id" => $id,
-        "country.codePays" => $entity->getCodePays(),
-        "country.nomPays" => $entity->getNomPays(),
+        "country.code" => $entity->getCode(),
+        "country.name" => $entity->getName(),
         "country.dateCre" => $DateCre,
         "country.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

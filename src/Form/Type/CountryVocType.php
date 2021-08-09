@@ -14,10 +14,10 @@ class CountryVocType extends AbstractType {
       'class' => 'App:Country',
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('country')
-          ->orderBy('country.nomPays', 'ASC');
+          ->orderBy('country.name', 'ASC');
       },
       'placeholder' => 'Choose a Country',
-      'choice_label' => 'nom_pays',
+      'choice_label' => 'name',
       'multiple' => false,
       'expanded' => false,
     ]);

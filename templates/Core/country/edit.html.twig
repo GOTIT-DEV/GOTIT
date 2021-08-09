@@ -14,9 +14,9 @@
 	<script type="text/javascript">
 		// Form actions
 $(document).ready(function () {
-$('#country_nomPays').keyup(function (e) {
-let codePays = $(this).val().replace(/ /g, '_');
-$('#country_codePays').val(codePays);
+$('#country_name').keyup(function (e) {
+let code = $(this).val().replace(/ /g, '_');
+$('#country_code').val(code);
 })
 });
 	</script>

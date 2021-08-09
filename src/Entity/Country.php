@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="country",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_country__country_code", columns={"country_code"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codePays"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Country extends AbstractTimestampedEntity {
@@ -31,14 +31,14 @@ class Country extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="country_code", type="string", length=255, nullable=false)
    */
-  private $codePays;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="country_name", type="string", length=1024, nullable=false)
    */
-  private $nomPays;
+  private $name;
 
   /**
    * @ORM\OneToMany(targetEntity="Municipality", mappedBy="countryFk")
@@ -63,45 +63,45 @@ class Country extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codePays
+   * Set code
    *
-   * @param string $codePays
+   * @param string $code
    *
    * @return Country
    */
-  public function setCodePays($codePays) {
-    $this->codePays = $codePays;
+  public function setCode($code) {
+    $this->code = $code;
     return $this;
   }
 
   /**
-   * Get codePays
+   * Get code
    *
    * @return string
    */
-  public function getCodePays() {
-    return $this->codePays;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set nomPays
+   * Set name
    *
-   * @param string $nomPays
+   * @param string $name
    *
    * @return Country
    */
-  public function setNomPays($nomPays) {
-    $this->nomPays = $nomPays;
+  public function setName($name) {
+    $this->name = $name;
     return $this;
   }
 
   /**
-   * Get nomPays
+   * Get name
    *
    * @return string
    */
-  public function getNomPays() {
-    return $this->nomPays;
+  public function getName() {
+    return $this->name;
   }
 
   public function getMunicipalities() {

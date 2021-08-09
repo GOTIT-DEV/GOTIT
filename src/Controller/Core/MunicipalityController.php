@@ -82,7 +82,7 @@ class MunicipalityController extends AbstractController {
         "municipality.codeCommune" => $entity->getCodeCommune(),
         "municipality.nomCommune" => $entity->getNomCommune(),
         "municipality.nomRegion" => $entity->getNomRegion(),
-        "country.codePays" => $entity->getCountryFk()->getCodePays(),
+        "country.code" => $entity->getCountryFk()->getCode(),
         "municipality.dateCre" => $DateCre,
         "municipality.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
