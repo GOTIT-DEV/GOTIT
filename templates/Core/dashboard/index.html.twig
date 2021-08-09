@@ -15,7 +15,7 @@
 
 {% block body %}
 
-	{% set NbTot = nbSequenceAssemblee + nbChromatogramme + nbPcr + nbSpecimen + internalLotCount %}
+	{% set NbTot = internalSequenceCount + nbChromatogramme + nbPcr + nbSpecimen + internalLotCount %}
 
 	<div class="row">
 
@@ -81,11 +81,11 @@
 					</div>
 					<div class="widget_summary">
 						<div class="w_left w_55">
-							<span>{{'Dashboard.nbSequenceAssemblee'|trans}}</span>
+							<span>{{'Dashboard.internalSequenceCount'|trans}}</span>
 						</div>
 						<div class="w_center w_25"></div>
 						<div class="w_right w_20">
-							<span>{{ nbSequenceAssemblee }}</span>
+							<span>{{ internalSequenceCount }}</span>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -274,7 +274,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_sequence_index') }}">{{'import.internal_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('import_files_external_sequence_index') }}">{{'import.external_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -317,7 +317,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_sequence_index') }}">{{'import.internal_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('import_files_external_sequence_index') }}">{{'import.external_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -380,7 +380,7 @@
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('importfileschromatogramme_index') }}">{{'import.chromatogramme'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
-							<a href="{{ path('importfilessequenceassemblee_index') }}">{{'import.sequenceassemblee'|trans}}</a><br/>
+							<a href="{{ path('importfilesinternal_sequence_index') }}">{{'import.internal_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="{{ path('import_files_external_sequence_index') }}">{{'import.external_sequence'|trans}}</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
@@ -452,7 +452,7 @@
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">
-								<font color="grey">{{'import.sequenceassemblee'|trans}}</font>
+								<font color="grey">{{'import.internal_sequence'|trans}}</font>
 							</a><br/>
 							<i class="far fa-arrow-alt-circle-right"></i>
 							<a href="#">

@@ -18,14 +18,14 @@ $(() => {
 
   // Sequence code generation ----------
 
-  const $sequenceForm = $("form[name='sequence_assemblee']");
+  const $sequenceForm = $("form[name='internal_sequence']");
 
   if ($sequenceForm.length) {
-    const $status = $("#sequence_assemblee_statutSqcAssVocFk");
+    const $status = $("#internal_sequence_statutSqcAssVocFk");
     const chromatoWrapper = document.getElementById(
-      "wrapper_sequence_assemblee_assemblies"
+      "wrapper_internal_sequence_assemblies"
     );
-    const $code = $("#sequence_assemblee_codeSqcAss");
+    const $code = $("#internal_sequence_codeSqcAss");
 
     if ($sequenceForm.data("action") == "new") {
       $status.change(updateSequenceCode);

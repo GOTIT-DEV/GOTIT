@@ -604,7 +604,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataSqcAssembleePublie as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_sa = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sa')
+      $query_sa = $em->getRepository("App:InternalSequence")->createQueryBuilder('sa')
         ->where('sa.codeSqcAss LIKE :code_sqc_ass')
         ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
         ->getQuery()
@@ -625,7 +625,7 @@ class ImportFileE3s {
 
       } else {
         $query_lepd = $em->getRepository("App:InternalSequencePublication")->createQueryBuilder('sepd')
-          ->where('sepd.sequenceAssembleeFk = :id_sa')
+          ->where('sepd.internalSequenceFk = :id_sa')
           ->setParameter('id_sa', $query_sa[0]->getId())
           ->getQuery()
           ->getResult();
@@ -647,7 +647,7 @@ class ImportFileE3s {
           $entityRel = new \App\Entity\InternalSequencePublication();
           $method = "setSourceFk";
           $entityRel->$method($query_source[0]);
-          $method = "setSequenceAssembleeFk";
+          $method = "setInternalSequenceFk";
           $entityRel->$method($query_sa[0]);
           $entityRel->setDateCre($DateImport);
           $entityRel->setDateMaj($DateImport);
@@ -2959,13 +2959,13 @@ class ImportFileE3s {
     foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
       $flagSeq = 0;
       $flagSeqExt = 0;
-      $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+      $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass !== NULL) {
         $flagSeq = 1;
         $entityRel = new \App\Entity\MotuDelimitation();
         $method = "setMotuFk";
         $entityRel->$method($entity);
-        $method = "setSequenceAssembleeFk";
+        $method = "setInternalSequenceFk";
         $entityRel->$method($record_entity_sqc_ass);
         $method = "setNumMotu";
         $entityRel->$method($data2["num_motu"]);
@@ -3189,13 +3189,13 @@ class ImportFileE3s {
         foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
-          $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+          $record_entity_sqc_ass = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass !== NULL) {
             $flagSeq = 1;
             $entityRel = new \App\Entity\MotuDelimitation();
             $method = "setMotuFk";
             $entityRel->$method($entity);
-            $method = "setSequenceAssembleeFk";
+            $method = "setInternalSequenceFk";
             $entityRel->$method($record_entity_sqc_ass);
             $method = "setNumMotu";
             $entityRel->$method($data2["num_motu"]);
@@ -4271,11 +4271,11 @@ class ImportFileE3s {
   }
 
   /**
-   *  importCSVDataSequenceAssemblee($fichier, $userId = null)
+   *  importCSVDataInternalSequence($fichier, $userId = null)
    *  $fichier : path to the download csv file
    *  NOTE : the template of csv file to import is internal_sequence
    */
-  public function importCSVDataSequenceAssemblee($fichier, $userId = null) {
+  public function importCSVDataInternalSequence($fichier, $userId = null) {
     $importFileCsvService = $this->importFileCsv; // retrieve the ImportFileCsv service
     $csvData = $importFileCsvService->readCSV($fichier);
     $columnByTable = $importFileCsvService->readColumnByTableSV($csvData); // Retrieve CSV fields as a table
@@ -4289,9 +4289,9 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       #
-      $entity = new \App\Entity\SequenceAssemblee();
+      $entity = new \App\Entity\InternalSequence();
       //
-      foreach ($columnByTable["sequence_assemblee"] as $ColCsv) {
+      foreach ($columnByTable["internal_sequence"] as $ColCsv) {
         $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -4301,14 +4301,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'sequence_assemblee.code_sqc_ass') {
-            $record_entity = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $dataColCsv));
+          if ($ColCsv == 'internal_sequence.code_sqc_ass') {
+            $record_entity = $em->getRepository("App:InternalSequence")->findOneBy(array("codeSqcAss" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'sequence_assemblee.date_creation_sqc_ass') {
+          if ($ColCsv == 'internal_sequence.date_creation_sqc_ass') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -4394,7 +4394,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalSequenceAssembler();
-            $method = "setSequenceAssembleeFk";
+            $method = "setInternalSequenceFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -4445,7 +4445,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalSequencePublication();
-            $method = "setSequenceAssembleeFk";
+            $method = "setInternalSequenceFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -4496,7 +4496,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\InternalSequenceAssembly();
-            $method = "setSequenceAssembleeFk";
+            $method = "setInternalSequenceFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -4533,7 +4533,7 @@ class ImportFileE3s {
       # Record of TaxonIdentification
       $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
-      $method = "setSequenceAssembleeFk";
+      $method = "setInternalSequenceFk";
       $entityRel->$method($entity);
       foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');

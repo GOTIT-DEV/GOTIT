@@ -396,7 +396,7 @@ class ExternalSequenceController extends AbstractController {
   /**
    * Creates a createCodeSqcAssExt
    *
-   * @param ExternalSequence $sequenceAssemblee The sequenceAssemblee entity
+   * @param ExternalSequence $internalSequence The internalSequence entity
    *
    */
   private function createCodeSqcAssExt(ExternalSequence $sequence) {
@@ -432,7 +432,7 @@ class ExternalSequenceController extends AbstractController {
   /**
    * Creates a createCodeSqcAssExtAlignement
    *
-   * @param ExternalSequence $sequenceAssemblee The sequenceAssemblee entity
+   * @param ExternalSequence $internalSequence The internalSequence entity
    *
    */
   private function createCodeSqcAssExtAlignement(ExternalSequence $sequence) {

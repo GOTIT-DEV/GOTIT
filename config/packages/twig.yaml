@@ -57,8 +57,8 @@ twig:
         text: core.Etude séquençage
         icon: fas fa-dna
         children:
-          - route: sequenceassemblee_index
-            text: core.sequenceassemblee
+          - route: internal_sequence_index
+            text: core.internal_sequence
           - route: external_sequence_index
             text: core.external_sequence
           - route: motu_index

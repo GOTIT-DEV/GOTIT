@@ -36,14 +36,14 @@ class InternalSequencePublication extends AbstractTimestampedEntity {
   private $sourceFk;
 
   /**
-   * @var \SequenceAssemblee
+   * @var \InternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="publications")
+   * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="publications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $sequenceAssembleeFk;
+  private $internalSequenceFk;
 
   /**
    * Get id
@@ -77,24 +77,24 @@ class InternalSequencePublication extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeFk
+   * Set internalSequenceFk
    *
-   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   * @param \App\Entity\InternalSequence $internalSequenceFk
    *
    * @return InternalSequencePublication
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
-    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+    $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeFk
+   * Get internalSequenceFk
    *
-   * @return \App\Entity\SequenceAssemblee
+   * @return \App\Entity\InternalSequence
    */
-  public function getSequenceAssembleeFk() {
-    return $this->sequenceAssembleeFk;
+  public function getInternalSequenceFk() {
+    return $this->internalSequenceFk;
   }
 }

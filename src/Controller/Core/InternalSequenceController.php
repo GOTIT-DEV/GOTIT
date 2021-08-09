@@ -2,7 +2,7 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\SequenceAssemblee;
+use App\Entity\InternalSequence;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -12,13 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Sequenceassemblee controller.
+ * InternalSequence controller.
  *
- * @Route("sequenceassemblee")
+ * @Route("internal_sequence")
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeController extends AbstractController {
+class InternalSequenceController extends AbstractController {
   /**
    * @var integer
    */
@@ -30,17 +30,17 @@ class SequenceAssembleeController extends AbstractController {
   const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
 
   /**
-   * Lists all sequenceAssemblee entities.
+   * Lists all internal sequence entities.
    *
-   * @Route("/", name="sequenceassemblee_index", methods={"GET"})
+   * @Route("/", name="internal_sequence_index", methods={"GET"})
    */
   public function indexAction() {
     $em = $this->getDoctrine()->getManager();
 
-    $sequenceAssemblees = $em->getRepository('App:SequenceAssemblee')->findAll();
+    $sequences = $em->getRepository('App:InternalSequence')->findAll();
 
-    return $this->render('Core/sequenceassemblee/index.html.twig', array(
-      'sequenceAssemblees' => $sequenceAssemblees,
+    return $this->render('Core/internal_sequence/index.html.twig', array(
+      'internalSequences' => $sequences,
     ));
   }
 
@@ -50,7 +50,7 @@ class SequenceAssembleeController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="sequenceassemblee_indexjson", methods={"POST"})
+   * @Route("/indexjson", name="internal_sequence_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
@@ -182,14 +182,14 @@ class SequenceAssembleeController extends AbstractController {
   }
 
   /**
-   * Creates a new sequenceAssemblee entity.
+   * Creates a new internal sequence entity.
    *
-   * @Route("/new", name="sequenceassemblee_new", methods={"GET", "POST"})
+   * @Route("/new", name="internal_sequence_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
 
-    $sequence = new Sequenceassemblee();
+    $sequence = new InternalSequence();
 
     $chromatoFk = $request->get('idFk');
     $specimenFk = $request->get('specimenFk');
@@ -246,19 +246,19 @@ class SequenceAssembleeController extends AbstractController {
     if ($geneSpecimenForm->isSubmitted() && $geneSpecimenForm->isValid()) {
       $gene = $geneSpecimenForm->get('geneVocFk')->getData();
       $specimen = $geneSpecimenForm->get('specimenFk')->getData();
-      return $this->redirectToRoute('sequenceassemblee_new', [
+      return $this->redirectToRoute('internal_sequence_new', [
         'specimenFk' => $specimen->getId(),
         'geneVocFk' => $gene->getId(),
       ]);
     }
 
     // Main form
-    $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
+    $form = $this->createForm('App\Form\InternalSequenceType', $sequence, [
       'action_type' => $gene && $specimen ? Action::create() : Action::show(),
       'gene' => $gene,
       'specimen' => $specimen,
       'attr' => ['id' => "sequence-form"],
-      "action" => $this->generateUrl('sequenceassemblee_new', [
+      "action" => $this->generateUrl('internal_sequence_new', [
         'geneVocFk' => $gene ? $gene->getId() : null,
         'specimenFk' => $specimen ? $specimen->getId() : null,
         'idFk' => $chromato ? $chromato->getId() : null,
@@ -278,18 +278,18 @@ class SequenceAssembleeController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassemblee/index.html.twig',
+          'Core/internal_sequence/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('sequenceassemblee_edit', array(
+      return $this->redirectToRoute('internal_sequence_edit', array(
         'id' => $sequence->getId(),
         'idFk' => $chromatoFk,
         'valid' => 1,
       ));
     }
-    return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee' => $sequence,
+    return $this->render('Core/internal_sequence/edit.html.twig', array(
+      'internalSequence' => $sequence,
       'edit_form' => $form->createView(),
       'form_gene_indbiomol' => $geneSpecimenForm->createView(),
       'geneVocFk' => $gene,
@@ -298,17 +298,17 @@ class SequenceAssembleeController extends AbstractController {
   }
 
   /**
-   * Finds and displays a sequenceAssemblee entity.
+   * Finds and displays a internal sequence entity.
    *
-   * @Route("/{id}", name="sequenceassemblee_show", methods={"GET"})
+   * @Route("/{id}", name="internal_sequence_show", methods={"GET"})
    */
-  public function showAction(SequenceAssemblee $sequence) {
+  public function showAction(InternalSequence $sequence) {
     $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getSpecimenFk();
 
     $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
-      'App\Form\SequenceAssembleeType',
+      'App\Form\InternalSequenceType',
       $sequence,
       [
         'action_type' => Action::show(),
@@ -324,8 +324,8 @@ class SequenceAssembleeController extends AbstractController {
         ],
         ["action_type" => Action::show()]
       );
-    return $this->render('Core/sequenceassemblee/edit.html.twig', [
-      'sequenceAssemblee' => $sequence,
+    return $this->render('Core/internal_sequence/edit.html.twig', [
+      'internalSequence' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
       'form_gene_indbiomol' => $geneSpecimenForm->createView(),
@@ -333,14 +333,14 @@ class SequenceAssembleeController extends AbstractController {
   }
 
   /**
-   * Displays a form to edit an existing sequenceAssemblee entity.
+   * Displays a form to edit an existing internal sequence entity.
    *
-   * @Route("/{id}/edit", name="sequenceassemblee_edit", methods={"GET", "POST"})
+   * @Route("/{id}/edit", name="internal_sequence_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function editAction(
     Request $request,
-    SequenceAssemblee $sequence,
+    InternalSequence $sequence,
     GenericFunctionE3s $service
   ) {
 
@@ -387,7 +387,7 @@ class SequenceAssembleeController extends AbstractController {
     );
 
     $editForm = $this->createForm(
-      'App\Form\SequenceAssembleeType',
+      'App\Form\InternalSequenceType',
       $sequence,
       [
         'gene' => $gene,
@@ -428,22 +428,22 @@ class SequenceAssembleeController extends AbstractController {
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassemblee/index.html.twig',
+          'Core/internal_sequence/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
 
-      return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-        'sequenceAssemblee' => $sequence,
+      return $this->render('Core/internal_sequence/edit.html.twig', array(
+        'internalSequence' => $sequence,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
         'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
       ));
     }
 
-    return $this->render('Core/sequenceassemblee/edit.html.twig', array(
-      'sequenceAssemblee' => $sequence,
+    return $this->render('Core/internal_sequence/edit.html.twig', array(
+      'internalSequence' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $this->createDeleteForm($sequence)->createView(),
       'form_gene_indbiomol' => $form_gene_indbiomol->createView(),
@@ -451,13 +451,13 @@ class SequenceAssembleeController extends AbstractController {
   }
 
   /**
-   * Deletes a sequenceAssemblee entity.
+   * Deletes a internal sequence entity.
    *
-   * @Route("/{id}", name="sequenceassemblee_delete", methods={"DELETE"})
+   * @Route("/{id}", name="internal_sequence_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
-    $form = $this->createDeleteForm($sequenceAssemblee);
+  public function deleteAction(Request $request, InternalSequence $sequence) {
+    $form = $this->createDeleteForm($sequence);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
@@ -466,35 +466,35 @@ class SequenceAssembleeController extends AbstractController {
     ) {
       $em = $this->getDoctrine()->getManager();
       try {
-        $em->remove($sequenceAssemblee);
+        $em->remove($sequence);
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
         return $this->render(
-          'Core/sequenceassemblee/index.html.twig',
+          'Core/internal_sequence/index.html.twig',
 
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
     }
 
-    return $this->redirectToRoute('sequenceassemblee_index');
+    return $this->redirectToRoute('internal_sequence_index');
   }
 
   /**
-   * Creates a form to delete a sequenceAssemblee entity.
+   * Creates a form to delete a internal sequence entity.
    *
-   * @param SequenceAssemblee $sequenceAssemblee The sequenceAssemblee entity
+   * @param InternalSequence $sequence The internal sequence entity
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(SequenceAssemblee $sequenceAssemblee) {
+  private function createDeleteForm(InternalSequence $sequence) {
     return $this->createFormBuilder()
       ->setAction($this->generateUrl(
-        'sequenceassemblee_delete',
-        array('id' => $sequenceAssemblee->getId())
+        'internal_sequence_delete',
+        array('id' => $sequence->getId())
       ))
       ->setMethod('DELETE')
       ->getForm();

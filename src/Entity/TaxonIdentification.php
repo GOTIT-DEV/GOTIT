@@ -128,14 +128,14 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   private $specimenFk;
 
   /**
-   * @var \SequenceAssemblee
+   * @var \InternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="taxonIdentifications")
+   * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="taxonIdentifications")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    * })
    */
-  private $sequenceAssembleeFk;
+  private $internalSequenceFk;
 
   /**
    * @ORM\OneToMany(targetEntity="PersonSpeciesId", mappedBy="taxonIdentificationFk", cascade={"persist"})
@@ -355,25 +355,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeFk
+   * Set internalSequenceFk
    *
-   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   * @param \App\Entity\InternalSequence $internalSequenceFk
    *
    * @return TaxonIdentification
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
-    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+    $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeFk
+   * Get internalSequenceFk
    *
-   * @return \App\Entity\SequenceAssemblee
+   * @return \App\Entity\InternalSequence
    */
-  public function getSequenceAssembleeFk() {
-    return $this->sequenceAssembleeFk;
+  public function getInternalSequenceFk() {
+    return $this->internalSequenceFk;
   }
 
   /**

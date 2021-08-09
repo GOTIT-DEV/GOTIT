@@ -55,14 +55,14 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   private $methodeMotuVocFk;
 
   /**
-   * @var \SequenceAssemblee
+   * @var \InternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee")
+   * @ORM\ManyToOne(targetEntity="InternalSequence")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
    * })
    */
-  private $sequenceAssembleeFk;
+  private $internalSequenceFk;
 
   /**
    * @var \Motu
@@ -150,25 +150,25 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeFk
+   * Set internalSequenceFk
    *
-   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   * @param \App\Entity\InternalSequence $internalSequenceFk
    *
    * @return MotuDelimitation
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
-    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+    $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeFk
+   * Get internalSequenceFk
    *
-   * @return \App\Entity\SequenceAssemblee
+   * @return \App\Entity\InternalSequence
    */
-  public function getSequenceAssembleeFk() {
-    return $this->sequenceAssembleeFk;
+  public function getInternalSequenceFk() {
+    return $this->internalSequenceFk;
   }
 
   /**

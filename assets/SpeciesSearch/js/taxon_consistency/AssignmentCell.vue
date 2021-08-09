@@ -53,7 +53,7 @@
 const route_names = {
   biomaterial: "internal_lot_show",
   specimen: "specimen_show",
-  sequence: "sequenceassemblee_show",
+  sequence: "internal_sequence_show",
 };
 export default {
   props: {

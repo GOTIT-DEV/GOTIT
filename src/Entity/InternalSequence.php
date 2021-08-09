@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * SequenceAssemblee
+ * InternalSequence
  *
  * @ORM\Table(name="internal_sequence",
  * uniqueConstraints={
@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields={"codeSqcAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssemblee extends AbstractTimestampedEntity {
+class InternalSequence extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -88,25 +88,25 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
   private $statutSqcAssVocFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequenceAssembler", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequenceAssembler", mappedBy="internalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblers;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequencePublication", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequencePublication", mappedBy="internalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $publications;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequenceAssembly", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalSequenceAssembly", mappedBy="internalSequenceFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblies;
@@ -132,7 +132,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param string $codeSqcAss
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setCodeSqcAss($codeSqcAss) {
     $this->codeSqcAss = $codeSqcAss;
@@ -154,7 +154,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \DateTime $dateCreationSqcAss
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setDateCreationSqcAss($dateCreationSqcAss) {
     $this->dateCreationSqcAss = $dateCreationSqcAss;
@@ -176,7 +176,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param string $accessionNumber
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setAccessionNumber($accessionNumber) {
     $this->accessionNumber = $accessionNumber;
@@ -198,7 +198,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param string $codeSqcAlignement
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setCodeSqcAlignement($codeSqcAlignement) {
     $this->codeSqcAlignement = $codeSqcAlignement;
@@ -220,7 +220,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param string $commentaireSqcAss
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setCommentaireSqcAss($commentaireSqcAss) {
     $this->commentaireSqcAss = $commentaireSqcAss;
@@ -242,7 +242,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $datePrecisionVocFk
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
@@ -264,7 +264,7 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Voc $statutSqcAssVocFk
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function setStatutSqcAssVocFk(\App\Entity\Voc $statutSqcAssVocFk = null) {
     $this->statutSqcAssVocFk = $statutSqcAssVocFk;
@@ -286,10 +286,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\InternalSequenceAssembler $assembler
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function addAssembler(\App\Entity\InternalSequenceAssembler $assembler) {
-    $assembler->setSequenceAssembleeFk($this);
+    $assembler->setInternalSequenceFk($this);
     $this->assemblers[] = $assembler;
 
     return $this;
@@ -318,10 +318,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\InternalSequencePublication $publication
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function addPublication(\App\Entity\InternalSequencePublication $publication) {
-    $publication->setSequenceAssembleeFk($this);
+    $publication->setInternalSequenceFk($this);
     $this->publications[] = $publication;
 
     return $this;
@@ -350,10 +350,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\TaxonIdentification $taxonIdentification
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setSequenceAssembleeFk($this);
+    $taxonIdentification->setInternalSequenceFk($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
@@ -382,10 +382,10 @@ class SequenceAssemblee extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\InternalSequenceAssembly $assembly
    *
-   * @return SequenceAssemblee
+   * @return InternalSequence
    */
   public function addAssembly(\App\Entity\InternalSequenceAssembly $assembly) {
-    $assembly->setSequenceAssembleeFk($this);
+    $assembly->setInternalSequenceFk($this);
     $this->assemblies[] = $assembly;
 
     return $this;

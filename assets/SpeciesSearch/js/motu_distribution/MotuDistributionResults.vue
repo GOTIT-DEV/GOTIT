@@ -40,7 +40,7 @@
                 generateRoute(
                   data.item.seq_type
                     ? 'external_sequence_show'
-                    : 'sequenceassemblee_show',
+                    : 'internal_sequence_show',
                   {
                     id: data.item.id,
                   }

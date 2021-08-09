@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_BD45639E5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @UniqueEntity(
- *  fields={"chromatogrammeFk", "sequenceAssembleeFk"},
+ *  fields={"chromatogrammeFk", "internalSequenceFk"},
  *  message = "Duplicated sequence to chromatogram relation"
  * )
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
@@ -41,14 +41,14 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
   private $chromatogrammeFk;
 
   /**
-   * @var \SequenceAssemblee
+   * @var \InternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="assemblies")
+   * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="assemblies")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $sequenceAssembleeFk;
+  private $internalSequenceFk;
 
   /**
    * Get id
@@ -82,24 +82,24 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeFk
+   * Set internalSequenceFk
    *
-   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   * @param \App\Entity\InternalSequence $internalSequenceFk
    *
    * @return InternalSequenceAssembly
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
-    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+    $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeFk
+   * Get internalSequenceFk
    *
-   * @return \App\Entity\SequenceAssemblee
+   * @return \App\Entity\InternalSequence
    */
-  public function getSequenceAssembleeFk() {
-    return $this->sequenceAssembleeFk;
+  public function getInternalSequenceFk() {
+    return $this->internalSequenceFk;
   }
 }

@@ -144,7 +144,7 @@ class ChromatogrammeController extends AbstractController {
         "last_internal_sequence_status_voc" => $get_code($val['last_internal_sequence_status_voc']),
         "last_internal_sequence_alignment_code" => $get_code($val['last_internal_sequence_alignment_code']),
         "last_internal_sequence_creation_date" => $get_code($val['last_internal_sequence_creation_date']),
-        "linkSequenceassemblee" => $linkSqcAss,
+        "linkInternalSequence" => $linkSqcAss,
       );
     }
 

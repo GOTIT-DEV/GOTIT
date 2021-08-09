@@ -6,7 +6,7 @@ Delimitation moleculaire: DÉLIMITATION MOLÉCULAIRE
 Inconnu: INCONNU
 
 #
-list.linkSequenceassemblee: Seq(s)
+list.linkInternalSequence: Seq(s)
 alert.codeIndBiomol empty: le code moléculaire est vide , vous devez le renseigner dans le formulaire Individu
 alert.codeIndTriMorpho empty: le code morphologique est vide , vous devez le renseigner dans le formulaire Individu
 
@@ -133,7 +133,7 @@ button.Back to adn: Retour à l'ADN
 button.Back to pcr: Retour à la PCR
 button.Back to chromatogramme: Retour au Chromatogramme
 button.Back to pcrchromato: Retour à la PCR
-button.Back to sequenceassemblee: Retour à la Séquence interne
+button.Back to internal_sequence: Retour à la Séquence interne
 button.Back to external_sequence: Retour à la Séquence externe
 button.Back to motu: Retour au MOTU
 button.Back to boite: Retour à la Boite
@@ -149,7 +149,7 @@ button.Back to the list of adn: Retour à la liste des ADN
 button.Back to the list of pcr: Retour à la liste des PCR
 button.Back to the list of chromatogramme: Retour à la liste des Chromatogrammes
 button.Back to the list of pcrchromato: Retour à la liste des PCR
-button.Back to the list of sequenceassemblee: Retour à la liste des Séquences internes
+button.Back to the list of internal_sequence: Retour à la liste des Séquences internes
 button.Back to the list of external_sequence: Retour à la liste des Séquences externes
 button.Back to the list of motu: Retour à la liste des MOTU
 button.Back to the list of boite: Retour à la liste des Boites
@@ -189,8 +189,8 @@ button.NewMotu: Créer un MOTU
 button.ImportMotu: Importer des MOTUs
 button.NewExternalSequence: Créer une séquence externe assemblée
 button.ImportExternalSequence: Importer des séquences externes assemblées
-button.NewSequenceassemblee: Créer une séquence assemblée
-button.ImportSequenceassemblee: Importer des séquences assemblées
+button.NewInternalSequence: Créer une séquence assemblée
+button.ImportInternalSequence: Importer des séquences assemblées
 button.NewCommune: Créer une nouvelle commune
 button.NewlinkExternalLot: Créer un lot matériel externe
 button.ImportlinkExternalLot: Importer des lots matériels externes
@@ -262,7 +262,7 @@ import.adn: Importer fichier(s) ADN
 import.pcr: Importer fichier(s) PCR
 import.chromatogramme: Importer fichier(s) chromatogramme
 import.pcrchromato: Importer fichier(s) PCR et chromatogramme
-import.sequenceassemblee: Importer fichier(s) séquence
+import.internal_sequence: Importer fichier(s) séquence
 import.external_sequence: Importer fichier(s) séquence externe
 import.motu: Importer fichier(s) MOTU
 import.source: Importer fichier(s) source
@@ -336,7 +336,7 @@ Dashboard.nbStation: Stations
 Dashboard.nbCollecte: Collectes
 Dashboard.nbPcr: PCR
 Dashboard.nbChromatogramme: Chromatogramme
-Dashboard.nbSequenceAssemblee: Séquence ADN
+Dashboard.internalSequenceCount: Séquence ADN
 Dashboard.Données de terrain: Données de terrain
 Dashboard.Données moléculaire: Données moléculaires
 Dashboard.LastUpdate: Dernières mises à jour
@@ -506,7 +506,7 @@ Referentiel taxon fk: Referentiel taxon
 Remarque pcr: Remarque PCR
 Sampling method voc fk: Méthode echantillonnage
 External sequence fk: Séquence externe assemblée
-Sequence assemblee fk: Séquence assemblée
+Internal sequence fk: Séquence assemblée
 Source fk: Source
 Species: Espèce
 Specificite voc fk: Spécificité

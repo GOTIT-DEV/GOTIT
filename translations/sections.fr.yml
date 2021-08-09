@@ -9,7 +9,7 @@ core:
   slide: Lame
   external_lot: Lot matériel externe
   Etude séquençage: Séquences ADN
-  sequenceassemblee: Séquences internes
+  internal_sequence: Séquences internes
   external_sequence: Séquences externes
   motu: MOTU
   Stock: Stock

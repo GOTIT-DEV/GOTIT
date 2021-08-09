@@ -286,7 +286,7 @@ class ImportFileCsv {
       'internal_sequence_code' => 'code_sqc_ass',
       'internal_sequence_comments' => 'commentaire_sqc_ass',
       'internal_sequence_creation_date' => 'date_creation_sqc_ass',
-      'internal_sequence_fk' => 'sequence_assemblee_fk',
+      'internal_sequence_fk' => 'internal_sequence_fk',
       'internal_sequence_status_voc_fk' => 'statut_sqc_ass_voc_fk',
       'is_active' => 'is_active',
       'latitude' => 'lat_deg_dec',

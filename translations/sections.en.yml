@@ -9,7 +9,7 @@ core:
   slide: Specimen slide
   external_lot: External biological material
   Etude séquençage: DNA Sequences
-  sequenceassemblee: Internal sequences
+  internal_sequence: Internal sequences
   external_sequence: External sequences
   motu: MOTU
   Stock: Storage

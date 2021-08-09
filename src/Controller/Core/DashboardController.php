@@ -27,10 +27,10 @@ class DashboardController extends AbstractController {
     $nbDna = $em->createQuery('SELECT COUNT(u.id) FROM App:Dna u')->getSingleScalarResult();
     $nbPcr = $em->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
     $nbChromatogramme = $em->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
-    $nbSequenceAssemblee = $em->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssemblee u')->getSingleScalarResult();
+    $internalSequenceCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalSequence u')->getSingleScalarResult();
     $externalSeqCount = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalSequence u')->getSingleScalarResult();
     $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:MotuDelimitation u')->getSingleScalarResult();
-    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:MotuDelimitation u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
+    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:MotuDelimitation u JOIN u.internalSequenceFk sa GROUP BY sa.id')->getResult());
     $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:MotuDelimitation u JOIN u.externalSequenceFk sae GROUP BY sae.id')->getResult());
     $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM App:Boite u')->getSingleScalarResult();
     $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
@@ -200,8 +200,8 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the sequence
-    $entities_toshow = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sequenceassemblee')
-      ->addOrderBy('sequenceassemblee.dateMaj', 'DESC')
+    $entities_toshow = $em->getRepository("App:InternalSequence")->createQueryBuilder('internal_sequence')
+      ->addOrderBy('internal_sequence.dateMaj', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
@@ -211,7 +211,7 @@ class DashboardController extends AbstractController {
       $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'sequenceassemblee',
+        "name" => 'internal_sequence',
         "code" => $entity->getCodeSqcAss(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
@@ -264,7 +264,7 @@ class DashboardController extends AbstractController {
       'nbDna' => $nbDna,
       'nbPcr' => $nbPcr,
       'nbChromatogramme' => $nbChromatogramme,
-      'nbSequenceAssemblee' => $nbSequenceAssemblee,
+      'internalSequenceCount' => $internalSequenceCount,
       'externalSeqCount' => $externalSeqCount,
       'nbMotu' => $nbMotu,
       'nbMotuSqcAss' => $nbMotuSqcAss,

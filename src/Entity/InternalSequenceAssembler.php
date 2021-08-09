@@ -26,14 +26,14 @@ class InternalSequenceAssembler extends AbstractTimestampedEntity {
   private $id;
 
   /**
-   * @var \SequenceAssemblee
+   * @var \InternalSequence
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="assemblers")
+   * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="assemblers")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * })
    */
-  private $sequenceAssembleeFk;
+  private $internalSequenceFk;
 
   /**
    * @var \Personne
@@ -55,25 +55,25 @@ class InternalSequenceAssembler extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set sequenceAssembleeFk
+   * Set internalSequenceFk
    *
-   * @param \App\Entity\SequenceAssemblee $sequenceAssembleeFk
+   * @param \App\Entity\InternalSequence $internalSequenceFk
    *
    * @return InternalSequenceAssembler
    */
-  public function setSequenceAssembleeFk(\App\Entity\SequenceAssemblee $sequenceAssembleeFk = null) {
-    $this->sequenceAssembleeFk = $sequenceAssembleeFk;
+  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+    $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
   }
 
   /**
-   * Get sequenceAssembleeFk
+   * Get internalSequenceFk
    *
-   * @return \App\Entity\SequenceAssemblee
+   * @return \App\Entity\InternalSequence
    */
-  public function getSequenceAssembleeFk() {
-    return $this->sequenceAssembleeFk;
+  public function getInternalSequenceFk() {
+    return $this->internalSequenceFk;
   }
 
   /**

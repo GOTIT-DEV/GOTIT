@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SequenceAssembleeType extends ActionFormType {
+class InternalSequenceType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
@@ -101,7 +101,7 @@ class SequenceAssembleeType extends ActionFormType {
   public function configureOptions(OptionsResolver $resolver) {
     parent::configureOptions($resolver);
     $resolver->setDefaults([
-      'data_class' => 'App\Entity\SequenceAssemblee',
+      'data_class' => 'App\Entity\InternalSequence',
       'gene' => null,
       'specimen' => null,
     ]);
@@ -111,6 +111,6 @@ class SequenceAssembleeType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'sequence_assemblee';
+    return 'internal_sequence';
   }
 }

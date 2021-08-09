@@ -40,7 +40,7 @@ pcr_index: |
   Use this page to browse, create, import, export, show, edit and delete PCRs. Deleting a PCR may not be possible until all data related to a PCR have been deleted. Additional fields can be listed using the top right button. To access to chromatograms obtained from a PCR click the "Chr(s)" button (option: menu). The same button (option +) allows to create "Chr(s)" for a PCR. The search button applies to the field "Specimen molecular code".”
 chromatogramme_index: |
   Use this page to browse, create, import, export, show, edit and delete chromatograms. Deleting a chromatogram may not be possible until all data related to a chromatogram have been deleted. Additional fields can be listed using the top right button. To access the internal sequences made from a chromatogram, click the "Seq(s)" button (option: menu). Also, use the same button (option +) to create an internal sequence from a chromatogram. The search button applies to the field "Chromatogram code".
-sequenceassemblee_index: |
+internal_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete internal sequences. Additional fields can be listed using the top right button. Deleting an internal sequence may not be possible until all data related to an internal sequence have been deleted. The search button applies to the field "Sequence code".
 external_sequence_index: |
   Use this page to browse, create, import, export, show, edit and delete external sequences. Deleting an external sequence may not be possible until all data related to an external sequence have been deleted. Additional fields can be listed using the top right button. The search button applies to the field "External sequence code".
@@ -89,7 +89,7 @@ pcr_new: |
   Use this form to fill in data of a new PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
 chromatogramme_new: |
   Use this form to fill in data of a new chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
-sequenceassemblee_new: |
+internal_sequence_new: |
   Use this form to fill in data of a new internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_new: |
   Use this form to fill in data of a new external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
@@ -138,7 +138,7 @@ pcr_show: |
   Use this form to consult data of a PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
 chromatogramme_show: |
   Use this form to consult data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
-sequenceassemblee_show: |
+internal_sequence_show: |
   Use this form to consult data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_show: |
   Use this form to consult data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
@@ -187,7 +187,7 @@ pcr_edit: |
   Use this form to edit data of a PCR. See appendix 7.2.2 in GOTIT HELP for content of fields.
 chromatogramme_edit: |
   Use this form to edit data of a chromatogram. See appendix 7.3.2 in GOTIT HELP for content of fields.
-sequenceassemblee_edit: |
+internal_sequence_edit: |
   Use this form to edit data of an internal sequence. See appendix 8.1.2 in GOTIT HELP for content of fields.
 external_sequence_edit: |
   Use this form to edit data of an external sequence. See appendix 8.2.2 in GOTIT HELP for content of fields.
@@ -239,7 +239,7 @@ importfilesinternal_lot_publie_index: |
   Use this form to attribute reference sources to biological materials that are not linked to reference sources. Use and upload the template file “source_attribute_to_lot” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
 importfilessqcassembleepublie_index: |
   Use this form to attribute reference sources and accession numbers or reference sources alone to internal sequences that are not linked to reference sources and do not have an accession number. Use and upload the template file “source_attribute_to_sequence” to follow appropriate data format. Also, refer to the section “uploading tools” in GOTIT HELP for further details on the uploading procedure.
-importfilessequenceassemblee_index: |
+importfilesinternal_sequence_index: |
   Use this form to upload data from multiple internal sequences and related data sets. Proceed by step:
   - (if necessary) upload the referential files (templates: source, vocabulary, person, taxon);
   - Use and upload the template “internal_sequence” to follow appropriate data format.
