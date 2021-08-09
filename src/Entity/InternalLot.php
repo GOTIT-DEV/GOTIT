@@ -51,7 +51,7 @@ class InternalLot extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="sequencing_advice", type="text", nullable=true)
    */
-  private $commentaireConseilSqc;
+  private $sequencingAdvice;
 
   /**
    * @var string
@@ -202,25 +202,25 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaireConseilSqc
+   * Set sequencingAdvice
    *
-   * @param string $commentaireConseilSqc
+   * @param string $sequencingAdvice
    *
    * @return InternalLot
    */
-  public function setCommentaireConseilSqc($commentaireConseilSqc) {
-    $this->commentaireConseilSqc = $commentaireConseilSqc;
+  public function setSequencingAdvice($sequencingAdvice) {
+    $this->sequencingAdvice = $sequencingAdvice;
 
     return $this;
   }
 
   /**
-   * Get commentaireConseilSqc
+   * Get sequencingAdvice
    *
    * @return string
    */
-  public function getCommentaireConseilSqc() {
-    return $this->commentaireConseilSqc;
+  public function getSequencingAdvice() {
+    return $this->sequencingAdvice;
   }
 
   /**

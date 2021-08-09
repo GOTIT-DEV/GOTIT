@@ -339,7 +339,7 @@ class ImportFileCsv {
       'sampling_duration' => 'duree_echantillonnage_mn',
       'sampling_fk' => 'sampling_fk',
       'sampling_method_voc_fk' => 'sampling_method_voc_fk',
-      'sequencing_advice' => 'commentaire_conseil_sqc',
+      'sequencing_advice' => 'sequencing_advice',
       'site_code' => 'code_station',
       'site_comments' => 'commentaire_station',
       'site_description' => 'info_description',

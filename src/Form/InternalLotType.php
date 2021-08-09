@@ -82,7 +82,7 @@ class InternalLotType extends ActionFormType {
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
       ))
-      ->add('commentaireConseilSqc')
+      ->add('sequencingAdvice')
       ->add('commentaireLotMateriel')
       ->add('storeFk', EntityType::class, array(
         'class' => 'App:Store',
