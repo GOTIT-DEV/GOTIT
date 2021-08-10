@@ -236,7 +236,7 @@ class DashboardController extends AbstractController {
       );
     }
     // returns the last records of the site
-    $entities_toshow = $em->getRepository("App:Site")->createQueryBuilder('station')
+    $entities_toshow = $em->getRepository("App:Site")->createQueryBuilder('site')
       ->addOrderBy('site.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
@@ -247,7 +247,7 @@ class DashboardController extends AbstractController {
       $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
-        "name" => 'station',
+        "name" => 'site',
         "code" => $entity->getCode(),
         "metaUpdateDate" => $MetaUpdateDate,
         "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
