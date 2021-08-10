@@ -76,7 +76,7 @@ class PcrController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(specimen.codeIndBiomol) LIKE :criteriaLower';
+    $where = 'LOWER(specimen.molecularCode) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -130,7 +130,7 @@ class PcrController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
-        "specimen.codeIndBiomol" => $entity->getDnaFk()->getSpecimenFk()->getCodeIndBiomol(),
+        "specimen.molecularCode" => $entity->getDnaFk()->getSpecimenFk()->getMolecularCode(),
         "dna.code" => $entity->getDnaFk()->getCode(),
         "pcr.code" => $entity->getCode(),
         "pcr.number" => $entity->getNumber(),

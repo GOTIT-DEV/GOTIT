@@ -23,7 +23,7 @@
 
 {% block body %}
 	{# definition of columns to display
-									RQ! for sortable columns, suffix the field names with the names of tables tableName.fieldName #}
+											RQ! for sortable columns, suffix the field names with the names of tables tableName.fieldName #}
 
 	<div class="table-responsive">
 		<div class="table-responsive">
@@ -34,13 +34,11 @@
 							<th data-column-id="dna.id" data-type="numeric" data-visible="false">
 								Id
 							</th>
-							<th data-column-id="dna.code" data-sortable="true">
+							<th data-column-id="dna.code" data-sortable="true"></th>
+							<th data-column-id="specimen.molecularCode" data-sortable="true">
+								{{'Molecular code'|trans}}
 							</th>
-							<th data-column-id="specimen.codeIndBiomol" data-sortable="true">
-								{{'Code ind biomol'|trans}}
-							</th>
-							<th data-column-id="dna.date" data-type="date">
-							</th>
+							<th data-column-id="dna.date" data-type="date"></th>
 							<th data-column-id="listePerson" data-sortable="false" data-visible="true">
 								{{'list.Liste personnes'|trans}}
 							</th>

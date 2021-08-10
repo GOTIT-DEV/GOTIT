@@ -18,7 +18,7 @@ class SpecimenType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
-    $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
+    $hasBioMol = (bool) $builder->getData()->getMolecularCode();
     $bioMat = $builder->getData()->getInternalLotFk();
 
     $builder
@@ -31,10 +31,10 @@ class SpecimenType extends ActionFormType {
           'readonly' => $bioMat != null,
         ],
       ])
-      ->add('codeTube', EntityCodeType::class, [
+      ->add('tubeCode', EntityCodeType::class, [
         'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
       ])
-      ->add('codeIndTriMorpho', EntityCodeType::class, [
+      ->add('morphologicalCode', EntityCodeType::class, [
         'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $options['action_type'] == Action::create(),
@@ -47,10 +47,10 @@ class SpecimenType extends ActionFormType {
 
     if ($options['action_type'] != Action::create()) {
       $builder
-        ->add('numIndBiomol', null, [
+        ->add('molecularNumber', null, [
           'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
         ])
-        ->add('codeIndBiomol', EntityCodeType::class, [
+        ->add('molecularCode', EntityCodeType::class, [
           'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
           'attr' => [
             'data-generate' => !$hasBioMol,

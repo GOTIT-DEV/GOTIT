@@ -42,11 +42,11 @@ class SpecimenController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('ind.id, ind.codeIndBiomol as code')
+    $qb->select('ind.id, ind.molecularCode as code')
       ->from('App:Specimen', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(ind.codeIndBiomol) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(ind.molecularCode) like :q' . $i . ')');
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
@@ -61,12 +61,12 @@ class SpecimenController extends AbstractController {
    */
   public function searchWithGeneAction(String $query, int $gene) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('ind.id, ind.codeIndBiomol as code')
+    $qb->select('ind.id, ind.molecularCode as code')
       ->from('App:Specimen', 'ind')
       ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.specimenFk = ind.id')
       ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.dnaFk = dna.id')
       ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
-      ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
+      ->andWhere('LOWER(ind.molecularCode) LIKE :searchcode')
       ->andWhere('vocgene.id = :idvocgene ')
       ->setParameter('searchcode', strtolower($query) . '%')
       ->setParameter('idvocgene', (int) $gene)
@@ -83,12 +83,12 @@ class SpecimenController extends AbstractController {
    */
   public function searchByCodeIndmorphoAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('ind.id, ind.codeIndTriMorpho as code')
+    $qb->select('ind.id, ind.morphologicalCode as code')
       ->from('App:Specimen', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     $and = [];
     for ($i = 0; $i < count($query); $i++) {
-      $and[] = '(LOWER(ind.codeIndTriMorpho) like :q' . $i . ')';
+      $and[] = '(LOWER(ind.morphologicalCode) like :q' . $i . ')';
     }
     $qb->where(implode(' and ', $and));
     for ($i = 0; $i < count($query); $i++) {
@@ -309,7 +309,7 @@ class SpecimenController extends AbstractController {
     $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $specimen);
 
     $deleteForm = $this->createDeleteForm($specimen);
-    if ($specimen->getCodeIndBiomol()) {
+    if ($specimen->getMolecularCode()) {
       $editForm = $this->createForm('App\Form\SpecimenType', $specimen, [
         'action_type' => Action::edit(),
       ]);

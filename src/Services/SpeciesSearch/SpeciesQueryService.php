@@ -281,7 +281,7 @@ class SpeciesQueryService {
       ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
       ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
     // ->addSelect('indiv as ind') // specimen
-      ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // specimen
+      ->addSelect('indiv.id as id_indiv, indiv.molecularCode as code_biomol, indiv.morphologicalCode as code_tri_morpho') // specimen
       ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon specimen
       ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere specimen
       ->addSelect('seq.id as id_seq, seq.code as code_seq') // séquence

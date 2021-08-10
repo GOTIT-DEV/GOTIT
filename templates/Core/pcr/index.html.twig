@@ -23,7 +23,7 @@
 
 {% block body %}
 	{# definition of collones to display
-												    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+														    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -31,20 +31,16 @@
 					<th data-column-id="pcr.id" data-type="numeric" data-visible="false">
 						Id
 					</th>
-					<th data-column-id="specimen.codeIndBiomol" data-sortable="true">
-						{{'Code ind biomol'|trans}}
+					<th data-column-id="specimen.molecularCode" data-sortable="true">
+						{{'Molecular code'|trans}}
 					</th>
-					<th data-column-id="dna.code" data-sortable="true" data-visible="false">
-					</th>
-					<th data-column-id="pcr.code" data-sortable="true" data-visible="true">
-					</th>
+					<th data-column-id="dna.code" data-sortable="true" data-visible="false"></th>
+					<th data-column-id="pcr.code" data-sortable="true" data-visible="true"></th>
 					<th data-column-id="vocGene.code" data-sortable="true">
 						{{'Gene voc fk'|trans}}
 					</th>
-					<th data-column-id="pcr.number" data-sortable="true">
-					</th>
-					<th data-column-id="pcr.date" data-type="date">
-					</th>
+					<th data-column-id="pcr.number" data-sortable="true"></th>
+					<th data-column-id="pcr.date" data-type="date"></th>
 					<th data-column-id="vocQualitePcr.code" data-sortable="true">
 						{{'Qualite pcr voc fk'|trans}}
 					</th>

@@ -7,8 +7,8 @@ Inconnu: INCONNU
 
 #
 list.linkInternalSequence: Seq(s)
-alert.codeIndBiomol empty: le code moléculaire est vide , vous devez le renseigner dans le formulaire Individu
-alert.codeIndTriMorpho empty: le code morphologique est vide , vous devez le renseigner dans le formulaire Individu
+alert.molecularCode empty: le code moléculaire est vide , vous devez le renseigner dans le formulaire Individu
+alert.morphologicalCode empty: le code morphologique est vide , vous devez le renseigner dans le formulaire Individu
 
 # autocomplete field form
 Chromatogram typeahead placeholder: Taper les premières lettres du Code chromatogramme
@@ -18,7 +18,7 @@ Pcr typeahead: Pcr
 Dna typeahead placeholder: Taper les premières lettres du Code ADN
 Dna typeahead: Adn
 Specimen typeahead placeholder: Taper les premières lettres du Code Moléculaire Individu
-Specimen codeIndTriMorpho typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
+Specimen morphologicalCode typeahead placeholder: Taper les premières lettres du Code Morphologique Individu
 Specimen typeahead: Individu
 InternalLot typeahead placeholder: Taper les premières lettres du Code lot matériel
 InternalLot typeahead: Lot
@@ -380,8 +380,8 @@ Code chromato: Code chromatogramme
 Code collecte: Code collecte
 Code collection voc fk: Collection
 Code commune: Code commune
-Code ind biomol: Code moléculaire individu
-Code ind tri morpho: Code morphologique individu
+Molecular code: Code moléculaire individu
+Morphological code: Code morphologique individu
 Code lame coll: Code lame
 Code lot materiel: Code lot matériel
 Code lot materiel ext: Code lot matériel externe
@@ -395,7 +395,7 @@ Code sqc ass ext: Code séquence externe assemblée
 Code sqc ass ext alignement: Code séquence externe alignée
 Code station: Code station
 Code taxon: Code taxon
-Code tube: Code tube
+Tube code: Tube code
 Sampling fk: Collecte
 Sequencing advice: Conseil séquencage
 Commentaire: Commentaire
@@ -459,7 +459,7 @@ Nom programme: Nom programme
 Region: Region
 Nom station: Nom station
 Coordinators: Nom responsables
-Num ind biomol: Numéro moléculaire individu
+Molecular number: Numéro moléculaire individu
 Specimen molecular number: Numéro moléculaire individu séquence externe assemblée
 Motu number: Numéro MOTU
 Num pcr: Numéro PCR

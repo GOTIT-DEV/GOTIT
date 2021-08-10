@@ -18,8 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
  * })
  * @ORM\Entity
- * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
+ * @UniqueEntity(fields={"morphologicalCode"}, message="This code is already registered")
+ * @UniqueEntity(fields={"morphologicalCode"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Specimen extends AbstractTimestampedEntity {
@@ -38,28 +38,28 @@ class Specimen extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true)
    */
-  private $codeIndBiomol;
+  private $molecularCode;
 
   /**
    * @var string
    *
    * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false)
    */
-  private $codeIndTriMorpho;
+  private $morphologicalCode;
 
   /**
    * @var string
    *
    * @ORM\Column(name="tube_code", type="string", length=255, nullable=false)
    */
-  private $codeTube;
+  private $tubeCode;
 
   /**
    * @var string
    *
    * @ORM\Column(name="specimen_molecular_number", type="string", length=255, nullable=true)
    */
-  private $numIndBiomol;
+  private $molecularNumber;
 
   /**
    * @var string
@@ -108,91 +108,91 @@ class Specimen extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeIndBiomol
+   * Set molecularCode
    *
-   * @param string $codeIndBiomol
+   * @param string $molecularCode
    *
    * @return Specimen
    */
-  public function setCodeIndBiomol($codeIndBiomol) {
-    $this->codeIndBiomol = $codeIndBiomol;
+  public function setMolecularCode($molecularCode) {
+    $this->molecularCode = $molecularCode;
 
     return $this;
   }
 
   /**
-   * Get codeIndBiomol
+   * Get molecularCode
    *
    * @return string
    */
-  public function getCodeIndBiomol() {
-    return $this->codeIndBiomol;
+  public function getMolecularCode() {
+    return $this->molecularCode;
   }
 
   /**
-   * Set codeIndTriMorpho
+   * Set morphologicalCode
    *
-   * @param string $codeIndTriMorpho
+   * @param string $morphologicalCode
    *
    * @return Specimen
    */
-  public function setCodeIndTriMorpho($codeIndTriMorpho) {
-    $this->codeIndTriMorpho = $codeIndTriMorpho;
+  public function setMorphologicalCode($morphologicalCode) {
+    $this->morphologicalCode = $morphologicalCode;
 
     return $this;
   }
 
   /**
-   * Get codeIndTriMorpho
+   * Get morphologicalCode
    *
    * @return string
    */
-  public function getCodeIndTriMorpho() {
-    return $this->codeIndTriMorpho;
+  public function getMorphologicalCode() {
+    return $this->morphologicalCode;
   }
 
   /**
-   * Set codeTube
+   * Set tubeCode
    *
-   * @param string $codeTube
+   * @param string $tubeCode
    *
    * @return Specimen
    */
-  public function setCodeTube($codeTube) {
-    $this->codeTube = $codeTube;
+  public function setTubeCode($tubeCode) {
+    $this->tubeCode = $tubeCode;
 
     return $this;
   }
 
   /**
-   * Get codeTube
+   * Get tubeCode
    *
    * @return string
    */
-  public function getCodeTube() {
-    return $this->codeTube;
+  public function getTubeCode() {
+    return $this->tubeCode;
   }
 
   /**
-   * Set numIndBiomol
+   * Set molecularNumber
    *
-   * @param string $numIndBiomol
+   * @param string $molecularNumber
    *
    * @return Specimen
    */
-  public function setNumIndBiomol($numIndBiomol) {
-    $this->numIndBiomol = $numIndBiomol;
+  public function setMolecularNumber($molecularNumber) {
+    $this->molecularNumber = $molecularNumber;
 
     return $this;
   }
 
   /**
-   * Get numIndBiomol
+   * Get molecularNumber
    *
    * @return string
    */
-  public function getNumIndBiomol() {
-    return $this->numIndBiomol;
+  public function getMolecularNumber() {
+    return $this->molecularNumber;
   }
 
   /**

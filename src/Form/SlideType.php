@@ -24,9 +24,9 @@ class SlideType extends ActionFormType {
     $builder
       ->add('specimenFk', SearchableSelectType::class, [
         'class' => 'App:Specimen',
-        'choice_label' => 'codeIndTriMorpho',
+        'choice_label' => 'morphologicalCode',
         'placeholder' => $this->translator
-          ->trans("Specimen codeIndTriMorpho typeahead placeholder"),
+          ->trans("Specimen morphologicalCode typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'readonly' => $specimen != null,

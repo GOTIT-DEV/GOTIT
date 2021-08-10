@@ -2188,14 +2188,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($ColCsv == 'specimen.code_ind_biomol' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("codeIndBiomol" => $dataColCsv));
+          if ($ColCsv == 'specimen.molecular_code' && !is_null($dataColCsv)) {
+            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("molecularCode" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           if ($ColCsv == 'code_ind_tri_morpho' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("codeIndTriMorpho" => $dataColCsv));
+            $record_entity = $em->getRepository("App:Specimen")->findOneBy(array("morphologicalCode" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

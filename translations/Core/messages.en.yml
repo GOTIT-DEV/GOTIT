@@ -173,8 +173,8 @@ Nombre inconnu: NUMBER NOT KNOWN
 
 #
 list.linkInternalSequence: Seq(s)
-alert.codeIndBiomol empty: specimen molecular code is empty. You have to enter it in the Specimen form
-alert.codeIndTriMorpho empty: specimen morphological code is empty. You have to enter it in the Specimen form
+alert.molecularCode empty: specimen molecular code is empty. You have to enter it in the Specimen form
+alert.morphologicalCode empty: specimen morphological code is empty. You have to enter it in the Specimen form
 
 # autocomplete field form
 Chromatogram typeahead placeholder: Type the first letters of the chromatogram Code
@@ -184,7 +184,7 @@ Pcr typeahead: Pcr
 Dna typeahead placeholder: Type the first letters of the DNA Code
 Dna typeahead: DNA
 Specimen typeahead placeholder: Type the first letters of the Specimen Molecular Code
-Specimen codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
+Specimen morphologicalCode typeahead placeholder: Type the first letters of the specimen morphological code
 Specimen typeahead: Specimen
 InternalLot typeahead placeholder: Type the first letters of the Internal biological material Code
 InternalLot typeahead: Internal biological material
@@ -544,8 +544,8 @@ Code chromato: Chromatogram code
 Code collecte: Sample code
 Code collection voc fk: Collection
 Code commune: Municipality code
-Code ind biomol: Specimen molecular code
-Code ind tri morpho: Specimen morphological code
+Molecular code: Specimen molecular code
+Morphological code: Specimen morphological code
 Code lame coll: Collection slide code
 Code lot materiel: Biological material code
 Code lot materiel ext: External biological material code
@@ -559,7 +559,7 @@ Code sqc ass ext: External sequence code
 Code sqc ass ext alignement: External sequence alignment code
 Code station: Site code
 Code taxon: Taxon code
-Code tube: Tube code
+Tube code: Tube code
 Sampling fk: Sampling
 Sequencing advice: Sequencing advice
 Commentaire: Comments
@@ -623,7 +623,7 @@ Nom programme: Program name
 Region: Region name
 Nom station: Site name
 Coordinators: Program coordinators
-Num ind biomol: Specimen molecular number
+Molecular number: Specimen molecular number
 Specimen molecular number: External sequence specimen number
 Motu number: MOTU number
 Num pcr: PCR number

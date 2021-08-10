@@ -104,7 +104,7 @@ class DashboardController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'specimen',
-        "code" => $entity->getCodeIndTriMorpho(),
+        "code" => $entity->getMorphologicalCode(),
         "dateMaj" => $DateMaj,
         "userMaj" => $service->GetUserMajUserfullname($entity),
       );

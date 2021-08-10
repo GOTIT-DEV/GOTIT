@@ -38,7 +38,7 @@ class GeneSpecimenType extends ActionFormType {
       ])
       ->add('specimenFk', SearchableSelectType::class, [
         'class' => 'App:Specimen',
-        'choice_label' => 'codeIndBiomol',
+        'choice_label' => 'molecularCode',
         'placeholder' => $this->translator->trans("Specimen typeahead placeholder"),
         'attr' => [
           'readonly' => $this->canEditAdminOnly($options) || $specimen != null,

@@ -123,7 +123,7 @@ class DnaController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "dna.id" => $id,
-        "specimen.codeIndBiomol" => $entity->getSpecimenFk()->getCodeIndBiomol(),
+        "specimen.molecularCode" => $entity->getSpecimenFk()->getMolecularCode(),
         "dna.code" => $entity->getCode(),
         "listePerson" => $listePerson,
         "dna.date" => $Date,

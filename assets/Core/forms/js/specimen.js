@@ -4,11 +4,11 @@ $(() => {
   const $form = $("form[name='specimen']");
   const $biomat = $("#specimen_internalLotFk");
   const $taxon = $("#specimen_taxonIdentifications_0_taxonFk");
-  const $tube = $("#specimen_codeTube");
-  const $spMolNumber = $("#specimen_numIndBiomol");
+  const $tube = $("#specimen_tubeCode");
+  const $spMolNumber = $("#specimen_molecularNumber");
 
-  const $codeMorpho = $("#specimen_codeIndTriMorpho");
-  const $codeMol = $("#specimen_codeIndBiomol");
+  const $codeMorpho = $("#specimen_morphologicalCode");
+  const $codeMol = $("#specimen_molecularCode");
 
   initSearchSelect($biomat, "internal_lot_search");
 

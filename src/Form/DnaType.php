@@ -26,7 +26,7 @@ class DnaType extends ActionFormType {
     $builder
       ->add('specimenFk', SearchableSelectType::class, [
         'class' => 'App:Specimen',
-        'choice_label' => 'codeIndBioMol',
+        'choice_label' => 'molecularCode',
         'placeholder' => $this->translator->trans("Specimen typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
