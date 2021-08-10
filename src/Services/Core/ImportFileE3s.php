@@ -1622,14 +1622,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($field == 'sampling.codeCollecte') {
-            $record_entity = $em->getRepository("App:Sampling")->findOneBy(array("codeCollecte" => $dataColCsv));
+          if ($field == 'sampling.code') {
+            $record_entity = $em->getRepository("App:Sampling")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'sampling.conductivite_micro_sie_cm' || $ColCsv == 'sampling.temperature_c') {
+          if ($ColCsv == 'sampling.conductance_micro_sie_cm' || $ColCsv == 'sampling.temperature_c') {
             if ($dataColCsv != '') {
               $dataColCsv = floatval(str_replace(",", ".", $dataColCsv));
               if ($dataColCsv == '') {
@@ -1640,7 +1640,7 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'sampling.duree_echantillonnage_mn') {
+          if ($ColCsv == 'sampling.duration_mn') {
             if ($dataColCsv != '') {
               $dataColCsv = intval(str_replace(",", ".", $dataColCsv));
             } else {
@@ -1662,7 +1662,7 @@ class ImportFileE3s {
               $dataColCsv = NULL;
             }
           }
-          if ($ColCsv == 'sampling.date_collecte') {
+          if ($ColCsv == 'sampling.date') {
             if ($dataColCsv != '') {
               $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
               if (!$eventDate) {

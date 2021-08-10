@@ -24,7 +24,7 @@ InternalLot typeahead placeholder: Taper les premières lettres du Code lot mat�
 InternalLot typeahead: Lot
 ExternalLot typeahead placeholder: Taper les premières lettres du Code lot matériel externe
 ExternalLot typeahead: Lot externe
-Sampling typeahead placeholder: Taper les premières lettres du Code Collecte
+Sampling typeahead placeholder: Taper les premières lettres du Code
 Sampling typeahead: Collecte
 Site typeahead placeholder: Taper les premières lettres du Code Station
 Site typeahead: Station
@@ -402,7 +402,7 @@ Commentaire: Commentaire
 Specimen quantity comment: Commentaire nombre d'individus
 Municipality fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
-Conductivite micro sie cm: Conductivité (µS/cm)
+Conductance micro sie cm: Conductivité (µS/cm)
 Critere identification voc fk: Critère identification
 Date adn: Date ADN
 Date collecte: Date collecte
@@ -418,7 +418,7 @@ Date motu: Date MOTU
 Date pcr: Date PCR
 Date precision voc fk: Précision date
 Details: Detail PCR
-Duree echantillonnage mn: Durée échantillonnage (min)
+Duration mn: Durée échantillonnage (min)
 Taxon identification fk: Espèce identifiée
 Institution fk: Établissement
 Family: Famille

@@ -26,7 +26,7 @@ class ExternalLotType extends ActionFormType {
     $builder
       ->add('samplingFk', SearchableSelectType::class, [
         'class' => 'App:Sampling',
-        'choice_label' => 'codeCollecte',
+        'choice_label' => 'code',
         'placeholder' => $this->translator->trans("Sampling typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [

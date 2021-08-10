@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_55AE4A3D50BB334E", columns={"donation_voc_fk"}),
  *      @ORM\Index(name="IDX_55AE4A3D369AB36B", columns={"site_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeCollecte"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Sampling extends AbstractTimestampedEntity {
@@ -36,21 +36,21 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="sample_code", type="string", length=255, nullable=false)
    */
-  private $codeCollecte;
+  private $code;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="sampling_date", type="date", nullable=true)
    */
-  private $dateCollecte;
+  private $date;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="sampling_duration", type="bigint", nullable=true)
    */
-  private $dureeEchantillonnageMn;
+  private $durationMn;
 
   /**
    * @var float
@@ -64,7 +64,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="specific_conductance", type="float", precision=10, scale=0, nullable=true)
    */
-  private $conductiviteMicroSieCm;
+  private $conductanceMicroSieCm;
 
   /**
    * @var integer
@@ -158,66 +158,66 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeCollecte
+   * Set code
    *
-   * @param string $codeCollecte
+   * @param string $code
    *
    * @return Sampling
    */
-  public function setCodeCollecte($codeCollecte) {
-    $this->codeCollecte = $codeCollecte;
+  public function setCode($code) {
+    $this->code = $code;
     return $this;
   }
 
   /**
-   * Get codeCollecte
+   * Get code
    *
    * @return string
    */
-  public function getCodeCollecte() {
-    return $this->codeCollecte;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set dateCollecte
+   * Set date
    *
-   * @param \DateTime $dateCollecte
+   * @param \DateTime $date
    *
    * @return Sampling
    */
-  public function setDateCollecte($dateCollecte) {
-    $this->dateCollecte = $dateCollecte;
+  public function setDate($date) {
+    $this->date = $date;
     return $this;
   }
 
   /**
-   * Get dateCollecte
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDateCollecte() {
-    return $this->dateCollecte;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
-   * Set dureeEchantillonnageMn
+   * Set durationMn
    *
-   * @param integer $dureeEchantillonnageMn
+   * @param integer $durationMn
    *
    * @return Sampling
    */
-  public function setDureeEchantillonnageMn($dureeEchantillonnageMn) {
-    $this->dureeEchantillonnageMn = $dureeEchantillonnageMn;
+  public function setDurationMn($durationMn) {
+    $this->durationMn = $durationMn;
     return $this;
   }
 
   /**
-   * Get dureeEchantillonnageMn
+   * Get durationMn
    *
    * @return integer
    */
-  public function getDureeEchantillonnageMn() {
-    return $this->dureeEchantillonnageMn;
+  public function getDurationMn() {
+    return $this->durationMn;
   }
 
   /**
@@ -242,24 +242,24 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set conductiviteMicroSieCm
+   * Set conductanceMicroSieCm
    *
-   * @param float $conductiviteMicroSieCm
+   * @param float $conductanceMicroSieCm
    *
    * @return Sampling
    */
-  public function setConductiviteMicroSieCm($conductiviteMicroSieCm) {
-    $this->conductiviteMicroSieCm = $conductiviteMicroSieCm;
+  public function setConductanceMicroSieCm($conductanceMicroSieCm) {
+    $this->conductanceMicroSieCm = $conductanceMicroSieCm;
     return $this;
   }
 
   /**
-   * Get conductiviteMicroSieCm
+   * Get conductanceMicroSieCm
    *
    * @return float
    */
-  public function getConductiviteMicroSieCm() {
-    return $this->conductiviteMicroSieCm;
+  public function getConductanceMicroSieCm() {
+    return $this->conductanceMicroSieCm;
   }
 
   /**

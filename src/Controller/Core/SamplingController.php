@@ -39,11 +39,11 @@ class SamplingController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('sampling.id, sampling.codeCollecte as code')
+    $qb->select('sampling.id, sampling.code as code')
       ->from('App:Sampling', 'sampling');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(sampling.codeCollecte) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(sampling.code) like :q' . $i . ')');
     }
     for ($i = 0; $i < count($query); $i++) {
       $qb->setParameter('q' . $i, $query[$i] . '%');
@@ -78,7 +78,7 @@ class SamplingController extends AbstractController {
     $maxRecord = $rowCount;
 
     // initializes the searchPhrase variable
-    $where = 'LOWER(sampling.codeCollecte) LIKE :criteriaLower';
+    $where = 'LOWER(sampling.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -104,8 +104,8 @@ class SamplingController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateCollecte = ($entity->getDateCollecte() !== null)
-      ? $entity->getDateCollecte()->format('Y-m-d') : null;
+      $Date = ($entity->getDate() !== null)
+      ? $entity->getDate()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
@@ -138,12 +138,12 @@ class SamplingController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "sampling.id" => $id,
-        "sampling.codeCollecte" => $entity->getCodeCollecte(),
+        "sampling.code" => $entity->getCode(),
         "site.codeStation" => $entity->getSiteFk()->getCodeStation(),
         "country.name" => $entity->getSiteFk()->getCountryFk()->getName(),
         "municipality.code" => $entity->getSiteFk()->getMunicipalityFk()->getCode(),
         "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),
-        "sampling.dateCollecte" => $DateCollecte,
+        "sampling.date" => $Date,
         "sampling.status" => $entity->getStatus(),
         "sampling.dateCre" => $DateCre,
         "sampling.dateMaj" => $DateMaj,

@@ -39,7 +39,7 @@ class SamplingType extends ActionFormType {
             $sampling->getSiteFk()),
         ],
       ])
-      ->add('codeCollecte', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'class' => 'sampling-code',
@@ -49,7 +49,7 @@ class SamplingType extends ActionFormType {
       ->add('datePrecisionVocFk', DatePrecisionType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('dateCollecte', DateFormattedType::class, [
+      ->add('date', DateFormattedType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('samplingMethods', CollectionType::class, [
@@ -109,12 +109,12 @@ class SamplingType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
       ])
-      ->add('dureeEchantillonnageMn', IntegerType::class, [
+      ->add('durationMn', IntegerType::class, [
         'attr' => ["min" => "0"],
         'required' => false,
       ])
       ->add('temperatureC')
-      ->add('conductiviteMicroSieCm', IntegerType::class, [
+      ->add('conductanceMicroSieCm', IntegerType::class, [
         'attr' => ["min" => "0"],
         'required' => false,
       ])

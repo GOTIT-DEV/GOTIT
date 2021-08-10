@@ -417,11 +417,11 @@ class ExternalSequenceController extends AbstractController {
       $firstTaxname = current($arrayTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
-      $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
+      $code = $sequence->getSamplingFk()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
       $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
-      $codeSqc = $codeSqc . '_' . $codeCollecte . '_' . $numSpecimenSqcAssExt .
+      $codeSqc = $codeSqc . '_' . $code . '_' . $numSpecimenSqcAssExt .
         '_' . $accessionNumber . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
@@ -454,12 +454,12 @@ class ExternalSequenceController extends AbstractController {
       $alignmentCode = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCode
       : $codeStatutSqcAss . '_' . $lastCode;
-      $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
+      $code = $sequence->getSamplingFk()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
       $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
       $alignmentCode = $alignmentCode . '_' .
-        $codeCollecte . '_' .
+        $code . '_' .
         $numSpecimenSqcAssExt . '_' .
         $accessionNumber . '_' . $codeOrigineSqcAssExt;
     } else {

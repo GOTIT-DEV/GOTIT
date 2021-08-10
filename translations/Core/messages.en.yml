@@ -566,7 +566,7 @@ Commentaire: Comments
 Specimen quantity comment: Number of specimens comments
 Municipality fk: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
-Conductivite micro sie cm: Specific conductance (µS/cm)
+Conductance micro sie cm: Specific conductance (µS/cm)
 Critere identification voc fk: Identification criterion
 Date adn: DNA date
 Date collecte: Sampling date
@@ -582,7 +582,7 @@ Date motu: MOTU date
 Date pcr: PCR date
 Date precision voc fk: Date precision
 Details: PCR details
-Duree echantillonnage mn: Sampling duration
+Duration mn: Sampling duration
 Taxon identification fk: Identified species table
 Institution fk: Institution
 Family: Family

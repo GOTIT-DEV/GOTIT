@@ -474,7 +474,7 @@ class InternalSequence extends AbstractTimestampedEntity {
       $specimen = $this->getSpecimenFk();
       $samplingCode = $specimen->getInternalLotFk()
         ->getSamplingFk()
-        ->getCodeCollecte();
+        ->getCode();
       $seqCodeElts[] = $samplingCode;
 
       $specimenCode = $specimen->getNumIndBiomol();
