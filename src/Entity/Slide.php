@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_8DA827E22B644673", columns={"storage_box_fk"}),
  *      @ORM\Index(name="IDX_8DA827E25F2C6176", columns={"specimen_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeLameColl"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Slide extends AbstractTimestampedEntity {
@@ -35,28 +35,28 @@ class Slide extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="collection_slide_code", type="string", length=255, nullable=false)
    */
-  private $codeLameColl;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="slide_title", type="string", length=1024, nullable=false)
    */
-  private $libelleLame;
+  private $label;
 
   /**
    * @var \DateTime
    *
    * @ORM\Column(name="slide_date", type="date", nullable=true)
    */
-  private $dateLame;
+  private $date;
 
   /**
    * @var string
    *
    * @ORM\Column(name="photo_folder_name", type="string", length=1024, nullable=true)
    */
-  private $nomDossierPhotos;
+  private $pictureFolder;
 
   /**
    * @var string
@@ -115,91 +115,91 @@ class Slide extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeLameColl
+   * Set code
    *
-   * @param string $codeLameColl
+   * @param string $code
    *
    * @return Slide
    */
-  public function setCodeLameColl($codeLameColl) {
-    $this->codeLameColl = $codeLameColl;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeLameColl
+   * Get code
    *
    * @return string
    */
-  public function getCodeLameColl() {
-    return $this->codeLameColl;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set libelleLame
+   * Set label
    *
-   * @param string $libelleLame
+   * @param string $label
    *
    * @return Slide
    */
-  public function setLibelleLame($libelleLame) {
-    $this->libelleLame = $libelleLame;
+  public function setLabel($label) {
+    $this->label = $label;
 
     return $this;
   }
 
   /**
-   * Get libelleLame
+   * Get label
    *
    * @return string
    */
-  public function getLibelleLame() {
-    return $this->libelleLame;
+  public function getLabel() {
+    return $this->label;
   }
 
   /**
-   * Set dateLame
+   * Set date
    *
-   * @param \DateTime $dateLame
+   * @param \DateTime $date
    *
    * @return Slide
    */
-  public function setDateLame($dateLame) {
-    $this->dateLame = $dateLame;
+  public function setDate($date) {
+    $this->date = $date;
 
     return $this;
   }
 
   /**
-   * Get dateLame
+   * Get date
    *
    * @return \DateTime
    */
-  public function getDateLame() {
-    return $this->dateLame;
+  public function getDate() {
+    return $this->date;
   }
 
   /**
-   * Set nomDossierPhotos
+   * Set pictureFolder
    *
-   * @param string $nomDossierPhotos
+   * @param string $pictureFolder
    *
    * @return Slide
    */
-  public function setNomDossierPhotos($nomDossierPhotos) {
-    $this->nomDossierPhotos = $nomDossierPhotos;
+  public function setPictureFolder($pictureFolder) {
+    $this->pictureFolder = $pictureFolder;
 
     return $this;
   }
 
   /**
-   * Get nomDossierPhotos
+   * Get pictureFolder
    *
    * @return string
    */
-  public function getNomDossierPhotos() {
-    return $this->nomDossierPhotos;
+  public function getPictureFolder() {
+    return $this->pictureFolder;
   }
 
   /**

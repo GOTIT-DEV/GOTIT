@@ -143,7 +143,7 @@ class ImportFileE3s {
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
@@ -202,13 +202,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataSlidelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_lame = $em->getRepository("App:Slide")->createQueryBuilder('lame')
-        ->where('lame.codeLameColl  LIKE :code_lame_coll')
-        ->setParameter('code_lame_coll', $data["code_lame_coll"])
+        ->where('lame.code  LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagLame = count($query_lame);
       if ($flagLame == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lame_coll"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -281,13 +281,13 @@ class ImportFileE3s {
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataSlidelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
       $query_lame = $em->getRepository("App:Slide")->createQueryBuilder('lame')
-        ->where('lame.codeLameColl  LIKE :code_lame_coll')
-        ->setParameter('code_lame_coll', $data["code_lame_coll"])
+        ->where('lame.code  LIKE :code')
+        ->setParameter('code', $data["code"])
         ->getQuery()
         ->getResult();
       $flagLame = count($query_lame);
       if ($flagLame == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_lame_coll"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       $flagStore = 1;
@@ -302,7 +302,7 @@ class ImportFileE3s {
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte == 0) {
-        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code_lame_coll"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans("importfileService.ERROR no store code") . '<b> : ' . $data["code"] . " </b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
@@ -311,7 +311,7 @@ class ImportFileE3s {
 
       if ($flagLame && $flagStore && $flagStoreAffecte) {
         if ($query_lame[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code_lame_coll"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lame[0]->setStoreFk($query_store[0]);
           $query_lame[0]->setDateMaj($DateImport);
@@ -2003,14 +2003,14 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($field); var_dump($ColCsv);
-          if ($ColCsv == 'slide.code_lame_coll') {
-            $record_entity = $em->getRepository("App:Slide")->findOneBy(array("codeLameColl" => $dataColCsv));
+          if ($ColCsv == 'slide.code') {
+            $record_entity = $em->getRepository("App:Slide")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           // control and standardization of field formats
-          if ($ColCsv == 'slide.date_lame') {
+          if ($ColCsv == 'slide.date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {

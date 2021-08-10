@@ -95,7 +95,7 @@ class Store extends AbstractTimestampedEntity {
 
   /**
    * @ORM\OneToMany(targetEntity="Slide", mappedBy="storeFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeLameColl" = "ASC"})
+   * @ORM\OrderBy({"code" = "ASC"})
    */
   protected $slides;
 

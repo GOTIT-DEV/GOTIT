@@ -32,13 +32,13 @@ class SlideType extends ActionFormType {
           'readonly' => $specimen != null,
         ],
       ])
-      ->add('codeLameColl', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('libelleLame')
+      ->add('label')
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('dateLame', DateFormattedType::class)
-      ->add('nomDossierPhotos')
+      ->add('date', DateFormattedType::class)
+      ->add('pictureFolder')
       ->add('comment')
       ->add('storeFk', EntityType::class, array(
         'class' => 'App:Store',

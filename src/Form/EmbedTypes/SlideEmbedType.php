@@ -11,7 +11,7 @@ class SlideEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeLameColl');
+    $builder->add('code');
   }
 
   /**

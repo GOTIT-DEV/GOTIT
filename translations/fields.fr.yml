@@ -426,7 +426,7 @@ specimen_slide:
   id: id
   collection_slide_code: Code
   slide_title: Libellé
-  slide_date: Date Lame
+  slide_date: Date
   photo_folder_name: Dossier Photo
   slide_comments: Commentaires
   date_precision_voc_fk: Précision Date
