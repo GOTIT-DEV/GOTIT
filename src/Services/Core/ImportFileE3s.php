@@ -1551,8 +1551,8 @@ class ImportFileE3s {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
           $varfield = explode(".", $field)[1];
-          if ($field == 'program.codeProgramme') {
-            $record_entity = $em->getRepository("App:Program")->findOneBy(array("codeProgramme" => $dataColCsv));
+          if ($field == 'program.code') {
+            $record_entity = $em->getRepository("App:Program")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }

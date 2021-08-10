@@ -13,17 +13,17 @@ class ProgramType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('codeProgramme', EntityCodeType::class)
-      ->add('nomProgramme')
-      ->add('nomsResponsables')
-      ->add('typeFinanceur')
-      ->add('anneeDebut', null, [
+    $builder->add('code', EntityCodeType::class)
+      ->add('name')
+      ->add('coordinators')
+      ->add('fundingAgency')
+      ->add('startYear', null, [
         'attr' => [
           'min' => 1900,
           'max' => 3000,
         ],
       ])
-      ->add('anneeFin', null, [
+      ->add('endYear', null, [
         'attr' => [
           'min' => 1900,
           'max' => 3000,
@@ -31,7 +31,7 @@ class ProgramType extends ActionFormType {
       ])
       ->add('comment');
 
-    $this->upperCaseFields($builder, ['codeProgramme']);
+    $this->upperCaseFields($builder, ['code']);
   }
 
   /**

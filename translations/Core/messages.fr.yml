@@ -367,8 +367,8 @@ Accession number: Numéro d'ordre
 Accession number sqc ass ext: Numéro d'ordre
 Dna fk: ADN
 Altitude m: Altitude (m)
-Annee debut: Année debut
-Annee fin: Année fin
+Start year: Année debut
+End year: Année fin
 Annee source: Année source
 Store fk: Stock
 Chromatogram fk: Chromatogramme
@@ -458,7 +458,7 @@ Nom personne ref: Synonyme
 Nom programme: Nom programme
 Region: Region
 Nom station: Nom station
-Noms responsables: Nom responsables
+Coordinators: Nom responsables
 Num ind biomol: Numéro moléculaire individu
 Specimen molecular number: Numéro moléculaire individu séquence externe assemblée
 Motu number: Numéro MOTU
@@ -498,7 +498,7 @@ Primary taxon: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
 Type boite voc fk: Type stock
 Type collection voc fk: Type collection
-Type financeur: Type financeur
+Funding agency: Financeur
 Specimen type voc fk: Type individu
 User cre: Utilisateur création
 User maj: Utilisateur mise à jour

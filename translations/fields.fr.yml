@@ -293,8 +293,8 @@ program:
   program_name: NomProgramme
   coordinator_names: Responsables
   funding_agency: Financeur
-  starting_year: AnneeDebut
-  ending_year: AnneeFin
+  starting_year: Année de début
+  ending_year: Année de fin
   program_comments: Commentaires
   creation_user_name: Utilisateur Création
   update_user_name: Utilisateur MàJ

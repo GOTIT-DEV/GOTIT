@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="program",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeProgramme"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Program extends AbstractTimestampedEntity {
@@ -30,42 +30,42 @@ class Program extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="program_code", type="string", length=255, nullable=false)
    */
-  private $codeProgramme;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="program_name", type="string", length=1024, nullable=false)
    */
-  private $nomProgramme;
+  private $name;
 
   /**
    * @var string
    *
    * @ORM\Column(name="coordinator_names", type="text", nullable=false)
    */
-  private $nomsResponsables;
+  private $coordinators;
 
   /**
    * @var string
    *
    * @ORM\Column(name="funding_agency", type="string", length=1024, nullable=true)
    */
-  private $typeFinanceur;
+  private $fundingAgency;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="starting_year", type="bigint", nullable=true)
    */
-  private $anneeDebut;
+  private $startYear;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="ending_year", type="bigint", nullable=true)
    */
-  private $anneeFin;
+  private $endYear;
 
   /**
    * @var string
@@ -84,135 +84,135 @@ class Program extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeProgramme
+   * Set code
    *
-   * @param string $codeProgramme
+   * @param string $code
    *
    * @return Program
    */
-  public function setCodeProgramme($codeProgramme) {
-    $this->codeProgramme = $codeProgramme;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeProgramme
+   * Get code
    *
    * @return string
    */
-  public function getCodeProgramme() {
-    return $this->codeProgramme;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set nomProgramme
+   * Set name
    *
-   * @param string $nomProgramme
+   * @param string $name
    *
    * @return Program
    */
-  public function setNomProgramme($nomProgramme) {
-    $this->nomProgramme = $nomProgramme;
+  public function setName($name) {
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * Get nomProgramme
+   * Get name
    *
    * @return string
    */
-  public function getNomProgramme() {
-    return $this->nomProgramme;
+  public function getName() {
+    return $this->name;
   }
 
   /**
-   * Set nomsResponsables
+   * Set coordinators
    *
-   * @param string $nomsResponsables
+   * @param string $coordinators
    *
    * @return Program
    */
-  public function setNomsResponsables($nomsResponsables) {
-    $this->nomsResponsables = $nomsResponsables;
+  public function setCoordinators($coordinators) {
+    $this->coordinators = $coordinators;
 
     return $this;
   }
 
   /**
-   * Get nomsResponsables
+   * Get coordinators
    *
    * @return string
    */
-  public function getNomsResponsables() {
-    return $this->nomsResponsables;
+  public function getCoordinators() {
+    return $this->coordinators;
   }
 
   /**
-   * Set typeFinanceur
+   * Set fundingAgency
    *
-   * @param string $typeFinanceur
+   * @param string $fundingAgency
    *
    * @return Program
    */
-  public function setTypeFinanceur($typeFinanceur) {
-    $this->typeFinanceur = $typeFinanceur;
+  public function setFundingAgency($fundingAgency) {
+    $this->fundingAgency = $fundingAgency;
 
     return $this;
   }
 
   /**
-   * Get typeFinanceur
+   * Get fundingAgency
    *
    * @return string
    */
-  public function getTypeFinanceur() {
-    return $this->typeFinanceur;
+  public function getFundingAgency() {
+    return $this->fundingAgency;
   }
 
   /**
-   * Set anneeDebut
+   * Set startYear
    *
-   * @param integer $anneeDebut
+   * @param integer $startYear
    *
    * @return Program
    */
-  public function setAnneeDebut($anneeDebut) {
-    $this->anneeDebut = $anneeDebut;
+  public function setStartYear($startYear) {
+    $this->startYear = $startYear;
 
     return $this;
   }
 
   /**
-   * Get anneeDebut
+   * Get startYear
    *
    * @return integer
    */
-  public function getAnneeDebut() {
-    return $this->anneeDebut;
+  public function getStartYear() {
+    return $this->startYear;
   }
 
   /**
-   * Set anneeFin
+   * Set endYear
    *
-   * @param integer $anneeFin
+   * @param integer $endYear
    *
    * @return Program
    */
-  public function setAnneeFin($anneeFin) {
-    $this->anneeFin = $anneeFin;
+  public function setEndYear($endYear) {
+    $this->endYear = $endYear;
 
     return $this;
   }
 
   /**
-   * Get anneeFin
+   * Get endYear
    *
    * @return integer
    */
-  public function getAnneeFin() {
-    return $this->anneeFin;
+  public function getEndYear() {
+    return $this->endYear;
   }
 
   /**

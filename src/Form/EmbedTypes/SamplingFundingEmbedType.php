@@ -17,9 +17,9 @@ class SamplingFundingEmbedType extends AbstractType {
       'class' => 'App:Program',
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('program')
-          ->orderBy('program.codeProgramme', 'ASC');
+          ->orderBy('program.code', 'ASC');
       },
-      'choice_label' => 'code_programme',
+      'choice_label' => 'code',
       'multiple' => false,
       'expanded' => false,
       'label' => false,

@@ -531,8 +531,8 @@ Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
 Dna fk: DNA
 Altitude m: Elevation (m)
-Annee debut: Starting year
-Annee fin: Ending year
+Start year: Starting year
+End year: Ending year
 Annee source: Source year
 Store fk: Store
 Chromatogram fk: Chromatogram table
@@ -622,7 +622,7 @@ Nom personne ref: Person name bis
 Nom programme: Program name
 Region: Region name
 Nom station: Site name
-Noms responsables: Program coordinators
+Coordinators: Program coordinators
 Num ind biomol: Specimen molecular number
 Specimen molecular number: External sequence specimen number
 Motu number: MOTU number
@@ -662,7 +662,7 @@ Primary taxon: External sequence primary taxon
 Temperature c: Temperature (Celcius)
 Type boite voc fk: Store type
 Type collection voc fk: Collection type
-Type financeur: Funding agency
+Funding agency: Funding agency
 Specimen type voc fk: Specimen type
 User cre: Creation user name
 User maj: Updating user name

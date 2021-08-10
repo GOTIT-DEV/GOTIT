@@ -23,7 +23,7 @@
 
 {% block body %}
 	{# definition of collones to display
-				     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+						     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -34,23 +34,20 @@
 					<th data-column-id="program.codeProgramme" data-sortable="true">
 						{{'Code programme'|trans}}
 					</th>
-					<th data-column-id="program.typeFinanceur" data-sortable="true">
-						{{'Type financeur'|trans}}
+					<th data-column-id="program.fundingAgency" data-sortable="true">
+						{{'Funding agency'|trans}}
 					</th>
-					<th
-						data-column-id="program.nomProgramme"
-						data-sortable="true"
-						data-visible="false">
+					<th data-column-id="program.name" data-sortable="true" data-visible="false">
 						{{'Nom programme'|trans}}
 					</th>
-					<th data-column-id="program.nomsResponsables" data-sortable="true">
-						{{'Noms responsables'|trans}}
+					<th data-column-id="program.coordinators" data-sortable="true">
+						{{'Coordinators'|trans}}
 					</th>
-					<th data-column-id="program.anneeDebut" data-sortable="true">
-						{{'Annee debut'|trans}}
+					<th data-column-id="program.startYear" data-sortable="true">
+						{{'Start year'|trans}}
 					</th>
-					<th data-column-id="program.anneeFin" data-sortable="true">
-						{{'Annee fin'|trans}}
+					<th data-column-id="program.endYear" data-sortable="true">
+						{{'End year'|trans}}
 					</th>
 					<th data-column-id="program.dateMaj" data-width="100">
 						{{'list.Date maj'|trans}}

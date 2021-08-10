@@ -53,7 +53,7 @@ class ProgramController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(program.codeProgramme) LIKE :criteriaLower';
+    $where = 'LOWER(program.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -81,12 +81,12 @@ class ProgramController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "program.id" => $id,
-        "program.codeProgramme" => $entity->getCodeProgramme(),
-        "program.typeFinanceur" => $entity->getTypeFinanceur(),
-        "program.nomProgramme" => $entity->getNomProgramme(),
-        "program.nomsResponsables" => $entity->getNomsResponsables(),
-        "program.anneeDebut" => $entity->getAnneeDebut(),
-        "program.anneeFin" => $entity->getAnneeFin(),
+        "program.code" => $entity->getCode(),
+        "program.fundingAgency" => $entity->getFundingAgency(),
+        "program.name" => $entity->getName(),
+        "program.coordinators" => $entity->getCoordinators(),
+        "program.startYear" => $entity->getStartYear(),
+        "program.endYear" => $entity->getEndYear(),
         "program.dateCre" => $DateCre,
         "program.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
@@ -163,7 +163,7 @@ class ProgramController extends AbstractController {
         $flush = $em->flush();
         // mémorize the id and the name of the Program
         $select_id = $program->getId();
-        $select_name = $program->getCodeProgramme();
+        $select_name = $program->getCode();
         // return an empty Program Entity
         $program_new = new Program();
         $form = $this->createForm('App\Form\ProgramType', $program_new, [
