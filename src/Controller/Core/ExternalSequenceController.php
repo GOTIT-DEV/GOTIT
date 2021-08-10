@@ -197,7 +197,7 @@ class ExternalSequenceController extends AbstractController {
       'App\Form\ExternalSequenceType',
       $sequence,
       [
-        'refTaxonLabel' => 'codeTaxon',
+        'refTaxonLabel' => 'code',
         'action_type' => Action::create(),
       ]
     );
@@ -410,7 +410,7 @@ class ExternalSequenceController extends AbstractController {
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getTaxonFk()->getCodeTaxon();
+        $entityTaxonIdentifications->getTaxonFk()->getCode();
       }
       ksort($arrayTaxon);
       reset($arrayTaxon);
@@ -446,14 +446,14 @@ class ExternalSequenceController extends AbstractController {
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getTaxonFk()->getCodeTaxon();
+        $entityTaxonIdentifications->getTaxonFk()->getCode();
       }
       ksort($arrayTaxon);
       end($arrayTaxon);
-      $lastCodeTaxon = current($arrayTaxon);
+      $lastCode = current($arrayTaxon);
       $alignmentCode = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
-      ? $lastCodeTaxon
-      : $codeStatutSqcAss . '_' . $lastCodeTaxon;
+      ? $lastCode
+      : $codeStatutSqcAss . '_' . $lastCode;
       $codeCollecte = $sequence->getSamplingFk()->getCodeCollecte();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();

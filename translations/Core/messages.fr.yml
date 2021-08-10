@@ -493,7 +493,7 @@ Site fk: Station
 Subclass: Sous classe
 Subspecies: Sous espèce
 Taxname: Nom taxon
-Taxname ref: Nom synonyme
+Alias: Alias
 Primary taxon: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
 Type boite voc fk: Type stock

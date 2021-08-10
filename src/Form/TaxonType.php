@@ -17,7 +17,8 @@ class TaxonType extends ActionFormType {
 
     $builder
       ->add('taxname')
-      ->add('taxon_full_name')
+      ->add('alias')
+      ->add('fullName')
       ->add('rank')
       ->add('subclass')
       ->add('ordre')
@@ -25,9 +26,8 @@ class TaxonType extends ActionFormType {
       ->add('genus')
       ->add('species')
       ->add('subspecies')
-      ->add('codeTaxon', EntityCodeType::class)
+      ->add('code', EntityCodeType::class)
       ->add('clade')
-      ->add('taxnameRef')
       ->add('validity', ChoiceType::class, array(
         'choices' => array('No' => 0, 'Yes' => 1),
         'required' => true,
@@ -39,7 +39,7 @@ class TaxonType extends ActionFormType {
 
     $uppercase_fields = [
       'taxname', 'rank', 'subclass', 'ordre', 'family',
-      'genus', 'species', 'subspecies', 'clade', 'taxnameRef',
+      'genus', 'species', 'subspecies', 'clade', 'alias',
     ];
     $this->upperCaseFields($builder, $uppercase_fields);
   }

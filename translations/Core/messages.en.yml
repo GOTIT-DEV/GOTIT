@@ -657,7 +657,7 @@ Site fk: Site
 Subclass: Subclass
 Subspecies: Subspecies
 Taxname: Taxon name
-Taxname ref: Taxon name synonym
+Alias: Alias
 Primary taxon: External sequence primary taxon
 Temperature c: Temperature (Celcius)
 Type boite voc fk: Store type

@@ -85,7 +85,7 @@ class TaxonController extends AbstractController {
         "taxon.rank" => $entity->getRank(),
         "taxon.family" => $entity->getFamily(),
         "taxon.validity" => $entity->getValidity(),
-        "taxon.codeTaxon" => $entity->getCodeTaxon(),
+        "taxon.code" => $entity->getCode(),
         "taxon.clade" => $entity->getClade(),
         "taxon.dateCre" => $DateCre,
         "taxon.dateMaj" => $DateMaj,

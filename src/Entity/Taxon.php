@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
  * @ORM\Entity
  * @UniqueEntity(fields={"taxname"}, message="This name already exists")
- * @UniqueEntity(fields={"codeTaxon"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Taxon extends AbstractTimestampedEntity {
@@ -38,9 +38,9 @@ class Taxon extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="taxon_full_name", type="string", length=255, nullable=true)
+   * @ORM\Column(name="full_name", type="string", length=255, nullable=true)
    */
-  private $taxonFullName;
+  private $fullName;
 
   /**
    * @var string
@@ -103,7 +103,7 @@ class Taxon extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="taxon_code", type="string", length=255, nullable=false)
    */
-  private $codeTaxon;
+  private $code;
 
   /**
    * @var string
@@ -124,7 +124,7 @@ class Taxon extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="taxon_synonym", type="string", length=255, nullable=true)
    */
-  private $taxnameRef;
+  private $alias;
 
   /**
    * Get id
@@ -334,25 +334,25 @@ class Taxon extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeTaxon
+   * Set code
    *
-   * @param string $codeTaxon
+   * @param string $code
    *
    * @return Taxon
    */
-  public function setCodeTaxon($codeTaxon) {
-    $this->codeTaxon = $codeTaxon;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeTaxon
+   * Get code
    *
    * @return string
    */
-  public function getCodeTaxon() {
-    return $this->codeTaxon;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
@@ -400,46 +400,46 @@ class Taxon extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set taxnameRef
+   * Set alias
    *
-   * @param string $taxnameRef
+   * @param string $alias
    *
    * @return Taxon
    */
-  public function setTaxnameRef($taxnameRef) {
-    $this->taxnameRef = $taxnameRef;
+  public function setAlias($alias) {
+    $this->alias = $alias;
 
     return $this;
   }
 
   /**
-   * Get taxnameRef
+   * Get alias
    *
    * @return string
    */
-  public function getTaxnameRef() {
-    return $this->taxnameRef;
+  public function getAlias() {
+    return $this->alias;
   }
 
   /**
-   * Set taxonFullName
+   * Set fullName
    *
-   * @param string $taxonFullName
+   * @param string $fullName
    *
    * @return Taxon
    */
-  public function setTaxonFullName($taxonFullName) {
-    $this->taxonFullName = $taxonFullName;
+  public function setFullName($fullName) {
+    $this->fullName = $fullName;
 
     return $this;
   }
 
   /**
-   * Get taxonFullName
+   * Get fullName
    *
    * @return string
    */
-  public function getTaxonFullName() {
-    return $this->taxonFullName;
+  public function getFullName() {
+    return $this->fullName;
   }
 }
