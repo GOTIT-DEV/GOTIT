@@ -54,17 +54,17 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagDna && $flagStore) {
@@ -133,11 +133,11 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
@@ -147,12 +147,12 @@ class ImportFileE3s {
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagDna && $flagStore && $flagStoreAffecte) {
         if ($query_dna[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_dna[0]->setStoreFk($query_store[0]);
           $query_dna[0]->setDateMaj($DateImport);
@@ -213,17 +213,17 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagLame && $flagStore) {
@@ -292,11 +292,11 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
@@ -306,12 +306,12 @@ class ImportFileE3s {
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagLame && $flagStore && $flagStoreAffecte) {
         if ($query_lame[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lame[0]->setStoreFk($query_store[0]);
           $query_lame[0]->setDateMaj($DateImport);
@@ -372,17 +372,17 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
       }
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagLot && $flagStore) {
@@ -451,11 +451,11 @@ class ImportFileE3s {
 
       $flagStore = 1;
       $flagStoreAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
+      if ($data["code"] != null || $data["code"] != '') {
         $flagStoreAffecte = 1;
         $query_store = $em->getRepository("App:Store")->createQueryBuilder('store')
-          ->where('store.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
+          ->where('store.code LIKE :code')
+          ->setParameter('code', $data["code"])
           ->getQuery()
           ->getResult();
         $flagStore = count($query_store);
@@ -465,12 +465,12 @@ class ImportFileE3s {
       }
 
       if ($flagStoreAffecte && $flagStore == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
       if ($flagLot && $flagStore && $flagStoreAffecte) {
         if ($query_lot[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lot[0]->setStoreFk($query_store[0]);
           $query_lot[0]->setDateMaj($DateImport);
@@ -2442,8 +2442,8 @@ class ImportFileE3s {
           }
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($field == 'store.codeBoite') {
-              $record_entity = $em->getRepository("App:Store")->findOneBy(array("codeBoite" => $dataColCsv));
+            if ($field == 'store.code') {
+              $record_entity = $em->getRepository("App:Store")->findOneBy(array("code" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }

@@ -94,8 +94,8 @@ class DnaController extends AbstractController {
       $id = $entity->getId();
       $Date = $entity->getDate()
       ? $entity->getDate()->format('Y-m-d') : null;
-      $codeBoite = $entity->getStoreFk()
-      ? $entity->getStoreFk()->getCodeBoite() : null;
+      $code = $entity->getStoreFk()
+      ? $entity->getStoreFk()->getCode() : null;
       $DateMaj = $entity->getDateMaj()
       ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = $entity->getDateCre()
@@ -127,7 +127,7 @@ class DnaController extends AbstractController {
         "dna.code" => $entity->getCode(),
         "listePerson" => $listePerson,
         "dna.date" => $Date,
-        "store.codeBoite" => $codeBoite,
+        "store.code" => $code,
         "dna.dateCre" => $DateCre,
         "dna.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

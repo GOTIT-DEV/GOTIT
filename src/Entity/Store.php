@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_7718EDEF41A72D48", columns={"collection_code_voc_fk"}),
  *      @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeBoite"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Store extends AbstractTimestampedEntity {
@@ -35,14 +35,14 @@ class Store extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
    */
-  private $codeBoite;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="box_title", type="string", length=1024, nullable=false)
    */
-  private $libelleBoite;
+  private $label;
 
   /**
    * @var string
@@ -59,7 +59,7 @@ class Store extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="collection_type_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $typeCollectionVocFk;
+  private $collectionTypeVocFk;
 
   /**
    * @var \Voc
@@ -69,7 +69,7 @@ class Store extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="collection_code_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $codeCollectionVocFk;
+  private $collectionCodeVocFk;
 
   /**
    * @var \Voc
@@ -79,7 +79,7 @@ class Store extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="box_type_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $typeBoiteVocFk;
+  private $storageTypeVocFk;
 
   /**
    * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="storeFk", cascade={"persist"})
@@ -115,47 +115,47 @@ class Store extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeBoite
+   * Set code
    *
-   * @param string $codeBoite
+   * @param string $code
    *
    * @return Store
    */
-  public function setCodeBoite($codeBoite) {
-    $this->codeBoite = $codeBoite;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeBoite
+   * Get code
    *
    * @return string
    */
-  public function getCodeBoite() {
-    return $this->codeBoite;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set libelleBoite
+   * Set label
    *
-   * @param string $libelleBoite
+   * @param string $label
    *
    * @return Store
    */
-  public function setLibelleBoite($libelleBoite) {
-    $this->libelleBoite = $libelleBoite;
+  public function setLabel($label) {
+    $this->label = $label;
 
     return $this;
   }
 
   /**
-   * Get libelleBoite
+   * Get label
    *
    * @return string
    */
-  public function getLibelleBoite() {
-    return $this->libelleBoite;
+  public function getLabel() {
+    return $this->label;
   }
 
   /**
@@ -181,69 +181,69 @@ class Store extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set typeCollectionVocFk
+   * Set collectionTypeVocFk
    *
-   * @param \App\Entity\Voc $typeCollectionVocFk
+   * @param \App\Entity\Voc $collectionTypeVocFk
    *
    * @return Store
    */
-  public function setTypeCollectionVocFk(\App\Entity\Voc $typeCollectionVocFk = null) {
-    $this->typeCollectionVocFk = $typeCollectionVocFk;
+  public function setCollectionTypeVocFk(\App\Entity\Voc $collectionTypeVocFk = null) {
+    $this->collectionTypeVocFk = $collectionTypeVocFk;
 
     return $this;
   }
 
   /**
-   * Get typeCollectionVocFk
+   * Get collectionTypeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getTypeCollectionVocFk() {
-    return $this->typeCollectionVocFk;
+  public function getCollectionTypeVocFk() {
+    return $this->collectionTypeVocFk;
   }
 
   /**
-   * Set codeCollectionVocFk
+   * Set collectionCodeVocFk
    *
-   * @param \App\Entity\Voc $codeCollectionVocFk
+   * @param \App\Entity\Voc $collectionCodeVocFk
    *
    * @return Store
    */
-  public function setCodeCollectionVocFk(\App\Entity\Voc $codeCollectionVocFk = null) {
-    $this->codeCollectionVocFk = $codeCollectionVocFk;
+  public function setCollectionCodeVocFk(\App\Entity\Voc $collectionCodeVocFk = null) {
+    $this->collectionCodeVocFk = $collectionCodeVocFk;
 
     return $this;
   }
 
   /**
-   * Get codeCollectionVocFk
+   * Get collectionCodeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getCodeCollectionVocFk() {
-    return $this->codeCollectionVocFk;
+  public function getCollectionCodeVocFk() {
+    return $this->collectionCodeVocFk;
   }
 
   /**
-   * Set typeBoiteVocFk
+   * Set storageTypeVocFk
    *
-   * @param \App\Entity\Voc $typeBoiteVocFk
+   * @param \App\Entity\Voc $storageTypeVocFk
    *
    * @return Store
    */
-  public function setTypeBoiteVocFk(\App\Entity\Voc $typeBoiteVocFk = null) {
-    $this->typeBoiteVocFk = $typeBoiteVocFk;
+  public function setStorageTypeVocFk(\App\Entity\Voc $storageTypeVocFk = null) {
+    $this->storageTypeVocFk = $storageTypeVocFk;
 
     return $this;
   }
 
   /**
-   * Get typeBoiteVocFk
+   * Get storageTypeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getTypeBoiteVocFk() {
-    return $this->typeBoiteVocFk;
+  public function getStorageTypeVocFk() {
+    return $this->storageTypeVocFk;
   }
 
   /**

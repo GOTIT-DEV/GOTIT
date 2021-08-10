@@ -1,1 +1,1 @@
-slide.specimen_fk(specimen.code_ind_tri_morpho);slide.code;slide.date;slide.date_precision_voc_fk(voc.code);slide.label;slide.picture_folder;slide.comment;slide.store_fk(store.code_boite);slide_producer.person_fk(person.name)
+slide.specimen_fk(specimen.code_ind_tri_morpho);slide.code;slide.date;slide.date_precision_voc_fk(voc.code);slide.label;slide.picture_folder;slide.comment;slide.store_fk(store.code);slide_producer.person_fk(person.name)

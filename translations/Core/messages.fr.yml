@@ -378,7 +378,7 @@ Code adn: Code ADN
 Code boite: Code stock
 Code chromato: Code chromatogramme
 Code collecte: Code collecte
-Code collection voc fk: Collection
+Collection code voc fk: Collection
 Code commune: Code commune
 Molecular code: Code moléculaire individu
 Morphological code: Code morphologique individu
@@ -496,8 +496,8 @@ Taxname: Nom taxon
 Alias: Alias
 Primary taxon: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
-Type boite voc fk: Type stock
-Type collection voc fk: Type collection
+Storage type voc fk: Type stock
+Collection type voc fk: Type collection
 Funding agency: Financeur
 Specimen type voc fk: Type individu
 User cre: Utilisateur création

@@ -88,13 +88,13 @@ class InternalLotType extends ActionFormType {
         'class' => 'App:Store',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('store')
-            ->leftJoin('App:Voc', 'voc', 'WITH', 'store.typeBoiteVocFk = voc.id')
+            ->leftJoin('App:Voc', 'voc', 'WITH', 'store.storageTypeVocFk = voc.id')
             ->where('voc.code LIKE :codetype')
             ->setParameter('codetype', 'LOT')
-            ->orderBy('LOWER(store.codeBoite)', 'ASC');
+            ->orderBy('LOWER(store.code)', 'ASC');
         },
         'placeholder' => 'Choose a Box',
-        'choice_label' => 'codeBoite',
+        'choice_label' => 'code',
         'multiple' => false,
         'expanded' => false,
         'required' => false,

@@ -54,7 +54,7 @@ class StoreController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(store.codeBoite) LIKE :criteriaLower';
+    $where = 'LOWER(store.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -73,13 +73,13 @@ class StoreController extends AbstractController {
         'App:Voc',
         'vocCodeCollection',
         'WITH',
-        'store.codeCollectionVocFk = vocCodeCollection.id'
+        'store.collectionCodeVocFk = vocCodeCollection.id'
       )
       ->leftJoin(
         'App:Voc',
         'vocTypeBoite',
         'WITH',
-        'store.typeBoiteVocFk = vocTypeBoite.id'
+        'store.storageTypeVocFk = vocTypeBoite.id'
       )
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -97,10 +97,10 @@ class StoreController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "store.id" => $id,
-        "store.codeBoite" => $entity->getCodeBoite(),
-        "vocCodeCollection.code" => $entity->getCodeCollectionVocFk()->getCode(),
-        "store.libelleBoite" => $entity->getLibelleBoite(),
-        "vocCodeCollection.libelle" => $entity->getCodeCollectionVocFk()->getLibelle(),
+        "store.code" => $entity->getCode(),
+        "vocCodeCollection.code" => $entity->getCollectionCodeVocFk()->getCode(),
+        "store.label" => $entity->getLabel(),
+        "vocCodeCollection.libelle" => $entity->getCollectionCodeVocFk()->getLibelle(),
         "store.dateCre" => $DateCre,
         "store.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
@@ -134,7 +134,7 @@ class StoreController extends AbstractController {
         'code' => $request->get('typeBoite'),
         'parent' => 'typeBoite',
       ]);
-      $store->setTypeBoiteVocFk($storeType);
+      $store->setStorageTypeVocFk($storeType);
     }
 
     $form = $this->createForm('App\Form\StoreType', $store, [

@@ -542,7 +542,7 @@ Code adn: DNA code
 Code boite: Store code
 Code chromato: Chromatogram code
 Code collecte: Sample code
-Code collection voc fk: Collection
+Collection code voc fk: Collection
 Code commune: Municipality code
 Molecular code: Specimen molecular code
 Morphological code: Specimen morphological code
@@ -660,8 +660,8 @@ Taxname: Taxon name
 Alias: Alias
 Primary taxon: External sequence primary taxon
 Temperature c: Temperature (Celcius)
-Type boite voc fk: Store type
-Type collection voc fk: Collection type
+Storage type voc fk: Store type
+Collection type voc fk: Collection type
 Funding agency: Funding agency
 Specimen type voc fk: Specimen type
 User cre: Creation user name

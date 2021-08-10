@@ -19,24 +19,24 @@ class StoreType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
-    $storeType = $builder->getData()->getTypeBoiteVocFk();
+    $storeType = $builder->getData()->getStorageTypeVocFk();
 
     $builder
     # Is not auto-generated : editable in create mode
-    ->add('codeBoite', EntityCodeType::class, [
+    ->add('code', EntityCodeType::class, [
       'disabled' => $this->canEditAdminOnly($options),
     ])
-      ->add('libelleBoite')
+      ->add('label')
       ->add('comment')
-      ->add('typeCollectionVocFk', BaseVocType::class, array(
+      ->add('collectionTypeVocFk', BaseVocType::class, array(
         'voc_parent' => 'typeCollection',
         'placeholder' => 'Choose a typeCollection',
       ))
-      ->add('codeCollectionVocFk', BaseVocType::class, array(
+      ->add('collectionCodeVocFk', BaseVocType::class, array(
         'voc_parent' => 'codeCollection',
         'placeholder' => 'Choose a Collection',
       ))
-      ->add('typeBoiteVocFk', BaseVocType::class, array(
+      ->add('storageTypeVocFk', BaseVocType::class, array(
         'voc_parent' => 'typeBoite',
         'placeholder' => 'Choose a typeBoite',
         'choice_label' => 'code',
