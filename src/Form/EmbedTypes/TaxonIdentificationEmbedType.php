@@ -24,16 +24,16 @@ class TaxonIdentificationEmbedType extends AbstractType {
       ->add('taxonFk', TaxnameType::class, [
         'choice_label' => $options['refTaxonLabel'],
       ])
-      ->add('critereIdentificationVocFk', BaseVocType::class, array(
+      ->add('identificationCriterionVocFk', BaseVocType::class, array(
         'voc_parent' => 'critereIdentification',
         'expanded' => true,
         'attr' => ["class" => "stacked"],
         'label_attr' => array('class' => 'radio-inline'),
         'required' => true,
       ))
-      ->add('dateIdentification', DateFormattedType::class)
+      ->add('identificationDate', DateFormattedType::class)
       ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('typeMaterielVocFk', EntityType::class, array(
+      ->add('materialTypeVocFk', EntityType::class, array(
         'class' => 'App:Voc',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')

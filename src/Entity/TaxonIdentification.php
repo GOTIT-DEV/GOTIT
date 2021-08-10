@@ -38,7 +38,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="identification_date", type="date", nullable=true)
    */
-  private $dateIdentification;
+  private $identificationDate;
 
   /**
    * @var string
@@ -55,7 +55,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
    * })
    */
-  private $typeMaterielVocFk;
+  private $materialTypeVocFk;
 
   /**
    * @var \Voc
@@ -65,7 +65,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $critereIdentificationVocFk;
+  private $identificationCriterionVocFk;
 
   /**
    * @var \Voc
@@ -157,25 +157,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set dateIdentification
+   * Set identificationDate
    *
-   * @param \DateTime $dateIdentification
+   * @param \DateTime $identificationDate
    *
    * @return TaxonIdentification
    */
-  public function setDateIdentification($dateIdentification) {
-    $this->dateIdentification = $dateIdentification;
+  public function setIdentificationDate($identificationDate) {
+    $this->identificationDate = $identificationDate;
 
     return $this;
   }
 
   /**
-   * Get dateIdentification
+   * Get identificationDate
    *
    * @return \DateTime
    */
-  public function getDateIdentification() {
-    return $this->dateIdentification;
+  public function getIdentificationDate() {
+    return $this->identificationDate;
   }
 
   /**
@@ -201,25 +201,25 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set critereIdentificationVocFk
+   * Set identificationCriterionVocFk
    *
-   * @param \App\Entity\Voc $critereIdentificationVocFk
+   * @param \App\Entity\Voc $identificationCriterionVocFk
    *
    * @return TaxonIdentification
    */
-  public function setCritereIdentificationVocFk(\App\Entity\Voc $critereIdentificationVocFk = null) {
-    $this->critereIdentificationVocFk = $critereIdentificationVocFk;
+  public function setIdentificationCriterionVocFk(\App\Entity\Voc $identificationCriterionVocFk = null) {
+    $this->identificationCriterionVocFk = $identificationCriterionVocFk;
 
     return $this;
   }
 
   /**
-   * Get critereIdentificationVocFk
+   * Get identificationCriterionVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getCritereIdentificationVocFk() {
-    return $this->critereIdentificationVocFk;
+  public function getIdentificationCriterionVocFk() {
+    return $this->identificationCriterionVocFk;
   }
 
   /**
@@ -409,24 +409,24 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set typeMaterielVocFk
+   * Set materialTypeVocFk
    *
-   * @param \App\Entity\Voc $typeMaterielVocFk
+   * @param \App\Entity\Voc $materialTypeVocFk
    *
    * @return TaxonIdentification
    */
-  public function setTypeMaterielVocFk(\App\Entity\Voc $typeMaterielVocFk = null) {
-    $this->typeMaterielVocFk = $typeMaterielVocFk;
+  public function setMaterialTypeVocFk(\App\Entity\Voc $materialTypeVocFk = null) {
+    $this->materialTypeVocFk = $materialTypeVocFk;
 
     return $this;
   }
 
   /**
-   * Get typeMaterielVocFk
+   * Get materialTypeVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getTypeMaterielVocFk() {
-    return $this->typeMaterielVocFk;
+  public function getMaterialTypeVocFk() {
+    return $this->materialTypeVocFk;
   }
 }

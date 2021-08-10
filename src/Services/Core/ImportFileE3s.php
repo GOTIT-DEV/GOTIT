@@ -2265,7 +2265,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             // control and standardization of field formats
-            if ($ColCsv == 'taxon_identification.date_identification') {
+            if ($ColCsv == 'taxon_identification.identification_date') {
               // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
               if (!is_null($dataColCsv)) {
                 if (count(explode("/", $dataColCsv)) == 2) {
@@ -2797,7 +2797,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'taxon_identification.date_identification') {
+          if ($ColCsv == 'taxon_identification.identification_date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -3628,7 +3628,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'taxon_identification.date_identification') {
+          if ($ColCsv == 'taxon_identification.identification_date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -3993,7 +3993,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'taxon_identification.date_identification') {
+          if ($ColCsv == 'taxon_identification.identification_date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {
@@ -4544,7 +4544,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // control and standardization of field formats
-          if ($ColCsv == 'taxon_identification.date_identification') {
+          if ($ColCsv == 'taxon_identification.identification_date') {
             // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
             if ($dataColCsv != '') {
               if (count(explode("/", $dataColCsv)) == 2) {

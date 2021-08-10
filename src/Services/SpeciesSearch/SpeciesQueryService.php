@@ -167,7 +167,7 @@ class SpeciesQueryService {
     }
 
     if ($criteria) {
-      $query = $query->andWhere('e.critereIdentificationVocFk IN(:criteria)')
+      $query = $query->andWhere('e.identificationCriterionVocFk IN(:criteria)')
         ->setParameter('criteria', $criteria);
     }
 
@@ -203,7 +203,7 @@ class SpeciesQueryService {
       ->addSelect('vocGene.code as gene')
       ->from('App:Taxon', 'rt')
       ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk')
-      ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
+      ->join('App:Voc', 'v', 'WITH', 'e.identificationCriterionVocFk=v.id');
     switch ($level) {
     case 1: # Bio material
       $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
@@ -240,7 +240,7 @@ class SpeciesQueryService {
       ]);
 
     if ($criteria) {
-      $query = $query->andWhere('e.critereIdentificationVocFk IN (:criteria)')
+      $query = $query->andWhere('e.identificationCriterionVocFk IN (:criteria)')
         ->setParameter('criteria', $criteria);
     }
 
@@ -291,17 +291,17 @@ class SpeciesQueryService {
       ->from('App:InternalLot', 'lm')
       ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLotFk')
       ->join('App:Taxon', 'biomat', 'WITH', 'biomat.id = eidlm.taxonFk')
-      ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
+      ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.identificationCriterionVocFk=lmvoc.id')
     // JOIN specimen
       ->join('App:Specimen', 'indiv', 'WITH', 'indiv.internalLotFk = lm.id')
       ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimenFk')
       ->join('App:Taxon', 'spec', 'WITH', 'spec.id = eidindiv.taxonFk')
-      ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.critereIdentificationVocFk=ivoc.id');
+      ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.identificationCriterionVocFk=ivoc.id');
     // JOIN sequence
     $query = $this->leftJoinIndivSeq($query, 'indiv', 'seq')
       ->leftJoin('App:TaxonIdentification', 'eidseq', 'WITH', 'seq.id = eidseq.internalSequenceFk')
       ->leftJoin('App:Taxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.taxonFk')
-      ->leftJoin('App:Voc', 'seqvoc', 'WITH', 'eidseq.critereIdentificationVocFk=seqvoc.id');
+      ->leftJoin('App:Voc', 'seqvoc', 'WITH', 'eidseq.identificationCriterionVocFk=seqvoc.id');
     if ($undefinedSeq) {
       $query = $query->andWhere('seq.id IS NULL');
     }

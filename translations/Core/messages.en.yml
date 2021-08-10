@@ -523,7 +523,7 @@ alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,
 # GOTIT DATABASE  ##############################################################
 # GOTIT Database Field Titles
 # db v2
-Type materiel voc fk: Type material
+Material type voc fk: Material type
 Taxon full name: Taxon full name
 # db v1
 Status: Status
@@ -567,14 +567,14 @@ Specimen quantity comment: Number of specimens comments
 Municipality fk: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
 Conductance micro sie cm: Specific conductance (µS/cm)
-Critere identification voc fk: Identification criterion
+Identification criterion voc fk: Identification criterion
 Date adn: DNA date
 Date collecte: Sampling date
 Date cre: Creation date
 Creation date: Creation date
 Date creation sqc ass: Sequence creation date
 Date creation sqc ass ext: External sequence creation date
-Date identification: Identification date
+Identification date: Identification date
 Date lame: Slide date
 Date lot materiel: Biological material date
 Date maj: Updating date

@@ -96,7 +96,7 @@ list.Long deg dec: Longitude
 list.Liste taxons: Liste de taxons
 list.Liste personnes: Liste de personne(s)
 list.Last taxname: Dernier nom de taxon
-list.Last identification date: Dernière date identification
+list.Last identification date: Dernière identification date
 list.Last identification critere: Dernier critere identification
 list.MotuDelimitation: MOTU
 
@@ -359,7 +359,7 @@ alert.BadFormatDate: mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=
 # GOTIT DATABASE  ##############################################################
 # GOTIT Database Field Titles
 # db v2
-Type materiel voc fk: Type matériel
+Material type voc fk: Type matériel
 Taxon full name: Nom Taxon de référence
 # db v1
 Status: État
@@ -403,14 +403,14 @@ Specimen quantity comment: Commentaire nombre d'individus
 Municipality fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
 Conductance micro sie cm: Conductivité (µS/cm)
-Critere identification voc fk: Critère identification
+Identification criterion voc fk: Critère identification
 Date adn: Date ADN
 Date collecte: Date collecte
 Date cre: Date création
 Creation date: Date création
 Date creation sqc ass: Date création séquence assemblée
 Date creation sqc ass ext: Date création séquence externe assemblée
-Date identification: Date identification
+Identification date: Identification date
 Date lame: Date lame
 Date lot materiel: Date lot matériel
 Date maj: Date mise à jour
