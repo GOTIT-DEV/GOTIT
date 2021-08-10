@@ -426,7 +426,7 @@ Fixateur voc fk: Fixateur
 Gene voc fk: Gène
 Genus: Genre
 Habitat type voc fk: Type habitat
-Id: Numero identification
+Id: Numéro identification
 Specimen: Individu
 Slide fk: Lame individu
 Info description: Description station
@@ -459,11 +459,11 @@ Nom programme: Nom programme
 Region: Region
 Nom station: Nom station
 Noms responsables: Nom responsables
-Num ind biomol: Numero moléculaire individu
-Specimen molecular number: Numero moléculaire individu séquence externe assemblée
-Num motu: Numero MOTU
-Num pcr: Numero PCR
-Yas number: Numero YAS
+Num ind biomol: Numéro moléculaire individu
+Specimen molecular number: Numéro moléculaire individu séquence externe assemblée
+Motu number: Numéro MOTU
+Num pcr: Numéro PCR
+Yas number: Numéro YAS
 Ordre: Ordre
 Origin voc fk: Origine séquence externe assemblée
 Parent: Parent

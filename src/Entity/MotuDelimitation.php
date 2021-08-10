@@ -32,7 +32,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="motu_number", type="bigint", nullable=false)
    */
-  private $numMotu;
+  private $motuNumber;
 
   /**
    * @var \ExternalSequence
@@ -52,7 +52,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $methodeMotuVocFk;
+  private $methodVocFk;
 
   /**
    * @var \InternalSequence
@@ -84,25 +84,25 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set numMotu
+   * Set motuNumber
    *
-   * @param integer $numMotu
+   * @param integer $motuNumber
    *
    * @return MotuDelimitation
    */
-  public function setNumMotu($numMotu) {
-    $this->numMotu = $numMotu;
+  public function setMotuNumber($motuNumber) {
+    $this->motuNumber = $motuNumber;
 
     return $this;
   }
 
   /**
-   * Get numMotu
+   * Get motuNumber
    *
    * @return integer
    */
-  public function getNumMotu() {
-    return $this->numMotu;
+  public function getMotuNumber() {
+    return $this->motuNumber;
   }
 
   /**
@@ -128,25 +128,25 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set methodeMotuVocFk
+   * Set methodVocFk
    *
-   * @param \App\Entity\Voc $methodeMotuVocFk
+   * @param \App\Entity\Voc $methodVocFk
    *
    * @return MotuDelimitation
    */
-  public function setMethodeMotuVocFk(\App\Entity\Voc $methodeMotuVocFk = null) {
-    $this->methodeMotuVocFk = $methodeMotuVocFk;
+  public function setMethodVocFk(\App\Entity\Voc $methodVocFk = null) {
+    $this->methodVocFk = $methodVocFk;
 
     return $this;
   }
 
   /**
-   * Get methodeMotuVocFk
+   * Get methodVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getMethodeMotuVocFk() {
-    return $this->methodeMotuVocFk;
+  public function getMethodVocFk() {
+    return $this->methodVocFk;
   }
 
   /**

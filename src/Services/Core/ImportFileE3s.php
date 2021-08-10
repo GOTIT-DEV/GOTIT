@@ -2966,14 +2966,14 @@ class ImportFileE3s {
         $entityRel->$method($entity);
         $method = "setInternalSequenceFk";
         $entityRel->$method($record_entity_sqc_ass);
-        $method = "setNumMotu";
-        $entityRel->$method($data2["num_motu"]);
+        $method = "setMotuNumber";
+        $entityRel->$method($data2["motu_number"]);
         $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
         if ($foreign_record === NULL) {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
 
-        $method = "setMethodeMotuVocFk";
+        $method = "setMethodVocFk";
         $entityRel->$method($foreign_record);
       }
       $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
@@ -2984,14 +2984,14 @@ class ImportFileE3s {
         $entityRel->$method($entity);
         $method = "setExternalSequenceFk";
         $entityRel->$method($record_entity_sqc_ass_ext);
-        $method = "setNumMotu";
-        $entityRel->$method($data2["num_motu"]);
+        $method = "setMotuNumber";
+        $entityRel->$method($data2["motu_number"]);
         $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
         if ($foreign_record === NULL) {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
 
-        $method = "setMethodeMotuVocFk";
+        $method = "setMethodVocFk";
         $entityRel->$method($foreign_record);
       }
 
@@ -3184,7 +3184,7 @@ class ImportFileE3s {
       }
 
       # Process of file motus
-      if (array_key_exists("code_seq_ass", $csvDataMotuDataset[0]) && array_key_exists("num_motu", $csvDataMotuDataset[0]) && array_key_exists("code_methode_motu", $csvDataMotuDataset[0])) {
+      if (array_key_exists("code_seq_ass", $csvDataMotuDataset[0]) && array_key_exists("motu_number", $csvDataMotuDataset[0]) && array_key_exists("code_methode_motu", $csvDataMotuDataset[0])) {
         foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
@@ -3196,14 +3196,14 @@ class ImportFileE3s {
             $entityRel->$method($entity);
             $method = "setInternalSequenceFk";
             $entityRel->$method($record_entity_sqc_ass);
-            $method = "setNumMotu";
-            $entityRel->$method($data2["num_motu"]);
+            $method = "setMotuNumber";
+            $entityRel->$method($data2["motu_number"]);
             $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
             if ($foreign_record === NULL) {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
 
-            $method = "setMethodeMotuVocFk";
+            $method = "setMethodVocFk";
             $entityRel->$method($foreign_record);
           }
           $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
@@ -3214,14 +3214,14 @@ class ImportFileE3s {
             $entityRel->$method($entity);
             $method = "setExternalSequenceFk";
             $entityRel->$method($record_entity_sqc_ass_ext);
-            $method = "setNumMotu";
-            $entityRel->$method($data2["num_motu"]);
+            $method = "setMotuNumber";
+            $entityRel->$method($data2["motu_number"]);
             $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
             if ($foreign_record === NULL) {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b> INCONNU <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
 
-            $method = "setMethodeMotuVocFk";
+            $method = "setMethodVocFk";
             $entityRel->$method($foreign_record);
           }
 
