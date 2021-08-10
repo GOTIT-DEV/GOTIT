@@ -119,7 +119,7 @@ class PcrController extends AbstractController {
       $linkChromatogram = (count($query) > 0) ? $id : '';
       // concatenated list of people
       $query = $em->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:PcrProducer erp
+        'SELECT p.name as nom FROM App:PcrProducer erp
                 JOIN erp.personFk p WHERE erp.pcrFk = ' . $id
       )->getResult();
       $arrayListePerson = array();

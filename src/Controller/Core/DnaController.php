@@ -109,7 +109,7 @@ class DnaController extends AbstractController {
 
       // concatenated list of people
       $query = $em->createQuery(
-        'SELECT p.nomPersonne as nom
+        'SELECT p.name as nom
         FROM App:DnaExtraction erp
         JOIN erp.personFk p
         WHERE erp.dnaFk = ' . $id

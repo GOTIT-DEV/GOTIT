@@ -279,7 +279,7 @@ pcr_is_done_by:
 person:
   id: id
   person_name: Nom
-  person_full_name: NomComplet
+  person_full_name: Full Name
   person_name_bis: NomBis
   person_comments: Commentaires
   institution_fk: Etablissement

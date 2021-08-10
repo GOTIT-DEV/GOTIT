@@ -79,7 +79,7 @@ class MotuDatasetController extends AbstractController {
       ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //  concatenated list of people
       $query = $em->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:MotuDelimiter megp
+        'SELECT p.name as nom FROM App:MotuDelimiter megp
 				JOIN megp.personFk p WHERE megp.motuDatasetFk = ' . $id
       )->getResult();
       $arrayListePerson = array();

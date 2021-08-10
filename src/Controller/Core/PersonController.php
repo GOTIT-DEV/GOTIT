@@ -51,7 +51,7 @@ class PersonController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(person.nomPersonne) LIKE :criteriaLower';
+    $where = 'LOWER(person.name) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -87,8 +87,8 @@ class PersonController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "person.id" => $id,
-        "person.nomPersonne" => $entity->getNomPersonne(),
-        "person.nomComplet" => $entity->getNomComplet(),
+        "person.name" => $entity->getName(),
+        "person.fullName" => $entity->getFullName(),
         "institution.name" => $Name,
         "person.dateCre" => $DateCre,
         "person.dateMaj" => $DateMaj,
@@ -173,7 +173,7 @@ class PersonController extends AbstractController {
         try {
           $flush = $em->flush();
           $select_id = $person->getId();
-          $select_name = $person->getNomPersonne();
+          $select_name = $person->getName();
           // returns the parameters of the new record created
           return new JsonResponse([
             'select_id' => $select_id,

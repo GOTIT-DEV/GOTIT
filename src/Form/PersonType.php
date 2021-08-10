@@ -13,11 +13,11 @@ class PersonType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('nomPersonne')
-      ->add('nomComplet', null, [
+    $builder->add('name')
+      ->add('fullName', null, [
         'required' => false,
       ])
-      ->add('nomPersonneRef', null, [
+      ->add('alias', null, [
         'required' => false,
       ])
       ->add('institutionFk', EntityType::class, [
@@ -35,7 +35,7 @@ class PersonType extends ActionFormType {
       ->add('comment');
 
     $this->upperCaseFields($builder, [
-      'nomPersonne', 'nomComplet', 'nomPersonneRef',
+      'name', 'fullName', 'alias',
     ]);
   }
 

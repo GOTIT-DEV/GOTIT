@@ -612,7 +612,7 @@ Motu dataset fk: MOTU
 Nb specimens: Number of specimens
 Specimen quantity voc fk: Number of specimens
 Nom commune: Municipality name
-Nom complet: Person full name
+Full name: Person full name
 Nom dossier photos: Photo folder name
 Nom etablissement: Institution name
 CSV Filename: csv file name

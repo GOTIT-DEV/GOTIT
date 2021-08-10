@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})},
  *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"nomPersonne"}, message="A person with this name is already registered")
+ * @UniqueEntity(fields={"name"}, message="A person with this name is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Person extends AbstractTimestampedEntity {
@@ -31,21 +31,21 @@ class Person extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
    */
-  private $nomPersonne;
+  private $name;
 
   /**
    * @var string
    *
    * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
    */
-  private $nomComplet;
+  private $fullName;
 
   /**
    * @var string
    *
    * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
    */
-  private $nomPersonneRef;
+  private $alias;
 
   /**
    * @var string
@@ -74,69 +74,69 @@ class Person extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set nomPersonne
+   * Set name
    *
-   * @param string $nomPersonne
+   * @param string $name
    *
    * @return Person
    */
-  public function setNomPersonne($nomPersonne) {
-    $this->nomPersonne = $nomPersonne;
+  public function setName($name) {
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * Get nomPersonne
+   * Get name
    *
    * @return string
    */
-  public function getNomPersonne() {
-    return $this->nomPersonne;
+  public function getName() {
+    return $this->name;
   }
 
   /**
-   * Set nomComplet
+   * Set fullName
    *
-   * @param string $nomComplet
+   * @param string $fullName
    *
    * @return Person
    */
-  public function setNomComplet($nomComplet) {
-    $this->nomComplet = $nomComplet;
+  public function setFullName($fullName) {
+    $this->fullName = $fullName;
 
     return $this;
   }
 
   /**
-   * Get nomComplet
+   * Get fullName
    *
    * @return string
    */
-  public function getNomComplet() {
-    return $this->nomComplet;
+  public function getFullName() {
+    return $this->fullName;
   }
 
   /**
-   * Set nomPersonneRef
+   * Set alias
    *
-   * @param string $nomPersonneRef
+   * @param string $alias
    *
    * @return Person
    */
-  public function setNomPersonneRef($nomPersonneRef) {
-    $this->nomPersonneRef = $nomPersonneRef;
+  public function setAlias($alias) {
+    $this->alias = $alias;
 
     return $this;
   }
 
   /**
-   * Get nomPersonneRef
+   * Get alias
    *
    * @return string
    */
-  public function getNomPersonneRef() {
-    return $this->nomPersonneRef;
+  public function getAlias() {
+    return $this->alias;
   }
 
   /**

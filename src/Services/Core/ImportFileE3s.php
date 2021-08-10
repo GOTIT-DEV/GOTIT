@@ -4865,8 +4865,8 @@ class ImportFileE3s {
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
-            if ($ColCsv == 'person.nom_personne') {
-              $record_entity = $em->getRepository("App:Person")->findOneBy(array("nomPersonne" => $dataColCsv));
+            if ($ColCsv == 'person.name') {
+              $record_entity = $em->getRepository("App:Person")->findOneBy(array("name" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
