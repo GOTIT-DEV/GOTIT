@@ -100,7 +100,7 @@ class StoreController extends AbstractController {
         "store.code" => $entity->getCode(),
         "vocCodeCollection.code" => $entity->getCollectionCodeVocFk()->getCode(),
         "store.label" => $entity->getLabel(),
-        "vocCodeCollection.libelle" => $entity->getCollectionCodeVocFk()->getLibelle(),
+        "vocCodeCollection.label" => $entity->getCollectionCodeVocFk()->getLabel(),
         "store.metaCreationDate" => $MetaCreationDate,
         "store.metaUpdateDate" => $MetaUpdateDate,
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),

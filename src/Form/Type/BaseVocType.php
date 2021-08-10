@@ -39,7 +39,7 @@ class BaseVocType extends AbstractType {
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
       'class' => 'App:Voc',
-      'choice_label' => 'libelle',
+      'choice_label' => 'label',
       'choice_attr' => function ($choice, $key, $value) {
         return ['data-code' => $choice->getCode()];
       },

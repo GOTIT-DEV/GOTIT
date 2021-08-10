@@ -2,11 +2,11 @@
 
 namespace App\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DatePrecisionType extends AbstractType {
 
@@ -20,7 +20,7 @@ class DatePrecisionType extends AbstractType {
           ->orderBy('voc.id', 'ASC');
       },
       'choice_translation_domain' => true,
-      'choice_label' => 'libelle',
+      'choice_label' => 'label',
       'multiple' => false,
       'expanded' => true,
       'label_attr' => array('class' => 'radio-inline'),

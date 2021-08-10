@@ -21,7 +21,7 @@ class SchemaInspectorService {
 
     // Fetch content of tables to be used as select options
     $schema['Voc']['content'] = $this->em
-      ->createQuery('select v.id, v.code, v.libelle, v.parent from App:Voc v')
+      ->createQuery('select v.id, v.code, v.label, v.parent from App:Voc v')
       ->getArrayResult();
 
     return $schema;

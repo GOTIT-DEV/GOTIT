@@ -279,14 +279,14 @@ class SpeciesQueryService {
     $query =
     $qb->select('lm.id as id_lm, lm.code as code_lm')
       ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
-      ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
+      ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.label as criterion_title_biomat') // critere lot matériel
     // ->addSelect('indiv as ind') // specimen
       ->addSelect('indiv.id as id_indiv, indiv.molecularCode as code_biomol, indiv.morphologicalCode as code_tri_morpho') // specimen
       ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon specimen
-      ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere specimen
+      ->addSelect('ivoc.code as criterion_code_specimen, ivoc.label as criterion_title_specimen') // critere specimen
       ->addSelect('seq.id as id_seq, seq.code as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
-      ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
+      ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.label as criterion_title_seq') // critere sequence
     // JOIN lot matériel
       ->from('App:InternalLot', 'lm')
       ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLotFk')

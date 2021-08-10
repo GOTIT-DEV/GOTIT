@@ -2,10 +2,10 @@
 
 namespace App\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GeneType extends AbstractType {
 
@@ -15,9 +15,9 @@ class GeneType extends AbstractType {
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('voc')
           ->where("voc.parent = 'gene'")
-          ->orderBy('voc.libelle', 'ASC');
+          ->orderBy('voc.label', 'ASC');
       },
-      'choice_label' => 'libelle',
+      'choice_label' => 'label',
       'multiple' => false,
       'expanded' => false,
       'placeholder' => 'Choose a gene',

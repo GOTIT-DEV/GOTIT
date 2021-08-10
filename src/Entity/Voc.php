@@ -37,7 +37,7 @@ class Voc extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="vocabulary_title", type="string", length=1024, nullable=false)
    */
-  private $libelle;
+  private $label;
 
   /**
    * @var string
@@ -51,7 +51,7 @@ class Voc extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="voc_comments", type="text", nullable=true)
    */
-  private $commentaire;
+  private $comment;
 
   /**
    * Get id
@@ -85,25 +85,25 @@ class Voc extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set libelle
+   * Set label
    *
-   * @param string $libelle
+   * @param string $label
    *
    * @return Voc
    */
-  public function setLibelle($libelle) {
-    $this->libelle = $libelle;
+  public function setLabel($label) {
+    $this->label = $label;
 
     return $this;
   }
 
   /**
-   * Get libelle
+   * Get label
    *
    * @return string
    */
-  public function getLibelle() {
-    return $this->libelle;
+  public function getLabel() {
+    return $this->label;
   }
 
   /**
@@ -129,24 +129,24 @@ class Voc extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set commentaire
+   * Set comment
    *
-   * @param string $commentaire
+   * @param string $comment
    *
    * @return Voc
    */
-  public function setCommentaire($commentaire) {
-    $this->commentaire = $commentaire;
+  public function setComment($comment) {
+    $this->comment = $comment;
 
     return $this;
   }
 
   /**
-   * Get commentaire
+   * Get comment
    *
    * @return string
    */
-  public function getCommentaire() {
-    return $this->commentaire;
+  public function getComment() {
+    return $this->comment;
   }
 }

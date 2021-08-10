@@ -375,7 +375,7 @@ export default {
           // Remove `parent` rule when in a join block
           .filter((rule) => !this.join || rule.id != "parent")
           .map((rule) => {
-            return ["parent", "code", "libelle"].includes(rule.id)
+            return ["parent", "code", "label"].includes(rule.id)
               ? {
                   ...rule,
                   type: "custom-component",

@@ -75,10 +75,10 @@ list.linkSpecimen_code: Ind/St
 list.linkChromatogram: Chrom(s)
 list.linkSampling: Col
 # Column titles
-list.Parent libelle: Parent (libellé)
+list.Parent label: Parent (libellé)
 list.Parent code: Parent (code)
-list.vocLibelle: Libellé (bdd)
-list.vocLibelleSecondLanguage: Libellé (traduction FR)
+list.vocLabel: Libellé (bdd)
+list.vocLabelSecondLanguage: Libellé (traduction FR)
 list.Date creation sqc ass ext: Date de création
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
@@ -398,7 +398,7 @@ Code taxon: Code taxon
 Tube code: Tube code
 Sampling fk: Collecte
 Sequencing advice: Conseil séquencage
-Commentaire: Commentaire
+Comment: Commentaire
 Specimen quantity comment: Commentaire nombre d'individus
 Municipality fk: Commune
 Concentration ng microlitre: Concentration (ng/µL)
@@ -433,12 +433,12 @@ Description: Description
 Location info: Localisation station
 Lat deg dec: Latitude degré décimal
 Leg voc fk: Don
-Libelle: Libellé
-Libelle boite: Libellé stock
-Libelle collection: Libellé collection
-Libelle lame: Libellé lame
-Libelle motu: libellé MOTU
-Libelle source: Libellé source
+Label: Libellé
+Label boite: Libellé stock
+Label collection: Libellé collection
+Label lame: Libellé lame
+Label motu: libellé MOTU
+Label source: Libellé source
 Long deg dec: Longitude degré decimal
 External lot fk: Lot matériel externe
 Internal lot fk: Lot matériel
@@ -482,7 +482,7 @@ Qualite chromato voc fk: Qualite chromatogramme
 Qualite pcr voc fk: Qualite PCR
 Rank: Rang
 Taxon fk: Taxon
-Comment: Remarque PCR
+Pcr comment: Remarque PCR
 Sampling method voc fk: Méthode echantillonnage
 External sequence fk: Séquence externe assemblée
 Internal sequence fk: Séquence assemblée
@@ -538,7 +538,7 @@ Email: Adresse électronique
 Role: Rôle
 Name: Nom complet de l'utilisateur
 Institution: Établissement
-Commentaire user: Commentaires utilisateur
+Comment user: Commentaires utilisateur
 Locale: Version
 button.NewUser: Créer un nouvel utilisateur
 title.user: Utilisateur

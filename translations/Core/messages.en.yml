@@ -241,10 +241,10 @@ list.linkSpecimen_code: Ind/Si
 list.linkChromatogram: Chr(s)
 list.linkSampling: Sam
 # Column titles
-list.Parent libelle: Parent (label)
+list.Parent label: Parent (label)
 list.Parent code: Parent (code)
-list.vocLibelle: Title (database)
-list.vocLibelleSecondLanguage: Title (En. translation)
+list.vocLabel: Title (database)
+list.vocLabelSecondLanguage: Title (En. translation)
 list.Date creation sqc ass ext: Date creation
 list.Accession number sqc ass ext: Ext. Acc. Number
 list.Accession number: Acc. Number
@@ -562,7 +562,7 @@ Code taxon: Taxon code
 Tube code: Tube code
 Sampling fk: Sampling
 Sequencing advice: Sequencing advice
-Commentaire: Comments
+Comment: Comments
 Specimen quantity comment: Number of specimens comments
 Municipality fk: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
@@ -597,12 +597,12 @@ Description: Description
 Location info: Site location
 Lat deg dec: Latitude Dec Deg
 Leg voc fk: Donation
-Libelle: Title
-Libelle boite: Store title
-Libelle collection: Collection title
-Libelle lame: Slide title
-Libelle motu: MOTU title
-Libelle source: Source title
+Label: Title
+Label boite: Store title
+Label collection: Collection title
+Label lame: Slide title
+Label motu: MOTU title
+Label source: Source title
 Long deg dec: Longitude Dec Deg
 External lot fk: External biological material
 Internal lot fk: Internal Biological material
@@ -646,7 +646,7 @@ Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
 Taxon fk: Taxon
-Comment: PCR comments
+Pcr comment: PCR comments
 Sampling method voc fk: Sampling method
 External sequence fk: External sequence
 Internal sequence fk: Internal Sequence
@@ -702,7 +702,7 @@ Email: Email address
 Role: Role
 Name: User full name
 Institution: Institution
-Commentaire user: User comments
+Comment user: User comments
 Locale: Version
 button.NewUser: Create a new User
 title.user: User

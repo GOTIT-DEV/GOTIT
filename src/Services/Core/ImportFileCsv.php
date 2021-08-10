@@ -379,9 +379,9 @@ class ImportFileCsv {
       'update_user_name' => 'user_maj',
       'user_comments' => 'comment',
       'username' => 'username',
-      'voc_comments' => 'commentaire',
+      'voc_comments' => 'comment',
       'vocabulary_code' => 'code',
-      'vocabulary_title' => 'libelle',
+      'vocabulary_title' => 'label',
     ];
     // test to know if the version of the database is 2
 

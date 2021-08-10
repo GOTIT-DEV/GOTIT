@@ -18,11 +18,11 @@
         name="criteria[]"
         :searchable="false"
         :options="criteriaOptions"
-        label="libelle"
+        label="label"
         track-by="id"
         :allow-empty="false"
         :close-on-select="false"
-        :custom-label="(opt) => $t(`messages.${opt.libelle}`).toLowerCase()"
+        :custom-label="(opt) => $t(`messages.${opt.label}`).toLowerCase()"
       />
     </b-form-group>
   </div>

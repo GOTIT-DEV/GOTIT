@@ -42,7 +42,7 @@ class TaxonIdentificationEmbedType extends AbstractType {
             ->orderBy('voc.id', 'ASC');
         },
         'choice_translation_domain' => true,
-        'choice_label' => 'libelle',
+        'choice_label' => 'label',
         'multiple' => false,
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),

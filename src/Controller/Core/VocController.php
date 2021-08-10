@@ -76,7 +76,7 @@ class VocController extends AbstractController {
     // Search for the list to show
     $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Voc")->createQueryBuilder('voc')
-      ->where('LOWER(voc.libelle) LIKE :criteriaLower')
+      ->where('LOWER(voc.label) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -95,8 +95,8 @@ class VocController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id, "voc.id" => $id,
         "voc.code" => $entity->getCode(),
-        "voc.libelle" => $entity->getLibelle(),
-        "voc.libelleSecondLanguage" => $translator->trans($entity->getLibelle()),
+        "voc.label" => $entity->getLabel(),
+        "voc.labelSecondLanguage" => $translator->trans($entity->getLabel()),
         "voc.parent" => $translator->trans('vocParent.' . $entity->getParent()),
         "voc.parentCode" => $entity->getParent(),
         "voc.metaCreationDate" => $MetaCreationDate, "voc.metaUpdateDate" => $MetaUpdateDate,

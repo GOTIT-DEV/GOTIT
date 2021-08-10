@@ -2,10 +2,10 @@
 
 namespace App\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SequenceStatusType extends AbstractType {
 
@@ -16,7 +16,7 @@ class SequenceStatusType extends AbstractType {
         return $er->createQueryBuilder('voc')
           ->where('voc.parent LIKE :parent')
           ->setParameter('parent', 'statutSqcAss')
-          ->orderBy('voc.libelle', 'ASC');
+          ->orderBy('voc.label', 'ASC');
       },
       'choice_label' => 'code',
       'multiple' => false,

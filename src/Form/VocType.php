@@ -35,7 +35,7 @@ class VocType extends ActionFormType {
 
     $builder
       ->add('code', EntityCodeType::class)
-      ->add('libelle')
+      ->add('label')
       ->add('parent', ChoiceType::class, [
         'choices' => $choices,
         "choice_label" => function ($choice, $key, $value) {
@@ -47,7 +47,7 @@ class VocType extends ActionFormType {
         'multiple' => false,
         'expanded' => false,
       ])
-      ->add('commentaire');
+      ->add('comment');
   }
 
   /**

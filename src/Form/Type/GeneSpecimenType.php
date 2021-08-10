@@ -26,7 +26,7 @@ class GeneSpecimenType extends ActionFormType {
         function (EntityRepository $er) use ($gene) {
           $qb = $er->createQueryBuilder('voc')
             ->where("voc.parent = 'gene'")
-            ->orderBy('voc.libelle', 'ASC');
+            ->orderBy('voc.label', 'ASC');
           if ($gene) {
             $qb = $qb
               ->andWhere('voc.id = :geneVocFk')
