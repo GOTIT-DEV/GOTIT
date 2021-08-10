@@ -44,10 +44,8 @@ class SamplingMethod extends AbstractTimestampedEntity {
   /**
    * @var Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_method_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="sampling_method_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $samplingMethodVocFk;
 
@@ -55,9 +53,7 @@ class SamplingMethod extends AbstractTimestampedEntity {
    * @var Sampling
    *
    * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingMethods")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $samplingFk;
 

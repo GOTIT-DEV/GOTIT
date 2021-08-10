@@ -29,9 +29,7 @@ class ExternalLotProducer extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 
@@ -39,9 +37,7 @@ class ExternalLotProducer extends AbstractTimestampedEntity {
    * @var \ExternalLot
    *
    * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="producers")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $externalLotFk;
 

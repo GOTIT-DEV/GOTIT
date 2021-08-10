@@ -54,20 +54,16 @@ class Chromatogram extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $primerVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $qualityVocFk;
 
@@ -75,9 +71,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @var \Institution
    *
    * @ORM\ManyToOne(targetEntity="Institution")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
    */
   private $institutionFk;
 
@@ -85,9 +79,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @var \Pcr
    *
    * @ORM\ManyToOne(targetEntity="Pcr")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
    */
   private $pcrFk;
 

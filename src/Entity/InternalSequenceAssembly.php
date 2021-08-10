@@ -34,9 +34,7 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
    * @var \Chromatogram
    *
    * @ORM\ManyToOne(targetEntity="Chromatogram")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id", nullable=false)
    */
   private $chromatogramFk;
 
@@ -44,9 +42,7 @@ class InternalSequenceAssembly extends AbstractTimestampedEntity {
    * @var \InternalSequence
    *
    * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="assemblies")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $internalSequenceFk;
 

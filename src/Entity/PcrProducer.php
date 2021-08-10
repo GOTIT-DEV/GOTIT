@@ -29,9 +29,7 @@ class PcrProducer extends AbstractTimestampedEntity {
    * @var \Pcr
    *
    * @ORM\ManyToOne(targetEntity="Pcr", inversedBy="pcrProducers")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $pcrFk;
 
@@ -39,9 +37,7 @@ class PcrProducer extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

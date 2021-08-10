@@ -42,10 +42,8 @@ class InternalLotContent extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $specimenTypeVocFk;
 
@@ -53,9 +51,7 @@ class InternalLotContent extends AbstractTimestampedEntity {
    * @var \InternalLot
    *
    * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="contents")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $internalLotFk;
 

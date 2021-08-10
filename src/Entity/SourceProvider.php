@@ -29,9 +29,7 @@ class SourceProvider extends AbstractTimestampedEntity {
    * @var \Source
    *
    * @ORM\ManyToOne(targetEntity="Source", inversedBy="sourceProviders")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $sourceFk;
 
@@ -39,9 +37,7 @@ class SourceProvider extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

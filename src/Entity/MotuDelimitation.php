@@ -38,19 +38,15 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    * @var \ExternalSequence
    *
    * @ORM\ManyToOne(targetEntity="ExternalSequence")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
    */
   private $externalSequenceFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $methodVocFk;
 
@@ -58,19 +54,15 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    * @var \InternalSequence
    *
    * @ORM\ManyToOne(targetEntity="InternalSequence")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
    */
   private $internalSequenceFk;
 
   /**
    * @var \MotuDataset
    *
-   * @ORM\ManyToOne(targetEntity="MotuDataset")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\ManyToOne(targetEntity="MotuDataset", fetch="EAGER")
+   * @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $motuDatasetFk;
 

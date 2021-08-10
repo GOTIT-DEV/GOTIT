@@ -30,9 +30,7 @@ class DnaExtraction extends AbstractTimestampedEntity {
    * @var \Dna
    *
    * @ORM\ManyToOne(targetEntity="Dna", inversedBy="dnaExtractions")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $dnaFk;
 
@@ -40,9 +38,7 @@ class DnaExtraction extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

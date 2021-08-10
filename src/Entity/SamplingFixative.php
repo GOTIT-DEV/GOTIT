@@ -29,10 +29,8 @@ class SamplingFixative extends AbstractTimestampedEntity {
   /**
    * @var Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="fixative_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="fixative_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $fixativeVocFk;
 
@@ -40,9 +38,7 @@ class SamplingFixative extends AbstractTimestampedEntity {
    * @var Sampling
    *
    * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingFixatives")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $samplingFk;
 

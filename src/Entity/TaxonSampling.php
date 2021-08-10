@@ -30,9 +30,7 @@ class TaxonSampling extends AbstractTimestampedEntity {
    * @var Sampling
    *
    * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="taxonSamplings")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $samplingFk;
 
@@ -40,9 +38,7 @@ class TaxonSampling extends AbstractTimestampedEntity {
    * @var Taxon
    *
    * @ORM\ManyToOne(targetEntity="Taxon")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
    */
   private $taxonFk;
 

@@ -29,9 +29,7 @@ class InternalSequencePublication extends AbstractTimestampedEntity {
    * @var \Source
    *
    * @ORM\ManyToOne(targetEntity="Source")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $sourceFk;
 
@@ -39,9 +37,7 @@ class InternalSequencePublication extends AbstractTimestampedEntity {
    * @var \InternalSequence
    *
    * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="publications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $internalSequenceFk;
 

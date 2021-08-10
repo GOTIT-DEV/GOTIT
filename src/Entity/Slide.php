@@ -68,10 +68,8 @@ class Slide extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $datePrecisionVocFk;
 
@@ -79,9 +77,7 @@ class Slide extends AbstractTimestampedEntity {
    * @var \Store
    *
    * @ORM\ManyToOne(targetEntity="Store", inversedBy="slides")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    */
   private $storeFk;
 
@@ -89,9 +85,7 @@ class Slide extends AbstractTimestampedEntity {
    * @var \Specimen
    *
    * @ORM\ManyToOne(targetEntity="Specimen")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
    */
   private $specimenFk;
 

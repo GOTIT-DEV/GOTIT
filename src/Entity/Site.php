@@ -90,50 +90,40 @@ class Site extends AbstractTimestampedEntity {
   /**
    * @var \Municipality
    *
-   * @ORM\ManyToOne(targetEntity="Municipality")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="municipality_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Municipality", fetch="EAGER")
+   * @ORM\JoinColumn(name="municipality_fk", referencedColumnName="id", nullable=false)
    */
   private $municipalityFk;
 
   /**
    * @var \Country
    *
-   * @ORM\ManyToOne(targetEntity="Country")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Country", fetch="EAGER")
+   * @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    */
   private $countryFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="access_point_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="access_point_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $accessPointVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $habitatTypeVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="coordinate_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="coordinate_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $coordinatesPrecisionVocFk;
 

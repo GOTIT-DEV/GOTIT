@@ -29,9 +29,7 @@ class SamplingParticipant extends AbstractTimestampedEntity {
    * @var Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 
@@ -39,9 +37,7 @@ class SamplingParticipant extends AbstractTimestampedEntity {
    * @var Sampling
    *
    * @ORM\ManyToOne(targetEntity="Sampling", inversedBy="samplingParticipants")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $samplingFk;
 

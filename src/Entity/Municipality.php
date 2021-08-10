@@ -55,10 +55,8 @@ class Municipality extends AbstractTimestampedEntity {
   /**
    * @var \Country
    *
-   * @ORM\ManyToOne(targetEntity="Country", inversedBy="municipalities")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Country", inversedBy="municipalities", fetch="EAGER")
+   * @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    */
   private $countryFk;
 

@@ -50,30 +50,24 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
    */
   private $materialTypeVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $identificationCriterionVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $datePrecisionVocFk;
 
@@ -81,9 +75,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \ExternalSequence
    *
    * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="taxonIdentifications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
   private $externalSequenceFk;
 
@@ -91,9 +83,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \ExternalLot
    *
    * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="taxonIdentifications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
   private $externalLotFk;
 
@@ -101,9 +91,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \InternalLot
    *
    * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="taxonIdentifications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
   private $internalLotFk;
 
@@ -111,9 +99,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \Taxon
    *
    * @ORM\ManyToOne(targetEntity="Taxon")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
    */
   private $taxonFk;
 
@@ -121,9 +107,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \Specimen
    *
    * @ORM\ManyToOne(targetEntity="Specimen", inversedBy="taxonIdentifications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
   private $specimenFk;
 
@@ -131,9 +115,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @var \InternalSequence
    *
    * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="taxonIdentifications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
   private $internalSequenceFk;
 

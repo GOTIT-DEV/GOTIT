@@ -29,9 +29,7 @@ class MotuDelimiter extends AbstractTimestampedEntity {
    * @var \MotuDataset
    *
    * @ORM\ManyToOne(targetEntity="MotuDataset", inversedBy="motuDelimiters")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $motuDatasetFk;
 
@@ -39,9 +37,7 @@ class MotuDelimiter extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

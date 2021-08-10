@@ -83,30 +83,24 @@ class Sampling extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $legVocFk;
 
   /**
    * @var \Site
    *
-   * @ORM\ManyToOne(targetEntity="Site")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Site", fetch="EAGER")
+   * @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
    */
   private $siteFk;
 

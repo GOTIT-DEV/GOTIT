@@ -29,9 +29,7 @@ class TaxonCurator extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 
@@ -39,9 +37,7 @@ class TaxonCurator extends AbstractTimestampedEntity {
    * @var \TaxonIdentification
    *
    * @ORM\ManyToOne(targetEntity="TaxonIdentification", inversedBy="taxonCurators")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $taxonIdentificationFk;
 

@@ -58,9 +58,7 @@ class Person extends AbstractTimestampedEntity {
    * @var \Institution
    *
    * @ORM\ManyToOne(targetEntity="Institution")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
    */
   private $institutionFk;
 

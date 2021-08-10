@@ -29,9 +29,7 @@ class SlideProducer extends AbstractTimestampedEntity {
    * @var \Slide
    *
    * @ORM\ManyToOne(targetEntity="Slide", inversedBy="producers")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $slideFk;
 
@@ -39,9 +37,7 @@ class SlideProducer extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

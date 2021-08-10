@@ -70,30 +70,24 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $pigmentationVocFk;
 
   /**
    * @var \Voc
    *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
    */
   private $eyesVocFk;
 
@@ -101,9 +95,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @var \Sampling
    *
    * @ORM\ManyToOne(targetEntity="Sampling")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
    */
   private $samplingFk;
 
@@ -111,9 +103,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @var \Store
    *
    * @ORM\ManyToOne(targetEntity="Store", inversedBy="internalLots")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * })
+   * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    */
   private $storeFk;
 

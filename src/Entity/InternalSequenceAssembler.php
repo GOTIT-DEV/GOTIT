@@ -29,9 +29,7 @@ class InternalSequenceAssembler extends AbstractTimestampedEntity {
    * @var \InternalSequence
    *
    * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="assemblers")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $internalSequenceFk;
 
@@ -39,9 +37,7 @@ class InternalSequenceAssembler extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

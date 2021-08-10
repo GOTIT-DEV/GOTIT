@@ -29,9 +29,7 @@ class ExternalSequenceAssembler extends AbstractTimestampedEntity {
    * @var \ExternalSequence
    *
    * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="assemblers")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $externalSequenceFk;
 
@@ -39,9 +37,7 @@ class ExternalSequenceAssembler extends AbstractTimestampedEntity {
    * @var \Person
    *
    * @ORM\ManyToOne(targetEntity="Person")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
+   * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
    */
   private $personFk;
 

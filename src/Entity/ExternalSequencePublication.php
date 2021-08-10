@@ -29,9 +29,7 @@ class ExternalSequencePublication extends AbstractTimestampedEntity {
    * @var \Source
    *
    * @ORM\ManyToOne(targetEntity="Source")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $sourceFk;
 
@@ -39,9 +37,7 @@ class ExternalSequencePublication extends AbstractTimestampedEntity {
    * @var \ExternalSequence
    *
    * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="externalSequencePublications")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
+   * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
   private $externalSequenceFk;
 
