@@ -53,7 +53,7 @@ class SourceController extends AbstractController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(source.codeSource) LIKE :criteriaLower';
+    $where = 'LOWER(source.code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -82,9 +82,9 @@ class SourceController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "source.id" => $id,
-        "source.codeSource" => $entity->getCodeSource(),
-        "source.anneeSource" => $entity->getAnneeSource(),
-        "source.libelleSource" => $entity->getLibelleSource(),
+        "source.code" => $entity->getCode(),
+        "source.year" => $entity->getYear(),
+        "source.title" => $entity->getTitle(),
         "source.dateCre" => $DateCre,
         "source.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),

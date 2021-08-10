@@ -15,15 +15,15 @@ class SourceType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-      ->add('codeSource', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('anneeSource', null, [
+      ->add('year', null, [
         'attr' => [
           'min' => 1900,
         ],
       ])
-      ->add('libelleSource')
+      ->add('title')
       ->add('comment')
       ->add('sourceProviders', CollectionType::class, array(
         'entry_type' => SourceProviderEmbedType::class,

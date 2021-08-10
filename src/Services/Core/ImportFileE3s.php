@@ -525,8 +525,8 @@ class ImportFileE3s {
         ->getQuery()
         ->getResult();
       $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
-        ->where('source.codeSource LIKE :code_source')
-        ->setParameter('code_source', $data["source.code_source"])
+        ->where('source.code LIKE :code')
+        ->setParameter('code', $data["source.code"])
         ->getQuery()
         ->getResult();
       if (count($query_lot) == 0 || count($query_source) == 0) {
@@ -535,20 +535,20 @@ class ImportFileE3s {
         }
 
         if (count($query_source) == 0) {
-          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code_source"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
 
       } else {
         $query_lepd = $em->getRepository("App:InternalLotPublication")->createQueryBuilder('lepd')
           ->where('lepd.internalLotFk = :id_lot')
           ->setParameter('id_lot', $query_lot[0]->getId())
-          ->andwhere('source.codeSource = :code_source')
-          ->setParameter('code_source', $data["source.code_source"])
+          ->andwhere('source.code = :code')
+          ->setParameter('code', $data["source.code"])
           ->leftJoin('App:Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
           ->getQuery()
           ->getResult();
         if (count($query_lepd) != 0) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code"] . ' </b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR lot already publish') . '<b> : ' . $data["source.code"] . ' / ' . $data["code"] . ' </b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $entityRel = new \App\Entity\InternalLotPublication();
           $method = "setSourceFk";
@@ -609,8 +609,8 @@ class ImportFileE3s {
         ->getQuery()
         ->getResult();
       $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
-        ->where('source.codeSource LIKE :code_source')
-        ->setParameter('code_source', $data["source.code_source"])
+        ->where('source.code LIKE :code')
+        ->setParameter('code', $data["source.code"])
         ->getQuery()
         ->getResult();
       if (count($query_sa) == 0 || count($query_source) == 0) {
@@ -619,7 +619,7 @@ class ImportFileE3s {
         }
 
         if (count($query_source) == 0) {
-          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code_source"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
 
       } else {
@@ -630,7 +630,7 @@ class ImportFileE3s {
           ->getResult();
         if (count($query_lepd) != 0 || $query_sa[0]->getAccessionNumber() != '') {
           if (count($query_lepd) != 0) {
-            $message .= $this->translator->trans('importfileService.ERROR sqc already publish') . '<b> : ' . $data["source.code_source"] . ' / ' . $data["code"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+            $message .= $this->translator->trans('importfileService.ERROR sqc already publish') . '<b> : ' . $data["source.code"] . ' / ' . $data["code"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
 
           if ($query_sa[0]->getAccessionNumber() != '') {
@@ -707,15 +707,15 @@ class ImportFileE3s {
         $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
-          if ($ColCsv == 'source.code_source') {
-            $record_entity = $em->getRepository("App:Source")->findOneBy(array("codeSource" => $dataColCsv));
+          if ($ColCsv == 'source.code') {
+            $record_entity = $em->getRepository("App:Source")->findOneBy(array("code" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
 
           // control and standardization of field formats
-          if ($ColCsv == 'source.annee_source' && !is_null($dataColCsv)) {
+          if ($ColCsv == 'source.year' && !is_null($dataColCsv)) {
             $dataColCsv = intval(str_replace(",", ".", $dataColCsv));
           }
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');

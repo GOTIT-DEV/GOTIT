@@ -17,11 +17,11 @@ class ExternalSequencePublicationEmbedType extends AbstractType {
       'class' => 'App:Source',
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('source')
-          ->orderBy('source.codeSource', 'ASC');
+          ->orderBy('source.code', 'ASC');
       },
       'placeholder' => 'Choose a Source',
       'choice_label' =>
-      'code_source',
+      'code',
       'multiple' => false,
       'expanded' => false,
       'label' => false,

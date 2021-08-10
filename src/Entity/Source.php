@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="source",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_source__source_code", columns={"source_code"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeSource"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Source extends AbstractTimestampedEntity {
@@ -31,21 +31,21 @@ class Source extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="source_code", type="string", length=255, nullable=false)
    */
-  private $codeSource;
+  private $code;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="source_year", type="bigint", nullable=true)
    */
-  private $anneeSource;
+  private $year;
 
   /**
    * @var string
    *
    * @ORM\Column(name="source_title", type="string", length=2048, nullable=false)
    */
-  private $libelleSource;
+  private $title;
 
   /**
    * @var string
@@ -74,69 +74,69 @@ class Source extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeSource
+   * Set code
    *
-   * @param string $codeSource
+   * @param string $code
    *
    * @return Source
    */
-  public function setCodeSource($codeSource) {
-    $this->codeSource = $codeSource;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeSource
+   * Get code
    *
    * @return string
    */
-  public function getCodeSource() {
-    return $this->codeSource;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set anneeSource
+   * Set year
    *
-   * @param integer $anneeSource
+   * @param integer $year
    *
    * @return Source
    */
-  public function setAnneeSource($anneeSource) {
-    $this->anneeSource = $anneeSource;
+  public function setYear($year) {
+    $this->year = $year;
 
     return $this;
   }
 
   /**
-   * Get anneeSource
+   * Get year
    *
    * @return integer
    */
-  public function getAnneeSource() {
-    return $this->anneeSource;
+  public function getYear() {
+    return $this->year;
   }
 
   /**
-   * Set libelleSource
+   * Set title
    *
-   * @param string $libelleSource
+   * @param string $title
    *
    * @return Source
    */
-  public function setLibelleSource($libelleSource) {
-    $this->libelleSource = $libelleSource;
+  public function setTitle($title) {
+    $this->title = $title;
 
     return $this;
   }
 
   /**
-   * Get libelleSource
+   * Get title
    *
    * @return string
    */
-  public function getLibelleSource() {
-    return $this->libelleSource;
+  public function getTitle() {
+    return $this->title;
   }
 
   /**
