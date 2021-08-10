@@ -38,7 +38,7 @@ class Taxon extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="full_name", type="string", length=255, nullable=true)
+   * @ORM\Column(name="taxon_full_name", type="string", length=255, nullable=true)
    */
   private $fullName;
 
