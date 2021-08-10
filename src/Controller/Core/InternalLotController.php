@@ -172,7 +172,7 @@ class InternalLotController extends AbstractController {
         "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "linkSpecimen" => $linkSpecimen,
-        "linkSpecimen_codestation" => "%|" . $val['site_code'] . "_%",
+        "linkSpecimen_code" => "%|" . $val['site_code'] . "_%",
       );
     }
 

@@ -237,7 +237,7 @@ list.linkInternalLot: Lot
 list.linkExternalLot: LotExt
 list.linkExternalSequence: SqcExt
 list.linkSpecimen: Ind(s)
-list.linkSpecimen_codestation: Ind/Si
+list.linkSpecimen_code: Ind/Si
 list.linkChromatogram: Chr(s)
 list.linkSampling: Sam
 # Column titles
@@ -593,8 +593,8 @@ Habitat type voc fk: Habitat type
 Id: Identification number
 Specimen: Specimen
 Slide fk: Specimen slide
-Info description: Site description
-Info localisation: Site location
+Description: Description
+Location info: Site location
 Lat deg dec: Latitude Dec Deg
 Leg voc fk: Donation
 Libelle: Title
@@ -635,8 +635,8 @@ Pays fk: Country
 Pcr fk: PCR
 Person fk: Person
 Pigmentation voc fk: Pigmentation
-Point acces voc fk: Access type
-Precision lat long voc fk: Coordinate precision
+Access point voc fk: Access type
+Coordinates precision voc fk: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
 Primer end voc fk: PCR reverse primer
 Primer Start Voc Fk: PCR forward primer

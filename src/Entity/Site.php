@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_9F39F8B1C23046AE", columns={"habitat_type_voc_fk"}),
  *      @ORM\Index(name="IDX_9F39F8B1E86DBD90", columns={"coordinate_precision_voc_fk"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"codeStation"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Site extends AbstractTimestampedEntity {
@@ -36,14 +36,14 @@ class Site extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="site_code", type="string", length=255, nullable=false)
    */
-  private $codeStation;
+  private $code;
 
   /**
    * @var string
    *
    * @ORM\Column(name="site_name", type="string", length=1024, nullable=false)
    */
-  private $nomStation;
+  private $name;
 
   /**
    * @var float
@@ -71,14 +71,14 @@ class Site extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="location_info", type="text", nullable=true)
    */
-  private $infoLocalisation;
+  private $locationInfo;
 
   /**
    * @var string
    *
    * @ORM\Column(name="site_description", type="text", nullable=true)
    */
-  private $infoDescription;
+  private $description;
 
   /**
    * @var string
@@ -115,7 +115,7 @@ class Site extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="access_point_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $pointAccesVocFk;
+  private $accessPointVocFk;
 
   /**
    * @var \Voc
@@ -135,7 +135,7 @@ class Site extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="coordinate_precision_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $precisionLatLongVocFk;
+  private $coordinatesPrecisionVocFk;
 
   /**
    * Get id
@@ -147,47 +147,47 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set codeStation
+   * Set code
    *
-   * @param string $codeStation
+   * @param string $code
    *
    * @return Site
    */
-  public function setCodeStation($codeStation) {
-    $this->codeStation = $codeStation;
+  public function setCode($code) {
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get codeStation
+   * Get code
    *
    * @return string
    */
-  public function getCodeStation() {
-    return $this->codeStation;
+  public function getCode() {
+    return $this->code;
   }
 
   /**
-   * Set nomStation
+   * Set name
    *
-   * @param string $nomStation
+   * @param string $name
    *
    * @return Site
    */
-  public function setNomStation($nomStation) {
-    $this->nomStation = $nomStation;
+  public function setName($name) {
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * Get nomStation
+   * Get name
    *
    * @return string
    */
-  public function getNomStation() {
-    return $this->nomStation;
+  public function getName() {
+    return $this->name;
   }
 
   /**
@@ -257,47 +257,47 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set infoLocalisation
+   * Set locationInfo
    *
-   * @param string $infoLocalisation
+   * @param string $locationInfo
    *
    * @return Site
    */
-  public function setInfoLocalisation($infoLocalisation) {
-    $this->infoLocalisation = $infoLocalisation;
+  public function setLocationInfo($locationInfo) {
+    $this->locationInfo = $locationInfo;
 
     return $this;
   }
 
   /**
-   * Get infoLocalisation
+   * Get locationInfo
    *
    * @return string
    */
-  public function getInfoLocalisation() {
-    return $this->infoLocalisation;
+  public function getLocationInfo() {
+    return $this->locationInfo;
   }
 
   /**
-   * Set infoDescription
+   * Set description
    *
-   * @param string $infoDescription
+   * @param string $description
    *
    * @return Site
    */
-  public function setInfoDescription($infoDescription) {
-    $this->infoDescription = $infoDescription;
+  public function setDescription($description) {
+    $this->description = $description;
 
     return $this;
   }
 
   /**
-   * Get infoDescription
+   * Get description
    *
    * @return string
    */
-  public function getInfoDescription() {
-    return $this->infoDescription;
+  public function getDescription() {
+    return $this->description;
   }
 
   /**
@@ -367,25 +367,25 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set pointAccesVocFk
+   * Set accessPointVocFk
    *
-   * @param \App\Entity\Voc $pointAccesVocFk
+   * @param \App\Entity\Voc $accessPointVocFk
    *
    * @return Site
    */
-  public function setPointAccesVocFk(\App\Entity\Voc $pointAccesVocFk = null) {
-    $this->pointAccesVocFk = $pointAccesVocFk;
+  public function setAccessPointVocFk(\App\Entity\Voc $accessPointVocFk = null) {
+    $this->accessPointVocFk = $accessPointVocFk;
 
     return $this;
   }
 
   /**
-   * Get pointAccesVocFk
+   * Get accessPointVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getPointAccesVocFk() {
-    return $this->pointAccesVocFk;
+  public function getAccessPointVocFk() {
+    return $this->accessPointVocFk;
   }
 
   /**
@@ -411,24 +411,24 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set precisionLatLongVocFk
+   * Set coordinatesPrecisionVocFk
    *
-   * @param \App\Entity\Voc $precisionLatLongVocFk
+   * @param \App\Entity\Voc $coordinatesPrecisionVocFk
    *
    * @return Site
    */
-  public function setPrecisionLatLongVocFk(\App\Entity\Voc $precisionLatLongVocFk = null) {
-    $this->precisionLatLongVocFk = $precisionLatLongVocFk;
+  public function setCoordinatesPrecisionVocFk(\App\Entity\Voc $coordinatesPrecisionVocFk = null) {
+    $this->coordinatesPrecisionVocFk = $coordinatesPrecisionVocFk;
 
     return $this;
   }
 
   /**
-   * Get precisionLatLongVocFk
+   * Get coordinatesPrecisionVocFk
    *
    * @return \App\Entity\Voc
    */
-  public function getPrecisionLatLongVocFk() {
-    return $this->precisionLatLongVocFk;
+  public function getCoordinatesPrecisionVocFk() {
+    return $this->coordinatesPrecisionVocFk;
   }
 }

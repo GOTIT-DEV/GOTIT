@@ -4162,8 +4162,8 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
-          if ($field == 'site.codeStation') { // On teste pour savoir si le code_station a déja été créé.
-            $record_station = $em->getRepository("App:Site")->findOneBy(array("codeStation" => $dataColCsv));
+          if ($field == 'site.code') { // On teste pour savoir si le code a déja été créé.
+            $record_station = $em->getRepository("App:Site")->findOneBy(array("code" => $dataColCsv));
             if ($record_station !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }

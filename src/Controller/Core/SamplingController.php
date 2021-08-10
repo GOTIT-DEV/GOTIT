@@ -139,7 +139,7 @@ class SamplingController extends AbstractController {
         "id" => $id,
         "sampling.id" => $id,
         "sampling.code" => $entity->getCode(),
-        "site.codeStation" => $entity->getSiteFk()->getCodeStation(),
+        "site.code" => $entity->getSiteFk()->getCode(),
         "country.name" => $entity->getSiteFk()->getCountryFk()->getName(),
         "municipality.code" => $entity->getSiteFk()->getMunicipalityFk()->getCode(),
         "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),

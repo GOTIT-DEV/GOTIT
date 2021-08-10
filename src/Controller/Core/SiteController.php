@@ -41,11 +41,11 @@ class SiteController extends AbstractController {
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-    $qb->select('site.id, site.codeStation as code')
+    $qb->select('site.id, site.code as code')
       ->from('App:Site', 'site');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
-      $qb->andWhere('(LOWER(site.codeStation) like :q' . $i . ')');
+      $qb->andWhere('(LOWER(site.code) like :q' . $i . ')');
     }
     for ($i = 0; $i < count($query); $i++) {
       $qb->setParameter('q' . $i, $query[$i] . '%');
@@ -80,7 +80,7 @@ class SiteController extends AbstractController {
     $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Site")
       ->createQueryBuilder('site')
-      ->where('LOWER(site.codeStation) LIKE :criteriaLower')
+      ->where('LOWER(site.code) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
       ->leftJoin('App:Country', 'country', 'WITH', 'site.countryFk = country.id')
       ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipalityFk = municipality.id')
@@ -105,8 +105,8 @@ class SiteController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id,
         "site.id" => $id,
-        "site.codeStation" => $entity->getCodeStation(),
-        "site.nomStation" => $entity->getNomStation(),
+        "site.code" => $entity->getCode(),
+        "site.name" => $entity->getName(),
         "municipality.code" => $entity->getMunicipalityFk()->getCode(),
         "country.code" => $entity->getCountryFk()->getCode(),
         "site.latDegDec" => $entity->getLatDegDec(),

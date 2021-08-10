@@ -20,11 +20,11 @@ class SiteType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $site = $builder->getData();
     $builder
-      ->add('codeStation', EntityCodeType::class, [
+      ->add('code', EntityCodeType::class, [
         "disabled" => $this->canEditAdminOnly($options),
       ])
-      ->add('nomStation')
-      ->add('infoDescription')
+      ->add('name')
+      ->add('description')
       ->add('countryFk', CountryVocType::class)
       ->add('municipalityFk', EntityType::class, array(
         'class' => 'App:Municipality',
@@ -54,7 +54,7 @@ class SiteType extends ActionFormType {
         'voc_parent' => 'habitatType',
         'placeholder' => 'Choose an Habitat Type',
       ))
-      ->add('pointAccesVocFk', BaseVocType::class, array(
+      ->add('accessPointVocFk', BaseVocType::class, array(
         'voc_parent' => 'pointAcces',
         'placeholder' => 'Choose an Access Point',
       ))
@@ -87,7 +87,7 @@ class SiteType extends ActionFormType {
         "disabled" => true,
         'icon_class' => 'fa-crosshairs',
       ])
-      ->add('precisionLatLongVocFk', BaseVocType::class, array(
+      ->add('coordinatesPrecisionVocFk', BaseVocType::class, array(
         'voc_parent' => 'precisionLatLong',
         'placeholder' => 'Choose a GPS Distance Quality',
         "sort_by_id" => true,
@@ -96,7 +96,7 @@ class SiteType extends ActionFormType {
       ->add('comment');
 
     $this->upperCaseFields($builder, [
-      'codeStation', 'nomStation',
+      'code', 'name',
     ]);
   }
 

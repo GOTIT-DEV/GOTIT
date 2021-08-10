@@ -30,7 +30,7 @@ class SamplingType extends ActionFormType {
     $builder
       ->add('siteFk', SearchableSelectType::class, [
         'class' => 'App:Site',
-        'choice_label' => 'codeStation',
+        'choice_label' => 'code',
         'placeholder' =>
         $this->translator->trans("Site typeahead placeholder"),
         'attr' => [

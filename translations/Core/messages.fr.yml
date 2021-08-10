@@ -26,7 +26,7 @@ ExternalLot typeahead placeholder: Taper les premières lettres du Code lot mat�
 ExternalLot typeahead: Lot externe
 Sampling typeahead placeholder: Taper les premières lettres du Code
 Sampling typeahead: Collecte
-Site typeahead placeholder: Taper les premières lettres du Code Station
+Site typeahead placeholder: Taper les premières lettres du Code
 Site typeahead: Station
 
 # class of vocabulary (table = Voc , field = parent)
@@ -71,7 +71,7 @@ list.linkInternalLot: Lot
 list.linkExternalLot: Lot Ext
 list.linkExternalSequence: Sqc Ext
 list.linkSpecimen: Ind(s)
-list.linkSpecimen_codestation: Ind/St
+list.linkSpecimen_code: Ind/St
 list.linkChromatogram: Chrom(s)
 list.linkSampling: Col
 # Column titles
@@ -429,8 +429,8 @@ Habitat type voc fk: Type habitat
 Id: Numéro identification
 Specimen: Individu
 Slide fk: Lame individu
-Info description: Description station
-Info localisation: Localisation station
+Description: Description
+Location info: Localisation station
 Lat deg dec: Latitude degré décimal
 Leg voc fk: Don
 Libelle: Libellé
@@ -471,8 +471,8 @@ Pays fk: Pays
 Pcr fk: PCR
 Person fk: Personne
 Pigmentation voc fk: Pigmentation
-Point acces voc fk: Point accès
-Precision lat long voc fk: Précision latitude longitude
+Access point voc fk: Point accès
+Coordinates precision voc fk: Précision latitude longitude
 Primer chromato voc fk: Amorce chromatogramme
 Primer end voc fk: Amorce PCR antisens
 Primer Start Voc Fk: Amorce PCR sens
