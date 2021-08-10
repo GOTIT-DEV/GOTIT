@@ -71,7 +71,7 @@ class SamplingController extends AbstractController {
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
-      'sampling.dateMaj' => 'desc',
+      'sampling.metaUpdateDate' => 'desc',
       'sampling.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
@@ -106,10 +106,10 @@ class SamplingController extends AbstractController {
       $id = $entity->getId();
       $Date = ($entity->getDate() !== null)
       ? $entity->getDate()->format('Y-m-d') : null;
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       // search for material associated with a sampling
       $query = $em->createQuery(
         'SELECT lot.id FROM App:InternalLot lot WHERE lot.samplingFk = ' . $id
@@ -145,11 +145,11 @@ class SamplingController extends AbstractController {
         "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),
         "sampling.date" => $Date,
         "sampling.status" => $entity->getStatus(),
-        "sampling.dateCre" => $DateCre,
-        "sampling.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "sampling.userCre" => $service->GetUserCreUserfullname($entity),
-        "sampling.userMaj" => $service->GetUserMajUserfullname($entity),
+        "sampling.metaCreationDate" => $MetaCreationDate,
+        "sampling.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "sampling.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "sampling.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
         "linkInternalLot" => $linkInternalLotFk,
         "linkExternalLot" => $linkExternalLotFk,
         "linkExternalSequence" => $linkExternalSequenceFk,
@@ -242,7 +242,7 @@ class SamplingController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $sampling->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $sampling->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 

@@ -98,12 +98,12 @@ class InternalLotController extends AbstractController {
       rt_lot.taxon_name as last_taxname_lot,
       ei_lot.identification_date as last_identification_date_lot,
       lot.creation_user_name,
-      user_cre.user_full_name as user_cre_username,
+      meta_creation_user.user_full_name as meta_creation_user_username,
       user_maj.user_full_name as user_maj_username,
       string_agg(DISTINCT person.person_name , ' ; ') as list_person,
       string_agg(cast( sp.id as character varying) , ' ;') as list_specimen
     FROM internal_biological_material lot
-    LEFT JOIN user_db user_cre ON user_cre.id = lot.creation_user_name
+    LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = lot.creation_user_name
     LEFT JOIN user_db user_maj ON user_maj.id = lot.update_user_name
 		JOIN sampling ON sampling.id = lot.sampling_fk
     JOIN site st ON st.id = sampling.site_fk
@@ -133,7 +133,7 @@ class InternalLotController extends AbstractController {
       lot.internal_biological_material_code,
       rt_lot.taxon_name, ei_lot.identification_date,
       lot.creation_user_name,
-      user_cre.user_full_name,
+      meta_creation_user.user_full_name,
       user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
 
@@ -169,7 +169,7 @@ class InternalLotController extends AbstractController {
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "linkSpecimen" => $linkSpecimen,
         "linkSpecimen_code" => "%|" . $val['site_code'] . "_%",
@@ -261,7 +261,7 @@ class InternalLotController extends AbstractController {
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $lot->getUserCre() != $user->getId()
+      $lot->getMetaCreationUser() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }

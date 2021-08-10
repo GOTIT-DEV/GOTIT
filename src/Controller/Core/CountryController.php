@@ -50,7 +50,7 @@ class CountryController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('country.dateMaj' => 'desc', 'country.id' => 'desc');
+    : array('country.metaUpdateDate' => 'desc', 'country.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -73,20 +73,20 @@ class CountryController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "country.id" => $id,
         "country.code" => $entity->getCode(),
         "country.name" => $entity->getName(),
-        "country.dateCre" => $DateCre,
-        "country.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "country.userCre" => $service->GetUserCreUserfullname($entity),
-        "country.userMaj" => $service->GetUserMajUserfullname($entity),
+        "country.metaCreationDate" => $MetaCreationDate,
+        "country.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "country.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "country.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     return new JsonResponse([

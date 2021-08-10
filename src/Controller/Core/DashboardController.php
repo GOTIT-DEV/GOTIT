@@ -39,218 +39,218 @@ class DashboardController extends AbstractController {
     $tab_toshow = [];
     // returns the last records of the dna
     $entities_toshow = $em->getRepository("App:Dna")->createQueryBuilder('dna')
-      ->addOrderBy('dna.dateMaj', 'DESC')
+      ->addOrderBy('dna.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'dna',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the chromatogram
     $entities_toshow = $em->getRepository("App:Chromatogram")->createQueryBuilder('chromatogram')
-      ->addOrderBy('chromatogram.dateMaj', 'DESC')
+      ->addOrderBy('chromatogram.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'chromatogram',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the sampling
     $entities_toshow = $em->getRepository("App:Sampling")->createQueryBuilder('sampling')
-      ->addOrderBy('sampling.dateMaj', 'DESC')
+      ->addOrderBy('sampling.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'sampling',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the specimen
     $entities_toshow = $em->getRepository("App:Specimen")->createQueryBuilder('specimen')
-      ->addOrderBy('specimen.dateMaj', 'DESC')
+      ->addOrderBy('specimen.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'specimen',
         "code" => $entity->getMorphologicalCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the slide
     $entities_toshow = $em->getRepository("App:Slide")->createQueryBuilder('slide')
-      ->addOrderBy('slide.dateMaj', 'DESC')
+      ->addOrderBy('slide.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'slide',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the lot material
     $entities_toshow = $em->getRepository("App:InternalLot")->createQueryBuilder('InternalLot')
-      ->addOrderBy('InternalLot.dateMaj', 'DESC')
+      ->addOrderBy('InternalLot.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'internal_lot',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the external lot material
     $entities_toshow = $em->getRepository("App:ExternalLot")->createQueryBuilder('external_lot')
-      ->addOrderBy('external_lot.dateMaj', 'DESC')
+      ->addOrderBy('external_lot.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'external_lot',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the motu
     $entities_toshow = $em->getRepository("App:MotuDataset")->createQueryBuilder('motu_dataset')
-      ->addOrderBy('motu_dataset.dateMaj', 'DESC')
+      ->addOrderBy('motu_dataset.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'motu',
         "code" => $entity->getTitle(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the pcr
     $entities_toshow = $em->getRepository("App:Pcr")->createQueryBuilder('pcr')
-      ->addOrderBy('pcr.dateMaj', 'DESC')
+      ->addOrderBy('pcr.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'pcr',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the sequence
     $entities_toshow = $em->getRepository("App:InternalSequence")->createQueryBuilder('internal_sequence')
-      ->addOrderBy('internal_sequence.dateMaj', 'DESC')
+      ->addOrderBy('internal_sequence.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'internal_sequence',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the external sequence
     $entities_toshow = $em->getRepository("App:ExternalSequence")->createQueryBuilder('external_sequence')
-      ->addOrderBy('external_sequence.dateMaj', 'DESC')
+      ->addOrderBy('external_sequence.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'external_sequence',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
     // returns the last records of the site
     $entities_toshow = $em->getRepository("App:Site")->createQueryBuilder('station')
-      ->addOrderBy('site.dateMaj', 'DESC')
+      ->addOrderBy('site.metaUpdateDate', 'DESC')
       ->setMaxResults(25)
       ->getQuery()
       ->getResult();
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      //$DateCre = ($entity->getDateCre() !== null) ?  $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null) ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      //$MetaCreationDate = ($entity->getMetaCreationDate() !== null) ?  $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null) ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "name" => 'station',
         "code" => $entity->getCode(),
-        "dateMaj" => $DateMaj,
-        "userMaj" => $service->GetUserMajUserfullname($entity),
+        "metaUpdateDate" => $MetaUpdateDate,
+        "metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
 

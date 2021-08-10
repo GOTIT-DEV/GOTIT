@@ -74,7 +74,7 @@ class SiteController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('site.dateMaj' => 'desc', 'site.id' => 'desc');
+    : array('site.metaUpdateDate' => 'desc', 'site.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     $tab_toshow = [];
@@ -93,10 +93,10 @@ class SiteController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $query = $em->createQuery(
         'SELECT sampling.id FROM App:Sampling sampling
                 WHERE sampling.siteFk = ' . $id
@@ -111,11 +111,11 @@ class SiteController extends AbstractController {
         "country.code" => $entity->getCountryFk()->getCode(),
         "site.latDegDec" => $entity->getLatDegDec(),
         "site.longDegDec" => $entity->getLongDegDec(),
-        "site.dateCre" => $DateCre,
-        "site.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "site.userCre" => $service->GetUserCreUserfullname($entity),
-        "site.userMaj" => $service->GetUserMajUserfullname($entity),
+        "site.metaCreationDate" => $MetaCreationDate,
+        "site.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "site.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "site.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
         "linkSampling" => $siteFk,
       );
     }
@@ -239,7 +239,7 @@ class SiteController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $site->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $site->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 

@@ -79,7 +79,7 @@ class UserController extends AbstractController {
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
-      'user.dateMaj' => 'desc',
+      'user.metaUpdateDate' => 'desc',
       'user.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
@@ -97,10 +97,10 @@ class UserController extends AbstractController {
 
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "user.id" => $id,
@@ -111,8 +111,8 @@ class UserController extends AbstractController {
         "user.name" => $entity->getName(),
         "user.institution" => $entity->getInstitution(),
         "user.comment" => $entity->getComment(),
-        "user.dateCre" => $DateCre,
-        "user.dateMaj" => $DateMaj,
+        "user.metaCreationDate" => $MetaCreationDate,
+        "user.metaUpdateDate" => $MetaUpdateDate,
       );
     }
     return new JsonResponse([
@@ -196,7 +196,7 @@ class UserController extends AbstractController {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $user->getUserCre() != $user->getId()
+      $user->getMetaCreationUser() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }

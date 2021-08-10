@@ -22,8 +22,8 @@
 {% endblock %}
 
 {% block body %}
-	{# definition of collones to display 
-									     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+	{# definition of collones to display
+																     ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -55,17 +55,20 @@
 					<th data-column-id="voc.parentCode" data-sortable="false">
 						{{'list.Parent code'|trans}}
 					</th>
-					<th data-column-id="voc.dateMaj" data-width="100">
-						{{'list.Date maj'|trans}}
+					<th data-column-id="voc.metaUpdateDate" data-width="100">
+						{{'list.Meta update date'|trans}}
 					</th>
-					<th data-column-id="voc.dateCre" data-width="100" data-visible="false">
-						{{'list.Date cre'|trans}}
+					<th
+						data-column-id="voc.metaCreationDate"
+						data-width="100"
+						data-visible="false">
+						{{'list.Meta creation date'|trans}}
 					</th>
-					<th data-column-id="voc.userCre" data-width="10" data-visible="false">
-						{{'list.User cre'|trans}}
+					<th data-column-id="voc.metaCreationUser" data-width="10" data-visible="false">
+						{{'list.Meta creation user'|trans}}
 					</th>
-					<th data-column-id="voc.userMaj" data-width="10" data-visible="false">
-						{{'list.User maj'|trans}}
+					<th data-column-id="voc.metaUpdateUser" data-width="10" data-visible="false">
+						{{'list.Meta update user'|trans}}
 					</th>
 					<th
 						data-column-id="show"

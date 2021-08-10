@@ -83,10 +83,10 @@ class ChromatogramController extends AbstractController {
           array_agg(sq.internal_sequence_alignment_code ORDER BY sq.id DESC) as last_internal_sequence_alignment_code,
 
           array_agg(voc_statut_sqc_ass.code ORDER BY sq.id DESC) as last_internal_sequence_status_voc,
-          user_cre.user_full_name as user_cre_username,
+          meta_creation_user.user_full_name as meta_creation_user_username,
           user_maj.user_full_name as user_maj_username
           FROM  chromatogram chromato
-          LEFT JOIN user_db user_cre ON user_cre.id = chromato.creation_user_name
+          LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = chromato.creation_user_name
           LEFT JOIN user_db user_maj ON user_maj.id = chromato.update_user_name
           LEFT JOIN vocabulary voc_chromato_quality ON chromato.chromato_quality_voc_fk = voc_chromato_quality.id
           JOIN pcr ON chromato.pcr_fk = pcr.id
@@ -106,7 +106,7 @@ class ChromatogramController extends AbstractController {
               chromato.date_of_creation, chromato.date_of_update,
               sp.specimen_molecular_code, dna.dna_code, pcr.pcr_code, pcr.pcr_number,
               voc_gene.code, voc_chromato_quality.code,
-              user_cre.user_full_name, user_maj.user_full_name"
+              meta_creation_user.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -138,7 +138,7 @@ class ChromatogramController extends AbstractController {
         "chromato.date_of_creation" => $val['date_of_creation'],
         "chromato.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "last_internal_sequence_code" => $get_code($val['last_internal_sequence_code']),
         "last_internal_sequence_status_voc" => $get_code($val['last_internal_sequence_status_voc']),
@@ -234,7 +234,7 @@ class ChromatogramController extends AbstractController {
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $chromatogram->getUserCre() != $user->getId()
+      $chromatogram->getMetaCreationUser() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }

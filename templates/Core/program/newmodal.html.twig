@@ -6,11 +6,11 @@
 	{% set dateNow = "now"|date('Y-m-d H:i:s',timezone="Europe/Paris")  %}
 
 	{{ form_start(form, {'action': path('program_newmodal')}) }}
-	{% if form.dateCre %}
-		{{ form_widget(form.dateCre, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
+	{% if form.metaCreationDate %}
+		{{ form_widget(form.metaCreationDate, {'value' : dateNow ,'attr': {'style': 'display:none '} }) }}
 	{% endif %}
-	{% if form.dateMaj %}
-		{{ form_widget(form.dateMaj, {'attr': {'style': 'display:none '} }) }}
+	{% if form.metaUpdateDate %}
+		{{ form_widget(form.metaUpdateDate, {'attr': {'style': 'display:none '} }) }}
 	{% endif %}
 	{{ form_rest(form) }}
 	<div class="form-group">

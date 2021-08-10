@@ -49,7 +49,7 @@ class TaxonController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('taxon.dateMaj' => 'desc', 'taxon.id' => 'desc');
+    : array('taxon.metaUpdateDate' => 'desc', 'taxon.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -74,10 +74,10 @@ class TaxonController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "taxon.id" => $id,
@@ -87,11 +87,11 @@ class TaxonController extends AbstractController {
         "taxon.validity" => $entity->getValidity(),
         "taxon.code" => $entity->getCode(),
         "taxon.clade" => $entity->getClade(),
-        "taxon.dateCre" => $DateCre,
-        "taxon.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "taxon.userCre" => $service->GetUserCreUserfullname($entity),
-        "taxon.userMaj" => $service->GetUserMajUserfullname($entity),
+        "taxon.metaCreationDate" => $MetaCreationDate,
+        "taxon.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "taxon.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "taxon.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
 

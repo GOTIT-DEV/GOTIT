@@ -24,7 +24,7 @@
 {% block body %}
 
 	{# definition of collones to display
-															    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+																				    RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -57,19 +57,19 @@
 						data-column-id="code_lot_identification_criterion"
 						data-sortable="true"
 						data-visible="false">{{'list.Last identification critere'|trans}}</th>
-					<th data-column-id="lot.date_of_update" data-width="100">{{'list.Date maj'|trans}}</th>
+					<th data-column-id="lot.date_of_update" data-width="100">{{'list.Meta update date'|trans}}</th>
 					<th
 						data-column-id="lot.date_of_creation"
 						data-width="100"
-						data-visible="false">{{'list.Date cre'|trans}}</th>
+						data-visible="false">{{'list.Meta creation date'|trans}}</th>
 					<th
-						data-column-id="user_cre.user_full_name"
+						data-column-id="meta_creation_user.user_full_name"
 						data-width="10"
-						data-visible="false">{{'list.User cre'|trans}}</th>
+						data-visible="false">{{'list.Meta creation user'|trans}}</th>
 					<th
 						data-column-id="user_maj.user_full_name"
 						data-width="10"
-						data-visible="false">{{'list.User maj'|trans}}</th>
+						data-visible="false">{{'list.Meta update user'|trans}}</th>
 					<th
 						data-column-id="show"
 						data-formatter="show"

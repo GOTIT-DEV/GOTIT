@@ -70,16 +70,16 @@ class ImportFileE3s {
       if ($flagDna && $flagStore) {
         if ($flagStoreAffecte) {
           $query_dna[0]->setStoreFk($query_store[0]);
-          $query_dna[0]->setDateMaj($DateImport);
-          $query_dna[0]->setUserMaj($userId);
+          $query_dna[0]->setMetaUpdateDate($DateImport);
+          $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
           $query_dna[0]->setStoreFk(null);
-          $query_dna[0]->setDateMaj($DateImport);
-          $query_dna[0]->setUserMaj($userId);
+          $query_dna[0]->setMetaUpdateDate($DateImport);
+          $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
         }
       }
@@ -155,11 +155,11 @@ class ImportFileE3s {
           $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_dna[0]->setStoreFk($query_store[0]);
-          $query_dna[0]->setDateMaj($DateImport);
-          $query_dna[0]->setUserMaj($userId);
+          $query_dna[0]->setMetaUpdateDate($DateImport);
+          $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         }
       }
@@ -229,16 +229,16 @@ class ImportFileE3s {
       if ($flagLame && $flagStore) {
         if ($flagStoreAffecte) {
           $query_lame[0]->setStoreFk($query_store[0]);
-          $query_lame[0]->setDateMaj($DateImport);
-          $query_lame[0]->setUserMaj($userId);
+          $query_lame[0]->setMetaUpdateDate($DateImport);
+          $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
           $query_lame[0]->setStoreFk(null);
-          $query_lame[0]->setDateMaj($DateImport);
-          $query_lame[0]->setUserMaj($userId);
+          $query_lame[0]->setMetaUpdateDate($DateImport);
+          $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
         }
       }
@@ -314,11 +314,11 @@ class ImportFileE3s {
           $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lame[0]->setStoreFk($query_store[0]);
-          $query_lame[0]->setDateMaj($DateImport);
-          $query_lame[0]->setUserMaj($userId);
+          $query_lame[0]->setMetaUpdateDate($DateImport);
+          $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         }
       }
@@ -388,16 +388,16 @@ class ImportFileE3s {
       if ($flagLot && $flagStore) {
         if ($flagStoreAffecte) {
           $query_lot[0]->setStoreFk($query_store[0]);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
+          $query_lot[0]->setMetaUpdateDate($DateImport);
+          $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
           $query_lot[0]->setStoreFk(null);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
+          $query_lot[0]->setMetaUpdateDate($DateImport);
+          $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
         }
       }
@@ -473,11 +473,11 @@ class ImportFileE3s {
           $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
           $query_lot[0]->setStoreFk($query_store[0]);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
+          $query_lot[0]->setMetaUpdateDate($DateImport);
+          $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
-          $query_store[0]->setDateMaj($DateImport);
-          $query_store[0]->setUserMaj($userId);
+          $query_store[0]->setMetaUpdateDate($DateImport);
+          $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         }
       }
@@ -555,13 +555,13 @@ class ImportFileE3s {
           $entityRel->$method($query_source[0]);
           $method = "setInternalLotFk";
           $entityRel->$method($query_lot[0]);
-          $entityRel->setDateCre($DateImport);
-          $entityRel->setDateMaj($DateImport);
-          $entityRel->setUserCre($userId);
-          $entityRel->setUserMaj($userId);
+          $entityRel->setMetaCreationDate($DateImport);
+          $entityRel->setMetaUpdateDate($DateImport);
+          $entityRel->setMetaCreationUser($userId);
+          $entityRel->setMetaUpdateUser($userId);
           $em->persist($entityRel);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
+          $query_lot[0]->setMetaUpdateDate($DateImport);
+          $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
         }
       }
@@ -640,18 +640,18 @@ class ImportFileE3s {
         } else {
           $method = "setAccessionNumber";
           $query_sa[0]->$method($data["accession_number"]);
-          $query_sa[0]->setDateMaj($DateImport);
-          $query_sa[0]->setUserMaj($userId);
+          $query_sa[0]->setMetaUpdateDate($DateImport);
+          $query_sa[0]->setMetaUpdateUser($userId);
           $em->persist($query_sa[0]);
           $entityRel = new \App\Entity\InternalSequencePublication();
           $method = "setSourceFk";
           $entityRel->$method($query_source[0]);
           $method = "setInternalSequenceFk";
           $entityRel->$method($query_sa[0]);
-          $entityRel->setDateCre($DateImport);
-          $entityRel->setDateMaj($DateImport);
-          $entityRel->setUserCre($userId);
-          $entityRel->setUserMaj($userId);
+          $entityRel->setMetaCreationDate($DateImport);
+          $entityRel->setMetaUpdateDate($DateImport);
+          $entityRel->setMetaCreationUser($userId);
+          $entityRel->setMetaUpdateUser($userId);
           $em->persist($entityRel);
         }
       }
@@ -753,10 +753,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
 
       $em->persist($entity);
 
@@ -802,10 +802,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -937,10 +937,10 @@ class ImportFileE3s {
         $flag_new_pcr = 0;
         $entity = $list_new_pcr[$data['pcr.code']];
       } else {
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
         $list_new_pcr[$data['pcr.code']] = $entity;
       }
@@ -984,10 +984,10 @@ class ImportFileE3s {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
                 $entityRel->$method($foreign_record);
               }
-              $entityRel->setDateCre($DateImport);
-              $entityRel->setDateMaj($DateImport);
-              $entityRel->setUserCre($userId);
-              $entityRel->setUserMaj($userId);
+              $entityRel->setMetaCreationDate($DateImport);
+              $entityRel->setMetaUpdateDate($DateImport);
+              $entityRel->setMetaCreationUser($userId);
+              $entityRel->setMetaUpdateUser($userId);
               $em->persist($entityRel);
             }
           }
@@ -1046,10 +1046,10 @@ class ImportFileE3s {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
             $entityRel->$method($foreign_record);
           }
-          $entityRel->setDateCre($DateImport);
-          $entityRel->setDateMaj($DateImport);
-          $entityRel->setUserCre($userId);
-          $entityRel->setUserMaj($userId);
+          $entityRel->setMetaCreationDate($DateImport);
+          $entityRel->setMetaUpdateDate($DateImport);
+          $entityRel->setMetaCreationUser($userId);
+          $entityRel->setMetaUpdateUser($userId);
           $em->persist($entityRel);
         }
       }
@@ -1172,10 +1172,10 @@ class ImportFileE3s {
         }
       }
       // persist the PCR (1 pcr /line)
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of PcrProducer
@@ -1216,10 +1216,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1312,10 +1312,10 @@ class ImportFileE3s {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
             $entity->$method($foreign_record);
           }
-          $entity->setDateCre($DateImport);
-          $entity->setDateMaj($DateImport);
-          $entity->setUserCre($userId);
-          $entity->setUserMaj($userId);
+          $entity->setMetaCreationDate($DateImport);
+          $entity->setMetaUpdateDate($DateImport);
+          $entity->setMetaCreationUser($userId);
+          $entity->setMetaUpdateUser($userId);
           $em->persist($entity);
         }
       }
@@ -1448,10 +1448,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of DnaExtraction
@@ -1496,10 +1496,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1564,10 +1564,10 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv); // save the values ​​of the field
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -1717,10 +1717,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of TaxonSampling
@@ -1765,10 +1765,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1809,10 +1809,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1853,10 +1853,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1897,10 +1897,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -1941,10 +1941,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2075,10 +2075,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of SlideProducer
@@ -2125,10 +2125,10 @@ class ImportFileE3s {
                 $entityRel->$method($foreign_record);
               }
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2236,10 +2236,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of TaxonIdentification
@@ -2328,10 +2328,10 @@ class ImportFileE3s {
             }
           }
         }
-        $entityRel->setDateCre($DateImport);
-        $entityRel->setDateMaj($DateImport);
-        $entityRel->setUserCre($userId);
-        $entityRel->setUserMaj($userId);
+        $entityRel->setMetaCreationDate($DateImport);
+        $entityRel->setMetaUpdateDate($DateImport);
+        $entityRel->setMetaCreationUser($userId);
+        $entityRel->setMetaUpdateUser($userId);
         $em->persist($entityRel);
       }
 
@@ -2384,10 +2384,10 @@ class ImportFileE3s {
                   $entityRel->$method($foreign_record);
                 }
               }
-              $entityRel->setDateCre($DateImport);
-              $entityRel->setDateMaj($DateImport);
-              $entityRel->setUserCre($userId);
-              $entityRel->setUserMaj($userId);
+              $entityRel->setMetaCreationDate($DateImport);
+              $entityRel->setMetaUpdateDate($DateImport);
+              $entityRel->setMetaCreationUser($userId);
+              $entityRel->setMetaUpdateUser($userId);
               $em->persist($entityRel);
             }
           }
@@ -2478,10 +2478,10 @@ class ImportFileE3s {
             }
           }
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -2629,10 +2629,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of InternalLotProducer
@@ -2677,10 +2677,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2728,10 +2728,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2773,10 +2773,10 @@ class ImportFileE3s {
             } else {
               $entityRel->setSpecimenTypeVocFk($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2861,10 +2861,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
+      $entityRel->setMetaCreationDate($DateImport);
+      $entityRel->setMetaUpdateDate($DateImport);
+      $entityRel->setMetaCreationUser($userId);
+      $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
       # Record of TaxonCurator
@@ -2909,10 +2909,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -2995,10 +2995,10 @@ class ImportFileE3s {
         $entityRel->$method($foreign_record);
       }
 
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
+      $entityRel->setMetaCreationDate($DateImport);
+      $entityRel->setMetaUpdateDate($DateImport);
+      $entityRel->setMetaCreationUser($userId);
+      $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
       if (!$flagSeq && !$flagSeqExt) {
         $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data2["code_seq_ass"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data2) . "<br>";
@@ -3126,10 +3126,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of MotuDelimiter
@@ -3174,10 +3174,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -3225,10 +3225,10 @@ class ImportFileE3s {
             $entityRel->$method($foreign_record);
           }
 
-          $entityRel->setDateCre($DateImport);
-          $entityRel->setDateMaj($DateImport);
-          $entityRel->setUserCre($userId);
-          $entityRel->setUserMaj($userId);
+          $entityRel->setMetaCreationDate($DateImport);
+          $entityRel->setMetaUpdateDate($DateImport);
+          $entityRel->setMetaCreationUser($userId);
+          $entityRel->setMetaUpdateUser($userId);
           $em->persist($entityRel);
           if (!$flagSeq && !$flagSeqExt) {
             $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data2["code_seq_ass"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data2) . "<br>";
@@ -3308,10 +3308,10 @@ class ImportFileE3s {
             $entity->$method($dataColCsv);
           }
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -3374,10 +3374,10 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv); // save the values ​​of the field
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -3505,10 +3505,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of seq_ass_ext_est_realise_par
@@ -3553,10 +3553,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -3604,10 +3604,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -3692,10 +3692,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
+      $entityRel->setMetaCreationDate($DateImport);
+      $entityRel->setMetaUpdateDate($DateImport);
+      $entityRel->setMetaCreationUser($userId);
+      $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
       # Record of TaxonCurator
@@ -3740,10 +3740,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -3870,10 +3870,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of producer
@@ -3918,10 +3918,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -3969,10 +3969,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4057,10 +4057,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
+      $entityRel->setMetaCreationDate($DateImport);
+      $entityRel->setMetaUpdateDate($DateImport);
+      $entityRel->setMetaCreationUser($userId);
+      $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
       # Record of TaxonCurator
@@ -4105,10 +4105,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4204,10 +4204,10 @@ class ImportFileE3s {
                   $list_field_commune = explode("|", $dataColCsv);
                   $municipality->setName(str_replace("_", " ", $list_field_commune[0]));
                   $municipality->setRegion(str_replace("_", " ", $list_field_commune[1]));
-                  $municipality->setDateCre($DateImport);
-                  $municipality->setDateMaj($DateImport);
-                  $municipality->setUserCre($userId);
-                  $municipality->setUserMaj($userId);
+                  $municipality->setMetaCreationDate($DateImport);
+                  $municipality->setMetaUpdateDate($DateImport);
+                  $municipality->setMetaCreationUser($userId);
+                  $municipality->setMetaUpdateUser($userId);
                   $country_fk = $em->getRepository("App:Country")->findOneBy(array("codePays" => $list_field_commune[2]));
                   if ($country_fk === NULL) {
                     $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
@@ -4241,10 +4241,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
     }
     // A FAIRE : ajouter les champ municipality.name +municipality.region
@@ -4370,10 +4370,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entity->setDateCre($DateImport);
-      $entity->setDateMaj($DateImport);
-      $entity->setUserCre($userId);
-      $entity->setUserMaj($userId);
+      $entity->setMetaCreationDate($DateImport);
+      $entity->setMetaUpdateDate($DateImport);
+      $entity->setMetaCreationUser($userId);
+      $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
       # Record of assembler
@@ -4418,10 +4418,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4469,10 +4469,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4520,10 +4520,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4608,10 +4608,10 @@ class ImportFileE3s {
           }
         }
       }
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
+      $entityRel->setMetaCreationDate($DateImport);
+      $entityRel->setMetaUpdateDate($DateImport);
+      $entityRel->setMetaCreationUser($userId);
+      $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
       # Record of TaxonCurator
@@ -4656,10 +4656,10 @@ class ImportFileE3s {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
               $entityRel->$method($foreign_record);
             }
-            $entityRel->setDateCre($DateImport);
-            $entityRel->setDateMaj($DateImport);
-            $entityRel->setUserCre($userId);
-            $entityRel->setUserMaj($userId);
+            $entityRel->setMetaCreationDate($DateImport);
+            $entityRel->setMetaUpdateDate($DateImport);
+            $entityRel->setMetaCreationUser($userId);
+            $entityRel->setMetaUpdateUser($userId);
             $em->persist($entityRel);
           }
         }
@@ -4733,10 +4733,10 @@ class ImportFileE3s {
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv); // save the values ​​of the field
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -4802,10 +4802,10 @@ class ImportFileE3s {
             $code = $dataColCsv;
           }
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -4911,10 +4911,10 @@ class ImportFileE3s {
             }
           }
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -5025,10 +5025,10 @@ class ImportFileE3s {
             }
           }
         }
-        $entity->setDateCre($DateImport);
-        $entity->setDateMaj($DateImport);
-        $entity->setUserCre($userId);
-        $entity->setUserMaj($userId);
+        $entity->setMetaCreationDate($DateImport);
+        $entity->setMetaUpdateDate($DateImport);
+        $entity->setMetaCreationUser($userId);
+        $entity->setMetaUpdateUser($userId);
         $em->persist($entity);
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));

@@ -69,7 +69,7 @@ ROLE_PROJECT: {{ is_granted("ROLE_PROJECT")|json_encode() }}
 }
 
 function is_owner(row) {
-return current_user_id == row.userCreId
+return current_user_id == row.metaCreationUserId
 }
 
 $(document).ready(function(){

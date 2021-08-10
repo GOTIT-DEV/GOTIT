@@ -87,7 +87,7 @@ class ExternalSequenceController extends AbstractController {
         voc_status.code as voc_external_sequence_status_code,
         voc_date_precision.vocabulary_title as voc_date_precision_title,
         sq.creation_user_name,
-        user_cre.user_full_name as user_cre_username,
+        meta_creation_user.user_full_name as meta_creation_user_username,
         user_maj.user_full_name as user_maj_username,
         string_agg(DISTINCT source.source_title , ' ; ') as list_source,
         CASE
@@ -95,7 +95,7 @@ class ExternalSequenceController extends AbstractController {
             WHEN (count(motu_number.id)>0) THEN 1
         END motu_flag
 	  FROM external_sequence sq
-    LEFT JOIN user_db user_cre ON user_cre.id = sq.creation_user_name
+    LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = sq.creation_user_name
     LEFT JOIN user_db user_maj ON user_maj.id = sq.update_user_name
 		JOIN sampling ON sampling.id = sq.sampling_fk
     JOIN site st ON st.id = sampling.site_fk
@@ -130,7 +130,7 @@ class ExternalSequenceController extends AbstractController {
       sq.external_sequence_primary_taxon, sq.external_sequence_specimen_number,
       sq.external_sequence_accession_number,
       voc_gene.code, voc_status.code, voc_date_precision.vocabulary_title,
-      sq.creation_user_name, user_cre.user_full_name, user_maj.user_full_name"
+      sq.creation_user_name, meta_creation_user.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
@@ -165,7 +165,7 @@ class ExternalSequenceController extends AbstractController {
         "country.country_name" => $val['country_name'],
         "municipality.municipality_code" => $val['municipality_code'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
@@ -263,7 +263,7 @@ class ExternalSequenceController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $sequence->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $sequence->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load service  generic_function_e3s

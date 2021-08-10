@@ -524,8 +524,8 @@
 									<th data-column-id="dbName" data-visible="false">DB Table</th>
 									<th data-column-id="name">Table</th>
 									<th data-column-id="code">Code</th>
-									<th data-column-id="dateMaj" data-type="date" data-sortable="true">{{'list.Date maj'|trans}}</th>
-									<th data-column-id="userMaj">{{'User maj'|trans}}</th>
+									<th data-column-id="metaUpdateDate" data-type="date" data-sortable="true">{{'list.Meta update date'|trans}}</th>
+									<th data-column-id="metaUpdateUser">{{'Meta update user'|trans}}</th>
 									<th
 										data-column-id="showEntity"
 										data-formatter="showEntity"
@@ -540,8 +540,8 @@
 										<td>{{entity.name}}</td>
 										<td>{{('core.' ~ entity.name)|trans(domain="sections")|capitalize}}</td>
 										<td>{{entity.code }}</td>
-										<td>{{entity.dateMaj}}</td>
-										<td>{{entity.userMaj }}</td>
+										<td>{{entity.metaUpdateDate}}</td>
+										<td>{{entity.metaUpdateUser }}</td>
 										<td></td>
 									</tr>
 

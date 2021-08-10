@@ -50,7 +50,7 @@ class MotuDatasetController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('motu_dataset.dateMaj' => 'desc', 'motu_dataset.id' => 'desc');
+    : array('motu_dataset.metaUpdateDate' => 'desc', 'motu_dataset.id' => 'desc');
 
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
@@ -73,10 +73,10 @@ class MotuDatasetController extends AbstractController {
       $id = $entity->getId();
       $Date = ($entity->getDate() !== null)
       ? $entity->getDate()->format('Y-m-d') : null;
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       //  concatenated list of people
       $query = $em->createQuery(
         'SELECT p.name as nom FROM App:MotuDelimiter megp
@@ -95,10 +95,10 @@ class MotuDatasetController extends AbstractController {
         "listePerson" => $listePerson,
         "motu_dataset.comment" => $entity->getComment(),
         "motu_dataset.date" => $Date,
-        "motu_dataset.dateCre" => $DateCre, "motu_dataset.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "motu_dataset.userCre" => $service->GetUserCreUserfullname($entity),
-        "motu_dataset.userMaj" => $service->GetUserMajUserfullname($entity),
+        "motu_dataset.metaCreationDate" => $MetaCreationDate, "motu_dataset.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "motu_dataset.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "motu_dataset.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
 

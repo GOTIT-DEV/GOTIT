@@ -2,13 +2,13 @@
 
 namespace App\Form\EventListener;
 
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use DateTime;
 use App\Form\Enums\Action;
+use DateTime;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Security;
 
 class AddUserDateFields implements EventSubscriberInterface {
   protected $security;
@@ -32,15 +32,15 @@ class AddUserDateFields implements EventSubscriberInterface {
     /* Do not replace creator user if creation date is defined :
     it means that the record was already existing,
     but creator user was not known*/
-    $data->setUserCre($data->getUserCre() || $data->getDateCre()
-      ? $data->getUserCre()
+    $data->setMetaCreationUser($data->getMetaCreationUser() || $data->getMetaCreationDate()
+      ? $data->getMetaCreationUser()
       : $user->getId());
-    $data->setUserMaj($user->getId());
+    $data->setMetaUpdateUser($user->getId());
 
     // This is why we are setting the date *after* setting the user
     $now = new DateTime();
-    $data->setDateCre($data->getDateCre() ?: $now);
-    $data->setDateMaj($now);
+    $data->setMetaCreationDate($data->getMetaCreationDate() ?: $now);
+    $data->setMetaUpdateDate($now);
 
     $event->setData($data);
   }
@@ -50,11 +50,11 @@ class AddUserDateFields implements EventSubscriberInterface {
     $form_type = $form->getConfig()->getOption("action_type");
 
     if ($form_type == Action::show()) {
-      $form->add('dateCre', DateTimeType::class, [
+      $form->add('metaCreationDate', DateTimeType::class, [
         'widget' => 'single_text',
         'html5' => false,
       ])
-        ->add('dateMaj', DateTimeType::class, [
+        ->add('metaUpdateDate', DateTimeType::class, [
           'widget' => 'single_text',
           'html5' => false,
         ]);

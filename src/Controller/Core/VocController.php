@@ -64,7 +64,7 @@ class VocController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('voc.dateMaj' => 'desc', 'voc.id' => 'desc');
+    : array('voc.metaUpdateDate' => 'desc', 'voc.id' => 'desc');
 
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
@@ -87,10 +87,10 @@ class VocController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "voc.id" => $id,
@@ -99,10 +99,10 @@ class VocController extends AbstractController {
         "voc.libelleSecondLanguage" => $translator->trans($entity->getLibelle()),
         "voc.parent" => $translator->trans('vocParent.' . $entity->getParent()),
         "voc.parentCode" => $entity->getParent(),
-        "voc.dateCre" => $DateCre, "voc.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "voc.userCre" => $service->GetUserCreUserfullname($entity),
-        "voc.userMaj" => $service->GetUserMajUserfullname($entity),
+        "voc.metaCreationDate" => $MetaCreationDate, "voc.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "voc.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "voc.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
 

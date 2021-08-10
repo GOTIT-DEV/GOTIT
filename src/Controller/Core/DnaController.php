@@ -64,7 +64,7 @@ class DnaController extends AbstractController {
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
-      'dna.dateMaj' => 'desc',
+      'dna.metaUpdateDate' => 'desc',
       'dna.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
@@ -96,10 +96,10 @@ class DnaController extends AbstractController {
       ? $entity->getDate()->format('Y-m-d') : null;
       $code = $entity->getStoreFk()
       ? $entity->getStoreFk()->getCode() : null;
-      $DateMaj = $entity->getDateMaj()
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = $entity->getDateCre()
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = $entity->getMetaUpdateDate()
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = $entity->getMetaCreationDate()
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
 
       // search the PCRs from the DNA
       $query = $em->createQuery(
@@ -128,11 +128,11 @@ class DnaController extends AbstractController {
         "listePerson" => $listePerson,
         "dna.date" => $Date,
         "store.code" => $code,
-        "dna.dateCre" => $DateCre,
-        "dna.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "dna.userCre" => $service->GetUserCreUserfullname($entity),
-        "dna.userMaj" => $service->GetUserMajUserfullname($entity),
+        "dna.metaCreationDate" => $MetaCreationDate,
+        "dna.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "dna.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "dna.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
         "linkPcr" => $linkPcr,
       );
     }
@@ -224,7 +224,7 @@ class DnaController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $dna->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $dna->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 

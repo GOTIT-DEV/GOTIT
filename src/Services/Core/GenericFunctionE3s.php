@@ -2,8 +2,8 @@
 
 namespace App\Services\Core;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Service GenericFunctionE3s
@@ -16,27 +16,27 @@ class GenericFunctionE3s {
     $this->entityManager = $manager;
   }
 
-  public function GetUserCreId($entity) {
-    return ($entity->getUserCre() !== null) ? $entity->getUserCre() : 0;
+  public function GetMetaCreationUserId($entity) {
+    return ($entity->getMetaCreationUser() !== null) ? $entity->getMetaCreationUser() : 0;
   }
 
-  public function GetUserCreUsername($entity) {
-    $user = $entity->getUserCre();
+  public function GetMetaCreationUserUsername($entity) {
+    $user = $entity->getMetaCreationUser();
     return $user ? $user->getUsername() : 'NA';
   }
 
-  public function GetUserMajUsername($entity) {
-    $user = $entity->getUserMaj();
+  public function GetMetaUpdateUserUsername($entity) {
+    $user = $entity->getMetaUpdateUser();
     return $user ? $user->getUsername() : 'NA';
   }
 
-  public function GetUserCreUserfullname($entity) {
-    $user = $entity->getUserCre();
+  public function GetMetaCreationUserUserfullname($entity) {
+    $user = $entity->getMetaCreationUser();
     return $user ? $user->getName() : 'NA';
   }
 
-  public function GetUserMajUserfullname($entity) {
-    $user = $entity->getUserMaj();
+  public function GetMetaUpdateUserUserfullname($entity) {
+    $user = $entity->getMetaUpdateUser();
     return $user ? $user->getName() : 'NA';
   }
 

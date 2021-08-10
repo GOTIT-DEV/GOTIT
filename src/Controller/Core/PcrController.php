@@ -71,7 +71,7 @@ class PcrController extends AbstractController {
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
-      'pcr.dateMaj' => 'desc', 'pcr.id' => 'desc',
+      'pcr.metaUpdateDate' => 'desc', 'pcr.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
@@ -107,10 +107,10 @@ class PcrController extends AbstractController {
       $id = $entity->getId();
       $Date = ($entity->getDate() !== null)
       ? $entity->getDate()->format('Y-m-d') : null;
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       // Search chromatograms associated to a PCR
       $query = $em->createQuery(
         'SELECT chromato.id FROM App:Chromatogram chromato
@@ -139,11 +139,11 @@ class PcrController extends AbstractController {
         "pcr.date" => $Date,
         "vocQualitePcr.code" => $entity->getQualityVocFk()->getCode(),
         "vocSpecificite.code" => $entity->getSpecificityVocFk()->getCode(),
-        "pcr.dateCre" => $DateCre,
-        "pcr.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "pcr.userCre" => $service->GetUserCreUserfullname($entity),
-        "pcr.userMaj" => $service->GetUserMajUserfullname($entity),
+        "pcr.metaCreationDate" => $MetaCreationDate,
+        "pcr.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "pcr.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "pcr.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
         "linkChromatogram" => $linkChromatogram,
       );
     }
@@ -233,7 +233,7 @@ class PcrController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $pcr->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $pcr->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 

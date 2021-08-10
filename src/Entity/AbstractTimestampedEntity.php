@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping\MappedSuperclass;
-use Doctrine\ORM\Mapping as ORM;
-use App\Doctrine\TimestampedEntityInterface;
 use App\Doctrine\SetUserTimestampListener;
+use App\Doctrine\TimestampedEntityInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
 /**
  * @MappedSuperclass
@@ -17,13 +17,13 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * @var \DateTime
    * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
-  private $dateCre;
+  private $metaCreationDate;
 
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
-  private $dateMaj;
+  private $metaUpdateDate;
 
   /**
    * @var User
@@ -35,7 +35,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *  nullable=true,
    *  onDelete="SET NULL")
    */
-  private $userCre;
+  private $metaCreationUser;
 
   /**
    * @var User
@@ -47,73 +47,73 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *  nullable=true,
    *  onDelete="SET NULL")
    */
-  private $userMaj;
+  private $metaUpdateUser;
 
   /**
-   * Set dateCre
-   * @param \DateTime $dateCre
+   * Set metaCreationDate
+   * @param \DateTime $metaCreationDate
    */
-  public function setDateCre($dateCre) {
-    $this->dateCre = $dateCre;
+  public function setMetaCreationDate($metaCreationDate) {
+    $this->metaCreationDate = $metaCreationDate;
     return $this;
   }
 
   /**
-   * Get dateCre
+   * Get metaCreationDate
    * @return \DateTime
    */
-  public function getDateCre() {
-    return $this->dateCre;
+  public function getMetaCreationDate() {
+    return $this->metaCreationDate;
   }
 
   /**
-   * Set dateMaj
-   * @param \DateTime $dateMaj
+   * Set metaUpdateDate
+   * @param \DateTime $metaUpdateDate
    */
-  public function setDateMaj($dateMaj) {
-    $this->dateMaj = $dateMaj;
+  public function setMetaUpdateDate($metaUpdateDate) {
+    $this->metaUpdateDate = $metaUpdateDate;
     return $this;
   }
 
   /**
-   * Get dateMaj
+   * Get metaUpdateDate
    * @return \DateTime
    */
-  public function getDateMaj() {
-    return $this->dateMaj;
+  public function getMetaUpdateDate() {
+    return $this->metaUpdateDate;
   }
 
   /**
-   * Set userCre
-   * @param integer $userCre
+   * Set metaCreationUser
+   * @param integer $metaCreationUser
    */
-  public function setUserCre($userCre) {
-    $this->userCre = $userCre;
+  public function setMetaCreationUser($metaCreationUser) {
+    $this->metaCreationUser = $metaCreationUser;
     return $this;
   }
 
   /**
-   * Get userCre
+   * Get metaCreationUser
    * @return integer
    */
-  public function getUserCre() {
-    return $this->userCre;
+  public function getMetaCreationUser() {
+    return $this->metaCreationUser;
   }
 
   /**
-   * Set userMaj
-   * @param integer $userMaj
+   * Set metaUpdateUser
+   * @param integer $metaUpdateUser
    */
-  public function setUserMaj($userMaj) {
-    $this->userMaj = $userMaj;
+  public function setMetaUpdateUser($metaUpdateUser) {
+    $this->metaUpdateUser = $metaUpdateUser;
     return $this;
   }
 
   /**
-   * Get userMaj
+   * Get metaUpdateUser
    * @return integer
    */
-  public function getUserMaj() {
-    return $this->userMaj;
+  public function getMetaUpdateUser() {
+    return $this->metaUpdateUser;
   }
 }

@@ -145,12 +145,12 @@ class SpecimenController extends AbstractController {
       voc_sp_identification_criterion.code as code_sp_identification_criterion,
       voc_sp_specimen_type.code as voc_sp_specimen_type_code,
       sp.creation_user_name,
-      user_cre.user_full_name as user_cre_username,
+      meta_creation_user.user_full_name as meta_creation_user_username,
       user_maj.user_full_name as user_maj_username,
       string_agg(cast( dna.id as character varying) , ' ;') as list_dna,
       string_agg(cast( specimen_slide.id as character varying) , ' ;') as list_specimen_slide
 	  FROM  specimen sp
-    LEFT JOIN user_db user_cre ON user_cre.id = sp.creation_user_name
+    LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = sp.creation_user_name
     LEFT JOIN user_db user_maj ON user_maj.id = sp.update_user_name
     JOIN internal_biological_material lot
       ON sp.internal_biological_material_fk = lot.id
@@ -181,7 +181,7 @@ class SpecimenController extends AbstractController {
         rt_sp.taxon_name, ei_sp.identification_date,
         voc_sp_identification_criterion.code, voc_sp_specimen_type.code,
         sp.creation_user_name,
-        user_cre.user_full_name,
+        meta_creation_user.user_full_name,
         user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
@@ -212,7 +212,7 @@ class SpecimenController extends AbstractController {
         "sp.date_of_creation" => $val['date_of_creation'],
         "sp.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
         "linkDna" => $linkDna,
         "linkSlide" => $linkSlide,
@@ -302,7 +302,7 @@ class SpecimenController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $specimen->getUserCre() != $user->getId()) {
+    if ($user->getRole() == 'ROLE_COLLABORATION' && $specimen->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 

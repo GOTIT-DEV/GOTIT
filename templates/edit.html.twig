@@ -50,7 +50,7 @@
 			edit_form.vars.action_type == "show" and
 				(	is_granted('ROLE_PROJECT') or
 					(	is_granted('ROLE_COLLABORATION') and
-						edit_form.vars.data.userCre == app.user.id))
+						edit_form.vars.data.metaCreationUser == app.user.id))
 		%}
 		<a href="{{ app.request.pathinfo }}/edit" class="btn btn-sm btn-success">
 			<i class="fas fa-edit"></i>

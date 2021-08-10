@@ -49,7 +49,7 @@ class ProgramController extends AbstractController {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
     ? $request->get('sort')
-    : array('program.dateMaj' => 'desc', 'program.id' => 'desc');
+    : array('program.metaUpdateDate' => 'desc', 'program.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -74,10 +74,10 @@ class ProgramController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
+      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "program.id" => $id,
@@ -87,11 +87,11 @@ class ProgramController extends AbstractController {
         "program.coordinators" => $entity->getCoordinators(),
         "program.startYear" => $entity->getStartYear(),
         "program.endYear" => $entity->getEndYear(),
-        "program.dateCre" => $DateCre,
-        "program.dateMaj" => $DateMaj,
-        "userCreId" => $service->GetUserCreId($entity),
-        "program.userCre" => $service->GetUserCreUserfullname($entity),
-        "program.userMaj" => $service->GetUserMajUserfullname($entity),
+        "program.metaCreationDate" => $MetaCreationDate,
+        "program.metaUpdateDate" => $MetaUpdateDate,
+        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
+        "program.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
+        "program.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
       );
     }
 

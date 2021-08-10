@@ -92,7 +92,7 @@ class InternalSequenceController extends AbstractController {
       rt_sq.taxon_name as last_taxname_sq,
       ei_sq.identification_date as last_identification_date_sq,
       voc_sq_identification_criterion.code as code_sq_identification_criterion,
-      user_cre.user_full_name as user_cre_username,
+      meta_creation_user.user_full_name as meta_creation_user_username,
       user_maj.user_full_name as user_maj_username,
       voc_gene.code as voc_internal_sequence_gene_code,
       string_agg(DISTINCT sp.specimen_molecular_code, ' ;') as list_specimen_molecular_code,
@@ -103,7 +103,7 @@ class InternalSequenceController extends AbstractController {
           WHEN (count(motu_number.id)>0) THEN 1
       END motu_flag
       FROM  internal_sequence sq
-        LEFT JOIN user_db user_cre ON user_cre.id = sq.creation_user_name
+        LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = sq.creation_user_name
         LEFT JOIN user_db user_maj ON user_maj.id = sq.update_user_name
         LEFT JOIN vocabulary voc_internal_sequence_status
           ON sq.internal_sequence_status_voc_fk = voc_internal_sequence_status.id
@@ -133,7 +133,7 @@ class InternalSequenceController extends AbstractController {
         voc_internal_sequence_status.code,
         sq.internal_sequence_creation_date, sq.internal_sequence_alignment_code, sq.internal_sequence_accession_number,
         rt_sq.taxon_name, ei_sq.identification_date, voc_sq_identification_criterion.code,
-        user_cre.user_full_name, user_maj.user_full_name,
+        meta_creation_user.user_full_name, user_maj.user_full_name,
         voc_gene.code"
       . $having
       . " ORDER BY " . $orderBy;
@@ -167,7 +167,7 @@ class InternalSequenceController extends AbstractController {
         "code_sq_identification_criterion" => $val['code_sq_identification_criterion'],
         "motu_flag" => $val['motu_flag'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
@@ -349,7 +349,7 @@ class InternalSequenceController extends AbstractController {
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $sequence->getUserCre() != $user->getId()
+      $sequence->getMetaCreationUser() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }

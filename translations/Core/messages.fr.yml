@@ -89,8 +89,8 @@ list.lastCodeSeqAss: Dernier code séquence assemblée
 list.lastStatutSeqAss: Dernier statut
 list.lastCodeSeqAlignement: Dernier code séquence alignée
 list.lastDateSeqAss: Derniere date séquence assemblée
-list.Date maj: Date maj
-list.Date cre: Date cre
+list.Meta update date: Meta update date
+list.Meta creation date: Meta creation date
 list.Lat deg dec: Latitude
 list.Long deg dec: Longitude
 list.Liste taxons: Liste de taxons
@@ -406,14 +406,14 @@ Conductance micro sie cm: Conductivité (µS/cm)
 Identification criterion voc fk: Critère identification
 Date adn: Date ADN
 Date collecte: Date collecte
-Date cre: Date création
+Meta creation date: Date création
 Creation date: Date création
 Date creation sqc ass: Date création séquence assemblée
 Date creation sqc ass ext: Date création séquence externe assemblée
 Identification date: Identification date
 Date lame: Date lame
 Date lot materiel: Date lot matériel
-Date maj: Date mise à jour
+Meta update date: Date mise à jour
 Date motu: Date MOTU
 Date pcr: Date PCR
 Date precision voc fk: Précision date
@@ -500,8 +500,8 @@ Storage type voc fk: Type stock
 Collection type voc fk: Type collection
 Funding agency: Financeur
 Specimen type voc fk: Type individu
-User cre: Utilisateur création
-User maj: Utilisateur mise à jour
+Meta creation user: Utilisateur création
+Meta update user: Utilisateur mise à jour
 Validity: Validité
 Eyes voc fk: Vision
 # titles of collections or N-N type relational tables
@@ -543,8 +543,8 @@ Locale: Version
 button.NewUser: Créer un nouvel utilisateur
 title.user: Utilisateur
 title.users: Utilisateurs
-list.User cre: User Create
-list.User maj: User Update
+list.Meta creation user: User Create
+list.Meta update user: User Update
 title.Person: Personne
 ROLE_ADMIN: ADMIN
 ROLE_PROJECT: MEMBRE PROJET

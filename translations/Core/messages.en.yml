@@ -255,8 +255,8 @@ list.lastCodeSeqAss: Last sequence code
 list.lastStatutSeqAss: Last status
 list.lastCodeSeqAlignement: Last alignment code
 list.lastDateSeqAss: Last sequence date
-list.Date maj: Date Up
-list.Date cre: Date Cre
+list.Meta update date: Date Up
+list.Meta creation date: Meta creation date
 list.Lat deg dec: Latitude
 list.Long deg dec: Longitude
 list.Liste taxons: List of taxa
@@ -570,14 +570,14 @@ Conductance micro sie cm: Specific conductance (µS/cm)
 Identification criterion voc fk: Identification criterion
 Date adn: DNA date
 Date collecte: Sampling date
-Date cre: Creation date
+Meta creation date: Creation date
 Creation date: Creation date
 Date creation sqc ass: Sequence creation date
 Date creation sqc ass ext: External sequence creation date
 Identification date: Identification date
 Date lame: Slide date
 Date lot materiel: Biological material date
-Date maj: Updating date
+Meta update date: Updating date
 Date motu: MOTU date
 Date pcr: PCR date
 Date precision voc fk: Date precision
@@ -664,8 +664,8 @@ Storage type voc fk: Store type
 Collection type voc fk: Collection type
 Funding agency: Funding agency
 Specimen type voc fk: Specimen type
-User cre: Creation user name
-User maj: Updating user name
+Meta creation user: Creation user name
+Meta update user: Updating user name
 Validity: Taxon validity
 Eyes voc fk: Vision
 # titles of collections or tables related to N-N type relational tables
@@ -707,8 +707,8 @@ Locale: Version
 button.NewUser: Create a new User
 title.user: User
 title.users: Users
-list.User cre: User Create
-list.User maj: User Update
+list.Meta creation user: User Create
+list.Meta update user: User Update
 title.Person: Person
 Person: Person
 ROLE_ADMIN: ADMIN

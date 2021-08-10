@@ -75,10 +75,10 @@ class SlideController extends AbstractController {
         voc_sp_specimen_type.code as voc_sp_specimen_type_code,
         lot.internal_biological_material_code,
         ss.creation_user_name, ss.date_of_creation, ss.date_of_update,
-        user_cre.user_full_name as user_cre_username ,
+        meta_creation_user.user_full_name as meta_creation_user_username ,
         user_maj.user_full_name as user_maj_username
 	    FROM specimen_slide ss
-      LEFT JOIN user_db user_cre ON user_cre.id = ss.creation_user_name
+      LEFT JOIN user_db meta_creation_user ON meta_creation_user.id = ss.creation_user_name
       LEFT JOIN user_db user_maj ON user_maj.id = ss.update_user_name
       LEFT JOIN storage_box box ON box.id = ss.storage_box_fk
       JOIN specimen sp ON ss.specimen_fk = sp.id
@@ -130,7 +130,7 @@ class SlideController extends AbstractController {
         "ss.date_of_creation" => $val['date_of_creation'],
         "ss.date_of_update" => $val['date_of_update'],
         "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
+        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
         "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
       );
     }
@@ -229,7 +229,7 @@ class SlideController extends AbstractController {
     $user = $this->getUser();
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
-      $slide->getUserCre() != $user->getId()
+      $slide->getMetaCreationUser() != $user->getId()
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
