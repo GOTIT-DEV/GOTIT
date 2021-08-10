@@ -260,7 +260,7 @@ class ImportFileCsv {
       'external_sequence_status_voc_fk' => 'status',
       'eyes_voc_fk' => 'eyes_voc_fk',
       'family' => 'family',
-      'fixative_voc_fk' => 'fixateur_voc_fk',
+      'fixative_voc_fk' => 'fixative_voc_fk',
       'forward_primer_voc_fk' => 'primer_start_voc_fk',
       'funding_agency' => 'funding_agency',
       'gene_voc_fk' => 'gene_voc_fk',

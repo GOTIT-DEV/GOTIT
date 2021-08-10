@@ -34,7 +34,7 @@ class SamplingFixative extends AbstractTimestampedEntity {
    *   @ORM\JoinColumn(name="fixative_voc_fk", referencedColumnName="id", nullable=false)
    * })
    */
-  private $fixateurVocFk;
+  private $fixativeVocFk;
 
   /**
    * @var Sampling
@@ -56,25 +56,25 @@ class SamplingFixative extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set fixateurVocFk
+   * Set fixativeVocFk
    *
-   * @param Voc $fixateurVocFk
+   * @param Voc $fixativeVocFk
    *
    * @return SamplingFixative
    */
-  public function setFixateurVocFk(Voc $fixateurVocFk = null) {
-    $this->fixateurVocFk = $fixateurVocFk;
+  public function setFixativeVocFk(Voc $fixativeVocFk = null) {
+    $this->fixativeVocFk = $fixativeVocFk;
 
     return $this;
   }
 
   /**
-   * Get fixateurVocFk
+   * Get fixativeVocFk
    *
    * @return Voc
    */
-  public function getFixateurVocFk() {
-    return $this->fixateurVocFk;
+  public function getFixativeVocFk() {
+    return $this->fixativeVocFk;
   }
 
   /**

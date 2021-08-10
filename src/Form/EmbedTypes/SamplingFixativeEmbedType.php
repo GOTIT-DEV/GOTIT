@@ -12,7 +12,7 @@ class SamplingFixativeEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('fixateurVocFk', BaseVocType::class, array(
+    $builder->add('fixativeVocFk', BaseVocType::class, array(
       'voc_parent' => 'fixateur',
       'placeholder' => 'Choose a Fixateur',
     ));

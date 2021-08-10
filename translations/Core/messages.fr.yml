@@ -422,7 +422,7 @@ Duration mn: Durée échantillonnage (min)
 Taxon identification fk: Espèce identifiée
 Institution fk: Établissement
 Family: Famille
-Fixateur voc fk: Fixateur
+Fixative voc fk: Fixateur
 Gene voc fk: Gène
 Genus: Genre
 Habitat type voc fk: Type habitat

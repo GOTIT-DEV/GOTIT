@@ -586,7 +586,7 @@ Duration mn: Sampling duration
 Taxon identification fk: Identified species table
 Institution fk: Institution
 Family: Family
-Fixateur voc fk: Fixative
+Fixative voc fk: Fixative
 Gene voc fk: Gene
 Genus: Genus
 Habitat type voc fk: Habitat type
