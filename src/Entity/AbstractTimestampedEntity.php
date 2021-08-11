@@ -6,10 +6,13 @@ use App\Doctrine\SetUserTimestampListener;
 use App\Doctrine\TimestampedEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @MappedSuperclass
  * @ORM\EntityListeners({"App\Doctrine\SetUserTimestampListener"})
+ *
+ * @Serializer\ExclusionPolicy("ALL")
  */
 abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
 
@@ -48,6 +51,26 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *  onDelete="SET NULL")
    */
   private $metaUpdateUser;
+
+  /**
+   * @Serializer\VirtualProperty()
+   * @Serializer\SerializedName("_meta")
+   * @Serializer\Expose()
+   *
+   * @return array
+   */
+  public function getMetadata() {
+    return [
+      "creation" => [
+        "user" => $this->getMetaCreationUser(),
+        "date" => $this->getMetaCreationDate(),
+      ],
+      "update" => [
+        "user" => $this->getMetaUpdateUser(),
+        "date" => $this->getMetaUpdateDate(),
+      ],
+    ];
+  }
 
   /**
    * Set metaCreationDate
