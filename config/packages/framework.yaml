@@ -18,6 +18,8 @@ framework:
   #fragments: true
   php_errors:
     log: true
+  serializer:
+    enabled: false
 
 when@test:
   framework:
