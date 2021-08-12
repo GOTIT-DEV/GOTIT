@@ -1,11 +1,5 @@
 <template>
-  <b-button
-    id="submit-button"
-    type="submit"
-    variant="primary"
-    v-bind="$props"
-    @click="$emit('click')"
-  >
+  <b-button id="submit-button" v-bind="$props" v-on="$listeners">
     <slot />
     <i v-if="loading" class="fas fa-spinner fa-spin" />
   </b-button>
