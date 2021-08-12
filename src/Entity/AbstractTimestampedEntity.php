@@ -20,42 +20,42 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * @var \DateTime
    * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
-  private $metaCreationDate;
+  protected $metaCreationDate;
 
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
-  private $metaUpdateDate;
+  protected $metaUpdateDate;
 
   /**
    * @var User
    *
-   * @ORM\ManyToOne(targetEntity="User")
+   * @ORM\ManyToOne(targetEntity="User", fetch="EAGER")
    * @ORM\JoinColumn(
    *  name="creation_user_name",
    *  referencedColumnName="id",
    *  nullable=true,
    *  onDelete="SET NULL")
    */
-  private $metaCreationUser;
+  protected $metaCreationUser;
 
   /**
    * @var User
    *
-   * @ORM\ManyToOne(targetEntity="User")
+   * @ORM\ManyToOne(targetEntity="User", fetch="EAGER")
    * @ORM\JoinColumn(
    *  name="update_user_name",
    *  referencedColumnName="id",
    *  nullable=true,
    *  onDelete="SET NULL")
    */
-  private $metaUpdateUser;
+  protected $metaUpdateUser;
 
   /**
    * @Serializer\VirtualProperty()
    * @Serializer\SerializedName("_meta")
-   * @Serializer\Expose()
+   * @Serializer\Groups({"meta"})
    *
    * @return array
    */
