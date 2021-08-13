@@ -3,7 +3,7 @@
     <TogglablePanel class="species-select" title="queries.label.search.espece">
       <TaxonomySelect ref="taxonomy" />
       <template #footer>
-        <ButtonLoading ref="submit" :loading="loading" block>
+        <ButtonLoading ref="submit" type="submit" :loading="loading" block>
           {{ $t("ui.search") }}
         </ButtonLoading>
       </template>
@@ -16,10 +16,8 @@
 import ButtonLoading from "~Components/ButtonLoading";
 import TogglablePanel from "~SpeciesSearch/js/components/TogglablePanel";
 import TaxonomySelect from "~SpeciesSearch/js/components/taxonomy/TaxonomySelect";
-import i18n from "../i18n";
 
 export default {
-  i18n,
   components: {
     TogglablePanel,
     TaxonomySelect,

@@ -32,6 +32,7 @@ Encore
   .addStyleEntry("login", "./assets/Core/css/login.less")
   // Index pages assets
   .addEntry("index", "./assets/Core/js/index.js")
+  .addEntry("dna-index", "./assets/Core/index/dna.js")
 
   // Core forms assets
   .addEntry("forms", "./assets/Core/forms/js/forms.js")
@@ -117,6 +118,7 @@ Encore
     "~QueryBuilder": path.resolve(__dirname, "assets/QueryBuilder"),
     "~SpeciesSearch": path.resolve(__dirname, "assets/SpeciesSearch"),
     "~Public": path.resolve(__dirname, "public"),
+    "~Translations": path.resolve(__dirname, "translations"),
   })
 
   // YAML loader

@@ -10,15 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import Vue from "vue";
 import { BootstrapVue } from "bootstrap-vue";
-import VueI18n from "vue-i18n";
 import filters from "./vue-filters";
-
-import i18n from "./i18n";
+import i18n from "~Core/js/i18n";
 
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
-
 Vue.use(BootstrapVue);
-Vue.use(VueI18n);
 Vue.mixin({
   i18n,
   methods: {

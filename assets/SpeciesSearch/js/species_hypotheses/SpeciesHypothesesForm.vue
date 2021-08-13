@@ -132,6 +132,7 @@
         <ButtonLoading
           id="submit"
           ref="submit"
+          type="submit"
           size="lg"
           block
           :loading="loading"

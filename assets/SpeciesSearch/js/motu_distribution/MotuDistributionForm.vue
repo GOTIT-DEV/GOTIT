@@ -30,7 +30,7 @@
         />
       </b-card>
 
-      <ButtonLoading id="submit" ref="submit" :loading="loading">
+      <ButtonLoading id="submit" ref="submit" type="submit" :loading="loading">
         {{ $t("search") }}
       </ButtonLoading>
     </div>

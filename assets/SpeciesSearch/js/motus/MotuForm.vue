@@ -52,10 +52,8 @@ import TogglablePanel from "../components/TogglablePanel";
 import TaxonomySelect from "../components/taxonomy/TaxonomySelect";
 import MotuDatasetSelect from "../components/motu-datasets/MotuDatasetSelect";
 import IdentificationCriteria from "./IdentificationCriteria.vue";
-import i18n from "../i18n";
 
 export default {
-  i18n,
   components: {
     TogglablePanel,
     TaxonomySelect,

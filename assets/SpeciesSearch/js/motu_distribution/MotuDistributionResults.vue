@@ -93,11 +93,9 @@
 <script>
 import MotuDistributionMap from "./MotuMap";
 import BDataTable from "~Components/BDataTable";
-import i18n from "~SpeciesSearch/js/i18n";
 import Vue from "vue";
 
 export default {
-  i18n,
   components: {
     MotuDistributionMap,
     BDataTable,

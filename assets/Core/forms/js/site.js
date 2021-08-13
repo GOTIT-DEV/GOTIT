@@ -10,7 +10,7 @@ import { initMunicipalityCodeGeneration } from "./municipality";
 import Vue from "vue";
 import SiteForm from "../components/SiteForm";
 import { BootstrapVue } from "bootstrap-vue";
-import i18n from "~SpeciesSearch/js/i18n";
+import i18n from "~Core/js/i18n";
 import VueI18n from "vue-i18n";
 
 Vue.use(BootstrapVue);
