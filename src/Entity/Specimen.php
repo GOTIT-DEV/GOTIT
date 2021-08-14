@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -18,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
  * })
  * @ORM\Entity
- * @UniqueEntity(fields={"morphologicalCode"}, message="This code is already registered")
+ * @UniqueEntity(fields={"molecularCode"}, message="This code is already registered")
  * @UniqueEntity(fields={"morphologicalCode"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
@@ -30,6 +31,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="specimen_id_seq ", allocationSize=1, initialValue=1)
+   * @Groups({"field"})
    */
   private $id;
 
@@ -37,6 +39,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true)
+   * @Groups({"field"})
    */
   private $molecularCode;
 
@@ -44,6 +47,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $morphologicalCode;
 
@@ -51,6 +55,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="tube_code", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $tubeCode;
 
@@ -58,6 +63,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="specimen_molecular_number", type="string", length=255, nullable=true)
+   * @Groups({"field"})
    */
   private $molecularNumber;
 
@@ -65,6 +71,7 @@ class Specimen extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="specimen_comments", type="text", nullable=true)
+   * @Groups({"field"})
    */
   private $comment;
 
@@ -81,12 +88,14 @@ class Specimen extends AbstractTimestampedEntity {
    *
    * @ORM\ManyToOne(targetEntity="InternalLot")
    * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false)
+   * @Groups({"specimen_list", "specimen_details"})
    */
   private $internalLotFk;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="specimenFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
+   * @Groups({"specimen_list", "specimen_details"})
    */
   protected $taxonIdentifications;
 

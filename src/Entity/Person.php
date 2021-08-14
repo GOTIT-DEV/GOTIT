@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -23,6 +24,7 @@ class Person extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
+   * @Groups({"field"})
    */
   private $id;
 
@@ -30,6 +32,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $name;
 
@@ -37,6 +40,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
+   * @Groups({"field"})
    */
   private $fullName;
 
@@ -44,6 +48,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
+   * @Groups({"field"})
    */
   private $alias;
 
@@ -51,6 +56,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_comments", type="text", nullable=true)
+   * @Groups({"field"})
    */
   private $comment;
 

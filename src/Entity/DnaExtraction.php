@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * DnaExtraction
@@ -29,16 +30,18 @@ class DnaExtraction extends AbstractTimestampedEntity {
   /**
    * @var \Dna
    *
-   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="dnaExtractions")
+   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="dnaExtractions", fetch="EAGER")
    * @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+   * @Groups({"field"})
    */
   private $dnaFk;
 
   /**
    * @var \Person
    *
-   * @ORM\ManyToOne(targetEntity="Person")
+   * @ORM\ManyToOne(targetEntity="Person", fetch="EAGER")
    * @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
+   * @Groups({"field"})
    */
   private $personFk;
 

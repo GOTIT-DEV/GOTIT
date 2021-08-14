@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -31,6 +32,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="pcr_id_seq", allocationSize=1, initialValue=1)
+   * @Groups({"field"})
    */
   private $id;
 
@@ -38,6 +40,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $code;
 
@@ -45,6 +48,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="pcr_number", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $number;
 
@@ -52,6 +56,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @var \DateTime
    *
    * @ORM\Column(name="pcr_date", type="date", nullable=true)
+   * @Groups({"field"})
    */
   private $date;
 
@@ -59,6 +64,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="pcr_details", type="text", nullable=true)
+   * @Groups({"field"})
    */
   private $details;
 
@@ -66,6 +72,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="pcr_comments", type="text", nullable=true)
+   * @Groups({"field"})
    */
   private $comment;
 
@@ -120,7 +127,7 @@ class Pcr extends AbstractTimestampedEntity {
   /**
    * @var \Dna
    *
-   * @ORM\ManyToOne(targetEntity="Dna")
+   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="pcrs")
    * @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false)
    */
   private $dnaFk;

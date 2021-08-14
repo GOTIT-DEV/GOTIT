@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -27,6 +28,7 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="storage_box_id_seq", allocationSize=1, initialValue=1)
+   * @Groups({"field"})
    */
   private $id;
 
@@ -34,6 +36,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $code;
 
@@ -41,6 +44,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_title", type="string", length=1024, nullable=false)
+   * @Groups({"field"})
    */
   private $label;
 
@@ -48,6 +52,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_comments", type="text", nullable=true)
+   * @Groups({"field"})
    */
   private $comment;
 
@@ -78,18 +83,21 @@ class Store extends AbstractTimestampedEntity {
   /**
    * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
+   * @Groups({"store_list", "store_details"})
    */
   protected $internalLots;
 
   /**
    * @ORM\OneToMany(targetEntity="Dna", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
+   * @Groups({"store_list", "store_details"})
    */
   protected $dnas;
 
   /**
    * @ORM\OneToMany(targetEntity="Slide", mappedBy="storeFk", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
+   * @Groups({"store_list", "store_details"})
    */
   protected $slides;
 

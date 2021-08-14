@@ -19,6 +19,8 @@ namespace App\Entity;
 
 use App\Entity\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,6 +33,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"username"})})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"username"}, message="This username is already taken")
+ *
+ * @Serializer\ExclusionPolicy("ALL")
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class User extends AbstractTimestampedEntity implements UserInterface, PasswordAuthenticatedUserInterface {
@@ -41,6 +46,9 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
+   *
+   * @Serializer\Expose
+   * @Groups({"field"})
    */
   private $id;
 
@@ -80,6 +88,9 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_role", type="string")
+   *
+   * @Serializer\Expose
+   * @Groups({"field"})
    */
   private $role;
 
@@ -94,6 +105,9 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_full_name", type="string", length=255, nullable=false)
+   *
+   * @Serializer\Expose
+   * @Groups({"field"})
    */
   private $name;
 
@@ -101,6 +115,8 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_institution", type="string", length=255, nullable=true)
+   * @Serializer\Expose
+   * @Groups({"field"})
    */
   private $institution;
 
@@ -123,6 +139,24 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
     //$this->setRoles(array($this->role));
     // may not be needed, see section on salt below
     // $this->salt = md5(uniqid('', true));
+  }
+
+  /**
+   * Overloads parent getMetadata to return a flat array structure
+   * with only date information
+   *
+   * @Serializer\VirtualProperty()
+   * @Serializer\SerializedName("_meta")
+   * @Serializer\Expose()
+   *
+   * @return array
+   */
+  public function getMetadata() {
+    // return parent::getMetadata();
+    [
+      "creation" => $this->getMetaCreationDate(),
+      "update" => $this->getMetaUpdateDate(),
+    ];
   }
 
   public function eraseCredentials() {

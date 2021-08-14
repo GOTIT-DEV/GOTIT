@@ -31,7 +31,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
   /**
    * @var User
    *
-   * @ORM\ManyToOne(targetEntity="User", fetch="EAGER")
+   * @ORM\ManyToOne(targetEntity="User")
    * @ORM\JoinColumn(
    *  name="creation_user_name",
    *  referencedColumnName="id",
@@ -43,7 +43,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
   /**
    * @var User
    *
-   * @ORM\ManyToOne(targetEntity="User", fetch="EAGER")
+   * @ORM\ManyToOne(targetEntity="User")
    * @ORM\JoinColumn(
    *  name="update_user_name",
    *  referencedColumnName="id",

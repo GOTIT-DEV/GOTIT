@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -18,7 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}),
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DnaRepository")
  * @UniqueEntity(fields={"code"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
@@ -30,6 +34,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
+   * @Groups({"field"})
    */
   private $id;
 
@@ -37,6 +42,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false)
+   * @Groups({"field"})
    */
   private $code;
 
@@ -44,6 +50,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var \DateTime
    *
    * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
+   * @Groups({"field"})
    */
   private $date;
 
@@ -51,6 +58,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var float
    *
    * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
+   * @Groups({"field"})
    */
   private $concentrationNgMicrolitre;
 
@@ -62,10 +70,11 @@ class Dna extends AbstractTimestampedEntity {
   private $comment;
 
   /**
-   * @var \Voc
+   * @var Voc
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
+   * @Groups({"dna_list", "dna_details"})
    */
   private $datePrecisionVocFk;
 
@@ -73,42 +82,76 @@ class Dna extends AbstractTimestampedEntity {
    * @var \Voc
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false)
+   * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
+   * @Groups({"dna_list", "dna_details"})
    */
   private $extractionMethodVocFk;
-
-  /**
-   * @var \Specimen
-   *
-   * @ORM\ManyToOne(targetEntity="Specimen")
-   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   */
-  private $specimenFk;
 
   /**
    * @var \Voc
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
+   * @Groups({"dna_list", "dna_details"})
    */
   private $qualiteAdnVocFk;
 
   /**
+   * @var \Specimen
+   *
+   * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
+   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
+   * @ORM\OrderBy({"molecularCode" = "ASC"})
+   * @Groups({"dna_list", "dna_details"})
+   */
+  private $specimenFk;
+
+  /**
    * @var \Store
    *
-   * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas")
+   * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas", fetch="EAGER")
    * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
+   * @Groups({"dna_list", "dna_details"})
    */
   private $storeFk;
 
   /**
    * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="dnaFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
+   * @Groups({"dna_list", "dna_details"})
    */
   protected $dnaExtractions;
 
+  /**
+   * @var Pcr
+   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dnaFk", fetch="EXTRA_LAZY")
+   * @Groups({"dna_list", "dna_details"})
+   */
+  protected $pcrs;
+
   public function __construct() {
     $this->dnaExtractions = new ArrayCollection();
+  }
+
+  // /**
+  //  * @return int
+  //  * @VirtualProperty()
+  //  * @SerializedName("pcr_count")
+  //  * @Groups({"dna_list", "dna_details"})
+  //  */
+  // public function countPcrs() {
+  //   return count($this->pcrs);
+  // }
+
+  /**
+   * @VirtualProperty()
+   * @SerializedName("_meta")
+   * @Groups({"dna_list", "dna_details"})
+   *
+   * @return void
+   */
+  public function getMetadata() {
+    return parent::getMetadata();
   }
 
   /**
@@ -150,6 +193,10 @@ class Dna extends AbstractTimestampedEntity {
    * @return Dna
    */
   public function setDate($date) {
+    if (is_string($date)) {
+      $date = new DateTime($date);
+    }
+
     $this->date = $date;
 
     return $this;
