@@ -17,6 +17,7 @@
 
 namespace App\Controller\SpeciesSearch;
 
+use App\Entity\MotuDataset;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
