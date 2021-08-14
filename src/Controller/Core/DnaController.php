@@ -7,7 +7,6 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,11 +26,7 @@ class DnaController extends AbstractController {
    * @Route("/", name="dna_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
-
-    $items = $em->getRepository('App:Dna')->findAll();
-
-    return $this->render('Core/dna/index.html.twig', ['dnas' => $items]);
+    return $this->render('Core/dna/index.html.twig');
   }
 
   /**
@@ -49,101 +44,6 @@ class DnaController extends AbstractController {
     $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $results = $qb->getQuery()->getResult();
     return $this->json($results);
-  }
-
-  /**
-   * Returns in json format a set of fields to display (tab_toshow) with the following criteria:
-   * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
-   * b) the number of lines to display ($ request-> get ('rowCount'))
-   * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="dna_indexjson", methods={"POST"})
-   */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->getDoctrine()->getManager();
-
-    $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy = $request->get('sort') ?: [
-      'dna.metaUpdateDate' => 'desc',
-      'dna.id' => 'desc',
-    ];
-    $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $where = 'LOWER(dna.code) LIKE :criteriaLower';
-    $searchPhrase = $request->get('searchPhrase');
-    if ($request->get('searchPattern') && !$searchPhrase) {
-      $searchPhrase = $request->get('searchPattern');
-    }
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND dna.specimenFk = ' . $request->get('idFk');
-    }
-    // Search for the list to show
-    $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Dna")->createQueryBuilder('dna')
-      ->where($where)
-      ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-      ->leftJoin('App:Store', 'store', 'WITH', 'dna.storeFk = store.id')
-      ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
-      ->getQuery()
-      ->getResult();
-    $nb = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
-    foreach ($entities_toshow as $entity) {
-      $id = $entity->getId();
-      $Date = $entity->getDate()
-      ? $entity->getDate()->format('Y-m-d') : null;
-      $code = $entity->getStoreFk()
-      ? $entity->getStoreFk()->getCode() : null;
-      $MetaUpdateDate = $entity->getMetaUpdateDate()
-      ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
-      $MetaCreationDate = $entity->getMetaCreationDate()
-      ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
-
-      // search the PCRs from the DNA
-      $query = $em->createQuery(
-        'SELECT pcr.id FROM App:Pcr pcr WHERE pcr.dnaFk = ' . $id
-      )->getResult();
-      $linkPcr = (count($query) > 0) ? $id : '';
-
-      // concatenated list of people
-      $query = $em->createQuery(
-        'SELECT p.name as nom
-        FROM App:DnaExtraction erp
-        JOIN erp.personFk p
-        WHERE erp.dnaFk = ' . $id
-      )->getResult();
-      $arrayListePerson = array();
-      foreach ($query as $taxon) {
-        $arrayListePerson[] = $taxon['nom'];
-      }
-      $listePerson = implode(", ", $arrayListePerson);
-
-      $tab_toshow[] = array(
-        "id" => $id,
-        "dna.id" => $id,
-        "specimen.molecularCode" => $entity->getSpecimenFk()->getMolecularCode(),
-        "dna.code" => $entity->getCode(),
-        "listePerson" => $listePerson,
-        "dna.date" => $Date,
-        "store.code" => $code,
-        "dna.metaCreationDate" => $MetaCreationDate,
-        "dna.metaUpdateDate" => $MetaUpdateDate,
-        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
-        "dna.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
-        "dna.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
-        "linkPcr" => $linkPcr,
-      );
-    }
-
-    return new JsonResponse([
-      "current" => intval($request->get('current')),
-      "rowCount" => $rowCount,
-      "rows" => $tab_toshow,
-      "searchPhrase" => $searchPhrase,
-      "total" => $nb, // total data array
-    ]);
   }
 
   /**

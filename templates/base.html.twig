@@ -40,49 +40,55 @@
 				{% include "nav-top.html.twig" %}
 			{% endblock %}
 
-			<header class="main-header">
-				{% block help_panel %}
-					<button
-						class="help-btn btn btn-light border-primary text-secondary"
-						type="button"
-						data-toggle="collapse"
-						data-target="#page-help"
-						aria-expanded="false"
-						aria-controls="page-help">
-						<i class="fas fa-question"></i>
-					</button>
+			{% block page_area %}
 
-					<div class="collapse" id="page-help">
-						<div class="card card-body">
-							{% block pagehelp %}
-								{% if help_message is defined and help_message is not empty %}
-									{{help_message|raw}}
-								{% else %}
-									Undefined
-								{% endif %}
+				{% block header %}
+					<header class="main-header">
+						{% block help_panel %}
+							<button
+								class="help-btn btn btn-light border-primary text-secondary"
+								type="button"
+								data-toggle="collapse"
+								data-target="#page-help"
+								aria-expanded="false"
+								aria-controls="page-help">
+								<i class="fas fa-question"></i>
+							</button>
+
+							<div class="collapse" id="page-help">
+								<div class="card card-body">
+									{% block pagehelp %}
+										{% if help_message is defined and help_message is not empty %}
+											{{help_message|raw}}
+										{% else %}
+											Undefined
+										{% endif %}
+									{% endblock %}
+								</div>
+							</div>
+						{% endblock %}
+
+						{% block page_title %}{% endblock %}
+
+						<div class="page-actions">
+							{% block action %}
+								{# Page action buttons #}
 							{% endblock %}
 						</div>
+
+					</header>
+				{% endblock %}
+
+
+				{% block main_container %}
+					<div class="main-content container" role="main">
+						{% block body %}
+							{# Main content body #}
+						{% endblock %}
+						{% block link %}{% endblock %}
 					</div>
 				{% endblock %}
-
-				{% block page_title %}{% endblock %}
-
-				<div class="page-actions {% block action_bar_class %}{% endblock %}">
-					{% block action %}
-						{# Page action buttons #}
-					{% endblock %}
-				</div>
-
-
-			</header>
-
-			<div class="main-content container" role="main">
-				{% block body %}
-					{# Main content body #}
-				{% endblock %}
-				{% block link %}{% endblock %}
-			</div>
-
+			{% endblock %}
 			{# footer content #}
 			{% block footer %}
 				{% include "footer.html.twig" %}

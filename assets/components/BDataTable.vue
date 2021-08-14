@@ -377,10 +377,14 @@ export default {
         : filterEntries.every(filterPass);
     },
     itemToCsv(item) {
-      function getDeepValue(object, key) {
-        return key
-          .split(".")
-          .reduce((val, key) => (val && val[key] ? val[key] : null), object);
+      function getDeepValue(obj, key) {
+        const compositeKey = key.split(".");
+        return compositeKey.length > 1
+          ? compositeKey.reduce(
+              (val, key) => (val && val[key] ? val[key] : null),
+              obj
+            )
+          : obj[key];
       }
       return this.exportedFields
         .reduce((acc, field) => {

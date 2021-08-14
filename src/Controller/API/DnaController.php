@@ -96,6 +96,15 @@ class DnaController extends AbstractFOSRestController {
     return $pager;
   }
 
+  /**
+   * @Rest\Post("/")
+   * @Rest\View(StatusCode = 201)
+   * @ParamConverter("dna", converter="fos_rest.request_body")
+   */
+  public function create(Dna $dna) {
+    dump($dna);
+    die;
+  }
 
   /**
    * @Rest\Delete("/{id}", requirements = {"id"="\d+"})
