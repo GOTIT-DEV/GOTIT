@@ -4,19 +4,20 @@ namespace App\Repository;
 
 use App\Entity\Dna;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use UnexpectedValueException;
 
 final class DnaRepository extends AbstractRepository {
 
-  public function __construct(ManagerRegistry $managerRegistry) {
-    parent::__construct($managerRegistry, Dna::class);
-    $this->fetchJoinQueryBuilder =
-    $this->createQueryBuilder('dna')
-      ->select('dna, sto, spec, prod, person, inst')
+  public function __construct(ManagerRegistry $managerRegistry, ValidatorInterface $validator) {
+    parent::__construct($managerRegistry, Dna::class, $validator);
+    $this->fetchJoinQueryBuilder = $this->createQueryBuilder('dna')
+      ->select('dna, sto, spec, prod, person, inst, pcr')
       ->join('dna.specimenFk', 'spec')
       ->leftJoin('dna.storeFk', 'sto')
       ->leftJoin('dna.pcrs', 'pcr')
       ->leftJoin('dna.dnaExtractions', 'prod')
-      ->join('prod.personFk', 'person')
+      ->leftJoin('prod.personFk', 'person')
       ->leftJoin('person.institutionFk', 'inst');
   }
 
@@ -64,15 +65,13 @@ final class DnaRepository extends AbstractRepository {
         }
 
         if ($expr === null) {
-          throw new InvalidArgumentException('Invalid argument : $logicalOp must be AND | OR');
+          throw new UnexpectedValueException('Invalid argument : $logicalOp must be AND | OR');
         }
-
         $qb->andWhere($expr)->setParameters($terms);
       }
     }
 
     if ($perPage === 0) {
-      $this->_em->createQuery('SELECT PARTIAL dna.{id}, pcr FROM App:Dna dna JOIN dna.pcrs pcr')->getResult();
       $items = $qb->getQuery()->getResult();
       return [
         "items" => $items,

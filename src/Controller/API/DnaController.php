@@ -7,6 +7,7 @@ use App\Repository\DnaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\Annotations\FileParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -114,5 +115,16 @@ class DnaController extends AbstractFOSRestController {
     $em->remove($dna);
     $em->flush();
     return;
+  }
+
+  /**
+   * @Rest\Post("/import")
+   * @Rest\FileParam(name="csvFile", key="csvFile", description="CSV file to import")
+   * @Rest\View(StatusCode = 201)
+   * @Security("is_granted('ROLE_COLLABORATION')")
+   */
+  public function import(ParamFetcherInterface $params) {
+    $file = $params->get("csvFile");
+    $this->dnaRepository->importCsv($file->getRealPath());
   }
 }
