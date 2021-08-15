@@ -17,7 +17,7 @@
       <b-col>
         <h2>
           {{ $t("sampling") }}
-          <span v-if="selected.taxon_name">
+          <span v-show="selected.taxon_name">
             :
             <small class="text-monospace">{{ selected.taxon_name }}</small>
           </span>

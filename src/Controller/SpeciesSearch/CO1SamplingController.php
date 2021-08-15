@@ -19,12 +19,12 @@ namespace App\Controller\SpeciesSearch;
 
 use App\Entity\Taxon;
 use App\Services\SpeciesSearch\SpeciesQueryService;
+use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller for querying COI sampling coverage
@@ -98,7 +98,7 @@ class CO1SamplingController extends AbstractController {
     $sites = $service->getSpeciesSamplingDetails($taxon->getId());
 
     return new JsonResponse([
-      "taxon" => $serializer->normalize($taxon, null),
+      "taxon" => $serializer->toArray($taxon),
       "sites" => $sites,
     ]);
   }

@@ -54,6 +54,7 @@
           </multiselect>
         </b-form-group>
       </div>
+
       <div class="search-toolbar">
         <collapse-transition
           v-if="!hasItemsProvider"
@@ -91,7 +92,7 @@
         />
       </div>
     </b-button-toolbar>
-
+    <slot name="toolbar-top" />
     <b-overlay :show="busy" rounded="sm">
       <b-table
         responsive
@@ -143,7 +144,7 @@
         </template>
       </b-table>
     </b-overlay>
-
+    <slot name="toolbar-bottom" />
     <b-button-toolbar :justify="true">
       <button-loading
         size="sm"
@@ -342,7 +343,7 @@ export default {
   },
   watch: {
     searchByField(isActive) {
-      toggleFilters(isActive);
+      this.toggleFilters(isActive);
     },
     fields(newFields) {
       this.selectedFields = newFields;

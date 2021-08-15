@@ -9,31 +9,29 @@
     striped
   >
     <!-- Add some legend as extra header -->
-    <template #thead-top>
-      <b-tr>
-        <b-th colspan="9" class="text-right">
-          <span class="text-muted mx-2">
-            <i class="fas fa-dna" />
-            {{ $t("sequence") }}
-          </span>
-          <span class="text-muted mx-2">
-            <i class="fas fa-vial" />
-            {{ $t("biomat") }}
-          </span>
-          <span class="text-primary mx-2">
-            <i class="fas fa-circle fa-xs" />
-            {{ $t("internal") }}
-          </span>
-          <span class="text-success mx-2">
-            <i class="fas fa-circle fa-xs" />
-            {{ $t("external") }}
-          </span>
-          <span class="text-muted mx-2">
-            <i class="fas fa-circle fa-xs no-sample" />
-            {{ $t("no_sample") }}
-          </span>
-        </b-th>
-      </b-tr>
+    <template #toolbar-top>
+      <div align="right" class="mb-1 p-1">
+        <span class="text-muted mx-2">
+          <i class="fas fa-dna" />
+          {{ $t("sequence") }}
+        </span>
+        <span class="text-muted mx-2">
+          <i class="fas fa-vial" />
+          {{ $t("biomat") }}
+        </span>
+        <span class="text-primary mx-2">
+          <i class="fas fa-circle fa-xs" />
+          {{ $t("internal") }}
+        </span>
+        <span class="text-success mx-2">
+          <i class="fas fa-circle fa-xs" />
+          {{ $t("external") }}
+        </span>
+        <span class="text-muted mx-2">
+          <i class="fas fa-circle fa-xs no-sample" />
+          {{ $t("no_sample") }}
+        </span>
+      </div>
     </template>
 
     <template #cell(site_code)="data">
@@ -115,6 +113,7 @@ export default {
           label: this.$t("site"),
           visible: true,
           sortable: true,
+          searchable: true,
         },
         {
           key: "latitude",
@@ -136,12 +135,14 @@ export default {
           label: this.$t("municipality"),
           visible: true,
           sortable: true,
+          searchable: true,
         },
         {
           key: "country",
           label: this.$t("country"),
           visible: true,
           sortable: true,
+          searchable: true,
         },
         {
           key: "has_co1",
