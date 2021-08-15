@@ -121,6 +121,7 @@ export default {
           sortable: true,
           class: "column",
           visible: true,
+          searchable: true,
         },
         {
           key: "seq_type",
@@ -131,12 +132,14 @@ export default {
           formatter: (isExternal, key, index) => {
             return this.$t(isExternal ? "external" : "internal");
           },
+          searchable: true,
         },
         {
           key: "accession_number",
           label: this.$t("queries.columns.accession"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "motu",
@@ -161,18 +164,21 @@ export default {
           label: this.$t("queries.columns.station"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "municipality",
           label: this.$t("queries.columns.municipality"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "country",
           label: this.$t("queries.columns.country"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
       ],
     };
