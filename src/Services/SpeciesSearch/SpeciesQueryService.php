@@ -198,7 +198,7 @@ class SpeciesQueryService {
       ->addSelect('vocabulary.code as method')
       ->addSelect('m.date as motu_date')
       ->addSelect('seq.id, seq.code as code, seq.accessionNumber as acc')
-      ->addSelect('ass.motuNumber as motu_dataset')
+      ->addSelect('ass.motuNumber as motu')
       ->addSelect('v.code as criterion')
       ->addSelect('vocGene.code as gene')
       ->from('App:Taxon', 'rt')

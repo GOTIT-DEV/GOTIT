@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -34,19 +33,6 @@ class VocController extends AbstractController {
     return $this->render('Core/voc/index.html.twig', array(
       'vocs' => $vocs,
     ));
-  }
-
-  /**
-   * List voc in a parent category
-   * @Route("/parent/{parent}", name="list_voc", methods={"GET"})
-   */
-  public function listVoc(String $parent, SerializerInterface $serializer) {
-    $voc = $this->getDoctrine()
-      ->getRepository(Voc::class)
-      ->findByParent($parent);
-    return JsonResponse::fromJsonString(
-      $serializer->serialize($voc, "json")
-    );
   }
 
   /**

@@ -56,7 +56,9 @@ export default {
   },
   data() {
     return {
-      url: Routing.generate("list_voc", { parent: "critereIdentification" }),
+      url: Routing.generate("app_api_voc_listbyparent", {
+        parent: "critereIdentification",
+      }),
       level: undefined,
       levelOptions: [
         { value: 1, text: this.$t("biomaterial") },

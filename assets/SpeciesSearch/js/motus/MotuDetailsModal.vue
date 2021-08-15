@@ -71,18 +71,21 @@ export default {
           class: "column",
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "acc",
           label: "Accession",
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "gene",
           label: this.$tc("gene"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "type",
@@ -91,6 +94,7 @@ export default {
           },
           sortable: true,
           visible: true,
+          searchable: true,
         },
         {
           key: "motu",
@@ -103,6 +107,7 @@ export default {
           label: this.$tc("criterion"),
           sortable: true,
           visible: true,
+          searchable: true,
         },
       ],
     };
