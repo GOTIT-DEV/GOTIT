@@ -4,10 +4,12 @@
       ref="table"
       :table-id="tableId"
       :fields="fields"
+      :items="items"
       :routes="routes"
       :provider-pagination="providerPagination"
       export-filename="dna.csv"
       :short-item-repr="shortItemRepr"
+      @delete:item="$emit('delete:item', $event)"
     >
       <template #cell(specimen_fk)="data">
         <a :href="generateRoute('specimen_show', { id: data.item.id })">
@@ -21,9 +23,9 @@
       </template>
       <template #cell(pcrs)="data">
         <a :href="pcrLinkUrl(data.item)">
-          <i :class="['fas', pcrLinkIcon(data.item.pcrs.length)]" />
-          <span v-if="data.item.pcrs.length > 1">
-            ({{ data.item.pcrs.length }})
+          <i :class="['fas', pcrLinkIcon(data.item)]" />
+          <span v-if="pcrCount(data.item) > 1">
+            ({{ pcrCount(data.item) }})
           </span>
         </a>
       </template>
@@ -36,6 +38,12 @@ import EntityIndexTable from "~Components/entity/EntityIndexTable.vue";
 import moment from "moment";
 export default {
   components: { EntityIndexTable },
+  props: {
+    items: {
+      type: Array,
+      default: null,
+    },
+  },
   data() {
     return {
       tableId: "dna-list-table",
@@ -138,15 +146,18 @@ export default {
     shortItemRepr(item) {
       return `(#${item.id}) ${item.code}`;
     },
-    pcrLinkIcon(pcrCount) {
-      return pcrCount === 0
-        ? "fa-plus"
-        : pcrCount === 1
+    pcrCount(item) {
+      return item.pcrs?.length;
+    },
+    pcrLinkIcon(item) {
+      return this.pcrCount(item) > 1
+        ? "fa-list"
+        : this.pcrCount(item) === 1
         ? "fa-link"
-        : "fa-list";
+        : "fa-plus";
     },
     pcrLinkUrl(item) {
-      return item.pcrs.length === 0
+      return this.pcrCount(item) === 0
         ? this.newPcrUrl
         : this.generateRoute("pcr_index", { dna: item.id });
     },

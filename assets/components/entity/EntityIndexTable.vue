@@ -3,7 +3,7 @@
     <b-data-table
       :id="tableId"
       ref="table"
-      :items="itemProvider"
+      :items="dataSource"
       :fields="extendedFields"
       :provider-pagination="providerPagination"
       :export-filename="exportFilename"
@@ -58,6 +58,10 @@ export default {
     tableId: {
       type: String,
       required: true,
+    },
+    items: {
+      type: Array,
+      default: null,
     },
     providerPagination: {
       type: Object,
@@ -157,6 +161,9 @@ export default {
     extendedFields() {
       return [...this.fields, ...this.metaFields, this.actionColumn];
     },
+    dataSource() {
+      return this.items instanceof Array ? this.items : this.itemProvider;
+    },
   },
   methods: {
     async itemProvider(ctx) {
@@ -168,15 +175,30 @@ export default {
       this.$bvModal.show("delete-confirm");
     },
     async deleteItem(item) {
-      await fetch(Routing.generate(this.routes.delete, { id: item.id }), {
-        method: "DELETE",
-      });
-      this.$bvToast.toast(this.shortItemRepr(item), {
-        title: "Item deleted",
-        autoHideDelay: 5000,
-        appendToast: true,
-      });
-      this.$root.$emit("bv::refresh::table", this.tableId);
+      const response = await fetch(
+        Routing.generate(this.routes.delete, { id: item.id }),
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.ok) {
+        this.$bvToast.toast(this.shortItemRepr(item), {
+          title: "Item deleted",
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+        if (this.items) {
+          this.$emit("delete:item", item);
+        } else {
+          this.$root.$emit("bv::refresh::table", this.tableId);
+        }
+      } else if (response.status === 404) {
+        this.$bvToast.toast(this.shortItemRepr(item), {
+          title: "Deletion failed : item not found.",
+          autoHideDelay: 5000,
+          appendToast: true,
+        });
+      }
     },
   },
 };
