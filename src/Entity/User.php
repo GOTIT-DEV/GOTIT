@@ -74,6 +74,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_password", type="string", length=255, nullable=false)
+   * @Assert\NotBlank(allowNull=true)
    */
   private $password;
 
@@ -135,7 +136,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   private $comment;
 
   public function __construct() {
-    $this->isActive = true;
+    $this->isActive = 1;
     //$this->setRoles(array($this->role));
     // may not be needed, see section on salt below
     // $this->salt = md5(uniqid('', true));
