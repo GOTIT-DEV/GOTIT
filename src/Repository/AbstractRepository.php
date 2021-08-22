@@ -7,8 +7,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use League\Csv\Reader;
+use League\Csv\Statement;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractRepository extends ServiceEntityRepository implements ApiRepositoryInterface {
@@ -58,6 +61,27 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     return $fetch_join ? $this->findAllFetchJoin() : $this->findBy([]);
   }
 
+  public function validateHeader(array $header) {
+    $metadata = $this->_em->getClassMetadata($this->getClassName());
+    $fieldMappings = array_filter(
+      $metadata->fieldMappings,
+      function ($field) {return !str_starts_with($field['fieldName'], "meta");}
+    );
+    $fieldAssoc = $metadata->associationMappings;
+    $entityProperties = $fieldMappings + $fieldAssoc;
+    $headerProperties = array_fill_keys($header, true);
+    $notFoundProperties = array_keys(array_diff_key($headerProperties, $entityProperties));
+    $errors = array_map(
+      function ($prop) {return [
+        "property_path" => $prop,
+        "message" => sprintf(
+          "Corrupted CSV header : unknown property '%s' for entity %s. " .
+          "Please use the provided CSV template.", $prop, $this->getClassName()),
+      ];},
+      $notFoundProperties);
+    return $errors;
+  }
+
   /**
    * Imports a CSV file containing entity records
    *
@@ -69,7 +93,11 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     $csv->setHeaderOffset(0)->setDelimiter(';');
     $stmt = Statement::create();
     $header = $stmt->limit(1)->process($csv)->getHeader();
+
     $fieldTargets = [];
+    $validationErrors = [];
+    $entities = [];
+
     foreach ($header as $h) {
       preg_match(
         '/(?P<name>\w+)((?P<relation>[\(\[])' .
@@ -79,20 +107,48 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
         '(\)|\]))?$/', $h, $matches);
       $name = $this->toCamelCase($matches['name']);
       $fieldTargets[$name] = [
-        'entity' => $matches['entity'] ?? null,
+        'entity' => ucfirst($this->toCamelCase($matches['entity'] ?? null)),
         'vocParent' => $matches['vocParent'] ?? null,
-        'prop' => $matches['prop'] ?? null,
+        'prop' => $this->toCamelCase($matches['prop'] ?? null),
         'isManyToMany' => ($matches['relation'] ?? null) === '[',
       ];
     }
+
     $renamedHeader = array_keys($fieldTargets);
-    $records = $stmt->process($csv, $renamedHeader);
-    foreach ($records as $record) {
-      $entity = $this->deserializeCsvItem($record, $fieldTargets);
-      $this->_em->persist($entity);
+    $headerErrors = $this->validateHeader($renamedHeader);
+    if ($headerErrors) {
+      return ["errors" => ["line" => 0, "payload" => $headerErrors]];
     }
-    $this->_em->flush();
-    return $records;
+
+    $records = $stmt->process($csv, $renamedHeader);
+
+    $this->_em->getConnection()->beginTransaction();
+    foreach ($records as $line => $record) {
+      $res = $this->deserializeCsvItem($record, $fieldTargets);
+      $entity = $res['entity'];
+      $errors = $res['errors'];
+      if (0 === count($errors)) {
+        $entities[] = $entity;
+        $this->_em->persist($entity);
+      } else {
+        $validationErrors[] = [
+          "line" => $line,
+          "payload" => $errors,
+        ];
+      }
+    }
+    if (count($validationErrors)) {
+      $this->_em->getConnection()->rollBack();
+    } else {
+      $this->_em->flush();
+      $this->_em->getConnection()->commit();
+    }
+
+    return [
+      'entities' => $entities,
+      'records' => $records->jsonSerialize(),
+      'errors' => $validationErrors,
+    ];
   }
 
   /**
@@ -100,17 +156,19 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
    *
    * @param array $record
    * @param array $fields
-   * @return Entity
+   * @return Entity|Validation
    */
   public function deserializeCsvItem(array $record, array $fields) {
     $entityClass = $this->getClassName();
     $entity = new $entityClass();
+    $errors = [];
     foreach ($fields as $key => $def) {
       if ($def['entity']) {
         if ($def['isManyToMany']) {
-          //not implemented
+          // not implemented
+          // throw new InvalidArgumentException("Bad argument");
         } else {
-          $conditions = [$this->toCamelCase($def['prop']) => $record[$key]];
+          $conditions = [$def['prop'] => $record[$key]];
           if ((string) $def['vocParent']) {
             $conditions['parent'] = $def['vocParent'];
           }
@@ -118,9 +176,15 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
             ->getRepository('App:' . $def['entity'])
             ->findOneBy($conditions);
           if ($relatedEntity === null) {
-            $e = EntityNotFoundException::fromClassNameAndIdentifier($def['entity'], $conditions);
-            $e->record = $record;
-            throw $e;
+            $message = $def['vocParent']
+            ? sprintf("Vocabulary term '%s' was not found in parent domain '%s'",
+              $def['prop'], $def['vocParent'])
+            : sprintf("Related %s entity was not found with %s = '%s'",
+              $def['entity'], $def['prop'], $record[$key]);
+            $errors[] = new ConstraintViolation(
+              $message, $message, $conditions,
+              $record, $key, $record[$key],
+            );
           } else {
             $entity->{'set' . ucfirst($key)}($relatedEntity);
           }
@@ -130,8 +194,14 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
         $entity->{'set' . ucfirst($key)}($value);
       }
     }
-    $errors = $this->validator->validate($entity);
-    return $entity;
+    $validation = $this->validator->validate($entity);
+    foreach ($errors as $err) {
+      $validation->add($err);
+    }
+    return [
+      "entity" => $entity,
+      "errors" => $validation,
+    ];
   }
 
 }

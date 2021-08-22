@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\FileParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * DNA API controller
@@ -118,13 +119,17 @@ class DnaController extends AbstractFOSRestController {
   }
 
   /**
-   * @Rest\Post("/import")
+   * @Rest\Post("/import", format="json")
    * @Rest\FileParam(name="csvFile", key="csvFile", description="CSV file to import")
-   * @Rest\View(StatusCode = 201)
+   * @Rest\View(serializerGroups={"field", "dna_list"}, StatusCode = 201)
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function import(ParamFetcherInterface $params) {
     $file = $params->get("csvFile");
-    $this->dnaRepository->importCsv($file->getRealPath());
+    $results = $this->dnaRepository->importCsv($file->getRealPath());
+    if ($results['errors']) {
+      return $this->view($results, Response::HTTP_BAD_REQUEST);
+    }
+    return $results;
   }
 }

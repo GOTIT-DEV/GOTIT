@@ -67,6 +67,7 @@ Encore
     "./assets/SpeciesSearch/js/taxon_consistency/main.js"
   )
   .addEntry("querybuilder", "./assets/QueryBuilder/js/main.js")
+  .addEntry("import-form", "./assets/Core/js/import.js")
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()

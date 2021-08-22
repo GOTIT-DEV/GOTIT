@@ -99,7 +99,7 @@ class DnaController extends AbstractController {
   /**
    * Finds and displays a dna entity.
    *
-   * @Route("/{id}", name="dna_show", methods={"GET"})
+   * @Route("/{id}", name="dna_show", methods={"GET"}, requirements={"id"="\d+"})
    */
   public function showAction(Dna $dna) {
     $deleteForm = $this->createDeleteForm($dna);
@@ -208,5 +208,20 @@ class DnaController extends AbstractController {
       )
       ->setMethod('DELETE')
       ->getForm();
+  }
+
+  /**
+   * Import CSV file form
+   *
+   * @Route("/import", name="dna_import", methods={"GET"})
+   */
+  public function import() {
+    return $this->render(
+      'import_csv_form.html.twig',
+      [
+        'template' => "build/imports/DNA.csv",
+        'component' => 'DnaImport',
+      ]
+    );
   }
 }

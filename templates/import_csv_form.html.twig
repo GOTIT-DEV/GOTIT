@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('index') }}
+	{{ encore_entry_link_tags('import-form') }}
+{% endblock %}
+
+{% block page_area %}
+
+	<div>
+		<import-csv-form id="csv-form" data-template-url="{{asset(template)}}" data-component="{{component}}"></import-csv-form>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags("index") }}
+	{{ encore_entry_script_tags("import-form") }}
+{% endblock %}
