@@ -23,3 +23,8 @@ TESTIMPORT_V2/
 /nbproject/private/
 /public/.htaccess_demo
 /public/.htaccess.bup
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -1,0 +1,21 @@
+actor: ApiTester
+modules:
+  enabled:
+    - \App\Tests\Helper\Api
+    - Symfony:
+        app_path: "src"
+        environment: "test"
+    - Doctrine2:
+        depends: Symfony
+        cleanup: true
+    - REST:
+        url: http://localhost:8000/api/
+        depends: Symfony
+        part: Json
+    # - Db:
+    #     dsn: "pgsql:host=localhost;port=4321;dbname=gotit_test"
+    #     user: "gotit_test"
+    #     password: "gotit_test"
+    #     dump: tests/_data/gotit_dev_dump.sql
+    #     # cleanup: true
+    #     populate: true

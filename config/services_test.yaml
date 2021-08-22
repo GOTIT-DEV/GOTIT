@@ -1,0 +1,11 @@
+parameters:
+  app_locales: en|fr
+
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    public: true
+    autowire: true
+  security.user_password_hasher:
+    class: Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher
+    public: true
