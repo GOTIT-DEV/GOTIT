@@ -7,6 +7,7 @@ use App\Doctrine\TimestampedEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MappedSuperclass
@@ -19,12 +20,14 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+   * @Assert\NotBlank(allowNull = true)
    */
   protected $metaCreationDate;
 
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+   * @Assert\NotBlank(allowNull = true)
    */
   protected $metaUpdateDate;
 
@@ -35,8 +38,9 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * @ORM\JoinColumn(
    *  name="creation_user_name",
    *  referencedColumnName="id",
-   *  nullable=true,
-   *  onDelete="SET NULL")
+   *  onDelete="SET NULL",
+   *  nullable=true)
+   * @Assert\NotBlank(allowNull = true)
    */
   protected $metaCreationUser;
 
@@ -47,8 +51,9 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * @ORM\JoinColumn(
    *  name="update_user_name",
    *  referencedColumnName="id",
-   *  nullable=true,
-   *  onDelete="SET NULL")
+   *  onDelete="SET NULL",
+   *  nullable=true)
+   * @Assert\NotBlank(allowNull = true)
    */
   protected $metaUpdateUser;
 
@@ -76,7 +81,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * Set metaCreationDate
    * @param \DateTime $metaCreationDate
    */
-  public function setMetaCreationDate($metaCreationDate) {
+  public function setMetaCreationDate(?\DateTime $metaCreationDate) {
     $this->metaCreationDate = $metaCreationDate;
     return $this;
   }
@@ -85,7 +90,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * Get metaCreationDate
    * @return \DateTime
    */
-  public function getMetaCreationDate() {
+  public function getMetaCreationDate(): ?\DateTime {
     return $this->metaCreationDate;
   }
 
@@ -93,7 +98,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * Set metaUpdateDate
    * @param \DateTime $metaUpdateDate
    */
-  public function setMetaUpdateDate($metaUpdateDate) {
+  public function setMetaUpdateDate(?\DateTime $metaUpdateDate) {
     $this->metaUpdateDate = $metaUpdateDate;
     return $this;
   }
@@ -102,41 +107,41 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    * Get metaUpdateDate
    * @return \DateTime
    */
-  public function getMetaUpdateDate() {
+  public function getMetaUpdateDate(): ?\DateTime {
     return $this->metaUpdateDate;
   }
 
   /**
    * Set metaCreationUser
-   * @param integer $metaCreationUser
+   * @param User $metaCreationUser
    */
-  public function setMetaCreationUser($metaCreationUser) {
+  public function setMetaCreationUser(?User $metaCreationUser) {
     $this->metaCreationUser = $metaCreationUser;
     return $this;
   }
 
   /**
    * Get metaCreationUser
-   * @return integer
+   * @return User
    */
-  public function getMetaCreationUser() {
+  public function getMetaCreationUser(): ?User {
     return $this->metaCreationUser;
   }
 
   /**
    * Set metaUpdateUser
-   * @param integer $metaUpdateUser
+   * @param User $metaUpdateUser
    */
-  public function setMetaUpdateUser($metaUpdateUser) {
+  public function setMetaUpdateUser(?User $metaUpdateUser) {
     $this->metaUpdateUser = $metaUpdateUser;
     return $this;
   }
 
   /**
    * Get metaUpdateUser
-   * @return integer
+   * @return User
    */
-  public function getMetaUpdateUser() {
+  public function getMetaUpdateUser(): ?User {
     return $this->metaUpdateUser;
   }
 }

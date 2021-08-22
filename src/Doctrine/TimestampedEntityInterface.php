@@ -2,13 +2,15 @@
 
 namespace App\Doctrine;
 
+use App\Entity\User;
+
 interface TimestampedEntityInterface {
-  public function setMetaCreationDate($metaCreationDate);
-  public function getMetaCreationDate();
-  public function setMetaUpdateDate($metaUpdateDate);
-  public function getMetaUpdateDate();
-  public function setMetaCreationUser($metaCreationUser);
-  public function getMetaCreationUser();
-  public function setMetaUpdateUser($metaUpdateUser);
-  public function getMetaUpdateUser();
+  public function setMetaCreationDate(?\DateTime $metaCreationDate);
+  public function getMetaCreationDate(): ?\DateTime;
+  public function setMetaUpdateDate(?\DateTime $metaUpdateDate);
+  public function getMetaUpdateDate(): ?\DateTime;
+  public function setMetaCreationUser(?User $metaCreationUser);
+  public function getMetaCreationUser(): ?User;
+  public function setMetaUpdateUser(?User $metaUpdateUser);
+  public function getMetaUpdateUser(): ?User;
 }
