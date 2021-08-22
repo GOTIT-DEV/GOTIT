@@ -62,6 +62,6 @@ class UserType extends ActionFormType {
    * {@inheritdoc}
    */
   public function getBlockPrefix() {
-    return 'bbees_userbundle_user';
+    return 'user';
   }
 }
