@@ -141,7 +141,6 @@ class UserController extends AbstractController {
       $passwordHash = $hasher->hashPassword($user, $plainPassword);
 
       $user->setPassword($passwordHash);
-      //
       $em = $this->getDoctrine()->getManager();
       $em->persist($user);
       try {
