@@ -28,8 +28,17 @@ class PcrController extends AbstractController {
    * @Route("/", name="pcr_index", methods={"GET"})
    * @Route("/", name="pcrchromato_index", methods={"GET"})
    */
-  public function indexAction() {
+  public function indexAction(Request $request) {
+
     $em = $this->getDoctrine()->getManager();
+
+    $dna = $request->query->get('dna');
+    if ($dna) {
+      $pcrs = $em->getRepository('App:Pcr')->findBy(['dnaFk' => $dna]);
+      if (count($pcrs) === 1) {
+        return $this->redirectToRoute('pcr_show', ["id" => array_shift($pcrs)->getId()]);
+      }
+    }
 
     $pcrs = $em->getRepository('App:Pcr')->findAll();
 
