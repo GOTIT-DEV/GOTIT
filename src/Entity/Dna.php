@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Dna
@@ -23,7 +24,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
  * @ORM\Entity(repositoryClass="App\Repository\DnaRepository")
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Dna extends AbstractTimestampedEntity {
@@ -59,6 +60,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
    * @Groups({"field"})
+   * @Assert\PositiveOrZero
    */
   private $concentrationNgMicrolitre;
 
@@ -133,22 +135,12 @@ class Dna extends AbstractTimestampedEntity {
     $this->dnaExtractions = new ArrayCollection();
   }
 
-  // /**
-  //  * @return int
-  //  * @VirtualProperty()
-  //  * @SerializedName("pcr_count")
-  //  * @Groups({"dna_list", "dna_details"})
-  //  */
-  // public function countPcrs() {
-  //   return count($this->pcrs);
-  // }
-
   /**
    * @VirtualProperty()
    * @SerializedName("_meta")
    * @Groups({"dna_list", "dna_details"})
    *
-   * @return void
+   * @return array
    */
   public function getMetadata() {
     return parent::getMetadata();
