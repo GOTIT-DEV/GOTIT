@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 
 /**
- * DnaExtraction
+ * DnaProducer
  *
  * @ORM\Table(name="dna_is_extracted_by",
  *  indexes={
@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class DnaExtraction extends AbstractTimestampedEntity {
+class DnaProducer extends AbstractTimestampedEntity {
   /**
    * @var integer
    *
@@ -30,7 +30,7 @@ class DnaExtraction extends AbstractTimestampedEntity {
   /**
    * @var \Dna
    *
-   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="dnaExtractions", fetch="EAGER")
+   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="dnaProducers", fetch="EAGER")
    * @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    * @Groups({"field"})
    */
@@ -59,7 +59,7 @@ class DnaExtraction extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Dna $dnaFk
    *
-   * @return DnaExtraction
+   * @return DnaProducer
    */
   public function setDnaFk(\App\Entity\Dna $dnaFk = null) {
     $this->dnaFk = $dnaFk;
@@ -81,7 +81,7 @@ class DnaExtraction extends AbstractTimestampedEntity {
    *
    * @param \App\Entity\Person $personFk
    *
-   * @return DnaExtraction
+   * @return DnaProducer
    */
   public function setPersonFk(\App\Entity\Person $personFk = null) {
     $this->personFk = $personFk;

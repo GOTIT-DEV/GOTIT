@@ -118,11 +118,11 @@ class Dna extends AbstractTimestampedEntity {
   private $storeFk;
 
   /**
-   * @ORM\OneToMany(targetEntity="DnaExtraction", mappedBy="dnaFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="DnaProducer", mappedBy="dnaFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    * @Groups({"dna_list", "dna_details"})
    */
-  protected $dnaExtractions;
+  protected $dnaProducers;
 
   /**
    * @var Pcr
@@ -132,7 +132,7 @@ class Dna extends AbstractTimestampedEntity {
   protected $pcrs;
 
   public function __construct() {
-    $this->dnaExtractions = new ArrayCollection();
+    $this->dnaProducers = new ArrayCollection();
   }
 
   /**
@@ -358,34 +358,34 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add dnaExtraction
+   * Add dnaProducer
    *
-   * @param \App\Entity\DnaExtraction $dnaExtraction
+   * @param \App\Entity\DnaProducer $dnaProducer
    *
    * @return Dna
    */
-  public function addDnaExtraction(\App\Entity\DnaExtraction $dnaExtraction) {
-    $dnaExtraction->setDnaFk($this);
-    $this->dnaExtractions[] = $dnaExtraction;
+  public function addDnaProducer(\App\Entity\DnaProducer $dnaProducer) {
+    $dnaProducer->setDnaFk($this);
+    $this->dnaProducers[] = $dnaProducer;
 
     return $this;
   }
 
   /**
-   * Remove dnaExtraction
+   * Remove dnaProducer
    *
-   * @param \App\Entity\DnaExtraction $dnaExtraction
+   * @param \App\Entity\DnaProducer $dnaProducer
    */
-  public function removeDnaExtraction(\App\Entity\DnaExtraction $dnaExtraction) {
-    $this->dnaExtractions->removeElement($dnaExtraction);
+  public function removeDnaProducer(\App\Entity\DnaProducer $dnaProducer) {
+    $this->dnaProducers->removeElement($dnaProducer);
   }
 
   /**
-   * Get dnaExtractions
+   * Get dnaProducers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getDnaExtractions() {
-    return $this->dnaExtractions;
+  public function getDnaProducers() {
+    return $this->dnaProducers;
   }
 }

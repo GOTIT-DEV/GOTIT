@@ -128,7 +128,7 @@ class DnaController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $dnaExtractions = $service->setArrayCollection('DnaExtractions', $dna);
+    $dnaProducers = $service->setArrayCollection('DnaProducers', $dna);
     $deleteForm = $this->createDeleteForm($dna);
     $editForm = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::edit(),
@@ -136,7 +136,7 @@ class DnaController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollection('DnaExtractions', $dna, $dnaExtractions);
+      $service->DelArrayCollection('DnaProducers', $dna, $dnaProducers);
       $em = $this->getDoctrine()->getManager();
       $em->persist($dna);
       try {

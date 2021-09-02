@@ -16,7 +16,7 @@ final class DnaRepository extends AbstractRepository {
       ->join('dna.specimenFk', 'spec')
       ->leftJoin('dna.storeFk', 'sto')
       ->leftJoin('dna.pcrs', 'pcr')
-      ->leftJoin('dna.dnaExtractions', 'prod')
+      ->leftJoin('dna.dnaProducers', 'prod')
       ->leftJoin('prod.personFk', 'person')
       ->leftJoin('person.institutionFk', 'inst');
   }

@@ -104,7 +104,7 @@ export default {
           },
         },
         {
-          key: "dna_extractions",
+          key: "dna_producers",
           label: this.$t("messages.Producers"),
           sortable: false,
           visible: true,

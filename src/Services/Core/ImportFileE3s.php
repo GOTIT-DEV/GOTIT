@@ -1454,7 +1454,7 @@ class ImportFileE3s {
       $entity->setMetaUpdateUser($userId);
       $em->persist($entity);
 
-      # Record of DnaExtraction
+      # Record of DnaProducer
       foreach ($columnByTable["dna_est_realise_par"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -1470,7 +1470,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\DnaExtraction();
+            $entityRel = new \App\Entity\DnaProducer();
             $method = "setDnaFk";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

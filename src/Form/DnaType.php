@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\DnaExtractionEmbedType;
+use App\Form\EmbedTypes\DnaProducerEmbedType;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
@@ -67,8 +67,8 @@ class DnaType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('dnaExtractions', CollectionType::class, [
-        'entry_type' => DnaExtractionEmbedType::class,
+      ->add('dnaProducers', CollectionType::class, [
+        'entry_type' => DnaProducerEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
