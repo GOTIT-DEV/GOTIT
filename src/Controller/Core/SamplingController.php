@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Entity\Sampling;
 use App\Form\Enums\Action;
 use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;

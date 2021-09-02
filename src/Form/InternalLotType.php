@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\InternalLotContentEmbedType;
 use App\Form\EmbedTypes\InternalLotProducerEmbedType;
 use App\Form\EmbedTypes\InternalLotPublicationEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;

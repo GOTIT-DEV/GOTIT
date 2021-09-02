@@ -12,7 +12,7 @@ class InternalLotContentEmbedType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('specimentCount')
+    $builder->add('specimenCount')
       ->add('specimenTypeVocFk', BaseVocType::class, [
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
