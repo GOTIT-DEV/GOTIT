@@ -117,7 +117,13 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     $renamedHeader = array_keys($fieldTargets);
     $headerErrors = $this->validateHeader($renamedHeader);
     if ($headerErrors) {
-      return ["errors" => ["line" => 0, "payload" => $headerErrors]];
+      return [
+        "errors" => [
+          ["line" => 0, "payload" => $headerErrors],
+        ],
+        "records" => [],
+        "entities" => [],
+      ];
     }
 
     $records = $stmt->process($csv, $renamedHeader);

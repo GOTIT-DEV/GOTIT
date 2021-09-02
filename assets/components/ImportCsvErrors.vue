@@ -3,10 +3,16 @@
     <template #header>
       <div class="d-flex justify-content-between">
         <h6 class="mb-0">
-          Invalid data in {{ errors.length }} items out of {{ records.length }}
+          {{
+            records.length
+              ? `Invalid data in ${errors.length} items out of ${records.length}`
+              : "CSV parsing error"
+          }}
         </h6>
-        No data was saved in the database yet. Fix the following errors and
-        submit again.
+        <span v-if="records.length">
+          No data was saved in the database yet. Fix the following errors and
+          submit again.
+        </span>
       </div>
     </template>
     <b-list-group flush>

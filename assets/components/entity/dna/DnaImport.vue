@@ -17,6 +17,7 @@
                     class="mb-3"
                     @success="onResponse"
                     @errors="onResponse"
+                    @failure="onFailure"
                   />
                 </b-tab>
                 <b-tab title="Store">
