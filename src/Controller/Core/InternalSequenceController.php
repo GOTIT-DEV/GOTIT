@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\InternalSequence;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -341,7 +342,7 @@ class InternalSequenceController extends AbstractController {
   public function editAction(
     Request $request,
     InternalSequence $sequence,
-    GenericFunctionE3s $service
+    EntityEditionService $service
   ) {
 
     //  access control for user type  : ROLE_COLLABORATION
@@ -368,23 +369,12 @@ class InternalSequenceController extends AbstractController {
       );
 
     // store ArrayCollection
-    $assemblies = $service->setArrayCollection(
-      'Assemblies',
-      $sequence
+    $assemblies = $service->copyArrayCollection($sequence->Assemblies());
+    $taxonIdentifications = $service->copyArrayCollection(
+      $sequence->getTaxonIdentifications()
     );
-    $taxonIdentifications = $service->setArrayCollectionEmbed(
-      'TaxonIdentifications',
-      'TaxonCurators',
-      $sequence
-    );
-    $publications = $service->setArrayCollection(
-      'Publications',
-      $sequence
-    );
-    $assemblers = $service->setArrayCollection(
-      'Assemblers',
-      $sequence
-    );
+    $publications = $service->copyArrayCollection($sequence->Publications());
+    $assemblers = $service->copyArrayCollection($sequence->Assemblers());
 
     $editForm = $this->createForm(
       'App\Form\InternalSequenceType',
@@ -399,27 +389,14 @@ class InternalSequenceController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection(
-        'Assemblies',
-        $sequence,
-        $assemblies
+      $service->removeStaleCollection($assemblies, $sequence->getAssemblies());
+      $service->removeStaleCollection(
+        $taxonIdentifications, $sequence->getTaxonIdentifications(), 'TaxonCurators'
       );
-      $service->DelArrayCollectionEmbed(
-        'TaxonIdentifications',
-        'TaxonCurators',
-        $sequence,
-        $taxonIdentifications
+      $service->removeStaleCollection(
+        $publications, $sequence->getPublications()
       );
-      $service->DelArrayCollection(
-        'Publications',
-        $sequence,
-        $publications
-      );
-      $service->DelArrayCollection(
-        'Assemblers',
-        $sequence,
-        $assemblers
-      );
+      $service->removeStaleCollection($assemblers, $sequence->getAssemblers());
       $em->persist($sequence);
       try {
         $em->flush();

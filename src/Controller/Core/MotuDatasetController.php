@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\MotuDataset;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -175,12 +176,12 @@ class MotuDatasetController extends AbstractController {
    * @Route("/{id}/edit", name="motu_dataset_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function editAction(Request $request, MotuDataset $motu_dataset, GenericFunctionE3s $service) {
+  public function editAction(Request $request, MotuDataset $motu_dataset, EntityEditionService $service) {
     // load service  generic_function_e3s
     //
 
     // store ArrayCollection
-    $motuDelimiters = $service->setArrayCollection('MotuDelimiters', $motu_dataset);
+    $motuDelimiters = $service->copyArrayCollection($motu_dataset->getMotuDelimiters());
 
     //
     $deleteForm = $this->createDeleteForm($motu_dataset);
@@ -191,7 +192,7 @@ class MotuDatasetController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('MotuDelimiters', $motu_dataset, $motuDelimiters);
+      $service->removeStaleCollection($motuDelimiters, $motu_dataset->getMotuDelimiters());
       // flush
       $this->getDoctrine()->getManager()->persist($motu_dataset);
       try {

@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\ExternalLot;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -232,7 +233,7 @@ class ExternalLotController extends AbstractController {
    * @Route("/{id}/edit", name="external_lot_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, ExternalLot $externalLot, GenericFunctionE3s $service) {
+  public function editAction(Request $request, ExternalLot $externalLot, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -244,9 +245,9 @@ class ExternalLotController extends AbstractController {
     }
 
     // store ArrayCollection
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $externalLot);
-    $publications = $service->setArrayCollection('Publications', $externalLot);
-    $producers = $service->setArrayCollection('Producers', $externalLot);
+    $publications = $service->copyArrayCollection($externalLot->getPublications());
+    $producers = $service->copyArrayCollection($externalLot->getProducers());
+    $taxonIdentifications = $service->copyArrayCollection($externalLot->getTaxonIdentifications());
 
     $deleteForm = $this->createDeleteForm($externalLot);
     $editForm = $this->createForm(
@@ -259,9 +260,9 @@ class ExternalLotController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $externalLot, $taxonIdentifications);
-      $service->DelArrayCollection('Publications', $externalLot, $publications);
-      $service->DelArrayCollection('Producers', $externalLot, $producers);
+      $service->removeStaleCollection($publications, $externalLot->getPublications());
+      $service->removeStaleCollection($producers, $externalLot->getProducers());
+      $service->removeStaleCollection($taxonIdentifications, $externalLot->getTaxonIdentifications(), 'TaxonCurators');
       $this->getDoctrine()->getManager()->persist($externalLot);
       try {
         $this->getDoctrine()->getManager()->flush();

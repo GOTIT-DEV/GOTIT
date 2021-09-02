@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\Source;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -163,7 +164,7 @@ class SourceController extends AbstractController {
    * @Route("/{id}/edit", name="source_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Source $source, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -173,7 +174,7 @@ class SourceController extends AbstractController {
     // load service  generic_function_e3s
     //
     // store ArrayCollection
-    $sourceProviders = $service->setArrayCollection('SourceProviders', $source);
+    $sourceProviders = $service->copyArrayCollection($source->getSourceProviders());
     //
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
@@ -182,11 +183,13 @@ class SourceController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+      $service->removeStaleCollection($sourceProviders, $source->getSourceProviders());
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($source);
+
       try {
-        // delete ArrayCollection
-        $service->DelArrayCollection('SourceProviders', $source, $sourceProviders);
-        // flush
-        $this->getDoctrine()->getManager()->flush();
+        $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')

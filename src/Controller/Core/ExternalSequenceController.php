@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\ExternalSequence;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -259,7 +260,7 @@ class ExternalSequenceController extends AbstractController {
    * @Route("/{id}/edit", name="external_sequence_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, ExternalSequence $sequence, GenericFunctionE3s $service) {
+  public function editAction(Request $request, ExternalSequence $sequence, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -272,18 +273,12 @@ class ExternalSequenceController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
 
     // store ArrayCollection
-    $taxonIdentifications = $service->setArrayCollectionEmbed(
-      'TaxonIdentifications',
-      'TaxonCurators',
-      $sequence
+    $publications = $service->copyArrayCollection(
+      $sequence->getExternalSequencePublications()
     );
-    $externalSequencePublications = $service->setArrayCollection(
-      'ExternalSequencePublications',
-      $sequence
-    );
-    $assemblers = $service->setArrayCollection(
-      'Assemblers',
-      $sequence
+    $assemblers = $service->copyArrayCollection($sequence->getAssemblers());
+    $taxonIdentifications = $service->copyArrayCollection(
+      $sequence->getTaxonIdentifications()
     );
 
     $deleteForm = $this->createDeleteForm($sequence);
@@ -295,23 +290,9 @@ class ExternalSequenceController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      // delete ArrayCollection
-      $service->DelArrayCollectionEmbed(
-        'TaxonIdentifications',
-        'TaxonCurators',
-        $sequence,
-        $taxonIdentifications
-      );
-      $service->DelArrayCollection(
-        'ExternalSequencePublications',
-        $sequence,
-        $externalSequencePublications
-      );
-      $service->DelArrayCollection(
-        'Assemblers',
-        $sequence,
-        $assemblers
-      );
+      $service->removeStaleCollection($publications, $sequence->getExternalSequencePublications());
+      $service->removeStaleCollection($assemblers, $sequence->getAssemblers());
+      $service->removeStaleCollection($taxonIdentifications, $sequence->getTaxonIdentifications(), 'TaxonCurators');
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($sequence);

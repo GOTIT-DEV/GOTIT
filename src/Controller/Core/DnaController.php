@@ -4,7 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\Dna;
 use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
+use App\Services\Core\EntityEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,7 +120,7 @@ class DnaController extends AbstractController {
    * @Route("/{id}/edit", name="dna_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Dna $dna, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Dna $dna, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -128,7 +128,7 @@ class DnaController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $dnaProducers = $service->setArrayCollection('DnaProducers', $dna);
+    $dnaProducers = $service->copyArrayCollection($dna->getDnaProducers());
     $deleteForm = $this->createDeleteForm($dna);
     $editForm = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::edit(),
@@ -136,8 +136,8 @@ class DnaController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollection('DnaProducers', $dna, $dnaProducers);
       $em = $this->getDoctrine()->getManager();
+      $service->removeStaleCollection($dnaProducers, $dna->getDnaProducers());
       $em->persist($dna);
       try {
         $em->flush();

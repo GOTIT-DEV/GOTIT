@@ -4,7 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\Slide;
 use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
+use App\Services\Core\EntityEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -222,7 +222,7 @@ class SlideController extends AbstractController {
   public function editAction(
     Request $request,
     Slide $slide,
-    GenericFunctionE3s $service
+    EntityEditionService $service
   ) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -234,11 +234,7 @@ class SlideController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $producers = $service->setArrayCollection(
-      'Producers',
-      $slide
-    );
-    //
+    $producers = $service->copyArrayCollection($slide->getProducers());
     $deleteForm = $this->createDeleteForm($slide);
     $editForm = $this->createForm('App\Form\SlideType', $slide, [
       'action_type' => Action::edit(),
@@ -246,11 +242,7 @@ class SlideController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollection(
-        'Producers',
-        $slide,
-        $producers
-      );
+      $service->removeStaleCollection($producers, $slide->getProducers());
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($slide);

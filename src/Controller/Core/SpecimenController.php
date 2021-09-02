@@ -5,6 +5,7 @@ namespace App\Controller\Core;
 use App\Entity\Specimen;
 use App\Entity\TaxonIdentification;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -298,7 +299,7 @@ class SpecimenController extends AbstractController {
    * @Route("/{id}/edit", name="specimen_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Specimen $specimen, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Specimen $specimen, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -306,8 +307,9 @@ class SpecimenController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $taxonIdentifications = $service->setArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $specimen);
-
+    $taxonIdentifications = $service->copyArrayCollection(
+      $specimen->getTaxonIdentifications()
+    );
     $deleteForm = $this->createDeleteForm($specimen);
     if ($specimen->getMolecularCode()) {
       $editForm = $this->createForm('App\Form\SpecimenType', $specimen, [
@@ -321,10 +323,13 @@ class SpecimenController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->DelArrayCollectionEmbed('TaxonIdentifications', 'TaxonCurators', $specimen, $taxonIdentifications);
-      $this->getDoctrine()->getManager()->persist($specimen);
+      $service->removeStaleCollection(
+        $taxonIdentifications, $specimen->getTaxonIdentifications(), 'TaxonCurators'
+      );
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($specimen);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')

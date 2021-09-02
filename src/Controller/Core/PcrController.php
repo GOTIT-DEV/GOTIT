@@ -4,6 +4,7 @@ namespace App\Controller\Core;
 
 use App\Entity\Pcr;
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -238,7 +239,7 @@ class PcrController extends AbstractController {
    * @Security("is_granted('ROLE_COLLABORATION')")
    *
    */
-  public function editAction(Request $request, Pcr $pcr, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Pcr $pcr, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -246,7 +247,7 @@ class PcrController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $pcrProducers = $service->setArrayCollection('PcrProducers', $pcr);
+    $pcrProducers = $service->copyArrayCollection($pcr->getPcrProducers());
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
@@ -256,7 +257,7 @@ class PcrController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $service->DelArrayCollection('PcrProducers', $pcr, $pcrProducers);
+      $service->removeStaleCollection($pcrProducers, $pcr->getPcrProducers());
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($pcr);

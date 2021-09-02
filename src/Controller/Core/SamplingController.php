@@ -3,6 +3,7 @@
 namespace App\Controller\Core;
 
 use App\Form\Enums\Action;
+use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -238,7 +239,7 @@ class SamplingController extends AbstractController {
    * @Route("/{id}/edit", name="sampling_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, Sampling $sampling, GenericFunctionE3s $service) {
+  public function editAction(Request $request, Sampling $sampling, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -246,11 +247,11 @@ class SamplingController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $originalSamplingMethods = $service->setArrayCollection('SamplingMethods', $sampling);
-    $originalSamplingFixatives = $service->setArrayCollection('SamplingFixatives', $sampling);
-    $originalSamplingFundings = $service->setArrayCollection('SamplingFundings', $sampling);
-    $originalSamplingParticipants = $service->setArrayCollection('SamplingParticipants', $sampling);
-    $originalTaxonSamplings = $service->setArrayCollection('TaxonSamplings', $sampling);
+    $methods = $service->copyArrayCollection($sampling->getSamplingMethods());
+    $fixatives = $service->copyArrayCollection($sampling->getSamplingFixatives());
+    $fundings = $service->copyArrayCollection($sampling->getSamplingFundings());
+    $participants = $service->copyArrayCollection($sampling->getSamplingParticipants());
+    $taxons = $service->copyArrayCollection($sampling->getTaxonSamplings());
 
     // editAction
     $deleteForm = $this->createDeleteForm($sampling);
@@ -258,15 +259,14 @@ class SamplingController extends AbstractController {
       'action_type' => Action::edit(),
     ]);
     $editForm->handleRequest($request);
-    // dump($sampling->getSamplingParticipants());
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->DelArrayCollection('SamplingMethods', $sampling, $originalSamplingMethods);
-      $service->DelArrayCollection('SamplingFixatives', $sampling, $originalSamplingFixatives);
-      $service->DelArrayCollection('SamplingFundings', $sampling, $originalSamplingFundings);
-      $service->DelArrayCollection('SamplingParticipants', $sampling, $originalSamplingParticipants);
-      $service->DelArrayCollection('TaxonSamplings', $sampling, $originalTaxonSamplings);
+      $service->removeStaleCollection($methods, $sampling->getSamplingMethods());
+      $service->removeStaleCollection($fixatives, $sampling->getSamplingFixatives());
+      $service->removeStaleCollection($fundings, $sampling->getSamplingFundings());
+      $service->removeStaleCollection($participants, $sampling->getSamplingParticipants());
+      $service->removeStaleCollection($taxons, $sampling->getTaxonSamplings());
 
       // flush
       $this->getDoctrine()->getManager()->persist($sampling);
