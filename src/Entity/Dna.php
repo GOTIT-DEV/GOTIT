@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Dna
+ * DNA
  *
  * @ORM\Table(name="dna",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
@@ -44,6 +44,10 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false)
    * @Groups({"field"})
+   * @Assert\Regex(
+   *  pattern="/^[\w]+$/",
+   *  message="Code {{ value }} contains invalid special characters"
+   * )
    */
   private $code;
 

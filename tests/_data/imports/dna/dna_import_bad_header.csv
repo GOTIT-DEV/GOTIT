@@ -1,0 +1,1 @@
+specimen_fk(specimen.molecular_code);code_mock_header;date;date_precision_voc_fk(voc#datePrecision.code);extraction_method_voc_fk(voc#methodeExtractionAdn.code);concentration_ng_microlitre;comment;dna_producers[person.name];store_fk(store.code);qualite_adn_voc_fk(voc#qualiteAdn.code)

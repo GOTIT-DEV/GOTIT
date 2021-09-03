@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Repository\ApiRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -11,7 +12,6 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class AbstractRepository extends ServiceEntityRepository implements ApiRepositoryInterface {
@@ -63,6 +63,8 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
 
   public function validateHeader(array $header) {
     $metadata = $this->_em->getClassMetadata($this->getClassName());
+    // dump($metadata);
+    // ignore metadata fields
     $fieldMappings = array_filter(
       $metadata->fieldMappings,
       function ($field) {return !str_starts_with($field['fieldName'], "meta");}
@@ -108,6 +110,7 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
       $name = $this->toCamelCase($matches['name']);
       $fieldTargets[$name] = [
         'entity' => ucfirst($this->toCamelCase($matches['entity'] ?? null)),
+        'property' => $name,
         'vocParent' => $matches['vocParent'] ?? null,
         'prop' => $this->toCamelCase($matches['prop'] ?? null),
         'isManyToMany' => ($matches['relation'] ?? null) === '[',
@@ -157,6 +160,28 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     ];
   }
 
+  public function parseRelatedProperty($entity, array $record, array $fieldDef) {
+    $propertyName = $fieldDef['property'];
+    $conditions = [$fieldDef['prop'] => $record[$propertyName]];
+    if ((string) $fieldDef['vocParent']) {
+      $conditions['parent'] = $fieldDef['vocParent'];
+    }
+    $relatedEntity = $this->_em
+      ->getRepository('App:' . $fieldDef['entity'])
+      ->findOneBy($conditions);
+    if ($relatedEntity === null) {
+      $message = $fieldDef['vocParent']
+      ? sprintf("Vocabulary term '%s' was not found in parent domain '%s'",
+        $fieldDef['prop'], $fieldDef['vocParent'])
+      : sprintf("Related %s entity was not found with %s = '%s'",
+        $fieldDef['entity'], $fieldDef['prop'], $record[$propertyName]);
+      throw new ConstraintViolationException(
+        $message, $entity, $propertyName, $record[$propertyName]
+      );
+    }
+    return $relatedEntity;
+  }
+
   /**
    * Deserialize a CSV record to an Entity object
    *
@@ -168,39 +193,29 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     $entityClass = $this->getClassName();
     $entity = new $entityClass();
     $errors = [];
-    foreach ($fields as $key => $def) {
+    foreach ($fields as $property => $def) {
       if ($def['entity']) {
-        if ($def['isManyToMany']) {
-          // not implemented
-          // throw new InvalidArgumentException("Bad argument");
-        } else {
-          $conditions = [$def['prop'] => $record[$key]];
-          if ((string) $def['vocParent']) {
-            $conditions['parent'] = $def['vocParent'];
-          }
-          $relatedEntity = $this->_em
-            ->getRepository('App:' . $def['entity'])
-            ->findOneBy($conditions);
-          if ($relatedEntity === null) {
-            $message = $def['vocParent']
-            ? sprintf("Vocabulary term '%s' was not found in parent domain '%s'",
-              $def['prop'], $def['vocParent'])
-            : sprintf("Related %s entity was not found with %s = '%s'",
-              $def['entity'], $def['prop'], $record[$key]);
-            $errors[] = new ConstraintViolation(
-              $message, $message, $conditions,
-              $record, $key, $record[$key],
-            );
+        try {
+          if ($def['isManyToMany']) {
+            // parse related many-to-many property
+            // Not implemented
           } else {
-            $entity->{'set' . ucfirst($key)}($relatedEntity);
+            // parse related entity property
+            $relatedEntity = $this->parseRelatedProperty($entity, $record, $def);
+            $entity->{'set' . ucfirst($property)}($relatedEntity);
           }
+        } catch (ConstraintViolationException $e) {
+          $errors[] = $e->getConstraintViolation();
         }
       } else {
-        $value = (is_string($record[$key]) && $record[$key] === "") ? null : $record[$key];
-        $entity->{'set' . ucfirst($key)}($value);
+        // parse property owned by entity
+        $value = ($record[$property] === "") ? null : $record[$property];
+        $entity->{'set' . ucfirst($property)}($value);
       }
     }
+    // validate entity properties using constraints in its class definition
     $validation = $this->validator->validate($entity);
+    // merge all validation errors
     foreach ($errors as $err) {
       $validation->add($err);
     }
