@@ -23,8 +23,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * User controller.
@@ -129,7 +129,7 @@ class UserController extends AbstractController {
    * @Route("/new", name="user_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
-  public function newAction(Request $request, UserPasswordEncoderInterface $encoder) {
+  public function newAction(Request $request, UserPasswordHasherInterface $hasher) {
     $user = new User();
     $form = $this->createForm('App\Form\UserType', $user, [
       'action_type' => Action::create(),
@@ -137,11 +137,10 @@ class UserController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      // encodage du password
       $plainPassword = $user->getPlainPassword();
-      $encoded = $encoder->encodePassword($user, $plainPassword);
+      $passwordHash = $hasher->hashPassword($user, $plainPassword);
 
-      $user->setPassword($encoded);
+      $user->setPassword($passwordHash);
       //
       $em = $this->getDoctrine()->getManager();
       $em->persist($user);
@@ -192,7 +191,7 @@ class UserController extends AbstractController {
    * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
-  public function editAction(Request $request, User $user, UserPasswordEncoderInterface $encoder) {
+  public function editAction(Request $request, User $user, UserPasswordHasherInterface $hasher) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     if (
@@ -201,7 +200,6 @@ class UserController extends AbstractController {
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
-    //
     $deleteForm = $this->createDeleteForm($user);
     $editForm = $this->createForm('App\Form\UserType', $user, [
       'action_type' => Action::edit(),
@@ -209,11 +207,9 @@ class UserController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      // password encoding
       $plainPassword = $user->getPlainPassword();
-      $encoded = $encoder->encodePassword($user, $plainPassword);
-
-      $user->setPassword($encoded);
+      $passwordHash = $hasher->hashPassword($user, $plainPassword);
+      $user->setPassword($passwordHash);
       $em = $this->getDoctrine()->getManager();
       try {
         $em->flush();
