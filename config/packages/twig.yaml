@@ -130,3 +130,7 @@ twig:
         icon: fas fa-search
         auth_required: ROLE_INVITED
         children: []
+
+when@test:
+  twig:
+    strict_variables: true
