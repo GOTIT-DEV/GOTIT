@@ -63,16 +63,17 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
 
   public function validateHeader(array $header) {
     $metadata = $this->_em->getClassMetadata($this->getClassName());
-    // dump($metadata);
     // ignore metadata fields
     $fieldMappings = array_filter(
       $metadata->fieldMappings,
       function ($field) {return !str_starts_with($field['fieldName'], "meta");}
     );
+
     $fieldAssoc = $metadata->associationMappings;
     $entityProperties = $fieldMappings + $fieldAssoc;
     $headerProperties = array_fill_keys($header, true);
     $notFoundProperties = array_keys(array_diff_key($headerProperties, $entityProperties));
+
     $errors = array_map(
       function ($prop) {return [
         "property_path" => $prop,
@@ -81,7 +82,54 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
           "Please use the provided CSV template.", $prop, $this->getClassName()),
       ];},
       $notFoundProperties);
+
     return $errors;
+  }
+
+  public function parseHeader($header) {
+    $fieldTargets = [];
+    $headerErrors = [];
+    foreach ($header as $h) {
+      /**
+       * matches :
+       * - propertyName
+       * - propertyName(relatedEntity.property)
+       * - propertyName[relatedEntity.property]
+       * - propertyName(relatedEntity#vocParent.property)
+       * - propertyName[relatedEntity#vocParent.property]
+       */
+      preg_match(
+        '/(?P<name>\w+)((?P<relation>[\(\[])' .
+        '(?P<entity>[^\.#]+)' .
+        '#?(?P<vocParent>[^\.]*)' .
+        '\.(?P<prop>[^\.]+)' .
+        '(\)|\]))?$/', $h, $matches);
+
+      // no match on property name means parsing failure
+      if (!$matches['name']) {
+        $headerErrors[] = [
+          "property_path" => $h,
+          "message" => sprintf(
+            "Corrupted CSV header : could not parse '%s'. Please use the provided CSV template.", $h
+          ),
+        ];
+      } else {
+        $name = $this->toCamelCase($matches['name']);
+        $fieldTargets[$name] = [
+          'entity' => ucfirst($this->toCamelCase($matches['entity'] ?? null)),
+          'property' => $name,
+          'vocParent' => $matches['vocParent'] ?? null,
+          'prop' => $this->toCamelCase($matches['prop'] ?? null),
+          'isManyToMany' => ($matches['relation'] ?? null) === '[',
+        ];
+      }
+    }
+
+    $headerErrors = array_merge($headerErrors, $this->validateHeader(array_keys($fieldTargets)));
+    return [
+      'errors' => $headerErrors,
+      'fields' => $fieldTargets,
+    ];
   }
 
   /**
@@ -95,42 +143,23 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     $csv->setHeaderOffset(0)->setDelimiter(';');
     $stmt = Statement::create();
     $header = $stmt->limit(1)->process($csv)->getHeader();
-
-    $fieldTargets = [];
-    $validationErrors = [];
-    $entities = [];
-
-    foreach ($header as $h) {
-      preg_match(
-        '/(?P<name>\w+)((?P<relation>[\(\[])' .
-        '(?P<entity>[^\.#]+)' .
-        '#?(?P<vocParent>[^\.]*)' .
-        '\.(?P<prop>[^\.]+)' .
-        '(\)|\]))?$/', $h, $matches);
-      $name = $this->toCamelCase($matches['name']);
-      $fieldTargets[$name] = [
-        'entity' => ucfirst($this->toCamelCase($matches['entity'] ?? null)),
-        'property' => $name,
-        'vocParent' => $matches['vocParent'] ?? null,
-        'prop' => $this->toCamelCase($matches['prop'] ?? null),
-        'isManyToMany' => ($matches['relation'] ?? null) === '[',
-      ];
-    }
-
-    $renamedHeader = array_keys($fieldTargets);
-    $headerErrors = $this->validateHeader($renamedHeader);
-    if ($headerErrors) {
+    $headerParsing = $this->parseHeader($header);
+    if ($headerParsing['errors']) {
       return [
         "errors" => [
-          ["line" => 0, "payload" => $headerErrors],
+          ["line" => 0, "payload" => $headerParsing['errors']],
         ],
         "records" => [],
         "entities" => [],
       ];
     }
+    $fieldTargets = $headerParsing['fields'];
+    $renamedHeader = array_keys($fieldTargets);
 
     $records = $stmt->process($csv, $renamedHeader);
 
+    $validationErrors = [];
+    $entities = [];
     $this->_em->getConnection()->beginTransaction();
     foreach ($records as $line => $record) {
       $res = $this->deserializeCsvItem($record, $fieldTargets);

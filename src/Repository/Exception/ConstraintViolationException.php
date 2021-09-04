@@ -8,10 +8,7 @@ class ConstraintViolationException extends Exception {
   protected $violation;
 
   public function __construct($message, $entity, $propertyPath, $invalidValue) {
-
     $this->violation = new ConstraintViolation($message, null, [], $entity, $propertyPath, $invalidValue);
-
-    // assurez-vous que tout a été assigné proprement
     parent::__construct($message, $code, $previous);
   }
 
