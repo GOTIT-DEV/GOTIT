@@ -1,5 +1,4 @@
 import "bootstrap-select/dist/css/bootstrap-select.css";
-import "bootstrap-toggle/css/bootstrap-toggle.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import "leaflet-easybutton/src/easy-button.css";
@@ -8,7 +7,6 @@ import "../css/modal.less";
 import "../css/leaflet-maps.less";
 import "../css/multiselect.less";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import "bootstrap-toggle";
 
 import Vue from "vue";
 import { BootstrapVue } from "bootstrap-vue";
