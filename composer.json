@@ -23,6 +23,7 @@
     "symfony/form": "5.*",
     "symfony/framework-bundle": "5.*",
     "symfony/intl": "5.*",
+    "symfony/runtime": "5.*",
     "symfony/security-bundle": "5.*",
     "symfony/serializer-pack": "1.*",
     "symfony/twig-bundle": "5.*",
