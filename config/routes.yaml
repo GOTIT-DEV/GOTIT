@@ -1,4 +1,4 @@
-root:
+index:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
   defaults:
