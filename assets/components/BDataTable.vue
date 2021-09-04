@@ -70,7 +70,8 @@
                 size="sm"
                 debounce="500"
                 :placeholder="searchbarPlaceholder || $t('search')"
-                @update="filter = new RegExp($event, 'i')"
+                :value="searchTermAsString"
+                @update="searchTerm = new RegExp($event, 'i')"
               />
             </b-input-group>
           </div>
@@ -88,8 +89,17 @@
           :labels="{ checked: 'OR', unchecked: 'AND' }"
           :width="55"
           :color="{ checked: 'skyblue', unchecked: 'orange' }"
-          @change="$set(filter, 'logicalOr', $event.value)"
+          @change="$set(fieldSearchTerms, 'logicalOr', $event.value)"
         />
+        <b-button
+          size="sm"
+          variant="light"
+          class="ml-1 border"
+          @click="resetSearchTerms"
+        >
+          Clear
+          <i class="fas fa-undo text-secondary" />
+        </b-button>
       </div>
     </b-button-toolbar>
     <slot name="toolbar-top" />
@@ -103,10 +113,11 @@
         :items="hasItemsProvider ? itemProvider : items"
         :per-page="context.perPage"
         :current-page="context.currentPage"
-        :filter="filter"
+        :filter="searchByField ? fieldSearchTerms : searchTerm"
         v-bind="$attrs"
         :filter-function="searchByField ? filterOnSearchFields : undefined"
         @context-changed="context = $event"
+        @filtered="localFilteredItems = $event"
       >
         <template
           v-for="slotName in Object.keys($scopedSlots)"
@@ -131,8 +142,9 @@
                   size="sm"
                   placeholder="Search term"
                   debounce="500"
+                  :value="fieldSearchTerms.fields[f.key].term"
                   @update="
-                    $set(filter.fields, f.key, {
+                    $set(fieldSearchTerms.fields, f.key, {
                       formatter: f.formatter,
                       term: $event,
                     })
@@ -146,17 +158,22 @@
     </b-overlay>
     <slot name="toolbar-bottom" />
     <b-button-toolbar :justify="true">
-      <button-loading
-        size="sm"
-        variant="light"
-        class="border"
-        :disabled="!allowExport || !totalItems"
-        :loading="downloading"
-        @click="downloadCSV"
-      >
-        <i class="fas fa-download" />
-        {{ $t("exportCSV") }}
-      </button-loading>
+      <div>
+        <button-loading
+          size="sm"
+          variant="light"
+          class="border mr-1"
+          :disabled="!allowExport || !totalItems || busy"
+          :loading="downloading"
+          @click="downloadCSV()"
+        >
+          <i class="fas fa-download" />
+          {{ $t("exportCSV") }}
+        </button-loading>
+        <b-checkbox v-model="exportFiltered" size="sm" inline>
+          Filter
+        </b-checkbox>
+      </div>
       <span>
         {{
           totalItems
@@ -185,6 +202,7 @@ import ButtonLoading from "./ButtonLoading.vue";
 import { ToggleButton } from "vue-js-toggle-button";
 import { FadeTransition } from "vue2-transitions";
 import { CollapseTransition } from "@ivanv/vue-collapse-transition";
+import ExportCsvMixin from "./mixins/ExportCsvMixin";
 export default {
   name: "BDataTable",
   components: {
@@ -194,6 +212,7 @@ export default {
     Multiselect,
     ButtonLoading,
   },
+  mixins: [ExportCsvMixin],
   props: {
     rowsPerPageOptions: {
       type: Array,
@@ -232,28 +251,6 @@ export default {
       type: String,
       default: null,
     },
-    /**
-     * Allow exporting data as CSV.
-     * When using an item provider, all data are fetched from source and exported.
-     */
-    allowExport: {
-      type: Boolean,
-      default: true,
-    },
-    /**
-     * When exporting, use field `key` instead of `label` in the CSV header
-     */
-    exportColumnsByKey: {
-      type: Boolean,
-      default: false,
-    },
-    /**
-     * The name of the file to export
-     */
-    exportFilename: {
-      type: String,
-      default: "data.csv",
-    },
     providerPagination: {
       type: Object,
       default: null,
@@ -270,14 +267,26 @@ export default {
       },
       remotePagination: {},
       selectedFields: [],
-      filter: "",
       downloading: false,
       searchByField: false,
+      searchTerm: new RegExp("", "i"),
+      fieldSearchTerms: {
+        logicalOr: false,
+        fields: {},
+      },
+      localFilteredItems: [],
+      exportFiltered: true,
     };
   },
   computed: {
     hasSearchableFields() {
       return this.fields.some((f) => f.searchable);
+    },
+    hasItemsProvider() {
+      return this.items instanceof Function;
+    },
+    searchTermAsString() {
+      return this.searchTerm.source === "(?:)" ? "" : this.searchTerm.source;
     },
     itemProvider() {
       if (this.hasItemsProvider) {
@@ -304,25 +313,6 @@ export default {
       }
       return null;
     },
-    hasItemsProvider() {
-      return this.items instanceof Function;
-    },
-    exportedHeader() {
-      return this.exportedFields.reduce(
-        (header, field) => [
-          ...header,
-          field.unpacker
-            ? Object.keys(field.unpacker(field))
-            : field.export?.label ||
-              (this.exportColumnsByKey ? field.key : field.label) ||
-              field.key,
-        ],
-        []
-      );
-    },
-    exportedFields() {
-      return this.fields.filter((f) => !f.export?.exclude);
-    },
     locale() {
       return this.$i18n.locale;
     },
@@ -342,25 +332,37 @@ export default {
     },
   },
   watch: {
-    searchByField(isActive) {
-      this.toggleFilters(isActive);
-    },
     fields(newFields) {
       this.selectedFields = newFields;
     },
     items(newItems) {
-      this.toggleFilters(this.hasItemsProvider);
+      this.resetSearchTerms();
     },
   },
   created() {
-    this.toggleFilters(this.hasItemsProvider);
+    this.resetSearchTerms();
+    this.searchByField = this.hasItemsProvider;
+
     if (this.selectedFields.length == 0)
       this.selectedFields = this.fields.filter((field) => field.visible);
   },
   methods: {
-    toggleFilters(isActive) {
-      this.filter = isActive ? { logicalOr: false, fields: {} } : "";
+    resetSearchTerms() {
+      this.fieldSearchTerms = {
+        logicalOr: false,
+        fields: Object.fromEntries(
+          this.fields
+            .filter((f) => f.searchable)
+            .map(({ key, formatter }) => [key, { formatter, term: "" }])
+        ),
+      };
+      this.searchTerm = new RegExp("", "i");
     },
+    /**
+     * Local filter function searching terms per field,
+     * passed to inner BTable component
+     * @see https://bootstrap-vue.org/docs/components/table#custom-filter-function
+     */
     filterOnSearchFields(item, filter) {
       const filterEntries = [...Object.entries(filter.fields)].filter(
         ([key, { formatter, term }]) => term !== ""
@@ -377,48 +379,6 @@ export default {
         ? filterEntries.some(filterPass)
         : filterEntries.every(filterPass);
     },
-    itemToCsv(item) {
-      function getDeepValue(obj, key) {
-        const compositeKey = key.split(".");
-        return compositeKey.length > 1
-          ? compositeKey.reduce(
-              (val, key) => (val && val[key] ? val[key] : null),
-              obj
-            )
-          : obj[key];
-      }
-      return this.exportedFields
-        .reduce((acc, field) => {
-          /**
-           * Attempt to get composite value with "[key].[export]"",
-           * fallback on field key
-           */
-          let value = getDeepValue(item, field.key);
-          if (field.unpacker) {
-            acc = [
-              ...acc,
-              Object.values(field.unpacker(value)).map(JSON.stringify),
-            ];
-          } else {
-            value = JSON.stringify(
-              field.export?.formatter
-                ? field.export.formatter(value)
-                : field.formatter
-                ? field.formatter(value)
-                : value,
-              (k, v) => (v === null ? "" : v)
-            );
-            acc = [...acc, value];
-          }
-          return acc;
-        }, [])
-        .join(",");
-    },
-    itemsToCsv(items) {
-      return [this.exportedHeader.join(","), ...items.map(this.itemToCsv)].join(
-        "\r\n"
-      );
-    },
     async downloadCSV() {
       if (!this.allowExport) {
         console.warn(
@@ -427,17 +387,17 @@ export default {
         return false;
       }
       this.downloading = true;
-      let items = this.items;
+      let items = null;
       if (this.items instanceof Function) {
-        items = await this.itemProvider({ perPage: 0, currentPage: 1 });
+        items = await this.itemProvider({
+          perPage: 0,
+          currentPage: 1,
+          filter: this.exportFiltered ? this.fieldSearchTerms : undefined,
+        });
+      } else {
+        items = this.exportFiltered ? this.localFilteredItems : this.items;
       }
-      const csv = this.itemsToCsv(items);
-      const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csv);
-      let link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", this.exportFilename);
-      link.click();
-      this.downloading = false;
+      return this.downloadItemsCSV(items);
     },
     capitalize(str) {
       return str[0].toUpperCase() + str.slice(1);
