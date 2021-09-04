@@ -11,7 +11,7 @@
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
             "version": "2.3",
-            "ref": "b4f5e17f8122f4924b548baad06fd9a996a916a4"
+            "ref": "30798e46831f4fc641fca83c0423918518901cd7"
         },
         "files": [
             "codeception.yml",
