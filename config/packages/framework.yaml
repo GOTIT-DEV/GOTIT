@@ -20,6 +20,8 @@ framework:
     log: true
   serializer:
     enabled: false
+  form:
+    legacy_error_messages: false
 
 when@test:
   framework:
