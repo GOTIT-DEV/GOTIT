@@ -22,6 +22,7 @@ class SetUserTimestampListener {
     $user = $this->security->getUser();
     if (!$entity->getMetaCreationUser() && $user) {
       $entity->setMetaCreationUser($user);
+      $entity->setMetaUpdateUser($user);
     }
     if (!$entity->getMetaCreationDate()) {
       $entity->setMetaCreationDate(new \DateTime());
