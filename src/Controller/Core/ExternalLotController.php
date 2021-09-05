@@ -164,7 +164,7 @@ class ExternalLotController extends AbstractController {
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
   public function newAction(Request $request) {
-    $externalLot = newExternalLot();
+    $externalLot = new ExternalLot();
     $em = $this->getDoctrine()->getManager();
 
     if ($sampling_id = $request->get('idFk')) {

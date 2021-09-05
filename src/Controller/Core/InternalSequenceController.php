@@ -3,6 +3,7 @@
 namespace App\Controller\Core;
 
 use App\Entity\InternalSequence;
+use App\Entity\InternalSequenceAssembly;
 use App\Form\Enums\Action;
 use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
@@ -25,10 +26,6 @@ class InternalSequenceController extends AbstractController {
    */
   private $geneVocFk = null;
   private $specimenFk = null;
-  /**
-   * constante
-   */
-  const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
 
   /**
    * Lists all internal sequence entities.
@@ -369,12 +366,12 @@ class InternalSequenceController extends AbstractController {
       );
 
     // store ArrayCollection
-    $assemblies = $service->copyArrayCollection($sequence->Assemblies());
+    $assemblies = $service->copyArrayCollection($sequence->getAssemblies());
     $taxonIdentifications = $service->copyArrayCollection(
       $sequence->getTaxonIdentifications()
     );
-    $publications = $service->copyArrayCollection($sequence->Publications());
-    $assemblers = $service->copyArrayCollection($sequence->Assemblers());
+    $publications = $service->copyArrayCollection($sequence->getPublications());
+    $assemblers = $service->copyArrayCollection($sequence->getAssemblers());
 
     $editForm = $this->createForm(
       'App\Form\InternalSequenceType',
@@ -388,14 +385,11 @@ class InternalSequenceController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      // delete ArrayCollection
       $service->removeStaleCollection($assemblies, $sequence->getAssemblies());
       $service->removeStaleCollection(
         $taxonIdentifications, $sequence->getTaxonIdentifications(), 'TaxonCurators'
       );
-      $service->removeStaleCollection(
-        $publications, $sequence->getPublications()
-      );
+      $service->removeStaleCollection($publications, $sequence->getPublications());
       $service->removeStaleCollection($assemblers, $sequence->getAssemblers());
       $em->persist($sequence);
       try {
