@@ -23,7 +23,7 @@ $(() => {
   function updatePcrCode() {
     const code = generatePcrCode(
       $dna.val() ? $dna.find("option:selected").text() : undefined,
-      $numPcr.val() || undefined,
+      $number.val() || undefined,
       getSelectedCode($primerStart),
       getSelectedCode($primerEnd)
     );
