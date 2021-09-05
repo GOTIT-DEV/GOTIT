@@ -9,6 +9,18 @@ actor_suffix: Tester
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
+modules:
+  enabled:
+    - Symfony:
+        app_path: "src"
+        environment: "test"
+        part: services
+    - Doctrine2:
+        depends: Symfony
+        cleanup: true
+    - DataFactory:
+        depends: Doctrine2
+    - App\Tests\Helper\Factories
 params:
   - .env.test
   - .env.test.local
