@@ -23,14 +23,14 @@ class ImportDnaCest {
   }
 
   public function failToImportDnasBadCodes(ApiTester $I) {
-    $I->wantTo('Fail importing records of DNA with incorrect code');
+    $I->wantTo('Fail to import records of DNA with incorrect code');
     $files = useCSV('dna_import_failure.csv');
     $I->sendPost('/dna/import', [], $files);
     $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
   }
 
   public function failToImportDnasExistingCode(ApiTester $I) {
-    $I->wantTo('Fail importing records of DNA when code already exists');
+    $I->wantTo('Fail to import records of DNA when code already exists');
     $files = useCSV('dna_import_success.csv');
     $I->sendPost('/dna/import', [], $files);
     $I->seeResponseCodeIs(HttpCode::CREATED);
