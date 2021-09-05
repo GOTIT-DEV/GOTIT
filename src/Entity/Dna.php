@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
@@ -146,16 +147,16 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return array
    */
-  public function getMetadata() {
+  public function getMetadata(): array{
     return parent::getMetadata();
   }
 
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -166,9 +167,8 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return Dna
    */
-  public function setCode($code) {
+  public function setCode($code): Dna {
     $this->code = $code;
-
     return $this;
   }
 
@@ -177,7 +177,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
   }
 
@@ -188,13 +188,11 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return Dna
    */
-  public function setDate($date) {
+  public function setDate($date): Dna {
     if (is_string($date)) {
       $date = new DateTime($date);
     }
-
     $this->date = $date;
-
     return $this;
   }
 
@@ -203,7 +201,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return \DateTime
    */
-  public function getDate() {
+  public function getDate(): ?DateTime {
     return $this->date;
   }
 
@@ -214,9 +212,8 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return Dna
    */
-  public function setConcentrationNgMicrolitre($concentrationNgMicrolitre) {
+  public function setConcentrationNgMicrolitre($concentrationNgMicrolitre): Dna {
     $this->concentrationNgMicrolitre = $concentrationNgMicrolitre;
-
     return $this;
   }
 
@@ -225,7 +222,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return float
    */
-  public function getConcentrationNgMicrolitre() {
+  public function getConcentrationNgMicrolitre(): ?float {
     return $this->concentrationNgMicrolitre;
   }
 
@@ -236,9 +233,8 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return Dna
    */
-  public function setComment($comment) {
+  public function setComment($comment): Dna {
     $this->comment = $comment;
-
     return $this;
   }
 
@@ -247,141 +243,136 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return Dna
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null): Dna {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
-
     return $this;
   }
 
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getDatePrecisionVocFk() {
+  public function getDatePrecisionVocFk(): ?Voc {
     return $this->datePrecisionVocFk;
   }
 
   /**
    * Set extractionMethodVocFk
    *
-   * @param \App\Entity\Voc $extractionMethodVocFk
+   * @param Voc $extractionMethodVocFk
    *
    * @return Dna
    */
-  public function setExtractionMethodVocFk(\App\Entity\Voc $extractionMethodVocFk = null) {
+  public function setExtractionMethodVocFk(Voc $extractionMethodVocFk = null): Dna {
     $this->extractionMethodVocFk = $extractionMethodVocFk;
-
     return $this;
   }
 
   /**
    * Get extractionMethodVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getExtractionMethodVocFk() {
+  public function getExtractionMethodVocFk(): ?Voc {
     return $this->extractionMethodVocFk;
   }
 
   /**
    * Set specimenFk
    *
-   * @param \App\Entity\Specimen $specimenFk
+   * @param Specimen $specimenFk
    *
    * @return Dna
    */
-  public function setSpecimenFk(\App\Entity\Specimen $specimenFk = null) {
+  public function setSpecimenFk(Specimen $specimenFk = null): Dna {
     $this->specimenFk = $specimenFk;
-
     return $this;
   }
 
   /**
    * Get specimenFk
    *
-   * @return \App\Entity\Specimen
+   * @return Specimen
    */
-  public function getSpecimenFk() {
+  public function getSpecimenFk(): ?Specimen {
     return $this->specimenFk;
   }
 
   /**
    * Set qualiteAdnVocFk
    *
-   * @param \App\Entity\Voc $qualiteAdnVocFk
+   * @param Voc $qualiteAdnVocFk
    *
    * @return Dna
    */
-  public function setQualiteAdnVocFk(\App\Entity\Voc $qualiteAdnVocFk = null) {
+  public function setQualiteAdnVocFk(Voc $qualiteAdnVocFk = null): Dna {
     $this->qualiteAdnVocFk = $qualiteAdnVocFk;
-
     return $this;
   }
 
   /**
    * Get qualiteAdnVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getQualiteAdnVocFk() {
+  public function getQualiteAdnVocFk(): ?Voc {
     return $this->qualiteAdnVocFk;
   }
 
   /**
    * Set storeFk
    *
-   * @param \App\Entity\Store $storeFk
+   * @param Store $storeFk
    *
    * @return Dna
    */
-  public function setStoreFk(\App\Entity\Store $storeFk = null) {
+  public function setStoreFk(Store $storeFk = null): Dna {
     $this->storeFk = $storeFk;
-
     return $this;
   }
 
   /**
    * Get storeFk
    *
-   * @return \App\Entity\Store
+   * @return Store
    */
-  public function getStoreFk() {
+  public function getStoreFk(): ?Store {
     return $this->storeFk;
   }
 
   /**
    * Add dnaProducer
    *
-   * @param \App\Entity\DnaProducer $dnaProducer
+   * @param DnaProducer $dnaProducer
    *
    * @return Dna
    */
-  public function addDnaProducer(\App\Entity\DnaProducer $dnaProducer) {
+  public function addDnaProducer(DnaProducer $dnaProducer): Dna {
     $dnaProducer->setDnaFk($this);
     $this->dnaProducers[] = $dnaProducer;
-
     return $this;
   }
 
   /**
    * Remove dnaProducer
    *
-   * @param \App\Entity\DnaProducer $dnaProducer
+   * @param DnaProducer $dnaProducer
    */
-  public function removeDnaProducer(\App\Entity\DnaProducer $dnaProducer) {
+  public function removeDnaProducer(DnaProducer $dnaProducer): Dna {
     $this->dnaProducers->removeElement($dnaProducer);
+    return $this;
   }
 
   /**
@@ -389,7 +380,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getDnaProducers() {
+  public function getDnaProducers(): Collection {
     return $this->dnaProducers;
   }
 }
