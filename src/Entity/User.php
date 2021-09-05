@@ -152,7 +152,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    *
    * @return array
    */
-  public function getMetadata() {
+  public function getMetadata(): array{
     // return parent::getMetadata();
     [
       "creation" => $this->getMetaCreationDate(),

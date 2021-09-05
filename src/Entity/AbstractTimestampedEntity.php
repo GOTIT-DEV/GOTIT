@@ -64,7 +64,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *
    * @return array
    */
-  public function getMetadata() {
+  public function getMetadata(): array{
     return [
       "creation" => [
         "user" => $this->getMetaCreationUser(),
