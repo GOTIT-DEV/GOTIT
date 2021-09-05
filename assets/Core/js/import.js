@@ -1,5 +1,4 @@
 import Vue from "vue";
-import ImportCsvForm from "~Components/ImportCsvForm";
 import DnaImport from "~Components/entity/dna/DnaImport";
 
 const mountEl = document.querySelector("#csv-form");

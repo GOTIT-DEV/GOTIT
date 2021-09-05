@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import ButtonLoading from "./ButtonLoading.vue";
+import ButtonLoading from "../ButtonLoading.vue";
 export default {
   components: { ButtonLoading },
   props: {

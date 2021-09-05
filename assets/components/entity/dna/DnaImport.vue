@@ -54,10 +54,10 @@
 
 <script>
 import Layout from "~Components/Layout.vue";
-import ImportCsvForm from "~Components/ImportCsvForm";
 import DnaHeader from "./DnaHeader.vue";
-import ImportCsvDoc from "~Components/ImportCsvDoc.vue";
-import ImportCsvErrors from "~Components/ImportCsvErrors.vue";
+import ImportCsvForm from "~Components/import/ImportCsvForm";
+import ImportCsvDoc from "~Components/import/ImportCsvDoc.vue";
+import ImportCsvErrors from "~Components/import/ImportCsvErrors.vue";
 import DnaTable from "./index/DnaTable.vue";
 export default {
   components: {
