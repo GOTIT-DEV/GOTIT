@@ -87,23 +87,29 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
   }
 
   public function parseHeader($header) {
+    /**
+     * matches :
+     * - propertyName
+     * - propertyName(relatedEntity.property)
+     * - propertyName[relatedEntity.property]
+     * - propertyName(relatedEntity#vocParent.property)
+     * - propertyName[relatedEntity#vocParent.property]
+     */
+    $propertyName = "(?P<name>\w+)";
+    $cardinal = "(?P<relation>[\(\[])";
+    $relatedEntity = "(?P<entity>[^\.#]+)";
+    $vocParent = "(?P<vocParent>[^\.]*)";
+    $relatedProp = "(?P<prop>[^\.]+)";
+    $cardinalClosure = "(\)|\])";
+    $relationExpr =
+      "{$cardinal}{$relatedEntity}#?{$vocParent}\.{$relatedProp}{$cardinalClosure}";
+
     $fieldTargets = [];
     $headerErrors = [];
+
     foreach ($header as $h) {
-      /**
-       * matches :
-       * - propertyName
-       * - propertyName(relatedEntity.property)
-       * - propertyName[relatedEntity.property]
-       * - propertyName(relatedEntity#vocParent.property)
-       * - propertyName[relatedEntity#vocParent.property]
-       */
-      preg_match(
-        '/(?P<name>\w+)((?P<relation>[\(\[])' .
-        '(?P<entity>[^\.#]+)' .
-        '#?(?P<vocParent>[^\.]*)' .
-        '\.(?P<prop>[^\.]+)' .
-        '(\)|\]))?$/', $h, $matches);
+
+      preg_match("/^{$propertyName}({$relationExpr})?$/", $h, $matches);
 
       // no match on property name means parsing failure
       if (!$matches['name']) {
