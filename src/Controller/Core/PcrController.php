@@ -183,6 +183,7 @@ class PcrController extends AbstractController {
     }
     $form = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::create(),
+      'validation_groups' => ['Default', 'code'],
     ]);
     $form->handleRequest($request);
 
@@ -251,6 +252,7 @@ class PcrController extends AbstractController {
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
+      'validation_groups' => ['Default'],
     ]);
 
     $editForm->handleRequest($request);

@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pcr
@@ -25,6 +28,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Pcr extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -40,6 +46,9 @@ class Pcr extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false)
+   * @Assert\Expression("this.hasValidCode()",
+   *  groups={"code"},
+   *  message="Code {{ value }} differs from specification.")
    * @Groups({"field"})
    */
   private $code;
@@ -145,9 +154,9 @@ class Pcr extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -158,9 +167,8 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function setCode($code) {
+  public function setCode($code): Pcr {
     $this->code = $code;
-
     return $this;
   }
 
@@ -169,8 +177,22 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
+  }
+
+  /**
+   * Generate composite code from PCR properties
+   *
+   * @return string
+   */
+  private function _generateCode(): string {
+    return join('_', [
+      $this->getDnaFk()->getCode(),
+      $this->getNumber(),
+      $this->getPrimerStartVocFk()->getCode(),
+      $this->getPrimerEndVocFk()->getCode(),
+    ]);
   }
 
   /**
@@ -180,9 +202,8 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function setNumber($number) {
+  public function setNumber($number): Pcr {
     $this->number = $number;
-
     return $this;
   }
 
@@ -191,7 +212,7 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getNumber() {
+  public function getNumber(): ?string {
     return $this->number;
   }
 
@@ -202,9 +223,8 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function setDate($date) {
+  public function setDate($date): Pcr {
     $this->date = $date;
-
     return $this;
   }
 
@@ -213,7 +233,7 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return \DateTime
    */
-  public function getDate() {
+  public function getDate(): ?\Datetime {
     return $this->date;
   }
 
@@ -224,9 +244,8 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function setDetails($details) {
+  public function setDetails($details): Pcr {
     $this->details = $details;
-
     return $this;
   }
 
@@ -235,7 +254,7 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getDetails() {
+  public function getDetails(): ?string {
     return $this->details;
   }
 
@@ -246,9 +265,8 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function setComment($comment) {
+  public function setComment($comment): Pcr {
     $this->comment = $comment;
-
     return $this;
   }
 
@@ -257,185 +275,178 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 
   /**
    * Set geneVocFk
    *
-   * @param \App\Entity\Voc $geneVocFk
+   * @param Voc $geneVocFk
    *
    * @return Pcr
    */
-  public function setGeneVocFk(\App\Entity\Voc $geneVocFk = null) {
+  public function setGeneVocFk(Voc $geneVocFk = null): Pcr {
     $this->geneVocFk = $geneVocFk;
-
     return $this;
   }
 
   /**
    * Get geneVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getGeneVocFk() {
+  public function getGeneVocFk(): ?Voc {
     return $this->geneVocFk;
   }
 
   /**
    * Set qualityVocFk
    *
-   * @param \App\Entity\Voc $qualityVocFk
+   * @param Voc $qualityVocFk
    *
    * @return Pcr
    */
-  public function setQualityVocFk(\App\Entity\Voc $qualityVocFk = null) {
+  public function setQualityVocFk(Voc $qualityVocFk = null): Pcr {
     $this->qualityVocFk = $qualityVocFk;
-
     return $this;
   }
 
   /**
    * Get qualityVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getQualityVocFk() {
+  public function getQualityVocFk(): ?Voc {
     return $this->qualityVocFk;
   }
 
   /**
    * Set specificityVocFk
    *
-   * @param \App\Entity\Voc $specificityVocFk
+   * @param Voc $specificityVocFk
    *
    * @return Pcr
    */
-  public function setSpecificityVocFk(\App\Entity\Voc $specificityVocFk = null) {
+  public function setSpecificityVocFk(Voc $specificityVocFk = null): Pcr {
     $this->specificityVocFk = $specificityVocFk;
-
     return $this;
   }
 
   /**
    * Get specificityVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getSpecificityVocFk() {
+  public function getSpecificityVocFk(): ?Voc {
     return $this->specificityVocFk;
   }
 
   /**
    * Set primerStartVocFk
    *
-   * @param \App\Entity\Voc $primerStartVocFk
+   * @param Voc $primerStartVocFk
    *
    * @return Pcr
    */
-  public function setPrimerStartVocFk(\App\Entity\Voc $primerStartVocFk = null) {
+  public function setPrimerStartVocFk(Voc $primerStartVocFk = null): Pcr {
     $this->primerStartVocFk = $primerStartVocFk;
-
     return $this;
   }
 
   /**
    * Get primerStartVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getPrimerStartVocFk() {
+  public function getPrimerStartVocFk(): ?Voc {
     return $this->primerStartVocFk;
   }
 
   /**
    * Set primerEndVocFk
    *
-   * @param \App\Entity\Voc $primerEndVocFk
+   * @param Voc $primerEndVocFk
    *
    * @return Pcr
    */
-  public function setPrimerEndVocFk(\App\Entity\Voc $primerEndVocFk = null) {
+  public function setPrimerEndVocFk(Voc $primerEndVocFk = null): Pcr {
     $this->primerEndVocFk = $primerEndVocFk;
-
     return $this;
   }
 
   /**
    * Get primerEndVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getPrimerEndVocFk() {
+  public function getPrimerEndVocFk(): ?Voc {
     return $this->primerEndVocFk;
   }
 
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return Pcr
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null): Pcr {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
-
     return $this;
   }
 
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getDatePrecisionVocFk() {
+  public function getDatePrecisionVocFk(): ?Voc {
     return $this->datePrecisionVocFk;
   }
 
   /**
    * Set dnaFk
    *
-   * @param \App\Entity\Dna $dnaFk
+   * @param Dna $dnaFk
    *
    * @return Pcr
    */
-  public function setDnaFk(\App\Entity\Dna $dnaFk = null) {
+  public function setDnaFk(Dna $dnaFk = null): Pcr {
     $this->dnaFk = $dnaFk;
-
     return $this;
   }
 
   /**
    * Get dnaFk
    *
-   * @return \App\Entity\Dna
+   * @return Dna
    */
-  public function getDnaFk() {
+  public function getDnaFk(): ?Dna {
     return $this->dnaFk;
   }
 
   /**
    * Add pcrProducer
    *
-   * @param \App\Entity\PcrProducer $pcrProducer
+   * @param PcrProducer $pcrProducer
    *
    * @return Pcr
    */
-  public function addPcrProducer(\App\Entity\PcrProducer $pcrProducer) {
+  public function addPcrProducer(PcrProducer $pcrProducer): Pcr {
     $pcrProducer->setPcrFk($this);
     $this->pcrProducers[] = $pcrProducer;
-
     return $this;
   }
 
   /**
    * Remove pcrProducer
    *
-   * @param \App\Entity\PcrProducer $pcrProducer
+   * @param PcrProducer $pcrProducer
    */
-  public function removePcrProducer(\App\Entity\PcrProducer $pcrProducer) {
+  public function removePcrProducer(PcrProducer $pcrProducer): Pcr {
     $this->pcrProducers->removeElement($pcrProducer);
+    return $this;
   }
 
   /**
@@ -443,7 +454,7 @@ class Pcr extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getPcrProducers() {
+  public function getPcrProducers(): Collection {
     return $this->pcrProducers;
   }
 }
