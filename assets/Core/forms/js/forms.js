@@ -60,7 +60,9 @@ function deleteEntryBtnCallback(event) {
   let entry_wrapper_id = $(event.currentTarget).data("target");
   let entry_wrapper = document.getElementById(entry_wrapper_id);
   let $wrapper = $(event.currentTarget).closest(".collection-wrapper");
-  $(entry_wrapper).prev("hr").remove();
+  let $separator = $(entry_wrapper).prev("hr");
+  if ($separator.length) $separator.remove();
+  else $(entry_wrapper).next("hr").remove();
   $(entry_wrapper).remove();
 
   // $wrapper.find(".btn-entry-delete").prop('disabled', true)
