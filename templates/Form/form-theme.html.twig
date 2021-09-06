@@ -67,16 +67,6 @@ col-lg-3 col-xl-2 font-weight-bold text-lg-right
 		 </button>
 </div>
 {% endblock %}
-{# {% block form_widget_simple %}
-{% if attr['data-addon'] is defined %}
-	<div class="input-group-prepend">
-	<span class="input-group-text">
-	{{attr['data-addon']}}
-	</span>
-	</div>
-{% endif %}
-{{parent()}}
-{% endblock %} #}
 
 {%- block choice_widget_expanded -%}
 {% set extra_classes = ' form-check'%}
@@ -128,40 +118,6 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% endblock %}
 
 
-{% macro printCollectionEntry(entry, form_type, withDelete = true) %}
-
-	{% set entry_id = "entry_" ~ entry.vars.id %}
-  {% set btnDeleteVisibility = form_type != 'show' and withDelete ? "visible": "invisible" %}
-
-	<div id="{{ entry_id }}" class="row collection-entry">
-		{% if (entry|length) > 1 %}
-			{% form_theme entry 'Form/collection-field-theme.html.twig' %}
-		{% else %}
-			{% form_theme entry 'Form/collection-entry-single-field.html.twig' %}
-		{% endif %}
-		{{ form_widget(entry) }}
-		<div class="col-1 delete-btn-container">
-			{# {% if form_type != 'show' and withDelete %} #}
-				<button type="button"
-					class="btn-entry-delete btn btn-danger btn-sm {{ btnDeleteVisibility }}"
-					data-target="{{ entry_id }}">
-					<i class="fas fa-times"></i>
-				</button>
-			{# {% else %}
-				<template class="delete-btn-template">
-					<button type="button"
-						class="btn-entry-delete btn btn-danger btn-sm"
-						data-target="{{ entry_id }}">
-						<i class="fas fa-times"></i>
-					</button>
-				</template>
-			{% endif %} #}
-		</div>
-	</div>
-
-{% endmacro %}
-
-
 {% block collection_row %}
 <div class="form-group row">
 	{{form_label(form)}}
@@ -172,65 +128,89 @@ col-lg-9 col-xl-10 needs-validation input-group
 {% endblock %}
 
 
-{% block collection_widget %}
-{% import _self as formMacros %}
+{% macro printCollectionEntry(entry, form_type, withDelete = true) %}
 
-{# Find rootform type #}
-{% set form_type = form.vars.action_type|default(null) %}
-{% set current = form %}
-{% for i in 1..4 %}
-	{% if form_type is null %}
-		{% set current = form_parent(current) %}
-		{% set form_type = current.vars.action_type | default(null) %}
-	{% endif %}
-{% endfor %}
+	{% set entry_id = "entry_" ~ entry.vars.id %}
+  {% set btnDeleteVisibility = form_type != 'show' and withDelete ? "visible": "invisible" %}
 
-{% set wrapper_id = "wrapper_" ~ form.vars.id %}
-{% set prototype = null %}
-{% if form.vars.allow_add %}
-{% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
-{% endif %}
-<div id="{{ wrapper_id }}"
-			class="card collection-wrapper {% if form.vars.required %}required{% endif %}"
-			data-prototype="{{ prototype | spaceless |e('html_attr') }}"
-			data-index={{ form.count }}>
-
-
-	{% if form_type != 'show' and allow_add %}
-
-		{# include card header with buttons #}
-
-		<div class="card-header">
-			{# {% if allow_add %} #}
-				<div class="btn-group flex-wrap btn-group-sm">
-					<button type="button" class="btn-entry-add btn btn-primary"
-							data-target="{{ wrapper_id }}">
-              {{'add'|trans(domain='ui')|capitalize}}
-						  {# {{ name|trans }} #}
-					</button>
-					{% if attr['data-allow-new']|default(false) %}
-						<button type="button" class="btn btn-info"
-								data-toggle="modal"
-								data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
-                {{'create'|trans(domain='ui')|capitalize}}
-							  {# {{name|trans }} #}
-						</button>
-					{% endif %}
-				</div>
+	<div id="{{ entry_id }}" class="row collection-entry">
+  	<div class="col-11">
+      {% if (entry|length) > 1 %}
+        {# Collection entry has many fields #}
+        {% form_theme entry 'Form/collection-field-theme.html.twig' %}
+        {{ form_widget(entry) }}
+      {% else %}
+        {# Collection entry has one field #}
+        <div class="row form-group">
+          {{ form_widget(entry|first, {'attr': {'required': true}}) }}
+        </div>
+      {% endif %}
+      
+    </div>
+		<div class="col-1 delete-btn-container">
+				<button type="button"
+					class="btn-entry-delete btn btn-danger btn-sm {{ btnDeleteVisibility }}"
+					data-target="{{ entry_id }}">
+					<i class="fas fa-times"></i>
+				</button>
 		</div>
-	{% endif %}
-
-	<div class="card-body entry-list">
-		{% if form.count %}
-			{# {% form_theme form 'Form/collection-entry-theme.html.twig' %} #}
-			{% for entry in form %}
-			{# {{form_widget(entry)}} #}
-				{% set withDeleteBtn = (loop.index > 1 or not form.vars.required) and allow_delete %}
-				{{ formMacros.printCollectionEntry(entry, form_type, withDeleteBtn) }}
-				{% if (entry|length) > 1 %}
-					<hr/>
-				{% endif %}
-			{% endfor %}
-		{% endif %}
 	</div>
-</div>{% endblock %}
+
+{% endmacro %}
+
+
+{% block collection_widget %}
+  {% import _self as formMacros %}
+
+  {# Find rootform type #}
+  {% set form_type = form.vars.action_type|default(null) %}
+  {% set current = form %}
+  {% for i in 1..4 %}
+    {% if form_type is null %}
+      {% set current = form_parent(current) %}
+      {% set form_type = current.vars.action_type | default(null) %}
+    {% endif %}
+  {% endfor %}
+
+  {% set wrapper_id = "wrapper_" ~ form.vars.id %}
+  {% set prototype = null %}
+  {% if form.vars.allow_add %}
+  {% set prototype = formMacros.printCollectionEntry(form.vars.prototype, form_type, false) %}
+  {% endif %}
+  <div id="{{ wrapper_id }}"
+        class="card collection-wrapper {% if form.vars.required %}required{% endif %}"
+        data-prototype="{{ prototype | spaceless |e('html_attr') }}"
+        data-index={{ form.count }}>
+
+
+    {% if form_type != 'show' and allow_add %}
+
+      {# include card header with buttons #}
+
+      <div class="card-header">
+          <div class="btn-group flex-wrap btn-group-sm">
+            <button type="button" class="btn-entry-add btn btn-primary"
+                data-target="{{ wrapper_id }}">
+                {{'add'|trans(domain='ui')|capitalize}}
+            </button>
+            {% if attr['data-allow-new']|default(false) %}
+              <button type="button" class="btn btn-info"
+                  data-toggle="modal"
+                  data-target="{{ '#modal-' ~ form.vars.id ~ ' .modal' }}">
+                  {{'create'|trans(domain='ui')|capitalize}}
+              </button>
+            {% endif %}
+          </div>
+      </div>
+    {% endif %}
+
+    <div class="card-body entry-list">
+      {% if form.count %}
+        {% for entry in form %}
+          {% set withDeleteBtn = (form.count > 1 or not form.vars.required) and allow_delete %}
+          {{ formMacros.printCollectionEntry(entry, form_type, withDeleteBtn) }}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

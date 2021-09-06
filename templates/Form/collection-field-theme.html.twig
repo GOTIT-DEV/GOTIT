@@ -1,22 +1,31 @@
 
 
+
 {% block form_label_class %}
-{% if required|default(false) %}
-	text-danger
-{% endif %}
-col-lg-3 font-weight-bold text-lg-right
+	{% if required|default(false) %}
+		text-danger
+	{% endif %}
+	col-lg-3 font-weight-bold text-lg-right
 {% endblock %}
 
-{% block form_widget %}
-	<div class="col-11">
-		{% for field in form %}
-				<div class="row form-group">
-					{{ form_label(field) }}
-			{# {% form_theme field 'Form/form-theme.html.twig' %} #}
-					<div class="col-lg-9 {% if field.count > 1 %} input-group {% endif%}">
-						{{ form_widget(field) }}
-					</div>
-				</div>
-		{% endfor %}
-	</div>
+{% block form_group_class %}
+	col-lg-9 needs-validation input-group
 {% endblock %}
+
+{# {% block form_widget %}
+	{% for field in form %}
+		<div class="row form-group">
+			{{ form_label(field) }}
+			<div class="col-lg-9 {% if field.count > 1 %} input-group {% endif%}">
+
+				{% if compound is defined and compound %}
+					{% form_theme field 'Form/collection-field-theme.html.twig' %}
+				{% else %}
+					{% form_theme field 'Form/collection-entry-single-field.html.twig' %}
+				{% endif %}
+				{{ form_widget(field) }}
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %} #}
+
