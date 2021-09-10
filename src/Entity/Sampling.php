@@ -21,6 +21,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Sampling extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -81,7 +84,7 @@ class Sampling extends AbstractTimestampedEntity {
   private $comment;
 
   /**
-   * @var \Voc
+   * @var Voc
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
@@ -89,7 +92,7 @@ class Sampling extends AbstractTimestampedEntity {
   private $datePrecisionVocFk;
 
   /**
-   * @var \Voc
+   * @var Voc
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
@@ -97,7 +100,7 @@ class Sampling extends AbstractTimestampedEntity {
   private $legVocFk;
 
   /**
-   * @var \Site
+   * @var Site
    *
    * @ORM\ManyToOne(targetEntity="Site", fetch="EAGER")
    * @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
@@ -145,9 +148,9 @@ class Sampling extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -158,7 +161,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @return Sampling
    */
-  public function setCode($code) {
+  public function setCode($code): Sampling {
     $this->code = $code;
     return $this;
   }
@@ -168,8 +171,23 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
+  }
+
+  private function _generateCode() {
+    $precision = $this->getDatePrecisionVocFk()->getCode();
+    $date = $this->getDate();
+    $formats = [
+      'A' => "Y00",
+      'M' => "Ym",
+      'J' => "Ym",
+      'INC' => "000000",
+    ];
+    return join('_', [
+      $this->getSiteFk()->getCode(),
+      $date->format($formats[$precision]),
+    ]);
   }
 
   /**
@@ -179,7 +197,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @return Sampling
    */
-  public function setDate($date) {
+  public function setDate($date): Sampling {
     $this->date = $date;
     return $this;
   }
@@ -189,7 +207,7 @@ class Sampling extends AbstractTimestampedEntity {
    *
    * @return \DateTime
    */
-  public function getDate() {
+  public function getDate(): ?\DateTime {
     return $this->date;
   }
 

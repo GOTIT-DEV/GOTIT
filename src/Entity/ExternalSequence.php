@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -25,6 +26,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ExternalSequence extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -151,9 +155,9 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -164,9 +168,8 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *
    * @return ExternalSequence
    */
-  public function setCode($code) {
+  public function setCode($code): ExternalSequence {
     $this->code = $code;
-
     return $this;
   }
 
@@ -175,7 +178,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
   }
 

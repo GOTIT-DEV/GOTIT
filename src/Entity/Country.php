@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -16,6 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Country extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -81,6 +85,10 @@ class Country extends AbstractTimestampedEntity {
    */
   public function getCode() {
     return $this->code;
+  }
+
+  private function _generateCode(): string {
+    return str_replace(' ', '_', strtoupper($this->getName()));
   }
 
   /**

@@ -17,6 +17,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Municipality extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -63,9 +66,9 @@ class Municipality extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -76,9 +79,8 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return Municipality
    */
-  public function setCode($code) {
+  public function setCode($code): Municipality {
     $this->code = $code;
-
     return $this;
   }
 
@@ -87,8 +89,17 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
+  }
+
+  private function _generateCode(): string {
+    $code = join('|', [
+      $this->getName(),
+      $this->getRegion(),
+      $this->getCountryFk()->getName(),
+    ]);
+    return str_replace(' ', '_', strtoupper($code));
   }
 
   /**
@@ -98,9 +109,8 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return Municipality
    */
-  public function setName($name) {
+  public function setName($name): Municipality {
     $this->name = $name;
-
     return $this;
   }
 
@@ -109,7 +119,7 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getName() {
+  public function getName(): ?string {
     return $this->name;
   }
 
@@ -120,9 +130,8 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return Municipality
    */
-  public function setRegion($region) {
+  public function setRegion($region): Municipality {
     $this->region = $region;
-
     return $this;
   }
 
@@ -131,29 +140,28 @@ class Municipality extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getRegion() {
+  public function getRegion(): ?string {
     return $this->region;
   }
 
   /**
    * Set countryFk
    *
-   * @param \App\Entity\Country $countryFk
+   * @param Country $countryFk
    *
    * @return Municipality
    */
-  public function setCountryFk(\App\Entity\Country $countryFk = null) {
+  public function setCountryFk(Country $countryFk = null): Municipality {
     $this->countryFk = $countryFk;
-
     return $this;
   }
 
   /**
    * Get countryFk
    *
-   * @return \App\Entity\Country
+   * @return Country
    */
-  public function getCountryFk() {
+  public function getCountryFk(): ?Country {
     return $this->countryFk;
   }
 }

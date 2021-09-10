@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -22,6 +23,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class InternalSequence extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -117,9 +121,9 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -130,9 +134,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return InternalSequence
    */
-  public function setCode($code) {
+  public function setCode($code): InternalSequence {
     $this->code = $code;
-
     return $this;
   }
 
@@ -141,8 +144,18 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
+  }
+
+  private function _generateCode(): string {
+    $chromatoCodes = $this->getChromatoCodes();
+    $chromatoCodeStr = join('-', $chromatoCodes);
+    return join('_', [
+      $this->getStatusCode(),
+      $this->getSpecimenFk()->getMolecularCode(),
+      $chromatoCodeStr,
+    ]);
   }
 
   /**
@@ -152,9 +165,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return InternalSequence
    */
-  public function setCreationDate($creationDate) {
+  public function setCreationDate($creationDate): InternalSequence {
     $this->creationDate = $creationDate;
-
     return $this;
   }
 
@@ -163,7 +175,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return \DateTime
    */
-  public function getCreationDate() {
+  public function getCreationDate(): ?\DateTime {
     return $this->creationDate;
   }
 
@@ -174,9 +186,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return InternalSequence
    */
-  public function setAccessionNumber($accessionNumber) {
+  public function setAccessionNumber($accessionNumber): InternalSequence {
     $this->accessionNumber = $accessionNumber;
-
     return $this;
   }
 
@@ -185,7 +196,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getAccessionNumber() {
+  public function getAccessionNumber(): ?string {
     return $this->accessionNumber;
   }
 
@@ -196,9 +207,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return InternalSequence
    */
-  public function setAlignmentCode($alignmentCode) {
+  public function setAlignmentCode($alignmentCode): InternalSequence {
     $this->alignmentCode = $alignmentCode;
-
     return $this;
   }
 
@@ -207,7 +217,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getAlignmentCode() {
+  public function getAlignmentCode(): ?string {
     return $this->alignmentCode;
   }
 
@@ -218,9 +228,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return InternalSequence
    */
-  public function setComment($comment) {
+  public function setComment($comment): InternalSequence {
     $this->comment = $comment;
-
     return $this;
   }
 
@@ -229,75 +238,73 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return InternalSequence
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null): InternalSequence {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
-
     return $this;
   }
 
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getDatePrecisionVocFk() {
+  public function getDatePrecisionVocFk(): ?Voc {
     return $this->datePrecisionVocFk;
   }
 
   /**
    * Set status
    *
-   * @param \App\Entity\Voc $status
+   * @param Voc $status
    *
    * @return InternalSequence
    */
-  public function setStatus(\App\Entity\Voc $status = null) {
+  public function setStatus(Voc $status = null): InternalSequence {
     $this->status = $status;
-
     return $this;
   }
 
   /**
    * Get status
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getStatus() {
+  public function getStatus(): ?Voc {
     return $this->status;
   }
 
   /**
    * Add assembler
    *
-   * @param \App\Entity\InternalSequenceAssembler $assembler
+   * @param InternalSequenceAssembler $assembler
    *
    * @return InternalSequence
    */
-  public function addAssembler(\App\Entity\InternalSequenceAssembler $assembler) {
+  public function addAssembler(InternalSequenceAssembler $assembler): InternalSequence {
     $assembler->setInternalSequenceFk($this);
     $this->assemblers[] = $assembler;
-
     return $this;
   }
 
   /**
    * Remove assembler
    *
-   * @param \App\Entity\InternalSequenceAssembler $assembler
+   * @param InternalSequenceAssembler $assembler
    */
-  public function removeAssembler(\App\Entity\InternalSequenceAssembler $assembler) {
+  public function removeAssembler(InternalSequenceAssembler $assembler): InternalSequence {
     $this->assemblers->removeElement($assembler);
+    return $this;
   }
 
   /**
@@ -305,31 +312,31 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAssemblers() {
+  public function getAssemblers(): Collection {
     return $this->assemblers;
   }
 
   /**
    * Add publication
    *
-   * @param \App\Entity\InternalSequencePublication $publication
+   * @param InternalSequencePublication $publication
    *
    * @return InternalSequence
    */
-  public function addPublication(\App\Entity\InternalSequencePublication $publication) {
+  public function addPublication(InternalSequencePublication $publication): InternalSequence {
     $publication->setInternalSequenceFk($this);
     $this->publications[] = $publication;
-
     return $this;
   }
 
   /**
    * Remove publication
    *
-   * @param \App\Entity\InternalSequencePublication $publication
+   * @param InternalSequencePublication $publication
    */
-  public function removePublication(\App\Entity\InternalSequencePublication $publication) {
+  public function removePublication(InternalSequencePublication $publication): InternalSequence {
     $this->publications->removeElement($publication);
+    return $this;
   }
 
   /**
@@ -337,31 +344,31 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getPublications() {
+  public function getPublications(): Collection {
     return $this->publications;
   }
 
   /**
    * Add taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonId
    *
    * @return InternalSequence
    */
-  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setInternalSequenceFk($this);
-    $this->taxonIdentifications[] = $taxonIdentification;
-
+  public function addTaxonIdentification(TaxonIdentification $taxonId): InternalSequence {
+    $taxonId->setInternalSequenceFk($this);
+    $this->taxonIdentifications[] = $taxonId;
     return $this;
   }
 
   /**
    * Remove taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonId
    */
-  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $this->taxonIdentifications->removeElement($taxonIdentification);
+  public function removeTaxonIdentification(TaxonIdentification $taxonId): InternalSequence {
+    $this->taxonIdentifications->removeElement($taxonId);
+    return $this;
   }
 
   /**
@@ -369,31 +376,31 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getTaxonIdentifications() {
+  public function getTaxonIdentifications(): Collection {
     return $this->taxonIdentifications;
   }
 
   /**
    * Add assembly
    *
-   * @param \App\Entity\InternalSequenceAssembly $assembly
+   * @param InternalSequenceAssembly $assembly
    *
    * @return InternalSequence
    */
-  public function addAssembly(\App\Entity\InternalSequenceAssembly $assembly) {
+  public function addAssembly(InternalSequenceAssembly $assembly): InternalSequence {
     $assembly->setInternalSequenceFk($this);
     $this->assemblies[] = $assembly;
-
     return $this;
   }
 
   /**
    * Remove assembly
    *
-   * @param \App\Entity\InternalSequenceAssembly $assembly
+   * @param InternalSequenceAssembly $assembly
    */
-  public function removeAssembly(\App\Entity\InternalSequenceAssembly $assembly) {
+  public function removeAssembly(InternalSequenceAssembly $assembly): InternalSequence {
     $this->assemblies->removeElement($assembly);
+    return $this;
   }
 
   /**
@@ -401,7 +408,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAssemblies() {
+  public function getAssemblies(): Collection {
     return $this->assemblies;
   }
 
@@ -411,9 +418,9 @@ class InternalSequence extends AbstractTimestampedEntity {
    * This assumes that a sequence matches ONE gene only,
    * even if it was processed through multiple chromatograms
    *
-   * @return mixed
+   * @return Voc
    */
-  public function getGeneVocFk() {
+  public function getGeneVocFk(): ?Voc{
     $process = $this->assemblies->first();
     return $process
     ? $process
@@ -429,9 +436,9 @@ class InternalSequence extends AbstractTimestampedEntity {
    * this assumes that a sequence matches ONE specimen only,
    * even if it was processed through multiple chromatograms
    *
-   * @return mixed
+   * @return Specimen
    */
-  public function getSpecimenFk() {
+  public function getSpecimenFk(): ?Specimen{
     $process = $this->assemblies->first();
     return $process
     ? $process
@@ -440,6 +447,22 @@ class InternalSequence extends AbstractTimestampedEntity {
       ->getDnaFk()
       ->getSpecimenFk()
     : null;
+  }
+
+  public function getChromatoCodes(): array{
+    $this->getAssemblies()
+      ->map(
+        function ($assembly) {
+          $chromato = $assembly->getChromatogramFk();
+          return $chromato->getCodeSpecificity();
+        }
+      )
+      ->toArray();
+  }
+
+  public function getStatusCode(): string {
+    $statusCode = $this->getStatus()->getCode();
+    return substr($statusCode, 0, 5) != 'VALID' ? $statusCode : "";
   }
 
   /**
@@ -456,39 +479,23 @@ class InternalSequence extends AbstractTimestampedEntity {
     if ($nbChromato < 1 || $nbIdentifiedSpecies < 1) {
       $seqCode = null;
     } else {
-      $seqCodeElts = [];
-      $statusCode = $this->getStatus()->getCode();
-      if (substr($statusCode, 0, 5) != 'VALID') {
-        $seqCodeElts[] = $statusCode;
-      }
-
-      $lastTaxonCode = $this->getTaxonIdentifications()->last()
-        ->getTaxonFk()
-        ->getCode();
-      $seqCodeElts[] = $lastTaxonCode;
+      $lastTaxonCode = $this->getTaxonIdentifications()
+        ->last()->getTaxonFk()->getCode();
 
       $specimen = $this->getSpecimenFk();
-      $samplingCode = $specimen->getInternalLotFk()
-        ->getSamplingFk()
-        ->getCode();
-      $seqCodeElts[] = $samplingCode;
-
       $specimenCode = $specimen->getMolecularNumber();
-      $seqCodeElts[] = $specimenCode;
+      $samplingCode = $specimen->getInternalLotFk()->getSamplingFk()->getCode();
 
-      $chromatoCodeList = $this->getAssemblies()
-        ->map(
-          function ($seqProcessing) {
-            $chromato = $seqProcessing->getChromatogramFk();
-            $code = $chromato->getCode();
-            $specificite = $chromato->getPcrFk()->getSpecificityVocFk()->getCode();
-            return $code . '|' . $specificite;
-          }
-        )
-        ->toArray();
-      $chromatoCodeStr = implode("-", $chromatoCodeList);
-      $seqCodeElts[] = $chromatoCodeStr;
-      $seqCode = implode("_", $seqCodeElts);
+      $chromatoCodeList = $this->getChromatoCodes();
+      $chromatoCodeStr = join("-", $chromatoCodeList);
+
+      $seqCode = join("_", [
+        $this->getStatusCode(),
+        $lastTaxonCode,
+        $samplingCode,
+        $specimenCode,
+        $chromatoCodeStr,
+      ]);
     }
     $this->setAlignmentCode($seqCode);
     return $seqCode;

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\CompositeCodeEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -20,6 +21,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Chromatogram extends AbstractTimestampedEntity {
+
+  use CompositeCodeEntityTrait;
+
   /**
    * @var integer
    *
@@ -86,9 +90,9 @@ class Chromatogram extends AbstractTimestampedEntity {
   /**
    * Get id
    *
-   * @return integer
+   * @return string
    */
-  public function getId() {
+  public function getId(): ?string {
     return $this->id;
   }
 
@@ -99,9 +103,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setCode($code) {
+  public function setCode($code): Chromatogram {
     $this->code = $code;
-
     return $this;
   }
 
@@ -110,8 +113,15 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCode() {
+  public function getCode(): ?string {
     return $this->code;
+  }
+
+  private function _generateCode(): string {
+    return join('|', [
+      $this->getYasNumber(),
+      $this->getPrimerVocFk()->getCode(),
+    ]);
   }
 
   /**
@@ -121,9 +131,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setYasNumber($yasNumber) {
+  public function setYasNumber($yasNumber): Chromatogram {
     $this->yasNumber = $yasNumber;
-
     return $this;
   }
 
@@ -132,7 +141,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getYasNumber() {
+  public function getYasNumber(): ?string {
     return $this->yasNumber;
   }
 
@@ -143,9 +152,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setComment($comment) {
+  public function setComment($comment): Chromatogram {
     $this->comment = $comment;
-
     return $this;
   }
 
@@ -154,7 +162,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 
@@ -165,9 +173,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setPrimerVocFk(Voc $primerVocFk = null) {
+  public function setPrimerVocFk(Voc $primerVocFk = null): Chromatogram {
     $this->primerVocFk = $primerVocFk;
-
     return $this;
   }
 
@@ -176,7 +183,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Voc
    */
-  public function getPrimerVocFk() {
+  public function getPrimerVocFk(): ?Voc {
     return $this->primerVocFk;
   }
 
@@ -187,9 +194,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setQualityVocFk(Voc $qualityVocFk = null) {
+  public function setQualityVocFk(Voc $qualityVocFk = null): Chromatogram {
     $this->qualityVocFk = $qualityVocFk;
-
     return $this;
   }
 
@@ -198,7 +204,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Voc
    */
-  public function getQualityVocFk() {
+  public function getQualityVocFk(): ?Voc {
     return $this->qualityVocFk;
   }
 
@@ -209,9 +215,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setInstitutionFk(Institution $institutionFk = null) {
+  public function setInstitutionFk(Institution $institutionFk = null): Chromatogram {
     $this->institutionFk = $institutionFk;
-
     return $this;
   }
 
@@ -220,7 +225,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Institution
    */
-  public function getInstitutionFk() {
+  public function getInstitutionFk(): ?Institution {
     return $this->institutionFk;
   }
 
@@ -231,9 +236,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Chromatogram
    */
-  public function setPcrFk(Pcr $pcrFk = null) {
+  public function setPcrFk(Pcr $pcrFk = null): Chromatogram {
     $this->pcrFk = $pcrFk;
-
     return $this;
   }
 
@@ -242,7 +246,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return Pcr
    */
-  public function getPcrFk() {
+  public function getPcrFk(): ?Pcr {
     return $this->pcrFk;
   }
 
@@ -251,8 +255,8 @@ class Chromatogram extends AbstractTimestampedEntity {
    *
    * @return string
    */
-  public function getCodeSpecificity() {
-    $specificite = $this->pcrFk->getSpecificityVocFk()->getCode();
-    return $this->code . '|' . $specificite;
+  public function getCodeSpecificity(): ?string{
+    $specificity = $this->pcrFk->getSpecificityVocFk()->getCode();
+    return $this->code . '|' . $specificity;
   }
 }
