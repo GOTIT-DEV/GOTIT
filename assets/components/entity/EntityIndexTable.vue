@@ -174,6 +174,13 @@ export default {
       this.pendingDeletion = item;
       this.$bvModal.show("delete-confirm");
     },
+    showItemNotification(item, msg) {
+      this.$bvToast.toast(msg, {
+        title: this.shortItemRepr(item),
+        autoHideDelay: 5000,
+        appendToast: true,
+      });
+    },
     async deleteItem(item) {
       const response = await fetch(
         Routing.generate(this.routes.delete, { id: item.id }),
@@ -182,22 +189,25 @@ export default {
         }
       );
       if (response.ok) {
-        this.$bvToast.toast(this.shortItemRepr(item), {
-          title: "Item deleted",
-          autoHideDelay: 5000,
-          appendToast: true,
-        });
+        this.showItemNotification(item, "Item deleted");
         if (this.items) {
           this.$emit("delete:item", item);
         } else {
           this.$root.$emit("bv::refresh::table", this.tableId);
         }
       } else if (response.status === 404) {
-        this.$bvToast.toast(this.shortItemRepr(item), {
-          title: "Deletion failed : item not found.",
-          autoHideDelay: 5000,
-          appendToast: true,
-        });
+        this.showItemNotification(item, "Deletion failed : item not found");
+      } else if (response.status === 400) {
+        this.showItemNotification(
+          item,
+          "Deletion failed : related entities depend on this item."
+        );
+      } else {
+        const json = await response.json();
+        this.showItemNotification(
+          item,
+          `An unexpected exception happened : ${json.message}`
+        );
       }
     },
   },
