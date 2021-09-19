@@ -35,6 +35,9 @@ services:
           entity: 'App\Entity\AbstractTimestampedEntity',
         }
 
+  fos_rest.request.param_fetcher.reader:
+    class: App\Services\API\MergeParamReader
+
   listener.adduserdate:
     class: App\Form\EventListener\AddUserDateFields
     arguments: ["@security.helper"]
