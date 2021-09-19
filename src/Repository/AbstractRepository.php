@@ -61,6 +61,53 @@ abstract class AbstractRepository extends ServiceEntityRepository implements Api
     return $fetch_join ? $this->findAllFetchJoin() : $this->findBy([]);
   }
 
+  public function likeTerm($term) {
+    return '%' . strtolower($term) . '%';
+  }
+
+  public function search(
+    string $order = 'ASC', int $perPage = 10,
+    int $currentPage = 0, string $sortBy = "id",
+    array $terms = [], string $logicalOp = "AND"
+  ) {
+    $sortBy = $this->getColumnKey($sortBy);
+    $qb = $this->fetchJoinQueryBuilder->orderBy($sortBy, $order);
+
+    if (is_array($terms)) {
+      $terms = array_filter($terms, function ($t) {return !empty($t);});
+      if (!empty($terms)) {
+        $keys = array_keys($terms);
+        $terms = array_map(function ($t) use ($qb) {return $this->likeTerm($t);}, $terms);
+        $constraints = array_map(function ($key) use ($qb) {
+          $queryKey = $this->getColumnKey($key);
+          return $qb->expr()->like($qb->expr()->lower($queryKey), ':' . $key);
+        }, $keys);
+        $expr = null;
+        if ($logicalOp == "AND") {
+          $expr = $qb->expr()->andX(...$constraints);
+        } elseif ($logicalOp == "OR") {
+          $expr = $qb->expr()->orX(...$constraints);
+        }
+
+        if ($expr === null) {
+          throw new \UnexpectedValueException('Invalid argument : $logicalOp must be AND | OR');
+        }
+        $qb->andWhere($expr)->setParameters($terms);
+      }
+    }
+
+    if ($perPage === 0) {
+      $items = $qb->getQuery()->getResult();
+      return [
+        "items" => $items,
+        "pagination" => [
+          "total_items" => count($items),
+        ],
+      ];
+    }
+    return $this->paginate($qb, (int) $perPage, (int) $currentPage);
+  }
+
   public function validateHeader(array $header) {
     $metadata = $this->_em->getClassMetadata($this->getClassName());
     // ignore metadata fields
