@@ -1,4 +1,8 @@
-import { initSearchSelect } from "./field-suggestions";
+import {
+  initSearchSelect,
+  apiUrlGenerator,
+  paginatedResultsToItems,
+} from "./field-suggestions";
 import { getSelectedCode } from "./forms";
 
 $(() => {
@@ -10,7 +14,12 @@ $(() => {
 
   const $pcrCode = $("#pcr_code");
 
-  initSearchSelect($dna, "dna_search");
+  initSearchSelect(
+    $dna,
+    "app_api_dna_list",
+    apiUrlGenerator,
+    paginatedResultsToItems
+  );
 
   if ($form.data("action") == "new") {
     updatePcrCode();
