@@ -9,6 +9,11 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 // all public methods declared in helper class will be available in $I
 
 class Api extends \Codeception\Module {
+
+  public function _after($settings = []) {
+    $this->getModule('Symfony')->grabService('doctrine')->resetManager();
+  }
+
 /**
  * Create user or administrator and set auth cookie to client
  *
