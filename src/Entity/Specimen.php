@@ -38,7 +38,7 @@ class Specimen extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true)
+   * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true, unique=true)
    * @Groups({"field"})
    */
   private $molecularCode;
@@ -46,7 +46,7 @@ class Specimen extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false, unique=true)
    * @Groups({"field"})
    */
   private $morphologicalCode;

@@ -31,7 +31,7 @@ class Person extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
+   * @ORM\Column(name="person_name", type="string", length=255, nullable=false, unique=true)
    * @Groups({"field"})
    */
   private $name;

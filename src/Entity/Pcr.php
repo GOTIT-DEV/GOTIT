@@ -45,7 +45,7 @@ class Pcr extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false, unique=true)
    * @Assert\Expression("this.hasValidCode()",
    *  groups={"code"},
    *  message="Code {{ value }} differs from specification.")

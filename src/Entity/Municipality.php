@@ -35,7 +35,7 @@ class Municipality extends AbstractTimestampedEntity {
    * @var string
    *
    * @Groups("own")
-   * @ORM\Column(name="municipality_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="municipality_code", type="string", length=255, nullable=false, unique=true)
    */
   private $code;
 

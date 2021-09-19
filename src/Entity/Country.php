@@ -33,7 +33,7 @@ class Country extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="country_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="country_code", type="string", length=255, nullable=false, unique=true)
    */
   private $code;
 

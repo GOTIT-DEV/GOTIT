@@ -31,7 +31,7 @@ class Taxon extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="taxon_name", type="string", length=255, nullable=false)
+   * @ORM\Column(name="taxon_name", type="string", length=255, nullable=false, unique=true)
    */
   private $taxname;
 
@@ -101,7 +101,7 @@ class Taxon extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="taxon_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="taxon_code", type="string", length=255, nullable=false, unique=true)
    */
   private $code;
 

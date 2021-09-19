@@ -34,7 +34,7 @@ class Site extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="site_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="site_code", type="string", length=255, nullable=false, unique=true)
    */
   private $code;
 

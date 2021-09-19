@@ -29,7 +29,7 @@ class MotuDataset extends AbstractTimestampedEntity {
    * @var string
    *
    * @Groups("motu_dataset")
-   * @ORM\Column(name="motu_title", type="string", length=255, nullable=false)
+   * @ORM\Column(name="motu_title", type="string", length=255, nullable=false, unique=true)
    */
   private $title;
 

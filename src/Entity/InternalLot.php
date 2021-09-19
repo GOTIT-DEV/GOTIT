@@ -35,7 +35,7 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="internal_biological_material_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="internal_biological_material_code", type="string", length=255, nullable=false, unique=true)
    */
   private $code;
 

@@ -43,7 +43,7 @@ class Store extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="box_title", type="string", length=1024, nullable=false)
+   * @ORM\Column(name="box_title", type="string", length=1024, nullable=false, unique=true)
    * @Groups({"field"})
    */
   private $label;

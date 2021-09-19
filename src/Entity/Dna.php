@@ -43,7 +43,7 @@ class Dna extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="dna_code", type="string", length=255, nullable=false)
+   * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
    * @Groups({"field"})
    * @Assert\Regex(
    *  pattern="/^[\w]+$/",

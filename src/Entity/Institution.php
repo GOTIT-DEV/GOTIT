@@ -30,7 +30,7 @@ class Institution extends AbstractTimestampedEntity {
   /**
    * @var string
    *
-   * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false)
+   * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false, unique=true)
    * @Groups({"field"})
    */
   private $name;

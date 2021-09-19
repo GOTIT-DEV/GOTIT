@@ -185,11 +185,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set identificationCriterionVocFk
    *
-   * @param \App\Entity\Voc $identificationCriterionVocFk
+   * @param Voc $identificationCriterionVocFk
    *
    * @return TaxonIdentification
    */
-  public function setIdentificationCriterionVocFk(\App\Entity\Voc $identificationCriterionVocFk = null) {
+  public function setIdentificationCriterionVocFk(Voc $identificationCriterionVocFk = null) {
     $this->identificationCriterionVocFk = $identificationCriterionVocFk;
 
     return $this;
@@ -198,7 +198,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get identificationCriterionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getIdentificationCriterionVocFk() {
     return $this->identificationCriterionVocFk;
@@ -207,11 +207,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set datePrecisionVocFk
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecisionVocFk
    *
    * @return TaxonIdentification
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
+  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null) {
     $this->datePrecisionVocFk = $datePrecisionVocFk;
 
     return $this;
@@ -220,7 +220,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get datePrecisionVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getDatePrecisionVocFk() {
     return $this->datePrecisionVocFk;
@@ -229,11 +229,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set externalSequenceFk
    *
-   * @param \App\Entity\ExternalSequence $externalSequenceFk
+   * @param ExternalSequence $externalSequenceFk
    *
    * @return TaxonIdentification
    */
-  public function setExternalSequenceFk(\App\Entity\ExternalSequence $externalSequenceFk = null) {
+  public function setExternalSequenceFk(ExternalSequence $externalSequenceFk = null) {
     $this->externalSequenceFk = $externalSequenceFk;
 
     return $this;
@@ -242,7 +242,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get externalSequenceFk
    *
-   * @return \App\Entity\ExternalSequence
+   * @return ExternalSequence
    */
   public function getExternalSequenceFk() {
     return $this->externalSequenceFk;
@@ -251,11 +251,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set externalLotFk
    *
-   * @param \App\Entity\ExternalLot $externalLotFk
+   * @param ExternalLot $externalLotFk
    *
    * @return TaxonIdentification
    */
-  public function setExternalLotFk(\App\Entity\ExternalLot $externalLotFk = null) {
+  public function setExternalLotFk(ExternalLot $externalLotFk = null) {
     $this->externalLotFk = $externalLotFk;
 
     return $this;
@@ -264,7 +264,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get externalLotFk
    *
-   * @return \App\Entity\ExternalLot
+   * @return ExternalLot
    */
   public function getExternalLotFk() {
     return $this->externalLotFk;
@@ -273,11 +273,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set internalLotFk
    *
-   * @param \App\Entity\InternalLot $internalLotFk
+   * @param InternalLot $internalLotFk
    *
    * @return TaxonIdentification
    */
-  public function setInternalLotFk(\App\Entity\InternalLot $internalLotFk = null) {
+  public function setInternalLotFk(InternalLot $internalLotFk = null) {
     $this->internalLotFk = $internalLotFk;
 
     return $this;
@@ -286,7 +286,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get internalLotFk
    *
-   * @return \App\Entity\InternalLot
+   * @return InternalLot
    */
   public function getInternalLotFk() {
     return $this->internalLotFk;
@@ -295,11 +295,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set taxonFk
    *
-   * @param \App\Entity\Taxon $taxonFk
+   * @param Taxon $taxonFk
    *
    * @return TaxonIdentification
    */
-  public function setTaxonFk(\App\Entity\Taxon $taxonFk = null) {
+  public function setTaxonFk(Taxon $taxonFk = null) {
     $this->taxonFk = $taxonFk;
 
     return $this;
@@ -308,7 +308,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get taxonFk
    *
-   * @return \App\Entity\Taxon
+   * @return Taxon
    */
   public function getTaxonFk() {
     return $this->taxonFk;
@@ -317,11 +317,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set specimenFk
    *
-   * @param \App\Entity\Specimen $specimenFk
+   * @param Specimen $specimenFk
    *
    * @return TaxonIdentification
    */
-  public function setSpecimenFk(\App\Entity\Specimen $specimenFk = null) {
+  public function setSpecimenFk(Specimen $specimenFk = null) {
     $this->specimenFk = $specimenFk;
 
     return $this;
@@ -330,7 +330,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get specimenFk
    *
-   * @return \App\Entity\Specimen
+   * @return Specimen
    */
   public function getSpecimenFk() {
     return $this->specimenFk;
@@ -339,11 +339,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set internalSequenceFk
    *
-   * @param \App\Entity\InternalSequence $internalSequenceFk
+   * @param InternalSequence $internalSequenceFk
    *
    * @return TaxonIdentification
    */
-  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
+  public function setInternalSequenceFk(InternalSequence $internalSequenceFk = null) {
     $this->internalSequenceFk = $internalSequenceFk;
 
     return $this;
@@ -352,7 +352,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get internalSequenceFk
    *
-   * @return \App\Entity\InternalSequence
+   * @return InternalSequence
    */
   public function getInternalSequenceFk() {
     return $this->internalSequenceFk;
@@ -361,11 +361,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Add taxonCurator
    *
-   * @param \App\Entity\taxonCurator $taxonCurator
+   * @param taxonCurator $taxonCurator
    *
    * @return TaxonIdentification
    */
-  public function addTaxonCurator(\App\Entity\taxonCurator $taxonCurator) {
+  public function addTaxonCurator(taxonCurator $taxonCurator) {
     $taxonCurator->setTaxonIdentificationFk($this);
     $this->taxonCurators[] = $taxonCurator;
 
@@ -375,9 +375,9 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Remove taxonCurator
    *
-   * @param \App\Entity\taxonCurator $taxonCurator
+   * @param taxonCurator $taxonCurator
    */
-  public function removeTaxonCurator(\App\Entity\taxonCurator $taxonCurator) {
+  public function removeTaxonCurator(taxonCurator $taxonCurator) {
     $this->taxonCurators->removeElement($taxonCurator);
   }
 
@@ -393,11 +393,11 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Set materialTypeVocFk
    *
-   * @param \App\Entity\Voc $materialTypeVocFk
+   * @param Voc $materialTypeVocFk
    *
    * @return TaxonIdentification
    */
-  public function setMaterialTypeVocFk(\App\Entity\Voc $materialTypeVocFk = null) {
+  public function setMaterialTypeVocFk(Voc $materialTypeVocFk = null) {
     $this->materialTypeVocFk = $materialTypeVocFk;
 
     return $this;
@@ -406,7 +406,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   /**
    * Get materialTypeVocFk
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
   public function getMaterialTypeVocFk() {
     return $this->materialTypeVocFk;
