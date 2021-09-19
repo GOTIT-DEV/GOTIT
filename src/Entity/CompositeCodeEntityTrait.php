@@ -20,6 +20,10 @@ trait CompositeCodeEntityTrait {
     }
   }
 
+  public function updateCode() {
+    $this->setCode($this->generateCode());
+  }
+
   /**
    * Validates that actual code matches its specification
    * @return bool
