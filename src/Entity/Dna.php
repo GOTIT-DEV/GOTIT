@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,7 +30,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
  * @ORM\Entity(repositoryClass="App\Repository\DnaRepository")
  * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ *
+ * @ApiResource(
+ *     itemOperations={
+ *       "get"={
+ *          "normalization_context"={"groups"={"item","dna:item"}}
+ *       },
+ *       "delete"
+ *     },
+ *     collectionOperations={
+ *       "get"={
+ *          "normalization_context"={"groups"={"item", "dna:list"}}
+ *       },
+ *       "post"
+ *     },
+ *     order={"code"="ASC"},
+ *     paginationEnabled=true
+ * )
+ * @ApiFilter(SearchFilter::class, properties={
+ *  "code":"partial",
+ *  "specimenFk.molecularCode":"partial",
+ *  "specimenFk.morphologicalCode":"partial",
+ *  "storeFk.code": "partial",
+ *  "datePrecisionVocFk.code":"partial",
+ *  "extractionMethodVocFk.code":"partial",
+ *  "quality.code":"partial"
+ * })
+ * @ApiFilter(DateFilter::class, properties={
+ *  "date": "DateFilter::EXCLUDE_NULL"
+ * })
+ * @ApiFilter(PropertyFilter::class)
  */
 class Dna extends AbstractTimestampedEntity {
   /**
@@ -36,7 +69,8 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"field"})
+   * @ApiProperty(identifier=false)
+   * @Groups({"item"})
    */
   private $id;
 
@@ -44,7 +78,8 @@ class Dna extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
+   * @ApiProperty(identifier=true)
    * @Assert\Regex(
    *  pattern="/^[\w]+$/",
    *  message="Code {{ value }} contains invalid special characters"
@@ -56,7 +91,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var \DateTime
    *
    * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $date;
 
@@ -64,7 +99,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var float
    *
    * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    * @Assert\PositiveOrZero
    */
   private $concentrationNgMicrolitre;
@@ -81,7 +116,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   private $datePrecisionVocFk;
 
@@ -90,7 +125,7 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   private $extractionMethodVocFk;
 
@@ -99,9 +134,9 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
-  private $qualiteAdnVocFk;
+  private $quality;
 
   /**
    * @var \Specimen
@@ -109,7 +144,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
    * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
    * @ORM\OrderBy({"molecularCode" = "ASC"})
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   private $specimenFk;
 
@@ -118,21 +153,21 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas", fetch="EAGER")
    * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   private $storeFk;
 
   /**
    * @ORM\OneToMany(targetEntity="DnaProducer", mappedBy="dnaFk", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   protected $dnaProducers;
 
   /**
    * @var Pcr
    * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dnaFk", fetch="EXTRA_LAZY")
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    */
   protected $pcrs;
 
@@ -141,9 +176,7 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * @VirtualProperty()
-   * @SerializedName("_meta")
-   * @Groups({"dna_list", "dna_details"})
+   * @Groups({"dna:list", "dna:item"})
    *
    * @return array
    */
@@ -311,24 +344,24 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set qualiteAdnVocFk
+   * Set quality
    *
-   * @param Voc $qualiteAdnVocFk
+   * @param Voc $quality
    *
    * @return Dna
    */
-  public function setQualiteAdnVocFk(Voc $qualiteAdnVocFk = null): Dna {
-    $this->qualiteAdnVocFk = $qualiteAdnVocFk;
+  public function setQuality(Voc $quality = null): Dna {
+    $this->quality = $quality;
     return $this;
   }
 
   /**
-   * Get qualiteAdnVocFk
+   * Get quality
    *
    * @return Voc
    */
-  public function getQualiteAdnVocFk(): ?Voc {
-    return $this->qualiteAdnVocFk;
+  public function getQuality(): ?Voc {
+    return $this->quality;
   }
 
   /**

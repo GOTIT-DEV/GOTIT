@@ -1,29 +1,14 @@
 <?php
 
-/*
- * This file is part of the E3sBundle from the GOTIT project (Gene, Occurence and Taxa in Integrative Taxonomy)
- *
- * Authors : see information concerning authors of GOTIT project in file AUTHORS.md
- *
- * E3sBundle is free software : you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * E3sBundle is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with E3sBundle.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,9 +19,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"username"}, message="This username is already taken")
  *
- * @Serializer\ExclusionPolicy("ALL")
- *
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * @ApiResource(
+ *  collectionOperations={"get"={"normalization_context"={"groups"={"item", "user:list"}}}},
+ *  itemOperations={"get"={"normalization_context"={"groups"={"item", "user:item"}}}},
+ *  order={"name"="ASC"},
+ *  paginationEnabled=false
+ * )
  */
 class User extends AbstractTimestampedEntity implements UserInterface, PasswordAuthenticatedUserInterface {
   /**
@@ -47,8 +35,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
    *
-   * @Serializer\Expose
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $id;
 
@@ -90,8 +77,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    *
    * @ORM\Column(name="user_role", type="string")
    *
-   * @Serializer\Expose
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $role;
 
@@ -106,9 +92,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_full_name", type="string", length=255, nullable=false)
-   *
-   * @Serializer\Expose
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $name;
 
@@ -116,8 +100,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * @var string
    *
    * @ORM\Column(name="user_institution", type="string", length=255, nullable=true)
-   * @Serializer\Expose
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $institution;
 
@@ -146,15 +129,13 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    * Overloads parent getMetadata to return a flat array structure
    * with only date information
    *
-   * @Serializer\VirtualProperty()
-   * @Serializer\SerializedName("_meta")
-   * @Serializer\Expose()
+   * @Groups({"item"})
    *
    * @return array
    */
   public function getMetadata(): array{
     // return parent::getMetadata();
-    [
+    return [
       "creation" => $this->getMetaCreationDate(),
       "update" => $this->getMetaUpdateDate(),
     ];

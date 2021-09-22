@@ -18,8 +18,8 @@ framework:
   #fragments: true
   php_errors:
     log: true
-  serializer:
-    enabled: false
+  # serializer:
+  #   enabled: true
   form:
     legacy_error_messages: false
 

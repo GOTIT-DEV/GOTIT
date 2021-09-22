@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Voc
@@ -13,7 +14,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_vocabulary__parent__code", columns={"code", "parent"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"code", "parent"}, message="This code is already registered for the specified parent")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ *
+ * @ApiResource(
+ *  collectionOperations={"get"={"normalization_context"={"groups"={"item"}}}},
+ *  itemOperations={"get"={"normalization_context"={"groups"={"item"}}}},
+ *  order={"parent"="ASC", "code"="ASC"},
+ *  paginationEnabled=true
+ * )
+ *
  */
 class Voc extends AbstractTimestampedEntity {
   /**
@@ -23,7 +31,7 @@ class Voc extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="vocabulary_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $id;
 
@@ -31,7 +39,7 @@ class Voc extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="code", type="string", length=255, nullable=false)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $code;
 
@@ -39,7 +47,7 @@ class Voc extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="vocabulary_title", type="string", length=1024, nullable=false)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $label;
 
@@ -47,7 +55,7 @@ class Voc extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="parent", type="string", length=255, nullable=false)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $parent;
 
@@ -55,7 +63,7 @@ class Voc extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="voc_comments", type="text", nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $comment;
 

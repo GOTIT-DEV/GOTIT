@@ -6,14 +6,13 @@ use App\Doctrine\SetUserTimestampListener;
 use App\Doctrine\TimestampedEntityInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MappedSuperclass
  * @ORM\EntityListeners({"App\Doctrine\SetUserTimestampListener"})
  *
- * @Serializer\ExclusionPolicy("ALL")
  */
 abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
 
@@ -58,10 +57,7 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
   protected $metaUpdateUser;
 
   /**
-   * @Serializer\VirtualProperty()
-   * @Serializer\SerializedName("_meta")
-   * @Serializer\Groups({"meta"})
-   *
+   * @SerializedName("_meta")
    * @return array
    */
   public function getMetadata(): array{
