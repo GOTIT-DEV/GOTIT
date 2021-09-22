@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\AbstractTimestampedEntity;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -109,7 +109,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    *
    * @ORM\Column(name="user_is_active", type="smallint")
    */
-  private $isActive;
+  private $isActive = 1;
 
   /**
    * @var string
@@ -119,7 +119,6 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   private $comment;
 
   public function __construct() {
-    $this->isActive = 1;
     //$this->setRoles(array($this->role));
     // may not be needed, see section on salt below
     // $this->salt = md5(uniqid('', true));

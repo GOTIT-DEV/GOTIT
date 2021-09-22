@@ -142,7 +142,7 @@ col-lg-9 col-xl-10 needs-validation input-group
       {% else %}
         {# Collection entry has one field #}
         <div class="row form-group">
-          {{ form_widget(entry|first, {'attr': {'required': true}}) }}
+          {{ form_widget(entry) }}
         </div>
       {% endif %}
       

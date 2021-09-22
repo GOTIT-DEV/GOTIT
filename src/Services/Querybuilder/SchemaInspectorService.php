@@ -100,7 +100,7 @@ class SchemaInspectorService {
   }
 
   private function guess_type($entity) {
-    return (int) preg_match('/(^APour|Par$|Dans$|InternalSequenceAssembly|TaxonSampling|SamplingFixative|SamplingMethod)/', $entity);
+    return (int) preg_match('/(^APour|Par$|Dans$|InternalSequenceAssembly|TargetTaxon|Fixative|SamplingMethod)/', $entity);
   }
 
   private function parse_metadata(ClassMetadata $metadata) {

@@ -64,9 +64,9 @@ class SpecimenController extends AbstractController {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.molecularCode as code')
       ->from('App:Specimen', 'ind')
-      ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.specimenFk = ind.id')
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.dnaFk = dna.id')
-      ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'dna.specimen = ind.id')
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.dna = dna.id')
+      ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.gene = vocgene.id')
       ->andWhere('LOWER(ind.molecularCode) LIKE :searchcode')
       ->andWhere('vocgene.id = :idvocgene ')
       ->setParameter('searchcode', strtolower($query) . '%')
@@ -242,7 +242,7 @@ class SpecimenController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     if ($biomat_id = $request->get('idFk')) {
       $biomat = $em->getRepository('App:InternalLot')->find($biomat_id);
-      $specimen->setInternalLotFk($biomat);
+      $specimen->setInternalLot($biomat);
     }
     $form = $this->createForm('App\Form\SpecimenType', $specimen, [
       'action_type' => Action::create(),
@@ -324,7 +324,7 @@ class SpecimenController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->removeStaleCollection(
-        $taxonIdentifications, $specimen->getTaxonIdentifications(), 'TaxonCurators'
+        $taxonIdentifications, $specimen->getTaxonIdentifications(), 'Curators'
       );
       $em = $this->getDoctrine()->getManager();
       $em->persist($specimen);

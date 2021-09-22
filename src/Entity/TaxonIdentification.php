@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -53,7 +54,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
    */
-  private $materialTypeVocFk;
+  private $materialType;
 
   /**
    * @var \Voc
@@ -61,7 +62,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $identificationCriterionVocFk;
+  private $identificationCriterion;
 
   /**
    * @var \Voc
@@ -69,7 +70,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \ExternalSequence
@@ -77,7 +78,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="taxonIdentifications")
    * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
-  private $externalSequenceFk;
+  private $externalSequence;
 
   /**
    * @var \ExternalLot
@@ -85,7 +86,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="taxonIdentifications")
    * @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
-  private $externalLotFk;
+  private $externalLot;
 
   /**
    * @var \InternalLot
@@ -93,7 +94,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="taxonIdentifications")
    * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
-  private $internalLotFk;
+  private $internalLot;
 
   /**
    * @var \Taxon
@@ -101,7 +102,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Taxon")
    * @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
    */
-  private $taxonFk;
+  private $taxon;
 
   /**
    * @var \Specimen
@@ -109,7 +110,7 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Specimen", inversedBy="taxonIdentifications")
    * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
-  private $specimenFk;
+  private $specimen;
 
   /**
    * @var \InternalSequence
@@ -117,16 +118,19 @@ class TaxonIdentification extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="taxonIdentifications")
    * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
    */
-  private $internalSequenceFk;
+  private $internalSequence;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonCurator", mappedBy="taxonIdentificationFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="species_is_identified_by",
+   *  joinColumns={@ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $taxonCurators;
+  protected $curators;
 
   public function __construct() {
-    $this->taxonCurators = new ArrayCollection();
+    $this->curators = new ArrayCollection();
   }
 
   /**
@@ -183,232 +187,230 @@ class TaxonIdentification extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set identificationCriterionVocFk
+   * Set identificationCriterion
    *
-   * @param Voc $identificationCriterionVocFk
+   * @param Voc $identificationCriterion
    *
    * @return TaxonIdentification
    */
-  public function setIdentificationCriterionVocFk(Voc $identificationCriterionVocFk = null) {
-    $this->identificationCriterionVocFk = $identificationCriterionVocFk;
+  public function setIdentificationCriterion(Voc $identificationCriterion = null) {
+    $this->identificationCriterion = $identificationCriterion;
 
     return $this;
   }
 
   /**
-   * Get identificationCriterionVocFk
+   * Get identificationCriterion
    *
    * @return Voc
    */
-  public function getIdentificationCriterionVocFk() {
-    return $this->identificationCriterionVocFk;
+  public function getIdentificationCriterion() {
+    return $this->identificationCriterion;
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return TaxonIdentification
    */
-  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null) {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null) {
+    $this->datePrecision = $datePrecision;
 
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
    * @return Voc
    */
-  public function getDatePrecisionVocFk() {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision() {
+    return $this->datePrecision;
   }
 
   /**
-   * Set externalSequenceFk
+   * Set externalSequence
    *
-   * @param ExternalSequence $externalSequenceFk
+   * @param ExternalSequence $externalSequence
    *
    * @return TaxonIdentification
    */
-  public function setExternalSequenceFk(ExternalSequence $externalSequenceFk = null) {
-    $this->externalSequenceFk = $externalSequenceFk;
+  public function setExternalSequence(ExternalSequence $externalSequence = null) {
+    $this->externalSequence = $externalSequence;
 
     return $this;
   }
 
   /**
-   * Get externalSequenceFk
+   * Get externalSequence
    *
    * @return ExternalSequence
    */
-  public function getExternalSequenceFk() {
-    return $this->externalSequenceFk;
+  public function getExternalSequence() {
+    return $this->externalSequence;
   }
 
   /**
-   * Set externalLotFk
+   * Set externalLot
    *
-   * @param ExternalLot $externalLotFk
+   * @param ExternalLot $externalLot
    *
    * @return TaxonIdentification
    */
-  public function setExternalLotFk(ExternalLot $externalLotFk = null) {
-    $this->externalLotFk = $externalLotFk;
+  public function setExternalLot(ExternalLot $externalLot = null) {
+    $this->externalLot = $externalLot;
 
     return $this;
   }
 
   /**
-   * Get externalLotFk
+   * Get externalLot
    *
    * @return ExternalLot
    */
-  public function getExternalLotFk() {
-    return $this->externalLotFk;
+  public function getExternalLot() {
+    return $this->externalLot;
   }
 
   /**
-   * Set internalLotFk
+   * Set internalLot
    *
-   * @param InternalLot $internalLotFk
+   * @param InternalLot $internalLot
    *
    * @return TaxonIdentification
    */
-  public function setInternalLotFk(InternalLot $internalLotFk = null) {
-    $this->internalLotFk = $internalLotFk;
+  public function setInternalLot(InternalLot $internalLot = null) {
+    $this->internalLot = $internalLot;
 
     return $this;
   }
 
   /**
-   * Get internalLotFk
+   * Get internalLot
    *
    * @return InternalLot
    */
-  public function getInternalLotFk() {
-    return $this->internalLotFk;
+  public function getInternalLot() {
+    return $this->internalLot;
   }
 
   /**
-   * Set taxonFk
+   * Set taxon
    *
-   * @param Taxon $taxonFk
+   * @param Taxon $taxon
    *
    * @return TaxonIdentification
    */
-  public function setTaxonFk(Taxon $taxonFk = null) {
-    $this->taxonFk = $taxonFk;
+  public function setTaxon(Taxon $taxon = null) {
+    $this->taxon = $taxon;
 
     return $this;
   }
 
   /**
-   * Get taxonFk
+   * Get taxon
    *
    * @return Taxon
    */
-  public function getTaxonFk() {
-    return $this->taxonFk;
+  public function getTaxon() {
+    return $this->taxon;
   }
 
   /**
-   * Set specimenFk
+   * Set specimen
    *
-   * @param Specimen $specimenFk
+   * @param Specimen $specimen
    *
    * @return TaxonIdentification
    */
-  public function setSpecimenFk(Specimen $specimenFk = null) {
-    $this->specimenFk = $specimenFk;
+  public function setSpecimen(Specimen $specimen = null) {
+    $this->specimen = $specimen;
 
     return $this;
   }
 
   /**
-   * Get specimenFk
+   * Get specimen
    *
    * @return Specimen
    */
-  public function getSpecimenFk() {
-    return $this->specimenFk;
+  public function getSpecimen() {
+    return $this->specimen;
   }
 
   /**
-   * Set internalSequenceFk
+   * Set internalSequence
    *
-   * @param InternalSequence $internalSequenceFk
+   * @param InternalSequence $internalSequence
    *
    * @return TaxonIdentification
    */
-  public function setInternalSequenceFk(InternalSequence $internalSequenceFk = null) {
-    $this->internalSequenceFk = $internalSequenceFk;
+  public function setInternalSequence(InternalSequence $internalSequence = null) {
+    $this->internalSequence = $internalSequence;
 
     return $this;
   }
 
   /**
-   * Get internalSequenceFk
+   * Get internalSequence
    *
    * @return InternalSequence
    */
-  public function getInternalSequenceFk() {
-    return $this->internalSequenceFk;
+  public function getInternalSequence() {
+    return $this->internalSequence;
   }
 
   /**
-   * Add taxonCurator
+   * Add curator
    *
-   * @param taxonCurator $taxonCurator
+   * @param Person $curator
    *
    * @return TaxonIdentification
    */
-  public function addTaxonCurator(taxonCurator $taxonCurator) {
-    $taxonCurator->setTaxonIdentificationFk($this);
-    $this->taxonCurators[] = $taxonCurator;
-
+  public function addCurator(Person $curator) {
+    $this->curators[] = $curator;
     return $this;
   }
 
   /**
-   * Remove taxonCurator
+   * Remove curator
    *
-   * @param taxonCurator $taxonCurator
+   * @param Person $curator
    */
-  public function removeTaxonCurator(taxonCurator $taxonCurator) {
-    $this->taxonCurators->removeElement($taxonCurator);
+  public function removeCurator(Person $curator) {
+    $this->curators->removeElement($curator);
   }
 
   /**
-   * Get taxonCurators
+   * Get curators
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getTaxonCurators() {
-    return $this->taxonCurators;
+  public function getCurators() {
+    return $this->curators;
   }
 
   /**
-   * Set materialTypeVocFk
+   * Set materialType
    *
-   * @param Voc $materialTypeVocFk
+   * @param Voc $materialType
    *
    * @return TaxonIdentification
    */
-  public function setMaterialTypeVocFk(Voc $materialTypeVocFk = null) {
-    $this->materialTypeVocFk = $materialTypeVocFk;
+  public function setMaterialType(Voc $materialType = null) {
+    $this->materialType = $materialType;
 
     return $this;
   }
 
   /**
-   * Get materialTypeVocFk
+   * Get materialType
    *
    * @return Voc
    */
-  public function getMaterialTypeVocFk() {
-    return $this->materialTypeVocFk;
+  public function getMaterialType() {
+    return $this->materialType;
   }
 }

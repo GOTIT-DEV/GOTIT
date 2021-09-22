@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Entity\CompositeCodeEntityTrait;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ExternalSequence
@@ -94,7 +96,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $geneVocFk;
+  private $gene;
 
   /**
    * @var \Voc
@@ -102,7 +104,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \Voc
@@ -118,7 +120,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Sampling")
    * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
    */
-  private $samplingFk;
+  private $sampling;
 
   /**
    * @var \Voc
@@ -129,26 +131,33 @@ class ExternalSequence extends AbstractTimestampedEntity {
   private $status;
 
   /**
-   * @ORM\OneToMany(targetEntity="ExternalSequenceAssembler", mappedBy="externalSequenceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="external_sequence_is_entered_by",
+   *  joinColumns={@ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
+   * @Assert\Count(min = 1, minMessage = "At least one person is required as provider")
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblers;
 
   /**
-   * @ORM\OneToMany(targetEntity="ExternalSequencePublication", mappedBy="externalSequenceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
+   *  @ORM\JoinTable(name="external_sequence_is_entered_by",
+   *  joinColumns={@ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $externalSequencePublications;
+  protected $publications;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalSequenceFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalSequence", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
 
   public function __construct() {
     $this->assemblers = new ArrayCollection();
-    $this->externalSequencePublications = new ArrayCollection();
+    $this->publications = new ArrayCollection();
     $this->taxonIdentifications = new ArrayCollection();
   }
 
@@ -315,47 +324,47 @@ class ExternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set geneVocFk
+   * Set gene
    *
-   * @param Voc $geneVocFk
+   * @param Voc $gene
    *
    * @return ExternalSequence
    */
-  public function setGeneVocFk(Voc $geneVocFk = null) {
-    $this->geneVocFk = $geneVocFk;
+  public function setGene(Voc $gene = null) {
+    $this->gene = $gene;
 
     return $this;
   }
 
   /**
-   * Get geneVocFk
+   * Get gene
    *
    * @return Voc
    */
-  public function getGeneVocFk() {
-    return $this->geneVocFk;
+  public function getGene() {
+    return $this->gene;
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return ExternalSequence
    */
-  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null) {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null) {
+    $this->datePrecision = $datePrecision;
 
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
    * @return Voc
    */
-  public function getDatePrecisionVocFk() {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision() {
+    return $this->datePrecision;
   }
 
   /**
@@ -381,25 +390,25 @@ class ExternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set samplingFk
+   * Set sampling
    *
-   * @param Sampling $samplingFk
+   * @param Sampling $sampling
    *
    * @return ExternalSequence
    */
-  public function setSamplingFk(Sampling $samplingFk = null) {
-    $this->samplingFk = $samplingFk;
+  public function setSampling(Sampling $sampling = null) {
+    $this->sampling = $sampling;
 
     return $this;
   }
 
   /**
-   * Get samplingFk
+   * Get sampling
    *
    * @return Sampling
    */
-  public function getSamplingFk() {
-    return $this->samplingFk;
+  public function getSampling() {
+    return $this->sampling;
   }
 
   /**
@@ -427,23 +436,21 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Add assembler
    *
-   * @param ExternalSequenceAssembler $assembler
+   * @param Person $assembler
    *
    * @return ExternalSequence
    */
-  public function addAssembler(ExternalSequenceAssembler $assembler) {
-    $assembler->setExternalSequenceFk($this);
+  public function addAssembler(Person $assembler) {
     $this->assemblers[] = $assembler;
-
     return $this;
   }
 
   /**
    * Remove assembler
    *
-   * @param ExternalSequenceAssembler $assembler
+   * @param Person $assembler
    */
-  public function removeAssembler(ExternalSequenceAssembler $assembler) {
+  public function removeAssembler(Person $assembler) {
     $this->assemblers->removeElement($assembler);
   }
 
@@ -459,13 +466,13 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Add externalSequencePublication
    *
-   * @param ExternalSequencePublication $externalSequencePublication
+   * @param Source $externalSequencePublication
    *
    * @return ExternalSequence
    */
-  public function addExternalSequencePublication(ExternalSequencePublication $externalSequencePublication) {
-    $externalSequencePublication->setExternalSequenceFk($this);
-    $this->externalSequencePublications[] = $externalSequencePublication;
+  public function addPublication(Source $externalSequencePublication) {
+    $externalSequencePublication->setExternalSequence($this);
+    $this->publications[] = $externalSequencePublication;
 
     return $this;
   }
@@ -473,19 +480,19 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove externalSequencePublication
    *
-   * @param ExternalSequencePublication $externalSequencePublication
+   * @param Source $externalSequencePublication
    */
-  public function removeExternalSequencePublication(ExternalSequencePublication $externalSequencePublication) {
-    $this->externalSequencePublications->removeElement($externalSequencePublication);
+  public function removePublication(Source $externalSequencePublication) {
+    $this->publications->removeElement($externalSequencePublication);
   }
 
   /**
-   * Get externalSequencePublications
+   * Get publications
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getExternalSequencePublications() {
-    return $this->externalSequencePublications;
+  public function getPublications() {
+    return $this->publications;
   }
 
   /**
@@ -496,7 +503,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @return ExternalSequence
    */
   public function addTaxonIdentification(TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setExternalSequenceFk($this);
+    $taxonIdentification->setExternalSequence($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;

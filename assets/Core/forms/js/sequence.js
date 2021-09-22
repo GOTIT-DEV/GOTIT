@@ -3,8 +3,8 @@ import { initSearchSelect } from "./field-suggestions";
 $(() => {
   // Gene specimen form
   const $geneSpecimenForm = $('form[name="gene_specimen_form"]');
-  const $gene = $geneSpecimenForm.find("#gene_specimen_form_geneVocFk");
-  const $specimen = $geneSpecimenForm.find("#gene_specimen_form_specimenFk");
+  const $gene = $geneSpecimenForm.find("#gene_specimen_form_gene");
+  const $specimen = $geneSpecimenForm.find("#gene_specimen_form_specimen");
 
   initSearchSelect($specimen, "specimen_search_with_gene", function (route) {
     return (params) =>

@@ -3,9 +3,9 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\SourceProviderEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,14 +25,8 @@ class SourceType extends ActionFormType {
       ])
       ->add('title')
       ->add('comment')
-      ->add('sourceProviders', CollectionType::class, array(
-        'entry_type' => SourceProviderEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('providers', DynamicCollectionType::class, array(
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>

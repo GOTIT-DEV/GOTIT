@@ -7,9 +7,9 @@ import { getSelectedCode } from "./forms";
 
 $(() => {
   const $form = $("form[name='pcr']");
-  const $dna = $form.find("#pcr_dnaFk");
-  const $primerStart = $("#pcr_primerStartVocFk");
-  const $primerEnd = $("#pcr_primerEndVocFk");
+  const $dna = $form.find("#pcr_dna");
+  const $primerStart = $("#pcr_primerStart");
+  const $primerEnd = $("#pcr_primerEnd");
   const $number = $("#pcr_number");
 
   const $pcrCode = $("#pcr_code");

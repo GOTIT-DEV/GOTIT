@@ -1,14 +1,14 @@
 {% extends 'edit.html.twig' %}
 
 {% block action %}
-	{% set path_route_index = path(route_index,{typeBoite: store.getStorageTypeVocFk.code}) %}
+	{% set path_route_index = path(route_index,{typeBoite: store.getStorageType.code}) %}
 	{{parent()}}
 {% endblock %}
 
 {# EDIT : BOX #}
 {% block page_title %}
 	<h1>
-		{{('core.' ~ entityname ~ store.getStorageTypeVocFk.code|default(''))|trans(domain="sections")}}
+		{{('core.' ~ entityname ~ store.getStorageType.code|default(''))|trans(domain="sections")}}
 		{% if flagvalid != 0 %}
 			<i class="fas fa-check-circle"></i>
 		{% endif %}

@@ -7,8 +7,8 @@
 
 {% block action %}
 	{{parent()}}
-	{% if edit_form.vars.data.siteFk is not null %}
-		<a href="{{path('site_show', {id: edit_form.vars.data.siteFk.id})}}" class="btn btn-sm btn-info">
+	{% if edit_form.vars.data.site is not null %}
+		<a href="{{path('site_show', {id: edit_form.vars.data.site.id})}}" class="btn btn-sm btn-info">
 			<i class="fas fa-link"></i>
 			{{'button.Back to site'|trans}}
 		</a>

@@ -82,8 +82,8 @@ class SiteController extends AbstractController {
       ->createQueryBuilder('site')
       ->where('LOWER(site.code) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
-      ->leftJoin('App:Country', 'country', 'WITH', 'site.countryFk = country.id')
-      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipalityFk = municipality.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'site.country = country.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipality = municipality.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -99,16 +99,16 @@ class SiteController extends AbstractController {
       ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $query = $em->createQuery(
         'SELECT sampling.id FROM App:Sampling sampling
-                WHERE sampling.siteFk = ' . $id
+                WHERE sampling.site = ' . $id
       )->getResult();
-      $siteFk = (count($query) > 0) ? $id : '';
+      $site = (count($query) > 0) ? $id : '';
       $tab_toshow[] = array(
         "id" => $id,
         "site.id" => $id,
         "site.code" => $entity->getCode(),
         "site.name" => $entity->getName(),
-        "municipality.code" => $entity->getMunicipalityFk()->getCode(),
-        "country.code" => $entity->getCountryFk()->getCode(),
+        "municipality.code" => $entity->getMunicipality()->getCode(),
+        "country.code" => $entity->getCountry()->getCode(),
         "site.latDegDec" => $entity->getLatDegDec(),
         "site.longDegDec" => $entity->getLongDegDec(),
         "site.metaCreationDate" => $MetaCreationDate,
@@ -116,7 +116,7 @@ class SiteController extends AbstractController {
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
         "site.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
         "site.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
-        "linkSampling" => $siteFk,
+        "linkSampling" => $site,
       );
     }
 

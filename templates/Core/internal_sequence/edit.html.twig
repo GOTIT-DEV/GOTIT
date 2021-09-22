@@ -12,7 +12,7 @@
 		<hr>
 
 		{% if edit_form.vars.action_type != 'new' or
-    (geneVocFk|default(null) and specimenFk|default(null)) %}
+    (gene|default(null) and specimen|default(null)) %}
 			{{ parent() }}
 		{% endif %}
 

@@ -2,8 +2,8 @@ import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
   const $form = $("form[name='specimen']");
-  const $biomat = $("#specimen_internalLotFk");
-  const $taxon = $("#specimen_taxonIdentifications_0_taxonFk");
+  const $biomat = $("#specimen_internalLot");
+  const $taxon = $("#specimen_taxonIdentifications_0_taxon");
   const $tube = $("#specimen_tubeCode");
   const $spMolNumber = $("#specimen_molecularNumber");
 

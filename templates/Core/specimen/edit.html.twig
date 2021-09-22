@@ -4,8 +4,8 @@
 
 {% block action %}
 	{{parent()}}
-	{% if edit_form.vars.data.internalLotFk is not null %}
-		<a href="{{path('internal_lot_show', {id: edit_form.vars.data.internalLotFk.id})}}" class="btn btn-sm btn-info">
+	{% if edit_form.vars.data.internalLot is not null %}
+		<a href="{{path('internal_lot_show', {id: edit_form.vars.data.internalLot.id})}}" class="btn btn-sm btn-info">
 			<i class="fas fa-link"></i>
 			{{'button.Back to internal_lot'|trans}}
 		</a>

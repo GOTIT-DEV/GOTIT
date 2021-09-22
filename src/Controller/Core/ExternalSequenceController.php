@@ -192,7 +192,7 @@ class ExternalSequenceController extends AbstractController {
     // check if the relational Entity (Sampling) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
-      $sequence->setSamplingFk($sampling);
+      $sequence->setSampling($sampling);
     }
     $form = $this->createForm(
       'App\Form\ExternalSequenceType',
@@ -274,7 +274,7 @@ class ExternalSequenceController extends AbstractController {
 
     // store ArrayCollection
     $publications = $service->copyArrayCollection(
-      $sequence->getExternalSequencePublications()
+      $sequence->getPublications()
     );
     $assemblers = $service->copyArrayCollection($sequence->getAssemblers());
     $taxonIdentifications = $service->copyArrayCollection(
@@ -290,9 +290,9 @@ class ExternalSequenceController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->removeStaleCollection($publications, $sequence->getExternalSequencePublications());
+      $service->removeStaleCollection($publications, $sequence->getPublications());
       $service->removeStaleCollection($assemblers, $sequence->getAssemblers());
-      $service->removeStaleCollection($taxonIdentifications, $sequence->getTaxonIdentifications(), 'TaxonCurators');
+      $service->removeStaleCollection($taxonIdentifications, $sequence->getTaxonIdentifications(), 'Curators');
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($sequence);
@@ -390,15 +390,15 @@ class ExternalSequenceController extends AbstractController {
       $codeStatutSqcAss = $sequence->getStatus()->getCode();
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
-        $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getTaxonFk()->getCode();
+        $arrayTaxon[$entityTaxonIdentifications->getTaxon()->getId()] =
+        $entityTaxonIdentifications->getTaxon()->getCode();
       }
       ksort($arrayTaxon);
       reset($arrayTaxon);
       $firstTaxname = current($arrayTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
-      $code = $sequence->getSamplingFk()->getCode();
+      $code = $sequence->getSampling()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
       $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
@@ -426,8 +426,8 @@ class ExternalSequenceController extends AbstractController {
       $codeStatutSqcAss = $sequence->getStatus()->getCode();
       $arrayTaxon = array();
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
-        $arrayTaxon[$entityTaxonIdentifications->getTaxonFk()->getId()] =
-        $entityTaxonIdentifications->getTaxonFk()->getCode();
+        $arrayTaxon[$entityTaxonIdentifications->getTaxon()->getId()] =
+        $entityTaxonIdentifications->getTaxon()->getCode();
       }
       ksort($arrayTaxon);
       end($arrayTaxon);
@@ -435,7 +435,7 @@ class ExternalSequenceController extends AbstractController {
       $alignmentCode = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
       ? $lastCode
       : $codeStatutSqcAss . '_' . $lastCode;
-      $code = $sequence->getSamplingFk()->getCode();
+      $code = $sequence->getSampling()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
       $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();

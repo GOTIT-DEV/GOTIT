@@ -11,12 +11,12 @@
       :short-item-repr="shortItemRepr"
       @delete:item="$emit('delete:item', $event)"
     >
-      <template #cell(specimen_fk)="data">
+      <template #cell(specimen)="data">
         <a :href="generateRoute('specimen_show', { id: data.item.id })">
           {{ data.value }}
         </a>
       </template>
-      <template #cell(store_fk)="data">
+      <template #cell(store)="data">
         <a :href="generateRoute('store_show', { id: data.item.id })">
           {{ data.value }}
         </a>
@@ -72,7 +72,7 @@ export default {
           searchActive: false,
         },
         {
-          key: "specimen_fk",
+          key: "specimen",
           label: this.$t("messages.Specimen"),
           formatter(value) {
             return value?.molecular_code;
@@ -91,7 +91,7 @@ export default {
             },
           },
           formatter(value, key, item) {
-            const prec = item.date_precision_voc_fk.code;
+            const prec = item.date_precision.code;
             const format =
               prec === "J"
                 ? "L"
@@ -115,8 +115,8 @@ export default {
           },
         },
         {
-          key: "store_fk",
-          label: this.$t("messages.Store fk"),
+          key: "store",
+          label: this.$t("messages.Store"),
           formatter(value) {
             return value?.code;
           },

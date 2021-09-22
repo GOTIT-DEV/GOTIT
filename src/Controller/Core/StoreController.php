@@ -73,13 +73,13 @@ class StoreController extends AbstractController {
         'App:Voc',
         'vocCodeCollection',
         'WITH',
-        'store.collectionCodeVocFk = vocCodeCollection.id'
+        'store.collectionCode = vocCodeCollection.id'
       )
       ->leftJoin(
         'App:Voc',
         'vocTypeBoite',
         'WITH',
-        'store.storageTypeVocFk = vocTypeBoite.id'
+        'store.storageType = vocTypeBoite.id'
       )
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -98,9 +98,9 @@ class StoreController extends AbstractController {
       $tab_toshow[] = array(
         "id" => $id, "store.id" => $id,
         "store.code" => $entity->getCode(),
-        "vocCodeCollection.code" => $entity->getCollectionCodeVocFk()->getCode(),
+        "vocCodeCollection.code" => $entity->getCollectionCode()->getCode(),
         "store.label" => $entity->getLabel(),
-        "vocCodeCollection.label" => $entity->getCollectionCodeVocFk()->getLabel(),
+        "vocCodeCollection.label" => $entity->getCollectionCode()->getLabel(),
         "store.metaCreationDate" => $MetaCreationDate,
         "store.metaUpdateDate" => $MetaUpdateDate,
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
@@ -134,7 +134,7 @@ class StoreController extends AbstractController {
         'code' => $request->get('typeBoite'),
         'parent' => 'typeBoite',
       ]);
-      $store->setStorageTypeVocFk($storeType);
+      $store->setStorageType($storeType);
     }
 
     $form = $this->createForm('App\Form\StoreType', $store, [

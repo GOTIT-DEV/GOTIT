@@ -157,7 +157,7 @@ class SlideController extends AbstractController {
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Specimen')->find($specimen_id);
-      $slide->setSpecimenFk($specimen);
+      $slide->setSpecimen($specimen);
     }
 
     $form = $this->createForm('App\Form\SlideType', $slide, [

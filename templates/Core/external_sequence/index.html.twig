@@ -23,7 +23,7 @@
 
 {% block body %}
 	{# definition of collones to display  Specimen molecular number
-																RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
+																		RQ! for sortable collones, suffix the field names with the names of tables tableName.fieldName #}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
@@ -49,13 +49,13 @@
 						{{'list.Accession number sqc ass ext'|trans}}
 					</th>
 					<th data-column-id="voc_gene.code" data-sortable="true">
-						{{'Gene voc fk'|trans}}
+						{{'Gene'|trans}}
 					</th>
 					<th data-column-id="sq.external_sequence_creation_date" data-type="date">
 						{{'list.Date creation sqc ass ext'|trans}}
 					</th>
 					<th data-column-id="voc_date_precision.vocabulary_title" data-sortable="true">
-						{{'Date precision voc fk'|trans}}
+						{{'Date precision'|trans}}
 					</th>
 					<th data-column-id="last_taxname_sq" data-sortable="true" data-visible="true">
 						{{'list.Last taxname'|trans}}

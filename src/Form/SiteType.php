@@ -25,15 +25,15 @@ class SiteType extends ActionFormType {
       ])
       ->add('name')
       ->add('description')
-      ->add('countryFk', CountryVocType::class)
-      ->add('municipalityFk', EntityType::class, array(
+      ->add('country', CountryVocType::class)
+      ->add('municipality', EntityType::class, array(
         'class' => 'App:Municipality',
         'query_builder' => function (EntityRepository $er) use ($site) {
           $query = $er->createQueryBuilder('municipality')
             ->orderBy('municipality.code', 'ASC');
-          if ($site->getCountryFk()) {
-            $query = $query->where('municipality.countryFk = :country')
-              ->setParameter('country', $site->getCountryFk()->getId());
+          if ($site->getCountry()) {
+            $query = $query->where('municipality.country = :country')
+              ->setParameter('country', $site->getCountry()->getId());
           }
           return $query;
         },
@@ -50,11 +50,11 @@ class SiteType extends ActionFormType {
           "data-modal-controller" => 'App\\Controller\\Core\\MunicipalityController::newmodalAction',
         ],
       ])
-      ->add('habitatTypeVocFk', BaseVocType::class, array(
+      ->add('habitatType', BaseVocType::class, array(
         'voc_parent' => 'habitatType',
         'placeholder' => 'Choose an Habitat Type',
       ))
-      ->add('accessPointVocFk', BaseVocType::class, array(
+      ->add('accessPoint', BaseVocType::class, array(
         'voc_parent' => 'pointAcces',
         'placeholder' => 'Choose an Access Point',
       ))
@@ -87,7 +87,7 @@ class SiteType extends ActionFormType {
         "disabled" => true,
         'icon_class' => 'fa-crosshairs',
       ])
-      ->add('coordinatesPrecisionVocFk', BaseVocType::class, array(
+      ->add('coordinatesPrecision', BaseVocType::class, array(
         'voc_parent' => 'precisionLatLong',
         'placeholder' => 'Choose a GPS Distance Quality',
         "sort_by_id" => true,

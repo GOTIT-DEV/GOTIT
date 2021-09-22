@@ -17,11 +17,11 @@ class GeneSpecimenType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $form_data = $builder->getData();
-    $gene = $form_data['geneVocFk'];
-    $specimen = $form_data['specimenFk'];
+    $gene = $form_data['gene'];
+    $specimen = $form_data['specimen'];
 
     $builder
-      ->add('geneVocFk', GeneType::class, [
+      ->add('gene', GeneType::class, [
         'query_builder' =>
         function (EntityRepository $er) use ($gene) {
           $qb = $er->createQueryBuilder('voc')
@@ -29,14 +29,14 @@ class GeneSpecimenType extends ActionFormType {
             ->orderBy('voc.label', 'ASC');
           if ($gene) {
             $qb = $qb
-              ->andWhere('voc.id = :geneVocFk')
-              ->setParameter('geneVocFk', $gene->getId());
+              ->andWhere('voc.id = :gene')
+              ->setParameter('gene', $gene->getId());
           }
 
           return $qb;
         },
       ])
-      ->add('specimenFk', SearchableSelectType::class, [
+      ->add('specimen', SearchableSelectType::class, [
         'class' => 'App:Specimen',
         'choice_label' => 'molecularCode',
         'placeholder' => $this->translator->trans("Specimen typeahead placeholder"),

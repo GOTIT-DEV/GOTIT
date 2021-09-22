@@ -13,8 +13,7 @@ class PersonEmbedType extends AbstractType {
     $resolver->setDefaults([
       'class' => 'App:Person',
       'query_builder' => function (EntityRepository $er) {
-        return $er->createQueryBuilder('person')
-          ->orderBy('person.name', 'ASC');
+        return $er->createQueryBuilder('person')->orderBy('person.name', 'ASC');
       },
       'choice_label' => 'name',
       'multiple' => false,

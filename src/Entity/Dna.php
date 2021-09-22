@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * DNA
+ * A DNA sample extracted from a Specimen.
  *
  * @ORM\Table(name="dna",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
@@ -49,11 +50,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ApiFilter(SearchFilter::class, properties={
  *  "code":"partial",
- *  "specimenFk.molecularCode":"partial",
- *  "specimenFk.morphologicalCode":"partial",
- *  "storeFk.code": "partial",
- *  "datePrecisionVocFk.code":"partial",
- *  "extractionMethodVocFk.code":"partial",
+ *  "specimen.molecularCode":"partial",
+ *  "specimen.morphologicalCode":"partial",
+ *  "store.code": "partial",
+ *  "datePrecision.code":"partial",
+ *  "extractionMethod.code":"partial",
  *  "quality.code":"partial"
  * })
  * @ApiFilter(DateFilter::class, properties={
@@ -118,7 +119,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    * @Groups({"dna:list", "dna:item"})
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \Voc
@@ -127,7 +128,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
    * @Groups({"dna:list", "dna:item"})
    */
-  private $extractionMethodVocFk;
+  private $extractionMethod;
 
   /**
    * @var \Voc
@@ -146,7 +147,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\OrderBy({"molecularCode" = "ASC"})
    * @Groups({"dna:list", "dna:item"})
    */
-  private $specimenFk;
+  private $specimen;
 
   /**
    * @var \Store
@@ -155,24 +156,28 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    * @Groups({"dna:list", "dna:item"})
    */
-  private $storeFk;
+  private $store;
 
   /**
-   * @ORM\OneToMany(targetEntity="DnaProducer", mappedBy="dnaFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="dna_is_extracted_by",
+   *  joinColumns={@ORM\JoinColumn(name="dna_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    * @Groups({"dna:list", "dna:item"})
+   * @Assert\Count(min = 1, minMessage = "At least one person is required as producer")
    */
-  protected $dnaProducers;
+  protected $producers;
 
   /**
    * @var Pcr
-   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dnaFk", fetch="EXTRA_LAZY")
+   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna", fetch="EXTRA_LAZY")
    * @Groups({"dna:list", "dna:item"})
    */
   protected $pcrs;
 
   public function __construct() {
-    $this->dnaProducers = new ArrayCollection();
+    $this->producers = new ArrayCollection();
   }
 
   /**
@@ -281,66 +286,66 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return Dna
    */
-  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null): Dna {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null): Dna {
+    $this->datePrecision = $datePrecision;
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
    * @return Voc
    */
-  public function getDatePrecisionVocFk(): ?Voc {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision(): ?Voc {
+    return $this->datePrecision;
   }
 
   /**
-   * Set extractionMethodVocFk
+   * Set extractionMethod
    *
-   * @param Voc $extractionMethodVocFk
+   * @param Voc $extractionMethod
    *
    * @return Dna
    */
-  public function setExtractionMethodVocFk(Voc $extractionMethodVocFk = null): Dna {
-    $this->extractionMethodVocFk = $extractionMethodVocFk;
+  public function setExtractionMethod(Voc $extractionMethod = null): Dna {
+    $this->extractionMethod = $extractionMethod;
     return $this;
   }
 
   /**
-   * Get extractionMethodVocFk
+   * Get extractionMethod
    *
    * @return Voc
    */
-  public function getExtractionMethodVocFk(): ?Voc {
-    return $this->extractionMethodVocFk;
+  public function getExtractionMethod(): ?Voc {
+    return $this->extractionMethod;
   }
 
   /**
-   * Set specimenFk
+   * Set specimen
    *
-   * @param Specimen $specimenFk
+   * @param Specimen $specimen
    *
    * @return Dna
    */
-  public function setSpecimenFk(Specimen $specimenFk = null): Dna {
-    $this->specimenFk = $specimenFk;
+  public function setSpecimen(Specimen $specimen = null): Dna {
+    $this->specimen = $specimen;
     return $this;
   }
 
   /**
-   * Get specimenFk
+   * Get specimen
    *
    * @return Specimen
    */
-  public function getSpecimenFk(): ?Specimen {
-    return $this->specimenFk;
+  public function getSpecimen(): ?Specimen {
+    return $this->specimen;
   }
 
   /**
@@ -365,55 +370,54 @@ class Dna extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set storeFk
+   * Set store
    *
-   * @param Store $storeFk
+   * @param Store $store
    *
    * @return Dna
    */
-  public function setStoreFk(Store $storeFk = null): Dna {
-    $this->storeFk = $storeFk;
+  public function setStore(Store $store = null): Dna {
+    $this->store = $store;
     return $this;
   }
 
   /**
-   * Get storeFk
+   * Get store
    *
    * @return Store
    */
-  public function getStoreFk(): ?Store {
-    return $this->storeFk;
+  public function getStore(): ?Store {
+    return $this->store;
   }
 
   /**
-   * Add dnaProducer
+   * Add producer
    *
-   * @param DnaProducer $dnaProducer
+   * @param Person $producer
    *
    * @return Dna
    */
-  public function addDnaProducer(DnaProducer $dnaProducer): Dna {
-    $dnaProducer->setDnaFk($this);
-    $this->dnaProducers[] = $dnaProducer;
+  public function addProducer(Person $producer): Dna {
+    $this->producers[] = $producer;
     return $this;
   }
 
   /**
-   * Remove dnaProducer
+   * Remove producer
    *
-   * @param DnaProducer $dnaProducer
+   * @param Person $producer
    */
-  public function removeDnaProducer(DnaProducer $dnaProducer): Dna {
-    $this->dnaProducers->removeElement($dnaProducer);
+  public function removeProducer(Person $producer): Dna {
+    $this->producers->removeElement($producer);
     return $this;
   }
 
   /**
-   * Get dnaProducers
+   * Get producers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getDnaProducers(): Collection {
-    return $this->dnaProducers;
+  public function getProducers(): Collection {
+    return $this->producers;
   }
 }

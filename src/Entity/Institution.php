@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Institution
@@ -13,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * uniqueConstraints={@ORM\UniqueConstraint(name="uk_institution__institution_name", columns={"institution_name"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"name"}, message="This name already exists")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * @ApiResource
  */
 class Institution extends AbstractTimestampedEntity {
   /**
@@ -23,7 +25,7 @@ class Institution extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="institution_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $id;
 
@@ -31,7 +33,7 @@ class Institution extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false, unique=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $name;
 
@@ -39,7 +41,7 @@ class Institution extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="institution_comments", type="text", nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $comment;
 

@@ -1,1 +1,1 @@
-municipality.code;municipality.name;municipality.region;municipality.country_fk(country.code)
+municipality.code;municipality.name;municipality.region;municipality.country(country.code)

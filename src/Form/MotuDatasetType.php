@@ -3,9 +3,9 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\MotuDelimiterEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
 use App\Form\Type\DateFormattedType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\Type\DynamicCollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,14 +19,8 @@ class MotuDatasetType extends ActionFormType {
       ->add('title')
       ->add('date', DateFormattedType::class, ['required' => true])
       ->add('comment')
-      ->add('motuDelimiters', CollectionType::class, array(
-        'entry_type' => MotuDelimiterEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('motuDelimiters', DynamicCollectionType::class, array(
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>

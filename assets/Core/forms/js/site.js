@@ -54,8 +54,8 @@ $(() => {
     $modalBtn.prop("disabled", !$latitude.val() | !$longitude.val());
   }
 
-  const $countryInput = $("#site_countryFk");
-  const $municipality = $("#site_municipalityFk");
+  const $countryInput = $("#site_country");
+  const $municipality = $("#site_municipality");
   $countryInput.change((event) => {
     const country = event.target.value;
     fetch(Routing.generate("country_municipalities", { id: country }))
@@ -64,7 +64,7 @@ $(() => {
         const options = json.map(
           (item) => `<option value="${item.id}">${item.code}</option>`
         );
-        $("#site_municipalityFk")
+        $("#site_municipality")
           .empty()
           .append(options)
           .val("")
@@ -86,7 +86,7 @@ $(() => {
     });
 
   function modalCallback(_, response) {
-    const $modalCountry = $modal.find("select#municipality_countryFk");
+    const $modalCountry = $modal.find("select#municipality_country");
     $countryInput.val($modalCountry.val()).selectpicker("refresh");
     $municipality
       .append(

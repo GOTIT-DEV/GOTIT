@@ -65,13 +65,13 @@
           </b-tr>
           <b-tr>
             <b-td>
-              <code>sampling_fk(sampling.code)</code>
+              <code>sampling(sampling.code)</code>
             </b-td>
             <b-td>
               <code>The_sampling_code</code>
             </b-td>
             <b-td>
-              Register relation on <code>sampling_fk</code> to entity
+              Register relation on <code>sampling</code> to entity
               <code>sampling</code> having a <code>code</code> equal
               <code>The_sampling_code</code>.
             </b-td>

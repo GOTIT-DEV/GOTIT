@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -77,7 +79,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \Voc
@@ -88,25 +90,34 @@ class InternalSequence extends AbstractTimestampedEntity {
   private $status;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequenceAssembler", mappedBy="internalSequenceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="internal_sequence_is_assembled_by",
+   *  joinColumns={@ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblers;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequencePublication", mappedBy="internalSequenceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
+   * @ORM\JoinTable(name="internal_sequence_is_published_in",
+   *  joinColumns={@ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $publications;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalSequenceFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalSequence", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalSequenceAssembly", mappedBy="internalSequenceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Chromatogram", cascade={"persist"})
+   * @ORM\JoinTable(name="chromatogram_is_processed_to",
+   *  joinColumns={@ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $assemblies;
@@ -153,7 +164,7 @@ class InternalSequence extends AbstractTimestampedEntity {
     $chromatoCodeStr = join('-', $chromatoCodes);
     return join('_', [
       $this->getStatusCode(),
-      $this->getSpecimenFk()->getMolecularCode(),
+      $this->getSpecimen()->getMolecularCode(),
       $chromatoCodeStr,
     ]);
   }
@@ -243,24 +254,24 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return InternalSequence
    */
-  public function setDatePrecisionVocFk(Voc $datePrecisionVocFk = null): InternalSequence {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null): InternalSequence {
+    $this->datePrecision = $datePrecision;
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
    * @return Voc
    */
-  public function getDatePrecisionVocFk(): ?Voc {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision(): ?Voc {
+    return $this->datePrecision;
   }
 
   /**
@@ -287,12 +298,11 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Add assembler
    *
-   * @param InternalSequenceAssembler $assembler
+   * @param Person $assembler
    *
    * @return InternalSequence
    */
-  public function addAssembler(InternalSequenceAssembler $assembler): InternalSequence {
-    $assembler->setInternalSequenceFk($this);
+  public function addAssembler(Person $assembler): InternalSequence {
     $this->assemblers[] = $assembler;
     return $this;
   }
@@ -300,9 +310,9 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove assembler
    *
-   * @param InternalSequenceAssembler $assembler
+   * @param Person $assembler
    */
-  public function removeAssembler(InternalSequenceAssembler $assembler): InternalSequence {
+  public function removeAssembler(Person $assembler): InternalSequence {
     $this->assemblers->removeElement($assembler);
     return $this;
   }
@@ -319,12 +329,11 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Add publication
    *
-   * @param InternalSequencePublication $publication
+   * @param Source $publication
    *
    * @return InternalSequence
    */
-  public function addPublication(InternalSequencePublication $publication): InternalSequence {
-    $publication->setInternalSequenceFk($this);
+  public function addPublication(Source $publication): InternalSequence {
     $this->publications[] = $publication;
     return $this;
   }
@@ -332,9 +341,9 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove publication
    *
-   * @param InternalSequencePublication $publication
+   * @param Source $publication
    */
-  public function removePublication(InternalSequencePublication $publication): InternalSequence {
+  public function removePublication(Source $publication): InternalSequence {
     $this->publications->removeElement($publication);
     return $this;
   }
@@ -356,7 +365,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    * @return InternalSequence
    */
   public function addTaxonIdentification(TaxonIdentification $taxonId): InternalSequence {
-    $taxonId->setInternalSequenceFk($this);
+    $taxonId->setInternalSequence($this);
     $this->taxonIdentifications[] = $taxonId;
     return $this;
   }
@@ -383,12 +392,11 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Add assembly
    *
-   * @param InternalSequenceAssembly $assembly
+   * @param Chromatogram $assembly
    *
    * @return InternalSequence
    */
-  public function addAssembly(InternalSequenceAssembly $assembly): InternalSequence {
-    $assembly->setInternalSequenceFk($this);
+  public function addAssembly(Chromatogram $assembly): InternalSequence {
     $this->assemblies[] = $assembly;
     return $this;
   }
@@ -396,9 +404,9 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove assembly
    *
-   * @param InternalSequenceAssembly $assembly
+   * @param Chromatogram $assembly
    */
-  public function removeAssembly(InternalSequenceAssembly $assembly): InternalSequence {
+  public function removeAssembly(Chromatogram $assembly): InternalSequence {
     $this->assemblies->removeElement($assembly);
     return $this;
   }
@@ -413,47 +421,45 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Get geneVocFk
+   * Get gene
    *
    * This assumes that a sequence matches ONE gene only,
    * even if it was processed through multiple chromatograms
    *
    * @return Voc
    */
-  public function getGeneVocFk(): ?Voc{
+  public function getGene(): ?Voc{
     $process = $this->assemblies->first();
     return $process
     ? $process
       ->getChromatogramFk()
-      ->getPcrFk()
-      ->getGeneVocFk()
+      ->getPcr()
+      ->getGene()
     : null;
   }
 
   /**
-   * Get specimenFk
+   * Get specimen
    *
    * this assumes that a sequence matches ONE specimen only,
    * even if it was processed through multiple chromatograms
    *
    * @return Specimen
    */
-  public function getSpecimenFk(): ?Specimen{
-    $process = $this->assemblies->first();
-    return $process
-    ? $process
-      ->getChromatogramFk()
-      ->getPcrFk()
-      ->getDnaFk()
-      ->getSpecimenFk()
+  public function getSpecimen(): ?Specimen{
+    $chromato = $this->assemblies->first();
+    return $chromato
+    ? $chromato
+      ->getPcr()
+      ->getDna()
+      ->getSpecimen()
     : null;
   }
 
   public function getChromatoCodes(): array{
     $this->getAssemblies()
       ->map(
-        function ($assembly) {
-          $chromato = $assembly->getChromatogramFk();
+        function ($chromato) {
           return $chromato->getCodeSpecificity();
         }
       )
@@ -480,11 +486,11 @@ class InternalSequence extends AbstractTimestampedEntity {
       $seqCode = null;
     } else {
       $lastTaxonCode = $this->getTaxonIdentifications()
-        ->last()->getTaxonFk()->getCode();
+        ->last()->getTaxon()->getCode();
 
-      $specimen = $this->getSpecimenFk();
+      $specimen = $this->getSpecimen();
       $specimenCode = $specimen->getMolecularNumber();
-      $samplingCode = $specimen->getInternalLotFk()->getSamplingFk()->getCode();
+      $samplingCode = $specimen->getInternalLot()->getSampling()->getCode();
 
       $chromatoCodeList = $this->getChromatoCodes();
       $chromatoCodeStr = join("-", $chromatoCodeList);

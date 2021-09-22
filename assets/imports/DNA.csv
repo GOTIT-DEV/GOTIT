@@ -1,1 +1,1 @@
-dna.specimen_fk(specimen.molecular_code);dna.code;dna.date;dna.date_precision_voc_fk(voc.code);dna.extraction_method_voc_fk(voc.code);dna.concentration_ng_microlitre;dna.comment;dna_est_realise_par.person_fk(person.name);dna.store_fk(store.code);dna.qualite_adn_voc_fk(voc.code)
+dna.specimen(specimen.molecular_code);dna.code;dna.date;dna.date_precision(voc.code);dna.extraction_method(voc.code);dna.concentration_ng_microlitre;dna.comment;dna_est_realise_par.person_fk(person.name);dna.store(store.code);dna.quality(voc.code)

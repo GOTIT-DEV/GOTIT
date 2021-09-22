@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -58,7 +59,10 @@ class MotuDataset extends AbstractTimestampedEntity {
   private $comment;
 
   /**
-   * @ORM\OneToMany(targetEntity="MotuDelimiter", mappedBy="motuDatasetFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="motu_is_generated_by",
+   *  joinColumns={@ORM\JoinColumn(name="motu_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $motuDelimiters;
@@ -145,12 +149,11 @@ class MotuDataset extends AbstractTimestampedEntity {
   /**
    * Add motuDelimiter
    *
-   * @param \App\Entity\MotuDelimiter $motuDelimiter
+   * @param Person $motuDelimiter
    *
    * @return MotuDataset
    */
-  public function addMotuDelimiter(\App\Entity\MotuDelimiter $motuDelimiter) {
-    $motuDelimiter->setMotuDatasetFk($this);
+  public function addMotuDelimiter(Person $motuDelimiter) {
     $this->motuDelimiters[] = $motuDelimiter;
 
     return $this;
@@ -159,9 +162,9 @@ class MotuDataset extends AbstractTimestampedEntity {
   /**
    * Remove motuDelimiter
    *
-   * @param \App\Entity\MotuDelimiter $motuDelimiter
+   * @param Person $motuDelimiter
    */
-  public function removeMotuDelimiter(\App\Entity\MotuDelimiter $motuDelimiter) {
+  public function removeMotuDelimiter(Person $motuDelimiter) {
     $this->motuDelimiters->removeElement($motuDelimiter);
   }
 

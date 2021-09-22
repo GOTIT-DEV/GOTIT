@@ -3,7 +3,6 @@
 namespace App\Controller\Core;
 
 use App\Entity\InternalSequence;
-use App\Entity\InternalSequenceAssembly;
 use App\Form\Enums\Action;
 use App\Services\Core\EntityEditionService;
 use App\Services\Core\GenericFunctionE3s;
@@ -24,8 +23,8 @@ class InternalSequenceController extends AbstractController {
   /**
    * @var integer
    */
-  private $geneVocFk = null;
-  private $specimenFk = null;
+  private $gene = null;
+  private $specimen = null;
 
   /**
    * Lists all internal sequence entities.
@@ -190,8 +189,8 @@ class InternalSequenceController extends AbstractController {
     $sequence = new InternalSequence();
 
     $chromatoFk = $request->get('idFk');
-    $specimenFk = $request->get('specimenFk');
-    $geneFk = $request->get('geneVocFk');
+    $specimen = $request->get('specimen');
+    $geneFk = $request->get('gene');
 
     $chromatoRepo = $this->getDoctrine()
       ->getManager()
@@ -199,25 +198,25 @@ class InternalSequenceController extends AbstractController {
 
     if ($chromatoFk) {
       $chromato = $chromatoRepo->find($chromatoFk);
-      $pcr = $chromato->getPcrFk();
-      $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getDnaFk()->getSpecimenFk();
-    } elseif ($specimenFk && $geneFk) {
+      $pcr = $chromato->getPcr();
+      $gene = $pcr->getGene();
+      $specimen = $pcr->getDna()->getSpecimen();
+    } elseif ($specimen && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogram')
-        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
-        ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-        ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcr = pcr.id')
+        ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dna = dna.id')
+        ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimen = specimen.id')
+        ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.gene = vocGene.id')
         ->andWhere('specimen.id = :specimenId')
         ->andWhere('vocGene.id = :geneFk')
-        ->setParameter(':specimenId', $specimenFk)
+        ->setParameter(':specimenId', $specimen)
         ->setParameter(':geneFk', $geneFk)
         ->setMaxResults(1)
         ->getQuery()
         ->getOneOrNullResult();
-      $pcr = $chromato->getPcrFk();
-      $gene = $pcr->getGeneVocFk();
-      $specimen = $pcr->getDnaFk()->getSpecimenFk();
+      $pcr = $chromato->getPcr();
+      $gene = $pcr->getGene();
+      $specimen = $pcr->getDna()->getSpecimen();
     } else {
       $gene = null;
       $specimen = null;
@@ -225,16 +224,14 @@ class InternalSequenceController extends AbstractController {
     }
 
     if ($chromato) {
-      $processing = new InternalSequenceAssembly();
-      $processing->setChromatogramFk($chromato);
-      $sequence->addAssembly($processing);
+      $sequence->addAssembly($chromato);
     }
 
     $geneSpecimenForm = $this->createForm(
       'App\Form\Type\GeneSpecimenType',
       [
-        "geneVocFk" => $gene,
-        "specimenFk" => $specimen,
+        "gene" => $gene,
+        "specimen" => $specimen,
       ],
       ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
     );
@@ -242,11 +239,11 @@ class InternalSequenceController extends AbstractController {
     $geneSpecimenForm->handleRequest($request);
 
     if ($geneSpecimenForm->isSubmitted() && $geneSpecimenForm->isValid()) {
-      $gene = $geneSpecimenForm->get('geneVocFk')->getData();
-      $specimen = $geneSpecimenForm->get('specimenFk')->getData();
+      $gene = $geneSpecimenForm->get('gene')->getData();
+      $specimen = $geneSpecimenForm->get('specimen')->getData();
       return $this->redirectToRoute('internal_sequence_new', [
-        'specimenFk' => $specimen->getId(),
-        'geneVocFk' => $gene->getId(),
+        'specimen' => $specimen->getId(),
+        'gene' => $gene->getId(),
       ]);
     }
 
@@ -257,8 +254,8 @@ class InternalSequenceController extends AbstractController {
       'specimen' => $specimen,
       'attr' => ['id' => "sequence-form"],
       "action" => $this->generateUrl('internal_sequence_new', [
-        'geneVocFk' => $gene ? $gene->getId() : null,
-        'specimenFk' => $specimen ? $specimen->getId() : null,
+        'gene' => $gene ? $gene->getId() : null,
+        'specimen' => $specimen ? $specimen->getId() : null,
         'idFk' => $chromato ? $chromato->getId() : null,
       ]),
     ]);
@@ -290,8 +287,8 @@ class InternalSequenceController extends AbstractController {
       'internalSequence' => $sequence,
       'edit_form' => $form->createView(),
       'form_gene_indbiomol' => $geneSpecimenForm->createView(),
-      'geneVocFk' => $gene,
-      'specimenFk' => $specimen,
+      'gene' => $gene,
+      'specimen' => $specimen,
     ));
   }
 
@@ -301,8 +298,8 @@ class InternalSequenceController extends AbstractController {
    * @Route("/{id}", name="internal_sequence_show", methods={"GET"})
    */
   public function showAction(InternalSequence $sequence) {
-    $gene = $sequence->getGeneVocFk();
-    $specimen = $sequence->getSpecimenFk();
+    $gene = $sequence->getGene();
+    $specimen = $sequence->getSpecimen();
 
     $deleteForm = $this->createDeleteForm($sequence);
     $editForm = $this->createForm(
@@ -317,8 +314,8 @@ class InternalSequenceController extends AbstractController {
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
         [
-          'geneVocFk' => $gene,
-          'specimenFk' => $specimen,
+          'gene' => $gene,
+          'specimen' => $specimen,
         ],
         ["action_type" => Action::show()]
       );
@@ -355,13 +352,13 @@ class InternalSequenceController extends AbstractController {
     // Recherche du gene et de l'individu pour la sequence
     $em = $this->getDoctrine()->getManager();
     $id = $sequence->getId();
-    $gene = $sequence->getGeneVocFk();
-    $specimen = $sequence->getSpecimenFk();
+    $gene = $sequence->getGene();
+    $specimen = $sequence->getSpecimen();
 
     $form_gene_indbiomol = $this
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
-        ['geneVocFk' => $gene, 'specimenFk' => $specimen],
+        ['gene' => $gene, 'specimen' => $specimen],
         ["action_type" => Action::show()]
       );
 
@@ -387,7 +384,7 @@ class InternalSequenceController extends AbstractController {
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->removeStaleCollection($assemblies, $sequence->getAssemblies());
       $service->removeStaleCollection(
-        $taxonIdentifications, $sequence->getTaxonIdentifications(), 'TaxonCurators'
+        $taxonIdentifications, $sequence->getTaxonIdentifications(), 'Curators'
       );
       $service->removeStaleCollection($publications, $sequence->getPublications());
       $service->removeStaleCollection($assemblers, $sequence->getAssemblers());

@@ -1,1 +1,1 @@
-pcr.dna_fk(dna.code);pcr_producer.person_fk(person.name);pcr.gene_voc_fk(voc.code);pcr.code;pcr.number;pcr.date;pcr.date_precision_voc_fk(voc.code);pcr.primer_start_voc_fk(voc.code);pcr.primer_end_voc_fk(voc.code);pcr.quality_voc_fk(voc.code);pcr.specificity_voc_fk(voc.code);pcr.details;pcr.comment
+pcr.dna(dna.code);pcr_producer.person_fk(person.name);pcr.gene(voc.code);pcr.code;pcr.number;pcr.date;pcr.date_precision(voc.code);pcr.primer_start(voc.code);pcr.primer_end(voc.code);pcr.quality(voc.code);pcr.specificity(voc.code);pcr.details;pcr.comment

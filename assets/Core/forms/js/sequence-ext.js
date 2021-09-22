@@ -2,11 +2,11 @@ import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
   const $form = $("form[name='external_sequence']");
-  const $sampling = $form.find("#external_sequence_samplingFk");
+  const $sampling = $form.find("#external_sequence_sampling");
 
   initSearchSelect($sampling, "sampling_search");
 
-  const $taxon = $("#external_sequence_taxonIdentifications_0_taxonFk");
+  const $taxon = $("#external_sequence_taxonIdentifications_0_taxon");
   const $specimen = $("#external_sequence_specimenMolecularNumber");
   const $accession = $("#external_sequence_accessionNumber");
   const $origin = $("#external_sequence_originVocFk");

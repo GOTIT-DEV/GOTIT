@@ -169,7 +169,7 @@ class ExternalLotController extends AbstractController {
 
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
-      $externalLot->setSamplingFk($sampling);
+      $externalLot->setSampling($sampling);
     }
 
     $form = $this->createForm(
@@ -262,7 +262,7 @@ class ExternalLotController extends AbstractController {
       // delete ArrayCollection
       $service->removeStaleCollection($publications, $externalLot->getPublications());
       $service->removeStaleCollection($producers, $externalLot->getProducers());
-      $service->removeStaleCollection($taxonIdentifications, $externalLot->getTaxonIdentifications(), 'TaxonCurators');
+      $service->removeStaleCollection($taxonIdentifications, $externalLot->getTaxonIdentifications(), 'Curators');
       $this->getDoctrine()->getManager()->persist($externalLot);
       try {
         $this->getDoctrine()->getManager()->flush();

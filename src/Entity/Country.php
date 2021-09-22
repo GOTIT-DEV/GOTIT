@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\CompositeCodeEntityTrait;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -13,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="country",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_country__country_code", columns={"country_code"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
+ * @UniqueEntity(fields={"code"}, message="Country code {{ value }} is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Country extends AbstractTimestampedEntity {
@@ -45,7 +46,7 @@ class Country extends AbstractTimestampedEntity {
   private $name;
 
   /**
-   * @ORM\OneToMany(targetEntity="Municipality", mappedBy="countryFk")
+   * @ORM\OneToMany(targetEntity="Municipality", mappedBy="country")
    * @ORM\OrderBy({"code" = "asc"})
    */
   private $municipalities;

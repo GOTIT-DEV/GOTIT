@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,7 +46,7 @@ class InternalLotContent extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $specimenTypeVocFk;
+  private $specimenType;
 
   /**
    * @var \InternalLot
@@ -53,7 +54,7 @@ class InternalLotContent extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="contents")
    * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
    */
-  private $internalLotFk;
+  private $internalLot;
 
   /**
    * Get id
@@ -109,46 +110,46 @@ class InternalLotContent extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set specimenTypeVocFk
+   * Set specimenType
    *
-   * @param \App\Entity\Voc $specimenTypeVocFk
+   * @param \App\Entity\Voc $specimenType
    *
    * @return InternalLotContent
    */
-  public function setSpecimenTypeVocFk(\App\Entity\Voc $specimenTypeVocFk = null) {
-    $this->specimenTypeVocFk = $specimenTypeVocFk;
+  public function setSpecimenType(\App\Entity\Voc $specimenType = null) {
+    $this->specimenType = $specimenType;
 
     return $this;
   }
 
   /**
-   * Get specimenTypeVocFk
+   * Get specimenType
    *
    * @return \App\Entity\Voc
    */
-  public function getSpecimenTypeVocFk() {
-    return $this->specimenTypeVocFk;
+  public function getSpecimenType() {
+    return $this->specimenType;
   }
 
   /**
-   * Set internalLotFk
+   * Set internalLot
    *
-   * @param \App\Entity\InternalLot $internalLotFk
+   * @param \App\Entity\InternalLot $internalLot
    *
    * @return InternalLotContent
    */
-  public function setInternalLotFk(\App\Entity\InternalLot $internalLotFk = null) {
-    $this->internalLotFk = $internalLotFk;
+  public function setInternalLot(\App\Entity\InternalLot $internalLot = null) {
+    $this->internalLot = $internalLot;
 
     return $this;
   }
 
   /**
-   * Get internalLotFk
+   * Get internalLot
    *
    * @return \App\Entity\InternalLot
    */
-  public function getInternalLotFk() {
-    return $this->internalLotFk;
+  public function getInternalLot() {
+    return $this->internalLot;
   }
 }

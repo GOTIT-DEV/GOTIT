@@ -69,7 +69,7 @@ class ImportFileE3s {
 
       if ($flagDna && $flagStore) {
         if ($flagStoreAffecte) {
-          $query_dna[0]->setStoreFk($query_store[0]);
+          $query_dna[0]->setStore($query_store[0]);
           $query_dna[0]->setMetaUpdateDate($DateImport);
           $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
@@ -77,7 +77,7 @@ class ImportFileE3s {
           $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
-          $query_dna[0]->setStoreFk(null);
+          $query_dna[0]->setStore(null);
           $query_dna[0]->setMetaUpdateDate($DateImport);
           $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
@@ -151,10 +151,10 @@ class ImportFileE3s {
       }
 
       if ($flagDna && $flagStore && $flagStoreAffecte) {
-        if ($query_dna[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        if ($query_dna[0]->getStore() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR dna already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_dna[0]->getStore()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_dna[0]->setStoreFk($query_store[0]);
+          $query_dna[0]->setStore($query_store[0]);
           $query_dna[0]->setMetaUpdateDate($DateImport);
           $query_dna[0]->setMetaUpdateUser($userId);
           $em->persist($query_dna[0]);
@@ -228,7 +228,7 @@ class ImportFileE3s {
 
       if ($flagLame && $flagStore) {
         if ($flagStoreAffecte) {
-          $query_lame[0]->setStoreFk($query_store[0]);
+          $query_lame[0]->setStore($query_store[0]);
           $query_lame[0]->setMetaUpdateDate($DateImport);
           $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
@@ -236,7 +236,7 @@ class ImportFileE3s {
           $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
-          $query_lame[0]->setStoreFk(null);
+          $query_lame[0]->setStore(null);
           $query_lame[0]->setMetaUpdateDate($DateImport);
           $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
@@ -310,10 +310,10 @@ class ImportFileE3s {
       }
 
       if ($flagLame && $flagStore && $flagStoreAffecte) {
-        if ($query_lame[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        if ($query_lame[0]->getStore() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR slide already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lame[0]->getStore()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_lame[0]->setStoreFk($query_store[0]);
+          $query_lame[0]->setStore($query_store[0]);
           $query_lame[0]->setMetaUpdateDate($DateImport);
           $query_lame[0]->setMetaUpdateUser($userId);
           $em->persist($query_lame[0]);
@@ -387,7 +387,7 @@ class ImportFileE3s {
 
       if ($flagLot && $flagStore) {
         if ($flagStoreAffecte) {
-          $query_lot[0]->setStoreFk($query_store[0]);
+          $query_lot[0]->setStore($query_store[0]);
           $query_lot[0]->setMetaUpdateDate($DateImport);
           $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
@@ -395,7 +395,7 @@ class ImportFileE3s {
           $query_store[0]->setMetaUpdateUser($userId);
           $em->persist($query_store[0]);
         } else {
-          $query_lot[0]->setStoreFk(null);
+          $query_lot[0]->setStore(null);
           $query_lot[0]->setMetaUpdateDate($DateImport);
           $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
@@ -469,10 +469,10 @@ class ImportFileE3s {
       }
 
       if ($flagLot && $flagStore && $flagStoreAffecte) {
-        if ($query_lot[0]->getStoreFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStoreFk()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        if ($query_lot[0]->getStore() != null) {
+          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code"] . '</b> / ' . $query_lot[0]->getStore()->getCode() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_lot[0]->setStoreFk($query_store[0]);
+          $query_lot[0]->setStore($query_store[0]);
           $query_lot[0]->setMetaUpdateDate($DateImport);
           $query_lot[0]->setMetaUpdateUser($userId);
           $em->persist($query_lot[0]);
@@ -1471,7 +1471,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\DnaProducer();
-            $method = "setDnaFk";
+            $method = "setDna";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -2335,7 +2335,7 @@ class ImportFileE3s {
         $em->persist($entityRel);
       }
 
-      # Record of TaxonCurator
+      # Record of Curator
       if (!is_null($entityEspeceIdentifie)) {
         foreach ($columnByTable["taxon_curator"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -2356,7 +2356,7 @@ class ImportFileE3s {
           if ($flag_foreign && !is_null($dataColCsv)) {
             foreach ($tab_foreign_field as $val_foreign_field) {
               $val_foreign_field = trim($val_foreign_field);
-              $entityRel = new \App\Entity\TaxonCurator();
+              $entityRel = new \App\Entity\Curator();
               $method = "setTaxonIdentificationFk";
               $entityRel->$method($entityEspeceIdentifie);
               if (!is_null($val_foreign_field) && $val_foreign_field != '') {
@@ -2867,7 +2867,7 @@ class ImportFileE3s {
       $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
-      # Record of TaxonCurator
+      # Record of Curator
       foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -2883,7 +2883,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\TaxonCurator();
+            $entityRel = new \App\Entity\Curator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -2973,7 +2973,7 @@ class ImportFileE3s {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
 
-        $method = "setMethodVocFk";
+        $method = "setMethod";
         $entityRel->$method($foreign_record);
       }
       $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
@@ -2982,7 +2982,7 @@ class ImportFileE3s {
         $entityRel = new \App\Entity\MotuDelimitation();
         $method = "setMotuDatasetFk";
         $entityRel->$method($entity);
-        $method = "setExternalSequenceFk";
+        $method = "setExternalSequence";
         $entityRel->$method($record_entity_sqc_ass_ext);
         $method = "setMotuNumber";
         $entityRel->$method($data2["motu_number"]);
@@ -2991,7 +2991,7 @@ class ImportFileE3s {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
 
-        $method = "setMethodVocFk";
+        $method = "setMethod";
         $entityRel->$method($foreign_record);
       }
 
@@ -3203,7 +3203,7 @@ class ImportFileE3s {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
 
-            $method = "setMethodVocFk";
+            $method = "setMethod";
             $entityRel->$method($foreign_record);
           }
           $record_entity_sqc_ass_ext = $em->getRepository("App:ExternalSequence")->findOneBy(array("code" => $data2["code_seq_ass"]));
@@ -3212,7 +3212,7 @@ class ImportFileE3s {
             $entityRel = new \App\Entity\MotuDelimitation();
             $method = "setMotuDatasetFk";
             $entityRel->$method($entity);
-            $method = "setExternalSequenceFk";
+            $method = "setExternalSequence";
             $entityRel->$method($record_entity_sqc_ass_ext);
             $method = "setMotuNumber";
             $entityRel->$method($data2["motu_number"]);
@@ -3221,7 +3221,7 @@ class ImportFileE3s {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b> INCONNU <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
 
-            $method = "setMethodVocFk";
+            $method = "setMethod";
             $entityRel->$method($foreign_record);
           }
 
@@ -3528,7 +3528,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalSequenceAssembler;
-            $method = "setExternalSequenceFk";
+            $method = "setExternalSequence";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3579,7 +3579,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalSequencePublication();
-            $method = "setExternalSequenceFk";
+            $method = "setExternalSequence";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3616,7 +3616,7 @@ class ImportFileE3s {
       # Record of TaxonIdentification
       $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
-      $method = "setExternalSequenceFk";
+      $method = "setExternalSequence";
       $entityRel->$method($entity);
       foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -3698,7 +3698,7 @@ class ImportFileE3s {
       $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
-      # Record of TaxonCurator
+      # Record of Curator
       foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -3714,7 +3714,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\TaxonCurator();
+            $entityRel = new \App\Entity\Curator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -3893,7 +3893,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalLotProducer;
-            $method = "setExternalLotFk";
+            $method = "setExternalLot";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3944,7 +3944,7 @@ class ImportFileE3s {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
             $entityRel = new \App\Entity\ExternalLotPublication();
-            $method = "setExternalLotFk";
+            $method = "setExternalLot";
             $entityRel->$method($entity);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
@@ -3981,7 +3981,7 @@ class ImportFileE3s {
       # Record of TaxonIdentification
       $entityRel = new \App\Entity\TaxonIdentification();
       $entityEspeceIdentifie = $entityRel;
-      $method = "setExternalLotFk";
+      $method = "setExternalLot";
       $entityRel->$method($entity);
       foreach ($columnByTable["taxon_identification"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -4063,7 +4063,7 @@ class ImportFileE3s {
       $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
-      # Record of TaxonCurator
+      # Record of Curator
       foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -4079,7 +4079,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\TaxonCurator();
+            $entityRel = new \App\Entity\Curator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
@@ -4212,7 +4212,7 @@ class ImportFileE3s {
                   if ($country_fk === NULL) {
                     $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                   }
-                  $municipality->setCountryFk($country_fk);
+                  $municipality->setCountry($country_fk);
                   $em->persist($municipality);
                   $list_new_commune[$CodeCommune] = $municipality; // we keep in memory the communes created
                 }
@@ -4614,7 +4614,7 @@ class ImportFileE3s {
       $entityRel->setMetaUpdateUser($userId);
       $em->persist($entityRel);
 
-      # Record of TaxonCurator
+      # Record of Curator
       foreach ($columnByTable["taxon_curator"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
         if ($dataColCsv !== $data[$ColCsv]) {
@@ -4630,7 +4630,7 @@ class ImportFileE3s {
         if ($flag_foreign && trim($dataColCsv) != '') {
           foreach ($tab_foreign_field as $val_foreign_field) {
             $val_foreign_field = trim($val_foreign_field);
-            $entityRel = new \App\Entity\TaxonCurator();
+            $entityRel = new \App\Entity\Curator();
             $method = "setTaxonIdentificationFk";
             $entityRel->$method($entityEspeceIdentifie);
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk

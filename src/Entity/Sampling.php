@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use App\Entity\TaxonSampling;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
+use App\Entity\TargetTaxon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -89,7 +91,7 @@ class Sampling extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var Voc
@@ -97,7 +99,7 @@ class Sampling extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $legVocFk;
+  private $donation;
 
   /**
    * @var Site
@@ -105,44 +107,59 @@ class Sampling extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Site", fetch="EAGER")
    * @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
    */
-  private $siteFk;
+  private $site;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingMethod", mappedBy="samplingFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Voc", cascade={"persist"})
+   * @ORM\JoinTable(name="sampling_is_done_with_method",
+   *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="sampling_method_voc_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $samplingMethods;
+  protected $methods;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingFixative", mappedBy="samplingFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Voc", cascade={"persist"})
+   * @ORM\JoinTable(name="sample_is_fixed_with",
+   *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="fixative_voc_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $samplingFixatives;
+  protected $fixatives;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingFunding", mappedBy="samplingFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Program", cascade={"persist"})
+   * @ORM\JoinTable(name="sampling_is_funded_by",
+   *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="program_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $samplingFundings;
+  protected $fundings;
 
   /**
-   * @ORM\OneToMany(targetEntity="SamplingParticipant", mappedBy="samplingFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="sampling_is_performed_by",
+   *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $samplingParticipants;
+  protected $participants;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonSampling", mappedBy="samplingFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Taxon", cascade={"persist"})
+   * @ORM\JoinTable(name="has_targeted_taxa",
+   *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="taxon_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $taxonSamplings;
+  protected $targetTaxons;
 
   public function __construct() {
-    $this->samplingMethods = new ArrayCollection();
-    $this->samplingFixatives = new ArrayCollection();
-    $this->samplingFundings = new ArrayCollection();
-    $this->samplingParticipants = new ArrayCollection();
-    $this->taxonSamplings = new ArrayCollection();
+    $this->methods = new ArrayCollection();
+    $this->fixatives = new ArrayCollection();
+    $this->fundings = new ArrayCollection();
+    $this->participants = new ArrayCollection();
+    $this->targetTaxons = new ArrayCollection();
   }
 
   /**
@@ -176,7 +193,7 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   private function _generateCode() {
-    $precision = $this->getDatePrecisionVocFk()->getCode();
+    $precision = $this->getDatePrecision()->getCode();
     $date = $this->getDate();
     $formats = [
       'A' => "Y00",
@@ -185,7 +202,7 @@ class Sampling extends AbstractTimestampedEntity {
       'INC' => "000000",
     ];
     return join('_', [
-      $this->getSiteFk()->getCode(),
+      $this->getSite()->getCode(),
       $date->format($formats[$precision]),
     ]);
   }
@@ -317,202 +334,197 @@ class Sampling extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param \App\Entity\Voc $datePrecision
    *
    * @return Sampling
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(\App\Entity\Voc $datePrecision = null) {
+    $this->datePrecision = $datePrecision;
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
    * @return \App\Entity\Voc
    */
-  public function getDatePrecisionVocFk() {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision() {
+    return $this->datePrecision;
   }
 
   /**
-   * Set legVocFk
+   * Set donation
    *
-   * @param \App\Entity\Voc $legVocFk
+   * @param \App\Entity\Voc $donation
    *
    * @return Sampling
    */
-  public function setLegVocFk(\App\Entity\Voc $legVocFk = null) {
-    $this->legVocFk = $legVocFk;
+  public function setDonation(\App\Entity\Voc $donation = null) {
+    $this->donation = $donation;
     return $this;
   }
 
   /**
-   * Get legVocFk
+   * Get donation
    *
    * @return \App\Entity\Voc
    */
-  public function getLegVocFk() {
-    return $this->legVocFk;
+  public function getDonation() {
+    return $this->donation;
   }
 
   /**
-   * Set siteFk
+   * Set site
    *
-   * @param \App\Entity\Site $siteFk
+   * @param \App\Entity\Site $site
    *
    * @return Sampling
    */
-  public function setSiteFk(\App\Entity\Site $siteFk = null) {
-    $this->siteFk = $siteFk;
+  public function setSite(\App\Entity\Site $site = null) {
+    $this->site = $site;
     return $this;
   }
 
   /**
-   * Get siteFk
+   * Get site
    *
    * @return \App\Entity\Site
    */
-  public function getSiteFk() {
-    return $this->siteFk;
+  public function getSite() {
+    return $this->site;
   }
 
   /**
-   * Add samplingMethod
+   * Add method
    *
-   * @param \App\Entity\SamplingMethod $samplingMethod
+   * @param Voc $method
    *
    * @return Sampling
    */
-  public function addSamplingMethod(\App\Entity\SamplingMethod $samplingMethod) {
-    $samplingMethod->setSamplingFk($this);
-    $this->samplingMethods[] = $samplingMethod;
+  public function addMethod(Voc $method) {
+    $this->methods[] = $method;
     return $this;
   }
 
   /**
-   * Remove samplingMethod
+   * Remove method
    *
-   * @param \App\Entity\SamplingMethod $samplingMethod
+   * @param Voc $method
    */
-  public function removeSamplingMethod(\App\Entity\SamplingMethod $samplingMethod) {
-    $this->samplingMethods->removeElement($samplingMethod);
+  public function removeMethod(Voc $method) {
+    $this->methods->removeElement($method);
   }
 
   /**
-   * Get samplingMethods
+   * Get methods
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSamplingMethods() {
-    return $this->samplingMethods;
+  public function getMethods() {
+    return $this->methods;
   }
 
   /**
-   * Add sampling fixative
+   * Add fixative
    *
-   * @param \App\Entity\SamplingFixative $fixative
+   * @param Voc $fixative
    *
    * @return Sampling
    */
-  public function addSamplingFixative(\App\Entity\SamplingFixative $samplingFixative) {
-    $samplingFixative->setSamplingFk($this);
-    $this->samplingFixatives[] = $samplingFixative;
+  public function addFixative(Voc $fixative) {
+    $this->fixatives[] = $fixative;
     return $this;
   }
 
   /**
-   * Remove sampling fixative
+   * Remove fixative
    *
-   * @param \App\Entity\SamplingFixative $samplingFixative
+   * @param Voc $fixative
    */
-  public function removeSamplingFixative(\App\Entity\SamplingFixative $samplingFixative) {
-    $this->samplingFixatives->removeElement($samplingFixative);
+  public function removeFixative(Voc $fixative) {
+    $this->fixatives->removeElement($fixative);
   }
 
   /**
-   * Get sampling fixatives
+   * Get fixatives
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSamplingFixatives() {
-    return $this->samplingFixatives;
+  public function getFixatives() {
+    return $this->fixatives;
   }
 
   /**
-   * Add samplingFunding
+   * Add funding
    *
-   * @param \App\Entity\SamplingFunding $samplingFunding
+   * @param Program $funding
    *
    * @return Sampling
    */
-  public function addSamplingFunding(\App\Entity\SamplingFunding $samplingFunding) {
-    $samplingFunding->setSamplingFk($this);
-    $this->samplingFundings[] = $samplingFunding;
+  public function addFunding(Program $funding) {
+    $this->fundings[] = $funding;
     return $this;
   }
 
   /**
-   * Remove samplingFunding
+   * Remove funding
    *
-   * @param \App\Entity\SamplingFunding $samplingFunding
+   * @param Program $funding
    */
-  public function removeSamplingFunding(\App\Entity\SamplingFunding $samplingFunding) {
-    $this->samplingFundings->removeElement($samplingFunding);
+  public function removeFunding(Program $funding) {
+    $this->fundings->removeElement($funding);
   }
 
   /**
-   * Get samplingFundings
+   * Get fundings
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSamplingFundings() {
-    return $this->samplingFundings;
+  public function getFundings() {
+    return $this->fundings;
   }
 
   /**
-   * Add samplingParticipant
+   * Add participant
    *
-   * @param \App\Entity\SamplingParticipant $samplingParticipant
+   * @param Person $participant
    *
    * @return Sampling
    */
-  public function addSamplingParticipant(\App\Entity\SamplingParticipant $samplingParticipant) {
-    $samplingParticipant->setSamplingFk($this);
-    $this->samplingParticipants[] = $samplingParticipant;
+  public function addParticipant(Person $participant) {
+    $this->participants[] = $participant;
     return $this;
   }
 
   /**
-   * Remove samplingParticipant
+   * Remove participant
    *
-   * @param \App\Entity\SamplingParticipant $samplingParticipant
+   * @param Person $participant
    */
-  public function removeSamplingParticipant(\App\Entity\SamplingParticipant $samplingParticipant) {
-    $this->samplingParticipants->removeElement($samplingParticipant);
+  public function removeParticipant(Person $participant) {
+    $this->participants->removeElement($participant);
   }
 
   /**
-   * Get samplingParticipants
+   * Get participants
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSamplingParticipants() {
-    return $this->samplingParticipants;
+  public function getParticipants() {
+    return $this->participants;
   }
 
   /**
    * Add taxon sampling
    *
-   * @param TaxonSampling $taxonSampling
+   * @param Taxon$targetTaxon
    *
    * @return Sampling
    */
-  public function addTaxonSampling(TaxonSampling $taxonSampling) {
-    $taxonSampling->setSamplingFk($this);
-    $this->taxonSamplings[] = $taxonSampling;
+  public function addTargetTaxon(Taxon $taxon) {
+    $this->targetTaxons[] = $taxon;
 
     return $this;
   }
@@ -520,18 +532,18 @@ class Sampling extends AbstractTimestampedEntity {
   /**
    * Remove taxon sampling
    *
-   * @param TaxonSampling $taxonSampling
+   * @param Taxon$targetTaxon
    */
-  public function removeTaxonSampling(TaxonSampling $taxonSampling) {
-    $this->taxonSamplings->removeElement($taxonSampling);
+  public function removeTargetTaxon(Taxon $taxon) {
+    $this->targetTaxons->removeElement($taxon);
   }
 
   /**
-   * Get taxonSamplings
+   * Get targetTaxons
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getTaxonSamplings() {
-    return $this->taxonSamplings;
+  public function getTargetTaxons() {
+    return $this->targetTaxons;
   }
 }

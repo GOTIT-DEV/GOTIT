@@ -63,7 +63,7 @@ class MunicipalityController extends AbstractController {
     $entities_toshow = $em->getRepository("App:Municipality")->createQueryBuilder('municipality')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Country', 'country', 'WITH', 'municipality.countryFk = country.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'municipality.country = country.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -82,7 +82,7 @@ class MunicipalityController extends AbstractController {
         "municipality.code" => $entity->getCode(),
         "municipality.name" => $entity->getName(),
         "municipality.region" => $entity->getRegion(),
-        "country.code" => $entity->getCountryFk()->getCode(),
+        "country.code" => $entity->getCountry()->getCode(),
         "municipality.metaCreationDate" => $MetaCreationDate,
         "municipality.metaUpdateDate" => $MetaUpdateDate,
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),

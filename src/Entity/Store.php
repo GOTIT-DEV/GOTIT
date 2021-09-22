@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Store
@@ -18,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, message="This code is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * @ApiResource
  */
 class Store extends AbstractTimestampedEntity {
   /**
@@ -28,7 +30,7 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="storage_box_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $id;
 
@@ -36,7 +38,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $code;
 
@@ -44,7 +46,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_title", type="string", length=1024, nullable=false, unique=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $label;
 
@@ -52,7 +54,7 @@ class Store extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="box_comments", type="text", nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $comment;
 
@@ -62,7 +64,7 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="collection_type_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $collectionTypeVocFk;
+  private $collectionType;
 
   /**
    * @var \Voc
@@ -70,7 +72,7 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="collection_code_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $collectionCodeVocFk;
+  private $collectionCode;
 
   /**
    * @var \Voc
@@ -78,24 +80,24 @@ class Store extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="box_type_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $storageTypeVocFk;
+  private $storageType;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="storeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="store", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
    * @Groups({"store_list", "store_details"})
    */
   protected $internalLots;
 
   /**
-   * @ORM\OneToMany(targetEntity="Dna", mappedBy="storeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Dna", mappedBy="store", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
    * @Groups({"store_list", "store_details"})
    */
   protected $dnas;
 
   /**
-   * @ORM\OneToMany(targetEntity="Slide", mappedBy="storeFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="Slide", mappedBy="store", cascade={"persist"})
    * @ORM\OrderBy({"code" = "ASC"})
    * @Groups({"store_list", "store_details"})
    */
@@ -183,80 +185,80 @@ class Store extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set collectionTypeVocFk
+   * Set collectionType
    *
-   * @param \App\Entity\Voc $collectionTypeVocFk
+   * @param Voc $collectionType
    *
    * @return Store
    */
-  public function setCollectionTypeVocFk(\App\Entity\Voc $collectionTypeVocFk = null) {
-    $this->collectionTypeVocFk = $collectionTypeVocFk;
+  public function setCollectionType(Voc $collectionType = null) {
+    $this->collectionType = $collectionType;
 
     return $this;
   }
 
   /**
-   * Get collectionTypeVocFk
+   * Get collectionType
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getCollectionTypeVocFk() {
-    return $this->collectionTypeVocFk;
+  public function getCollectionType() {
+    return $this->collectionType;
   }
 
   /**
-   * Set collectionCodeVocFk
+   * Set collectionCode
    *
-   * @param \App\Entity\Voc $collectionCodeVocFk
+   * @param Voc $collectionCode
    *
    * @return Store
    */
-  public function setCollectionCodeVocFk(\App\Entity\Voc $collectionCodeVocFk = null) {
-    $this->collectionCodeVocFk = $collectionCodeVocFk;
+  public function setCollectionCode(Voc $collectionCode = null) {
+    $this->collectionCode = $collectionCode;
 
     return $this;
   }
 
   /**
-   * Get collectionCodeVocFk
+   * Get collectionCode
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getCollectionCodeVocFk() {
-    return $this->collectionCodeVocFk;
+  public function getCollectionCode() {
+    return $this->collectionCode;
   }
 
   /**
-   * Set storageTypeVocFk
+   * Set storageType
    *
-   * @param \App\Entity\Voc $storageTypeVocFk
+   * @param Voc $storageType
    *
    * @return Store
    */
-  public function setStorageTypeVocFk(\App\Entity\Voc $storageTypeVocFk = null) {
-    $this->storageTypeVocFk = $storageTypeVocFk;
+  public function setStorageType(Voc $storageType = null) {
+    $this->storageType = $storageType;
 
     return $this;
   }
 
   /**
-   * Get storageTypeVocFk
+   * Get storageType
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getStorageTypeVocFk() {
-    return $this->storageTypeVocFk;
+  public function getStorageType() {
+    return $this->storageType;
   }
 
   /**
    * Add internalLot
    *
-   * @param \App\Entity\internalLot $internalLot
+   * @param internalLot $internalLot
    *
    * @return Store
    */
-  public function addInternalLot(\App\Entity\internalLot $internalLot) {
-    $internalLot->setStoreFk($this);
+  public function addInternalLot(internalLot $internalLot) {
+    $internalLot->setStore($this);
     $this->internalLots[] = $internalLot;
 
     return $this;
@@ -265,9 +267,9 @@ class Store extends AbstractTimestampedEntity {
   /**
    * Remove internalLot
    *
-   * @param \App\Entity\internalLot $internalLot
+   * @param internalLot $internalLot
    */
-  public function removeInternalLot(\App\Entity\internalLot $internalLot) {
+  public function removeInternalLot(internalLot $internalLot) {
     $this->internalLots->removeElement($internalLot);
   }
 
@@ -283,12 +285,12 @@ class Store extends AbstractTimestampedEntity {
   /**
    * Add dna
    *
-   * @param \App\Entity\Dna $dna
+   * @param Dna $dna
    *
    * @return Store
    */
-  public function addDna(\App\Entity\Dna $dna) {
-    $dna->setStoreFk($this);
+  public function addDna(Dna $dna) {
+    $dna->setStore($this);
     $this->dnas[] = $dna;
 
     return $this;
@@ -297,9 +299,9 @@ class Store extends AbstractTimestampedEntity {
   /**
    * Remove dna
    *
-   * @param \App\Entity\Dna $dna
+   * @param Dna $dna
    */
-  public function removeDna(\App\Entity\Dna $dna) {
+  public function removeDna(Dna $dna) {
     $this->dnas->removeElement($dna);
   }
 
@@ -315,12 +317,12 @@ class Store extends AbstractTimestampedEntity {
   /**
    * Add slide
    *
-   * @param \App\Entity\Slide $slide
+   * @param Slide $slide
    *
    * @return Store
    */
-  public function addSlide(\App\Entity\Slide $slide) {
-    $slide->setStoreFk($this);
+  public function addSlide(Slide $slide) {
+    $slide->setStore($this);
     $this->slides[] = $slide;
 
     return $this;
@@ -329,9 +331,9 @@ class Store extends AbstractTimestampedEntity {
   /**
    * Remove slide
    *
-   * @param \App\Entity\Slide $slide
+   * @param Slide $slide
    */
-  public function removeSlide(\App\Entity\Slide $slide) {
+  public function removeSlide(Slide $slide) {
     $this->slides->removeElement($slide);
   }
 

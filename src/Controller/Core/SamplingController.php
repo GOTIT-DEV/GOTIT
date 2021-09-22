@@ -86,17 +86,17 @@ class SamplingController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND sampling.siteFk  = ' . $request->get('idFk');
+      $where .= ' AND sampling.site  = ' . $request->get('idFk');
     }
     // Search the list to show
     $tab_toshow = [];
     $entities_toshow = $em->getRepository("App:Sampling")->createQueryBuilder('sampling')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Site', 'site', 'WITH', 'sampling.siteFk = site.id')
-      ->leftJoin('App:Country', 'country', 'WITH', 'site.countryFk = country.id')
-      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipalityFk = municipality.id')
-      ->leftJoin('App:Voc', 'voc', 'WITH', 'sampling.legVocFk = voc.id')
+      ->leftJoin('App:Site', 'site', 'WITH', 'sampling.site = site.id')
+      ->leftJoin('App:Country', 'country', 'WITH', 'site.country = country.id')
+      ->leftJoin('App:Municipality', 'municipality', 'WITH', 'site.municipality = municipality.id')
+      ->leftJoin('App:Voc', 'voc', 'WITH', 'sampling.donation = voc.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -114,22 +114,22 @@ class SamplingController extends AbstractController {
       ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       // search for material associated with a sampling
       $query = $em->createQuery(
-        'SELECT lot.id FROM App:InternalLot lot WHERE lot.samplingFk = ' . $id
+        'SELECT lot.id FROM App:InternalLot lot WHERE lot.sampling = ' . $id
       )->getResult();
-      $linkInternalLotFk = (count($query) > 0) ? $id : '';
+      $linkInternalLot = (count($query) > 0) ? $id : '';
       // search for external material associated with a sampling
       $query = $em->createQuery(
-        'SELECT lotext.id FROM App:ExternalLot lotext WHERE lotext.samplingFk = ' . $id
+        'SELECT lotext.id FROM App:ExternalLot lotext WHERE lotext.sampling = ' . $id
       )->getResult();
-      $linkExternalLotFk = (count($query) > 0) ? $id : '';
+      $linkExternalLot = (count($query) > 0) ? $id : '';
       // search for external sequence associated with a sampling
       $query = $em->createQuery(
-        'SELECT sqcext.id FROM App:ExternalSequence sqcext WHERE sqcext.samplingFk = ' . $id
+        'SELECT sqcext.id FROM App:ExternalSequence sqcext WHERE sqcext.sampling = ' . $id
       )->getResult();
-      $linkExternalSequenceFk = (count($query) > 0) ? $id : '';
+      $linkExternalSequence = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
       $query = $em->createQuery(
-        'SELECT rt.taxname as taxname FROM App:TaxonSampling ac JOIN ac.taxonFk rt WHERE ac.samplingFk = ' . $id
+        'SELECT rt.taxname as taxname FROM App:TargetTaxon ac JOIN ac.taxon rt WHERE ac.sampling = ' . $id
       )->getResult();
       $arrayTaxonsCibler = array();
       foreach ($query as $taxon) {
@@ -141,10 +141,10 @@ class SamplingController extends AbstractController {
         "id" => $id,
         "sampling.id" => $id,
         "sampling.code" => $entity->getCode(),
-        "site.code" => $entity->getSiteFk()->getCode(),
-        "country.name" => $entity->getSiteFk()->getCountryFk()->getName(),
-        "municipality.code" => $entity->getSiteFk()->getMunicipalityFk()->getCode(),
-        "sampling.legVocFk" => $entity->getLegVocFk()->getCode(),
+        "site.code" => $entity->getSite()->getCode(),
+        "country.name" => $entity->getSite()->getCountry()->getName(),
+        "municipality.code" => $entity->getSite()->getMunicipality()->getCode(),
+        "sampling.donation" => $entity->getDonation()->getCode(),
         "sampling.date" => $Date,
         "sampling.status" => $entity->getStatus(),
         "sampling.metaCreationDate" => $MetaCreationDate,
@@ -152,9 +152,9 @@ class SamplingController extends AbstractController {
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
         "sampling.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
         "sampling.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
-        "linkInternalLot" => $linkInternalLotFk,
-        "linkExternalLot" => $linkExternalLotFk,
-        "linkExternalSequence" => $linkExternalSequenceFk,
+        "linkInternalLot" => $linkInternalLot,
+        "linkExternalLot" => $linkExternalLot,
+        "linkExternalSequence" => $linkExternalSequence,
         "listeTaxonsCibler" => $listeTaxonsCibler,
       );
     }
@@ -182,7 +182,7 @@ class SamplingController extends AbstractController {
     if ($site_id = $request->get('idFk')) {
       // set the RelationalEntityFk for the new Entity
       $site = $em->getRepository('App:Site')->find($site_id);
-      $sampling->setSiteFk($site);
+      $sampling->setSite($site);
     }
 
     $form = $this->createForm('App\Form\SamplingType', $sampling, [
@@ -248,11 +248,11 @@ class SamplingController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $methods = $service->copyArrayCollection($sampling->getSamplingMethods());
-    $fixatives = $service->copyArrayCollection($sampling->getSamplingFixatives());
-    $fundings = $service->copyArrayCollection($sampling->getSamplingFundings());
-    $participants = $service->copyArrayCollection($sampling->getSamplingParticipants());
-    $taxons = $service->copyArrayCollection($sampling->getTaxonSamplings());
+    $methods = $service->copyArrayCollection($sampling->getMethods());
+    $fixatives = $service->copyArrayCollection($sampling->getFixatives());
+    $fundings = $service->copyArrayCollection($sampling->getFundings());
+    $participants = $service->copyArrayCollection($sampling->getParticipants());
+    $taxons = $service->copyArrayCollection($sampling->getTargetTaxons());
 
     // editAction
     $deleteForm = $this->createDeleteForm($sampling);
@@ -263,11 +263,11 @@ class SamplingController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
-      $service->removeStaleCollection($methods, $sampling->getSamplingMethods());
-      $service->removeStaleCollection($fixatives, $sampling->getSamplingFixatives());
-      $service->removeStaleCollection($fundings, $sampling->getSamplingFundings());
-      $service->removeStaleCollection($participants, $sampling->getSamplingParticipants());
-      $service->removeStaleCollection($taxons, $sampling->getTaxonSamplings());
+      $service->removeStaleCollection($methods, $sampling->getMethods());
+      $service->removeStaleCollection($fixatives, $sampling->getFixatives());
+      $service->removeStaleCollection($fundings, $sampling->getFundings());
+      $service->removeStaleCollection($participants, $sampling->getParticipants());
+      $service->removeStaleCollection($taxons, $sampling->getTargetTaxons());
 
       // flush
       $this->getDoctrine()->getManager()->persist($sampling);

@@ -169,7 +169,7 @@ class ChromatogramController extends AbstractController {
     // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
     if ($pcr_id = $request->get('idFk')) {
       $pcr = $em->getRepository('App:Pcr')->find($pcr_id);
-      $chromatogram->setPcrFk($pcr);
+      $chromatogram->setPcr($pcr);
     }
     $form = $this->createForm('App\Form\ChromatogramType', $chromatogram, [
       'action_type' => Action::create(),

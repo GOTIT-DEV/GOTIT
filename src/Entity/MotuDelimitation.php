@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,7 +41,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="ExternalSequence")
    * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
    */
-  private $externalSequenceFk;
+  private $externalSequence;
 
   /**
    * @var \Voc
@@ -48,7 +49,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $methodVocFk;
+  private $method;
 
   /**
    * @var \InternalSequence
@@ -56,7 +57,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="InternalSequence")
    * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
    */
-  private $internalSequenceFk;
+  private $internalSequence;
 
   /**
    * @var \MotuDataset
@@ -98,79 +99,78 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set externalSequenceFk
+   * Set externalSequence
    *
-   * @param \App\Entity\ExternalSequence $externalSequenceFk
+   * @param ExternalSequence $externalSequence
    *
    * @return MotuDelimitation
    */
-  public function setExternalSequenceFk(\App\Entity\ExternalSequence $externalSequenceFk = null) {
-    $this->externalSequenceFk = $externalSequenceFk;
+  public function setExternalSequence(ExternalSequence $externalSequence = null) {
+    $this->externalSequence = $externalSequence;
 
     return $this;
   }
 
   /**
-   * Get externalSequenceFk
+   * Get externalSequence
    *
-   * @return \App\Entity\ExternalSequence
+   * @return ExternalSequence
    */
-  public function getExternalSequenceFk() {
-    return $this->externalSequenceFk;
+  public function getExternalSequence() {
+    return $this->externalSequence;
   }
 
   /**
-   * Set methodVocFk
+   * Set method
    *
-   * @param \App\Entity\Voc $methodVocFk
+   * @param Voc $method
    *
    * @return MotuDelimitation
    */
-  public function setMethodVocFk(\App\Entity\Voc $methodVocFk = null) {
-    $this->methodVocFk = $methodVocFk;
+  public function setMethod(Voc $method = null) {
+    $this->method = $method;
 
     return $this;
   }
 
   /**
-   * Get methodVocFk
+   * Get method
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getMethodVocFk() {
-    return $this->methodVocFk;
+  public function getMethod() {
+    return $this->method;
   }
 
   /**
-   * Set internalSequenceFk
+   * Set internalSequence
    *
-   * @param \App\Entity\InternalSequence $internalSequenceFk
+   * @param InternalSequence $internalSequence
    *
    * @return MotuDelimitation
    */
-  public function setInternalSequenceFk(\App\Entity\InternalSequence $internalSequenceFk = null) {
-    $this->internalSequenceFk = $internalSequenceFk;
-
+  public function setInternalSequence(InternalSequence $internalSequence = null) {
+    $this->internalSequence = $internalSequence;
     return $this;
   }
 
   /**
-   * Get internalSequenceFk
+   * Get internalSequence
    *
-   * @return \App\Entity\InternalSequence
+   * @return InternalSequence
    */
-  public function getInternalSequenceFk() {
-    return $this->internalSequenceFk;
+  public function getInternalSequence() {
+    return $this->internalSequence;
   }
 
   /**
    * Set motuDatasetFk
    *
-   * @param \App\Entity\MotuDataset $motuDatasetFk
+   * @param MotuDataset $motuDatasetFk
    *
    * @return MotuDelimitation
    */
-  public function setMotuDatasetFk(\App\Entity\MotuDataset $motuDatasetFk = null) {
+  public function setMotuDatasetFk(MotuDataset $motuDatasetFk = null) {
     $this->motuDatasetFk = $motuDatasetFk;
 
     return $this;
@@ -179,7 +179,7 @@ class MotuDelimitation extends AbstractTimestampedEntity {
   /**
    * Get motuDatasetFk
    *
-   * @return \App\Entity\MotuDataset
+   * @return MotuDataset
    */
   public function getMotuDatasetFk() {
     return $this->motuDatasetFk;

@@ -2,17 +2,17 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\ExternalSequenceAssemblerEmbedType;
-use App\Form\EmbedTypes\ExternalSequencePublicationEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
+use App\Form\EmbedTypes\SourceEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
 use App\Form\Type\GeneType;
 use App\Form\Type\SearchableSelectType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,9 +21,9 @@ class ExternalSequenceType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $sampling = $builder->getData()->getSamplingFk();
+    $sampling = $builder->getData()->getSampling();
     $builder
-      ->add('samplingFk', SearchableSelectType::class, [
+      ->add('sampling', SearchableSelectType::class, [
         'class' => 'App:Sampling',
         'choice_label' => 'code',
         'placeholder' => $this->translator->trans("Sampling typeahead placeholder"),
@@ -57,49 +57,32 @@ class ExternalSequenceType extends ActionFormType {
         'placeholder' => 'Choose a origineSqcAssExt',
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('geneVocFk', GeneType::class)
+      ->add('gene', GeneType::class)
       ->add('status', BaseVocType::class, [
         'voc_parent' => 'statutSqcAss',
         'choice_label' => 'code',
         'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('datePrecisionVocFk', DatePrecisionType::class)
+      ->add('datePrecision', DatePrecisionType::class)
       ->add('dateCreation', DateFormattedType::class)
       ->add('comment')
-      ->add('assemblers', CollectionType::class, array(
-        'entry_type' => ExternalSequenceAssemblerEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('assemblers', DynamicCollectionType::class, array(
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
       ))
-      ->add('taxonIdentifications', CollectionType::class, array(
+      ->add('taxonIdentifications', DynamicCollectionType::class, array(
         'entry_type' => TaxonIdentificationEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
         'entry_options' => array(
           'label' => false,
           'refTaxonLabel' => $options['refTaxonLabel'],
         ),
       ))
-      ->add('externalSequencePublications', CollectionType::class, array(
-        'entry_type' => ExternalSequencePublicationEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('publications', DynamicCollectionType::class, array(
+        'entry_type' => SourceEmbedType::class,
       ));
   }
 

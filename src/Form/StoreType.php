@@ -7,9 +7,9 @@ use App\Form\EmbedTypes\InternalLotEmbedType;
 use App\Form\EmbedTypes\SlideEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +19,7 @@ class StoreType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
-    $storeType = $builder->getData()->getStorageTypeVocFk();
+    $storeType = $builder->getData()->getStorageType();
 
     $builder
     # Is not auto-generated : editable in create mode
@@ -28,15 +28,15 @@ class StoreType extends ActionFormType {
     ])
       ->add('label')
       ->add('comment')
-      ->add('collectionTypeVocFk', BaseVocType::class, array(
+      ->add('collectionType', BaseVocType::class, array(
         'voc_parent' => 'typeCollection',
         'placeholder' => 'Choose a typeCollection',
       ))
-      ->add('collectionCodeVocFk', BaseVocType::class, array(
+      ->add('collectionCode', BaseVocType::class, array(
         'voc_parent' => 'codeCollection',
         'placeholder' => 'Choose a Collection',
       ))
-      ->add('storageTypeVocFk', BaseVocType::class, array(
+      ->add('storageType', BaseVocType::class, array(
         'voc_parent' => 'typeBoite',
         'placeholder' => 'Choose a typeBoite',
         'choice_label' => 'code',
@@ -46,43 +46,31 @@ class StoreType extends ActionFormType {
     if ($storeType != null and $options["action_type"] != Action::create()) {
       switch ($storeType->getCode()) {
       case 'LOT':
-        $builder->add('internalLots', CollectionType::class, array(
+        $builder->add('internalLots', DynamicCollectionType::class, array(
           'entry_type' => InternalLotEmbedType::class,
-          // 'allow_add' => true,
-          // 'allow_delete' => true,
-          'prototype' => true,
-          'prototype_name' => '__name__',
-          'by_reference' => false,
+          'allow_add' => false,
+          'allow_delete' => false,
           'required' => false,
-          'entry_options' => array('label' => false),
           'disabled' => true,
         ));
         break;
 
       case 'ADN':
-        $builder->add('dnas', CollectionType::class, array(
+        $builder->add('dnas', DynamicCollectionType::class, array(
           'entry_type' => DnaEmbedType::class,
-          // 'allow_add' => true,
-          // 'allow_delete' => true,
-          'prototype' => true,
-          'prototype_name' => '__name__',
-          'by_reference' => false,
+          'allow_add' => false,
+          'allow_delete' => false,
           'required' => false,
-          'entry_options' => array('label' => false),
           'disabled' => true,
         ));
         break;
 
       case 'LAME':
-        $builder->add('slides', CollectionType::class, array(
+        $builder->add('slides', DynamicCollectionType::class, array(
           'entry_type' => SlideEmbedType::class,
-          // 'allow_add' => true,
-          // 'allow_delete' => true,
-          'prototype' => true,
-          'prototype_name' => '__name__',
-          'by_reference' => false,
+          'allow_add' => false,
+          'allow_delete' => false,
           'required' => false,
-          'entry_options' => array('label' => false),
           'disabled' => true,
         ));
         break;

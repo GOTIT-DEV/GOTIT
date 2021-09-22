@@ -199,7 +199,7 @@ class InternalLotController extends AbstractController {
     $em = $this->getDoctrine()->getManager();
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Sampling')->find($sampling_id);
-      $lot->setSamplingFk($sampling);
+      $lot->setSampling($sampling);
     }
 
     $form = $this->createForm('App\Form\InternalLotType', $lot, [
@@ -286,7 +286,7 @@ class InternalLotController extends AbstractController {
       $service->removeStaleCollection($contents, $lot->getContents());
       $service->removeStaleCollection($publications, $lot->getPublications());
       $service->removeStaleCollection($producers, $lot->getProducers());
-      $service->removeStaleCollection($taxonIdentifications, $lot->getTaxonIdentifications(), 'TaxonCurators');
+      $service->removeStaleCollection($taxonIdentifications, $lot->getTaxonIdentifications(), 'Curators');
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($lot);

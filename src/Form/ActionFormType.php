@@ -2,29 +2,27 @@
 
 namespace App\Form;
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Form\Enums\Action;
 use App\Form\DataTransformer\UppercaseTransformer;
+use App\Form\Enums\Action;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ActionFormType extends AbstractType {
   /**
    * {@inheritdoc}
    */
   public function __construct(
-    // AddUserDateFields $addUserDate,
     Security $security,
     EntityManagerInterface $em,
     TranslatorInterface $translator
   ) {
-    // parent::__construct($addUserDate);
     $this->security = $security;
     $this->er = $em;
     $this->translator = $translator;

@@ -6,9 +6,9 @@ use App\Form\ActionFormType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
 use App\Form\Type\SearchableSelectType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +19,10 @@ class SpecimenType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
     $hasBioMol = (bool) $builder->getData()->getMolecularCode();
-    $bioMat = $builder->getData()->getInternalLotFk();
+    $bioMat = $builder->getData()->getInternalLot();
 
     $builder
-      ->add('internalLotFk', SearchableSelectType::class, [
+      ->add('internalLot', SearchableSelectType::class, [
         'class' => 'App:InternalLot',
         'choice_label' => 'code',
         'placeholder' => "InternalLot typeahead placeholder",
@@ -40,7 +40,7 @@ class SpecimenType extends ActionFormType {
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('specimenTypeVocFk', BaseVocType::class, [
+      ->add('specimenType', BaseVocType::class, [
         'voc_parent' => 'typeIndividu',
         'placeholder' => 'Choose a Type',
       ]);
@@ -60,13 +60,8 @@ class SpecimenType extends ActionFormType {
 
     $builder
       ->add('comment')
-      ->add('taxonIdentifications', CollectionType::class, array(
+      ->add('taxonIdentifications', DynamicCollectionType::class, array(
         'entry_type' => TaxonIdentificationEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
         'entry_options' => array(
           'label' => false,
           'refTaxonLabel' => $options['refTaxonLabel'],

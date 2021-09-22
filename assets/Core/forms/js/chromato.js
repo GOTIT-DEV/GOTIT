@@ -3,9 +3,9 @@ import { getSelectedCode } from "./forms";
 
 $(() => {
   const $form = $("form[name='chromatogram']");
-  const $pcr = $form.find("#chromatogram_pcrFk");
+  const $pcr = $form.find("#chromatogram_pcr");
   const $yas = $form.find("#chromatogram_yasNumber");
-  const $primer = $form.find("#chromatogram_primerVocFk");
+  const $primer = $form.find("#chromatogram_primer");
 
   const $code = $form.find("#chromatogram_code");
 

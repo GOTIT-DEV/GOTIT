@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Doctrine;
+namespace App\Listener;
 
 use App\Doctrine\TimestampedEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;

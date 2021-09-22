@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Person
@@ -14,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"name"}, message="A person with this name is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * @ApiResource
  */
 class Person extends AbstractTimestampedEntity {
   /**
@@ -24,7 +26,7 @@ class Person extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $id;
 
@@ -32,7 +34,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_name", type="string", length=255, nullable=false, unique=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $name;
 
@@ -40,7 +42,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $fullName;
 
@@ -48,7 +50,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $alias;
 
@@ -56,7 +58,7 @@ class Person extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="person_comments", type="text", nullable=true)
-   * @Groups({"field"})
+   * @Groups({"item"})
    */
   private $comment;
 
@@ -66,7 +68,7 @@ class Person extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Institution")
    * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
    */
-  private $institutionFk;
+  private $institution;
 
   /**
    * Get id
@@ -166,24 +168,24 @@ class Person extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set institutionFk
+   * Set institution
    *
-   * @param \App\Entity\Institution $institutionFk
+   * @param \App\Entity\Institution $institution
    *
    * @return Person
    */
-  public function setInstitutionFk(\App\Entity\Institution $institutionFk = null) {
-    $this->institutionFk = $institutionFk;
+  public function setInstitution(\App\Entity\Institution $institution = null) {
+    $this->institution = $institution;
 
     return $this;
   }
 
   /**
-   * Get institutionFk
+   * Get institution
    *
    * @return \App\Entity\Institution
    */
-  public function getInstitutionFk() {
-    return $this->institutionFk;
+  public function getInstitution() {
+    return $this->institution;
   }
 }

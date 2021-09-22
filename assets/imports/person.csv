@@ -1,1 +1,1 @@
-person.name;person.full_name;person.alias;person.institution_fk(institution.name);person.comment
+person.name;person.full_name;person.alias;person.institution(institution.name);person.comment

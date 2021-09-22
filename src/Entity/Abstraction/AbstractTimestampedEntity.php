@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Abstraction;
 
-use App\Doctrine\SetUserTimestampListener;
-use App\Doctrine\TimestampedEntityInterface;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Entity\Abstraction\TimestampedEntityInterface;
+use App\Entity\User;
+use App\Listener\SetUserTimestampListener;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @MappedSuperclass
- * @ORM\EntityListeners({"App\Doctrine\SetUserTimestampListener"})
+ * @ORM\EntityListeners({"App\Listener\SetUserTimestampListener"})
  *
  */
 abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
@@ -19,16 +21,16 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-   * @Assert\NotBlank(allowNull = true)
+   * @ApiProperty(writable=false, readable=false)
    */
-  protected $metaCreationDate;
+  protected $metaCreationDate = null;
 
   /**
    * @var \DateTime
    * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-   * @Assert\NotBlank(allowNull = true)
+   * @ApiProperty(writable=false, readable=false)
    */
-  protected $metaUpdateDate;
+  protected $metaUpdateDate = null;
 
   /**
    * @var User
@@ -39,9 +41,10 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *  referencedColumnName="id",
    *  onDelete="SET NULL",
    *  nullable=true)
-   * @Assert\NotBlank(allowNull = true)
+   * @ApiProperty(writable=false, readable=false)
+   * @NotBlank(allowNull=true)
    */
-  protected $metaCreationUser;
+  protected $metaCreationUser = null;
 
   /**
    * @var User
@@ -52,9 +55,10 @@ abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
    *  referencedColumnName="id",
    *  onDelete="SET NULL",
    *  nullable=true)
-   * @Assert\NotBlank(allowNull = true)
+   * @ApiProperty(writable=false, readable=false)
+   * @NotBlank(allowNull=true)
    */
-  protected $metaUpdateUser;
+  protected $metaUpdateUser = null;
 
   /**
    * @SerializedName("_meta")

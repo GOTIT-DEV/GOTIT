@@ -12,7 +12,7 @@ class PcrListeGeneType extends AbstractType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('geneVocFk', GeneType::class);
+    $builder->add('gene', GeneType::class);
   }
 
   /**

@@ -523,18 +523,18 @@ alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,
 # GOTIT DATABASE  ##############################################################
 # GOTIT Database Field Titles
 # db v2
-Material type voc fk: Material type
+Material type: Material type
 Taxon full name: Taxon full name
 # db v1
 Status: Status
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
-Dna fk: DNA
+Dna: DNA
 Altitude m: Elevation (m)
 Start year: Starting year
 End year: Ending year
 Annee source: Source year
-Store fk: Store
+Store: Store
 Chromatogram fk: Chromatogram table
 Clade: Clade
 Code: Code
@@ -542,7 +542,7 @@ Code adn: DNA code
 Code boite: Store code
 Code chromato: Chromatogram code
 Code collecte: Sample code
-Collection code voc fk: Collection
+Collection code: Collection
 Code commune: Municipality code
 Molecular code: Specimen molecular code
 Morphological code: Specimen morphological code
@@ -560,14 +560,14 @@ Code sqc ass ext alignement: External sequence alignment code
 Code station: Site code
 Code taxon: Taxon code
 Tube code: Tube code
-Sampling fk: Sampling
+Sampling: Sampling
 Sequencing advice: Sequencing advice
 Comment: Comments
 Specimen quantity comment: Number of specimens comments
-Municipality fk: Municipality
+Municipality: Municipality
 Concentration ng microlitre: Concentration ng per micro litre
 Conductance micro sie cm: Specific conductance (µS/cm)
-Identification criterion voc fk: Identification criterion
+Identification Criterion: Identification criterion
 Date adn: DNA date
 Date collecte: Sampling date
 Meta creation date: Creation date
@@ -580,23 +580,20 @@ Date lot materiel: Biological material date
 Meta update date: Updating date
 Date motu: MOTU date
 Date pcr: PCR date
-Date precision voc fk: Date precision
+Date precision: Date precision
 Details: PCR details
 Duration mn: Sampling duration
-Taxon identification fk: Identified species table
-Institution fk: Institution
 Family: Family
-Fixative voc fk: Fixative
-Gene voc fk: Gene
+Gene: Gene
 Genus: Genus
-Habitat type voc fk: Habitat type
+Habitat type: Habitat type
 Id: Identification number
 Specimen: Specimen
 Slide fk: Specimen slide
 Description: Description
 Location info: Site location
 Lat deg dec: Latitude Dec Deg
-Leg voc fk: Donation
+Donation: Donation
 Label: Title
 Label boite: Store title
 Label collection: Collection title
@@ -604,13 +601,13 @@ Label lame: Slide title
 Label motu: MOTU title
 Label source: Source title
 Long deg dec: Longitude Dec Deg
-External lot fk: External biological material
-Internal lot fk: Internal Biological material
-Extraction method voc fk: DNA extraction method
+External lot: External biological material
+Internal lot: Internal Biological material
+Extraction method: DNA extraction method
 Methode motu voc fk: MOTU method
 Motu dataset fk: MOTU
 Nb specimens: Number of specimens
-Specimen quantity voc fk: Number of specimens
+Specimen quantity: Number of specimens
 Nom commune: Municipality name
 Full name: Person full name
 Picture folder: Picture folder
@@ -634,49 +631,48 @@ Parent: Parent
 Pays fk: Country
 Pcr fk: PCR
 Person fk: Person
-Pigmentation voc fk: Pigmentation
-Access point voc fk: Access type
-Coordinates precision voc fk: Coordinate precision
+Pigmentation: Pigmentation
+Access point: Access type
+Coordinates precision: Coordinate precision
 Primer chromato voc fk: Chromatogram primer
-Primer end voc fk: PCR reverse primer
-Primer Start Voc Fk: PCR forward primer
+Primer end: PCR reverse primer
+Primer start: PCR forward primer
 Program fk: Program
-Qualite adn voc fk: DNA quality
+Quality: Quality
 Qualite chromato voc fk: Chromatogram quality
 Qualite pcr voc fk: PCR quality
 Rank: Taxon rank
-Taxon fk: Taxon
+Taxon: Taxon
 Pcr comment: PCR comments
-Sampling method voc fk: Sampling method
-External sequence fk: External sequence
-Internal sequence fk: Internal Sequence
+Sampling method: Sampling method
+External Sequence: External sequence
+Internal sequence: Internal Sequence
 Source fk: Source
 Species: Species
-Specificity voc fk: PCR specificity
-Site fk: Site
+Specificity: PCR specificity
+Site: Site
 Subclass: Subclass
 Subspecies: Subspecies
 Taxname: Taxon name
 Alias: Alias
 Primary taxon: External sequence primary taxon
 Temperature c: Temperature (Celcius)
-Storage type voc fk: Store type
-Collection type voc fk: Collection type
+Storage type: Store type
+Collection type: Collection type
 Funding agency: Funding agency
-Specimen type voc fk: Specimen type
+Specimen type: Specimen type
 Meta creation user: Creation user name
 Meta update user: Updating user name
 Validity: Taxon validity
-Eyes voc fk: Vision
+Eyes: Vision
 # titles of collections or tables related to N-N type relational tables
-Source providers: is integrated by
+Providers: is integrated by
 Dnas: DNA
 Internal lots: Biological material
 Slides: Specimen slide
 Motu delimiters: is generated by
 Auto generated code: Auto generated code
 Code Chromato | Specificite : Chromatogram code | Specificity
-External sequence publications: is published in
 Assemblers: is generated by
 Assemblies: is assembled from
 Dna producers: is extracted by
@@ -684,12 +680,11 @@ Slide producers: is mounted by
 Producers: is done by
 Taxon identifications: Identified species
 Contents: Composition of biological material
-Taxon curators: is identified by
+Curators: is identified by
 Publications: is published in
-Pcr producers: PCR is done by
 Sampling methods: Sampling method
-Sampling fixatives: Fixatives
-Sampling fundings: Funding program
+Fixatives: Fixatives
+Fundings: Funding program
 Sampling participants: Is done by
 Taxa sampling: Targeted taxa
 

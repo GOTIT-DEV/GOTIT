@@ -4,7 +4,7 @@ import moment from "moment";
 
 $(() => {
   const $form = $("form[name='sampling']");
-  const $site = $("#sampling_siteFk");
+  const $site = $("#sampling_site");
   const $date_precision = $("form:first .date-precision:first");
   const $date = $("form:first .date-autoformat");
 

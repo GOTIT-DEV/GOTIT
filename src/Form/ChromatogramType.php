@@ -41,16 +41,16 @@ class ChromatogramType extends ActionFormType {
         'required' => true,
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('primerVocFk', BaseVocType::class, array(
+      ->add('primer', BaseVocType::class, array(
         'voc_parent' => 'primerChromato',
         'placeholder' => 'Choose a primer',
         'disabled' => $this->canEditAdminOnly($options),
       ))
-      ->add('qualityVocFk', BaseVocType::class, array(
+      ->add('quality', BaseVocType::class, array(
         'voc_parent' => 'qualiteChromato',
         'placeholder' => 'Choose a quality',
       ))
-      ->add('institutionFk', EntityType::class, array(
+      ->add('institution', EntityType::class, array(
         'class' => 'App:Institution',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('institution')

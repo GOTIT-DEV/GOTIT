@@ -174,7 +174,7 @@ class SourceController extends AbstractController {
     // load service  generic_function_e3s
     //
     // store ArrayCollection
-    $sourceProviders = $service->copyArrayCollection($source->getSourceProviders());
+    $providers = $service->copyArrayCollection($source->getProviders());
     //
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
@@ -184,7 +184,7 @@ class SourceController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $service->removeStaleCollection($sourceProviders, $source->getSourceProviders());
+      $service->removeStaleCollection($providers, $source->getProviders());
       $em = $this->getDoctrine()->getManager();
       $em->persist($source);
 

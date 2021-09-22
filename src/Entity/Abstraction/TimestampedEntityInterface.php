@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Doctrine;
+namespace App\Entity\Abstraction;
 
 use App\Entity\User;
 

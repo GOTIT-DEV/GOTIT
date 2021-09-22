@@ -23,7 +23,7 @@ class MunicipalityType extends ActionFormType {
       ])
       ->add('name')
       ->add('region')
-      ->add('countryFk', CountryVocType::class);
+      ->add('country', CountryVocType::class);
 
     $uppercase_fields = ['code', 'name', 'region'];
     $this->upperCaseFields($builder, $uppercase_fields);

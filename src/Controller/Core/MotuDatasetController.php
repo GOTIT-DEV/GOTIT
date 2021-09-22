@@ -291,7 +291,7 @@ class MotuDatasetController extends AbstractController {
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.title as dataset_name')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
-      ->join('App:Voc', 'v', 'WITH', "a.methodVocFk=v AND v.code != 'HAPLO'")
+      ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->distinct()
       ->getQuery();
 

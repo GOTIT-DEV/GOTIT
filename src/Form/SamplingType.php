@@ -3,19 +3,17 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\SamplingFixativeEmbedType;
-use App\Form\EmbedTypes\SamplingFundingEmbedType;
-use App\Form\EmbedTypes\SamplingMethodEmbedType;
-use App\Form\EmbedTypes\SamplingParticipantEmbedType;
-use App\Form\EmbedTypes\TaxonSamplingEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
+use App\Form\EmbedTypes\ProgramEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
 use App\Form\Type\SearchableSelectType;
+use App\Form\Type\TaxnameType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,7 +26,7 @@ class SamplingType extends ActionFormType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sampling = $builder->getData();
     $builder
-      ->add('siteFk', SearchableSelectType::class, [
+      ->add('site', SearchableSelectType::class, [
         'class' => 'App:Site',
         'choice_label' => 'code',
         'placeholder' =>
@@ -36,7 +34,7 @@ class SamplingType extends ActionFormType {
         'attr' => [
           "maxlength" => "255",
           'readonly' => ($options['action_type'] == Action::create() &&
-            $sampling->getSiteFk()),
+            $sampling->getSite()),
         ],
       ])
       ->add('code', EntityCodeType::class, [
@@ -46,68 +44,44 @@ class SamplingType extends ActionFormType {
           'readonly' => $options['action_type'] == Action::create(),
         ],
       ])
-      ->add('datePrecisionVocFk', DatePrecisionType::class, [
+      ->add('datePrecision', DatePrecisionType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('date', DateFormattedType::class, [
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('samplingMethods', CollectionType::class, [
-        'entry_type' => SamplingMethodEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
+      ->add('methods', DynamicCollectionType::class, [
+        'entry_type' => BaseVocType::class,
         'entry_options' => [
-          "label" => false,
+          'voc_parent' => 'method',
+          'placeholder' => 'Choose a Sampling method',
         ],
       ])
-      ->add('samplingFixatives', CollectionType::class, [
-        'entry_type' => SamplingFixativeEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => ['label' => false],
+      ->add('fixatives', DynamicCollectionType::class, [
+        'entry_type' => BaseVocType::class,
+        'entry_options' => [
+          'voc_parent' => 'fixateur',
+          'placeholder' => 'Choose a Fixateur',
+        ],
       ])
-      ->add('samplingFundings', CollectionType::class, [
-        'entry_type' => SamplingFundingEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
+      ->add('fundings', DynamicCollectionType::class, [
+        'entry_type' => ProgramEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>
           'App\\Controller\\Core\\ProgramController::newmodalAction',
         ],
-        'entry_options' => array('label' => false),
       ])
-      ->add('samplingParticipants', CollectionType::class, [
-        'entry_type' => SamplingParticipantEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
+      ->add('participants', DynamicCollectionType::class, [
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>
           'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
-        'entry_options' => array('label' => false),
       ])
-      ->add('taxonSamplings', CollectionType::class, [
-        'entry_type' => TaxonSamplingEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('targetTaxons', DynamicCollectionType::class, [
+        'entry_type' => TaxnameType::class,
       ])
       ->add('durationMn', IntegerType::class, [
         'attr' => ["min" => "0"],
@@ -127,7 +101,7 @@ class SamplingType extends ActionFormType {
         'label_attr' => ['class' => 'radio-inline'],
       ])
       ->add('comment')
-      ->add('legVocFk', BaseVocType::class, [
+      ->add('donation', BaseVocType::class, [
         'voc_parent' => 'leg',
         'sort_by_id' => true,
         'expanded' => true,

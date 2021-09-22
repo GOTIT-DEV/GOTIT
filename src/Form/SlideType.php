@@ -3,14 +3,14 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
-use App\Form\EmbedTypes\SlideProducerEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
 use App\Form\Type\SearchableSelectType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +19,10 @@ class SlideType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $specimen = $builder->getData()->getSpecimenFk();
+    $specimen = $builder->getData()->getSpecimen();
 
     $builder
-      ->add('specimenFk', SearchableSelectType::class, [
+      ->add('specimen', SearchableSelectType::class, [
         'class' => 'App:Specimen',
         'choice_label' => 'morphologicalCode',
         'placeholder' => $this->translator
@@ -36,15 +36,15 @@ class SlideType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('label')
-      ->add('datePrecisionVocFk', DatePrecisionType::class)
+      ->add('datePrecision', DatePrecisionType::class)
       ->add('date', DateFormattedType::class)
       ->add('pictureFolder')
       ->add('comment')
-      ->add('storeFk', EntityType::class, array(
+      ->add('store', EntityType::class, array(
         'class' => 'App:Store',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('store')
-            ->leftJoin('App:Voc', 'voc', 'WITH', 'store.storageTypeVocFk = voc.id')
+            ->leftJoin('App:Voc', 'voc', 'WITH', 'store.storageType = voc.id')
             ->where('voc.code LIKE :codetype')
             ->setParameter('codetype', 'LAME')
             ->orderBy('LOWER(store.code)', 'ASC');
@@ -55,15 +55,9 @@ class SlideType extends ActionFormType {
         'expanded' => false,
         'required' => false,
       ))
-      ->add('producers', CollectionType::class, array(
+      ->add('producers', DynamicCollectionType::class, array(
         'label' => "Slide producers",
-        'entry_type' => SlideProducerEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>

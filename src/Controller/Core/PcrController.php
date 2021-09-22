@@ -35,7 +35,7 @@ class PcrController extends AbstractController {
 
     $dna = $request->query->get('dna');
     if ($dna) {
-      $pcrs = $em->getRepository('App:Pcr')->findBy(['dnaFk' => $dna]);
+      $pcrs = $em->getRepository('App:Pcr')->findBy(['dna' => $dna]);
       if (count($pcrs) === 1) {
         return $this->redirectToRoute('pcr_show', ["id" => array_shift($pcrs)->getId()]);
       }
@@ -92,7 +92,7 @@ class PcrController extends AbstractController {
       $searchPhrase = $request->get('searchPattern');
     }
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND pcr.dnaFk = ' . $request->get('idFk');
+      $where .= ' AND pcr.dna = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
@@ -100,11 +100,11 @@ class PcrController extends AbstractController {
       ->createQueryBuilder('pcr')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
-      ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-      ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-      ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualityVocFk = vocQualitePcr.id')
-      ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificityVocFk = vocSpecificite.id')
+      ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dna = dna.id')
+      ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimen = specimen.id')
+      ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.gene = vocGene.id')
+      ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.quality = vocQualitePcr.id')
+      ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificity = vocSpecificite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -124,13 +124,13 @@ class PcrController extends AbstractController {
       // Search chromatograms associated to a PCR
       $query = $em->createQuery(
         'SELECT chromato.id FROM App:Chromatogram chromato
-                WHERE chromato.pcrFk = ' . $id
+                WHERE chromato.pcr = ' . $id
       )->getResult();
       $linkChromatogram = (count($query) > 0) ? $id : '';
       // concatenated list of people
       $query = $em->createQuery(
         'SELECT p.name as nom FROM App:PcrProducer erp
-                JOIN erp.personFk p WHERE erp.pcrFk = ' . $id
+                JOIN erp.personFk p WHERE erp.pcr = ' . $id
       )->getResult();
       $arrayListePerson = array();
       foreach ($query as $taxon) {
@@ -140,15 +140,15 @@ class PcrController extends AbstractController {
       //
       $tab_toshow[] = array(
         "id" => $id, "pcr.id" => $id,
-        "specimen.molecularCode" => $entity->getDnaFk()->getSpecimenFk()->getMolecularCode(),
-        "dna.code" => $entity->getDnaFk()->getCode(),
+        "specimen.molecularCode" => $entity->getDna()->getSpecimen()->getMolecularCode(),
+        "dna.code" => $entity->getDna()->getCode(),
         "pcr.code" => $entity->getCode(),
         "pcr.number" => $entity->getNumber(),
-        "vocGene.code" => $entity->getGeneVocFk()->getCode(),
+        "vocGene.code" => $entity->getGene()->getCode(),
         "listePerson" => $listePerson,
         "pcr.date" => $Date,
-        "vocQualitePcr.code" => $entity->getQualityVocFk()->getCode(),
-        "vocSpecificite.code" => $entity->getSpecificityVocFk()->getCode(),
+        "vocQualitePcr.code" => $entity->getQuality()->getCode(),
+        "vocSpecificite.code" => $entity->getSpecificity()->getCode(),
         "pcr.metaCreationDate" => $MetaCreationDate,
         "pcr.metaUpdateDate" => $MetaUpdateDate,
         "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
@@ -179,7 +179,7 @@ class PcrController extends AbstractController {
     // check if the relational Entity (Dna) is given and set the RelationalEntityFk for the new Entity
     if ($dna_id = $request->get('idFk')) {
       $dna = $em->getRepository('App:Dna')->find($dna_id);
-      $pcr->setDnaFk($dna);
+      $pcr->setDna($dna);
     }
     $form = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::create(),
@@ -248,7 +248,7 @@ class PcrController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $pcrProducers = $service->copyArrayCollection($pcr->getPcrProducers());
+    $producers = $service->copyArrayCollection($pcr->getProducers());
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::edit(),
@@ -259,7 +259,7 @@ class PcrController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $service->removeStaleCollection($pcrProducers, $pcr->getPcrProducers());
+      $service->removeStaleCollection($producers, $pcr->getProducers());
 
       $em = $this->getDoctrine()->getManager();
       $em->persist($pcr);

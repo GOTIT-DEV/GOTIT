@@ -3,8 +3,8 @@
 {# EDIT : DNA #}
 {% block action %}
 	{{parent()}}
-	{% if edit_form.vars.data.specimenFk is not null %}
-		<a href="{{path('specimen_show', {id:edit_form.vars.data.specimenFk.id})}}" class="btn btn-sm btn-info">
+	{% if edit_form.vars.data.specimen is not null %}
+		<a href="{{path('specimen_show', {id:edit_form.vars.data.specimen.id})}}" class="btn btn-sm btn-info">
 			<i class="fas fa-link"></i>
 			{{'button.Back to specimen'|trans}}
 		</a>

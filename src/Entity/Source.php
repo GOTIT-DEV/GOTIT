@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,13 +56,16 @@ class Source extends AbstractTimestampedEntity {
   private $comment;
 
   /**
-   * @ORM\OneToMany(targetEntity="SourceProvider", mappedBy="sourceFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="source_is_entered_by",
+   *  joinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
-  protected $sourceProviders;
+  protected $providers;
 
   public function __construct() {
-    $this->sourceProviders = new ArrayCollection();
+    $this->providers = new ArrayCollection();
   }
 
   /**
@@ -162,34 +166,32 @@ class Source extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add sourceProvider
+   * Add provider
    *
-   * @param \App\Entity\SourceProvider $sourceProvider
+   * @param Person $provider
    *
    * @return Source
    */
-  public function addSourceProvider(\App\Entity\SourceProvider $sourceProvider) {
-    $sourceProvider->setSourceFk($this);
-    $this->sourceProviders[] = $sourceProvider;
-
+  public function addProvider(Person $provider) {
+    $this->providers[] = $provider;
     return $this;
   }
 
   /**
-   * Remove sourceProvider
+   * Remove provider
    *
-   * @param \App\Entity\SourceProvider $sourceProvider
+   * @param Person $provider
    */
-  public function removeSourceProvider(\App\Entity\SourceProvider $sourceProvider) {
-    $this->sourceProviders->removeElement($sourceProvider);
+  public function removeProvider(Person $provider) {
+    $this->providers->removeElement($provider);
   }
 
   /**
-   * Get sourceProviders
+   * Get providers
    *
    * @return \Doctrine\Common\Collections\Collection
    */
-  public function getSourceProviders() {
-    return $this->sourceProviders;
+  public function getProviders() {
+    return $this->providers;
   }
 }

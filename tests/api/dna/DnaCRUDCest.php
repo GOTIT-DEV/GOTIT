@@ -32,7 +32,7 @@ class DnaCRUDCest {
   public function testFailDnaDeletionWithPCR(ApiTester $I) {
     $I->wantTo('Fail deletion of DNA having related PCR(s)');
     $pcr = $I->have('App\Entity\Pcr');
-    $I->sendDelete($this->generateRoute("app_api_dna_delete", ["id" => $pcr->getDnaFk()->getId()]));
+    $I->sendDelete($this->generateRoute("app_api_dna_delete", ["id" => $pcr->getDna()->getId()]));
     $I->seeResponseCodeIs(400);
   }
 

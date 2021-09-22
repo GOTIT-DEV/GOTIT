@@ -67,7 +67,7 @@ class PersonController extends AbstractController {
         'App:Institution',
         'institution',
         'WITH',
-        'person.institutionFk = institution.id'
+        'person.institution = institution.id'
       )
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
@@ -82,8 +82,8 @@ class PersonController extends AbstractController {
       ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
       $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
       ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
-      $Name = ($entity->getInstitutionFk() !== null)
-      ? $entity->getInstitutionFk()->getName() : null;
+      $Name = ($entity->getInstitution() !== null)
+      ? $entity->getInstitution()->getName() : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "person.id" => $id,

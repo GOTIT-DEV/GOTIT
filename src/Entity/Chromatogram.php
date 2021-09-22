@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Entity\CompositeCodeEntityTrait;
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -61,7 +62,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $primerVocFk;
+  private $primer;
 
   /**
    * @var \Voc
@@ -69,7 +70,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $qualityVocFk;
+  private $quality;
 
   /**
    * @var \Institution
@@ -77,7 +78,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Institution")
    * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
    */
-  private $institutionFk;
+  private $institution;
 
   /**
    * @var \Pcr
@@ -85,7 +86,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Pcr")
    * @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
    */
-  private $pcrFk;
+  private $pcr;
 
   /**
    * Get id
@@ -120,7 +121,7 @@ class Chromatogram extends AbstractTimestampedEntity {
   private function _generateCode(): string {
     return join('|', [
       $this->getYasNumber(),
-      $this->getPrimerVocFk()->getCode(),
+      $this->getPrimer()->getCode(),
     ]);
   }
 
@@ -167,87 +168,87 @@ class Chromatogram extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set primerVocFk
+   * Set primer
    *
-   * @param Voc $primerVocFk
+   * @param Voc $primer
    *
    * @return Chromatogram
    */
-  public function setPrimerVocFk(Voc $primerVocFk = null): Chromatogram {
-    $this->primerVocFk = $primerVocFk;
+  public function setPrimer(Voc $primer = null): Chromatogram {
+    $this->primer = $primer;
     return $this;
   }
 
   /**
-   * Get primerVocFk
+   * Get primer
    *
    * @return Voc
    */
-  public function getPrimerVocFk(): ?Voc {
-    return $this->primerVocFk;
+  public function getPrimer(): ?Voc {
+    return $this->primer;
   }
 
   /**
-   * Set qualityVocFk
+   * Set quality
    *
-   * @param Voc $qualityVocFk
+   * @param Voc $quality
    *
    * @return Chromatogram
    */
-  public function setQualityVocFk(Voc $qualityVocFk = null): Chromatogram {
-    $this->qualityVocFk = $qualityVocFk;
+  public function setQuality(Voc $quality = null): Chromatogram {
+    $this->quality = $quality;
     return $this;
   }
 
   /**
-   * Get qualityVocFk
+   * Get quality
    *
    * @return Voc
    */
-  public function getQualityVocFk(): ?Voc {
-    return $this->qualityVocFk;
+  public function getQuality(): ?Voc {
+    return $this->quality;
   }
 
   /**
-   * Set institutionFk
+   * Set institution
    *
-   * @param Institution $institutionFk
+   * @param Institution $institution
    *
    * @return Chromatogram
    */
-  public function setInstitutionFk(Institution $institutionFk = null): Chromatogram {
-    $this->institutionFk = $institutionFk;
+  public function setInstitution(Institution $institution = null): Chromatogram {
+    $this->institution = $institution;
     return $this;
   }
 
   /**
-   * Get institutionFk
+   * Get institution
    *
    * @return Institution
    */
-  public function getInstitutionFk(): ?Institution {
-    return $this->institutionFk;
+  public function getInstitution(): ?Institution {
+    return $this->institution;
   }
 
   /**
-   * Set pcrFk
+   * Set pcr
    *
-   * @param Pcr $pcrFk
+   * @param Pcr $pcr
    *
    * @return Chromatogram
    */
-  public function setPcrFk(Pcr $pcrFk = null): Chromatogram {
-    $this->pcrFk = $pcrFk;
+  public function setPcr(Pcr $pcr = null): Chromatogram {
+    $this->pcr = $pcr;
     return $this;
   }
 
   /**
-   * Get pcrFk
+   * Get pcr
    *
    * @return Pcr
    */
-  public function getPcrFk(): ?Pcr {
-    return $this->pcrFk;
+  public function getPcr(): ?Pcr {
+    return $this->pcr;
   }
 
   /**
@@ -256,7 +257,7 @@ class Chromatogram extends AbstractTimestampedEntity {
    * @return string
    */
   public function getCodeSpecificity(): ?string{
-    $specificity = $this->pcrFk->getSpecificityVocFk()->getCode();
+    $specificity = $this->pcr->getSpecificity()->getCode();
     return $this->code . '|' . $specificity;
   }
 }

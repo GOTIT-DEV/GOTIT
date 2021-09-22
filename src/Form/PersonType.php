@@ -20,7 +20,7 @@ class PersonType extends ActionFormType {
       ->add('alias', null, [
         'required' => false,
       ])
-      ->add('institutionFk', EntityType::class, [
+      ->add('institution', EntityType::class, [
         'class' => 'App:Institution',
         'placeholder' => 'Choose a Institution',
         'choice_label' => 'name',

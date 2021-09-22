@@ -359,19 +359,18 @@ alert.BadFormatDate: mauvais format de date (JJ-MM-AAAA) ou mauvaise valeur (JJ=
 # GOTIT DATABASE  ##############################################################
 # GOTIT Database Field Titles
 # db v2
-Material type voc fk: Type matériel
+Material type: Type matériel
 Taxon full name: Nom Taxon de référence
 # db v1
 Dna: ADN
 Status: État
 Accession number: Numéro d'ordre
 Accession number sqc ass ext: Numéro d'ordre
-Dna fk: ADN
 Altitude m: Altitude (m)
 Start year: Année debut
 End year: Année fin
 Annee source: Année source
-Store fk: Stock
+Store: Stock
 Chromatogram fk: Chromatogramme
 Clade: Clade
 Code: Code
@@ -379,7 +378,7 @@ Code adn: Code ADN
 Code boite: Code stock
 Code chromato: Code chromatogramme
 Code collecte: Code collecte
-Collection code voc fk: Collection
+Collection code: Collection
 Code commune: Code commune
 Molecular code: Code moléculaire individu
 Morphological code: Code morphologique individu
@@ -397,14 +396,14 @@ Code sqc ass ext alignement: Code séquence externe alignée
 Code station: Code station
 Code taxon: Code taxon
 Tube code: Tube code
-Sampling fk: Collecte
+Sampling: Collecte
 Sequencing advice: Conseil séquencage
 Comment: Commentaire
 Specimen quantity comment: Commentaire nombre d'individus
-Municipality fk: Commune
+Municipality: Commune
 Concentration ng microlitre: Concentration (ng/µL)
 Conductance micro sie cm: Conductivité (µS/cm)
-Identification criterion voc fk: Critère identification
+Identification Criterion: Critère identification
 Date adn: Date ADN
 Date collecte: Date collecte
 Meta creation date: Date création
@@ -417,23 +416,22 @@ Date lot materiel: Date lot matériel
 Meta update date: Date mise à jour
 Date motu: Date MOTU
 Date pcr: Date PCR
-Date precision voc fk: Précision date
+Date precision: Précision date
 Details: Detail PCR
 Duration mn: Durée échantillonnage (min)
 Taxon identification fk: Espèce identifiée
-Institution fk: Établissement
 Family: Famille
 Fixative voc fk: Fixateur
-Gene voc fk: Gène
+Gene: Gène
 Genus: Genre
-Habitat type voc fk: Type habitat
+Habitat type: Type habitat
 Id: Numéro identification
 Specimen: Individu
 Slide fk: Lame individu
 Description: Description
 Location info: Localisation station
 Lat deg dec: Latitude degré décimal
-Leg voc fk: Don
+Donation: Don
 Label: Libellé
 Label boite: Libellé stock
 Label collection: Libellé collection
@@ -441,13 +439,13 @@ Label lame: Libellé lame
 Label motu: libellé MOTU
 Label source: Libellé source
 Long deg dec: Longitude degré decimal
-External lot fk: Lot matériel externe
-Internal lot fk: Lot matériel
-Extraction method voc fk: Méthode extraction ADN
+External lot: Lot matériel externe
+Internal lot: Lot matériel
+Extraction method: Méthode extraction ADN
 Methode motu voc fk: Méthode MOTU
 Motu dataset fk: MOTU
 Nb specimens: Nombre d'individus
-Specimen quantity voc fk: Nombre d'individus
+Specimen quantity: Nombre d'individus
 Nom commune: Nom commune
 Full name: Full name
 Picture folder: Dossier photos
@@ -471,49 +469,48 @@ Parent: Parent
 Pays fk: Pays
 Pcr fk: PCR
 Person fk: Personne
-Pigmentation voc fk: Pigmentation
-Access point voc fk: Point accès
-Coordinates precision voc fk: Précision latitude longitude
+Pigmentation: Pigmentation
+Access point: Point accès
+Coordinates precision: Précision latitude longitude
 Primer chromato voc fk: Amorce chromatogramme
-Primer end voc fk: Amorce PCR antisens
-Primer Start Voc Fk: Amorce PCR sens
+Primer end: Amorce PCR antisens
+Primer start: Amorce PCR sens
 Program fk: Programme
-Qualite adn voc fk: Qualite ADN
+Quality: Qualité ADN
 Qualite chromato voc fk: Qualite chromatogramme
 Qualite pcr voc fk: Qualite PCR
 Rank: Rang
-Taxon fk: Taxon
+Taxon: Taxon
 Pcr comment: Remarque PCR
-Sampling method voc fk: Méthode echantillonnage
-External sequence fk: Séquence externe assemblée
-Internal sequence fk: Séquence assemblée
+Sampling method: Méthode echantillonnage
+External Sequence: Séquence externe assemblée
+Internal sequence: Séquence assemblée
 Source fk: Source
 Species: Espèce
-Specificity voc fk: Spécificité
-Site fk: Station
+Specificity: Spécificité
+Site: Station
 Subclass: Sous classe
 Subspecies: Sous espèce
 Taxname: Nom taxon
 Alias: Alias
 Primary taxon: Taxon origine séquence externe assemblée
 Temperature c: Température Celsius
-Storage type voc fk: Type stock
-Collection type voc fk: Type collection
+Storage type: Type stock
+Collection type: Type collection
 Funding agency: Financeur
-Specimen type voc fk: Type individu
+Specimen type: Type individu
 Meta creation user: Utilisateur création
 Meta update user: Utilisateur mise à jour
 Validity: Validité
-Eyes voc fk: Vision
+Eyes: Vision
 # titles of collections or N-N type relational tables
-Source providers: Est integrée par
+Providers: Est integrée par
 Dnas: ADN
 Internal lots: Lot matériel
 Slides: Lames
 Motu delimiters: Est générée par
 Auto generated code: Code auto-généré
 Code Chromato | Specificite: Code chromatogramme | spécificité
-External sequence publications: Est publiée dans
 Publications: Est publiée dans
 Assemblers: Est assemblée par
 Assemblies: Provient de
@@ -522,11 +519,10 @@ Slide producers: Est monté par
 Producers: Est realisé par
 Taxon identifications: Espèce identifiée
 Contents: Composition du lot matériel
-Taxon curators: Est identifié par
-Pcr producers: Est realisée par
+Curators: Est identifié par
 Sampling methods: Méthode échantillonnage
-Sampling fixatives: Fixateurs
-Sampling fundings: Programme
+Fixatives: Fixateurs
+Fundings: Programme
 Sampling participants: Est realisé par
 Taxa sampling: Taxa ciblés
 

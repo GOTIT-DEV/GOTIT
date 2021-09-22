@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -73,7 +74,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \Voc
@@ -81,7 +82,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $pigmentationVocFk;
+  private $pigmentation;
 
   /**
    * @var \Voc
@@ -89,7 +90,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $eyesVocFk;
+  private $eyes;
 
   /**
    * @var \Sampling
@@ -97,7 +98,7 @@ class InternalLot extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Sampling")
    * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
    */
-  private $samplingFk;
+  private $sampling;
 
   /**
    * @var \Store
@@ -105,28 +106,34 @@ class InternalLot extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Store", inversedBy="internalLots")
    * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    */
-  private $storeFk;
+  private $store;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalLotProducer", mappedBy="internalLotFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="internal_biological_material_is_treated_by",
+   *  joinColumns={@ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $producers;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalLotPublication", mappedBy="internalLotFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
+   * @ORM\JoinTable(name="internal_biological_material_is_published_in",
+   *  joinColumns={@ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $publications;
 
   /**
-   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalLotFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalLot", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $taxonIdentifications;
 
   /**
-   * @ORM\OneToMany(targetEntity="InternalLotContent", mappedBy="internalLotFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="InternalLotContent", mappedBy="internalLot", cascade={"persist"})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $contents;
@@ -236,124 +243,124 @@ class InternalLot extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return InternalLot
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null) {
+    $this->datePrecision = $datePrecision;
 
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getDatePrecisionVocFk() {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision() {
+    return $this->datePrecision;
   }
 
   /**
-   * Set pigmentationVocFk
+   * Set pigmentation
    *
-   * @param \App\Entity\Voc $pigmentationVocFk
+   * @param Voc $pigmentation
    *
    * @return InternalLot
    */
-  public function setPigmentationVocFk(\App\Entity\Voc $pigmentationVocFk = null) {
-    $this->pigmentationVocFk = $pigmentationVocFk;
+  public function setPigmentation(Voc $pigmentation = null) {
+    $this->pigmentation = $pigmentation;
 
     return $this;
   }
 
   /**
-   * Get pigmentationVocFk
+   * Get pigmentation
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getPigmentationVocFk() {
-    return $this->pigmentationVocFk;
+  public function getPigmentation() {
+    return $this->pigmentation;
   }
 
   /**
-   * Set eyesVocFk
+   * Set eyes
    *
-   * @param \App\Entity\Voc $eyesVocFk
+   * @param Voc $eyes
    *
    * @return InternalLot
    */
-  public function setEyesVocFk(\App\Entity\Voc $eyesVocFk = null) {
-    $this->eyesVocFk = $eyesVocFk;
+  public function setEyes(Voc $eyes = null) {
+    $this->eyes = $eyes;
 
     return $this;
   }
 
   /**
-   * Get eyesVocFk
+   * Get eyes
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getEyesVocFk() {
-    return $this->eyesVocFk;
+  public function getEyes() {
+    return $this->eyes;
   }
 
   /**
-   * Set samplingFk
+   * Set sampling
    *
-   * @param \App\Entity\Sampling $samplingFk
+   * @param Sampling $sampling
    *
    * @return InternalLot
    */
-  public function setSamplingFk(\App\Entity\Sampling $samplingFk = null) {
-    $this->samplingFk = $samplingFk;
+  public function setSampling(Sampling $sampling = null) {
+    $this->sampling = $sampling;
 
     return $this;
   }
 
   /**
-   * Get samplingFk
+   * Get sampling
    *
-   * @return \App\Entity\Sampling
+   * @return Sampling
    */
-  public function getSamplingFk() {
-    return $this->samplingFk;
+  public function getSampling() {
+    return $this->sampling;
   }
 
   /**
-   * Set storeFk
+   * Set store
    *
-   * @param \App\Entity\Store $storeFk
+   * @param Store $store
    *
    * @return InternalLot
    */
-  public function setStoreFk(\App\Entity\Store $storeFk = null) {
-    $this->storeFk = $storeFk;
+  public function setStore(Store $store = null) {
+    $this->store = $store;
 
     return $this;
   }
 
   /**
-   * Get storeFk
+   * Get store
    *
-   * @return \App\Entity\Store
+   * @return Store
    */
-  public function getStoreFk() {
-    return $this->storeFk;
+  public function getStore() {
+    return $this->store;
   }
 
   /**
    * Add producer
    *
-   * @param \App\Entity\InternalLotProducer $producer
+   * @param Person $producer
    *
    * @return InternalLot
    */
-  public function addProducer(\App\Entity\InternalLotProducer $producer) {
-    $producer->setInternalLotFk($this);
+  public function addProducer(Person $producer) {
+    $producer->setInternalLot($this);
     $this->producers[] = $producer;
 
     return $this;
@@ -362,9 +369,9 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Remove producer
    *
-   * @param \App\Entity\InternalLotProducer $producer
+   * @param Person $producer
    */
-  public function removeProducer(\App\Entity\InternalLotProducer $producer) {
+  public function removeProducer(Person $producer) {
     $this->producers->removeElement($producer);
   }
 
@@ -380,24 +387,21 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Add publication
    *
-   * @param \App\Entity\InternalLotPublication $publication
+   * @param Source $publication
    *
    * @return InternalLot
    */
-  public function addPublication(\App\Entity\InternalLotPublication $publication) {
-
-    $publication->setInternalLotFk($this);
+  public function addPublication(Source $publication) {
     $this->publications[] = $publication;
-
     return $this;
   }
 
   /**
    * Remove publication
    *
-   * @param \App\Entity\InternalLotPublication $publication
+   * @param Source $publication
    */
-  public function removePublication(\App\Entity\InternalLotPublication $publication) {
+  public function removePublication(Source $publication) {
     $this->publications->removeElement($publication);
   }
 
@@ -413,12 +417,12 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Add taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    *
    * @return InternalLot
    */
-  public function addTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
-    $taxonIdentification->setInternalLotFk($this);
+  public function addTaxonIdentification(TaxonIdentification $taxonIdentification) {
+    $taxonIdentification->setInternalLot($this);
     $this->taxonIdentifications[] = $taxonIdentification;
 
     return $this;
@@ -427,9 +431,9 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Remove taxonIdentification
    *
-   * @param \App\Entity\TaxonIdentification $taxonIdentification
+   * @param TaxonIdentification $taxonIdentification
    */
-  public function removeTaxonIdentification(\App\Entity\TaxonIdentification $taxonIdentification) {
+  public function removeTaxonIdentification(TaxonIdentification $taxonIdentification) {
     $this->taxonIdentifications->removeElement($taxonIdentification);
   }
 
@@ -445,12 +449,12 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Add content
    *
-   * @param \App\Entity\InternalLotContent $content
+   * @param InternalLotContent $content
    *
    * @return InternalLot
    */
-  public function addContent(\App\Entity\InternalLotContent $content) {
-    $content->setInternalLotFk($this);
+  public function addContent(InternalLotContent $content) {
+    $content->setInternalLot($this);
     $this->contents[] = $content;
 
     return $this;
@@ -459,9 +463,9 @@ class InternalLot extends AbstractTimestampedEntity {
   /**
    * Remove content
    *
-   * @param \App\Entity\InternalLotContent $content
+   * @param InternalLotContent $content
    */
-  public function removeContent(\App\Entity\InternalLotContent $content) {
+  public function removeContent(InternalLotContent $content) {
     $this->contents->removeElement($content);
   }
 

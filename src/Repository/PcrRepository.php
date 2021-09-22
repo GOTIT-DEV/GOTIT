@@ -12,16 +12,16 @@ final class PcrRepository extends AbstractRepository {
     parent::__construct($managerRegistry, Pcr::class, $validator);
     $this->fetchJoinQueryBuilder = $this->createQueryBuilder('pcr')
       ->select('pcr, dna, spec, prod, person, inst, pcr')
-      ->join('pcr.dnaFk', 'dna')
-      ->leftJoin('pcr.pcrProducers', 'prod')
+      ->join('pcr.dna', 'dna')
+      ->leftJoin('pcr.producers', 'prod')
       ->leftJoin('prod.personFk', 'person')
-      ->leftJoin('person.institutionFk', 'inst');
+      ->leftJoin('person.institution', 'inst');
   }
 
   public function getColumnKey(string $column): string {
     $column = $this->toCamelCase($column);
     switch ($column) {
-    case "dnaFk":
+    case "dna":
       $column = "dna.code";
       break;
     default:

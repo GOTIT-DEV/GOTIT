@@ -34,7 +34,7 @@ class SpeciesQueryService {
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
-      ->join('App:Voc', 'v', 'WITH', "a.methodVocFk=v AND v.code != 'HAPLO'")
+      ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :dataset')
       ->setParameter('dataset', $id_dataset)
       ->distinct()
@@ -49,7 +49,7 @@ class SpeciesQueryService {
       ->addSelect('m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
-      ->join('App:Voc', 'v', 'WITH', "a.methodVocFk=v AND v.code != 'HAPLO'")
+      ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :id_dataset AND v.id = :id_methode')
       ->setParameters(array(
         ':id_dataset' => $id_dataset,
@@ -66,7 +66,7 @@ class SpeciesQueryService {
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
       ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
-      ->join('App:Voc', 'v', 'WITH', "a.methodVocFk=v AND v.code != 'HAPLO'")
+      ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->distinct()
       ->orderBy('m.id, v.id')
       ->getQuery();
@@ -79,41 +79,41 @@ class SpeciesQueryService {
    ****************************************************************************/
 
   private function joinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
-      ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dnaFk')
+    return $query->join('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimen")
+      ->join('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dna')
       ->join('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->join('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
-      ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
-      ->join('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequenceFk")
-      ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
+      ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequence = at.internalSequence')
+      ->join('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequence")
+      ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.gene');
   }
 
   private function leftJoinIndivSeq($query, $indivAlias, $seqAlias) {
-    return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimenFk")
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dnaFk')
+    return $query->leftJoin('App:Dna', 'dna', 'WITH', "$indivAlias.id = dna.specimen")
+      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'dna.id = pcr.dna')
       ->leftJoin('App:Chromatogram', 'ch', 'WITH', 'pcr.id = ch.pcrFk')
       ->leftJoin('App:InternalSequenceAssembly', 'at', 'WITH', 'at.chromatogramFk = ch.id')
-      ->leftJoin('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequenceFk = at.internalSequenceFk')
-      ->leftJoin('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequenceFk")
-      ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.geneVocFk');
+      ->leftJoin('App:MotuDelimitation', 'ass', 'WITH', 'ass.internalSequence = at.internalSequence')
+      ->leftJoin('App:InternalSequence', $seqAlias, 'WITH', "$seqAlias.id = at.internalSequence")
+      ->leftJoin('App:Voc', 'vocGene', 'WITH', 'vocGene.id = pcr.gene');
   }
 
   private function joinTaxonSite($query, $aliasEsp, $aliasSta) {
-    return $query->leftJoin('App:InternalLot', 'lm', 'WITH', $aliasEsp . '.internalLotFk=lm.id')
-      ->leftJoin('App:ExternalLot', 'lmext', 'WITH', $aliasEsp . '.externalLotFk=lmext.id')
-      ->join('App:Sampling', 'c', 'WITH', 'c.id=lm.samplingFk OR c.id=lmext.samplingFk')
-      ->join('App:Site', $aliasSta, 'WITH', $aliasSta . '.id=c.siteFk');
+    return $query->leftJoin('App:InternalLot', 'lm', 'WITH', $aliasEsp . '.internalLot=lm.id')
+      ->leftJoin('App:ExternalLot', 'lmext', 'WITH', $aliasEsp . '.externalLot=lmext.id')
+      ->join('App:Sampling', 'c', 'WITH', 'c.id=lm.sampling OR c.id=lmext.sampling')
+      ->join('App:Site', $aliasSta, 'WITH', $aliasSta . '.id=c.site');
   }
 
   private function joinMotuCountMorpho($query, $alias = 'ass') {
-    return $query->leftJoin('App:ExternalSequence', 'motu_sext', 'WITH', "motu_sext.id=$alias.externalSequenceFk")
-      ->leftJoin('App:InternalSequenceAssembly', 'motu_at', 'WITH', "motu_at.internalSequenceFk = $alias.internalSequenceFk")
+    return $query->leftJoin('App:ExternalSequence', 'motu_sext', 'WITH', "motu_sext.id=$alias.externalSequence")
+      ->leftJoin('App:InternalSequenceAssembly', 'motu_at', 'WITH', "motu_at.internalSequence = $alias.internalSequence")
       ->leftJoin('App:Chromatogram', 'motu_chr', 'WITH', "motu_chr.id = motu_at.chromatogramFk")
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
-      ->leftJoin('App:Dna', 'motu_dna', 'WITH', "motu_dna.id = motu_pcr.dnaFk")
-      ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_dna.specimenFk")
-      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimenFk = motu_ind.id OR motu_eid.externalSequenceFk=motu_sext.id")
-      ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodVocFk")
+      ->leftJoin('App:Dna', 'motu_dna', 'WITH', "motu_dna.id = motu_pcr.dna")
+      ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_dna.specimen")
+      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimen = motu_ind.id OR motu_eid.externalSequence=motu_sext.id")
+      ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.method")
       ->join('App:MotuDataset', 'motu_date', 'WITH', "motu_date.id = $alias.motuDatasetFk");
   }
 
@@ -133,29 +133,29 @@ class SpeciesQueryService {
       ->addSelect('motu_dataset.id as id_dataset, motu_dataset.date as dataset_date, motu_dataset.title as dataset')
       ->addSelect('COUNT(DISTINCT ass.motuNumber ) as count_motus')
       ->from('App:Taxon', 'rt')
-      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk');
+      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxon');
     switch ($level) {
     case 1: #lot matériel
-      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
-        ->join('App:Specimen', 'i', 'WITH', 'i.internalLotFk = lm.id');
+      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLot')
+        ->join('App:Specimen', 'i', 'WITH', 'i.internalLot = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
       break;
 
     case 2: #specimen
-      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimenFk');
+      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimen');
       $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
       break;
 
     case 3: # sequence
-      $query = $query->leftJoin('App:InternalSequence', 'seq', 'WITH', 'seq.id=e.internalSequenceFk')
-        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequenceFk')
-        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.internalSequenceFk=seq.id')
+      $query = $query->leftJoin('App:InternalSequence', 'seq', 'WITH', 'seq.id=e.internalSequence')
+        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequence')
+        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequence=seqext.id OR ass.internalSequence=seq.id')
         ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
       break;
     }
 
     $query = $query->join('App:MotuDataset', 'motu_dataset', 'WITH', 'ass.motuDatasetFk = motu_dataset.id')
-      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.methodVocFk = vocabulary.id');
+      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.method = vocabulary.id');
 
     if ($data->get('species')) {
       $query = $query->andWhere('rt.species = :species')
@@ -167,12 +167,12 @@ class SpeciesQueryService {
     }
 
     if ($criteria) {
-      $query = $query->andWhere('e.identificationCriterionVocFk IN(:criteria)')
+      $query = $query->andWhere('e.identificationCriterion IN(:criteria)')
         ->setParameter('criteria', $criteria);
     }
 
     if ($methods) {
-      $query = $query->andWhere('ass.methodVocFk IN(:methods)')
+      $query = $query->andWhere('ass.method IN(:methods)')
         ->setParameter('methods', $methods);
     }
 
@@ -202,34 +202,34 @@ class SpeciesQueryService {
       ->addSelect('v.code as criterion')
       ->addSelect('vocGene.code as gene')
       ->from('App:Taxon', 'rt')
-      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxonFk')
-      ->join('App:Voc', 'v', 'WITH', 'e.identificationCriterionVocFk=v.id');
+      ->join('App:TaxonIdentification', 'e', 'WITH', 'rt.id = e.taxon')
+      ->join('App:Voc', 'v', 'WITH', 'e.identificationCriterion=v.id');
     switch ($level) {
     case 1: # Bio material
-      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLotFk')
-        ->join('App:Specimen', 'i', 'WITH', 'i.internalLotFk = lm.id');
+      $query = $query->join('App:InternalLot', 'lm', 'WITH', 'lm.id=e.internalLot')
+        ->join('App:Specimen', 'i', 'WITH', 'i.internalLot = lm.id');
       $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
     case 2: # Specimen
-      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimenFk');
+      $query = $query->join('App:Specimen', 'i', 'WITH', 'i.id = e.specimen');
       $query = $this->joinIndivSeq($query, 'i', 'seq');
       break;
 
     case 3: # Sequence
-      $query = $query->leftJoin('App:InternalSequence', 'seq', 'WITH', 'seq.id=e.internalSequenceFk')
-        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequenceFk')
-        ->leftJoin('App:InternalSequenceAssembly', 'chrom_proc', 'WITH', 'chrom_proc.internalSequenceFk = seq.id')
+      $query = $query->leftJoin('App:InternalSequence', 'seq', 'WITH', 'seq.id=e.internalSequence')
+        ->leftJoin('App:ExternalSequence', 'seqext', 'WITH', 'seqext.id=e.externalSequence')
+        ->leftJoin('App:InternalSequenceAssembly', 'chrom_proc', 'WITH', 'chrom_proc.internalSequence = seq.id')
         ->leftJoin('App:Chromatogram', 'chromatogram', 'WITH', 'chrom_proc.chromatogramFk = chromatogram.id')
         ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequenceFk=seqext.id OR ass.internalSequenceFk=seq.id')
-        ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
+        ->join('App:MotuDelimitation', 'ass', 'WITH', 'ass.externalSequence=seqext.id OR ass.internalSequence=seq.id')
+        ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.gene OR vocGene.id=pcr.gene')
         ->addSelect('seqext.id as id_ext, seqext.code as codeExt, seqext.accessionNumber as acc_ext');
       break;
     }
 
     $query = $query->join('App:MotuDataset', 'm', 'WITH', 'ass.motuDatasetFk = m.id')
-      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.methodVocFk = vocabulary.id')
+      ->join('App:Voc', 'vocabulary', 'WITH', 'ass.method = vocabulary.id')
       ->andWhere('rt.id = :id_taxon')
       ->andWhere('vocabulary.id = :method')
       ->andWhere('m.id = :dataset')
@@ -240,7 +240,7 @@ class SpeciesQueryService {
       ]);
 
     if ($criteria) {
-      $query = $query->andWhere('e.identificationCriterionVocFk IN (:criteria)')
+      $query = $query->andWhere('e.identificationCriterion IN (:criteria)')
         ->setParameter('criteria', $criteria);
     }
 
@@ -289,19 +289,19 @@ class SpeciesQueryService {
       ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.label as criterion_title_seq') // critere sequence
     // JOIN lot matériel
       ->from('App:InternalLot', 'lm')
-      ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLotFk')
-      ->join('App:Taxon', 'biomat', 'WITH', 'biomat.id = eidlm.taxonFk')
-      ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.identificationCriterionVocFk=lmvoc.id')
+      ->join('App:TaxonIdentification', 'eidlm', 'WITH', 'lm.id = eidlm.internalLot')
+      ->join('App:Taxon', 'biomat', 'WITH', 'biomat.id = eidlm.taxon')
+      ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.identificationCriterion=lmvoc.id')
     // JOIN specimen
-      ->join('App:Specimen', 'indiv', 'WITH', 'indiv.internalLotFk = lm.id')
-      ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimenFk')
-      ->join('App:Taxon', 'spec', 'WITH', 'spec.id = eidindiv.taxonFk')
-      ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.identificationCriterionVocFk=ivoc.id');
+      ->join('App:Specimen', 'indiv', 'WITH', 'indiv.internalLot = lm.id')
+      ->join('App:TaxonIdentification', 'eidindiv', 'WITH', 'indiv.id = eidindiv.specimen')
+      ->join('App:Taxon', 'spec', 'WITH', 'spec.id = eidindiv.taxon')
+      ->join('App:Voc', 'ivoc', 'WITH', 'eidindiv.identificationCriterion=ivoc.id');
     // JOIN sequence
     $query = $this->leftJoinIndivSeq($query, 'indiv', 'seq')
-      ->leftJoin('App:TaxonIdentification', 'eidseq', 'WITH', 'seq.id = eidseq.internalSequenceFk')
-      ->leftJoin('App:Taxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.taxonFk')
-      ->leftJoin('App:Voc', 'seqvoc', 'WITH', 'eidseq.identificationCriterionVocFk=seqvoc.id');
+      ->leftJoin('App:TaxonIdentification', 'eidseq', 'WITH', 'seq.id = eidseq.internalSequence')
+      ->leftJoin('App:Taxon', 'seqrt', 'WITH', 'seqrt.id = eidseq.taxon')
+      ->leftJoin('App:Voc', 'seqvoc', 'WITH', 'eidseq.identificationCriterion=seqvoc.id');
     if ($undefinedSeq) {
       $query = $query->andWhere('seq.id IS NULL');
     }

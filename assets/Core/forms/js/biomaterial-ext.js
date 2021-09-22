@@ -2,8 +2,8 @@ import { initSearchSelect } from "./field-suggestions";
 
 $(() => {
   const $form = $("form[name='external_lot']");
-  const $sampling = $("#external_lot_samplingFk");
-  const $taxon = $("#external_lot_taxonIdentifications_0_taxonFk");
+  const $sampling = $("#external_lot_sampling");
+  const $taxon = $("#external_lot_taxonIdentifications_0_taxon");
   const $code = $("#external_lot_code");
 
   initSearchSelect($sampling, "sampling_search");

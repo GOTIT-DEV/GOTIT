@@ -4,8 +4,8 @@
 
 {% block action %}
 	{{parent()}}
-	{% if edit_form.vars.data.samplingFk is not null %}
-		<a href="{{path('sampling_show', {id: edit_form.vars.data.samplingFk.id})}}" class="btn btn-sm btn-info">
+	{% if edit_form.vars.data.sampling is not null %}
+		<a href="{{path('sampling_show', {id: edit_form.vars.data.sampling.id})}}" class="btn btn-sm btn-info">
 			<i class="fas fa-link"></i>
 			{{'button.Back to sampling'|trans}}
 		</a>

@@ -28,11 +28,11 @@ services:
   # please note that last definitions always *replace* previous ones
 
   # Event listener to set user and timestamp before creating or updating entities
-  App\Doctrine\SetUserTimestampListener:
+  App\Listener\SetUserTimestampListener:
     tags:
       - {
           name: doctrine.orm.entity_listener,
-          entity: 'App\Entity\AbstractTimestampedEntity',
+          entity: 'App\Entity\Abstraction\AbstractTimestampedEntity',
         }
 
   fos_rest.request.param_fetcher.reader:

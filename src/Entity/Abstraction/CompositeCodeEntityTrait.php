@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Abstraction;
 
 /**
  * Entities having composite code generated from their properties

@@ -2,14 +2,15 @@
 
 namespace App\Form\EmbedTypes;
 
+use App\Form\EmbedTypes\PersonEmbedType;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\TaxnameType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,10 +22,10 @@ class TaxonIdentificationEmbedType extends AbstractType {
   public function buildForm(FormBuilderInterface $builder, array $options) {
 
     $builder
-      ->add('taxonFk', TaxnameType::class, [
+      ->add('taxon', TaxnameType::class, [
         'choice_label' => $options['refTaxonLabel'],
       ])
-      ->add('identificationCriterionVocFk', BaseVocType::class, array(
+      ->add('identificationCriterion', BaseVocType::class, array(
         'voc_parent' => 'critereIdentification',
         'expanded' => true,
         'attr' => ["class" => "stacked"],
@@ -32,8 +33,8 @@ class TaxonIdentificationEmbedType extends AbstractType {
         'required' => true,
       ))
       ->add('identificationDate', DateFormattedType::class)
-      ->add('datePrecisionVocFk', DatePrecisionType::class)
-      ->add('materialTypeVocFk', EntityType::class, array(
+      ->add('datePrecision', DatePrecisionType::class)
+      ->add('materialType', EntityType::class, array(
         'class' => 'App:Voc',
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
@@ -49,14 +50,9 @@ class TaxonIdentificationEmbedType extends AbstractType {
         'required' => true,
       ))
       ->add('comment')
-      ->add('taxonCurators', CollectionType::class, array(
-        'entry_type' => TaxonCuratorEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
+      ->add('curators', DynamicCollectionType::class, array(
+        'entry_type' => PersonEmbedType::class,
         'prototype_name' => '__name_inner__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
       ));
   }
 

@@ -5,53 +5,44 @@ namespace App\Form\EmbedTypes;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InternalSequenceAssemblyEmbedType extends AbstractType {
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('chromatogramFk', EntityType::class, [
-      'class' => 'App:Chromatogram',
-      'query_builder' => function (EntityRepository $er) use ($options) {
-        $qb = $er->createQueryBuilder('chromatogram');
-        return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-          ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dnaFk = dna.id')
-          ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimenFk = specimen.id')
-          ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificityVocFk = vocSpecificite.id')
-          ->where('pcr.geneVocFk = :geneVocFk')
-          ->andwhere('specimen.id = :specimenFk')
-          ->setParameters([
-            'specimenFk' => $options['specimenFk'],
-            'geneVocFk' => $options['geneVocFk'],
-          ]);
-      },
-      'choice_label' => 'codeSpecificity',
-      'multiple' => false,
-      'expanded' => false,
-      'required' => true,
-      'label' => 'Code | Specificite',
-      'placeholder' => 'Choose a chromatogram',
-    ]);
-  }
 
   /**
    * {@inheritdoc}
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults(array(
-      'data_class' => 'App\Entity\InternalSequenceAssembly',
-      'geneVocFk' => null,
-      'specimenFk' => null,
+      'gene' => null,
+      'specimen' => null,
+      'class' => 'App:Chromatogram',
+      'choice_label' => 'codeSpecificity',
+      'multiple' => false,
+      'expanded' => false,
+      'required' => true,
+      'label' => false,
+      'placeholder' => 'Choose a chromatogram',
+      "query_builder" => function (Options $options) {
+        return function (EntityRepository $er) use ($options) {
+          return $er->createQueryBuilder('chromatogram')
+            ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcr = pcr.id')
+            ->leftJoin('App:Dna', 'dna', 'WITH', 'pcr.dna = dna.id')
+            ->leftJoin('App:Specimen', 'specimen', 'WITH', 'dna.specimen = specimen.id')
+            ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificity = vocSpecificite.id')
+            ->where('pcr.gene = :gene')
+            ->andwhere('specimen = :specimen')
+            ->setParameters([
+              'specimen' => $options['specimen'],
+              'gene' => $options['gene'],
+            ]);
+        };
+      },
     ));
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getBlockPrefix() {
-    return 'assembly';
+  public function getParent() {
+    return EntityType::class;
   }
 }

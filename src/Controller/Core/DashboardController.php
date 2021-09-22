@@ -30,11 +30,11 @@ class DashboardController extends AbstractController {
     $internalSequenceCount = $em->createQuery('SELECT COUNT(u.id) FROM App:InternalSequence u')->getSingleScalarResult();
     $externalSeqCount = $em->createQuery('SELECT COUNT(u.id) FROM App:ExternalSequence u')->getSingleScalarResult();
     $nbMotu = $em->createQuery('SELECT COUNT(u.id) FROM App:MotuDelimitation u')->getSingleScalarResult();
-    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:MotuDelimitation u JOIN u.internalSequenceFk sa GROUP BY sa.id')->getResult());
-    $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:MotuDelimitation u JOIN u.externalSequenceFk sae GROUP BY sae.id')->getResult());
+    $nbMotuSqcAss = count($em->createQuery('SELECT COUNT(sa.id) FROM App:MotuDelimitation u JOIN u.internalSequence sa GROUP BY sa.id')->getResult());
+    $nbMotuSqcAssExt = count($em->createQuery('SELECT COUNT(sae.id) FROM App:MotuDelimitation u JOIN u.externalSequence sae GROUP BY sae.id')->getResult());
     $nbBoite = $em->createQuery('SELECT COUNT(u.id) FROM App:Store u')->getSingleScalarResult();
     $nbSource = $em->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
-    $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:TaxonIdentification u JOIN u.taxonFk rt GROUP BY rt.id')->getResult());
+    $nbTaxon = count($em->createQuery('SELECT COUNT(rt.id) FROM App:TaxonIdentification u JOIN u.taxon rt GROUP BY rt.id')->getResult());
     //
     $tab_toshow = [];
     // returns the last records of the dna

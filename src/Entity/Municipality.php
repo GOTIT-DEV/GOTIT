@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -61,7 +63,7 @@ class Municipality extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Country", inversedBy="municipalities", fetch="EAGER")
    * @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    */
-  private $countryFk;
+  private $country;
 
   /**
    * Get id
@@ -97,7 +99,7 @@ class Municipality extends AbstractTimestampedEntity {
     $code = join('|', [
       $this->getName(),
       $this->getRegion(),
-      $this->getCountryFk()->getName(),
+      $this->getCountry()->getName(),
     ]);
     return str_replace(' ', '_', strtoupper($code));
   }
@@ -145,23 +147,23 @@ class Municipality extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set countryFk
+   * Set country
    *
-   * @param Country $countryFk
+   * @param Country $country
    *
    * @return Municipality
    */
-  public function setCountryFk(Country $countryFk = null): Municipality {
-    $this->countryFk = $countryFk;
+  public function setCountry(Country $country = null): Municipality {
+    $this->country = $country;
     return $this;
   }
 
   /**
-   * Get countryFk
+   * Get country
    *
    * @return Country
    */
-  public function getCountryFk(): ?Country {
-    return $this->countryFk;
+  public function getCountry(): ?Country {
+    return $this->country;
   }
 }

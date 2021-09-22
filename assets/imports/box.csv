@@ -1,1 +1,1 @@
-store.code;store.storage_type_voc_fk(voc.code);store.label;store.collection_code_voc_fk(voc.code);store.collection_type_voc_fk(voc.code);store.comment
+store.code;store.storage_type(voc.code);store.label;store.collection_code(voc.code);store.collection_type(voc.code);store.comment

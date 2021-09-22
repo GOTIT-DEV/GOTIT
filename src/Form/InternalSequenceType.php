@@ -2,16 +2,16 @@
 
 namespace App\Form;
 
-use App\Form\EmbedTypes\InternalSequenceAssemblerEmbedType;
 use App\Form\EmbedTypes\InternalSequenceAssemblyEmbedType;
-use App\Form\EmbedTypes\InternalSequencePublicationEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
+use App\Form\EmbedTypes\SourceEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\DateFormattedType;
 use App\Form\Type\DatePrecisionType;
+use App\Form\Type\DynamicCollectionType;
 use App\Form\Type\EntityCodeType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,8 +21,8 @@ class InternalSequenceType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sequence = $builder->getData();
-    $gene = $options['gene'] ?: $sequence->getGeneVocFk();
-    $specimen = $options['specimen'] ?: $sequence->getSpecimenFk();
+    $gene = $options['gene'] ?: $sequence->getGene();
+    $specimen = $options['specimen'] ?: $sequence->getSpecimen();
 
     $builder
       ->add('code', EntityCodeType::class, [
@@ -38,7 +38,7 @@ class InternalSequenceType extends ActionFormType {
         ],
       ])
       ->add('comment')
-      ->add('datePrecisionVocFk', DatePrecisionType::class)
+      ->add('datePrecision', DatePrecisionType::class)
       ->add('creationDate', DateFormattedType::class)
       ->add('status', BaseVocType::class, [
         'voc_parent' => 'statutSqcAss',
@@ -46,52 +46,28 @@ class InternalSequenceType extends ActionFormType {
         'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('assemblies', CollectionType::class, array(
+      ->add('assemblies', DynamicCollectionType::class, array(
         'disabled' => $this->canEditAdminOnly($options),
         'entry_type' => InternalSequenceAssemblyEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
         'entry_options' => array(
           'label' => false,
-          'geneVocFk' => $gene,
-          'specimenFk' => $specimen,
+          'gene' => $gene,
+          'specimen' => $specimen,
         ),
       ))
-      ->add('assemblers', CollectionType::class, array(
-        'entry_type' => InternalSequenceAssemblerEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
+      ->add('assemblers', DynamicCollectionType::class, array(
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
           "data-allow-new" => true,
           "data-modal-controller" =>
           'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
       ))
-      ->add('taxonIdentifications', CollectionType::class, array(
+      ->add('taxonIdentifications', DynamicCollectionType::class, array(
         'entry_type' => TaxonIdentificationEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array('label' => false),
       ))
-      ->add('publications', CollectionType::class, array(
-        'entry_type' => InternalSequencePublicationEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'required' => false,
-        'entry_options' => array('label' => false),
+      ->add('publications', DynamicCollectionType::class, array(
+        'entry_type' => SourceEmbedType::class,
       ));
   }
 

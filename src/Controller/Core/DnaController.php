@@ -58,7 +58,7 @@ class DnaController extends AbstractController {
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Specimen')->find($specimen_id);
-      $dna->setSpecimenFk($specimen);
+      $dna->setSpecimen($specimen);
     }
 
     $form = $this->createForm('App\Form\DnaType', $dna, [
@@ -128,7 +128,7 @@ class DnaController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
-    $dnaProducers = $service->copyArrayCollection($dna->getDnaProducers());
+    $producers = $service->copyArrayCollection($dna->getProducers());
     $deleteForm = $this->createDeleteForm($dna);
     $editForm = $this->createForm('App\Form\DnaType', $dna, [
       'action_type' => Action::edit(),
@@ -137,7 +137,7 @@ class DnaController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $em = $this->getDoctrine()->getManager();
-      $service->removeStaleCollection($dnaProducers, $dna->getDnaProducers());
+      $service->removeStaleCollection($producers, $dna->getProducers());
       $em->persist($dna);
       try {
         $em->flush();

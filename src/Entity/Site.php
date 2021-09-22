@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -93,7 +94,7 @@ class Site extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Municipality", fetch="EAGER")
    * @ORM\JoinColumn(name="municipality_fk", referencedColumnName="id", nullable=false)
    */
-  private $municipalityFk;
+  private $municipality;
 
   /**
    * @var \Country
@@ -101,7 +102,7 @@ class Site extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Country", fetch="EAGER")
    * @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
    */
-  private $countryFk;
+  private $country;
 
   /**
    * @var \Voc
@@ -109,7 +110,7 @@ class Site extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="access_point_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $accessPointVocFk;
+  private $accessPoint;
 
   /**
    * @var \Voc
@@ -117,7 +118,7 @@ class Site extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $habitatTypeVocFk;
+  private $habitatType;
 
   /**
    * @var \Voc
@@ -125,7 +126,7 @@ class Site extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="coordinate_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $coordinatesPrecisionVocFk;
+  private $coordinatesPrecision;
 
   /**
    * Get id
@@ -313,112 +314,112 @@ class Site extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set municipalityFk
+   * Set municipality
    *
-   * @param \App\Entity\Municipality $municipalityFk
+   * @param Municipality $municipality
    *
    * @return Site
    */
-  public function setMunicipalityFk(\App\Entity\Municipality $municipalityFk = null) {
-    $this->municipalityFk = $municipalityFk;
+  public function setMunicipality(Municipality $municipality = null) {
+    $this->municipality = $municipality;
 
     return $this;
   }
 
   /**
-   * Get municipalityFk
+   * Get municipality
    *
-   * @return \App\Entity\Municipality
+   * @return Municipality
    */
-  public function getMunicipalityFk() {
-    return $this->municipalityFk;
+  public function getMunicipality() {
+    return $this->municipality;
   }
 
   /**
-   * Set countryFk
+   * Set country
    *
-   * @param \App\Entity\Country $countryFk
+   * @param Country $country
    *
    * @return Site
    */
-  public function setCountryFk(\App\Entity\Country $countryFk = null) {
-    $this->countryFk = $countryFk;
+  public function setCountry(Country $country = null) {
+    $this->country = $country;
 
     return $this;
   }
 
   /**
-   * Get countryFk
+   * Get country
    *
-   * @return \App\Entity\Country
+   * @return Country
    */
-  public function getCountryFk() {
-    return $this->countryFk;
+  public function getCountry() {
+    return $this->country;
   }
 
   /**
-   * Set accessPointVocFk
+   * Set accessPoint
    *
-   * @param \App\Entity\Voc $accessPointVocFk
+   * @param Voc $accessPoint
    *
    * @return Site
    */
-  public function setAccessPointVocFk(\App\Entity\Voc $accessPointVocFk = null) {
-    $this->accessPointVocFk = $accessPointVocFk;
+  public function setAccessPoint(Voc $accessPoint = null) {
+    $this->accessPoint = $accessPoint;
 
     return $this;
   }
 
   /**
-   * Get accessPointVocFk
+   * Get accessPoint
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getAccessPointVocFk() {
-    return $this->accessPointVocFk;
+  public function getAccessPoint() {
+    return $this->accessPoint;
   }
 
   /**
-   * Set habitatTypeVocFk
+   * Set habitatType
    *
-   * @param \App\Entity\Voc $habitatTypeVocFk
+   * @param Voc $habitatType
    *
    * @return Site
    */
-  public function setHabitatTypeVocFk(\App\Entity\Voc $habitatTypeVocFk = null) {
-    $this->habitatTypeVocFk = $habitatTypeVocFk;
+  public function setHabitatType(Voc $habitatType = null) {
+    $this->habitatType = $habitatType;
 
     return $this;
   }
 
   /**
-   * Get habitatTypeVocFk
+   * Get habitatType
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getHabitatTypeVocFk() {
-    return $this->habitatTypeVocFk;
+  public function getHabitatType() {
+    return $this->habitatType;
   }
 
   /**
-   * Set coordinatesPrecisionVocFk
+   * Set coordinatesPrecision
    *
-   * @param \App\Entity\Voc $coordinatesPrecisionVocFk
+   * @param Voc $coordinatesPrecision
    *
    * @return Site
    */
-  public function setCoordinatesPrecisionVocFk(\App\Entity\Voc $coordinatesPrecisionVocFk = null) {
-    $this->coordinatesPrecisionVocFk = $coordinatesPrecisionVocFk;
+  public function setCoordinatesPrecision(Voc $coordinatesPrecision = null) {
+    $this->coordinatesPrecision = $coordinatesPrecision;
 
     return $this;
   }
 
   /**
-   * Get coordinatesPrecisionVocFk
+   * Get coordinatesPrecision
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getCoordinatesPrecisionVocFk() {
-    return $this->coordinatesPrecisionVocFk;
+  public function getCoordinatesPrecision() {
+    return $this->coordinatesPrecision;
   }
 }

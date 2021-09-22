@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -71,7 +72,7 @@ class Slide extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecisionVocFk;
+  private $datePrecision;
 
   /**
    * @var \Store
@@ -79,7 +80,7 @@ class Slide extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Store", inversedBy="slides")
    * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
    */
-  private $storeFk;
+  private $store;
 
   /**
    * @var \Specimen
@@ -87,10 +88,13 @@ class Slide extends AbstractTimestampedEntity {
    * @ORM\ManyToOne(targetEntity="Specimen")
    * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
    */
-  private $specimenFk;
+  private $specimen;
 
   /**
-   * @ORM\OneToMany(targetEntity="SlideProducer", mappedBy="slideFk", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="slide_is_mounted_by",
+   *  joinColumns={@ORM\JoinColumn(name="specimen_slide_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $producers;
@@ -219,91 +223,88 @@ class Slide extends AbstractTimestampedEntity {
   }
 
   /**
-   * Set datePrecisionVocFk
+   * Set datePrecision
    *
-   * @param \App\Entity\Voc $datePrecisionVocFk
+   * @param Voc $datePrecision
    *
    * @return Slide
    */
-  public function setDatePrecisionVocFk(\App\Entity\Voc $datePrecisionVocFk = null) {
-    $this->datePrecisionVocFk = $datePrecisionVocFk;
+  public function setDatePrecision(Voc $datePrecision = null) {
+    $this->datePrecision = $datePrecision;
 
     return $this;
   }
 
   /**
-   * Get datePrecisionVocFk
+   * Get datePrecision
    *
-   * @return \App\Entity\Voc
+   * @return Voc
    */
-  public function getDatePrecisionVocFk() {
-    return $this->datePrecisionVocFk;
+  public function getDatePrecision() {
+    return $this->datePrecision;
   }
 
   /**
-   * Set storeFk
+   * Set store
    *
-   * @param \App\Entity\Store $storeFk
+   * @param Store $store
    *
    * @return Slide
    */
-  public function setStoreFk(\App\Entity\Store $storeFk = null) {
-    $this->storeFk = $storeFk;
+  public function setStore(Store $store = null) {
+    $this->store = $store;
+    return $this;
+  }
+
+  /**
+   * Get store
+   *
+   * @return Store
+   */
+  public function getStore() {
+    return $this->store;
+  }
+
+  /**
+   * Set specimen
+   *
+   * @param Specimen $specimen
+   *
+   * @return Slide
+   */
+  public function setSpecimen(Specimen $specimen = null) {
+    $this->specimen = $specimen;
 
     return $this;
   }
 
   /**
-   * Get storeFk
+   * Get specimen
    *
-   * @return \App\Entity\Store
+   * @return Specimen
    */
-  public function getStoreFk() {
-    return $this->storeFk;
-  }
-
-  /**
-   * Set specimenFk
-   *
-   * @param \App\Entity\Specimen $specimenFk
-   *
-   * @return Slide
-   */
-  public function setSpecimenFk(\App\Entity\Specimen $specimenFk = null) {
-    $this->specimenFk = $specimenFk;
-
-    return $this;
-  }
-
-  /**
-   * Get specimenFk
-   *
-   * @return \App\Entity\Specimen
-   */
-  public function getSpecimenFk() {
-    return $this->specimenFk;
+  public function getSpecimen() {
+    return $this->specimen;
   }
 
   /**
    * Add producer
    *
-   * @param \App\Entity\SlideProducer $producer
+   * @param Person $producer
    *
    * @return Slide
    */
-  public function addProducer(\App\Entity\SlideProducer $producer) {
-    $producer->setSlideFk($this);
+  public function addProducer(Person $producer) {
     $this->producers[] = $producer;
-
     return $this;
   }
 
   /**
    * Remove producer
    *
-   * @param \App\Entity\SlideProducer $producer
+   * @param Person $producer
    */
-  public function removeProducer(\App\Entity\SlideProducer $producer) {
+  public function removeProducer(Person $producer) {
     $this->producers->removeElement($producer);
   }
 
