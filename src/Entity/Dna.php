@@ -9,6 +9,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
+use App\Entity\Pcr;
+use App\Filter\OrSearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -49,13 +51,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     paginationEnabled=true
  * )
  * @ApiFilter(SearchFilter::class, properties={
- *  "code":"partial",
- *  "specimen.molecularCode":"partial",
- *  "specimen.morphologicalCode":"partial",
- *  "store.code": "partial",
- *  "datePrecision.code":"partial",
- *  "extractionMethod.code":"partial",
- *  "quality.code":"partial"
+ *  "code":"ipartial",
+ *  "specimen.molecularCode":"ipartial",
+ *  "specimen.morphologicalCode":"ipartial",
+ *  "store.code": "ipartial",
+ *  "datePrecision.code":"ipartial",
+ *  "extractionMethod.code":"ipartial",
+ *  "quality.code":"ipartial"
+ * })
+ * @ApiFilter(OrSearchFilter::class, properties={
+ *  "code":"ipartial",
+ *  "specimen.molecularCode":"ipartial",
+ *  "specimen.morphologicalCode":"ipartial",
+ *  "store.code": "ipartial",
+ *  "datePrecision.code":"ipartial",
+ *  "extractionMethod.code":"ipartial",
+ *  "quality.code":"ipartial"
  * })
  * @ApiFilter(DateFilter::class, properties={
  *  "date": "DateFilter::EXCLUDE_NULL"
@@ -80,7 +91,6 @@ class Dna extends AbstractTimestampedEntity {
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
    * @Groups({"item"})
-   * @ApiProperty(identifier=true)
    * @Assert\Regex(
    *  pattern="/^[\w]+$/",
    *  message="Code {{ value }} contains invalid special characters"
@@ -167,14 +177,14 @@ class Dna extends AbstractTimestampedEntity {
    * @Groups({"dna:list", "dna:item"})
    * @Assert\Count(min = 1, minMessage = "At least one person is required as producer")
    */
-  protected $producers;
+  private $producers;
 
   /**
-   * @var Pcr
-   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna", fetch="EXTRA_LAZY")
+   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna")
+   * @ApiProperty
    * @Groups({"dna:list", "dna:item"})
    */
-  protected $pcrs;
+  private $pcrs;
 
   public function __construct() {
     $this->producers = new ArrayCollection();
@@ -419,5 +429,20 @@ class Dna extends AbstractTimestampedEntity {
    */
   public function getProducers(): Collection {
     return $this->producers;
+  }
+
+  /**
+   * Get PCRs
+   *
+   * @return Collection
+   */
+  public function getPcrs(): Collection {
+    return $this->pcrs;
+  }
+
+  public function addPcr(Pcr $pcr): Dna {
+    $pcr->setDna($this);
+    $this->pcrs[] = $pcr;
+    return $this;
   }
 }

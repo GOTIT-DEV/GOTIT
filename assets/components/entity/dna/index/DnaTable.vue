@@ -21,6 +21,24 @@
           {{ data.value }}
         </a>
       </template>
+      <template #cell(producers)="data">
+        <b-avatar-group size="sm">
+          <b-avatar
+            v-for="person in data.value"
+            :key="person.name"
+            v-b-tooltip.hover
+            :title="person.name"
+            variant="info"
+            :href="generateRoute('person_show', { id: person.id })"
+            :text="
+              person.name
+                .split(' ')
+                .map((part) => part.charAt(0))
+                .join('')
+            "
+          />
+        </b-avatar-group>
+      </template>
       <template #cell(pcrs)="data">
         <a :href="pcrLinkUrl(data.item)">
           <i :class="['fas', pcrLinkIcon(data.item)]" />
@@ -48,10 +66,10 @@ export default {
     return {
       tableId: "dna-list-table",
       routes: {
-        show: "dna_show",
+        show: "api_dnas_get_item",
         edit: "dna_edit",
-        list: "app_api_dna_list",
-        delete: "app_api_dna_delete",
+        list: "api_dnas_get_collection",
+        delete: "api_dnas_delete_item",
       },
       providerPagination: {
         items: "items",
@@ -75,11 +93,12 @@ export default {
           key: "specimen",
           label: this.$t("messages.Specimen"),
           formatter(value) {
-            return value?.molecular_code;
+            return value?.molecularCode;
           },
           sortable: true,
           visible: true,
           searchable: true,
+          searchKey: "molecularCode",
         },
         {
           key: "date",
@@ -91,7 +110,7 @@ export default {
             },
           },
           formatter(value, key, item) {
-            const prec = item.date_precision.code;
+            const prec = item.datePrecision.code;
             const format =
               prec === "J"
                 ? "L"
@@ -104,14 +123,14 @@ export default {
           },
         },
         {
-          key: "dna_producers",
+          key: "producers",
           label: this.$t("messages.Producers"),
           sortable: false,
           visible: true,
-          formatter(relations, key, item) {
-            return relations
-              .map((relation) => relation.person_fk.name)
-              .join(", ");
+          export: {
+            formatter(producers, key, item) {
+              return producers.map((producer) => producer.name).join(", ");
+            },
           },
         },
         {

@@ -40,7 +40,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="pcr_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"item"})
+   * @Groups({"item", "dna:list"})
    */
   private $id;
 
@@ -51,7 +51,7 @@ class Pcr extends AbstractTimestampedEntity {
    * @Assert\Expression("this.hasValidCode()",
    *  groups={"code"},
    *  message="Code {{ value }} differs from specification.")
-   * @Groups({"item"})
+   * @Groups({"item", "dna:list"})
    */
   private $code;
 

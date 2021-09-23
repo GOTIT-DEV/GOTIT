@@ -146,6 +146,7 @@
                   @update="
                     $set(fieldSearchTerms.fields, f.key, {
                       formatter: f.formatter,
+                      searchKey: f.searchKey,
                       term: $event,
                     })
                   "
@@ -292,22 +293,13 @@ export default {
       if (this.hasItemsProvider) {
         return this.providerPagination
           ? async (ctx) => {
-              const context = Object.fromEntries(
-                Object.entries(ctx).filter(([_, v]) => v !== "")
-              );
-              if (context.filter instanceof RegExp) {
-                context.filter = context.filter.source;
-              } else if (context.filter?.fields) {
-                context.filterop = context.filter?.logicalOr ? "OR" : "AND";
-                context.filter = Object.fromEntries(
-                  Object.entries(context.filter?.fields).map(
-                    ([key, { _, term }]) => [key, term]
-                  )
-                );
-              }
-              let json = await this.items(context);
-              this.remotePagination = json[this.providerPagination.pagination];
-              return json[this.providerPagination.items];
+              console.log(ctx);
+              const query = this.queryOfLocalContext(ctx);
+              console.log(query);
+              let json = await this.items(query);
+              let { pagination, items } = this.hydraAccessor(json);
+              this.remotePagination = pagination;
+              return items;
             }
           : this.items;
       }
@@ -347,13 +339,51 @@ export default {
       this.selectedFields = this.fields.filter((field) => field.visible);
   },
   methods: {
+    hydraAccessor(json) {
+      return {
+        pagination: { total_items: json["hydra:totalItems"] },
+        items: json["hydra:member"],
+      };
+    },
+    queryOfLocalContext(ctx) {
+      const { perPage: itemsPerPage, currentPage: page, sortBy, _ } = ctx;
+      let query = {
+        itemsPerPage,
+        page,
+        order: sortBy ? { [sortBy]: sortDesc ? "desc" : "asc" } : undefined,
+      };
+      const context = Object.fromEntries(
+        Object.entries(ctx).filter(([_, v]) => v !== "")
+      );
+      if (context.filter instanceof RegExp) {
+        context.filter = context.filter.source;
+      } else if (context.filter?.fields) {
+        const search_query = Object.fromEntries(
+          Object.entries(context.filter.fields)
+            .map(([key, { _, term, searchKey }]) => [
+              searchKey ? `${key}.${searchKey}` : key,
+              term,
+            ])
+            .filter(([key, term]) => term)
+        );
+        if (context.filter.logicalOr) {
+          query.searchOr = search_query;
+        } else {
+          query = { ...query, ...search_query };
+        }
+      }
+      return query;
+    },
     resetSearchTerms() {
       this.fieldSearchTerms = {
         logicalOr: false,
         fields: Object.fromEntries(
           this.fields
             .filter((f) => f.searchable)
-            .map(({ key, formatter }) => [key, { formatter, term: "" }])
+            .map(({ key, formatter, searchKey }) => [
+              key,
+              { formatter, searchKey, term: "" },
+            ])
         ),
       };
       this.searchTerm = new RegExp("", "i");

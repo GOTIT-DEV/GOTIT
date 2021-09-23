@@ -167,7 +167,11 @@ export default {
   },
   methods: {
     async itemProvider(ctx) {
-      const response = await fetch(Routing.generate(this.routes.list, ctx));
+      const response = await fetch(Routing.generate(this.routes.list, ctx), {
+        headers: new Headers({
+          accept: "application/ld+json",
+        }),
+      });
       return await response.json();
     },
     deleteItemConfirm(item) {
