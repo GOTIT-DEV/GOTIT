@@ -117,7 +117,7 @@ class ImportFileCsv {
     $columnByTable = [];
     foreach ($column_name as $v) {
       $ent = explode('.', $v)[0];
-      if (array_key_exists($ent, $columnByTable)) { // add the name of the column "TableName.FieldName ..." to the table
+      if (isset($columnByTable[$ent])) { // add the name of the column "TableName.FieldName ..." to the table
         $columnByTable[$ent][] = $v;
       } else { // add a table with the title of the column "TableName.FieldName ..."
         $columnByTable[$ent] = [$v];
@@ -133,7 +133,7 @@ class ImportFileCsv {
   public function testNameColumnCSV($columnByTable, $nameTable, $nameField = NULL) {
 
     # Test
-    if (array_key_exists($nameTable, $columnByTable)) {
+    if (isset($columnByTable[$nameTable])) {
       $output = 1;
       if ($nameField !== NULL) {
         if (!in_array($nameField, $columnByTable[$nameTable])) {

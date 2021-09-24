@@ -29,7 +29,7 @@ class DatePrecisionType extends AbstractType {
     ]);
     $resolver->setNormalizer('attr', function (Options $options, $value) {
       $attrs = $value;
-      $attrs['class'] = array_key_exists("class", $value)
+      $attrs['class'] = isset($value["class"])
       ? $value['class'] . " date-precision"
       : 'date-precision';
       return $attrs;

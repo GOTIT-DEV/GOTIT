@@ -46,7 +46,7 @@ class SchemaInspectorService {
       $relations[$entity] = array_reduce(
         $m->getAssociationMappings(),
         function ($acc, $relation) use ($tableName) {
-          if (array_key_exists("joinColumns", $relation)) {
+          if (isset($relation["joinColumns"])) {
             $target = $this->parse_entity_name($relation['targetEntity']);
             $acc[$target] = $acc[$target] ?? [];
             $acc[$target][] = [

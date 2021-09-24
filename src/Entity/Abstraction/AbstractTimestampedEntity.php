@@ -17,131 +17,130 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  */
 abstract class AbstractTimestampedEntity implements TimestampedEntityInterface {
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
+	 * @ApiProperty(writable=false, readable=false)
+	 */
+	protected $metaCreationDate = null;
 
-  /**
-   * @var \DateTime
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
-   * @ApiProperty(writable=false, readable=false)
-   */
-  protected $metaCreationDate = null;
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
+	 * @ApiProperty(writable=false, readable=false)
+	 */
+	protected $metaUpdateDate = null;
 
-  /**
-   * @var \DateTime
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
-   * @ApiProperty(writable=false, readable=false)
-   */
-  protected $metaUpdateDate = null;
+	/**
+	 * @var User
+	 *
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(
+	 *  name="creation_user_name",
+	 *  referencedColumnName="id",
+	 *  onDelete="SET NULL",
+	 *  nullable=true)
+	 * @ApiProperty(writable=false, readable=false)
+	 * @NotBlank(allowNull=true)
+	 */
+	protected $metaCreationUser = null;
 
-  /**
-   * @var User
-   *
-   * @ORM\ManyToOne(targetEntity="User")
-   * @ORM\JoinColumn(
-   *  name="creation_user_name",
-   *  referencedColumnName="id",
-   *  onDelete="SET NULL",
-   *  nullable=true)
-   * @ApiProperty(writable=false, readable=false)
-   * @NotBlank(allowNull=true)
-   */
-  protected $metaCreationUser = null;
+	/**
+	 * @var User
+	 *
+	 * @ORM\ManyToOne(targetEntity="User")
+	 * @ORM\JoinColumn(
+	 *  name="update_user_name",
+	 *  referencedColumnName="id",
+	 *  onDelete="SET NULL",
+	 *  nullable=true)
+	 * @ApiProperty(writable=false, readable=false)
+	 * @NotBlank(allowNull=true)
+	 */
+	protected $metaUpdateUser = null;
 
-  /**
-   * @var User
-   *
-   * @ORM\ManyToOne(targetEntity="User")
-   * @ORM\JoinColumn(
-   *  name="update_user_name",
-   *  referencedColumnName="id",
-   *  onDelete="SET NULL",
-   *  nullable=true)
-   * @ApiProperty(writable=false, readable=false)
-   * @NotBlank(allowNull=true)
-   */
-  protected $metaUpdateUser = null;
+	/**
+	 * @SerializedName("_meta")
+	 * @return array
+	 */
+	public function getMetadata(): array {
+		return [
+			"creation" => [
+				"user" => $this->getMetaCreationUser(),
+				"date" => $this->getMetaCreationDate(),
+			],
+			"update" => [
+				"user" => $this->getMetaUpdateUser(),
+				"date" => $this->getMetaUpdateDate(),
+			],
+		];
+	}
 
-  /**
-   * @SerializedName("_meta")
-   * @return array
-   */
-  public function getMetadata(): array{
-    return [
-      "creation" => [
-        "user" => $this->getMetaCreationUser(),
-        "date" => $this->getMetaCreationDate(),
-      ],
-      "update" => [
-        "user" => $this->getMetaUpdateUser(),
-        "date" => $this->getMetaUpdateDate(),
-      ],
-    ];
-  }
+	/**
+	 * Set metaCreationDate
+	 * @param \DateTime $metaCreationDate
+	 */
+	public function setMetaCreationDate(?\DateTime $metaCreationDate) {
+		$this->metaCreationDate = $metaCreationDate;
+		return $this;
+	}
 
-  /**
-   * Set metaCreationDate
-   * @param \DateTime $metaCreationDate
-   */
-  public function setMetaCreationDate(?\DateTime $metaCreationDate) {
-    $this->metaCreationDate = $metaCreationDate;
-    return $this;
-  }
+	/**
+	 * Get metaCreationDate
+	 * @return \DateTime
+	 */
+	public function getMetaCreationDate(): ?\DateTime {
+		return $this->metaCreationDate;
+	}
 
-  /**
-   * Get metaCreationDate
-   * @return \DateTime
-   */
-  public function getMetaCreationDate(): ?\DateTime {
-    return $this->metaCreationDate;
-  }
+	/**
+	 * Set metaUpdateDate
+	 * @param \DateTime $metaUpdateDate
+	 */
+	public function setMetaUpdateDate(?\DateTime $metaUpdateDate) {
+		$this->metaUpdateDate = $metaUpdateDate;
+		return $this;
+	}
 
-  /**
-   * Set metaUpdateDate
-   * @param \DateTime $metaUpdateDate
-   */
-  public function setMetaUpdateDate(?\DateTime $metaUpdateDate) {
-    $this->metaUpdateDate = $metaUpdateDate;
-    return $this;
-  }
+	/**
+	 * Get metaUpdateDate
+	 * @return \DateTime
+	 */
+	public function getMetaUpdateDate(): ?\DateTime {
+		return $this->metaUpdateDate;
+	}
 
-  /**
-   * Get metaUpdateDate
-   * @return \DateTime
-   */
-  public function getMetaUpdateDate(): ?\DateTime {
-    return $this->metaUpdateDate;
-  }
+	/**
+	 * Set metaCreationUser
+	 * @param User $metaCreationUser
+	 */
+	public function setMetaCreationUser(?User $metaCreationUser) {
+		$this->metaCreationUser = $metaCreationUser;
+		return $this;
+	}
 
-  /**
-   * Set metaCreationUser
-   * @param User $metaCreationUser
-   */
-  public function setMetaCreationUser(?User $metaCreationUser) {
-    $this->metaCreationUser = $metaCreationUser;
-    return $this;
-  }
+	/**
+	 * Get metaCreationUser
+	 * @return User
+	 */
+	public function getMetaCreationUser(): ?User {
+		return $this->metaCreationUser;
+	}
 
-  /**
-   * Get metaCreationUser
-   * @return User
-   */
-  public function getMetaCreationUser(): ?User {
-    return $this->metaCreationUser;
-  }
+	/**
+	 * Set metaUpdateUser
+	 * @param User $metaUpdateUser
+	 */
+	public function setMetaUpdateUser(?User $metaUpdateUser) {
+		$this->metaUpdateUser = $metaUpdateUser;
+		return $this;
+	}
 
-  /**
-   * Set metaUpdateUser
-   * @param User $metaUpdateUser
-   */
-  public function setMetaUpdateUser(?User $metaUpdateUser) {
-    $this->metaUpdateUser = $metaUpdateUser;
-    return $this;
-  }
-
-  /**
-   * Get metaUpdateUser
-   * @return User
-   */
-  public function getMetaUpdateUser(): ?User {
-    return $this->metaUpdateUser;
-  }
+	/**
+	 * Get metaUpdateUser
+	 * @return User
+	 */
+	public function getMetaUpdateUser(): ?User {
+		return $this->metaUpdateUser;
+	}
 }

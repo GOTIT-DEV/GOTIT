@@ -933,7 +933,7 @@ class ImportFileE3s {
         }
       }
       // management of the pcr which gave rise to several chromato (n lines)
-      if (array_key_exists($data['pcr.code'], $list_new_pcr)) {
+      if (isset($list_new_pcr[$data['pcr.code']])) {
         $flag_new_pcr = 0;
         $entity = $list_new_pcr[$data['pcr.code']];
       } else {
@@ -1543,7 +1543,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Program();
-      if (array_key_exists("program", $columnByTable)) {
+      if (isset($columnByTable["program"])) {
         foreach ($columnByTable["program"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -2432,7 +2432,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Store();
-      if (array_key_exists("store", $columnByTable)) {
+      if (isset($columnByTable["store"])) {
         foreach ($columnByTable["store"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
@@ -3184,7 +3184,7 @@ class ImportFileE3s {
       }
 
       # Process of file motus
-      if (array_key_exists("code_seq_ass", $csvDataMotuDataset[0]) && array_key_exists("motu_number", $csvDataMotuDataset[0]) && array_key_exists("code_methode_motu", $csvDataMotuDataset[0])) {
+      if (isset($csvDataMotuDataset[0]["code_seq_ass"]) && isset($csvDataMotuDataset[0]["motu_number"]) && isset($csvDataMotuDataset[0]["code_methode_motu"])) {
         foreach ($csvDataMotuDataset as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
@@ -3282,7 +3282,7 @@ class ImportFileE3s {
       $compt++;
       $entity = new \App\Entity\Institution();
       //
-      if (array_key_exists("institution", $columnByTable)) {
+      if (isset($columnByTable["institution"])) {
         foreach ($columnByTable["institution"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -3357,7 +3357,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Country();
-      if (array_key_exists("country", $columnByTable)) {
+      if (isset($columnByTable["country"])) {
         foreach ($columnByTable["country"] as $ColCsv) {
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
           if ($dataColCsv !== $data[$ColCsv]) {
@@ -4196,7 +4196,7 @@ class ImportFileE3s {
             case 'Commune':
               if ($dataColCsv != '') {
                 $CodeCommune = $dataColCsv;
-                if (array_key_exists($CodeCommune, $list_new_commune)) {
+                if (isset($list_new_commune[$CodeCommune])) {
                   $municipality = $list_new_commune[$CodeCommune];
                 } else { // if CodeCommune is null create a new commune with a codeCommune as Name|Region|Nom_Pays and field site_name = "Name" and municipality_name = "Region"
                   $municipality = new \App\Entity\Municipality();
@@ -4703,7 +4703,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Taxon();
-      if (array_key_exists("taxon", $columnByTable)) {
+      if (isset($columnByTable["taxon"])) {
         foreach ($columnByTable["taxon"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $varfield = explode(".", $field)[1];
@@ -4781,7 +4781,7 @@ class ImportFileE3s {
     foreach ($csvData as $l => $data) { // 1- Line-to-line data processing ($ l)
       $compt++;
       $entity = new \App\Entity\Voc();
-      if (array_key_exists("voc", $columnByTable)) {
+      if (isset($columnByTable["voc"])) {
         foreach ($columnByTable["voc"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $varfield = explode(".", $field)[1];
@@ -4851,7 +4851,7 @@ class ImportFileE3s {
       # Enregistrement des données de Person
       $entity = new \App\Entity\Person();
       //
-      if (array_key_exists("person", $columnByTable)) {
+      if (isset($columnByTable["person"])) {
         foreach ($columnByTable["person"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -4961,7 +4961,7 @@ class ImportFileE3s {
       # Enregistrement des données de Person
       $entity = new \App\Entity\Municipality();
       //
-      if (array_key_exists("commune", $columnByTable)) {
+      if (isset($columnByTable["commune"])) {
         foreach ($columnByTable["commune"] as $ColCsv) {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');

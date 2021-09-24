@@ -18,102 +18,101 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Country extends AbstractTimestampedEntity {
+	use CompositeCodeEntityTrait;
 
-  use CompositeCodeEntityTrait;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="bigint", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\SequenceGenerator(sequenceName="country_id_seq", allocationSize=1, initialValue=1)
+	 */
+	private $id;
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="country_id_seq", allocationSize=1, initialValue=1)
-   */
-  private $id;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="country_code", type="string", length=255, nullable=false, unique=true)
+	 */
+	private $code;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="country_code", type="string", length=255, nullable=false, unique=true)
-   */
-  private $code;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="country_name", type="string", length=1024, nullable=false)
+	 */
+	private $name;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="country_name", type="string", length=1024, nullable=false)
-   */
-  private $name;
+	/**
+	 * @ORM\OneToMany(targetEntity="Municipality", mappedBy="country")
+	 * @ORM\OrderBy({"code" = "asc"})
+	 */
+	private $municipalities;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Municipality", mappedBy="country")
-   * @ORM\OrderBy({"code" = "asc"})
-   */
-  private $municipalities;
+	/**
+	 * @inheritdoc
+	 */
+	public function __construct() {
+		$this->municipalities = new ArrayCollection();
+	}
 
-  /**
-   * @inheritdoc
-   */
-  public function __construct() {
-    $this->municipalities = new ArrayCollection();
-  }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
-  /**
-   * Get id
-   *
-   * @return integer
-   */
-  public function getId() {
-    return $this->id;
-  }
+	/**
+	 * Set code
+	 *
+	 * @param string $code
+	 *
+	 * @return Country
+	 */
+	public function setCode($code) {
+		$this->code = $code;
+		return $this;
+	}
 
-  /**
-   * Set code
-   *
-   * @param string $code
-   *
-   * @return Country
-   */
-  public function setCode($code) {
-    $this->code = $code;
-    return $this;
-  }
+	/**
+	 * Get code
+	 *
+	 * @return string
+	 */
+	public function getCode() {
+		return $this->code;
+	}
 
-  /**
-   * Get code
-   *
-   * @return string
-   */
-  public function getCode() {
-    return $this->code;
-  }
+	private function _generateCode(): string {
+		return str_replace(" ", "_", strtoupper($this->getName()));
+	}
 
-  private function _generateCode(): string {
-    return str_replace(' ', '_', strtoupper($this->getName()));
-  }
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 *
+	 * @return Country
+	 */
+	public function setName($name) {
+		$this->name = $name;
+		return $this;
+	}
 
-  /**
-   * Set name
-   *
-   * @param string $name
-   *
-   * @return Country
-   */
-  public function setName($name) {
-    $this->name = $name;
-    return $this;
-  }
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
 
-  /**
-   * Get name
-   *
-   * @return string
-   */
-  public function getName() {
-    return $this->name;
-  }
-
-  public function getMunicipalities() {
-    return $this->municipalities;
-  }
+	public function getMunicipalities() {
+		return $this->municipalities;
+	}
 }

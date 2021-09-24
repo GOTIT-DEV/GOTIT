@@ -9,7 +9,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
-use App\Entity\Pcr;
 use App\Filter\OrSearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -74,375 +73,358 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(PropertyFilter::class)
  */
 class Dna extends AbstractTimestampedEntity {
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
-   * @ApiProperty(identifier=false)
-   * @Groups({"item"})
-   */
-  private $id;
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="bigint", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
+	 * @ApiProperty(identifier=false)
+	 * @Groups({"item"})
+	 */
+	private $id;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
+	 * @Groups({"item"})
+	 * @Assert\Regex(
+	 *  pattern="/^[\w]+$/",
+	 *  message="Code {{ value }} contains invalid special characters"
+	 * )
+	 */
+	private $code;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
-   * @Groups({"item"})
-   * @Assert\Regex(
-   *  pattern="/^[\w]+$/",
-   *  message="Code {{ value }} contains invalid special characters"
-   * )
-   */
-  private $code;
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
+	 * @Groups({"item"})
+	 */
+	private $date;
 
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
-   * @Groups({"item"})
-   */
-  private $date;
+	/**
+	 * @var float
+	 *
+	 * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
+	 * @Groups({"item"})
+	 * @Assert\PositiveOrZero
+	 */
+	private $concentrationNgMicrolitre;
 
-  /**
-   * @var float
-   *
-   * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
-   * @Groups({"item"})
-   * @Assert\PositiveOrZero
-   */
-  private $concentrationNgMicrolitre;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="dna_comments", type="text", nullable=true)
+	 */
+	private $comment;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="dna_comments", type="text", nullable=true)
-   */
-  private $comment;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $datePrecision;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $datePrecision;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $extractionMethod;
 
-  /**
-   * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $extractionMethod;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $quality;
 
-  /**
-   * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $quality;
+	/**
+	 * @var Specimen
+	 *
+	 * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
+	 * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
+	 * @ORM\OrderBy({"molecularCode" = "ASC"})
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $specimen;
 
-  /**
-   * @var \Specimen
-   *
-   * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
-   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   * @ORM\OrderBy({"molecularCode" = "ASC"})
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $specimen;
+	/**
+	 * @var Store
+	 *
+	 * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas", fetch="EAGER")
+	 * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $store;
 
-  /**
-   * @var \Store
-   *
-   * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas", fetch="EAGER")
-   * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $store;
+	/**
+	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+	 * @ORM\JoinTable(name="dna_is_extracted_by",
+	 *  joinColumns={@ORM\JoinColumn(name="dna_fk", referencedColumnName="id")},
+	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
+	 * @ORM\OrderBy({"id" = "ASC"})
+	 * @Groups({"dna:list", "dna:item"})
+	 * @Assert\Count(min = 1, minMessage = "At least one person is required as producer")
+	 */
+	private $producers;
 
-  /**
-   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-   * @ORM\JoinTable(name="dna_is_extracted_by",
-   *  joinColumns={@ORM\JoinColumn(name="dna_fk", referencedColumnName="id")},
-   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-   * @ORM\OrderBy({"id" = "ASC"})
-   * @Groups({"dna:list", "dna:item"})
-   * @Assert\Count(min = 1, minMessage = "At least one person is required as producer")
-   */
-  private $producers;
+	/**
+	 * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna")
+	 * @ApiProperty
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	private $pcrs;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna")
-   * @ApiProperty
-   * @Groups({"dna:list", "dna:item"})
-   */
-  private $pcrs;
+	public function __construct() {
+		$this->producers = new ArrayCollection();
+	}
 
-  public function __construct() {
-    $this->producers = new ArrayCollection();
-  }
+	/**
+	 * @Groups({"dna:list", "dna:item"})
+	 */
+	public function getMetadata(): array {
+		return parent::getMetadata();
+	}
 
-  /**
-   * @Groups({"dna:list", "dna:item"})
-   *
-   * @return array
-   */
-  public function getMetadata(): array{
-    return parent::getMetadata();
-  }
+	/**
+	 * Get id.
+	 *
+	 * @return string
+	 */
+	public function getId(): ?string {
+		return $this->id;
+	}
 
-  /**
-   * Get id
-   *
-   * @return string
-   */
-  public function getId(): ?string {
-    return $this->id;
-  }
+	/**
+	 * Set code.
+	 *
+	 * @param string $code
+	 */
+	public function setCode($code): Dna {
+		$this->code = $code;
 
-  /**
-   * Set code
-   *
-   * @param string $code
-   *
-   * @return Dna
-   */
-  public function setCode($code): Dna {
-    $this->code = $code;
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get code
-   *
-   * @return string
-   */
-  public function getCode(): ?string {
-    return $this->code;
-  }
+	/**
+	 * Get code.
+	 *
+	 * @return string
+	 */
+	public function getCode(): ?string {
+		return $this->code;
+	}
 
-  /**
-   * Set date
-   *
-   * @param \DateTime $date
-   *
-   * @return Dna
-   */
-  public function setDate($date): Dna {
-    if (is_string($date)) {
-      $date = new DateTime($date);
-    }
-    $this->date = $date;
-    return $this;
-  }
+	/**
+	 * Set date.
+	 *
+	 * @param \DateTime $date
+	 */
+	public function setDate($date): Dna {
+		if (is_string($date)) {
+			$date = new DateTime($date);
+		}
+		$this->date = $date;
 
-  /**
-   * Get date
-   *
-   * @return \DateTime
-   */
-  public function getDate(): ?DateTime {
-    return $this->date;
-  }
+		return $this;
+	}
 
-  /**
-   * Set concentrationNgMicrolitre
-   *
-   * @param float $concentrationNgMicrolitre
-   *
-   * @return Dna
-   */
-  public function setConcentrationNgMicrolitre($concentrationNgMicrolitre): Dna {
-    $this->concentrationNgMicrolitre = $concentrationNgMicrolitre;
-    return $this;
-  }
+	/**
+	 * Get date.
+	 *
+	 * @return \DateTime
+	 */
+	public function getDate(): ?DateTime {
+		return $this->date;
+	}
 
-  /**
-   * Get concentrationNgMicrolitre
-   *
-   * @return float
-   */
-  public function getConcentrationNgMicrolitre(): ?float {
-    return $this->concentrationNgMicrolitre;
-  }
+	/**
+	 * Set concentrationNgMicrolitre.
+	 *
+	 * @param float $concentrationNgMicrolitre
+	 */
+	public function setConcentrationNgMicrolitre(
+		$concentrationNgMicrolitre,
+	): Dna {
+		$this->concentrationNgMicrolitre = $concentrationNgMicrolitre;
 
-  /**
-   * Set comment
-   *
-   * @param string $comment
-   *
-   * @return Dna
-   */
-  public function setComment($comment): Dna {
-    $this->comment = $comment;
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get comment
-   *
-   * @return string
-   */
-  public function getComment(): ?string {
-    return $this->comment;
-  }
+	/**
+	 * Get concentrationNgMicrolitre.
+	 *
+	 * @return float
+	 */
+	public function getConcentrationNgMicrolitre(): ?float {
+		return $this->concentrationNgMicrolitre;
+	}
 
-  /**
-   * Set datePrecision
-   *
-   * @param Voc $datePrecision
-   *
-   * @return Dna
-   */
-  public function setDatePrecision(Voc $datePrecision = null): Dna {
-    $this->datePrecision = $datePrecision;
-    return $this;
-  }
+	/**
+	 * Set comment.
+	 *
+	 * @param string $comment
+	 */
+	public function setComment($comment): Dna {
+		$this->comment = $comment;
 
-  /**
-   * Get datePrecision
-   *
-   * @return Voc
-   */
-  public function getDatePrecision(): ?Voc {
-    return $this->datePrecision;
-  }
+		return $this;
+	}
 
-  /**
-   * Set extractionMethod
-   *
-   * @param Voc $extractionMethod
-   *
-   * @return Dna
-   */
-  public function setExtractionMethod(Voc $extractionMethod = null): Dna {
-    $this->extractionMethod = $extractionMethod;
-    return $this;
-  }
+	/**
+	 * Get comment.
+	 *
+	 * @return string
+	 */
+	public function getComment(): ?string {
+		return $this->comment;
+	}
 
-  /**
-   * Get extractionMethod
-   *
-   * @return Voc
-   */
-  public function getExtractionMethod(): ?Voc {
-    return $this->extractionMethod;
-  }
+	/**
+	 * Set datePrecision.
+	 *
+	 * @param Voc $datePrecision
+	 */
+	public function setDatePrecision(Voc $datePrecision = null): Dna {
+		$this->datePrecision = $datePrecision;
 
-  /**
-   * Set specimen
-   *
-   * @param Specimen $specimen
-   *
-   * @return Dna
-   */
-  public function setSpecimen(Specimen $specimen = null): Dna {
-    $this->specimen = $specimen;
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get specimen
-   *
-   * @return Specimen
-   */
-  public function getSpecimen(): ?Specimen {
-    return $this->specimen;
-  }
+	/**
+	 * Get datePrecision.
+	 *
+	 * @return Voc
+	 */
+	public function getDatePrecision(): ?Voc {
+		return $this->datePrecision;
+	}
 
-  /**
-   * Set quality
-   *
-   * @param Voc $quality
-   *
-   * @return Dna
-   */
-  public function setQuality(Voc $quality = null): Dna {
-    $this->quality = $quality;
-    return $this;
-  }
+	/**
+	 * Set extractionMethod.
+	 *
+	 * @param Voc $extractionMethod
+	 */
+	public function setExtractionMethod(Voc $extractionMethod = null): Dna {
+		$this->extractionMethod = $extractionMethod;
 
-  /**
-   * Get quality
-   *
-   * @return Voc
-   */
-  public function getQuality(): ?Voc {
-    return $this->quality;
-  }
+		return $this;
+	}
 
-  /**
-   * Set store
-   *
-   * @param Store $store
-   *
-   * @return Dna
-   */
-  public function setStore(Store $store = null): Dna {
-    $this->store = $store;
-    return $this;
-  }
+	/**
+	 * Get extractionMethod.
+	 *
+	 * @return Voc
+	 */
+	public function getExtractionMethod(): ?Voc {
+		return $this->extractionMethod;
+	}
 
-  /**
-   * Get store
-   *
-   * @return Store
-   */
-  public function getStore(): ?Store {
-    return $this->store;
-  }
+	/**
+	 * Set specimen.
+	 *
+	 * @param Specimen $specimen
+	 */
+	public function setSpecimen(Specimen $specimen = null): Dna {
+		$this->specimen = $specimen;
 
-  /**
-   * Add producer
-   *
-   * @param Person $producer
-   *
-   * @return Dna
-   */
-  public function addProducer(Person $producer): Dna {
-    $this->producers[] = $producer;
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Remove producer
-   *
-   * @param Person $producer
-   */
-  public function removeProducer(Person $producer): Dna {
-    $this->producers->removeElement($producer);
-    return $this;
-  }
+	/**
+	 * Get specimen.
+	 *
+	 * @return Specimen
+	 */
+	public function getSpecimen(): ?Specimen {
+		return $this->specimen;
+	}
 
-  /**
-   * Get producers
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getProducers(): Collection {
-    return $this->producers;
-  }
+	/**
+	 * Set quality.
+	 *
+	 * @param Voc $quality
+	 */
+	public function setQuality(Voc $quality = null): Dna {
+		$this->quality = $quality;
 
-  /**
-   * Get PCRs
-   *
-   * @return Collection
-   */
-  public function getPcrs(): Collection {
-    return $this->pcrs;
-  }
+		return $this;
+	}
 
-  public function addPcr(Pcr $pcr): Dna {
-    $pcr->setDna($this);
-    $this->pcrs[] = $pcr;
-    return $this;
-  }
+	/**
+	 * Get quality.
+	 *
+	 * @return Voc
+	 */
+	public function getQuality(): ?Voc {
+		return $this->quality;
+	}
+
+	/**
+	 * Set store.
+	 *
+	 * @param Store $store
+	 */
+	public function setStore(Store $store = null): Dna {
+		$this->store = $store;
+
+		return $this;
+	}
+
+	/**
+	 * Get store.
+	 *
+	 * @return Store
+	 */
+	public function getStore(): ?Store {
+		return $this->store;
+	}
+
+	/**
+	 * Add producer.
+	 */
+	public function addProducer(Person $producer): Dna {
+		$this->producers[] = $producer;
+
+		return $this;
+	}
+
+	/**
+	 * Remove producer.
+	 */
+	public function removeProducer(Person $producer): Dna {
+		$this->producers->removeElement($producer);
+
+		return $this;
+	}
+
+	/**
+	 * Get producers.
+	 */
+	public function getProducers(): Collection {
+		return $this->producers;
+	}
+
+	/**
+	 * Get PCRs.
+	 */
+	public function getPcrs(): Collection {
+		return $this->pcrs;
+	}
+
+	public function addPcr(Pcr $pcr): Dna {
+		$pcr->setDna($this);
+		$this->pcrs[] = $pcr;
+
+		return $this;
+	}
 }

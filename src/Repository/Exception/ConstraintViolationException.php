@@ -3,7 +3,7 @@
 namespace App\Repository\Exception;
 use Symfony\Component\Validator\ConstraintViolation;
 
-class ConstraintViolationException extends Exception {
+class ConstraintViolationException extends \Exception{
 
   protected $violation;
 

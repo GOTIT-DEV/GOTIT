@@ -23,4 +23,3 @@ modules:
     - App\Tests\Helper\Factories
 params:
   - .env.test
-  - .env.test.local

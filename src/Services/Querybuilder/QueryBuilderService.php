@@ -34,10 +34,10 @@ class QueryBuilderService {
     $resultsTab = [$initial['alias'] => $initial['fields']];
 
     // If there are join blocks in the query
-    if (array_key_exists("joins", $data)) {
+    if (isset($data["joins"])) {
       $joins = $data["joins"];
       foreach ($joins as $j) {
-        if (array_key_exists('fields', $j)) {
+        if (isset($j['fields'])) {
           $alias = $j["alias"];
           $joinsFields = $j["fields"];
           // Adding the selected fields for each join block

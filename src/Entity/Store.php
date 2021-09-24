@@ -23,326 +23,326 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource
  */
 class Store extends AbstractTimestampedEntity {
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="storage_box_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"item"})
-   */
-  private $id;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="bigint", nullable=false)
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\SequenceGenerator(sequenceName="storage_box_id_seq", allocationSize=1, initialValue=1)
+	 * @Groups({"item"})
+	 */
+	private $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
-   * @Groups({"item"})
-   */
-  private $code;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
+	 * @Groups({"item"})
+	 */
+	private $code;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="box_title", type="string", length=1024, nullable=false, unique=true)
-   * @Groups({"item"})
-   */
-  private $label;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="box_title", type="string", length=1024, nullable=false, unique=true)
+	 * @Groups({"item"})
+	 */
+	private $label;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="box_comments", type="text", nullable=true)
-   * @Groups({"item"})
-   */
-  private $comment;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="box_comments", type="text", nullable=true)
+	 * @Groups({"item"})
+	 */
+	private $comment;
 
-  /**
-   * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="collection_type_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $collectionType;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="collection_type_voc_fk", referencedColumnName="id", nullable=false)
+	 */
+	private $collectionType;
 
-  /**
-   * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="collection_code_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $collectionCode;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="collection_code_voc_fk", referencedColumnName="id", nullable=false)
+	 */
+	private $collectionCode;
 
-  /**
-   * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="box_type_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $storageType;
+	/**
+	 * @var Voc
+	 *
+	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+	 * @ORM\JoinColumn(name="box_type_voc_fk", referencedColumnName="id", nullable=false)
+	 */
+	private $storageType;
 
-  /**
-   * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="store", cascade={"persist"})
-   * @ORM\OrderBy({"code" = "ASC"})
-   * @Groups({"store_list", "store_details"})
-   */
-  protected $internalLots;
+	/**
+	 * @ORM\OneToMany(targetEntity="InternalLot", mappedBy="store", cascade={"persist"})
+	 * @ORM\OrderBy({"code" = "ASC"})
+	 * @Groups({"store_list", "store_details"})
+	 */
+	protected $internalLots;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Dna", mappedBy="store", cascade={"persist"})
-   * @ORM\OrderBy({"code" = "ASC"})
-   * @Groups({"store_list", "store_details"})
-   */
-  protected $dnas;
+	/**
+	 * @ORM\OneToMany(targetEntity="Dna", mappedBy="store", cascade={"persist"})
+	 * @ORM\OrderBy({"code" = "ASC"})
+	 * @Groups({"store_list", "store_details"})
+	 */
+	protected $dnas;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Slide", mappedBy="store", cascade={"persist"})
-   * @ORM\OrderBy({"code" = "ASC"})
-   * @Groups({"store_list", "store_details"})
-   */
-  protected $slides;
+	/**
+	 * @ORM\OneToMany(targetEntity="Slide", mappedBy="store", cascade={"persist"})
+	 * @ORM\OrderBy({"code" = "ASC"})
+	 * @Groups({"store_list", "store_details"})
+	 */
+	protected $slides;
 
-  public function __construct() {
-    $this->internalLots = new ArrayCollection();
-    $this->dnas = new ArrayCollection();
-    $this->slides = new ArrayCollection();
-  }
+	public function __construct() {
+		$this->internalLots = new ArrayCollection();
+		$this->dnas = new ArrayCollection();
+		$this->slides = new ArrayCollection();
+	}
 
-  /**
-   * Get id
-   *
-   * @return integer
-   */
-  public function getId() {
-    return $this->id;
-  }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
-  /**
-   * Set code
-   *
-   * @param string $code
-   *
-   * @return Store
-   */
-  public function setCode($code) {
-    $this->code = $code;
+	/**
+	 * Set code
+	 *
+	 * @param string $code
+	 *
+	 * @return Store
+	 */
+	public function setCode($code) {
+		$this->code = $code;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get code
-   *
-   * @return string
-   */
-  public function getCode() {
-    return $this->code;
-  }
+	/**
+	 * Get code
+	 *
+	 * @return string
+	 */
+	public function getCode() {
+		return $this->code;
+	}
 
-  /**
-   * Set label
-   *
-   * @param string $label
-   *
-   * @return Store
-   */
-  public function setLabel($label) {
-    $this->label = $label;
+	/**
+	 * Set label
+	 *
+	 * @param string $label
+	 *
+	 * @return Store
+	 */
+	public function setLabel($label) {
+		$this->label = $label;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get label
-   *
-   * @return string
-   */
-  public function getLabel() {
-    return $this->label;
-  }
+	/**
+	 * Get label
+	 *
+	 * @return string
+	 */
+	public function getLabel() {
+		return $this->label;
+	}
 
-  /**
-   * Set comment
-   *
-   * @param string $comment
-   *
-   * @return Store
-   */
-  public function setComment($comment) {
-    $this->comment = $comment;
+	/**
+	 * Set comment
+	 *
+	 * @param string $comment
+	 *
+	 * @return Store
+	 */
+	public function setComment($comment) {
+		$this->comment = $comment;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get comment
-   *
-   * @return string
-   */
-  public function getComment() {
-    return $this->comment;
-  }
+	/**
+	 * Get comment
+	 *
+	 * @return string
+	 */
+	public function getComment() {
+		return $this->comment;
+	}
 
-  /**
-   * Set collectionType
-   *
-   * @param Voc $collectionType
-   *
-   * @return Store
-   */
-  public function setCollectionType(Voc $collectionType = null) {
-    $this->collectionType = $collectionType;
+	/**
+	 * Set collectionType
+	 *
+	 * @param Voc $collectionType
+	 *
+	 * @return Store
+	 */
+	public function setCollectionType(Voc $collectionType = null) {
+		$this->collectionType = $collectionType;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get collectionType
-   *
-   * @return Voc
-   */
-  public function getCollectionType() {
-    return $this->collectionType;
-  }
+	/**
+	 * Get collectionType
+	 *
+	 * @return Voc
+	 */
+	public function getCollectionType() {
+		return $this->collectionType;
+	}
 
-  /**
-   * Set collectionCode
-   *
-   * @param Voc $collectionCode
-   *
-   * @return Store
-   */
-  public function setCollectionCode(Voc $collectionCode = null) {
-    $this->collectionCode = $collectionCode;
+	/**
+	 * Set collectionCode
+	 *
+	 * @param Voc $collectionCode
+	 *
+	 * @return Store
+	 */
+	public function setCollectionCode(Voc $collectionCode = null) {
+		$this->collectionCode = $collectionCode;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get collectionCode
-   *
-   * @return Voc
-   */
-  public function getCollectionCode() {
-    return $this->collectionCode;
-  }
+	/**
+	 * Get collectionCode
+	 *
+	 * @return Voc
+	 */
+	public function getCollectionCode() {
+		return $this->collectionCode;
+	}
 
-  /**
-   * Set storageType
-   *
-   * @param Voc $storageType
-   *
-   * @return Store
-   */
-  public function setStorageType(Voc $storageType = null) {
-    $this->storageType = $storageType;
+	/**
+	 * Set storageType
+	 *
+	 * @param Voc $storageType
+	 *
+	 * @return Store
+	 */
+	public function setStorageType(Voc $storageType = null) {
+		$this->storageType = $storageType;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Get storageType
-   *
-   * @return Voc
-   */
-  public function getStorageType() {
-    return $this->storageType;
-  }
+	/**
+	 * Get storageType
+	 *
+	 * @return Voc
+	 */
+	public function getStorageType() {
+		return $this->storageType;
+	}
 
-  /**
-   * Add internalLot
-   *
-   * @param internalLot $internalLot
-   *
-   * @return Store
-   */
-  public function addInternalLot(internalLot $internalLot) {
-    $internalLot->setStore($this);
-    $this->internalLots[] = $internalLot;
+	/**
+	 * Add internalLot
+	 *
+	 * @param internalLot $internalLot
+	 *
+	 * @return Store
+	 */
+	public function addInternalLot(internalLot $internalLot) {
+		$internalLot->setStore($this);
+		$this->internalLots[] = $internalLot;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Remove internalLot
-   *
-   * @param internalLot $internalLot
-   */
-  public function removeInternalLot(internalLot $internalLot) {
-    $this->internalLots->removeElement($internalLot);
-  }
+	/**
+	 * Remove internalLot
+	 *
+	 * @param internalLot $internalLot
+	 */
+	public function removeInternalLot(internalLot $internalLot) {
+		$this->internalLots->removeElement($internalLot);
+	}
 
-  /**
-   * Get internalLots
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getInternalLots() {
-    return $this->internalLots;
-  }
+	/**
+	 * Get internalLots
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getInternalLots() {
+		return $this->internalLots;
+	}
 
-  /**
-   * Add dna
-   *
-   * @param Dna $dna
-   *
-   * @return Store
-   */
-  public function addDna(Dna $dna) {
-    $dna->setStore($this);
-    $this->dnas[] = $dna;
+	/**
+	 * Add dna
+	 *
+	 * @param Dna $dna
+	 *
+	 * @return Store
+	 */
+	public function addDna(Dna $dna) {
+		$dna->setStore($this);
+		$this->dnas[] = $dna;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Remove dna
-   *
-   * @param Dna $dna
-   */
-  public function removeDna(Dna $dna) {
-    $this->dnas->removeElement($dna);
-  }
+	/**
+	 * Remove dna
+	 *
+	 * @param Dna $dna
+	 */
+	public function removeDna(Dna $dna) {
+		$this->dnas->removeElement($dna);
+	}
 
-  /**
-   * Get dnas
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getDnas() {
-    return $this->dnas;
-  }
+	/**
+	 * Get dnas
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getDnas() {
+		return $this->dnas;
+	}
 
-  /**
-   * Add slide
-   *
-   * @param Slide $slide
-   *
-   * @return Store
-   */
-  public function addSlide(Slide $slide) {
-    $slide->setStore($this);
-    $this->slides[] = $slide;
+	/**
+	 * Add slide
+	 *
+	 * @param Slide $slide
+	 *
+	 * @return Store
+	 */
+	public function addSlide(Slide $slide) {
+		$slide->setStore($this);
+		$this->slides[] = $slide;
 
-    return $this;
-  }
+		return $this;
+	}
 
-  /**
-   * Remove slide
-   *
-   * @param Slide $slide
-   */
-  public function removeSlide(Slide $slide) {
-    $this->slides->removeElement($slide);
-  }
+	/**
+	 * Remove slide
+	 *
+	 * @param Slide $slide
+	 */
+	public function removeSlide(Slide $slide) {
+		$this->slides->removeElement($slide);
+	}
 
-  /**
-   * Get slides
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getSlides() {
-    return $this->slides;
-  }
+	/**
+	 * Get slides
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getSlides() {
+		return $this->slides;
+	}
 }

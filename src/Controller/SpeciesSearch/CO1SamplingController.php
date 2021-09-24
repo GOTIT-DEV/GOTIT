@@ -70,7 +70,7 @@ class CO1SamplingController extends AbstractController {
       );
     }
     foreach ($co1_coverage as $id => $coi) {
-      if (array_key_exists($id, $biomat_coverage)) {
+      if (isset($biomat_coverage[$id])) {
         $biomat_coverage[$id] = array_merge($biomat_coverage[$id], $co1_coverage[$id]);
       } else {
         $biomat_coverage[$id] = array_merge(
