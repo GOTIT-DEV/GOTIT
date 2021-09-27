@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/etc/PrettierPHPFixer.php';
 
 $finder = (new PhpCsFixer\Finder())
 	->in(__DIR__)
@@ -9,7 +8,6 @@ $finder = (new PhpCsFixer\Finder())
 	->exclude('vendor');
 
 return (new PhpCsFixer\Config())
-	// ->registerCustomFixers([new PrettierPHPFixer()])
 	->setIndent("\t")
 	->setLineEnding("\n")
 	// ->setFinder($finder)
@@ -20,7 +18,6 @@ return (new PhpCsFixer\Config())
 		'@DoctrineAnnotation' => true,
 		'doctrine_annotation_indentation' => false,
 		'@Symfony' => true,
-		// 'Prettier/php' => true,
 		'indentation_type' => true,
 		'array_indentation' => true,
 		'array_syntax' => ['syntax' => 'short'],
@@ -80,7 +77,7 @@ return (new PhpCsFixer\Config())
 		// 'no_singleline_whitespace_before_semicolons' => true,
 		'no_spaces_around_offset' => true,
 		// 'no_trailing_comma_in_list_call' => true,
-		// 'no_trailing_comma_in_singleline_array' => true,
+		'no_trailing_comma_in_singleline_array' => true,
 		// 'no_unneeded_control_parentheses' => true,
 		// 'no_unused_imports' => true,
 		'no_whitespace_before_comma_in_array' => true,
