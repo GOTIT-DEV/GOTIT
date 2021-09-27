@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A DNA sample extracted from a Specimen.
+ * A DNA sample extracted from a Specimen
  *
  * @ORM\Table(name="dna",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
@@ -29,50 +29,43 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}),
  *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}),
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
- *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
+ *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\DnaRepository")
  * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
  *
  * @ApiResource(
  *     itemOperations={
- *       "get"={
- *          "normalization_context"={"groups"={"item","dna:item"}}
+ *       "get": {
+ *          "normalization_context": {"groups": {"item", "dna:item"}}
  *       },
  *       "delete"
  *     },
  *     collectionOperations={
- *       "get"={
- *          "normalization_context"={"groups"={"item", "dna:list"}}
+ *       "get": {
+ *          "normalization_context": {"groups": {"item", "dna:list"}}
  *       },
  *       "post"
  *     },
- *     order={"code"="ASC"},
+ *     order={"code": "ASC"},
  *     paginationEnabled=true
  * )
- * @ApiFilter(SearchFilter::class, properties={
- *  "code":"ipartial",
- *  "specimen.molecularCode":"ipartial",
- *  "specimen.morphologicalCode":"ipartial",
- *  "store.code": "ipartial",
- *  "datePrecision.code":"ipartial",
- *  "extractionMethod.code":"ipartial",
- *  "quality.code":"ipartial"
- * })
- * @ApiFilter(OrSearchFilter::class, properties={
- *  "code":"ipartial",
- *  "specimen.molecularCode":"ipartial",
- *  "specimen.morphologicalCode":"ipartial",
- *  "store.code": "ipartial",
- *  "datePrecision.code":"ipartial",
- *  "extractionMethod.code":"ipartial",
- *  "quality.code":"ipartial"
- * })
- * @ApiFilter(DateFilter::class, properties={
- *  "date": "DateFilter::EXCLUDE_NULL"
- * })
+ * @ApiFilter(SearchFilter::class, properties=Dna::API_SEARCH_PROPERTIES)
+ * @ApiFilter(OrSearchFilter::class, properties=Dna::API_SEARCH_PROPERTIES)
+ * @ApiFilter(DateFilter::class, properties={"date": "DateFilter::EXCLUDE_NULL"})
  * @ApiFilter(PropertyFilter::class)
  */
 class Dna extends AbstractTimestampedEntity {
+	public const API_SEARCH_PROPERTIES = [
+		'code' => 'ipartial',
+		'specimen.molecularCode' => 'ipartial',
+		'specimen.morphologicalCode' => 'ipartial',
+		'store.code' => 'ipartial',
+		'datePrecision.code' => 'ipartial',
+		'extractionMethod.code' => 'ipartial',
+		'quality.code' => 'ipartial',
+	];
+
 	/**
 	 * @var int
 	 *
@@ -84,6 +77,7 @@ class Dna extends AbstractTimestampedEntity {
 	 * @Groups({"item"})
 	 */
 	private $id;
+
 	/**
 	 * @var string
 	 *
@@ -152,7 +146,7 @@ class Dna extends AbstractTimestampedEntity {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
 	 * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-	 * @ORM\OrderBy({"molecularCode" = "ASC"})
+	 * @ORM\OrderBy({"molecularCode": "ASC"})
 	 * @Groups({"dna:list", "dna:item"})
 	 */
 	private $specimen;
@@ -171,9 +165,9 @@ class Dna extends AbstractTimestampedEntity {
 	 * @ORM\JoinTable(name="dna_is_extracted_by",
 	 *  joinColumns={@ORM\JoinColumn(name="dna_fk", referencedColumnName="id")},
 	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
+	 * @ORM\OrderBy({"id": "ASC"})
 	 * @Groups({"dna:list", "dna:item"})
-	 * @Assert\Count(min = 1, minMessage = "At least one person is required as producer")
+	 * @Assert\Count(min=1, minMessage="At least one person is required as producer")
 	 */
 	private $producers;
 

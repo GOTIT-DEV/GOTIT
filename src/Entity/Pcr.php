@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Pcr
+ * PCR
  *
  * @ORM\Table(name="pcr",
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_pcr__pcr_code", columns={"pcr_code"})},
@@ -33,7 +33,7 @@ class Pcr extends AbstractTimestampedEntity {
 	use CompositeCodeEntityTrait;
 
 	/**
-	 * @var integer
+	 * @var int
 	 *
 	 * @ORM\Column(name="id", type="bigint", nullable=false)
 	 * @ORM\Id
@@ -147,9 +147,9 @@ class Pcr extends AbstractTimestampedEntity {
 	 * @ORM\JoinTable(name="pcr_is_done_by",
 	 *  joinColumns={@ORM\JoinColumn(name="pcr_fk", referencedColumnName="id")},
 	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
+	 * @ORM\OrderBy({"id": "ASC"})
 	 */
-	protected $producers;
+	private $producers;
 
 	public function __construct() {
 		$this->producers = new ArrayCollection();
@@ -168,11 +168,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set code
 	 *
 	 * @param string $code
-	 *
-	 * @return Pcr
 	 */
 	public function setCode($code): Pcr {
 		$this->code = $code;
+
 		return $this;
 	}
 
@@ -187,11 +186,9 @@ class Pcr extends AbstractTimestampedEntity {
 
 	/**
 	 * Generate composite code from PCR properties
-	 *
-	 * @return string
 	 */
 	private function _generateCode(): string {
-		return join("_", [
+		return join('_', [
 			$this->getDna()->getCode(),
 			$this->getNumber(),
 			$this->getPrimerStart()->getCode(),
@@ -203,11 +200,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set number
 	 *
 	 * @param string $number
-	 *
-	 * @return Pcr
 	 */
 	public function setNumber($number): Pcr {
 		$this->number = $number;
+
 		return $this;
 	}
 
@@ -224,11 +220,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set date
 	 *
 	 * @param \DateTime $date
-	 *
-	 * @return Pcr
 	 */
 	public function setDate($date): Pcr {
 		$this->date = $date;
+
 		return $this;
 	}
 
@@ -245,11 +240,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set details
 	 *
 	 * @param string $details
-	 *
-	 * @return Pcr
 	 */
 	public function setDetails($details): Pcr {
 		$this->details = $details;
+
 		return $this;
 	}
 
@@ -266,11 +260,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set comment
 	 *
 	 * @param string $comment
-	 *
-	 * @return Pcr
 	 */
 	public function setComment($comment): Pcr {
 		$this->comment = $comment;
+
 		return $this;
 	}
 
@@ -287,11 +280,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set gene
 	 *
 	 * @param Voc $gene
-	 *
-	 * @return Pcr
 	 */
 	public function setGene(Voc $gene = null): Pcr {
 		$this->gene = $gene;
+
 		return $this;
 	}
 
@@ -308,11 +300,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set quality
 	 *
 	 * @param Voc $quality
-	 *
-	 * @return Pcr
 	 */
 	public function setQuality(Voc $quality = null): Pcr {
 		$this->quality = $quality;
+
 		return $this;
 	}
 
@@ -329,11 +320,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set specificity
 	 *
 	 * @param Voc $specificity
-	 *
-	 * @return Pcr
 	 */
 	public function setSpecificity(Voc $specificity = null): Pcr {
 		$this->specificity = $specificity;
+
 		return $this;
 	}
 
@@ -350,11 +340,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set primerStart
 	 *
 	 * @param Voc $primerStart
-	 *
-	 * @return Pcr
 	 */
 	public function setPrimerStart(Voc $primerStart = null): Pcr {
 		$this->primerStart = $primerStart;
+
 		return $this;
 	}
 
@@ -371,11 +360,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set primerEnd
 	 *
 	 * @param Voc $primerEnd
-	 *
-	 * @return Pcr
 	 */
 	public function setPrimerEnd(Voc $primerEnd = null): Pcr {
 		$this->primerEnd = $primerEnd;
+
 		return $this;
 	}
 
@@ -392,11 +380,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set datePrecision
 	 *
 	 * @param Voc $datePrecision
-	 *
-	 * @return Pcr
 	 */
 	public function setDatePrecision(Voc $datePrecision = null): Pcr {
 		$this->datePrecision = $datePrecision;
+
 		return $this;
 	}
 
@@ -413,11 +400,10 @@ class Pcr extends AbstractTimestampedEntity {
 	 * Set dna
 	 *
 	 * @param Dna $dna
-	 *
-	 * @return Pcr
 	 */
 	public function setDna(Dna $dna = null): Pcr {
 		$this->dna = $dna;
+
 		return $this;
 	}
 
@@ -432,30 +418,24 @@ class Pcr extends AbstractTimestampedEntity {
 
 	/**
 	 * Add pcrProducer
-	 *
-	 * @param Person $pcrProducer
-	 *
-	 * @return Pcr
 	 */
 	public function addPcrProducer(Person $pcrProducer): Pcr {
 		$this->producers[] = $pcrProducer;
+
 		return $this;
 	}
 
 	/**
 	 * Remove pcrProducer
-	 *
-	 * @param Person $pcrProducer
 	 */
 	public function removePcrProducer(Person $pcrProducer): Pcr {
 		$this->producers->removeElement($pcrProducer);
+
 		return $this;
 	}
 
 	/**
 	 * Get producers
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
 	 */
 	public function getProducers(): Collection {
 		return $this->producers;
