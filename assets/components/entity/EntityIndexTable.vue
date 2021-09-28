@@ -5,7 +5,6 @@
       ref="table"
       :items="dataSource"
       :fields="extendedFields"
-      :provider-pagination="providerPagination"
       :export-filename="exportFilename"
     >
       <template
@@ -62,13 +61,6 @@ export default {
     items: {
       type: Array,
       default: null,
-    },
-    providerPagination: {
-      type: Object,
-      default: null,
-      validator(pagination) {
-        return ["items", "pagination"].every((key) => key in pagination);
-      },
     },
     exportFilename: {
       type: String,

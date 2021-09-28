@@ -3,7 +3,7 @@
     <b-button-toolbar :justify="true" class="mb-1">
       <div class="d-flex">
         <b-form-group label-cols="auto" :label="$t('pageLength')" class="mb-0">
-          <b-form-select v-model="context.perPage" size="sm">
+          <b-form-select v-model="pagination.perPage" size="sm">
             <b-form-select-option
               v-for="rows in rowsPerPageOptions"
               :key="rows"
@@ -105,18 +105,18 @@
     <slot name="toolbar-top" />
     <b-overlay :show="busy" rounded="sm">
       <b-table
+        ref="table"
         responsive
         striped
         :busy="busy"
         primary-key="code"
         :fields="visibleFields"
         :items="hasItemsProvider ? itemProvider : items"
-        :per-page="context.perPage"
-        :current-page="context.currentPage"
+        :per-page="pagination.perPage"
+        :current-page="pagination.currentPage"
         :filter="searchByField ? fieldSearchTerms : searchTerm"
         v-bind="$attrs"
         :filter-function="searchByField ? filterOnSearchFields : undefined"
-        @context-changed="context = $event"
         @filtered="localFilteredItems = $event"
       >
         <template
@@ -188,9 +188,9 @@
       </span>
 
       <b-pagination
-        v-model="context.currentPage"
+        v-model="pagination.currentPage"
         :total-rows="totalItems"
-        :per-page="context.perPage"
+        :per-page="pagination.perPage"
         class="float-right mb-0"
       />
     </b-button-toolbar>
@@ -252,17 +252,10 @@ export default {
       type: String,
       default: null,
     },
-    providerPagination: {
-      type: Object,
-      default: null,
-      validator(value) {
-        return ["items", "pagination"].every((k) => k in value);
-      },
-    },
   },
   data() {
     return {
-      context: {
+      pagination: {
         currentPage: 1,
         perPage: 10,
       },
@@ -290,33 +283,32 @@ export default {
       return this.searchTerm.source === "(?:)" ? "" : this.searchTerm.source;
     },
     itemProvider() {
-      if (this.hasItemsProvider) {
-        return this.providerPagination
-          ? async (ctx) => {
-              console.log(ctx);
-              const query = this.queryOfLocalContext(ctx);
-              console.log(query);
-              let json = await this.items(query);
-              let { pagination, items } = this.hydraAccessor(json);
-              this.remotePagination = pagination;
-              return items;
-            }
-          : this.items;
-      }
-      return null;
+      return this.hasItemsProvider
+        ? async (ctx) => {
+            const query = this.queryOfLocalContext(ctx);
+            let json = await this.items(query);
+            let { pagination, items } = this.hydraAccessor(json);
+            this.remotePagination = pagination;
+            return items;
+          }
+        : this.items;
     },
     locale() {
       return this.$i18n.locale;
     },
     displayedItemRange() {
-      const first = (this.context.currentPage - 1) * this.context.perPage + 1;
-      const last = Math.min(this.totalItems, first + this.context.perPage - 1);
+      const first =
+        (this.pagination.currentPage - 1) * this.pagination.perPage + 1;
+      const last = Math.min(
+        this.totalItems,
+        first + this.pagination.perPage - 1
+      );
       return [first, last ? last : this.totalItems];
     },
     totalItems() {
       return this.hasItemsProvider
         ? this.remotePagination?.total_items
-        : this.items.length;
+        : this.localFilteredItems.length;
     },
     visibleFields() {
       const visibleKeys = new Set(this.selectedFields.map((f) => f.key));
@@ -346,10 +338,17 @@ export default {
       };
     },
     queryOfLocalContext(ctx) {
-      const { perPage: itemsPerPage, currentPage: page, sortBy, _ } = ctx;
+      const {
+        perPage: itemsPerPage,
+        currentPage: page,
+        sortBy,
+        sortDesc,
+        pagination = true,
+      } = ctx;
       let query = {
         itemsPerPage,
         page,
+        pagination,
         order: sortBy ? { [sortBy]: sortDesc ? "desc" : "asc" } : undefined,
       };
       const context = Object.fromEntries(
@@ -419,11 +418,12 @@ export default {
       this.downloading = true;
       let items = null;
       if (this.items instanceof Function) {
+        const currentPagination = this.remotePagination;
         items = await this.itemProvider({
-          perPage: 0,
-          currentPage: 1,
+          pagination: false,
           filter: this.exportFiltered ? this.fieldSearchTerms : undefined,
         });
+        this.remotePagination = currentPagination;
       } else {
         items = this.exportFiltered ? this.localFilteredItems : this.items;
       }

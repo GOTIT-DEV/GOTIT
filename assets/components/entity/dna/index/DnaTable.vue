@@ -6,19 +6,18 @@
       :fields="fields"
       :items="items"
       :routes="routes"
-      :provider-pagination="providerPagination"
       export-filename="dna.csv"
       :short-item-repr="shortItemRepr"
       @delete:item="$emit('delete:item', $event)"
     >
       <template #cell(specimen)="data">
-        <a :href="generateRoute('specimen_show', { id: data.item.id })">
-          {{ data.value }}
+        <a :href="generateRoute('specimen_show', { id: data.value.id })">
+          {{ data.value.molecularCode }}
         </a>
       </template>
       <template #cell(store)="data">
-        <a :href="generateRoute('store_show', { id: data.item.id })">
-          {{ data.value }}
+        <a :href="generateRoute('store_show', { id: data.value.id })">
+          {{ data.value.code }}
         </a>
       </template>
       <template #cell(producers)="data">
@@ -29,6 +28,7 @@
             v-b-tooltip.hover
             :title="person.name"
             variant="info"
+            class="border border-white"
             :href="generateRoute('person_show', { id: person.id })"
             :text="
               person.name
@@ -66,14 +66,10 @@ export default {
     return {
       tableId: "dna-list-table",
       routes: {
-        show: "api_dnas_get_item",
+        show: "dna_show",
         edit: "dna_edit",
         list: "api_dnas_get_collection",
         delete: "api_dnas_delete_item",
-      },
-      providerPagination: {
-        items: "items",
-        pagination: "pagination",
       },
       fields: [
         {
@@ -92,10 +88,13 @@ export default {
         {
           key: "specimen",
           label: this.$t("messages.Specimen"),
-          formatter(value) {
-            return value?.molecularCode;
+          export: {
+            formatter(value) {
+              return value?.molecularCode;
+            },
           },
           sortable: true,
+          sortKey: "specimen.molecularCode",
           visible: true,
           searchable: true,
           searchKey: "molecularCode",
@@ -136,12 +135,16 @@ export default {
         {
           key: "store",
           label: this.$t("messages.Store"),
-          formatter(value) {
-            return value?.code;
+          export: {
+            formatter(value) {
+              return value?.code;
+            },
           },
           sortable: true,
-          visible: true,
+          sortKey: "store.code",
           searchable: true,
+          searchKey: "store.code",
+          visible: true,
         },
         {
           key: "pcrs",
