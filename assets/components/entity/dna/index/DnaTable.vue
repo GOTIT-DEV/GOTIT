@@ -6,6 +6,7 @@
       :fields="fields"
       :items="items"
       :routes="routes"
+      :primary-key="primaryKey"
       export-filename="dna.csv"
       :short-item-repr="shortItemRepr"
       @delete:item="$emit('delete:item', $event)"
@@ -21,11 +22,34 @@
         </a>
       </template>
       <template #cell(producers)="data">
-        <b-avatar-group size="sm">
+        <div class="d-flex" style="gap: 3px">
+          <a
+            v-for="person in data.value"
+            :key="person.name"
+            :href="generateRoute('person_show', { id: person.id })"
+            class="
+              rounded-circle
+              bg-info
+              text-light
+              p-1
+              text-monospace
+              border border-secondary
+            "
+            style="width: 1.6rem; height: 1.6rem"
+            :title="person.name"
+          >
+            {{
+              person.name
+                .split(" ")
+                .map((part) => part.charAt(0))
+                .join("")
+            }}
+          </a>
+        </div>
+        <!-- <b-avatar-group size="sm">
           <b-avatar
             v-for="person in data.value"
             :key="person.name"
-            v-b-tooltip.hover
             :title="person.name"
             variant="info"
             class="border border-white"
@@ -37,7 +61,7 @@
                 .join('')
             "
           />
-        </b-avatar-group>
+        </b-avatar-group> -->
       </template>
       <template #cell(pcrs)="data">
         <a :href="pcrLinkUrl(data.item)">
@@ -64,6 +88,7 @@ export default {
   },
   data() {
     return {
+      primaryKey: "id",
       tableId: "dna-list-table",
       routes: {
         show: "dna_show",

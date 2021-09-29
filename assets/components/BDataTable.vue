@@ -126,34 +126,28 @@
           <slot :name="slotName" v-bind="slotScope" />
         </template>
         <template #thead-top>
-          <fade-transition :duration="300">
-            <b-tr
-              v-show="hasItemsProvider || searchByField"
-              class="head-search-fields"
-            >
-              <b-th
-                v-for="f in fields"
-                v-show="visibleFields.some((vf) => vf.key === f.key)"
-                :key="f.key"
-                class="p-1"
-              >
-                <b-input
-                  v-if="f.searchable"
-                  size="sm"
-                  placeholder="Search term"
-                  debounce="500"
-                  :value="fieldSearchTerms.fields[f.key].term"
-                  @update="
-                    $set(fieldSearchTerms.fields, f.key, {
-                      formatter: f.formatter,
-                      searchKey: f.searchKey,
-                      term: $event,
-                    })
-                  "
-                />
-              </b-th>
-            </b-tr>
-          </fade-transition>
+          <b-tr
+            v-show="hasItemsProvider || searchByField"
+            class="head-search-fields"
+          >
+            <!-- v-show="visibleFields.some((vf) => vf.key === f.key)" -->
+            <b-th v-for="f in visibleFields" :key="f.key" class="p-1">
+              <b-input
+                v-if="f.searchable"
+                size="sm"
+                placeholder="Search term"
+                debounce="500"
+                :value="fieldSearchTerms.fields[f.key].term"
+                @update="
+                  $set(fieldSearchTerms.fields, f.key, {
+                    formatter: f.formatter,
+                    searchKey: f.searchKey,
+                    term: $event,
+                  })
+                "
+              />
+            </b-th>
+          </b-tr>
         </template>
       </b-table>
     </b-overlay>
