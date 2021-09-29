@@ -16,8 +16,9 @@
                     :types="types"
                     class="mb-3"
                     @success="onResponse"
-                    @errors="onResponse"
+                    @errors="onErrors"
                     @failure="onFailure"
+                    @submit="items = []"
                   />
                 </b-tab>
                 <b-tab title="Store">
@@ -36,12 +37,8 @@
           </b-card-group>
         </b-row>
       </b-container>
-      <import-csv-errors
-        v-show="errors.length"
-        :errors="errors"
-        :records="records"
-      />
-      <div v-show="items.length && !errors.length">
+      <import-csv-errors :errors="errors" :records="records" />
+      <div v-show="items.length">
         <b-alert show variant="success">
           <i class="fas fa-check-circle" />
           {{ items.length }} items successfully imported
@@ -77,7 +74,7 @@ export default {
   data() {
     return {
       items: [],
-      errors: [],
+      errors: {},
       records: [],
       urls: {
         create: this.generateRoute("dna_new"),
@@ -89,14 +86,15 @@ export default {
   },
   computed: {
     apiRoute() {
-      return this.generateRoute("app_api_dna_import");
+      return this.generateRoute("api_dnas_import_collection");
     },
   },
   methods: {
-    onResponse({ errors, entities, records }) {
+    onResponse(json) {
+      this.items = json;
+    },
+    onErrors(errors) {
       this.errors = errors;
-      this.items = entities;
-      this.records = records;
     },
     onFailure({ code, message }) {
       this.$bvModal.msgBoxOk(

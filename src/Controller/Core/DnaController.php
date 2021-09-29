@@ -226,7 +226,7 @@ class DnaController extends AbstractController {
     return $this->render(
       'import_csv_form.html.twig',
       [
-        'template' => 'build/imports/DNA.csv',
+        'template' => 'build/imports/DNA_import_template.csv',
         'component' => 'DnaImport',
       ]
     );

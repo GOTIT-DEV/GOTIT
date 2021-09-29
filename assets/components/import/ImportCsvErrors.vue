@@ -1,15 +1,11 @@
 <template>
-  <b-card v-show="errors.length" id="errors" no-body border-variant="warning">
+  <b-card v-show="errorsCount" id="errors" no-body border-variant="warning">
     <template #header>
       <div class="d-flex justify-content-between">
         <h6 class="mb-0">
-          {{
-            records.length
-              ? `Invalid data in ${errors.length} items out of ${records.length}`
-              : "CSV parsing error"
-          }}
+          {{ `Invalid data in ${errorsCount} items` }}
         </h6>
-        <span v-if="records.length">
+        <span>
           No data was saved in the database yet. Fix the following errors and
           submit again.
         </span>
@@ -17,19 +13,18 @@
     </template>
     <b-list-group flush>
       <b-list-group-item
-        v-for="recordErrors in errors"
-        :key="recordErrors.line"
-        variant="warning"
+        v-for="(recordErrors, line) in mappedErrors"
+        :key="line"
         class="d-flex"
       >
         <h6>
           <b-badge variant="warning">
-            Line #{{ recordErrors.line }}
+            Line #{{ line }}
           </b-badge>
         </h6>
         <ul class="m-0">
-          <li v-for="(error, index) in recordErrors.payload" :key="index">
-            <code>{{ error.property_path }}</code> : {{ error.message }}
+          <li v-for="(error, index) in recordErrors" :key="index">
+            <code>{{ error.property }}</code> : {{ error.message }}
           </li>
         </ul>
       </b-list-group-item>
@@ -41,14 +36,28 @@
 export default {
   props: {
     errors: {
-      type: Array,
-      required: true,
-    },
-    records: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
+  computed: {
+    errorsCount() {
+      return Object.keys(this.mappedErrors || {}).length;
+    },
+    mappedErrors() {
+      return this.errors.violations?.reduce(
+        (acc, { propertyPath, message, code }) => {
+          let [line, property] = propertyPath.split(".");
+          line = line.slice(1, -1);
+          const error = { line, property, message, code };
+          acc[line] ? acc[line].push(error) : (acc[line] = [error]);
+          return acc;
+        },
+        {}
+      );
+    },
+  },
+  methods: {},
 };
 </script>
 

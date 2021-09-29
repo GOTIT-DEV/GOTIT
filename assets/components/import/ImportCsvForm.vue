@@ -60,15 +60,21 @@ export default {
   methods: {
     async submit() {
       this.loading = true;
+      const csvContent = await this.csvFile.text();
+      const body = { csv: csvContent };
+      this.$emit("submit", { csv: csvContent });
       const response = await fetch(this.apiRoute, {
         method: "POST",
-        body: new FormData(this.$refs.form),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(body),
       });
       const json = await response.json();
       if (response.ok) {
         this.$emit("success", json);
       } else {
-        if (response.status === 400) {
+        if (response.status === 422) {
           this.$emit("errors", json);
         } else {
           this.$emit("failure", json);
