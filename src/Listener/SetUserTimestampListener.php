@@ -2,7 +2,7 @@
 
 namespace App\Listener;
 
-use App\Doctrine\TimestampedEntityInterface;
+use App\Entity\Abstraction\TimestampedEntityInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\Security\Core\Security;
@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Security;
  * A doctrine event listener to keep track of the user creating or updating entities
  */
 class SetUserTimestampListener {
-
   private $security;
 
   public function __construct(Security $security) {
@@ -28,7 +27,6 @@ class SetUserTimestampListener {
       $entity->setMetaCreationDate(new \DateTime());
       $entity->setMetaUpdateDate(new \DateTime());
     }
-
   }
 
   public function preUpdate(TimestampedEntityInterface $entity, PreUpdateEventArgs $args) {
@@ -36,5 +34,4 @@ class SetUserTimestampListener {
     $entity->setMetaUpdateUser($user);
     $entity->setMetaUpdateDate(new \DateTime());
   }
-
 }
