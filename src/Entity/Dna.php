@@ -60,6 +60,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * 					"output": ArrayCollection::class,
  * 					"normalization_context": {"groups": {"item", "dna:item"}},
  * 					"denormalization_context": {"groups": {"csv:import"}},
+ * 					"openapi_context": {
+ * 						"summary": "Import Dna resources from CSV string."
+ * 					}
  * 				}
  *     },
  *     order={"code": "ASC"},
