@@ -15,10 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("dna")
  * @Security("is_granted('ROLE_INVITED')")
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class DnaController extends AbstractController {
-  const MAX_RESULTS_TYPEAHEAD = 20;
+  public const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
    * Lists all dna entities.
@@ -30,19 +31,22 @@ class DnaController extends AbstractController {
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="dna_search")
+   * @Route("/search/{q}", requirements={"q": ".+"}, name="dna_search")
+   *
+   * @param mixed $q
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('dna.id, dna.code as code')->from('App:Dna', 'dna');
     $query = explode(' ', strtolower(trim(urldecode($q))));
-    for ($i = 0; $i < count($query); $i++) {
+    for ($i = 0; $i < count($query); ++$i) {
       $qb->andWhere('(LOWER(dna.code) like :q' . $i . ')')
         ->setParameter('q' . $i, $query[$i] . '%');
     }
     $qb->addOrderBy('code', 'ASC');
     $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $results = $qb->getQuery()->getResult();
+
     return $this->json($results);
   }
 
@@ -68,38 +72,38 @@ class DnaController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-
       $em->persist($dna);
 
       try {
         $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Doctrine\DBAL\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
 
-      return $this->redirectToRoute('dna_edit', array(
+      return $this->redirectToRoute('dna_edit', [
         'id' => $dna->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
-      ));
+      ]);
     }
 
-    return $this->render('Core/dna/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', [
       'dna' => $dna,
       'edit_form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
    * Finds and displays a dna entity.
    *
-   * @Route("/{id}", name="dna_show", methods={"GET"}, requirements={"id"="\d+"})
+   * @Route("/{id}", name="dna_show", methods={"GET"}, requirements={"id": "\d+"})
    */
   public function showAction(Dna $dna) {
     $deleteForm = $this->createDeleteForm($dna);
@@ -107,11 +111,11 @@ class DnaController extends AbstractController {
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/dna/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', [
       'dna' => $dna,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -124,7 +128,7 @@ class DnaController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $dna->getMetaCreationUser() != $user->getId()) {
+    if ('ROLE_COLLABORATION' == $user->getRole() && $dna->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
@@ -141,27 +145,29 @@ class DnaController extends AbstractController {
       $em->persist($dna);
       try {
         $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Doctrine\DBAL\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/dna/edit.html.twig', array(
+
+      return $this->render('Core/dna/edit.html.twig', [
         'dna' => $dna,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
-      ));
+      ]);
     }
 
-    return $this->render('Core/dna/edit.html.twig', array(
+    return $this->render('Core/dna/edit.html.twig', [
       'dna' => $dna,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -180,10 +186,11 @@ class DnaController extends AbstractController {
       try {
         $em->remove($dna);
         $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Doctrine\DBAL\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/dna/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
@@ -219,7 +226,7 @@ class DnaController extends AbstractController {
     return $this->render(
       'import_csv_form.html.twig',
       [
-        'template' => "build/imports/DNA.csv",
+        'template' => 'build/imports/DNA.csv',
         'component' => 'DnaImport',
       ]
     );
