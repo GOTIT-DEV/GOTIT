@@ -42,3 +42,5 @@ services:
   App\Form\EmbedTypes\:
     resource: "../src/Form/EmbedTypes/**"
     arguments: ["@listener.adduserdate"]
+
+  App\DataTransformer\CsvRecordsRequestTransformer: ~
