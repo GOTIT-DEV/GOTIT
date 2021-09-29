@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests\Helper;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -11,31 +12,30 @@ use Symfony\Component\Validator\Validation;
 // all public methods declared in helper class will be available in $I
 
 class Factories extends \Codeception\Module {
-
   protected $fakerMap = [
-    "datetime" => "dateTime",
-    "date" => "dateTime",
-    "string" => "sentence",
-    "text" => "text",
-    "bigint" => "randomNumber",
-    "float" => "randomFloat",
+    'datetime' => 'dateTime',
+    'date' => 'dateTime',
+    'string' => 'sentence',
+    'text' => 'text',
+    'bigint' => 'randomNumber',
+    'float' => 'randomFloat',
   ];
 
   protected $fixedValues = [
-    "smallint" => 1,
+    'smallint' => 1,
   ];
 
-  protected $faker = null;
+  protected $faker;
 
   private function generate(array $mapping, bool $forceUnique) {
-    return $this->fixedValues[$mapping["type"]] ?? (
-      ($forceUnique || $mapping["unique"])
-      ? Faker::unique()->{$this->fakerMap[$mapping["type"]]}()
-      : Faker::{$this->fakerMap[$mapping["type"]]}()
+    return $this->fixedValues[$mapping['type']] ?? (
+      ($forceUnique || $mapping['unique'])
+      ? Faker::unique()->{$this->fakerMap[$mapping['type']]}()
+      : Faker::{$this->fakerMap[$mapping['type']]}()
     );
   }
 
-  private function factoryDefFromMetadata(ClassMetadata $metadata, array $constraintsMeta = []): array{
+  private function factoryDefFromMetadata(ClassMetadata $metadata, array $constraintsMeta = []): array {
     $definition = [];
     $mappings = $metadata->fieldMappings;
     // dump($metadata->getName());
@@ -43,7 +43,7 @@ class Factories extends \Codeception\Module {
       // dump($c->fields);
       return ($c instanceof UniqueEntity && \is_array($c->fields)) ?
       array_merge($acc, $c->fields) : $acc;
-    }, $initial = array());
+    }, $initial = []);
     // dump($uniqueProperties);
     foreach ($mappings as $name => $m) {
       if (!$metadata->isIdentifier($name) && !$metadata->isNullable($name)) {
@@ -54,9 +54,9 @@ class Factories extends \Codeception\Module {
     foreach ($metadata->getAssociationMappings() as $name => $m) {
       if ($m['isOwningSide']) {
         $isNullable = true;
-        foreach ($m['joinColumns'] as ['nullable' => $nullable]) {
+        foreach ($m['joinColumns'] ?? [] as ['nullable' => $nullable]) {
           if (!$nullable) {
-            $isNullable = $nullable;
+            $isNullable = false;
             break;
           }
         }
@@ -76,7 +76,7 @@ class Factories extends \Codeception\Module {
     $em = $this->getModule('Doctrine2')->_getEntityManager();
     $metadata = $em->getMetadataFactory()->getAllMetadata();
     foreach ($metadata as $entityMeta) {
-      if ($entityMeta->isMappedSuperclass === false) {
+      if (false === $entityMeta->isMappedSuperclass) {
         $constraintsMeta = $validator
           ->getMetadataFor($entityMeta->getName())
           ->getConstraints();
