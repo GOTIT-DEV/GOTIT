@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
  *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"})
  * })
- * @ORM\Entity(repositoryClass="App\Repository\DnaRepository")
+ * @ORM\Entity
  * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
  *
  * @ApiResource(
