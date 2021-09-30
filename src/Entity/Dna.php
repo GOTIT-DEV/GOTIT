@@ -83,6 +83,7 @@ class Dna extends AbstractTimestampedEntity {
     'datePrecision.code' => 'ipartial',
     'extractionMethod.code' => 'ipartial',
     'quality.code' => 'ipartial',
+    'producers.name' => 'ipartial',
   ];
 
   /**
