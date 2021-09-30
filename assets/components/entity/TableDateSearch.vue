@@ -4,18 +4,20 @@
       <b-select v-model="operator" size="sm" :options="operators" />
     </b-input-group-prepend>
     <b-input
-      v-model="value"
       v-mask="{ mask: '9999-99-99', placeholder: 'YYYY-MM-DD' }"
+      :value="value[operator]"
       class="date-input"
-      debounce="500"
+      :debounce="debounce"
+      @update="$emit('update', { [operator]: $event })"
     />
     <template #append>
       <b-datepicker
-        v-model="value"
+        :value="value[operator]"
         size="sm"
         :locale="locale"
         button-only
         right
+        @input="$emit('update', { [operator]: $event })"
       />
     </template>
   </b-input-group>
@@ -25,9 +27,18 @@
 import Mask from "../../directives/InputMask";
 export default {
   directives: { Mask },
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    debounce: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
-      value: "",
       operator: "before",
       operators: [
         { value: "before", text: "≤" },
@@ -40,11 +51,6 @@ export default {
   computed: {
     locale() {
       return Translator.locale;
-    },
-  },
-  watch: {
-    value(newVal) {
-      this.$emit("update", { [this.operator]: this.value });
     },
   },
 };

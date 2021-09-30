@@ -134,6 +134,8 @@
             <b-th v-for="f in visibleFields" :key="f.key" class="p-1">
               <table-date-search
                 v-if="f.searchable && f.searchType === 'date'"
+                :debounce="500"
+                :value="fieldSearchTerms.fields[f.key].term"
                 @update="
                   $set(fieldSearchTerms.fields, f.key, {
                     formatter: f.formatter,
@@ -146,7 +148,7 @@
                 v-else-if="f.searchable"
                 size="sm"
                 placeholder="Search term"
-                debounce="500"
+                :debounce="500"
                 :value="fieldSearchTerms.fields[f.key].term"
                 @update="
                   $set(fieldSearchTerms.fields, f.key, {
@@ -387,9 +389,9 @@ export default {
         fields: Object.fromEntries(
           this.fields
             .filter((f) => f.searchable)
-            .map(({ key, formatter, searchKey }) => [
+            .map(({ key, formatter, searchKey, searchType }) => [
               key,
-              { formatter, searchKey, term: "" },
+              { formatter, searchKey, term: searchType === "date" ? {} : "" },
             ])
         ),
       };
