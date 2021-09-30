@@ -18,7 +18,7 @@
                     @success="onResponse"
                     @errors="onErrors"
                     @failure="onFailure"
-                    @submit="items = []"
+                    @submit="onSubmit"
                   />
                 </b-tab>
                 <b-tab title="Store">
@@ -37,7 +37,7 @@
           </b-card-group>
         </b-row>
       </b-container>
-      <import-csv-errors :errors="errors" :records="records" />
+      <import-csv-errors :errors="errors" />
       <div v-show="items.length">
         <b-alert show variant="success">
           <i class="fas fa-check-circle" />
@@ -75,7 +75,6 @@ export default {
     return {
       items: [],
       errors: {},
-      records: [],
       urls: {
         create: this.generateRoute("dna_new"),
         list: this.generateRoute("dna_index"),
@@ -90,6 +89,10 @@ export default {
     },
   },
   methods: {
+    onSubmit() {
+      this.errors = [];
+      this.items = [];
+    },
     onResponse(json) {
       this.items = json;
     },
