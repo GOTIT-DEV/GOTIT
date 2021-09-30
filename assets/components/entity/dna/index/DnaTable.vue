@@ -23,28 +23,11 @@
       </template>
       <template #cell(producers)="data">
         <div class="d-flex" style="gap: 3px">
-          <a
+          <initials-badge
             v-for="person in data.value"
-            :key="person.name"
-            :href="generateRoute('person_show', { id: person.id })"
-            class="
-              rounded-circle
-              bg-info
-              text-light
-              p-1
-              text-monospace
-              border border-secondary
-            "
-            style="width: 1.6rem; height: 1.6rem"
-            :title="person.name"
-          >
-            {{
-              person.name
-                .split(" ")
-                .map((part) => part.charAt(0))
-                .join("")
-            }}
-          </a>
+            :key="person.id"
+            :person="person"
+          />
         </div>
         <!-- <b-avatar-group size="sm">
           <b-avatar
@@ -77,9 +60,10 @@
 
 <script>
 import EntityIndexTable from "~Components/entity/EntityIndexTable.vue";
+import InitialsBadge from "~Components/entity/person/InitialsBadge.vue";
 import moment from "moment";
 export default {
-  components: { EntityIndexTable },
+  components: { EntityIndexTable, InitialsBadge },
   props: {
     items: {
       type: Array,
@@ -128,6 +112,8 @@ export default {
           key: "date",
           sortable: true,
           visible: true,
+          searchable: true,
+          searchType: "date",
           export: {
             formatter(value) {
               return value;
@@ -151,6 +137,8 @@ export default {
           label: this.$t("messages.Producers"),
           sortable: false,
           visible: true,
+          searchable: true,
+          searchKey: "name",
           export: {
             formatter(producers, key, item) {
               return producers.map((producer) => producer.name).join(", ");

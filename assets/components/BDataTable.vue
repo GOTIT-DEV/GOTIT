@@ -132,8 +132,18 @@
           >
             <!-- v-show="visibleFields.some((vf) => vf.key === f.key)" -->
             <b-th v-for="f in visibleFields" :key="f.key" class="p-1">
+              <table-date-search
+                v-if="f.searchable && f.searchType === 'date'"
+                @update="
+                  $set(fieldSearchTerms.fields, f.key, {
+                    formatter: f.formatter,
+                    searchKey: f.searchKey,
+                    term: $event,
+                  })
+                "
+              />
               <b-input
-                v-if="f.searchable"
+                v-else-if="f.searchable"
                 size="sm"
                 placeholder="Search term"
                 debounce="500"
@@ -198,10 +208,12 @@ import { ToggleButton } from "vue-js-toggle-button";
 import { FadeTransition } from "vue2-transitions";
 import { CollapseTransition } from "@ivanv/vue-collapse-transition";
 import ExportCsvMixin from "./mixins/ExportCsvMixin";
+import TableDateSearch from "~Components/entity/TableDateSearch.vue";
 export default {
   name: "BDataTable",
   components: {
     FadeTransition,
+    TableDateSearch,
     CollapseTransition,
     ToggleButton,
     Multiselect,
@@ -343,8 +355,10 @@ export default {
         itemsPerPage,
         page,
         pagination,
-        order: sortBy ? { [sortBy]: sortDesc ? "desc" : "asc" } : undefined,
       };
+      if (sortBy) {
+        query.order = { [sortBy]: sortDesc ? "desc" : "asc" };
+      }
       const context = Object.fromEntries(
         Object.entries(ctx).filter(([_, v]) => v !== "")
       );
