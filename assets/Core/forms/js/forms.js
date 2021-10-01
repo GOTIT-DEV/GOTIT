@@ -8,11 +8,14 @@ require("@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css");
 
 import { initDateMask } from "./date-mask";
 
+/**
+ * Form initialization
+ */
 $(() => {
   document.querySelectorAll("form").forEach(initDateMask);
 
-  $("button.btn-entry-add").click(addEntryBtnCallback);
-  $("button.btn-entry-delete").click(deleteEntryBtnCallback);
+  $("button.btn-entry-add").on("click", addEntryBtnCallback);
+  $("button.btn-entry-delete").on("click", deleteEntryBtnCallback);
 
   // Init collection wrappers
   $(".collection-wrapper").each(function () {
@@ -21,34 +24,57 @@ $(() => {
   });
 
   // Init modal forms
-  $(".modal-dialog form").submit(modalFormSubmitCallback);
+  $(".modal-dialog form").on("submit", modalFormSubmitCallback);
 });
 
-function toggleDeleteButtons($wrapper) {
-  const $entries = $wrapper.children(".entry-list").children();
-  if ($wrapper.hasClass("required")) {
-    $entries
-      .children(".delete-btn-container")
-      .find(".btn-entry-delete")
-      .toggleClass("invisible", $entries.length === 1)
-      .off()
-      .click(deleteEntryBtnCallback);
-  }
+function getEntries($wrapper) {
+  return $wrapper.children(".entry-list").children();
 }
 
+/**
+ * Toggles display of delete buttons in form collections
+ * Depends on whether the field is required and the collection content
+ * @param {JQuery element} $wrapper a collection wrapper (class .collection-wrapper)
+ */
+function toggleDeleteButtons($wrapper) {
+  const $entries = getEntries($wrapper);
+  $entries
+    .children(".delete-btn-container")
+    .find(".btn-entry-delete")
+    .toggleClass(
+      "invisible",
+      $wrapper.hasClass("required") && $entries.length === 1
+    )
+    .off()
+    .click(deleteEntryBtnCallback);
+}
+
+/**
+ * Initialize a nested form for collection inside a collection wrapper
+ * @param {JQuery element} $wrapper a collection wrapper (class .collection-wrapper)
+ */
 function initEmptyCollection($wrapper) {
   $wrapper.change(() => {
     toggleCollectionContent($wrapper);
   });
+  // Initialize first entry if collection field is required
   if ($wrapper.hasClass("required")) addEntry($wrapper);
   else toggleCollectionContent($wrapper);
 }
 
+/**
+ * Show/hide wrapper body depending on collection emptyness
+ * @param {JQuery element} $wrapper a collection wrapper (class .collection-wrapper)
+ */
 function toggleCollectionContent($wrapper) {
   const index = $wrapper.data("index");
   $wrapper.find(".card-body").toggle(index > 0);
 }
 
+/**
+ * Event callback to trigger adding an entry to a collection wrapper
+ * @param {Event} event
+ */
 function addEntryBtnCallback(event) {
   let wrapper_id = $(event.currentTarget).data("target");
   let $wrapper = $(document.getElementById(wrapper_id));
@@ -56,29 +82,44 @@ function addEntryBtnCallback(event) {
   $wrapper.trigger("change");
 }
 
+/**
+ * Event callback to trigger deleting an entry in a collection wrapper
+ * @param {Event} event
+ */
 function deleteEntryBtnCallback(event) {
+  // Get target of the button that fired the event
   let entry_wrapper_id = $(event.currentTarget).data("target");
   let entry_wrapper = document.getElementById(entry_wrapper_id);
+  // Get the collection wrapper
   let $wrapper = $(event.currentTarget).closest(".collection-wrapper");
   let $separator = $(entry_wrapper).prev("hr");
+  // Remove entry in collection and separator
   if ($separator.length) $separator.remove();
   else $(entry_wrapper).next("hr").remove();
   $(entry_wrapper).remove();
-
-  // $wrapper.find(".btn-entry-delete").prop('disabled', true)
+  // Update remaining wrapper content
   resetIndexes($wrapper);
   toggleDeleteButtons($wrapper);
-  // $wrapper.find(".btn-entry-delete").prop('disabled', false)
-  // const currentIndex = $wrapper.data('index')
-  // $wrapper.data('index', currentIndex - 1)
   $wrapper.trigger("change");
 }
 
+/**
+ * Event callback after creating a new entity using a modal form
+ * @param {jQuery element} $form the form in modal pop-up
+ * @param {Object} response the new option to add in the main form <select> options
+ */
 function modalFormResponseCallback($form, response) {
+  // Find the target collection wrapper for the modal form
   let $wrapper = $($form.closest(".modal-container").data("target"));
+  // Add the new option as an entry in the collection
   addEntryForNewRecord($wrapper, response.select_id, response.select_name);
 }
 
+/**
+ * Event callback on modal form submit
+ * @param {jQuery element} event the modal form `submit` event
+ * @param {Function} responseCallback the handler function for a successful response
+ */
 export function modalFormSubmitCallback(
   event,
   responseCallback = modalFormResponseCallback
@@ -109,13 +150,14 @@ export function modalFormSubmitCallback(
     },
     success: function (response) {
       if (response.valid === false) {
-        // Invalid form
+        // submitted form is invalid : response contains new form template with error feedback
         let $newForm = $(response.form);
         $newForm.find("select").selectpicker();
         $newForm.submit((event) => {
           event.preventDefault();
           modalFormSubmitCallback(event, responseCallback);
         });
+        // Replace current form with received form to display feedback to user
         $form.replaceWith($newForm);
       } else if (response.exception === true) {
         // Ajax or server error
@@ -126,7 +168,9 @@ export function modalFormSubmitCallback(
       } else {
         // Everything is fine
         $form.find(".form-status").addClass("fa-check-circle");
+        // Handle the response, typically propagate back to main form
         responseCallback($form, response);
+        // Get back to main form
         setTimeout(() => {
           $(".modal").modal("hide");
           $form.get(0).reset();
@@ -134,24 +178,40 @@ export function modalFormSubmitCallback(
         }, 1000);
       }
     },
-    complete: function (htmlResponse) {
+    complete: function () {
       $submitBtn.prop("disabled", false);
       $form.find(".form-status").removeClass("fa-spin fa-spinner");
     },
   });
 }
 
-//  function to add a embeded form
+/**
+ * Add a newly created item as a collection entry
+ * @param {jQuery element} $wrapper
+ * @param {String|Number} id
+ * @param {String} name
+ */
 function addEntryForNewRecord($wrapper, id, name) {
   let optionElt = `<option value=${id}>${name}</option>`;
+  // update wrapper prototype used to create new collection entries
   updatePrototype($wrapper, optionElt);
-  $wrapper.find(".entry-list select").append(optionElt).selectpicker("refresh");
-  let mandatoryInput = $wrapper.find(".entry-list select:first");
-  if (mandatoryInput.val() == "")
-    mandatoryInput.val(id).selectpicker("refresh");
-  else addEntry($wrapper, id);
+  const $entries = getEntries($wrapper);
+  // update existing collection entries in wrapper
+  $entries.find("select").append(optionElt).selectpicker("refresh");
+  // Update existing select element with new value if no current value is defined
+  if ($entries.length === 1 && !$entries.get(0).find("select").val()) {
+    $entries.get(0).find("select").val(id).selectpicker("refresh");
+  } else {
+    addEntry($wrapper, id);
+  }
+  $wrapper.change();
 }
 
+/**
+ * Update wrapper prototype used to create new collection entries with additionnal options
+ * @param {jQuery element} $wrapper a collection wrapper
+ * @param {String} optionElt an <option> tag to be added
+ */
 function updatePrototype($wrapper, optionElt) {
   let newPrototype = $wrapper
     .data("prototype")
@@ -159,38 +219,53 @@ function updatePrototype($wrapper, optionElt) {
   $wrapper.data("prototype", newPrototype);
 }
 
+/**
+ * Create a new entry from a prototype string
+ * @param {String} prototype The entry prototype defined in the wrapper
+ * @param {Number} index the index of the new entry in the wrapper
+ * @param {String|Number} value the initial value of the newentry
+ * @param {Boolean} required
+ * @returns new entry as jQuery element
+ */
 function createEntry(prototype, index, value = undefined, required = true) {
   prototype =
     prototype.match(/__name__/) !== null
-      ? prototype.replace(/__name__/g, index)
-      : prototype.replace(/__name_inner__/g, index);
+      ? prototype.replace(/__name__/g, index) // first depth level
+      : prototype.replace(/__name_inner__/g, index); // second depth level
 
-  let $newForm = $(prototype);
-  $newForm.attr("data-index", index);
+  // Create element from prototype
+  let $newEntry = $(prototype);
+  $newEntry.attr("data-index", index);
 
-  let $btn = $($newForm.find("template.delete-btn-template").html());
+  // Setup delete button
+  let $btn = $($newEntry.find("template.delete-btn-template").html());
   $btn.attr("data-index", index);
-  $newForm.find(".delete-btn-container").append($btn);
+  $newEntry.find(".delete-btn-container").append($btn);
 
-  // Init plugins
-  $newForm.find(".selectpicker").selectpicker();
-  initDateMask($newForm.get(0));
-  $newForm.find("button.btn-entry-add").click(addEntryBtnCallback);
-  $newForm.find(".collection-wrapper[data-index=0]").each(function () {
+  // Initialize internals
+  $newEntry.find(".selectpicker").selectpicker();
+  initDateMask($newEntry.get(0));
+  $newEntry.find("button.btn-entry-add").click(addEntryBtnCallback);
+  $newEntry.find(".collection-wrapper[data-index=0]").each(function () {
     initEmptyCollection($(this));
   });
 
   // Set initial value
   if (value !== undefined)
-    $newForm.find(":input:first").val(value).selectpicker("refresh");
+    $newEntry.find(":input:first").val(value).selectpicker("refresh");
 
-  return $newForm;
+  return $newEntry;
 }
 
+/**
+ * Add an entry in a wrapper
+ * @param {jQuery element} $wrapper a collection wrapper
+ * @param {*} value the entry value
+ */
 function addEntry($wrapper, value = undefined) {
   let index = $wrapper.data("index");
   let prototype = $wrapper.data("prototype");
-  let $newForm = createEntry(
+  let $newEntry = createEntry(
     prototype,
     index,
     value,
@@ -198,14 +273,21 @@ function addEntry($wrapper, value = undefined) {
   );
   let $form_container = $wrapper.find(".card-body.entry-list").first();
   const wrapperIsEmpty = $form_container.find(".collection-entry").length === 0;
-  if ($newForm.find(".form-group").length > 1 && !wrapperIsEmpty) {
+
+  // Add separator if necessary
+  if ($newEntry.find(".form-group").length > 1 && !wrapperIsEmpty) {
     $form_container.append("<hr>");
   }
-  $form_container.append($newForm);
+  $form_container.append($newEntry);
   $wrapper.data("index", index + 1);
   toggleDeleteButtons($wrapper);
 }
 
+/**
+ * Sets the index of an entry inside a wrapper
+ * @param {jQuery element} $entry a collection entry
+ * @param {Number} index
+ */
 function setIndex($entry, index) {
   const currentIndex = $entry.data("index");
   const oldId = $entry.attr("id");
@@ -223,6 +305,10 @@ function setIndex($entry, index) {
   $entry.find("button.btn-entry-delete").data("target", newId);
 }
 
+/**
+ * Reset all entry indexes in the wrapper
+ * @param {jQuery element} $wrapper a collection wrapper
+ */
 function resetIndexes($wrapper) {
   const $entryContainer = $wrapper.find(".card-body.entry-list");
   const $entries = $entryContainer.children();
