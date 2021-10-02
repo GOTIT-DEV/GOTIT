@@ -18,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @Route("external_sequence")
  * @Security("is_granted('ROLE_INVITED')")
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ExternalSequenceController extends AbstractController {
@@ -49,11 +50,11 @@ class ExternalSequenceController extends AbstractController {
   public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
     // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
-    //
+
     $rowCount = $request->get('rowCount') ?: 10;
-    $orderBy = ($request->get('sort') !== NULL)
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "sq.date_of_update DESC, sq.id DESC";
+    $orderBy = (null !== $request->get('sort'))
+    ? array_keys($request->get('sort'))[0] . ' ' . array_values($request->get('sort'))[0]
+    : 'sq.date_of_update DESC, sq.id DESC';
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -62,7 +63,7 @@ class ExternalSequenceController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+    if ($request->get('idFk') && false !== filter_var($request->get('idFk'), FILTER_VALIDATE_INT)) {
       $where .= ' AND sq.sampling_fk = ' . $request->get('idFk');
     }
 
@@ -121,7 +122,7 @@ class ExternalSequenceController extends AbstractController {
     LEFT JOIN taxon rt_sq ON ei_sq.taxon_fk = rt_sq.id
     LEFT JOIN vocabulary voc_sq_identification_criterion
       ON ei_sq.identification_criterion_voc_fk = voc_sq_identification_criterion.id"
-      . " WHERE " . $where . "
+      . ' WHERE ' . $where . '
     GROUP BY sq.id, st.site_code, sampling.sample_code, country.country_name,
       municipality.municipality_code,
       sq.external_sequence_creation_date, sq.date_of_creation, sq.date_of_update,
@@ -131,8 +132,8 @@ class ExternalSequenceController extends AbstractController {
       sq.external_sequence_primary_taxon, sq.external_sequence_specimen_number,
       sq.external_sequence_accession_number,
       voc_gene.code, voc_status.code, voc_date_precision.vocabulary_title,
-      sq.creation_user_name, meta_creation_user.user_full_name, user_maj.user_full_name"
-      . " ORDER BY " . $orderBy;
+      sq.creation_user_name, meta_creation_user.user_full_name, user_maj.user_full_name'
+      . ' ORDER BY ' . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
@@ -144,39 +145,39 @@ class ExternalSequenceController extends AbstractController {
     : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
-      $tab_toshow[] = array(
-        "id" => $val['id'], "sq.id" => $val['id'],
-        "sq.external_sequence_alignment_code" => $val['external_sequence_alignment_code'],
-        "sq.external_sequence_code" => $val['external_sequence_code'],
-        "sq.external_sequence_accession_number" => $val['external_sequence_accession_number'],
-        "voc_gene.code" => $val['voc_external_sequence_gene_code'],
-        "voc_date_precision.vocabulary_title" => $val['voc_date_precision_title'],
-        "sq.external_sequence_creation_date" => $val['external_sequence_creation_date'],
-        "sq.external_sequence_primary_taxon" => $val['external_sequence_primary_taxon'],
-        "sq.external_sequence_specimen_number" => $val['external_sequence_specimen_number'],
-        "voc_status.code" => $val['voc_external_sequence_status_code'],
-        "sq.date_of_creation" => $val['date_of_creation'],
-        "sq.date_of_update" => $val['date_of_update'],
-        "sampling.sample_code" => $val['sample_code'],
-        "last_taxname_sq" => $val['last_taxname_sq'],
-        "last_identification_date_sq" => $val['last_identification_date_sq'],
-        "voc_sq_identification_criterion.code" => $val['code_sq_identification_criterion'],
-        "list_source" => $val['list_source'],
-        "motu_flag" => $val['motu_flag'],
-        "country.country_name" => $val['country_name'],
-        "municipality.municipality_code" => $val['municipality_code'],
-        "creation_user_name" => $val['creation_user_name'],
-        "meta_creation_user.user_full_name" => ($val['meta_creation_user_username'] != null) ? $val['meta_creation_user_username'] : 'NA',
-        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
-      );
+      $tab_toshow[] = [
+        'id' => $val['id'], 'sq.id' => $val['id'],
+        'sq.external_sequence_alignment_code' => $val['external_sequence_alignment_code'],
+        'sq.external_sequence_code' => $val['external_sequence_code'],
+        'sq.external_sequence_accession_number' => $val['external_sequence_accession_number'],
+        'voc_gene.code' => $val['voc_external_sequence_gene_code'],
+        'voc_date_precision.vocabulary_title' => $val['voc_date_precision_title'],
+        'sq.external_sequence_creation_date' => $val['external_sequence_creation_date'],
+        'sq.external_sequence_primary_taxon' => $val['external_sequence_primary_taxon'],
+        'sq.external_sequence_specimen_number' => $val['external_sequence_specimen_number'],
+        'voc_status.code' => $val['voc_external_sequence_status_code'],
+        'sq.date_of_creation' => $val['date_of_creation'],
+        'sq.date_of_update' => $val['date_of_update'],
+        'sampling.sample_code' => $val['sample_code'],
+        'last_taxname_sq' => $val['last_taxname_sq'],
+        'last_identification_date_sq' => $val['last_identification_date_sq'],
+        'voc_sq_identification_criterion.code' => $val['code_sq_identification_criterion'],
+        'list_source' => $val['list_source'],
+        'motu_flag' => $val['motu_flag'],
+        'country.country_name' => $val['country_name'],
+        'municipality.municipality_code' => $val['municipality_code'],
+        'creation_user_name' => $val['creation_user_name'],
+        'meta_creation_user.user_full_name' => (null != $val['meta_creation_user_username']) ? $val['meta_creation_user_username'] : 'NA',
+        'user_maj.user_full_name' => (null != $val['user_maj_username']) ? $val['user_maj_username'] : 'NA',
+      ];
     }
 
     return new JsonResponse([
-      "current" => intval($request->get('current')),
-      "rowCount" => $rowCount,
-      "rows" => $tab_toshow,
-      "searchPhrase" => $searchPhrase,
-      "total" => $nb, // total data array
+      'current' => intval($request->get('current')),
+      'rowCount' => $rowCount,
+      'rows' => $tab_toshow,
+      'searchPhrase' => $searchPhrase,
+      'total' => $nb, // total data array
     ]);
   }
 
@@ -205,7 +206,6 @@ class ExternalSequenceController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-
       $em->persist($sequence);
 
       try {
@@ -213,14 +213,16 @@ class ExternalSequenceController extends AbstractController {
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = str_replace(
           ['"', "'"],
-          ['\"', "\'"],
+          ['\"', "\\'"],
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/external_sequence/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
+
       return $this->redirectToRoute('external_sequence_edit', [
         'id' => $sequence->getId(),
         'valid' => 1,
@@ -264,7 +266,7 @@ class ExternalSequenceController extends AbstractController {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $sequence->getMetaCreationUser() != $user->getId()) {
+    if ('ROLE_COLLABORATION' == $user->getRole() && $sequence->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load service  generic_function_e3s
@@ -303,6 +305,7 @@ class ExternalSequenceController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/external_sequence/index.html.twig',
 
@@ -315,18 +318,18 @@ class ExternalSequenceController extends AbstractController {
         ['action_type' => Action::edit()]
       );
 
-      return $this->render('Core/external_sequence/edit.html.twig', array(
+      return $this->render('Core/external_sequence/edit.html.twig', [
         'externalSequence' => $sequence,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
-      ));
+      ]);
     }
 
-    return $this->render('Core/external_sequence/edit.html.twig', array(
+    return $this->render('Core/external_sequence/edit.html.twig', [
       'externalSequence' => $sequence,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -349,6 +352,7 @@ class ExternalSequenceController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/external_sequence/index.html.twig',
 
@@ -369,7 +373,7 @@ class ExternalSequenceController extends AbstractController {
    */
   private function createDeleteForm(ExternalSequence $sequence) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('external_sequence_delete', array('id' => $sequence->getId())))
+      ->setAction($this->generateUrl('external_sequence_delete', ['id' => $sequence->getId()]))
       ->setMethod('DELETE')
       ->getForm();
   }
@@ -378,7 +382,6 @@ class ExternalSequenceController extends AbstractController {
    * Creates a createCode
    *
    * @param ExternalSequence $internalSequence The internalSequence entity
-   *
    */
   private function createCode(ExternalSequence $sequence) {
     $codeSqc = '';
@@ -388,7 +391,7 @@ class ExternalSequenceController extends AbstractController {
     if ($nbTaxonIdentifications > 0) {
       // The status of the sequence and the referential Taxon = to the last taxname attributed
       $codeStatutSqcAss = $sequence->getStatus()->getCode();
-      $arrayTaxon = array();
+      $arrayTaxon = [];
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxon()->getId()] =
         $entityTaxonIdentifications->getTaxon()->getCode();
@@ -396,17 +399,18 @@ class ExternalSequenceController extends AbstractController {
       ksort($arrayTaxon);
       reset($arrayTaxon);
       $firstTaxname = current($arrayTaxon);
-      $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
+      $codeSqc = ('VALID' == substr($codeStatutSqcAss, 0, 5))
       ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $code = $sequence->getSampling()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
-      $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
+      $codeOrigineSqcAssExt = $sequence->getOrigin()->getCode();
       $codeSqc = $codeSqc . '_' . $code . '_' . $numSpecimenSqcAssExt .
         '_' . $accessionNumber . '|' . $codeOrigineSqcAssExt;
     } else {
       $codeSqc = 0;
     }
+
     return $codeSqc;
   }
 
@@ -414,7 +418,6 @@ class ExternalSequenceController extends AbstractController {
    * Creates a createAlignmentCode
    *
    * @param ExternalSequence $internalSequence The internalSequence entity
-   *
    */
   private function createAlignmentCode(ExternalSequence $sequence) {
     $alignmentCode = '';
@@ -424,7 +427,7 @@ class ExternalSequenceController extends AbstractController {
     if ($nbTaxonIdentifications > 0) {
       // Le statut de la sequence ET le taxon = au derenier taxname attribué
       $codeStatutSqcAss = $sequence->getStatus()->getCode();
-      $arrayTaxon = array();
+      $arrayTaxon = [];
       foreach ($TaxonIdentifications as $entityTaxonIdentifications) {
         $arrayTaxon[$entityTaxonIdentifications->getTaxon()->getId()] =
         $entityTaxonIdentifications->getTaxon()->getCode();
@@ -432,13 +435,13 @@ class ExternalSequenceController extends AbstractController {
       ksort($arrayTaxon);
       end($arrayTaxon);
       $lastCode = current($arrayTaxon);
-      $alignmentCode = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
+      $alignmentCode = ('VALID' == substr($codeStatutSqcAss, 0, 5))
       ? $lastCode
       : $codeStatutSqcAss . '_' . $lastCode;
       $code = $sequence->getSampling()->getCode();
       $numSpecimenSqcAssExt = $sequence->getNumSpecimenSqcAssExt();
       $accessionNumber = $sequence->getAccessionNumber();
-      $codeOrigineSqcAssExt = $sequence->getOriginVocFk()->getCode();
+      $codeOrigineSqcAssExt = $sequence->getOrigin()->getCode();
       $alignmentCode = $alignmentCode . '_' .
         $code . '_' .
         $numSpecimenSqcAssExt . '_' .
@@ -446,6 +449,7 @@ class ExternalSequenceController extends AbstractController {
     } else {
       $alignmentCode = 0;
     }
+
     return $alignmentCode;
   }
 }

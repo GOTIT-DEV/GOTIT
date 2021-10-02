@@ -46,7 +46,7 @@ class InternalSequenceType extends ActionFormType {
         'placeholder' => 'Choose a statut',
         'disabled' => $this->canEditAdminOnly($options),
       ])
-      ->add('assemblies', DynamicCollectionType::class, array(
+      ->add('chromatograms', DynamicCollectionType::class, array(
         'disabled' => $this->canEditAdminOnly($options),
         'entry_type' => InternalSequenceAssemblyEmbedType::class,
         'entry_options' => array(

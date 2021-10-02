@@ -2,8 +2,7 @@
 
 namespace App\Form;
 
-use App\Form\ActionFormType;
-use App\Form\EmbedTypes\ExternalLotProducerEmbedType;
+use App\Form\EmbedTypes\PersonEmbedType;
 use App\Form\EmbedTypes\SourceEmbedType;
 use App\Form\EmbedTypes\TaxonIdentificationEmbedType;
 use App\Form\Enums\Action;
@@ -27,15 +26,15 @@ class ExternalLotType extends ActionFormType {
       ->add('sampling', SearchableSelectType::class, [
         'class' => 'App:Sampling',
         'choice_label' => 'code',
-        'placeholder' => $this->translator->trans("Sampling typeahead placeholder"),
+        'placeholder' => $this->translator->trans('Sampling typeahead placeholder'),
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $sampling != null,
+          'readonly' => null != $sampling,
         ],
       ])
       ->add('code', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
-        "attr" => [
+        'attr' => [
           'readonly' => ($options['action_type'] == Action::create()),
         ],
       ])
@@ -56,10 +55,10 @@ class ExternalLotType extends ActionFormType {
       ->add('datePrecision', DatePrecisionType::class)
       ->add('creationDate', DateFormattedType::class)
       ->add('producers', DynamicCollectionType::class, [
-        'entry_type' => ExternalLotProducerEmbedType::class,
+        'entry_type' => PersonEmbedType::class,
         'attr' => [
-          "data-allow-new" => true,
-          "data-modal-controller" => 'App\\Controller\\Core\\PersonController::newmodalAction',
+          'data-allow-new' => true,
+          'data-modal-controller' => 'App\\Controller\\Core\\PersonController::newmodalAction',
         ],
       ])
       ->add('taxonIdentifications', DynamicCollectionType::class, [

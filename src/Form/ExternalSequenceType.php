@@ -51,7 +51,7 @@ class ExternalSequenceType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
       ])
       ->add('primaryTaxon')
-      ->add('originVocFk', BaseVocType::class, [
+      ->add('origin', BaseVocType::class, [
         'voc_parent' => 'origineSqcAssExt',
         'choice_label' => 'code',
         'placeholder' => 'Choose a origineSqcAssExt',

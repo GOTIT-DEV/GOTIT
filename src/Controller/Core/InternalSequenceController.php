@@ -363,7 +363,7 @@ class InternalSequenceController extends AbstractController {
       );
 
     // store ArrayCollection
-    $assemblies = $service->copyArrayCollection($sequence->getAssemblies());
+    $chromatograms = $service->copyArrayCollection($sequence->getChromatograms());
     $taxonIdentifications = $service->copyArrayCollection(
       $sequence->getTaxonIdentifications()
     );
@@ -382,7 +382,7 @@ class InternalSequenceController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $service->removeStaleCollection($assemblies, $sequence->getAssemblies());
+      $service->removeStaleCollection($chromatograms, $sequence->getChromatograms());
       $service->removeStaleCollection(
         $taxonIdentifications, $sequence->getTaxonIdentifications(), 'Curators'
       );

@@ -9,7 +9,7 @@ $(() => {
   const $taxon = $("#external_sequence_taxonIdentifications_0_taxon");
   const $specimen = $("#external_sequence_specimenMolecularNumber");
   const $accession = $("#external_sequence_accessionNumber");
-  const $origin = $("#external_sequence_originVocFk");
+  const $origin = $("#external_sequence_origin");
   const $status = $("#external_sequence_status");
 
   const $assemblyCode = $("#external_sequence_code");

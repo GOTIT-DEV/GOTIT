@@ -464,7 +464,7 @@ Motu number: Numéro MOTU
 Num pcr: Numéro PCR
 Yas number: Numéro YAS
 Ordre: Ordre
-Origin voc fk: Origine séquence externe assemblée
+Origin: Origine séquence externe assemblée
 Parent: Parent
 Pays fk: Pays
 Pcr fk: PCR
@@ -513,7 +513,7 @@ Auto generated code: Code auto-généré
 Code Chromato | Specificite: Code chromatogramme | spécificité
 Publications: Est publiée dans
 Assemblers: Est assemblée par
-Assemblies: Provient de
+Chromatograms: Provient de
 Dna producers: Est extrait par
 Slide producers: Est monté par
 Producers: Est realisé par

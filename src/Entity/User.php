@@ -118,12 +118,6 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
    */
   private $comment;
 
-  public function __construct() {
-    //$this->setRoles(array($this->role));
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid('', true));
-  }
-
   /**
    * Overloads parent getMetadata to return a flat array structure
    * with only date information

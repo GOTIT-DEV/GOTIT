@@ -23,7 +23,7 @@ $(() => {
   if ($sequenceForm.length) {
     const $status = $("#internal_sequence_status");
     const chromatoWrapper = document.getElementById(
-      "wrapper_internal_sequence_assemblies"
+      "wrapper_internal_sequence_chromatograms"
     );
     const $code = $("#internal_sequence_code");
 
