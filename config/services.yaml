@@ -44,3 +44,4 @@ services:
     arguments: ["@listener.adduserdate"]
 
   App\DataTransformer\CsvRecordsRequestTransformer: ~
+  App\DataPersister\ValidatedDataPersister: ~

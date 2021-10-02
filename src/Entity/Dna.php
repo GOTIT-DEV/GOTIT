@@ -197,6 +197,8 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna")
    * @ApiProperty(writable=false)
    * @Groups({"dna:list", "dna:item"})
+   * @Assert\Expression("this.getPcrs().count() == 0", groups={"delete"},
+   * 	message="This DNA sample is referenced by some PCRs.")
    */
   private $pcrs;
 

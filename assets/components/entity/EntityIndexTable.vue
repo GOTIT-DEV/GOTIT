@@ -194,12 +194,13 @@ export default {
           this.$root.$emit("bv::refresh::table", this.tableId);
         }
       } else if (response.status === 404) {
-        this.showItemNotification(item, "Deletion failed : item not found");
-      } else if (response.status === 400) {
         this.showItemNotification(
           item,
-          "Deletion failed : related entities depend on this item."
+          "Deletion failed : item does not exist"
         );
+      } else if (response.status === 422) {
+        let json = await response.json();
+        this.showItemNotification(item, `Deletion failed :\n ${json.detail}`);
       } else {
         const json = await response.json();
         this.showItemNotification(
