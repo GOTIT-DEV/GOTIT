@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User
  *
  * @ORM\Table(name="user_db",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"username"})})
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"user_name"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"username"}, message="This username is already taken")
  *
