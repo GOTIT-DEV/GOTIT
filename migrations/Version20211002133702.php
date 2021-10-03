@@ -94,6 +94,11 @@ final class Version20211002133702 extends AbstractMigration {
     $this->addSql('CREATE INDEX IDX_BD8A65D8CA76135A ON external_sequence (creation_user_name)');
     $this->addSql('CREATE INDEX IDX_BD8A65D885B7874A ON external_sequence (update_user_name)');
     $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP CONSTRAINT fk_31');
+    $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP id');
+    $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP date_of_creation');
+    $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP date_of_update');
+    $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP creation_user_name');
+    $this->addSql('ALTER TABLE external_sequence_is_entered_by DROP update_user_name');
     $this->addSql('ALTER TABLE external_sequence_is_entered_by ADD CONSTRAINT FK_E3B7BF44E71B5587 FOREIGN KEY (external_sequence_fk) REFERENCES external_sequence (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     $this->addSql('ALTER TABLE external_sequence_is_entered_by ADD PRIMARY KEY (external_sequence_fk, person_fk)');
     $this->addSql('ALTER INDEX idx_dc41e25acdd1f756 RENAME TO IDX_E3B7BF44E71B5587');
