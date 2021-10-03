@@ -142,7 +142,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
-   *  @ORM\JoinTable(name="external_sequence_is_entered_by",
+   *  @ORM\JoinTable(name="external_sequence_is_published_in",
    *  joinColumns={@ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id")},
    *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id": "ASC"})
@@ -467,7 +467,6 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @return ExternalSequence
    */
   public function addPublication(Source $externalSequencePublication) {
-    $externalSequencePublication->setExternalSequence($this);
     $this->publications[] = $externalSequencePublication;
 
     return $this;
