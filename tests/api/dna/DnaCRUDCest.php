@@ -30,18 +30,18 @@ class DnaCRUDCest {
     $I->dontSeeInRepository(\App\Entity\Dna::class, ['id' => $dna->getId()]);
   }
 
-  // public function testFailDnaDeletionWithPCR(ApiTester $I) {
-  //   $I->wantTo('Fail deletion of DNA having related PCR(s)');
-  //   $dna = $I->have('App\Entity\Dna');
-  //   $pcr = $I->have('App\Entity\Pcr', ['dna' => $dna]);
-  //   $dna->addPcr($pcr);
-  //   $I->sendDelete($this->generateRoute('api_dnas_delete_item', ['id' => $dna->getId()]));
-  //   $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
-  // }
+  public function testFailDnaDeletionWithPCR(ApiTester $I) {
+    $I->wantTo('Fail deletion of DNA having related PCR(s)');
+    $dna = $I->have('App\Entity\Dna');
+    $pcr = $I->have('App\Entity\Pcr', ['dna' => $dna]);
+    $dna->addPcr($pcr);
+    $I->persistEntity($dna);
+    $I->sendDelete($this->generateRoute('api_dnas_delete_item', ['id' => $dna->getId()]));
+    $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
+  }
 
   public function testListAllDna(ApiTester $I) {
     $I->wantTo('Test list of all DNA entities');
-    $dna = $I->have('App\Entity\Dna');
     $I->haveHttpHeader('Content-Type', 'application/json');
     $I->haveHttpHeader('accept', 'application/ld+json');
     $I->sendGet($this->generateRoute('api_dnas_get_collection', ['pagination' => false]));
