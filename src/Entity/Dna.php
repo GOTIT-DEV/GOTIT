@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Serializer\Filter\GroupFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use App\Controller\API\ImportCSVAction;
 use App\DTO\CsvRecordsRequest;
@@ -42,28 +43,30 @@ use Symfony\Component\Validator\Constraints as Assert;
  *       "get": {
  *          "normalization_context": {"groups": {"item", "dna:item"}}
  *       },
- *       "delete"
+ *       "delete": {"security": "is_granted('ROLE_COLLABORATION') and object.getMetaCreationUser() == user"}
  *     },
  *     collectionOperations={
  *       "get": {
  *          "normalization_context": {"groups": {"item", "dna:list"}}
  *       },
  *       "post": {
- * 					"normalization_context": {"groups": {"item", "dna:item"}},
- * 					"denormalization_context": {"groups": {"dna:write"}}
- * 			 },
- * 			 "import": {
- * 					"method": "POST",
- * 					"path": "/dnas/import",
- * 					"controller": ImportCSVAction::class,
- * 					"input": CsvRecordsRequest::class,
- * 					"output": ArrayCollection::class,
- * 					"normalization_context": {"groups": {"item", "dna:item"}},
- * 					"denormalization_context": {"groups": {"csv:import"}},
- * 					"openapi_context": {
- * 						"summary": "Import Dna resources from CSV string."
- * 					}
- * 				}
+ *         "normalization_context": {"groups": {"item", "dna:item"}},
+ *         "denormalization_context": {"groups": {"dna:write"}},
+ *         "security": "is_granted('ROLE_COLLABORATION')"
+ *        },
+ *        "import": {
+ *          "method": "POST",
+ *          "path": "/dnas/import",
+ *          "controller": ImportCSVAction::class,
+ *          "input": CsvRecordsRequest::class,
+ *          "output": ArrayCollection::class,
+ *          "security": "is_granted('ROLE_COLLABORATION')",
+ *          "normalization_context": {"groups": {"item", "dna:item"}},
+ *          "denormalization_context": {"groups": {"csv:import"}},
+ *          "openapi_context": {
+ *            "summary": "Import Dna resources from CSV string."
+ *          }
+ *        }
  *     },
  *     order={"code": "ASC"},
  *     paginationEnabled=true
@@ -73,6 +76,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(DateFilter::class, properties={"date": "DateFilter::EXCLUDE_NULL"})
  * @ApiFilter(OrderFilter::class, properties={"code", "date", "concentrationNgMicrolitre", "specimen.molecularCode", "store.code"})
  * @ApiFilter(PropertyFilter::class)
+ * @ApiFilter(GroupFilter::class, arguments={"parameterName": "groups", "overrideDefaultGroups": true})
  */
 class Dna extends AbstractTimestampedEntity {
   public const API_SEARCH_PROPERTIES = [
@@ -94,7 +98,7 @@ class Dna extends AbstractTimestampedEntity {
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
    * @ApiProperty(identifier=false)
-   * @Groups({"item", "dna:write"})
+   * @Groups({"item", "dna:write", "compact"})
    */
   private $id;
 
@@ -102,7 +106,7 @@ class Dna extends AbstractTimestampedEntity {
    * @var string
    *
    * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
-   * @Groups({"item", "dna:write"})
+   * @Groups({"item", "dna:write", "compact"})
    * @Assert\Regex(
    *  pattern="/^[\w]+$/",
    *  message="Code {{ value }} contains invalid special characters"

@@ -14,19 +14,14 @@ $(() => {
 
   const $pcrCode = $("#pcr_code");
 
-  initSearchSelect(
-    $dna,
-    "app_api_dna_list",
-    apiUrlGenerator,
-    paginatedResultsToItems
-  );
+  initSearchSelect($dna, "api_dnas_get_collection", apiUrlGenerator);
 
   if ($form.data("action") == "new") {
     updatePcrCode();
-    $dna.change(updatePcrCode);
-    $primerStart.change(updatePcrCode);
-    $primerEnd.change(updatePcrCode);
-    $numPcr.keyup(updatePcrCode);
+    $dna.on("change", updatePcrCode);
+    $primerStart.on("change", updatePcrCode);
+    $primerEnd.on("change", updatePcrCode);
+    $number.on("keyup", updatePcrCode);
   }
 
   function updatePcrCode() {

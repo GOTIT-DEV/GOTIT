@@ -193,20 +193,24 @@ export default {
         } else {
           this.$root.$emit("bv::refresh::table", this.tableId);
         }
-      } else if (response.status === 404) {
-        this.showItemNotification(
-          item,
-          "Deletion failed : item does not exist"
-        );
-      } else if (response.status === 422) {
-        let json = await response.json();
-        this.showItemNotification(item, `Deletion failed :\n ${json.detail}`);
       } else {
         const json = await response.json();
-        this.showItemNotification(
-          item,
-          `An unexpected exception happened : ${json.message}`
-        );
+        let message = undefined;
+        switch (response.status) {
+          case 403:
+            message = "You are not allowed to delete this item.";
+            break;
+          case 404:
+            message = "Deletion failed : item does not exist";
+            break;
+          case 422:
+            message = `Deletion failed :\n ${json.detail}`;
+            break;
+          default:
+            message = `An unexpected exception happened : ${json.message}`;
+            break;
+        }
+        this.showItemNotification(item, message);
       }
     },
   },

@@ -5,7 +5,12 @@ export function defaultUrlGenerator(route) {
 }
 
 export function apiUrlGenerator(route) {
-  return (params) => Routing.generate(route, { filter: { code: params.term } });
+  return (params) =>
+    Routing.generate(route, {
+      code: params.term,
+      groups: ["compact"],
+      itemsPerPage: 10,
+    });
 }
 
 export function resultsToItems(data) {

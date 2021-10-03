@@ -17,11 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("pcr")
  * @Security("is_granted('ROLE_INVITED')")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
  *
+ * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PcrController extends AbstractController {
-  const MAX_RESULTS_TYPEAHEAD = 20;
+  public const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
    * Lists all pcr entities.
@@ -30,33 +30,34 @@ class PcrController extends AbstractController {
    * @Route("/", name="pcrchromato_index", methods={"GET"})
    */
   public function indexAction(Request $request) {
-
     $em = $this->getDoctrine()->getManager();
 
     $dna = $request->query->get('dna');
     if ($dna) {
       $pcrs = $em->getRepository('App:Pcr')->findBy(['dna' => $dna]);
-      if (count($pcrs) === 1) {
-        return $this->redirectToRoute('pcr_show', ["id" => array_shift($pcrs)->getId()]);
+      if (1 === count($pcrs)) {
+        return $this->redirectToRoute('pcr_show', ['id' => array_shift($pcrs)->getId()]);
       }
     }
 
     $pcrs = $em->getRepository('App:Pcr')->findAll();
 
-    return $this->render('Core/pcr/index.html.twig', array(
+    return $this->render('Core/pcr/index.html.twig', [
       'pcrs' => $pcrs,
-    ));
+    ]);
   }
 
   /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="pcr_search")
+   * @Route("/search/{q}", requirements={"q": ".+"}, name="pcr_search")
+   *
+   * @param mixed $q
    */
   public function searchAction($q) {
     $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
     $qb->select('pcr.id, pcr.code as code')
       ->from('App:Pcr', 'pcr');
     $query = explode(' ', strtolower(trim(urldecode($q))));
-    for ($i = 0; $i < count($query); $i++) {
+    for ($i = 0; $i < count($query); ++$i) {
       $qb->andWhere('(LOWER(pcr.code) like :q' . $i . ')');
       $qb->setParameter('q' . $i, $query[$i] . '%');
     }
@@ -78,7 +79,7 @@ class PcrController extends AbstractController {
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
     $em = $this->getDoctrine()->getManager();
-    //
+
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
       'pcr.metaUpdateDate' => 'desc', 'pcr.id' => 'desc',
@@ -91,12 +92,12 @@ class PcrController extends AbstractController {
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+    if ($request->get('idFk') && false !== filter_var($request->get('idFk'), FILTER_VALIDATE_INT)) {
       $where .= ' AND pcr.dna = ' . $request->get('idFk');
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Pcr")
+    $entities_toshow = $em->getRepository('App:Pcr')
       ->createQueryBuilder('pcr')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -115,11 +116,11 @@ class PcrController extends AbstractController {
     $lastTaxname = '';
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
-      $Date = ($entity->getDate() !== null)
+      $Date = (null !== $entity->getDate())
       ? $entity->getDate()->format('Y-m-d') : null;
-      $MetaUpdateDate = ($entity->getMetaUpdateDate() !== null)
+      $MetaUpdateDate = (null !== $entity->getMetaUpdateDate())
       ? $entity->getMetaUpdateDate()->format('Y-m-d H:i:s') : null;
-      $MetaCreationDate = ($entity->getMetaCreationDate() !== null)
+      $MetaCreationDate = (null !== $entity->getMetaCreationDate())
       ? $entity->getMetaCreationDate()->format('Y-m-d H:i:s') : null;
       // Search chromatograms associated to a PCR
       $query = $em->createQuery(
@@ -128,42 +129,42 @@ class PcrController extends AbstractController {
       )->getResult();
       $linkChromatogram = (count($query) > 0) ? $id : '';
       // concatenated list of people
-      $query = $em->createQuery(
-        'SELECT p.name as nom FROM App:PcrProducer erp
-                JOIN erp.personFk p WHERE erp.pcr = ' . $id
-      )->getResult();
-      $arrayListePerson = array();
-      foreach ($query as $taxon) {
-        $arrayListePerson[] = $taxon['nom'];
-      }
-      $listePerson = implode(", ", $arrayListePerson);
-      //
-      $tab_toshow[] = array(
-        "id" => $id, "pcr.id" => $id,
-        "specimen.molecularCode" => $entity->getDna()->getSpecimen()->getMolecularCode(),
-        "dna.code" => $entity->getDna()->getCode(),
-        "pcr.code" => $entity->getCode(),
-        "pcr.number" => $entity->getNumber(),
-        "vocGene.code" => $entity->getGene()->getCode(),
-        "listePerson" => $listePerson,
-        "pcr.date" => $Date,
-        "vocQualitePcr.code" => $entity->getQuality()->getCode(),
-        "vocSpecificite.code" => $entity->getSpecificity()->getCode(),
-        "pcr.metaCreationDate" => $MetaCreationDate,
-        "pcr.metaUpdateDate" => $MetaUpdateDate,
-        "metaCreationUserId" => $service->GetMetaCreationUserId($entity),
-        "pcr.metaCreationUser" => $service->GetMetaCreationUserUserfullname($entity),
-        "pcr.metaUpdateUser" => $service->GetMetaUpdateUserUserfullname($entity),
-        "linkChromatogram" => $linkChromatogram,
-      );
+      // $query = $em->createQuery(
+      //   'SELECT p.name as nom FROM App:PcrProducer erp
+      //           JOIN erp.personFk p WHERE erp.pcr = ' . $id
+      // )->getResult();
+      $arrayListePerson = [];
+      // foreach ($query as $taxon) {
+      //   $arrayListePerson[] = $taxon['nom'];
+      // }
+      $listePerson = implode(', ', $arrayListePerson);
+
+      $tab_toshow[] = [
+        'id' => $id, 'pcr.id' => $id,
+        'specimen.molecularCode' => $entity->getDna()->getSpecimen()->getMolecularCode(),
+        'dna.code' => $entity->getDna()->getCode(),
+        'pcr.code' => $entity->getCode(),
+        'pcr.number' => $entity->getNumber(),
+        'vocGene.code' => $entity->getGene()->getCode(),
+        'listePerson' => $listePerson,
+        'pcr.date' => $Date,
+        'vocQualitePcr.code' => $entity->getQuality()->getCode(),
+        'vocSpecificite.code' => $entity->getSpecificity()->getCode(),
+        'pcr.metaCreationDate' => $MetaCreationDate,
+        'pcr.metaUpdateDate' => $MetaUpdateDate,
+        'metaCreationUserId' => $service->GetMetaCreationUserId($entity),
+        'pcr.metaCreationUser' => $service->GetMetaCreationUserUserfullname($entity),
+        'pcr.metaUpdateUser' => $service->GetMetaUpdateUserUserfullname($entity),
+        'linkChromatogram' => $linkChromatogram,
+      ];
     }
 
     return new JsonResponse([
-      "current" => intval($request->get('current')),
-      "rowCount" => $rowCount,
-      "rows" => $tab_toshow,
-      "searchPhrase" => $searchPhrase,
-      "total" => $nb, // total data array
+      'current' => intval($request->get('current')),
+      'rowCount' => $rowCount,
+      'rows' => $tab_toshow,
+      'searchPhrase' => $searchPhrase,
+      'total' => $nb, // total data array
     ]);
   }
 
@@ -188,7 +189,6 @@ class PcrController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-
       $em->persist($pcr);
 
       try {
@@ -197,22 +197,24 @@ class PcrController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/pcr/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->redirectToRoute('pcr_edit', array(
+
+      return $this->redirectToRoute('pcr_edit', [
         'id' => $pcr->getId(),
         'valid' => 1,
         'idFk' => $request->get('idFk'),
-      ));
+      ]);
     }
 
-    return $this->render('Core/pcr/edit.html.twig', array(
+    return $this->render('Core/pcr/edit.html.twig', [
       'pcr' => $pcr,
       'edit_form' => $form->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -226,11 +228,11 @@ class PcrController extends AbstractController {
       'action_type' => Action::show(),
     ]);
 
-    return $this->render('Core/pcr/edit.html.twig', array(
+    return $this->render('Core/pcr/edit.html.twig', [
       'pcr' => $pcr,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -238,13 +240,12 @@ class PcrController extends AbstractController {
    *
    * @Route("/{id}/edit", name="pcr_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
-   *
    */
   public function editAction(Request $request, Pcr $pcr, EntityEditionService $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_COLLABORATION' && $pcr->getMetaCreationUser() != $user->getId()) {
+    if ('ROLE_COLLABORATION' == $user->getRole() && $pcr->getMetaCreationUser() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
 
@@ -258,7 +259,6 @@ class PcrController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-
       $service->removeStaleCollection($producers, $pcr->getProducers());
 
       $em = $this->getDoctrine()->getManager();
@@ -270,23 +270,25 @@ class PcrController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/pcr/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
         );
       }
-      return $this->render('Core/pcr/edit.html.twig', array(
+
+      return $this->render('Core/pcr/edit.html.twig', [
         'pcr' => $pcr,
         'edit_form' => $editForm->createView(),
         'valid' => 1,
-      ));
+      ]);
     }
 
-    return $this->render('Core/pcr/edit.html.twig', array(
+    return $this->render('Core/pcr/edit.html.twig', [
       'pcr' => $pcr,
       'edit_form' => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
-    ));
+    ]);
   }
 
   /**
@@ -294,7 +296,6 @@ class PcrController extends AbstractController {
    *
    * @Route("/{id}", name="pcr_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
-   *
    */
   public function deleteAction(Request $request, Pcr $pcr) {
     $form = $this->createDeleteForm($pcr);
@@ -310,6 +311,7 @@ class PcrController extends AbstractController {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
+
         return $this->render(
           'Core/pcr/index.html.twig',
           ['exception_message' => explode("\n", $exception_message)[0]]
@@ -329,7 +331,7 @@ class PcrController extends AbstractController {
    */
   private function createDeleteForm(Pcr $pcr) {
     return $this->createFormBuilder()
-      ->setAction($this->generateUrl('pcr_delete', array('id' => $pcr->getId())))
+      ->setAction($this->generateUrl('pcr_delete', ['id' => $pcr->getId()]))
       ->setMethod('DELETE')
       ->getForm();
   }
