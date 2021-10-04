@@ -39,37 +39,52 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
  *
  * @ApiResource(
- *     itemOperations={
- *       "get": {
- *          "normalization_context": {"groups": {"item", "dna:item"}}
- *       },
- *       "delete": {"security": "is_granted('ROLE_COLLABORATION') and object.getMetaCreationUser() == user"}
+ *   itemOperations={
+ *     "get": {
+ *        "normalization_context": {"groups": {"item", "dna:item"}}
  *     },
- *     collectionOperations={
- *       "get": {
- *          "normalization_context": {"groups": {"item", "dna:list"}}
- *       },
- *       "post": {
- *         "normalization_context": {"groups": {"item", "dna:item"}},
- *         "denormalization_context": {"groups": {"dna:write"}},
- *         "security": "is_granted('ROLE_COLLABORATION')"
- *        },
- *        "import": {
- *          "method": "POST",
- *          "path": "/dnas/import",
- *          "controller": ImportCSVAction::class,
- *          "input": CsvRecordsRequest::class,
- *          "output": ArrayCollection::class,
- *          "security": "is_granted('ROLE_COLLABORATION')",
- *          "normalization_context": {"groups": {"item", "dna:item"}},
- *          "denormalization_context": {"groups": {"csv:import"}},
- *          "openapi_context": {
- *            "summary": "Import Dna resources from CSV string."
+ *     "delete": {"security": "is_granted('ROLE_COLLABORATION') and object.getMetaCreationUser() == user"}
+ *   },
+ *   collectionOperations={
+ *    "get": {
+ *       "normalization_context": {"groups": {"item", "dna:list"}}
+ *    },
+ *    "post": {
+ *      "normalization_context": {"groups": {"item", "dna:item"}},
+ *      "denormalization_context": {"groups": {"dna:write"}},
+ *      "security": "is_granted('ROLE_COLLABORATION')"
+ *    },
+ *    "import": {
+ *      "method": "POST",
+ *      "path": "/dnas/import",
+ *      "controller": ImportCSVAction::class,
+ *      "input": CsvRecordsRequest::class,
+ *      "security": "is_granted('ROLE_COLLABORATION')",
+ *      "normalization_context": {"groups": {"item", "dna:item"}},
+ *      "denormalization_context": {"groups": {"csv:import"}},
+ *      "openapi_context": {
+ *        "summary": "Import Dna resources",
+ *        "description": "Import DNA resources from a CSV string.",
+ *        "responses": {
+ *          "201": {
+ *            "description": "DNA resources created",
+ *            "content": {
+ *              "application/json": {
+ *                "schema": {
+ *                  "type": "array",
+ *                  "items": {
+ *                      "$ref": "#/components/schemas/Dna-item_dna.list"
+ *                  }
+ *                }
+ *              },
+ *            }
  *          }
  *        }
- *     },
- *     order={"code": "ASC"},
- *     paginationEnabled=true
+ *      }
+ *    }
+ *  },
+ *  order={"code": "ASC"},
+ *  paginationEnabled=true
  * )
  * @ApiFilter(SearchFilter::class, properties=Dna::API_SEARCH_PROPERTIES)
  * @ApiFilter(OrSearchFilter::class, properties=Dna::API_SEARCH_PROPERTIES)
