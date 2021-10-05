@@ -14,8 +14,9 @@ api_platform:
     jsonapi: ["application/vnd.api+json"]
     html: ["text/html"]
     csv: ["text/csv"]
+  defaults:
+    pagination_client_enabled: true
+    pagination_client_items_per_page: true
   collection:
     pagination:
       items_per_page_parameter_name: itemsPerPage # Default value
-      client_enabled: true
-      client_items_per_page: true
