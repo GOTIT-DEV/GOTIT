@@ -30,14 +30,14 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   /**
    * @var int
    *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Column(name="id", type="integer", nullable=false)
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
    *
    * @Groups({"item"})
    */
-  private $id;
+  private int $id;
 
   /**
    * @var string
@@ -138,7 +138,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   /**
    * Get id
    *
-   * @return \bigints
+   * @return \integers
    */
   public function getId() {
     return $this->id;

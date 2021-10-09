@@ -21,412 +21,322 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"eyes_voc_fk"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, message="This code is already registered")
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ExternalLot extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="external_biological_material_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private $id;
+  /**
+   * @ORM\Column(name="id", type="integer", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="external_biological_material_id_seq", allocationSize=1, initialValue=1)
+   */
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="external_biological_material_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  /**
+   * @ORM\Column(name="external_biological_material_code", type="string", length=255, nullable=false, unique=true)
+   */
+  private string $code;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="external_biological_material_creation_date", type="date", nullable=true)
-	 */
-	private $creationDate;
+  /**
+   * @ORM\Column(name="external_biological_material_creation_date", type="date", nullable=true)
+   */
+  private ?\DateTime $creationDate = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="external_biological_material_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  /**
+   * @ORM\Column(name="external_biological_material_comments", type="text", nullable=true)
+   */
+  private ?string $comment = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="number_of_specimens_comments", type="text", nullable=true)
-	 */
-	private $specimenQuantityComment;
+  /**
+   * @ORM\Column(name="number_of_specimens_comments", type="text", nullable=true)
+   */
+  private ?string $specimenQuantityComment = null;
 
-	/**
-	 * @var Sampling
-	 *
-	 * @ORM\ManyToOne(targetEntity="Sampling")
-	 * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $sampling;
+  /**
+   * @ORM\ManyToOne(targetEntity="Sampling")
+   * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
+   */
+  private Sampling $sampling;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $datePrecision;
+  /**
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
+   */
+  private Voc $datePrecision;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="number_of_specimens_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $specimenQuantity;
+  /**
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="number_of_specimens_voc_fk", referencedColumnName="id", nullable=false)
+   */
+  private Voc $specimenQuantity;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $pigmentation;
+  /**
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
+   */
+  private Voc $pigmentation;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $eyes;
+  /**
+   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
+   * @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
+   */
+  private Voc $eyes;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-	 * @ORM\JoinTable(name="external_biological_material_is_processed_by",
-	 *  joinColumns={@ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $producers;
+  /**
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="external_biological_material_is_processed_by",
+   *  joinColumns={@ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
+   * @ORM\OrderBy({"id": "ASC"})
+   */
+  protected Collection $producers;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
-	 * @ORM\JoinTable(name="external_biological_material_is_published_in",
-	 *  joinColumns={@ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $publications;
+  /**
+   * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
+   * @ORM\JoinTable(name="external_biological_material_is_published_in",
+   *  joinColumns={@ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
+   * @ORM\OrderBy({"id": "ASC"})
+   */
+  protected Collection $publications;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalLot", cascade={"persist"})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $taxonIdentifications;
+  /**
+   * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalLot", cascade={"persist"})
+   * @ORM\OrderBy({"id": "ASC"})
+   */
+  protected Collection $taxonIdentifications;
 
-	public function __construct() {
-		$this->producers = new ArrayCollection();
-		$this->publications = new ArrayCollection();
-		$this->taxonIdentifications = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->producers = new ArrayCollection();
+    $this->publications = new ArrayCollection();
+    $this->taxonIdentifications = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return string
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+  /**
+   * Get id
+   */
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return ExternalLot
-	 */
-	public function setCode($code): ExternalLot {
-		$this->code = $code;
-		return $this;
-	}
+  /**
+   * Set code
+   */
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode(): ?string {
-		return $this->code;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set creationDate
-	 *
-	 * @param \DateTime $creationDate
-	 *
-	 * @return ExternalLot
-	 */
-	public function setCreationDate($date): ExternalLot {
-		$this->creationDate = $date;
-		return $this;
-	}
+  /**
+   * Get code
+   */
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Get creationDate
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreationDate(): ?\DateTime {
-		return $this->creationDate;
-	}
+  /**
+   * Set creationDate
+   */
+  public function setCreationDate(?\DateTime $date): self {
+    $this->creationDate = $date;
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return ExternalLot
-	 */
-	public function setComment($comment): ExternalLot {
-		$this->comment = $comment;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment(): ?string {
-		return $this->comment;
-	}
+  /**
+   * Get creationDate
+   */
+  public function getCreationDate(): ?\DateTime {
+    return $this->creationDate;
+  }
 
-	/**
-	 * Set specimenQuantityComment
-	 *
-	 * @param string $specimenQuantityComment
-	 *
-	 * @return ExternalLot
-	 */
-	public function setSpecimenQuantityComment(
-		$specimenQuantityComment,
-	): ExternalLot {
-		$this->specimenQuantityComment = $specimenQuantityComment;
-		return $this;
-	}
+  /**
+   * Set comment
+   */
+  public function setComment(string $comment): self {
+    $this->comment = $comment;
 
-	/**
-	 * Get specimenQuantityComment
-	 *
-	 * @return string
-	 */
-	public function getSpecimenQuantityComment(): ?string {
-		return $this->specimenQuantityComment;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set sampling
-	 *
-	 * @param Sampling $sampling
-	 *
-	 * @return ExternalLot
-	 */
-	public function setSampling(Sampling $sampling = null): ExternalLot {
-		$this->sampling = $sampling;
-		return $this;
-	}
+  /**
+   * Get comment
+   */
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Get sampling
-	 *
-	 * @return Sampling
-	 */
-	public function getSampling(): ?Sampling {
-		return $this->sampling;
-	}
+  /**
+   * Set specimenQuantityComment
+   */
+  public function setSpecimenQuantityComment(?string $specimenQuantityComment): self {
+    $this->specimenQuantityComment = $specimenQuantityComment;
 
-	/**
-	 * Set datePrecision
-	 *
-	 * @param Voc $datePrecision
-	 *
-	 * @return ExternalLot
-	 */
-	public function setDatePrecision(Voc $datePrecVocFk = null): ExternalLot {
-		$this->datePrecision = $datePrecVocFk;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get datePrecision
-	 *
-	 * @return Voc
-	 */
-	public function getDatePrecision(): ?Voc {
-		return $this->datePrecision;
-	}
+  /**
+   * Get specimenQuantityComment
+   */
+  public function getSpecimenQuantityComment(): ?string {
+    return $this->specimenQuantityComment;
+  }
 
-	/**
-	 * Set specimenQuantity
-	 *
-	 * @param Voc $specimenQuantity
-	 *
-	 * @return ExternalLot
-	 */
-	public function setSpecimenQuantity(Voc $specQtyVocFk = null): ExternalLot {
-		$this->specimenQuantity = $specQtyVocFk;
-		return $this;
-	}
+  /**
+   * Set sampling
+   */
+  public function setSampling(Sampling $sampling): self {
+    $this->sampling = $sampling;
 
-	/**
-	 * Get specimenQuantity
-	 *
-	 * @return Voc
-	 */
-	public function getSpecimenQuantity(): ?Voc {
-		return $this->specimenQuantity;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set pigmentation
-	 *
-	 * @param Voc $pigmentation
-	 *
-	 * @return ExternalLot
-	 */
-	public function setPigmentation(Voc $pigmVocFk = null): ExternalLot {
-		$this->pigmentation = $pigmVocFk;
-		return $this;
-	}
+  /**
+   * Get sampling
+   */
+  public function getSampling(): Sampling {
+    return $this->sampling;
+  }
 
-	/**
-	 * Get pigmentation
-	 *
-	 * @return Voc
-	 */
-	public function getPigmentation(): ?Voc {
-		return $this->pigmentation;
-	}
+  /**
+   * Set datePrecision
+   */
+  public function setDatePrecision(Voc $datePrecision): self {
+    $this->datePrecision = $datePrecision;
 
-	/**
-	 * Set eyes
-	 *
-	 * @param Voc $eyes
-	 *
-	 * @return ExternalLot
-	 */
-	public function setEyes(Voc $eyes = null): ExternalLot {
-		$this->eyes = $eyes;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get eyes
-	 *
-	 * @return Voc
-	 */
-	public function getEyes(): ?Voc {
-		return $this->eyes;
-	}
+  /**
+   * Get datePrecision
+   */
+  public function getDatePrecision(): Voc {
+    return $this->datePrecision;
+  }
 
-	/**
-	 * Add producer
-	 *
-	 * @param Person $producer
-	 *
-	 * @return ExternalLot
-	 */
-	public function addProducer(Person $producer): ExternalLot {
-		$this->producers[] = $producer;
-		return $this;
-	}
+  /**
+   * Set specimenQuantity
+   */
+  public function setSpecimenQuantity(Voc $specQty): self {
+    $this->specimenQuantity = $specQty;
 
-	/**
-	 * Remove producer
-	 *
-	 * @param Person $producer
-	 */
-	public function removeProducer(Person $producer): ExternalLot {
-		$this->producers->removeElement($producer);
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get producers
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getProducers(): Collection {
-		return $this->producers;
-	}
+  /**
+   * Get specimenQuantity
+   */
+  public function getSpecimenQuantity(): Voc {
+    return $this->specimenQuantity;
+  }
 
-	/**
-	 * Add publication
-	 *
-	 * @param Source $publication
-	 *
-	 * @return ExternalLot
-	 */
-	public function addPublication(Source $pub): ExternalLot {
-		$this->publications[] = $pub;
-		return $this;
-	}
+  /**
+   * Set pigmentation
+   */
+  public function setPigmentation(Voc $pigmentation): self {
+    $this->pigmentation = $pigmentation;
 
-	/**
-	 * Remove publication
-	 *
-	 * @param Source $publication
-	 */
-	public function removePublication(Source $pub): ExternalLot {
-		$this->publications->removeElement($pub);
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get publications
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getPublications(): Collection {
-		return $this->publications;
-	}
+  /**
+   * Get pigmentation
+   */
+  public function getPigmentation(): Voc {
+    return $this->pigmentation;
+  }
 
-	/**
-	 * Add taxonIdentification
-	 *
-	 * @param TaxonIdentification $taxonIdentification
-	 *
-	 * @return ExternalLot
-	 */
-	public function addTaxonIdentification(
-		TaxonIdentification $taxonId,
-	): ExternalLot {
-		$taxonId->setExternalLot($this);
-		$this->taxonIdentifications[] = $taxonId;
-		return $this;
-	}
+  /**
+   * Set eyes
+   */
+  public function setEyes(Voc $eyes): self {
+    $this->eyes = $eyes;
 
-	/**
-	 * Remove taxonIdentification
-	 *
-	 * @param TaxonIdentification $taxonIdentification
-	 */
-	public function removeTaxonIdentification(
-		TaxonIdentification $taxonId,
-	): ExternalLot {
-		$this->taxonIdentifications->removeElement($taxonId);
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get taxonIdentifications
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getTaxonIdentifications(): Collection {
-		return $this->taxonIdentifications;
-	}
+  /**
+   * Get eyes
+   */
+  public function getEyes(): Voc {
+    return $this->eyes;
+  }
+
+  /**
+   * Add producer
+   */
+  public function addProducer(Person $producer): self {
+    $this->producers[] = $producer;
+
+    return $this;
+  }
+
+  /**
+   * Remove producer
+   */
+  public function removeProducer(Person $producer): self {
+    $this->producers->removeElement($producer);
+
+    return $this;
+  }
+
+  /**
+   * Get producers
+   */
+  public function getProducers(): Collection {
+    return $this->producers;
+  }
+
+  /**
+   * Add publication
+   */
+  public function addPublication(Source $publication): self {
+    $this->publications[] = $publication;
+
+    return $this;
+  }
+
+  /**
+   * Remove publication
+   */
+  public function removePublication(Source $publication): self {
+    $this->publications->removeElement($publication);
+
+    return $this;
+  }
+
+  /**
+   * Get publications
+   */
+  public function getPublications(): Collection {
+    return $this->publications;
+  }
+
+  /**
+   * Add taxonIdentification
+   */
+  public function addTaxonIdentification(TaxonIdentification $taxonId): self {
+    $taxonId->setExternalLot($this);
+    $this->taxonIdentifications[] = $taxonId;
+
+    return $this;
+  }
+
+  /**
+   * Remove taxonIdentification
+   */
+  public function removeTaxonIdentification(TaxonIdentification $taxonId): self {
+    $this->taxonIdentifications->removeElement($taxonId);
+
+    return $this;
+  }
+
+  /**
+   * Get taxonIdentifications
+   */
+  public function getTaxonIdentifications(): Collection {
+    return $this->taxonIdentifications;
+  }
 }

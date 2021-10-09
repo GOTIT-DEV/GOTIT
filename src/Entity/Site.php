@@ -25,12 +25,12 @@ class Site extends AbstractTimestampedEntity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
+	 * @ORM\Column(name="id", type="integer", nullable=false)
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 * @ORM\SequenceGenerator(sequenceName="site_id_seq", allocationSize=1, initialValue=1)
 	 */
-	private $id;
+	private int $id;
 
 	/**
 	 * @var string
@@ -63,7 +63,7 @@ class Site extends AbstractTimestampedEntity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="elevation", type="bigint", nullable=true)
+	 * @ORM\Column(name="elevation", type="integer", nullable=true)
 	 */
 	private $altitudeM;
 

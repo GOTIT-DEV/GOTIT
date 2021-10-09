@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -15,104 +16,87 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_country__country_code", columns={"country_code"})})
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, message="Country code {{ value }} is already registered")
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class Country extends AbstractTimestampedEntity {
-	use CompositeCodeEntityTrait;
+  use CompositeCodeEntityTrait;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="country_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private $id;
+  /**
+   * @ORM\Column(name="id", type="integer", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="country_id_seq", allocationSize=1, initialValue=1)
+   */
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="country_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  /**
+   * @ORM\Column(name="country_code", type="string", length=255, nullable=false, unique=true)
+   */
+  private string $code;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="country_name", type="string", length=1024, nullable=false)
-	 */
-	private $name;
+  /**
+   * @ORM\Column(name="country_name", type="string", length=255, nullable=false)
+   */
+  private string $name;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="Municipality", mappedBy="country")
-	 * @ORM\OrderBy({"code" = "asc"})
-	 */
-	private $municipalities;
+  /**
+   * @ORM\OneToMany(targetEntity="Municipality", mappedBy="country")
+   * @ORM\OrderBy({"code": "asc"})
+   */
+  private Collection $municipalities;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __construct() {
-		$this->municipalities = new ArrayCollection();
-	}
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct() {
+    $this->municipalities = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  /**
+   * Get id
+   */
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return Country
-	 */
-	public function setCode($code) {
-		$this->code = $code;
-		return $this;
-	}
+  /**
+   * Set code
+   */
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode() {
-		return $this->code;
-	}
+    return $this;
+  }
 
-	private function _generateCode(): string {
-		return str_replace(" ", "_", strtoupper($this->getName()));
-	}
+  /**
+   * Get code
+   */
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return Country
-	 */
-	public function setName($name) {
-		$this->name = $name;
-		return $this;
-	}
+  private function _generateCode(): string {
+    return str_replace(' ', '_', strtoupper($this->getName()));
+  }
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
+  /**
+   * Set name
+   */
+  public function setName(string $name): self {
+    $this->name = $name;
 
-	public function getMunicipalities() {
-		return $this->municipalities;
-	}
+    return $this;
+  }
+
+  /**
+   * Get name
+   */
+  public function getName(): string {
+    return $this->name;
+  }
+
+  public function getMunicipalities(): Collection {
+    return $this->municipalities;
+  }
 }

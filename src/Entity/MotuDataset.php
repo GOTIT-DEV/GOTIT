@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -12,190 +13,153 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Table(name="motu")
  * @ORM\Entity
+ *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class MotuDataset extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @Groups("motu_dataset")
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="motu_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private $id;
+  /**
+   * @ORM\Id
+   * @ORM\Column(name="id", type="integer", nullable=false)
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="motu_id_seq", allocationSize=1, initialValue=1)
+   * @Groups("motu_dataset")
+   */
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @Groups("motu_dataset")
-	 * @ORM\Column(name="motu_title", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $title;
+  /**
+   * @Groups("motu_dataset")
+   * @ORM\Column(name="motu_title", type="string", length=255, nullable=false, unique=true)
+   */
+  private string $title;
 
-	/**
-	 * @var string
-	 *
-	 * @Groups("motu_dataset")
-	 * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
-	 */
-	private $filename;
+  /**
+   * @Groups("motu_dataset")
+   * @ORM\Column(name="csv_file_name", type="string", length=1024, nullable=false)
+   */
+  private string $filename;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @Groups("motu_dataset")
-	 * @ORM\Column(name="motu_date", type="date", nullable=false)
-	 */
-	private $date;
+  /**
+   * @Groups("motu_dataset")
+   * @ORM\Column(name="motu_date", type="date", nullable=false)
+   */
+  private \DateTime $date;
 
-	/**
-	 * @var string
-	 *
-	 * @Groups("motu_dataset")
-	 * @ORM\Column(name="motu_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  /**
+   * @Groups("motu_dataset")
+   * @ORM\Column(name="motu_comments", type="text", nullable=true)
+   */
+  private ?string $comment;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-	 * @ORM\JoinTable(name="motu_is_generated_by",
-	 *  joinColumns={@ORM\JoinColumn(name="motu_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $motuDelimiters;
+  /**
+   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+   * @ORM\JoinTable(name="motu_is_generated_by",
+   *  joinColumns={@ORM\JoinColumn(name="motu_fk", referencedColumnName="id")},
+   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
+   * @ORM\OrderBy({"id": "ASC"})
+   */
+  protected Collection $motuDelimiters;
 
-	public function __construct() {
-		$this->motuDelimiters = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->motuDelimiters = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  /**
+   * Get id
+   */
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set filename
-	 *
-	 * @param string $filename
-	 *
-	 * @return MotuDataset
-	 */
-	public function setFilename($filename) {
-		$this->filename = $filename;
+  /**
+   * Set filename
+   *
+   * @return MotuDataset
+   */
+  public function setFilename(string $filename): self {
+    $this->filename = $filename;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get filename
-	 *
-	 * @return string
-	 */
-	public function getFilename() {
-		return $this->filename;
-	}
+  /**
+   * Get filename
+   */
+  public function getFilename(): string {
+    return $this->filename;
+  }
 
-	/**
-	 * Set date
-	 *
-	 * @param \DateTime $date
-	 *
-	 * @return MotuDataset
-	 */
-	public function setDate($date) {
-		$this->date = $date;
+  /**
+   * Set date
+   */
+  public function setDate(\DateTime $date): self {
+    $this->date = $date;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get date
-	 *
-	 * @return \DateTime
-	 */
-	public function getDate() {
-		return $this->date;
-	}
+  /**
+   * Get date
+   */
+  public function getDate(): \DateTime {
+    return $this->date;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return MotuDataset
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  /**
+   * Set comment
+   */
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  /**
+   * Get comment
+   *
+   * @return string
+   */
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Add motuDelimiter
-	 *
-	 * @param Person $motuDelimiter
-	 *
-	 * @return MotuDataset
-	 */
-	public function addMotuDelimiter(Person $motuDelimiter) {
-		$this->motuDelimiters[] = $motuDelimiter;
+  /**
+   * Add motuDelimiter
+   */
+  public function addMotuDelimiter(Person $motuDelimiter): self {
+    $this->motuDelimiters[] = $motuDelimiter;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Remove motuDelimiter
-	 *
-	 * @param Person $motuDelimiter
-	 */
-	public function removeMotuDelimiter(Person $motuDelimiter) {
-		$this->motuDelimiters->removeElement($motuDelimiter);
-	}
+  /**
+   * Remove motuDelimiter
+   */
+  public function removeMotuDelimiter(Person $motuDelimiter): self {
+    $this->motuDelimiters->removeElement($motuDelimiter);
 
-	/**
-	 * Get motuDelimiters
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getMotuDelimiters() {
-		return $this->motuDelimiters;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set title
-	 *
-	 * @param string $title
-	 *
-	 * @return MotuDataset
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
+  /**
+   * Get motuDelimiters
+   */
+  public function getMotuDelimiters(): Collection {
+    return $this->motuDelimiters;
+  }
 
-		return $this;
-	}
+  /**
+   * Set title
+   */
+  public function setTitle(string $title): self {
+    $this->title = $title;
 
-	/**
-	 * Get title
-	 *
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    return $this;
+  }
+
+  /**
+   * Get title
+   */
+  public function getTitle(): string {
+    return $this->title;
+  }
 }

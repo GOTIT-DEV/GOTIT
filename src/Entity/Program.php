@@ -19,12 +19,12 @@ class Program extends AbstractTimestampedEntity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
+	 * @ORM\Column(name="id", type="integer", nullable=false)
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 * @ORM\SequenceGenerator(sequenceName="program_id_seq", allocationSize=1, initialValue=1)
 	 */
-	private $id;
+	private int $id;
 
 	/**
 	 * @var string
@@ -57,14 +57,14 @@ class Program extends AbstractTimestampedEntity {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="starting_year", type="bigint", nullable=true)
+	 * @ORM\Column(name="starting_year", type="integer", nullable=true)
 	 */
 	private $startYear;
 
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="ending_year", type="bigint", nullable=true)
+	 * @ORM\Column(name="ending_year", type="integer", nullable=true)
 	 */
 	private $endYear;
 

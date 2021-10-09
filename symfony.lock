@@ -88,6 +88,9 @@
     "composer/xdebug-handler": {
         "version": "2.0.2"
     },
+    "danielstjules/stringy": {
+        "version": "3.1.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -245,6 +248,12 @@
         "files": [
             "config/packages/nelmio_cors.yaml"
         ]
+    },
+    "nette/neon": {
+        "version": "v3.2.2"
+    },
+    "nette/utils": {
+        "version": "v3.2.5"
     },
     "nikic/php-parser": {
         "version": "v4.10.2"
@@ -412,6 +421,9 @@
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "suin/symplify-cs-fixer": {
+        "version": "v3.0.0"
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -732,6 +744,33 @@
     },
     "symfony/yaml": {
         "version": "v4.4.16"
+    },
+    "symplify/autowire-array-parameter": {
+        "version": "9.4.70"
+    },
+    "symplify/coding-standard": {
+        "version": "9.4.70"
+    },
+    "symplify/composer-json-manipulator": {
+        "version": "9.4.70"
+    },
+    "symplify/console-package-builder": {
+        "version": "9.4.70"
+    },
+    "symplify/easy-testing": {
+        "version": "9.4.70"
+    },
+    "symplify/package-builder": {
+        "version": "9.4.70"
+    },
+    "symplify/rule-doc-generator-contracts": {
+        "version": "9.4.70"
+    },
+    "symplify/smart-file-system": {
+        "version": "9.4.70"
+    },
+    "symplify/symplify-kernel": {
+        "version": "9.4.70"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"

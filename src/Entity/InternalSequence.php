@@ -29,65 +29,49 @@ class InternalSequence extends AbstractTimestampedEntity {
   use CompositeCodeEntityTrait;
 
   /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Column(name="id", type="integer", nullable=false)
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="internal_sequence_id_seq", allocationSize=1, initialValue=1)
    */
-  private $id;
+  private int $id;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="internal_sequence_code", type="string", length=1024, nullable=false, unique=true)
    */
-  private $code;
+  private string $code;
 
   /**
-   * @var \DateTime
-   *
    * @ORM\Column(name="internal_sequence_creation_date", type="date", nullable=true)
    */
-  private $creationDate;
+  private ?\DateTime $creationDate;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="internal_sequence_accession_number", type="string", length=255, nullable=true)
    */
-  private $accessionNumber;
+  private ?string $accessionNumber;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="internal_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
-  private $alignmentCode;
+  private ?string $alignmentCode;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="internal_sequence_comments", type="text", nullable=true)
    */
-  private $comment;
+  private ?string $comment;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecision;
+  private Voc $datePrecision;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="internal_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $status;
+  private Voc $status;
 
   /**
    * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
@@ -96,7 +80,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $assemblers;
+  private Collection $assemblers;
 
   /**
    * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
@@ -105,13 +89,13 @@ class InternalSequence extends AbstractTimestampedEntity {
    *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $publications;
+  private Collection $publications;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="internalSequence", cascade={"persist"})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $taxonIdentifications;
+  private Collection $taxonIdentifications;
 
   /**
    * @ORM\ManyToMany(targetEntity="Chromatogram", cascade={"persist"})
@@ -120,7 +104,7 @@ class InternalSequence extends AbstractTimestampedEntity {
    *  inverseJoinColumns={@ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $chromatograms;
+  private Collection $chromatograms;
 
   public function __construct() {
     $this->assemblers = new ArrayCollection();
@@ -131,19 +115,15 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get id
-   *
-   * @return string
    */
-  public function getId(): ?string {
+  public function getId(): int {
     return $this->id;
   }
 
   /**
    * Set code
-   *
-   * @param string $code
    */
-  public function setCode($code): InternalSequence {
+  public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
@@ -151,10 +131,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get code
-   *
-   * @return string
    */
-  public function getCode(): ?string {
+  public function getCode(): string {
     return $this->code;
   }
 
@@ -171,10 +149,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Set creationDate
-   *
-   * @param \DateTime $creationDate
    */
-  public function setCreationDate($creationDate): InternalSequence {
+  public function setCreationDate(?\DateTime $creationDate): self {
     $this->creationDate = $creationDate;
 
     return $this;
@@ -182,8 +158,6 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get creationDate
-   *
-   * @return \DateTime
    */
   public function getCreationDate(): ?\DateTime {
     return $this->creationDate;
@@ -191,10 +165,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Set accessionNumber
-   *
-   * @param string $accessionNumber
    */
-  public function setAccessionNumber($accessionNumber): InternalSequence {
+  public function setAccessionNumber(?string $accessionNumber): self {
     $this->accessionNumber = $accessionNumber;
 
     return $this;
@@ -202,8 +174,6 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get accessionNumber
-   *
-   * @return string
    */
   public function getAccessionNumber(): ?string {
     return $this->accessionNumber;
@@ -211,10 +181,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Set alignmentCode
-   *
-   * @param string $alignmentCode
    */
-  public function setAlignmentCode($alignmentCode): InternalSequence {
+  public function setAlignmentCode(?string $alignmentCode): self {
     $this->alignmentCode = $alignmentCode;
 
     return $this;
@@ -231,10 +199,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Set comment
-   *
-   * @param string $comment
    */
-  public function setComment($comment): InternalSequence {
+  public function setComment(?string $comment): self {
     $this->comment = $comment;
 
     return $this;
@@ -242,8 +208,6 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get comment
-   *
-   * @return string
    */
   public function getComment(): ?string {
     return $this->comment;
@@ -251,12 +215,8 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Set datePrecision
-   *
-   * @param Voc $datePrecision
    */
-  public function setDatePrecision(
-        Voc $datePrecision = null,
-    ): InternalSequence {
+  public function setDatePrecision(Voc $datePrecision): self {
     $this->datePrecision = $datePrecision;
 
     return $this;
@@ -264,19 +224,15 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get datePrecision
-   *
-   * @return Voc
    */
-  public function getDatePrecision(): ?Voc {
+  public function getDatePrecision(): Voc {
     return $this->datePrecision;
   }
 
   /**
    * Set status
-   *
-   * @param Voc $status
    */
-  public function setStatus(Voc $status = null): InternalSequence {
+  public function setStatus(Voc $status): self {
     $this->status = $status;
 
     return $this;
@@ -284,17 +240,15 @@ class InternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get status
-   *
-   * @return Voc
    */
-  public function getStatus(): ?Voc {
+  public function getStatus(): Voc {
     return $this->status;
   }
 
   /**
    * Add assembler
    */
-  public function addAssembler(Person $assembler): InternalSequence {
+  public function addAssembler(Person $assembler): self {
     $this->assemblers[] = $assembler;
 
     return $this;
@@ -303,7 +257,7 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove assembler
    */
-  public function removeAssembler(Person $assembler): InternalSequence {
+  public function removeAssembler(Person $assembler): self {
     $this->assemblers->removeElement($assembler);
 
     return $this;
@@ -319,7 +273,7 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Add publication
    */
-  public function addPublication(Source $publication): InternalSequence {
+  public function addPublication(Source $publication): self {
     $this->publications[] = $publication;
 
     return $this;
@@ -328,7 +282,7 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove publication
    */
-  public function removePublication(Source $publication): InternalSequence {
+  public function removePublication(Source $publication): self {
     $this->publications->removeElement($publication);
 
     return $this;
@@ -344,9 +298,7 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Add taxonIdentification
    */
-  public function addTaxonIdentification(
-        TaxonIdentification $taxonId,
-    ): InternalSequence {
+  public function addTaxonIdentification(TaxonIdentification $taxonId): self {
     $taxonId->setInternalSequence($this);
     $this->taxonIdentifications[] = $taxonId;
 
@@ -356,9 +308,8 @@ class InternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove taxonIdentification
    */
-  public function removeTaxonIdentification(
-        TaxonIdentification $taxonId,
-    ): InternalSequence {
+  public function removeTaxonIdentification(TaxonIdentification $taxonId): self {
+    $taxonId->setInternalSequence(null);
     $this->taxonIdentifications->removeElement($taxonId);
 
     return $this;
@@ -372,25 +323,25 @@ class InternalSequence extends AbstractTimestampedEntity {
   }
 
   /**
-   * Add assembly
+   * Add chromatogram
    */
-  public function addAssembly(Chromatogram $assembly): InternalSequence {
-    $this->chromatograms[] = $assembly;
+  public function addChromatogram(Chromatogram $chromatogram): self {
+    $this->chromatograms[] = $chromatogram;
 
     return $this;
   }
 
   /**
-   * Remove assembly
+   * Remove chromatogram
    */
-  public function removeAssembly(Chromatogram $assembly): InternalSequence {
-    $this->chromatograms->removeElement($assembly);
+  public function removeChromatogram(Chromatogram $chromatogram): self {
+    $this->chromatograms->removeElement($chromatogram);
 
     return $this;
   }
 
   /**
-   * Get assembly
+   * Get chromatogram
    */
   public function getChromatograms(): Collection {
     return $this->chromatograms;
@@ -401,8 +352,6 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * This assumes that a sequence matches ONE gene only,
    * even if it was processed through multiple chromatograms
-   *
-   * @return Voc
    */
   public function getGene(): ?Voc {
     $process = $this->chromatograms->first();
@@ -419,8 +368,6 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * this assumes that a sequence matches ONE specimen only,
    * even if it was processed through multiple chromatograms
-   *
-   * @return Specimen
    */
   public function getSpecimen(): ?Specimen {
     $chromato = $this->chromatograms->first();
@@ -452,10 +399,8 @@ class InternalSequence extends AbstractTimestampedEntity {
    *
    * generates an alignment code from sequence metadata
    * generated code is saved as the sequence alignment code
-   *
-   * @return string
    */
-  public function generateAlignmentCode() {
+  public function generateAlignmentCode(): string {
     $nbChromato = count($this->getChromatograms());
     $nbIdentifiedSpecies = count($this->getTaxonIdentifications());
     if ($nbChromato < 1 || $nbIdentifiedSpecies < 1) {

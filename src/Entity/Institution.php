@@ -18,83 +18,63 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource
  */
 class Institution extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="bigint", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="institution_id_seq", allocationSize=1, initialValue=1)
-	 * @Groups({"item"})
-	 */
-	private $id;
+  /**
+   * @ORM\Column(name="id", type="integer", nullable=false)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="IDENTITY")
+   * @ORM\SequenceGenerator(sequenceName="institution_id_seq", allocationSize=1, initialValue=1)
+   * @Groups({"item"})
+   */
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false, unique=true)
-	 * @Groups({"item"})
-	 */
-	private $name;
+  /**
+   * @ORM\Column(name="institution_name", type="string", length=1024, nullable=false, unique=true)
+   * @Groups({"item"})
+   */
+  private string $name;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="institution_comments", type="text", nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $comment;
+  /**
+   * @ORM\Column(name="institution_comments", type="text", nullable=true)
+   * @Groups({"item"})
+   */
+  private ?string $comment;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  /**
+   * Get id
+   */
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return Institution
-	 */
-	public function setName($name) {
-		$this->name = $name;
+  /**
+   * Set name
+   */
+  public function setName(string $name): self {
+    $this->name = $name;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
+  /**
+   * Get name
+   */
+  public function getName(): string {
+    return $this->name;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Institution
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  /**
+   * Set comment
+   */
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  /**
+   * Get comment
+   */
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 }

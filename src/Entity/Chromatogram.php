@@ -26,83 +26,62 @@ class Chromatogram extends AbstractTimestampedEntity {
   use CompositeCodeEntityTrait;
 
   /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
    * @ORM\Id
+   * @ORM\Column(name="id", type="integer", nullable=false)
    * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="chromatogram_id_seq", allocationSize=1, initialValue=1)
    */
-  private $id;
+  private int $id;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="chromatogram_code", type="string", length=255, nullable=false, unique=true)
    */
-  private $code;
+  private string $code;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="chromatogram_number", type="string", length=255, nullable=false)
    */
-  private $yasNumber;
+  private string $yasNumber;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="chromatogram_comments", type="text", nullable=true)
    */
-  private $comment;
+  private ?string $comment = null;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $primer;
+  private Voc $primer;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $quality;
+  private Voc $quality;
 
   /**
-   * @var Institution
-   *
    * @ORM\ManyToOne(targetEntity="Institution")
    * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
    */
-  private $institution;
+  private Institution $institution;
 
   /**
-   * @var Pcr
-   *
    * @ORM\ManyToOne(targetEntity="Pcr")
    * @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
    */
-  private $pcr;
+  private Pcr $pcr;
 
   /**
    * Get id
-   *
-   * @return string
    */
-  public function getId(): ?string {
+  public function getId(): int {
     return $this->id;
   }
 
   /**
    * Set code
-   *
-   * @param string $code
    */
-  public function setCode($code): Chromatogram {
+  public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
@@ -110,10 +89,8 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get code
-   *
-   * @return string
    */
-  public function getCode(): ?string {
+  public function getCode(): string {
     return $this->code;
   }
 
@@ -123,10 +100,8 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Set yasNumber
-   *
-   * @param string $yasNumber
    */
-  public function setYasNumber($yasNumber): Chromatogram {
+  public function setYasNumber(string $yasNumber): self {
     $this->yasNumber = $yasNumber;
 
     return $this;
@@ -134,19 +109,15 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get yasNumber
-   *
-   * @return string
    */
-  public function getYasNumber(): ?string {
+  public function getYasNumber(): string {
     return $this->yasNumber;
   }
 
   /**
    * Set comment
-   *
-   * @param string $comment
    */
-  public function setComment($comment): Chromatogram {
+  public function setComment(?string $comment): self {
     $this->comment = $comment;
 
     return $this;
@@ -154,8 +125,6 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get comment
-   *
-   * @return string
    */
   public function getComment(): ?string {
     return $this->comment;
@@ -163,10 +132,8 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Set primer
-   *
-   * @param Voc $primer
    */
-  public function setPrimer(Voc $primer = null): Chromatogram {
+  public function setPrimer(Voc $primer): self {
     $this->primer = $primer;
 
     return $this;
@@ -174,19 +141,15 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get primer
-   *
-   * @return Voc
    */
-  public function getPrimer(): ?Voc {
+  public function getPrimer(): Voc {
     return $this->primer;
   }
 
   /**
    * Set quality
-   *
-   * @param Voc $quality
    */
-  public function setQuality(Voc $quality = null): Chromatogram {
+  public function setQuality(Voc $quality): self {
     $this->quality = $quality;
 
     return $this;
@@ -194,21 +157,15 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get quality
-   *
-   * @return Voc
    */
-  public function getQuality(): ?Voc {
+  public function getQuality(): Voc {
     return $this->quality;
   }
 
   /**
    * Set institution
-   *
-   * @param Institution $institution
    */
-  public function setInstitution(
-        Institution $institution = null,
-    ): Chromatogram {
+  public function setInstitution(Institution $institution): self {
     $this->institution = $institution;
 
     return $this;
@@ -216,19 +173,15 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get institution
-   *
-   * @return Institution
    */
-  public function getInstitution(): ?Institution {
+  public function getInstitution(): Institution {
     return $this->institution;
   }
 
   /**
    * Set pcr
-   *
-   * @param Pcr $pcr
    */
-  public function setPcr(Pcr $pcr = null): Chromatogram {
+  public function setPcr(Pcr $pcr): self {
     $this->pcr = $pcr;
 
     return $this;
@@ -236,21 +189,17 @@ class Chromatogram extends AbstractTimestampedEntity {
 
   /**
    * Get pcr
-   *
-   * @return Pcr
    */
-  public function getPcr(): ?Pcr {
+  public function getPcr(): Pcr {
     return $this->pcr;
   }
 
   /**
    * Get CodeSpecificity
-   *
-   * @return string
    */
-  public function getCodeSpecificity(): ?string {
+  public function getCodeSpecificity(): string {
     $specificity = $this->pcr->getSpecificity()->getCode();
 
-    return $this->code . '|' . $specificity;
+    return "{$this->code}|{$specificity}";
   }
 }

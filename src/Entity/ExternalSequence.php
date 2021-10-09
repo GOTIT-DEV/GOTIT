@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use App\Entity\Abstraction\CompositeCodeEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,103 +33,77 @@ class ExternalSequence extends AbstractTimestampedEntity {
   use CompositeCodeEntityTrait;
 
   /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
+   * @ORM\Column(name="id", type="integer", nullable=false)
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="IDENTITY")
    * @ORM\SequenceGenerator(sequenceName="external_sequence_id_seq", allocationSize=1, initialValue=1)
    */
-  private $id;
+  private int $id;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_code", type="string", length=1024, nullable=false, unique=true)
    */
-  private $code;
+  private string $code;
 
   /**
-   * @var \DateTime
-   *
    * @ORM\Column(name="external_sequence_creation_date", type="date", nullable=true)
    */
-  private $dateCreation;
+  private ?\DateTime $dateCreation;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_accession_number", type="string", length=255, nullable=false)
    */
-  private $accessionNumber;
+  private string $accessionNumber;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
-  private $alignmentCode;
+  private ?string $alignmentCode;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_specimen_number", type="string", length=255, nullable=false)
    */
-  private $specimenMolecularNumber;
+  private string $specimenMolecularNumber;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_primary_taxon", type="string", length=255, nullable=true)
    */
-  private $primaryTaxon;
+  private ?string $primaryTaxon;
 
   /**
-   * @var string
-   *
    * @ORM\Column(name="external_sequence_comments", type="text", nullable=true)
    */
-  private $comment;
+  private ?string $comment;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $gene;
+  private Voc $gene;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $datePrecision;
+  private Voc $datePrecision;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="external_sequence_origin_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $origin;
+  private Voc $origin;
 
   /**
-   * @var Sampling
-   *
    * @ORM\ManyToOne(targetEntity="Sampling")
    * @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
    */
-  private $sampling;
+  private Sampling $sampling;
 
   /**
-   * @var Voc
-   *
    * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
    * @ORM\JoinColumn(name="external_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
    */
-  private $status;
+  private Voc $status;
 
   /**
    * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
@@ -138,7 +113,7 @@ class ExternalSequence extends AbstractTimestampedEntity {
    * @Assert\Count(min=1, minMessage="At least one person is required as provider")
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $assemblers;
+  private Collection $assemblers;
 
   /**
    * @ORM\ManyToMany(targetEntity="Source", cascade={"persist"})
@@ -147,13 +122,13 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *  inverseJoinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $publications;
+  private Collection $publications;
 
   /**
    * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="externalSequence", cascade={"persist"})
    * @ORM\OrderBy({"id": "ASC"})
    */
-  protected $taxonIdentifications;
+  private Collection $taxonIdentifications;
 
   public function __construct() {
     $this->assemblers = new ArrayCollection();
@@ -163,19 +138,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get id
-   *
-   * @return string
    */
-  public function getId(): ?string {
+  public function getId(): int {
     return $this->id;
   }
 
   /**
    * Set code
-   *
-   * @param string $code
    */
-  public function setCode($code): ExternalSequence {
+  public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
@@ -183,22 +154,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get code
-   *
-   * @return string
    */
-  public function getCode(): ?string {
+  public function getCode(): string {
     return $this->code;
   }
 
   /**
    * Set dateCreation
-   *
-   * @param \DateTime $dateCreation
-   * @param mixed     $date
-   *
-   * @return ExternalSequence
    */
-  public function setDateCreation($date) {
+  public function setDateCreation(?\DateTime $date): self {
     $this->dateCreation = $date;
 
     return $this;
@@ -206,21 +170,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get dateCreation
-   *
-   * @return \DateTime
    */
-  public function getDateCreation() {
+  public function getDateCreation(): ?\DateTime {
     return $this->dateCreation;
   }
 
   /**
    * Set accessionNumber
-   *
-   * @param string $accessionNumber
-   *
-   * @return ExternalSequence
    */
-  public function setAccessionNumber($accessionNumber) {
+  public function setAccessionNumber(string $accessionNumber): self {
     $this->accessionNumber = $accessionNumber;
 
     return $this;
@@ -228,21 +186,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get accessionNumber
-   *
-   * @return string
    */
-  public function getAccessionNumber() {
+  public function getAccessionNumber(): string {
     return $this->accessionNumber;
   }
 
   /**
    * Set alignmentCode
-   *
-   * @param string $alignmentCode
-   *
-   * @return ExternalSequence
    */
-  public function setAlignmentCode($alignmentCode) {
+  public function setAlignmentCode(?string $alignmentCode): self {
     $this->alignmentCode = $alignmentCode;
 
     return $this;
@@ -250,21 +202,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get alignmentCode
-   *
-   * @return string
    */
-  public function getAlignmentCode() {
+  public function getAlignmentCode(): ?string {
     return $this->alignmentCode;
   }
 
   /**
    * Set specimenMolecularNumber
-   *
-   * @param string $specimenMolecularNumber
-   *
-   * @return ExternalSequence
    */
-  public function setSpecimenMolecularNumber($specimenMolecularNumber) {
+  public function setSpecimenMolecularNumber(string $specimenMolecularNumber): self {
     $this->specimenMolecularNumber = $specimenMolecularNumber;
 
     return $this;
@@ -272,22 +218,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get specimenMolecularNumber
-   *
-   * @return string
    */
-  public function getSpecimenMolecularNumber() {
+  public function getSpecimenMolecularNumber(): string {
     return $this->specimenMolecularNumber;
   }
 
   /**
    * Set primaryTaxon
-   *
-   * @param string $primaryTaxon
-   * @param mixed  $taxon
-   *
-   * @return ExternalSequence
    */
-  public function setPrimaryTaxon($taxon) {
+  public function setPrimaryTaxon(?string $taxon): self {
     $this->primaryTaxon = $taxon;
 
     return $this;
@@ -295,21 +234,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get primaryTaxon
-   *
-   * @return string
    */
-  public function getPrimaryTaxon() {
+  public function getPrimaryTaxon(): ?string {
     return $this->primaryTaxon;
   }
 
   /**
    * Set comment
-   *
-   * @param string $comment
-   *
-   * @return ExternalSequence
    */
-  public function setComment($comment) {
+  public function setComment(?string $comment): self {
     $this->comment = $comment;
 
     return $this;
@@ -317,21 +250,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get comment
-   *
-   * @return string
    */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 
   /**
    * Set gene
-   *
-   * @param Voc $gene
-   *
-   * @return ExternalSequence
    */
-  public function setGene(Voc $gene = null) {
+  public function setGene(Voc $gene): self {
     $this->gene = $gene;
 
     return $this;
@@ -339,21 +266,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get gene
-   *
-   * @return Voc
    */
-  public function getGene() {
+  public function getGene(): Voc {
     return $this->gene;
   }
 
   /**
    * Set datePrecision
-   *
-   * @param Voc $datePrecision
-   *
-   * @return ExternalSequence
    */
-  public function setDatePrecision(Voc $datePrecision = null) {
+  public function setDatePrecision(Voc $datePrecision): self {
     $this->datePrecision = $datePrecision;
 
     return $this;
@@ -361,21 +282,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get datePrecision
-   *
-   * @return Voc
    */
-  public function getDatePrecision() {
+  public function getDatePrecision(): Voc {
     return $this->datePrecision;
   }
 
   /**
    * Set origin
-   *
-   * @param Voc $origin
-   *
-   * @return ExternalSequence
    */
-  public function setOrigin(Voc $origin = null) {
+  public function setOrigin(Voc $origin): self {
     $this->origin = $origin;
 
     return $this;
@@ -383,21 +298,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get origin
-   *
-   * @return Voc
    */
-  public function getOrigin() {
+  public function getOrigin(): Voc {
     return $this->origin;
   }
 
   /**
    * Set sampling
-   *
-   * @param Sampling $sampling
-   *
-   * @return ExternalSequence
    */
-  public function setSampling(Sampling $sampling = null) {
+  public function setSampling(Sampling $sampling): self {
     $this->sampling = $sampling;
 
     return $this;
@@ -405,21 +314,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get sampling
-   *
-   * @return Sampling
    */
-  public function getSampling() {
+  public function getSampling(): Sampling {
     return $this->sampling;
   }
 
   /**
    * Set status
-   *
-   * @param Voc $status
-   *
-   * @return ExternalSequence
    */
-  public function setStatus(Voc $status = null) {
+  public function setStatus(Voc $status): self {
     $this->status = $status;
 
     return $this;
@@ -427,19 +330,15 @@ class ExternalSequence extends AbstractTimestampedEntity {
 
   /**
    * Get status
-   *
-   * @return Voc
    */
-  public function getStatus() {
+  public function getStatus(): Voc {
     return $this->status;
   }
 
   /**
    * Add assembler
-   *
-   * @return ExternalSequence
    */
-  public function addAssembler(Person $assembler) {
+  public function addAssembler(Person $assembler): self {
     $this->assemblers[] = $assembler;
 
     return $this;
@@ -448,25 +347,23 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove assembler
    */
-  public function removeAssembler(Person $assembler) {
+  public function removeAssembler(Person $assembler): self {
     $this->assemblers->removeElement($assembler);
+
+    return $this;
   }
 
   /**
    * Get assemblers
-   *
-   * @return \Doctrine\Common\Collections\Collection
    */
-  public function getAssemblers() {
+  public function getAssemblers(): Collection {
     return $this->assemblers;
   }
 
   /**
    * Add externalSequencePublication
-   *
-   * @return ExternalSequence
    */
-  public function addPublication(Source $externalSequencePublication) {
+  public function addPublication(Source $externalSequencePublication): self {
     $this->publications[] = $externalSequencePublication;
 
     return $this;
@@ -475,16 +372,16 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove externalSequencePublication
    */
-  public function removePublication(Source $externalSequencePublication) {
+  public function removePublication(Source $externalSequencePublication): self {
     $this->publications->removeElement($externalSequencePublication);
+
+    return $this;
   }
 
   /**
    * Get publications
-   *
-   * @return \Doctrine\Common\Collections\Collection
    */
-  public function getPublications() {
+  public function getPublications(): Collection {
     return $this->publications;
   }
 
@@ -493,11 +390,9 @@ class ExternalSequence extends AbstractTimestampedEntity {
    *
    * @return ExternalSequence
    */
-  public function addTaxonIdentification(
-        TaxonIdentification $taxonIdentification,
-    ) {
-    $taxonIdentification->setExternalSequence($this);
-    $this->taxonIdentifications[] = $taxonIdentification;
+  public function addTaxonIdentification(TaxonIdentification $taxonId): self {
+    $taxonId->setExternalSequence($this);
+    $this->taxonIdentifications[] = $taxonId;
 
     return $this;
   }
@@ -505,18 +400,17 @@ class ExternalSequence extends AbstractTimestampedEntity {
   /**
    * Remove taxonIdentification
    */
-  public function removeTaxonIdentification(
-        TaxonIdentification $taxonIdentification,
-    ) {
-    $this->taxonIdentifications->removeElement($taxonIdentification);
+  public function removeTaxonIdentification(TaxonIdentification $taxonId): self {
+    $taxonId->setExternalSequence(null);
+    $this->taxonIdentifications->removeElement($taxonId);
+
+    return $this;
   }
 
   /**
    * Get taxonIdentifications
-   *
-   * @return \Doctrine\Common\Collections\Collection
    */
-  public function getTaxonIdentifications() {
+  public function getTaxonIdentifications(): Collection {
     return $this->taxonIdentifications;
   }
 }
