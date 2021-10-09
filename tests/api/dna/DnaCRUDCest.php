@@ -3,25 +3,47 @@
 namespace App\Tests;
 
 use App\Entity\Dna;
+use App\Entity\Person;
+use App\Entity\Specimen;
+use App\Entity\Voc;
 use Codeception\Util\HttpCode;
+use Faker\Factory;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DnaCRUDCest {
   protected $router;
 
   public function _before(ApiTester $I) {
-    $user = $I->setAuth('admin_testing', 'admintesting', 'ROLE_ADMIN');
-    // $encoder = $I->grabService('security.user_password_hasher');
-    // $I->haveInRepository('App\Entity\User', [
-    //   'username' => 'admin_testing',
-    //   'isActive' => true,
-    //   'name' => 'admin_testing',
-    //   'role' => 'ROLE_ADMIN',
-    //   'password' => $encoder->hashPassword(new \App\Entity\User(), 'admintesting'),
-    // ]);
-    // $I->amHttpAuthenticated('admin_testing', 'admintesting');
+    $I->setAuth('admin_testing', 'admintesting', 'ROLE_ADMIN');
     $I->haveHttpHeader('accept', 'application/json');
+    $I->haveHttpHeader('content-type', 'application/json');
     $this->router = $I->grabService('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+  }
+
+  public function testDnaCreate(ApiTester $I) {
+    $I->wantTo('Create a DNA');
+    $faker = Factory::create();
+    $dna_info = [
+      'code' => $faker->word(),
+      'date' => $faker->date(),
+      'datePrecision' => '/api/vocs/' . $I->grabEntitiesFromRepository(
+        Voc::class,
+        ['parent' => 'datePrecision']
+      )[0]->getId(),
+      'extractionMethod' => '/api/vocs/' . $I->grabEntitiesFromRepository(
+        Voc::class,
+        ['parent' => 'methodeExtractionAdn']
+      )[0]->getId(),
+      'quality' => '/api/vocs/' . $I->grabEntitiesFromRepository(
+        Voc::class,
+        ['parent' => 'qualiteAdn']
+      )[0]->getId(),
+      'specimen' => '/api/specimens/' . $I->have(Specimen::class)->getId(),
+      'producers' => ['/api/people/' . $I->have(Person::class)->getId()],
+    ];
+    $I->sendPost($this->generateRoute('api_dnas_post_collection'), $dna_info);
+    $I->seeResponseCodeIs(201);
+    $dna = $I->grabEntityFromRepository(Dna::class, ['code' => $dna_info['code']]);
   }
 
   public function testDnaDeletion(ApiTester $I) {
