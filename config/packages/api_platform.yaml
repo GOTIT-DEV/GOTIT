@@ -11,9 +11,7 @@ api_platform:
   formats:
     json: ["application/json"]
     jsonld: ["application/ld+json"]
-    jsonapi: ["application/vnd.api+json"]
     html: ["text/html"]
-    csv: ["text/csv"]
   defaults:
     pagination_client_enabled: true
     pagination_client_items_per_page: true

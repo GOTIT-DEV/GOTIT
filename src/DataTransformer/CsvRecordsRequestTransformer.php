@@ -28,32 +28,6 @@ class CsvRecordsRequestTransformer implements DataTransformerInterface {
     $this->objNormalizer = new ObjectNormalizer();
   }
 
-  private function getRelatedBy(string $className, array $conditions) {
-    return $this->em->getRepository($className)->findOneBy($conditions);
-  }
-
-  private function makeEntityNotFoundViolation(string $property, string $targetEntity, array $relation, int $line) {
-    $message = sprintf('Entity %s not found with properties : %s', $targetEntity, json_encode($relation));
-
-    return new ConstraintViolation(
-      $message, null, [], $relation, "[{$line}].{$property}",
-      $relation, null, 'related_not_found'
-    );
-  }
-
-  private function validate($data, $constraintViolations) {
-    // Merge custom and built-in validation errors
-    try {
-      $this->validator->validate($data);
-    } catch (ValidationException $e) {
-      $violations = $e->getConstraintViolationList();
-      $constraintViolations->addAll($violations);
-    }
-    if ($constraintViolations->count()) {
-      throw new ValidationException($constraintViolations);
-    }
-  }
-
   public function transform($object, string $to, array $context = []) {
     $records = $this->serializer->deserialize($object->getCsv(), 'array', 'csv');
 
@@ -77,7 +51,12 @@ class CsvRecordsRequestTransformer implements DataTransformerInterface {
           foreach ($relation as $rel) {
             $related = $this->getRelatedBy($targetEntity, $rel);
             if (null === $related) {
-              $violation = $this->makeEntityNotFoundViolation($property, $targetEntity, $relation, $line);
+              $violation = $this->makeEntityNotFoundViolation(
+                $property,
+                $targetEntity,
+                $relation,
+                $line
+              );
               $notFoundViolations->add($violation);
             }
             $relations[$property][] = $related;
@@ -85,7 +64,12 @@ class CsvRecordsRequestTransformer implements DataTransformerInterface {
         } else { //is many-to-one
           $related = $this->getRelatedBy($targetEntity, $relation);
           if (null === $related) {
-            $violation = $this->makeEntityNotFoundViolation($property, $targetEntity, $relation, $line);
+            $violation = $this->makeEntityNotFoundViolation(
+              $property,
+              $targetEntity,
+              $relation,
+              $line
+            );
             $notFoundViolations->add($violation);
           }
           $relations[$property] = $related;
@@ -104,5 +88,46 @@ class CsvRecordsRequestTransformer implements DataTransformerInterface {
 
   public function supportsTransformation($data, string $to, array $context = []): bool {
     return is_array($data) && CsvRecordsRequest::class === ($context['input']['class'] ?? null);
+  }
+
+  private function getRelatedBy(string $className, array $conditions) {
+    return $this->em->getRepository($className)->findOneBy($conditions);
+  }
+
+  private function makeEntityNotFoundViolation(
+    string $property,
+    string $targetEntity,
+    array $relation,
+    int $line
+  ) {
+    $message = sprintf(
+      'Entity %s not found with properties : %s',
+      $targetEntity,
+      json_encode($relation)
+    );
+
+    return new ConstraintViolation(
+      $message,
+      null,
+      [],
+      $relation,
+      "[{$line}].{$property}",
+      $relation,
+      null,
+      'related_not_found'
+    );
+  }
+
+  private function validate($data, $constraintViolations) {
+    // Merge custom and built-in validation errors
+    try {
+      $this->validator->validate($data);
+    } catch (ValidationException $e) {
+      $violations = $e->getConstraintViolationList();
+      $constraintViolations->addAll($violations);
+    }
+    if ($constraintViolations->count()) {
+      throw new ValidationException($constraintViolations);
+    }
   }
 }

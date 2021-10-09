@@ -43,5 +43,10 @@ services:
     resource: "../src/Form/EmbedTypes/**"
     arguments: ["@listener.adduserdate"]
 
+  # API
   App\DataTransformer\CsvRecordsRequestTransformer: ~
-  App\DataPersister\ValidatedDataPersister: ~
+  App\DataPersister\ValidatedDataPersister:
+    decorates: "api_platform.doctrine.orm.data_persister"
+  App\API\OpenApi\OpenApiFactory:
+    decorates: "api_platform.openapi.factory"
+    arguments: ["@.inner"]
