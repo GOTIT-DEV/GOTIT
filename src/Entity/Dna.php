@@ -36,6 +36,13 @@ use Symfony\Component\Validator\Constraints as Assert;
       (is_granted("ROLE_COLLABORATION") and object.getMetaCreationUser() == user)',
       'security_message' => 'Only admin or resource owner may delete this.',
     ],
+    'patch' => [
+      'security' => 'is_granted("ROLE_ADMIN") or
+        (is_granted("ROLE_COLLABORATION") and object.getMetaCreationUser() == user)',
+      'security_message' => 'Only admin or resource owner may update this.',
+      'normalization_context' => ['groups' => ['item', 'dna:item']],
+      'denormalization_context' => ['groups' => ['dna:write']],
+    ],
   ],
   collectionOperations: [
     'get' => ['normalization_context' => ['groups' => ['item', 'dna:list']]],
@@ -277,18 +284,12 @@ class Dna extends AbstractTimestampedEntity {
     return $this->store;
   }
 
-  /**
-   * Add producer.
-   */
   public function addProducer(Person $producer): self {
     $this->producers[] = $producer;
 
     return $this;
   }
 
-  /**
-   * Remove producer
-   */
   public function removeProducer(Person $producer): self {
     $this->producers->removeElement($producer);
 
@@ -303,9 +304,6 @@ class Dna extends AbstractTimestampedEntity {
     return $this->pcrs;
   }
 
-  /**
-   * Add PCR
-   */
   public function addPcr(Pcr $pcr): self {
     $pcr->setDna($this);
     $this->pcrs[] = $pcr;
