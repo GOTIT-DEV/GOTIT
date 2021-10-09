@@ -25,12 +25,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A DNA sample extracted from a Specimen
  */
 #[ApiResource(
-  attributes: ['security' => '"IS_AUTHENTICATED_FULLY"'],
+  attributes: [
+    'security' => '"IS_AUTHENTICATED_FULLY"',
+    'security_message' => 'Access denied : you are not authenticated',
+  ],
   itemOperations: [
     'get' => ['normalization_context' => ['groups' => ['item', 'dna:item']]],
     'delete' => [
       'security' => 'is_granted("ROLE_ADMIN") or
       (is_granted("ROLE_COLLABORATION") and object.getMetaCreationUser() == user)',
+      'security_message' => 'Only admin or resource owner may delete this.',
     ],
   ],
   collectionOperations: [
@@ -39,12 +43,14 @@ use Symfony\Component\Validator\Constraints as Assert;
       'normalization_context' => ['groups' => ['item', 'dna:item']],
       'denormalization_context' => ['groups' => ['dna:write']],
       'security' => 'is_granted("ROLE_COLLABORATION")',
+      'security_message' => 'This feature requires "Collaborator" status.',
     ],
     'import' => [
       'method' => 'POST',
       'controller' => ImportCSVAction::class,
       'input' => CsvRecordsRequest::class,
       'security' => 'is_granted("ROLE_COLLABORATION")',
+      'security_message' => 'This feature requires "Collaborator" status.',
       'path' => '/dnas/import',
       'normalization_context' => ['groups' => ['item', 'dna:list']],
       'denormalization_context' => ['groups' => ['csv:import']],
