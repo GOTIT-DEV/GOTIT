@@ -14,7 +14,6 @@ use App\Controller\API\ImportCSVAction;
 use App\DTO\CsvRecordsRequest;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use App\Filter\OrSearchFilter;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,21 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A DNA sample extracted from a Specimen
- *
- * @ORM\Table(name="dna",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
- *  indexes={
- *      @ORM\Index(name="dna_code_adn", columns={"dna_code"}),
- *      @ORM\Index(name="idx_dna__date_precision_voc_fk", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}),
- *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}),
- *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
- *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"})
- * })
- * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="Code {{ value }} is already registered")
- *
- * */
+ */
 #[ApiResource(
   itemOperations: [
     'get' => ['normalization_context' => ['groups' => ['item', 'dna:item']]],
@@ -53,29 +38,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     'import' => [
       'method' => 'POST',
-      'path' => '/dnas/import',
       'controller' => ImportCSVAction::class,
       'input' => CsvRecordsRequest::class,
-      'security' => "is_granted('ROLE_COLLABORATION')",
+      'security' => 'is_granted("ROLE_COLLABORATION")',
+      'path' => '/dnas/import',
       'normalization_context' => ['groups' => ['item', 'dna:list']],
       'denormalization_context' => ['groups' => ['csv:import']],
-      'openapi_context' => [
-        'summary' => 'Import Dna resources',
-        'description' => 'Import DNA resources from a CSV string.',
-        'responses' => [
-          '201' => [
-            'description' => 'DNA resources created',
-            'content' => [
-              'application/json' => [
-                'schema' => [
-                  'type' => 'array',
-                  'items' => ['$ref' => '#/components/schemas/Dna-item_dna.list'],
-                ],
-              ],
-            ],
-          ],
-        ],
-      ],
     ],
   ],
   order: ['code' => 'ASC'],
@@ -84,10 +52,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: Dna::API_SEARCH_PROPERTIES)]
 #[ApiFilter(OrSearchFilter::class, properties: Dna::API_SEARCH_PROPERTIES)]
 #[ApiFilter(DateFilter::class, properties: ['date' => DateFilter::EXCLUDE_NULL])]
-#[ApiFilter(OrderFilter::class, properties: ['code', 'date', 'concentrationNgMicrolitre', 'specimen.molecularCode', 'store.code'])]
+#[ApiFilter(
+  OrderFilter::class,
+  properties: ['code', 'date', 'concentrationNgMicrolitre', 'specimen.molecularCode', 'store.code']
+)]
 #[ApiFilter(PropertyFilter::class)]
 #[ApiFilter(GroupFilter::class, arguments: ['parameterName' => 'groups', 'overrideDefaultGroups' => true])]
-
+// ORM        ------------------------------------------------------------------
+#[ORM\Entity]
+#[ORM\Table(name: 'dna')]
+#[ORM\Index(name: 'dna_code_adn', columns: ['dna_code'])]
+#[ORM\Index(name: 'idx_dna__date_precision_voc_fk', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'idx_dna__specimen_fk', columns: ['specimen_fk'])]
+#[ORM\Index(
+  name: 'idx_dna__dna_extraction_method_voc_fk',
+  columns: ['dna_extraction_method_voc_fk']
+)]
+#[ORM\Index(name: 'idx_dna__storage_box_fk', columns: ['storage_box_fk'])]
+#[ORM\Index(name: 'IDX_1DCF9AF9C53B46B', columns: ['dna_quality_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_dna__dna_code', columns: ['dna_code'])]
+// Validation ------------------------------------------------------------------
+#[UniqueEntity(fields: ['code'], message: 'Code {{ value }} is already registered')]
 class Dna extends AbstractTimestampedEntity {
   public const API_SEARCH_PROPERTIES = [
     'code' => 'ipartial',
@@ -100,95 +85,79 @@ class Dna extends AbstractTimestampedEntity {
     'producers.name' => 'ipartial',
   ];
 
-  /**
-   * @ORM\Id
-   * @ORM\Column(name="id", type="integer", nullable=false)
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   */
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
   #[Groups(['item', 'compact'])]
   private int $id;
 
-  /**
-   * @ORM\Column(name="dna_code", type="string", length=255, nullable=false, unique=true)
-   */
+  #[ORM\Column(name: 'dna_code', type: 'string', length: 255, nullable: false, unique: true)]
   #[Groups(['item', 'compact', 'dna:write'])]
   #[Assert\Regex(pattern: '/^[\\w]+$/', message: 'Code {{ value }} contains invalid special characters')]
   private string $code;
 
   /**
-   * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
+   * Sample extraction date
    */
+  #[ORM\Column(name: 'dna_extraction_date', type: 'date', nullable: true)]
   #[Groups(['item', 'dna:write'])]
   private ?\DateTime $date = null;
 
   /**
-   * The sample concentration in ng/µL.
-   *
-   * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
+   * Sample concentration in ng/µL
    */
+  #[ORM\Column(name: 'dna_concentration', type: 'float', precision: 10, scale: 0, nullable: true)]
   #[Groups(['item', 'dna:write'])]
   #[Assert\Positive()]
   private ?float  $concentrationNgMicrolitre = null;
 
-  /**
-   * @ORM\Column(name="dna_comments", type="text", nullable=true)
-   */
+  #[ORM\Column(name: 'dna_comments', type: 'text', nullable: true)]
   #[Groups(['dna:item', 'dna:write'])]
   private ?string $comment = null;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   */
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
   private Voc $datePrecision;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false))
-   */
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'dna_extraction_method_voc_fk', referencedColumnName: 'id', nullable: false)]
   private Voc $extractionMethod;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
-   */
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'dna_quality_voc_fk', referencedColumnName: 'id', nullable: false)]
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
   private Voc $quality;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Specimen", fetch="EAGER")
-   * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   * @ORM\OrderBy({"molecularCode": "ASC"})
-   */
+  #[ORM\ManyToOne(targetEntity: 'Specimen', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'specimen_fk', referencedColumnName: 'id', nullable: false)]
+  #[ORM\OrderBy(value: ['molecularCode' => 'ASC'])]
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
   private Specimen $specimen;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Store", inversedBy="dnas", fetch="EAGER")
-   * @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   */
+  #[ORM\ManyToOne(targetEntity: 'Store', inversedBy: 'dnas', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'storage_box_fk', referencedColumnName: 'id', nullable: true)]
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
   private ?Store $store = null;
 
-  /**
-   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-   * @ORM\JoinTable(name="dna_is_extracted_by",
-   *  joinColumns={@ORM\JoinColumn(name="dna_fk", referencedColumnName="id")},
-   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-   * @ORM\OrderBy({"id": "ASC"})
-   */
+  #[ORM\ManyToMany(targetEntity: 'Person', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'dna_is_extracted_by')]
+  #[ORM\JoinColumn(name: 'dna_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'person_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
   #[Groups(['dna:list', 'dna:item', 'dna:write'])]
   #[Assert\Count(min: 1, minMessage: 'At least one person is required as producer')]
   private Collection $producers;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Pcr", mappedBy="dna")
-   */
+  #[Assert\Count(
+    exactly: 0,
+    groups: ['delete'],
+    exactMessage: 'This DNA sample is referenced by some PCRs'
+  )]
+  #[ORM\OneToMany(targetEntity: 'Pcr', mappedBy: 'dna')]
   #[ApiProperty(writable: false)]
   #[Groups(['dna:list', 'dna:item'])]
-  #[Assert\Count(exactly: 0, groups: ['delete'], exactMessage: 'This DNA sample is referenced by some PCRs')]
   private Collection $pcrs;
 
   public function __construct() {
@@ -201,160 +170,99 @@ class Dna extends AbstractTimestampedEntity {
     return parent::getMetadata();
   }
 
-  /**
-   * Get id
-   */
   public function getId(): ?int {
     return $this->id;
   }
 
-  /**
-   * Set code
-   */
   public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
   }
 
-  /**
-   * Get code
-   */
   public function getCode(): ?string {
     return $this->code;
   }
 
-  /**
-   * Set date
-   *
-   * @param \DateTime $date
-   */
   public function setDate($date): self {
     if (is_string($date)) {
-      $date = new DateTime($date);
+      $date = new \DateTime($date);
     }
     $this->date = $date;
 
     return $this;
   }
 
-  /**
-   * Get date
-   */
-  public function getDate(): ?DateTime {
+  public function getDate(): ?\DateTime {
     return $this->date;
   }
 
-  /**
-   * Set concentrationNgMicrolitre.
-   */
-  public function setConcentrationNgMicrolitre(
-        ?float $concentrationNgMicrolitre,
-    ): self {
+  public function setConcentrationNgMicrolitre(?float $concentrationNgMicrolitre): self {
     $this->concentrationNgMicrolitre = $concentrationNgMicrolitre;
 
     return $this;
   }
 
-  /**
-   * Get concentrationNgMicrolitre
-   */
   public function getConcentrationNgMicrolitre(): ?float {
     return $this->concentrationNgMicrolitre;
   }
 
-  /**
-   * Set comment
-   */
   public function setComment(string $comment): self {
     $this->comment = $comment;
 
     return $this;
   }
 
-  /**
-   * Get comment
-   */
   public function getComment(): ?string {
     return $this->comment;
   }
 
-  /**
-   * Set datePrecision
-   */
   public function setDatePrecision(Voc $datePrecision = null): self {
     $this->datePrecision = $datePrecision;
 
     return $this;
   }
 
-  /**
-   * Get datePrecision
-   */
   public function getDatePrecision(): ?Voc {
     return $this->datePrecision;
   }
 
-  /**
-   * Set extractionMethod
-   */
   public function setExtractionMethod(Voc $method = null): self {
     $this->extractionMethod = $method;
 
     return $this;
   }
 
-  /**
-   * Get extractionMethod
-   */
   public function getExtractionMethod(): ?Voc {
     return $this->extractionMethod;
   }
 
-  /**
-   * Set specimen
-   */
   public function setSpecimen(Specimen $specimen = null): self {
     $this->specimen = $specimen;
 
     return $this;
   }
 
-  /**
-   * Get specimen
-   */
   public function getSpecimen(): ?Specimen {
     return $this->specimen;
   }
 
-  /**
-   * Set quality
-   */
   public function setQuality(Voc $quality = null): self {
     $this->quality = $quality;
 
     return $this;
   }
 
-  /**
-   * Get quality
-   */
   public function getQuality(): ?Voc {
     return $this->quality;
   }
 
-  /**
-   * Set store
-   */
   public function setStore(Store $store = null): self {
     $this->store = $store;
 
     return $this;
   }
 
-  /**
-   * Get store
-   */
   public function getStore(): ?Store {
     return $this->store;
   }
@@ -377,16 +285,10 @@ class Dna extends AbstractTimestampedEntity {
     return $this;
   }
 
-  /**
-   * Get producers
-   */
   public function getProducers(): Collection {
     return $this->producers;
   }
 
-  /**
-   * Get PCRs
-   */
   public function getPcrs(): Collection {
     return $this->pcrs;
   }

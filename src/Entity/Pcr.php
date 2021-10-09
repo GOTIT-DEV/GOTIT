@@ -13,175 +13,231 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * PCR
- *
- * @ORM\Table(name="pcr",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_pcr__pcr_code", columns={"pcr_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_5B6B99369D3CDB05", columns={"gene_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99368B4A1710", columns={"pcr_quality_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99366CCC2566", columns={"pcr_specificity_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99362C5B04A7", columns={"forward_primer_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B9936F1694267", columns={"reverse_primer_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B9936A30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99364B06319D", columns={"dna_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="The PCR code {{ value }} is already registered")
- * @ApiResource
+ * A PCR amplification of a DNA sample
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'pcr')]
+#[ORM\UniqueConstraint(name: 'uk_pcr__pcr_code', columns: ['pcr_code'])]
+#[ORM\Index(name: 'IDX_5B6B99369D3CDB05', columns: ['gene_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99368B4A1710', columns: ['pcr_quality_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99366CCC2566', columns: ['pcr_specificity_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99362C5B04A7', columns: ['forward_primer_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B9936F1694267', columns: ['reverse_primer_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B9936A30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99364B06319D', columns: ['dna_fk'])]
+#[UniqueEntity(fields: ['code'], message: 'The PCR code {{ value }} is already registered')]
+#[ApiResource]
 class Pcr extends AbstractTimestampedEntity {
   use CompositeCodeEntityTrait;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="pcr_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"item", "dna:list"})
-   */
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  #[Groups(groups: ['item', 'dna:list'])]
   private int $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false, unique=true)
-   * @Assert\Expression("this.hasValidCode()",
-   *  groups={"code"},
-   *  message="Code {{ value }} differs from specification.")
-   * @Groups({"item", "dna:list"})
-   */
-  private $code;
+  #[ORM\Column(name: 'pcr_code', type: 'string', length: 255, nullable: false, unique: true)]
+  #[Groups(groups: ['item', 'dna:list'])]
+  #[Assert\Expression(
+    'this.hasValidCode()',
+    groups: ['code'],
+    message: 'Code {{ value }} differs from specification.'
+  )]
+  private string $code;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="pcr_number", type="string", length=255, nullable=false)
-   * @Groups({"item"})
-   */
-  private $number;
+  #[ORM\Column(name: 'pcr_number', type: 'string', length: 255, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $number;
 
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="pcr_date", type="date", nullable=true)
-   * @Groups({"item"})
-   */
-  private $date;
+  #[ORM\Column(name: 'pcr_date', type: 'date', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?\DateTime $date = null;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="pcr_details", type="text", nullable=true)
-   * @Groups({"item"})
-   */
-  private $details;
+  #[ORM\Column(name: 'pcr_details', type: 'text', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $details = null;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="pcr_comments", type="text", nullable=true)
-   * @Groups({"item"})
-   */
-  private $comment;
+  #[ORM\Column(name: 'pcr_comments', type: 'text', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $comment = null;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $gene;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'gene_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $gene;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="pcr_quality_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $quality;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'pcr_quality_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $quality;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="pcr_specificity_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $specificity;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'pcr_specificity_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $specificity;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="forward_primer_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $primerStart;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'forward_primer_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $primerStart;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="reverse_primer_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $primerEnd;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'reverse_primer_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $primerEnd;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $datePrecision;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $datePrecision;
 
-  /**
-   * @var Dna
-   *
-   * @ORM\ManyToOne(targetEntity="Dna", inversedBy="pcrs")
-   * @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false)
-   */
-  private $dna;
+  #[ORM\ManyToOne(targetEntity: 'Dna', inversedBy: 'pcrs')]
+  #[ORM\JoinColumn(name: 'dna_fk', referencedColumnName: 'id', nullable: false)]
+  private Dna $dna;
 
-  /**
-   * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-   * @ORM\JoinTable(name="pcr_is_done_by",
-   *  joinColumns={@ORM\JoinColumn(name="pcr_fk", referencedColumnName="id")},
-   *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-   * @ORM\OrderBy({"id": "ASC"})
-   */
-  private $producers;
+  #[ORM\ManyToMany(targetEntity: 'Person', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'pcr_is_done_by')]
+  #[ORM\JoinColumn(name: 'pcr_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'person_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $producers;
 
   public function __construct() {
     $this->producers = new ArrayCollection();
   }
 
-  /**
-   * Get id
-   *
-   * @return string
-   */
-  public function getId(): ?string {
+  public function getId(): int {
     return $this->id;
   }
 
-  /**
-   * Set code
-   *
-   * @param string $code
-   */
-  public function setCode($code): Pcr {
+  public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
   }
 
-  /**
-   * Get code
-   *
-   * @return string
-   */
-  public function getCode(): ?string {
+  public function getCode(): string {
     return $this->code;
+  }
+
+  public function setNumber(string $number): self {
+    $this->number = $number;
+
+    return $this;
+  }
+
+  public function getNumber(): string {
+    return $this->number;
+  }
+
+  public function setDate(?\DateTime $date): self {
+    $this->date = $date;
+
+    return $this;
+  }
+
+  public function getDate(): ?\DateTime {
+    return $this->date;
+  }
+
+  public function setDetails(?string $details): self {
+    $this->details = $details;
+
+    return $this;
+  }
+
+  public function getDetails(): ?string {
+    return $this->details;
+  }
+
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
+
+    return $this;
+  }
+
+  public function getComment(): ?string {
+    return $this->comment;
+  }
+
+  public function setGene(Voc $gene): self {
+    $this->gene = $gene;
+
+    return $this;
+  }
+
+  public function getGene(): Voc {
+    return $this->gene;
+  }
+
+  public function setQuality(Voc $quality): self {
+    $this->quality = $quality;
+
+    return $this;
+  }
+
+  public function getQuality(): Voc {
+    return $this->quality;
+  }
+
+  public function setSpecificity(Voc $specificity): self {
+    $this->specificity = $specificity;
+
+    return $this;
+  }
+
+  public function getSpecificity(): Voc {
+    return $this->specificity;
+  }
+
+  public function setPrimerStart(Voc $primerStart): self {
+    $this->primerStart = $primerStart;
+
+    return $this;
+  }
+
+  public function getPrimerStart(): Voc {
+    return $this->primerStart;
+  }
+
+  public function setPrimerEnd(Voc $primerEnd): self {
+    $this->primerEnd = $primerEnd;
+
+    return $this;
+  }
+
+  public function getPrimerEnd(): Voc {
+    return $this->primerEnd;
+  }
+
+  public function setDatePrecision(Voc $datePrecision): self {
+    $this->datePrecision = $datePrecision;
+
+    return $this;
+  }
+
+  public function getDatePrecision(): Voc {
+    return $this->datePrecision;
+  }
+
+  public function setDna(Dna $dna): self {
+    $this->dna = $dna;
+
+    return $this;
+  }
+
+  public function getDna(): Dna {
+    return $this->dna;
+  }
+
+  public function addPcrProducer(Person $pcrProducer): self {
+    $this->producers[] = $pcrProducer;
+
+    return $this;
+  }
+
+  public function removePcrProducer(Person $pcrProducer): self {
+    $this->producers->removeElement($pcrProducer);
+
+    return $this;
+  }
+
+  public function getProducers(): Collection {
+    return $this->producers;
   }
 
   /**
@@ -194,250 +250,5 @@ class Pcr extends AbstractTimestampedEntity {
       $this->getPrimerStart()->getCode(),
       $this->getPrimerEnd()->getCode(),
     ]);
-  }
-
-  /**
-   * Set number
-   *
-   * @param string $number
-   */
-  public function setNumber($number): Pcr {
-    $this->number = $number;
-
-    return $this;
-  }
-
-  /**
-   * Get number
-   *
-   * @return string
-   */
-  public function getNumber(): ?string {
-    return $this->number;
-  }
-
-  /**
-   * Set date
-   *
-   * @param \DateTime $date
-   */
-  public function setDate($date): Pcr {
-    $this->date = $date;
-
-    return $this;
-  }
-
-  /**
-   * Get date
-   *
-   * @return \DateTime
-   */
-  public function getDate(): ?\Datetime {
-    return $this->date;
-  }
-
-  /**
-   * Set details
-   *
-   * @param string $details
-   */
-  public function setDetails($details): Pcr {
-    $this->details = $details;
-
-    return $this;
-  }
-
-  /**
-   * Get details
-   *
-   * @return string
-   */
-  public function getDetails(): ?string {
-    return $this->details;
-  }
-
-  /**
-   * Set comment
-   *
-   * @param string $comment
-   */
-  public function setComment($comment): Pcr {
-    $this->comment = $comment;
-
-    return $this;
-  }
-
-  /**
-   * Get comment
-   *
-   * @return string
-   */
-  public function getComment(): ?string {
-    return $this->comment;
-  }
-
-  /**
-   * Set gene
-   *
-   * @param Voc $gene
-   */
-  public function setGene(Voc $gene = null): Pcr {
-    $this->gene = $gene;
-
-    return $this;
-  }
-
-  /**
-   * Get gene
-   *
-   * @return Voc
-   */
-  public function getGene(): ?Voc {
-    return $this->gene;
-  }
-
-  /**
-   * Set quality
-   *
-   * @param Voc $quality
-   */
-  public function setQuality(Voc $quality = null): Pcr {
-    $this->quality = $quality;
-
-    return $this;
-  }
-
-  /**
-   * Get quality
-   *
-   * @return Voc
-   */
-  public function getQuality(): ?Voc {
-    return $this->quality;
-  }
-
-  /**
-   * Set specificity
-   *
-   * @param Voc $specificity
-   */
-  public function setSpecificity(Voc $specificity = null): Pcr {
-    $this->specificity = $specificity;
-
-    return $this;
-  }
-
-  /**
-   * Get specificity
-   *
-   * @return Voc
-   */
-  public function getSpecificity(): ?Voc {
-    return $this->specificity;
-  }
-
-  /**
-   * Set primerStart
-   *
-   * @param Voc $primerStart
-   */
-  public function setPrimerStart(Voc $primerStart = null): Pcr {
-    $this->primerStart = $primerStart;
-
-    return $this;
-  }
-
-  /**
-   * Get primerStart
-   *
-   * @return Voc
-   */
-  public function getPrimerStart(): ?Voc {
-    return $this->primerStart;
-  }
-
-  /**
-   * Set primerEnd
-   *
-   * @param Voc $primerEnd
-   */
-  public function setPrimerEnd(Voc $primerEnd = null): Pcr {
-    $this->primerEnd = $primerEnd;
-
-    return $this;
-  }
-
-  /**
-   * Get primerEnd
-   *
-   * @return Voc
-   */
-  public function getPrimerEnd(): ?Voc {
-    return $this->primerEnd;
-  }
-
-  /**
-   * Set datePrecision
-   *
-   * @param Voc $datePrecision
-   */
-  public function setDatePrecision(Voc $datePrecision = null): Pcr {
-    $this->datePrecision = $datePrecision;
-
-    return $this;
-  }
-
-  /**
-   * Get datePrecision
-   *
-   * @return Voc
-   */
-  public function getDatePrecision(): ?Voc {
-    return $this->datePrecision;
-  }
-
-  /**
-   * Set dna
-   *
-   * @param Dna $dna
-   */
-  public function setDna(Dna $dna = null): Pcr {
-    $this->dna = $dna;
-
-    return $this;
-  }
-
-  /**
-   * Get dna
-   *
-   * @return Dna
-   */
-  public function getDna(): ?Dna {
-    return $this->dna;
-  }
-
-  /**
-   * Add pcrProducer
-   */
-  public function addPcrProducer(Person $pcrProducer): Pcr {
-    $this->producers[] = $pcrProducer;
-
-    return $this;
-  }
-
-  /**
-   * Remove pcrProducer
-   */
-  public function removePcrProducer(Person $pcrProducer): Pcr {
-    $this->producers->removeElement($pcrProducer);
-
-    return $this;
-  }
-
-  /**
-   * Get producers
-   */
-  public function getProducers(): Collection {
-    return $this->producers;
   }
 }

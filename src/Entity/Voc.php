@@ -9,162 +9,89 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Voc
- *
- * @ORM\Table(name="vocabulary",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_vocabulary__parent__code", columns={"code", "parent"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code", "parent"}, message="This code is already registered for the specified parent")
- *
- * @ApiResource(
- *  collectionOperations={"get": {"normalization_context": {"groups": {"item"}}}},
- *  itemOperations={
- * 		"get": {
- * 			"normalization_context": {"groups": {"item"}},
- * 		},
- * 	},
- *  order={"parent": "ASC", "code": "ASC"},
- *  paginationEnabled=true
- * )
+ * Vocabulary term
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'vocabulary')]
+#[ORM\UniqueConstraint(name: 'uk_vocabulary__parent__code', columns: ['code', 'parent'])]
+#[UniqueEntity(
+  fields: ['code', 'parent'],
+  message: 'This code is already registered for the specified parent'
+)]
+#[ApiResource(
+  collectionOperations: [
+    'get' => ['normalization_context' => ['groups' => ['item']]],
+  ],
+  itemOperations: [
+    'get' => ['normalization_context' => ['groups' => ['item']]],
+  ],
+  order: ['parent' => 'ASC', 'code' => 'ASC'],
+  paginationEnabled: true
+)]
 class Voc extends AbstractTimestampedEntity {
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="vocabulary_id_seq", allocationSize=1, initialValue=1)
-   * @Groups({"item"})
-   */
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  #[Groups(groups: ['item'])]
   private int $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="code", type="string", length=255, nullable=false)
-   * @Groups({"item"})
-   */
-  private $code;
+  #[ORM\Column(name: 'code', type: 'string', length: 255, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $code;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="vocabulary_title", type="string", length=1024, nullable=false)
-   * @Groups({"item"})
-   */
-  private $label;
+  #[ORM\Column(name: 'vocabulary_title', type: 'string', length: 1024, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $label;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="parent", type="string", length=255, nullable=false)
-   * @Groups({"item"})
-   */
-  private $parent;
+  #[ORM\Column(name: 'parent', type: 'string', length: 255, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $parent;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="voc_comments", type="text", nullable=true)
-   * @Groups({"item"})
-   */
-  private $comment;
+  #[ORM\Column(name: 'voc_comments', type: 'text', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $comment = null;
 
-  /**
-   * Get id
-   *
-   * @return int
-   */
-  public function getId() {
+  public function getId(): int {
     return $this->id;
   }
 
-  /**
-   * Set code
-   *
-   * @param string $code
-   *
-   * @return Voc
-   */
-  public function setCode($code) {
+  public function setCode(string $code): self {
     $this->code = $code;
 
     return $this;
   }
 
-  /**
-   * Get code
-   *
-   * @return string
-   */
-  public function getCode() {
+  public function getCode(): string {
     return $this->code;
   }
 
-  /**
-   * Set label
-   *
-   * @param string $label
-   *
-   * @return Voc
-   */
-  public function setLabel($label) {
+  public function setLabel(string $label): self {
     $this->label = $label;
 
     return $this;
   }
 
-  /**
-   * Get label
-   *
-   * @return string
-   */
-  public function getLabel() {
+  public function getLabel(): string {
     return $this->label;
   }
 
-  /**
-   * Set parent
-   *
-   * @param string $parent
-   *
-   * @return Voc
-   */
-  public function setParent($parent) {
+  public function setParent(string $parent): self {
     $this->parent = $parent;
 
     return $this;
   }
 
-  /**
-   * Get parent
-   *
-   * @return string
-   */
-  public function getParent() {
+  public function getParent(): string {
     return $this->parent;
   }
 
-  /**
-   * Set comment
-   *
-   * @param string $comment
-   *
-   * @return Voc
-   */
-  public function setComment($comment) {
+  public function setComment(?string $comment): self {
     $this->comment = $comment;
 
     return $this;
   }
 
-  /**
-   * Get comment
-   *
-   * @return string
-   */
-  public function getComment() {
+  public function getComment(): ?string {
     return $this->comment;
   }
 }

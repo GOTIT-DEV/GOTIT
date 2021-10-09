@@ -33,7 +33,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
-      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.dataset=m')
       ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :dataset')
       ->setParameter('dataset', $id_dataset)
@@ -48,7 +48,7 @@ class SpeciesQueryService {
     $query = $qb->select('v.id as id_methode, v.code')
       ->addSelect('m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
-      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.dataset=m')
       ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->andWhere('m.id = :id_dataset AND v.id = :id_methode')
       ->setParameters(array(
@@ -65,7 +65,7 @@ class SpeciesQueryService {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('v.id, v.code, m.id as id_dataset, m.date as date_dataset, m.title as motu_title')
       ->from('App:MotuDataset', 'm')
-      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.dataset=m')
       ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->distinct()
       ->orderBy('m.id, v.id')
@@ -114,7 +114,7 @@ class SpeciesQueryService {
       ->leftJoin('App:Specimen', 'motu_ind', 'WITH', "motu_ind.id = motu_dna.specimen")
       ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.specimen = motu_ind.id OR motu_eid.externalSequence=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.method")
-      ->join('App:MotuDataset', 'motu_date', 'WITH', "motu_date.id = $alias.motuDatasetFk");
+      ->join('App:MotuDataset', 'motu_date', 'WITH', "motu_date.id = $alias.dataset");
   }
 
   /*****************************************************************************
@@ -154,7 +154,7 @@ class SpeciesQueryService {
       break;
     }
 
-    $query = $query->join('App:MotuDataset', 'motu_dataset', 'WITH', 'ass.motuDatasetFk = motu_dataset.id')
+    $query = $query->join('App:MotuDataset', 'motu_dataset', 'WITH', 'ass.dataset = motu_dataset.id')
       ->join('App:Voc', 'vocabulary', 'WITH', 'ass.method = vocabulary.id');
 
     if ($data->get('species')) {
@@ -228,7 +228,7 @@ class SpeciesQueryService {
       break;
     }
 
-    $query = $query->join('App:MotuDataset', 'm', 'WITH', 'ass.motuDatasetFk = m.id')
+    $query = $query->join('App:MotuDataset', 'm', 'WITH', 'ass.dataset = m.id')
       ->join('App:Voc', 'vocabulary', 'WITH', 'ass.method = vocabulary.id')
       ->andWhere('rt.id = :id_taxon')
       ->andWhere('vocabulary.id = :method')

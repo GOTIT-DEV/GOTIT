@@ -8,439 +8,202 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Taxon
- *
- * @ORM\Table(name="taxon",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_taxon__taxon_name", columns={"taxon_name"}),
- *      @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
- * @ORM\Entity
- * @UniqueEntity(fields={"taxname"}, message="This name already exists")
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'taxon')]
+#[ORM\UniqueConstraint(name: 'uk_taxon__taxon_name', columns: ['taxon_name'])]
+#[ORM\UniqueConstraint(name: 'uk_taxon__taxon_code', columns: ['taxon_code'])]
+#[UniqueEntity(fields: ['taxname'], message: 'This name already exists')]
+#[UniqueEntity(fields: ['code'], message: 'This code is already registered')]
 class Taxon extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="taxon_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_name", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $taxname;
+  #[ORM\Column(name: 'taxon_code', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $code;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_full_name", type="string", length=255, nullable=true)
-	 */
-	private $fullName;
+  #[ORM\Column(name: 'taxon_name', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $taxname;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_rank", type="string", length=255, nullable=false)
-	 */
-	private $rank;
+  #[ORM\Column(name: 'taxon_full_name', type: 'string', length: 255, nullable: true)]
+  private ?string $fullName = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="subclass", type="string", length=255, nullable=true)
-	 */
-	private $subclass;
+  #[ORM\Column(name: 'taxon_rank', type: 'string', length: 255, nullable: false)]
+  private string $rank;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_order", type="string", length=255, nullable=true)
-	 */
-	private $ordre;
+  #[ORM\Column(name: 'subclass', type: 'string', length: 255, nullable: true)]
+  private ?string $subclass = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="family", type="string", length=255, nullable=true)
-	 */
-	private $family;
+  #[ORM\Column(name: 'taxon_order', type: 'string', length: 255, nullable: true)]
+  private ?string $ordre = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="genus", type="string", length=255, nullable=true)
-	 */
-	private $genus;
+  #[ORM\Column(name: 'family', type: 'string', length: 255, nullable: true)]
+  private ?string $family = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="species", type="string", length=255, nullable=true)
-	 */
-	private $species;
+  #[ORM\Column(name: 'genus', type: 'string', length: 255, nullable: true)]
+  private ?string $genus = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="subspecies", type="string", length=255, nullable=true)
-	 */
-	private $subspecies;
+  #[ORM\Column(name: 'species', type: 'string', length: 255, nullable: true)]
+  private ?string $species = null;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="taxon_validity", type="smallint", nullable=false)
-	 */
-	private $validity;
+  #[ORM\Column(name: 'subspecies', type: 'string', length: 255, nullable: true)]
+  private ?string $subspecies = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  #[ORM\Column(name: 'taxon_validity', type: 'boolean', nullable: false)]
+  private bool $validity;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  #[ORM\Column(name: 'taxon_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="clade", type="string", length=255, nullable=true)
-	 */
-	private $clade;
+  #[ORM\Column(name: 'clade', type: 'string', length: 255, nullable: true)]
+  private ?string $clade = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="taxon_synonym", type="string", length=255, nullable=true)
-	 */
-	private $alias;
+  #[ORM\Column(name: 'taxon_synonym', type: 'string', length: 255, nullable: true)]
+  private ?string $alias = null;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set taxname
-	 *
-	 * @param string $taxname
-	 *
-	 * @return Taxon
-	 */
-	public function setTaxname($taxname) {
-		$this->taxname = $taxname;
+  public function setTaxname(string $taxname): self {
+    $this->taxname = $taxname;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get taxname
-	 *
-	 * @return string
-	 */
-	public function getTaxname() {
-		return $this->taxname;
-	}
+  public function getTaxname(): string {
+    return $this->taxname;
+  }
 
-	/**
-	 * Set rank
-	 *
-	 * @param string $rank
-	 *
-	 * @return Taxon
-	 */
-	public function setRank($rank) {
-		$this->rank = $rank;
+  public function setRank(string $rank): self {
+    $this->rank = $rank;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get rank
-	 *
-	 * @return string
-	 */
-	public function getRank() {
-		return $this->rank;
-	}
+  public function getRank(): string {
+    return $this->rank;
+  }
 
-	/**
-	 * Set subclass
-	 *
-	 * @param string $subclass
-	 *
-	 * @return Taxon
-	 */
-	public function setSubclass($subclass) {
-		$this->subclass = $subclass;
+  public function setSubclass(?string $subclass): self {
+    $this->subclass = $subclass;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get subclass
-	 *
-	 * @return string
-	 */
-	public function getSubclass() {
-		return $this->subclass;
-	}
+  public function getSubclass(): ?string {
+    return $this->subclass;
+  }
 
-	/**
-	 * Set ordre
-	 *
-	 * @param string $ordre
-	 *
-	 * @return Taxon
-	 */
-	public function setOrdre($ordre) {
-		$this->ordre = $ordre;
+  public function setOrdre(?string $ordre): self {
+    $this->ordre = $ordre;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get ordre
-	 *
-	 * @return string
-	 */
-	public function getOrdre() {
-		return $this->ordre;
-	}
+  public function getOrdre(): ?string {
+    return $this->ordre;
+  }
 
-	/**
-	 * Set family
-	 *
-	 * @param string $family
-	 *
-	 * @return Taxon
-	 */
-	public function setFamily($family) {
-		$this->family = $family;
+  public function setFamily(?string $family): self {
+    $this->family = $family;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get family
-	 *
-	 * @return string
-	 */
-	public function getFamily() {
-		return $this->family;
-	}
+  public function getFamily(): ?string {
+    return $this->family;
+  }
 
-	/**
-	 * Set genus
-	 *
-	 * @param string $genus
-	 *
-	 * @return Taxon
-	 */
-	public function setGenus($genus) {
-		$this->genus = $genus;
+  public function setGenus(?string $genus): self {
+    $this->genus = $genus;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get genus
-	 *
-	 * @return string
-	 */
-	public function getGenus() {
-		return $this->genus;
-	}
+  public function getGenus(): ?string {
+    return $this->genus;
+  }
 
-	/**
-	 * Set species
-	 *
-	 * @param string $species
-	 *
-	 * @return Taxon
-	 */
-	public function setSpecies($species) {
-		$this->species = $species;
+  public function setSpecies(?string $species): self {
+    $this->species = $species;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get species
-	 *
-	 * @return string
-	 */
-	public function getSpecies() {
-		return $this->species;
-	}
+  public function getSpecies(): ?string {
+    return $this->species;
+  }
 
-	/**
-	 * Set subspecies
-	 *
-	 * @param string $subspecies
-	 *
-	 * @return Taxon
-	 */
-	public function setSubspecies($subspecies) {
-		$this->subspecies = $subspecies;
+  public function setSubspecies(?string $subspecies): self {
+    $this->subspecies = $subspecies;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get subspecies
-	 *
-	 * @return string
-	 */
-	public function getSubspecies() {
-		return $this->subspecies;
-	}
+  public function getSubspecies(): ?string {
+    return $this->subspecies;
+  }
 
-	/**
-	 * Set validity
-	 *
-	 * @param integer $validity
-	 *
-	 * @return Taxon
-	 */
-	public function setValidity($validity) {
-		$this->validity = $validity;
+  public function setValidity(bool $validity): self {
+    $this->validity = $validity;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get validity
-	 *
-	 * @return integer
-	 */
-	public function getValidity() {
-		return $this->validity;
-	}
+  public function getValidity(): bool {
+    return $this->validity;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return Taxon
-	 */
-	public function setCode($code) {
-		$this->code = $code;
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode() {
-		return $this->code;
-	}
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Taxon
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Set clade
-	 *
-	 * @param string $clade
-	 *
-	 * @return Taxon
-	 */
-	public function setClade($clade) {
-		$this->clade = $clade;
+  public function setClade(?string $clade): self {
+    $this->clade = $clade;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get clade
-	 *
-	 * @return string
-	 */
-	public function getClade() {
-		return $this->clade;
-	}
+  public function getClade(): ?string {
+    return $this->clade;
+  }
 
-	/**
-	 * Set alias
-	 *
-	 * @param string $alias
-	 *
-	 * @return Taxon
-	 */
-	public function setAlias($alias) {
-		$this->alias = $alias;
+  public function setAlias(?string $alias): self {
+    $this->alias = $alias;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get alias
-	 *
-	 * @return string
-	 */
-	public function getAlias() {
-		return $this->alias;
-	}
+  public function getAlias(): ?string {
+    return $this->alias;
+  }
 
-	/**
-	 * Set fullName
-	 *
-	 * @param string $fullName
-	 *
-	 * @return Taxon
-	 */
-	public function setFullName($fullName) {
-		$this->fullName = $fullName;
+  public function setFullName(?string $fullName): self {
+    $this->fullName = $fullName;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get fullName
-	 *
-	 * @return string
-	 */
-	public function getFullName() {
-		return $this->fullName;
-	}
+  public function getFullName(): ?string {
+    return $this->fullName;
+  }
 }

@@ -81,7 +81,7 @@ class MotuDatasetController extends AbstractController {
       //  concatenated list of people
       $query = $em->createQuery(
         'SELECT p.name as nom FROM App:MotuDelimiter megp
-				JOIN megp.personFk p WHERE megp.motuDatasetFk = ' . $id
+				JOIN megp.personFk p WHERE megp.dataset = ' . $id
       )->getResult();
       $arrayListePerson = array();
       foreach ($query as $taxon) {
@@ -290,7 +290,7 @@ class MotuDatasetController extends AbstractController {
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.title as dataset_name')
       ->from('App:MotuDataset', 'm')
-      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.motuDatasetFk=m')
+      ->join('App:MotuDelimitation', 'a', 'WITH', 'a.dataset=m')
       ->join('App:Voc', 'v', 'WITH', "a.method=v AND v.code != 'HAPLO'")
       ->distinct()
       ->getQuery();

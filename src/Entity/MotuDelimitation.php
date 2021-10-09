@@ -6,184 +6,90 @@ use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MotuDelimitation
- *
- * @ORM\Table(name="motu_number",
- *  indexes={
- *      @ORM\Index(name="IDX_4E79CB8DCDD1F756", columns={"external_sequence_fk"}),
- *      @ORM\Index(name="IDX_4E79CB8D40E7E0B3", columns={"delimitation_method_voc_fk"}),
- *      @ORM\Index(name="IDX_4E79CB8D5BE90E48", columns={"internal_sequence_fk"}),
- *      @ORM\Index(name="IDX_4E79CB8D503B4409", columns={"motu_fk"})})
- * @ORM\Entity
- *
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * A MOTU delimitation from a curated dataset
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'motu_number')]
+#[ORM\Index(name: 'IDX_4E79CB8DCDD1F756', columns: ['external_sequence_fk'])]
+#[ORM\Index(name: 'IDX_4E79CB8D40E7E0B3', columns: ['delimitation_method_voc_fk'])]
+#[ORM\Index(name: 'IDX_4E79CB8D5BE90E48', columns: ['internal_sequence_fk'])]
+#[ORM\Index(name: 'IDX_4E79CB8D503B4409', columns: ['motu_fk'])]
 class MotuDelimitation extends AbstractTimestampedEntity {
-  /**
-   * @ORM\Column(name="id", type="integer", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="motu_number_id_seq", allocationSize=1, initialValue=1)
-   */
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
   private int $id;
 
-  /**
-   * @ORM\Column(name="motu_number", type="integer", nullable=false)
-   */
+  #[ORM\Column(name: 'motu_number', type: 'integer', nullable: false)]
   private int $motuNumber;
 
-  /**
-   * @var ExternalSequence
-   *
-   * @ORM\ManyToOne(targetEntity="ExternalSequence")
-   * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true)
-   */
-  private $externalSequence;
+  #[ORM\ManyToOne(targetEntity: 'ExternalSequence')]
+  #[ORM\JoinColumn(name: 'external_sequence_fk', referencedColumnName: 'id', nullable: true)]
+  private ?ExternalSequence $externalSequence = null;
 
-  /**
-   * @var Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-   * @ORM\JoinColumn(name="delimitation_method_voc_fk", referencedColumnName="id", nullable=false)
-   */
-  private $method;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'delimitation_method_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $method;
 
-  /**
-   * @var InternalSequence
-   *
-   * @ORM\ManyToOne(targetEntity="InternalSequence")
-   * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
-   */
-  private $internalSequence;
+  #[ORM\ManyToOne(targetEntity: 'InternalSequence')]
+  #[ORM\JoinColumn(name: 'internal_sequence_fk', referencedColumnName: 'id', nullable: true)]
+  private ?InternalSequence $internalSequence = null;
 
-  /**
-   * @var MotuDataset
-   *
-   * @ORM\ManyToOne(targetEntity="MotuDataset", fetch="EAGER")
-   * @ORM\JoinColumn(name="motu_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   */
-  private $motuDatasetFk;
+  #[ORM\ManyToOne(targetEntity: 'MotuDataset', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'motu_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+  private MotuDataset $dataset;
 
-  /**
-   * Get id
-   *
-   * @return int
-   */
-  public function getId() {
+  public function getId(): int {
     return $this->id;
   }
 
-  /**
-   * Set motuNumber
-   *
-   * @param int $motuNumber
-   *
-   * @return MotuDelimitation
-   */
-  public function setMotuNumber($motuNumber) {
+  public function setMotuNumber(int $motuNumber): self {
     $this->motuNumber = $motuNumber;
 
     return $this;
   }
 
-  /**
-   * Get motuNumber
-   *
-   * @return int
-   */
-  public function getMotuNumber() {
+  public function getMotuNumber(): int {
     return $this->motuNumber;
   }
 
-  /**
-   * Set externalSequence
-   *
-   * @param ExternalSequence $externalSequence
-   *
-   * @return MotuDelimitation
-   */
-  public function setExternalSequence(
-        ExternalSequence $externalSequence = null,
-    ) {
+  public function setExternalSequence(?ExternalSequence $externalSequence = null): self {
     $this->externalSequence = $externalSequence;
 
     return $this;
   }
 
-  /**
-   * Get externalSequence
-   *
-   * @return ExternalSequence
-   */
-  public function getExternalSequence() {
+  public function getExternalSequence(): ?ExternalSequence {
     return $this->externalSequence;
   }
 
-  /**
-   * Set method
-   *
-   * @param Voc $method
-   *
-   * @return MotuDelimitation
-   */
-  public function setMethod(Voc $method = null) {
+  public function setMethod(Voc $method): self {
     $this->method = $method;
 
     return $this;
   }
 
-  /**
-   * Get method
-   *
-   * @return Voc
-   */
-  public function getMethod() {
+  public function getMethod(): Voc {
     return $this->method;
   }
 
-  /**
-   * Set internalSequence
-   *
-   * @param InternalSequence $internalSequence
-   *
-   * @return MotuDelimitation
-   */
-  public function setInternalSequence(
-        InternalSequence $internalSequence = null,
-    ) {
+  public function setInternalSequence(?InternalSequence $internalSequence): self {
     $this->internalSequence = $internalSequence;
 
     return $this;
   }
 
-  /**
-   * Get internalSequence
-   *
-   * @return InternalSequence
-   */
-  public function getInternalSequence() {
+  public function getInternalSequence(): ?InternalSequence {
     return $this->internalSequence;
   }
 
-  /**
-   * Set motuDatasetFk
-   *
-   * @param MotuDataset $motuDatasetFk
-   *
-   * @return MotuDelimitation
-   */
-  public function setMotuDatasetFk(MotuDataset $motuDatasetFk = null) {
-    $this->motuDatasetFk = $motuDatasetFk;
+  public function setDataset(MotuDataset $dataset): self {
+    $this->dataset = $dataset;
 
     return $this;
   }
 
-  /**
-   * Get motuDatasetFk
-   *
-   * @return MotuDataset
-   */
-  public function getMotuDatasetFk() {
-    return $this->motuDatasetFk;
+  public function getDataset(): MotuDataset {
+    return $this->dataset;
   }
 }

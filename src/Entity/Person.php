@@ -9,183 +9,92 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Person
- *
- * @ORM\Table(name="person",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})},
- *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"name"}, message="A person with this name is already registered")
- * @ApiResource
+ * A person involved in any of the lab activities
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'person')]
+#[ORM\UniqueConstraint(name: 'uk_person__person_name', columns: ['person_name'])]
+#[ORM\Index(name: 'IDX_FCEC9EFE8441376', columns: ['institution_fk'])]
+#[UniqueEntity(fields: ['name'], message: 'A person with this name is already registered')]
+#[ApiResource]
 class Person extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
-	 * @Groups({"item"})
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  #[Groups(groups: ['item'])]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="person_name", type="string", length=255, nullable=false, unique=true)
-	 * @Groups({"item"})
-	 */
-	private $name;
+  #[ORM\Column(name: 'person_name', type: 'string', length: 255, nullable: false, unique: true)]
+  #[Groups(groups: ['item'])]
+  private string $name;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $fullName;
+  #[ORM\Column(name: 'person_full_name', type: 'string', length: 1024, nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $fullName = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $alias;
+  #[ORM\Column(name: 'person_name_bis', type: 'string', length: 255, nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $alias = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="person_comments", type="text", nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $comment;
+  #[ORM\Column(name: 'person_comments', type: 'text', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $comment = null;
 
-	/**
-	 * @var Institution
-	 *
-	 * @ORM\ManyToOne(targetEntity="Institution")
-	 * @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
-	 */
-	private $institution;
+  #[ORM\ManyToOne(targetEntity: 'Institution')]
+  #[ORM\JoinColumn(name: 'institution_fk', referencedColumnName: 'id', nullable: true)]
+  private ?Institution $institution = null;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return Person
-	 */
-	public function setName($name) {
-		$this->name = $name;
+  public function setName(string $name): self {
+    $this->name = $name;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
+  public function getName(): string {
+    return $this->name;
+  }
 
-	/**
-	 * Set fullName
-	 *
-	 * @param string $fullName
-	 *
-	 * @return Person
-	 */
-	public function setFullName($fullName) {
-		$this->fullName = $fullName;
+  public function setFullName(?string $fullName): self {
+    $this->fullName = $fullName;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get fullName
-	 *
-	 * @return string
-	 */
-	public function getFullName() {
-		return $this->fullName;
-	}
+  public function getFullName(): ?string {
+    return $this->fullName;
+  }
 
-	/**
-	 * Set alias
-	 *
-	 * @param string $alias
-	 *
-	 * @return Person
-	 */
-	public function setAlias($alias) {
-		$this->alias = $alias;
+  public function setAlias(?string $alias): self {
+    $this->alias = $alias;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get alias
-	 *
-	 * @return string
-	 */
-	public function getAlias() {
-		return $this->alias;
-	}
+  public function getAlias(): ?string {
+    return $this->alias;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Person
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Set institution
-	 *
-	 * @param \App\Entity\Institution $institution
-	 *
-	 * @return Person
-	 */
-	public function setInstitution(\App\Entity\Institution $institution = null) {
-		$this->institution = $institution;
+  public function setInstitution(?Institution $institution): self {
+    $this->institution = $institution;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get institution
-	 *
-	 * @return \App\Entity\Institution
-	 */
-	public function getInstitution() {
-		return $this->institution;
-	}
+  public function getInstitution(): ?Institution {
+    return $this->institution;
+  }
 }

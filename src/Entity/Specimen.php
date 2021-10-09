@@ -5,304 +5,165 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Specimen
- *
- * @ORM\Table(name="specimen",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_specimen__specimen_morphological_code", columns={"specimen_morphological_code"}),
- *      @ORM\UniqueConstraint(name="uk_specimen__specimen_molecular_code", columns={"specimen_molecular_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"specimen_type_voc_fk"}),
- *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
- * })
- * @ORM\Entity
- * @UniqueEntity(fields={"molecularCode"}, message="This code is already registered")
- * @UniqueEntity(fields={"morphologicalCode"}, message="This code is already registered")
- *
- * @ApiResource
- *
+ * A specimen of a taxon
  */
+// ORM
+#[ORM\Entity]
+#[ORM\Table(name: 'specimen')]
+#[ORM\UniqueConstraint(
+  name: 'uk_specimen__specimen_morphological_code',
+  columns: ['specimen_morphological_code']
+)]
+#[ORM\UniqueConstraint(
+  name: 'uk_specimen__specimen_molecular_code',
+  columns: ['specimen_molecular_code']
+)]
+#[ORM\Index(name: 'IDX_5EE42FCE4236D33E', columns: ['specimen_type_voc_fk'])]
+#[ORM\Index(name: 'IDX_5EE42FCE54DBBD4D', columns: ['internal_biological_material_fk'])]
+// Validation
+#[UniqueEntity(fields: ['molecularCode'], message: 'This code is already registered')]
+#[UniqueEntity(fields: ['morphologicalCode'], message: 'This code is already registered')]
+// API
+#[ApiResource]
 class Specimen extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="specimen_id_seq ", allocationSize=1, initialValue=1)
-	 * @Groups({"item"})
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  #[Groups(groups: ['item'])]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true, unique=true)
-	 * @Groups({"item"})
-	 */
-	private $molecularCode;
+  #[ORM\Column(name: 'specimen_morphological_code', type: 'string', length: 255, nullable: false, unique: true)]
+  #[Groups(groups: ['item'])]
+  private string $morphologicalCode;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false, unique=true)
-	 * @Groups({"item"})
-	 */
-	private $morphologicalCode;
+  #[ORM\Column(name: 'specimen_molecular_code', type: 'string', length: 255, nullable: true, unique: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $molecularCode = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="tube_code", type="string", length=255, nullable=false)
-	 * @Groups({"item"})
-	 */
-	private $tubeCode;
+  #[ORM\Column(name: 'tube_code', type: 'string', length: 255, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $tubeCode;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="specimen_molecular_number", type="string", length=255, nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $molecularNumber;
+  #[ORM\Column(name: 'specimen_molecular_number', type: 'string', length: 255, nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $molecularNumber = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="specimen_comments", type="text", nullable=true)
-	 * @Groups({"item"})
-	 */
-	private $comment;
+  #[ORM\Column(name: 'specimen_comments', type: 'text', nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $comment = null;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $specimenType;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'specimen_type_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $specimenType;
 
-	/**
-	 * @var InternalLot
-	 *
-	 * @ORM\ManyToOne(targetEntity="InternalLot")
-	 * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false)
-	 * @Groups({"specimen:list", "specimen:item"})
-	 */
-	private $internalLot;
+  #[ORM\ManyToOne(targetEntity: 'InternalLot')]
+  #[ORM\JoinColumn(name: 'internal_biological_material_fk', referencedColumnName: 'id', nullable: false)]
+  #[Groups(groups: ['specimen:list', 'specimen:item'])]
+  private InternalLot $internalLot;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="TaxonIdentification", mappedBy="specimen", cascade={"persist"})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 * @Groups({"specimen:list", "specimen:item"})
-	 */
-	protected $taxonIdentifications;
+  #[ORM\OneToMany(targetEntity: 'TaxonIdentification', mappedBy: 'specimen', cascade: ['persist'])]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  #[Groups(groups: ['specimen:list', 'specimen:item'])]
+  private array|Collection|ArrayCollection $taxonIdentifications;
 
-	public function __construct() {
-		$this->taxonIdentifications = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->taxonIdentifications = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set molecularCode
-	 *
-	 * @param string $molecularCode
-	 *
-	 * @return Specimen
-	 */
-	public function setMolecularCode($molecularCode) {
-		$this->molecularCode = $molecularCode;
+  public function setMolecularCode(?string $molecularCode): self {
+    $this->molecularCode = $molecularCode;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get molecularCode
-	 *
-	 * @return string
-	 */
-	public function getMolecularCode() {
-		return $this->molecularCode;
-	}
+  public function getMolecularCode(): ?string {
+    return $this->molecularCode;
+  }
 
-	/**
-	 * Set morphologicalCode
-	 *
-	 * @param string $morphologicalCode
-	 *
-	 * @return Specimen
-	 */
-	public function setMorphologicalCode($morphologicalCode) {
-		$this->morphologicalCode = $morphologicalCode;
+  public function setMorphologicalCode(string $morphologicalCode): self {
+    $this->morphologicalCode = $morphologicalCode;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get morphologicalCode
-	 *
-	 * @return string
-	 */
-	public function getMorphologicalCode() {
-		return $this->morphologicalCode;
-	}
+  public function getMorphologicalCode(): string {
+    return $this->morphologicalCode;
+  }
 
-	/**
-	 * Set tubeCode
-	 *
-	 * @param string $tubeCode
-	 *
-	 * @return Specimen
-	 */
-	public function setTubeCode($tubeCode) {
-		$this->tubeCode = $tubeCode;
+  public function setTubeCode(string $tubeCode): self {
+    $this->tubeCode = $tubeCode;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get tubeCode
-	 *
-	 * @return string
-	 */
-	public function getTubeCode() {
-		return $this->tubeCode;
-	}
+  public function getTubeCode(): string {
+    return $this->tubeCode;
+  }
 
-	/**
-	 * Set molecularNumber
-	 *
-	 * @param string $molecularNumber
-	 *
-	 * @return Specimen
-	 */
-	public function setMolecularNumber($molecularNumber) {
-		$this->molecularNumber = $molecularNumber;
+  public function setMolecularNumber(?string $molecularNumber): self {
+    $this->molecularNumber = $molecularNumber;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get molecularNumber
-	 *
-	 * @return string
-	 */
-	public function getMolecularNumber() {
-		return $this->molecularNumber;
-	}
+  public function getMolecularNumber(): ?string {
+    return $this->molecularNumber;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Specimen
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Set specimenType
-	 *
-	 * @param \App\Entity\Voc $specimenType
-	 *
-	 * @return Specimen
-	 */
-	public function setSpecimenType(\App\Entity\Voc $specimenType = null) {
-		$this->specimenType = $specimenType;
+  public function setSpecimenType(Voc $specimenType): self {
+    $this->specimenType = $specimenType;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get specimenType
-	 *
-	 * @return \App\Entity\Voc
-	 */
-	public function getSpecimenType() {
-		return $this->specimenType;
-	}
+  public function getSpecimenType(): Voc {
+    return $this->specimenType;
+  }
 
-	/**
-	 * Set internalLot
-	 *
-	 * @param \App\Entity\InternalLot $internalLot
-	 *
-	 * @return Specimen
-	 */
-	public function setInternalLot(\App\Entity\InternalLot $internalLot = null) {
-		$this->internalLot = $internalLot;
+  public function setInternalLot(InternalLot $internalLot): self {
+    $this->internalLot = $internalLot;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get internalLot
-	 *
-	 * @return \App\Entity\InternalLot
-	 */
-	public function getInternalLot() {
-		return $this->internalLot;
-	}
+  public function getInternalLot(): InternalLot {
+    return $this->internalLot;
+  }
 
-	/**
-	 * Add taxonIdentification
-	 *
-	 * @param \App\Entity\TaxonIdentification $taxonIdentification
-	 *
-	 * @return Specimen
-	 */
-	public function addTaxonIdentification(
-		\App\Entity\TaxonIdentification $taxonIdentification,
-	) {
-		$taxonIdentification->setSpecimen($this);
-		$this->taxonIdentifications[] = $taxonIdentification;
+  public function addTaxonIdentification(TaxonIdentification $taxonIdentification): self {
+    $taxonIdentification->setSpecimen($this);
+    $this->taxonIdentifications[] = $taxonIdentification;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Remove taxonIdentification
-	 *
-	 * @param \App\Entity\TaxonIdentification $taxonIdentification
-	 */
-	public function removeTaxonIdentification(
-		\App\Entity\TaxonIdentification $taxonIdentification,
-	) {
-		$this->taxonIdentifications->removeElement($taxonIdentification);
-	}
+  public function removeTaxonIdentification(TaxonIdentification $taxonIdentification): self {
+    $this->taxonIdentifications->removeElement($taxonIdentification);
 
-	/**
-	 * Get taxonIdentifications
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getTaxonIdentifications() {
-		return $this->taxonIdentifications;
-	}
+    return $this;
+  }
+
+  public function getTaxonIdentifications(): Collection {
+    return $this->taxonIdentifications;
+  }
 }

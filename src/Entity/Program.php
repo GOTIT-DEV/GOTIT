@@ -4,237 +4,114 @@ namespace App\Entity;
 
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Program
- *
- * @ORM\Table(name="program",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * A research program
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'program')]
+#[UniqueConstraint(name: 'uk_program__program_code', columns: ['program_code'])]
+#[UniqueEntity(fields: ['code'], message: 'This code is already registered')]
 class Program extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="program_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="program_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  #[ORM\Column(name: 'program_code', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $code;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="program_name", type="string", length=1024, nullable=false)
-	 */
-	private $name;
+  #[ORM\Column(name: 'program_name', type: 'string', length: 1024, nullable: false)]
+  private string $name;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="coordinator_names", type="text", nullable=false)
-	 */
-	private $coordinators;
+  #[ORM\Column(name: 'coordinator_names', type: 'text', nullable: false)]
+  private string $coordinators;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="funding_agency", type="string", length=1024, nullable=true)
-	 */
-	private $fundingAgency;
+  #[ORM\Column(name: 'funding_agency', type: 'string', length: 1024, nullable: true)]
+  private ?string $fundingAgency = null;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="starting_year", type="integer", nullable=true)
-	 */
-	private $startYear;
+  #[ORM\Column(name: 'starting_year', type: 'smallint', nullable: true)]
+  private ?int $startYear = null;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="ending_year", type="integer", nullable=true)
-	 */
-	private $endYear;
+  #[ORM\Column(name: 'ending_year', type: 'smallint', nullable: true)]
+  private ?int $endYear = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="program_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  #[ORM\Column(name: 'program_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return Program
-	 */
-	public function setCode($code) {
-		$this->code = $code;
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode() {
-		return $this->code;
-	}
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return Program
-	 */
-	public function setName($name) {
-		$this->name = $name;
+  public function setName(string $name): self {
+    $this->name = $name;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
+  public function getName(): string {
+    return $this->name;
+  }
 
-	/**
-	 * Set coordinators
-	 *
-	 * @param string $coordinators
-	 *
-	 * @return Program
-	 */
-	public function setCoordinators($coordinators) {
-		$this->coordinators = $coordinators;
+  public function setCoordinators(string $coordinators): self {
+    $this->coordinators = $coordinators;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get coordinators
-	 *
-	 * @return string
-	 */
-	public function getCoordinators() {
-		return $this->coordinators;
-	}
+  public function getCoordinators(): string {
+    return $this->coordinators;
+  }
 
-	/**
-	 * Set fundingAgency
-	 *
-	 * @param string $fundingAgency
-	 *
-	 * @return Program
-	 */
-	public function setFundingAgency($fundingAgency) {
-		$this->fundingAgency = $fundingAgency;
+  public function setFundingAgency(?string $fundingAgency): self {
+    $this->fundingAgency = $fundingAgency;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get fundingAgency
-	 *
-	 * @return string
-	 */
-	public function getFundingAgency() {
-		return $this->fundingAgency;
-	}
+  public function getFundingAgency(): ?string {
+    return $this->fundingAgency;
+  }
 
-	/**
-	 * Set startYear
-	 *
-	 * @param integer $startYear
-	 *
-	 * @return Program
-	 */
-	public function setStartYear($startYear) {
-		$this->startYear = $startYear;
+  public function setStartYear(?int $startYear): self {
+    $this->startYear = $startYear;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get startYear
-	 *
-	 * @return integer
-	 */
-	public function getStartYear() {
-		return $this->startYear;
-	}
+  public function getStartYear(): ?int {
+    return $this->startYear;
+  }
 
-	/**
-	 * Set endYear
-	 *
-	 * @param integer $endYear
-	 *
-	 * @return Program
-	 */
-	public function setEndYear($endYear) {
-		$this->endYear = $endYear;
+  public function setEndYear(?int $endYear): self {
+    $this->endYear = $endYear;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get endYear
-	 *
-	 * @return integer
-	 */
-	public function getEndYear() {
-		return $this->endYear;
-	}
+  public function getEndYear(): ?int {
+    return $this->endYear;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Program
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 }

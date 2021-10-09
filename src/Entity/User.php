@@ -13,119 +13,73 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
- *
- * @ORM\Table(name="user_db",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"user_name"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"username"}, message="This username is already taken")
- *
- * @ApiResource(
- *  collectionOperations={"get": {"normalization_context": {"groups": {"item", "user:list"}}}},
- *  itemOperations={"get": {"normalization_context": {"groups": {"item", "user:item"}}}},
- *  order={"name": "ASC"},
- *  paginationEnabled=false
- * )
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'user_db')]
+#[ORM\UniqueConstraint(name: 'uk_user_db__username', columns: ['user_name'])]
+#[UniqueEntity(fields: ['username'], message: 'This username is already taken')]
+#[ApiResource(
+  collectionOperations: [
+    'get' => ['normalization_context' => ['groups' => ['item', 'user:list']]],
+  ],
+  itemOperations: [
+    'get' => ['normalization_context' => ['groups' => ['item', 'user:item']]],
+  ],
+  order: ['name' => 'ASC'],
+  paginationEnabled: false
+)]
 class User extends AbstractTimestampedEntity implements UserInterface, PasswordAuthenticatedUserInterface {
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="id", type="integer", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
-   *
-   * @Groups({"item"})
-   */
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  #[Groups(groups: ['item'])]
   private int $id;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_name", type="string", length=255, nullable=false, unique=true)
-   */
-  private $username;
+  #[ORM\Column(name: 'user_name', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $username;
+
+  #[ORM\Column(name: 'user_full_name', type: 'string', length: 255, nullable: false)]
+  #[Groups(groups: ['item'])]
+  private string $name;
+
+  #[ORM\Column(name: 'user_email', type: 'string', length: 255, nullable: true)]
+  private ?string $email = null;
+
+  #[Assert\NotBlank]
+  #[Assert\Length(
+    min: 8,
+    max: 50,
+    minMessage: 'Your password  must be at least {{ limit }} characters long',
+    maxMessage: 'Your password  cannot be longer than {{ limit }} characters'
+  )]
+  private ?string $plainPassword = null;
+
+  #[ORM\Column(name: 'user_password', type: 'string', length: 255, nullable: false)]
+  #[Assert\NotBlank(allowNull: true)]
+  private ?string $password = null;
+
+  #[ORM\Column(name: 'user_role', type: 'string')]
+  #[Groups(groups: ['item'])]
+  private string $role;
+
+  #[ORM\Column(name: 'salt', type: 'string', length: 255, nullable: true)]
+  private ?string $salt = null;
+
+  #[ORM\Column(name: 'user_institution', type: 'string', length: 255, nullable: true)]
+  #[Groups(groups: ['item'])]
+  private ?string $institution = null;
+
+  #[ORM\Column(name: 'user_is_active', type: 'boolean')]
+  private bool $isActive = true;
+
+  #[ORM\Column(name: 'user_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
   /**
-   * @Assert\NotBlank
-   * @Assert\Length(
-   *      min=8,
-   *      max=50,
-   *      minMessage="Your password  must be at least {{ limit }} characters long",
-   *      maxMessage="Your password  cannot be longer than {{ limit }} characters"
-   * )
+   * Overloads parent getMetadata to return a flat array structure with only date information
    */
-  private $plainPassword;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_password", type="string", length=255, nullable=false)
-   * @Assert\NotBlank(allowNull=true)
-   */
-  private $password;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_email", type="string", length=255, nullable=true)
-   */
-  private $email;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_role", type="string")
-   *
-   * @Groups({"item"})
-   */
-  private $role;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="salt", type="string", length=255, nullable=true)
-   */
-  private $salt;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_full_name", type="string", length=255, nullable=false)
-   * @Groups({"item"})
-   */
-  private $name;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_institution", type="string", length=255, nullable=true)
-   * @Groups({"item"})
-   */
-  private $institution;
-
-  /**
-   * @var int
-   *
-   * @ORM\Column(name="user_is_active", type="smallint")
-   */
-  private $isActive = 1;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="user_comments", type="text", nullable=true)
-   */
-  private $comment;
-
-  /**
-   * Overloads parent getMetadata to return a flat array structure
-   * with only date information
-   *
-   * @Groups({"item"})
-   */
+  #[Groups(groups: ['item'])]
   public function getMetadata(): array {
-    // return parent::getMetadata();
     return [
       'creation' => $this->getMetaCreationDate(),
       'update' => $this->getMetaUpdateDate(),
@@ -167,8 +121,7 @@ class User extends AbstractTimestampedEntity implements UserInterface, PasswordA
   }
 
   /**
-   * Get user identifier
-   * is used since 5.3 instead of deprecated getUsername
+   * Get user identifier is used since 5.3 instead of deprecated getUsername
    */
   public function getUserIdentifier(): string {
     return $this->username;

@@ -4,419 +4,209 @@ namespace App\Entity;
 
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TaxonIdentification
- *
- * @ORM\Table(name="identified_species",
- *  indexes={
- *      @ORM\Index(name="IDX_801C3911B669F53D", columns={"type_material_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DFB5F790", columns={"identification_criterion_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DA30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DCDD1F756", columns={"external_sequence_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D40D80ECD", columns={"external_biological_material_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D54DBBD4D", columns={"internal_biological_material_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D7B09E3BC", columns={"taxon_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D5F2C6176", columns={"specimen_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D5BE90E48", columns={"internal_sequence_fk"})})
- * @ORM\Entity
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * Identification of taxon based on different criteria
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'identified_species')]
+#[ORM\Index(name: 'IDX_801C3911B669F53D', columns: ['type_material_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DFB5F790', columns: ['identification_criterion_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DA30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DCDD1F756', columns: ['external_sequence_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D40D80ECD', columns: ['external_biological_material_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D54DBBD4D', columns: ['internal_biological_material_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D7B09E3BC', columns: ['taxon_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D5F2C6176', columns: ['specimen_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D5BE90E48', columns: ['internal_sequence_fk'])]
 class TaxonIdentification extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="identified_species_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  private int $id;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="identification_date", type="date", nullable=true)
-	 */
-	private $identificationDate;
+  #[ORM\ManyToOne(targetEntity: 'Taxon')]
+  #[ORM\JoinColumn(name: 'taxon_fk', referencedColumnName: 'id', nullable: false)]
+  private Taxon $taxon;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="identified_species_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  #[ORM\Column(name: 'identification_date', type: 'date', nullable: true)]
+  private ?\DateTime $identificationDate = null;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
-	 */
-	private $materialType;
+  #[ORM\Column(name: 'identified_species_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $identificationCriterion;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'type_material_voc_fk', referencedColumnName: 'id', nullable: true)]
+  private ?Voc $materialType = null;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $datePrecision;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'identification_criterion_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $identificationCriterion;
 
-	/**
-	 * @var ExternalSequence
-	 *
-	 * @ORM\ManyToOne(targetEntity="ExternalSequence", inversedBy="taxonIdentifications")
-	 * @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-	 */
-	private $externalSequence;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $datePrecision;
 
-	/**
-	 * @var ExternalLot
-	 *
-	 * @ORM\ManyToOne(targetEntity="ExternalLot", inversedBy="taxonIdentifications")
-	 * @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-	 */
-	private $externalLot;
+  #[ORM\ManyToOne(targetEntity: 'ExternalSequence', inversedBy: 'taxonIdentifications')]
+  #[ORM\JoinColumn(name: 'external_sequence_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+  private ?ExternalSequence $externalSequence = null;
 
-	/**
-	 * @var InternalLot
-	 *
-	 * @ORM\ManyToOne(targetEntity="InternalLot", inversedBy="taxonIdentifications")
-	 * @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-	 */
-	private $internalLot;
+  #[ORM\ManyToOne(targetEntity: 'ExternalLot', inversedBy: 'taxonIdentifications')]
+  #[ORM\JoinColumn(name: 'external_biological_material_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+  private ?ExternalLot $externalLot = null;
 
-	/**
-	 * @var Taxon
-	 *
-	 * @ORM\ManyToOne(targetEntity="Taxon")
-	 * @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $taxon;
+  #[ORM\ManyToOne(targetEntity: 'InternalLot', inversedBy: 'taxonIdentifications')]
+  #[ORM\JoinColumn(name: 'internal_biological_material_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+  private ?InternalLot $internalLot = null;
 
-	/**
-	 * @var Specimen
-	 *
-	 * @ORM\ManyToOne(targetEntity="Specimen", inversedBy="taxonIdentifications")
-	 * @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-	 */
-	private $specimen;
+  #[ORM\ManyToOne(targetEntity: 'Specimen', inversedBy: 'taxonIdentifications')]
+  #[ORM\JoinColumn(name: 'specimen_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+  private ?Specimen $specimen = null;
 
-	/**
-	 * @var InternalSequence
-	 *
-	 * @ORM\ManyToOne(targetEntity="InternalSequence", inversedBy="taxonIdentifications")
-	 * @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-	 */
-	private $internalSequence;
+  #[ORM\ManyToOne(targetEntity: 'InternalSequence', inversedBy: 'taxonIdentifications')]
+  #[ORM\JoinColumn(name: 'internal_sequence_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+  private ?InternalSequence $internalSequence = null;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-	 * @ORM\JoinTable(name="species_is_identified_by",
-	 *  joinColumns={@ORM\JoinColumn(name="identified_species_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $curators;
+  #[ORM\ManyToMany(targetEntity: 'Person', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'species_is_identified_by')]
+  #[ORM\JoinColumn(name: 'identified_species_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'person_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $curators;
 
-	public function __construct() {
-		$this->curators = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->curators = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set identificationDate
-	 *
-	 * @param \DateTime $identificationDate
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setIdentificationDate($identificationDate) {
-		$this->identificationDate = $identificationDate;
+  public function setIdentificationDate(?\DateTime $identificationDate): self {
+    $this->identificationDate = $identificationDate;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get identificationDate
-	 *
-	 * @return \DateTime
-	 */
-	public function getIdentificationDate() {
-		return $this->identificationDate;
-	}
+  public function getIdentificationDate(): \DateTime {
+    return $this->identificationDate;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Set identificationCriterion
-	 *
-	 * @param Voc $identificationCriterion
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setIdentificationCriterion(
-		Voc $identificationCriterion = null,
-	) {
-		$this->identificationCriterion = $identificationCriterion;
+  public function setIdentificationCriterion(Voc $identificationCriterion): self {
+    $this->identificationCriterion = $identificationCriterion;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get identificationCriterion
-	 *
-	 * @return Voc
-	 */
-	public function getIdentificationCriterion() {
-		return $this->identificationCriterion;
-	}
+  public function getIdentificationCriterion(): Voc {
+    return $this->identificationCriterion;
+  }
 
-	/**
-	 * Set datePrecision
-	 *
-	 * @param Voc $datePrecision
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setDatePrecision(Voc $datePrecision = null) {
-		$this->datePrecision = $datePrecision;
+  public function setDatePrecision(Voc $datePrecision): self {
+    $this->datePrecision = $datePrecision;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get datePrecision
-	 *
-	 * @return Voc
-	 */
-	public function getDatePrecision() {
-		return $this->datePrecision;
-	}
+  public function getDatePrecision(): Voc {
+    return $this->datePrecision;
+  }
 
-	/**
-	 * Set externalSequence
-	 *
-	 * @param ExternalSequence $externalSequence
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setExternalSequence(
-		ExternalSequence $externalSequence = null,
-	) {
-		$this->externalSequence = $externalSequence;
+  public function setExternalSequence(?ExternalSequence $externalSequence): self {
+    $this->externalSequence = $externalSequence;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get externalSequence
-	 *
-	 * @return ExternalSequence
-	 */
-	public function getExternalSequence() {
-		return $this->externalSequence;
-	}
+  public function getExternalSequence(): ?ExternalSequence {
+    return $this->externalSequence;
+  }
 
-	/**
-	 * Set externalLot
-	 *
-	 * @param ExternalLot $externalLot
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setExternalLot(ExternalLot $externalLot = null) {
-		$this->externalLot = $externalLot;
+  public function setExternalLot(?ExternalLot $externalLot): self {
+    $this->externalLot = $externalLot;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get externalLot
-	 *
-	 * @return ExternalLot
-	 */
-	public function getExternalLot() {
-		return $this->externalLot;
-	}
+  public function getExternalLot(): ?ExternalLot {
+    return $this->externalLot;
+  }
 
-	/**
-	 * Set internalLot
-	 *
-	 * @param InternalLot $internalLot
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setInternalLot(InternalLot $internalLot = null) {
-		$this->internalLot = $internalLot;
+  public function setInternalLot(?InternalLot $internalLot): self {
+    $this->internalLot = $internalLot;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get internalLot
-	 *
-	 * @return InternalLot
-	 */
-	public function getInternalLot() {
-		return $this->internalLot;
-	}
+  public function getInternalLot(): ?InternalLot {
+    return $this->internalLot;
+  }
 
-	/**
-	 * Set taxon
-	 *
-	 * @param Taxon $taxon
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setTaxon(Taxon $taxon = null) {
-		$this->taxon = $taxon;
+  public function setTaxon(Taxon $taxon): self {
+    $this->taxon = $taxon;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get taxon
-	 *
-	 * @return Taxon
-	 */
-	public function getTaxon() {
-		return $this->taxon;
-	}
+  public function getTaxon(): Taxon {
+    return $this->taxon;
+  }
 
-	/**
-	 * Set specimen
-	 *
-	 * @param Specimen $specimen
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setSpecimen(Specimen $specimen = null) {
-		$this->specimen = $specimen;
+  public function setSpecimen(?Specimen $specimen): self {
+    $this->specimen = $specimen;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get specimen
-	 *
-	 * @return Specimen
-	 */
-	public function getSpecimen() {
-		return $this->specimen;
-	}
+  public function getSpecimen(): ?Specimen {
+    return $this->specimen;
+  }
 
-	/**
-	 * Set internalSequence
-	 *
-	 * @param InternalSequence $internalSequence
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setInternalSequence(
-		InternalSequence $internalSequence = null,
-	) {
-		$this->internalSequence = $internalSequence;
+  public function setInternalSequence(?InternalSequence $internalSequence): self {
+    $this->internalSequence = $internalSequence;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get internalSequence
-	 *
-	 * @return InternalSequence
-	 */
-	public function getInternalSequence() {
-		return $this->internalSequence;
-	}
+  public function getInternalSequence(): ?InternalSequence {
+    return $this->internalSequence;
+  }
 
-	/**
-	 * Add curator
-	 *
-	 * @param Person $curator
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function addCurator(Person $curator) {
-		$this->curators[] = $curator;
-		return $this;
-	}
+  public function addCurator(Person $curator): self {
+    $this->curators[] = $curator;
 
-	/**
-	 * Remove curator
-	 *
-	 * @param Person $curator
-	 */
-	public function removeCurator(Person $curator) {
-		$this->curators->removeElement($curator);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get curators
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getCurators() {
-		return $this->curators;
-	}
+  public function removeCurator(Person $curator): self {
+    $this->curators->removeElement($curator);
 
-	/**
-	 * Set materialType
-	 *
-	 * @param Voc $materialType
-	 *
-	 * @return TaxonIdentification
-	 */
-	public function setMaterialType(Voc $materialType = null) {
-		$this->materialType = $materialType;
+    return $this;
+  }
 
-		return $this;
-	}
+  public function getCurators(): Collection {
+    return $this->curators;
+  }
 
-	/**
-	 * Get materialType
-	 *
-	 * @return Voc
-	 */
-	public function getMaterialType() {
-		return $this->materialType;
-	}
+  public function setMaterialType(?Voc $materialType): self {
+    $this->materialType = $materialType;
+
+    return $this;
+  }
+
+  public function getMaterialType(): ?Voc {
+    return $this->materialType;
+  }
 }

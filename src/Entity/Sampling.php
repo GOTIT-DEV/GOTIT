@@ -4,545 +4,300 @@ namespace App\Entity;
 
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use App\Entity\Abstraction\CompositeCodeEntityTrait;
-use App\Entity\TargetTaxon;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Sampling
- *
- * @ORM\Table(name="sampling",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_sampling__sample_code", columns={"sample_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_55AE4A3DA30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_55AE4A3D50BB334E", columns={"donation_voc_fk"}),
- *      @ORM\Index(name="IDX_55AE4A3D369AB36B", columns={"site_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * A biological material sampling operation
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sampling')]
+#[ORM\UniqueConstraint(name: 'uk_sampling__sample_code', columns: ['sample_code'])]
+#[ORM\Index(name: 'IDX_55AE4A3DA30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_55AE4A3D50BB334E', columns: ['donation_voc_fk'])]
+#[ORM\Index(name: 'IDX_55AE4A3D369AB36B', columns: ['site_fk'])]
+#[UniqueEntity(fields: ['code'], message: 'This code is already registered')]
 class Sampling extends AbstractTimestampedEntity {
-	use CompositeCodeEntityTrait;
+  use CompositeCodeEntityTrait;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="sampling_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="sample_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  #[ORM\Column(name: 'sample_code', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $code;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="sampling_date", type="date", nullable=true)
-	 */
-	private $date;
+  #[ORM\Column(name: 'sampling_date', type: 'date', nullable: true)]
+  private ?\DateTime $date = null;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="sampling_duration", type="integer", nullable=true)
-	 */
-	private $durationMn;
+  #[ORM\Column(name: 'sampling_duration', type: 'integer', nullable: true)]
+  private ?int $durationMn = null;
 
-	/**
-	 * @var float
-	 *
-	 * @ORM\Column(name="temperature", type="float", precision=10, scale=0, nullable=true)
-	 */
-	private $temperatureC;
+  #[ORM\Column(name: 'temperature', type: 'float', precision: 10, scale: 0, nullable: true)]
+  private ?float $temperatureC = null;
 
-	/**
-	 * @var float
-	 *
-	 * @ORM\Column(name="specific_conductance", type="float", precision=10, scale=0, nullable=true)
-	 */
-	private $conductanceMicroSieCm;
+  #[ORM\Column(name: 'specific_conductance', type: 'float', precision: 10, scale: 0, nullable: true)]
+  private ?float $conductanceMicroSieCm = null;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="sample_status", type="smallint", nullable=false)
-	 */
-	private $status;
+  #[ORM\Column(name: 'sample_status', type: 'boolean', nullable: false)]
+  private bool $status;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="sampling_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  #[ORM\Column(name: 'sampling_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $datePrecision;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $datePrecision;
 
-	/**
-	 * @var Voc
-	 *
-	 * @ORM\ManyToOne(targetEntity="Voc", fetch="EAGER")
-	 * @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $donation;
+  #[ORM\ManyToOne(targetEntity: 'Voc', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'donation_voc_fk', referencedColumnName: 'id', nullable: false)]
+  private Voc $donation;
 
-	/**
-	 * @var Site
-	 *
-	 * @ORM\ManyToOne(targetEntity="Site", fetch="EAGER")
-	 * @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
-	 */
-	private $site;
+  #[ORM\ManyToOne(targetEntity: 'Site', fetch: 'EAGER')]
+  #[ORM\JoinColumn(name: 'site_fk', referencedColumnName: 'id', nullable: false)]
+  private Site $site;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Voc", cascade={"persist"})
-	 * @ORM\JoinTable(name="sampling_is_done_with_method",
-	 *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="sampling_method_voc_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $methods;
+  #[ORM\ManyToMany(targetEntity: 'Voc', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'sampling_is_done_with_method')]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'sampling_method_voc_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $methods;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Voc", cascade={"persist"})
-	 * @ORM\JoinTable(name="sample_is_fixed_with",
-	 *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="fixative_voc_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $fixatives;
+  #[ORM\ManyToMany(targetEntity: 'Voc', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'sample_is_fixed_with')]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'fixative_voc_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $fixatives;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Program", cascade={"persist"})
-	 * @ORM\JoinTable(name="sampling_is_funded_by",
-	 *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="program_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $fundings;
+  #[ORM\ManyToMany(targetEntity: 'Program', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'sampling_is_funded_by')]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'program_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $fundings;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-	 * @ORM\JoinTable(name="sampling_is_performed_by",
-	 *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $participants;
+  #[ORM\ManyToMany(targetEntity: 'Person', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'sampling_is_performed_by')]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'person_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $participants;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Taxon", cascade={"persist"})
-	 * @ORM\JoinTable(name="has_targeted_taxa",
-	 *  joinColumns={@ORM\JoinColumn(name="sampling_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="taxon_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $targetTaxons;
+  #[ORM\ManyToMany(targetEntity: 'Taxon', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'has_targeted_taxa')]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'taxon_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $targetTaxons;
 
-	public function __construct() {
-		$this->methods = new ArrayCollection();
-		$this->fixatives = new ArrayCollection();
-		$this->fundings = new ArrayCollection();
-		$this->participants = new ArrayCollection();
-		$this->targetTaxons = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->methods = new ArrayCollection();
+    $this->fixatives = new ArrayCollection();
+    $this->fundings = new ArrayCollection();
+    $this->participants = new ArrayCollection();
+    $this->targetTaxons = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return string
-	 */
-	public function getId(): ?string {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return Sampling
-	 */
-	public function setCode($code): Sampling {
-		$this->code = $code;
-		return $this;
-	}
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode(): ?string {
-		return $this->code;
-	}
+    return $this;
+  }
 
-	private function _generateCode() {
-		$precision = $this->getDatePrecision()->getCode();
-		$date = $this->getDate();
-		$formats = [
-			"A" => "Y00",
-			"M" => "Ym",
-			"J" => "Ym",
-			"INC" => "000000",
-		];
-		return join("_", [
-			$this->getSite()->getCode(),
-			$date->format($formats[$precision]),
-		]);
-	}
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Set date
-	 *
-	 * @param \DateTime $date
-	 *
-	 * @return Sampling
-	 */
-	public function setDate($date): Sampling {
-		$this->date = $date;
-		return $this;
-	}
+  public function setDate(?\DateTime $date): self {
+    $this->date = $date;
 
-	/**
-	 * Get date
-	 *
-	 * @return \DateTime
-	 */
-	public function getDate(): ?\DateTime {
-		return $this->date;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set durationMn
-	 *
-	 * @param integer $durationMn
-	 *
-	 * @return Sampling
-	 */
-	public function setDurationMn($durationMn) {
-		$this->durationMn = $durationMn;
-		return $this;
-	}
+  public function getDate(): ?\DateTime {
+    return $this->date;
+  }
 
-	/**
-	 * Get durationMn
-	 *
-	 * @return integer
-	 */
-	public function getDurationMn() {
-		return $this->durationMn;
-	}
+  public function setDurationMn(?int $durationMn): self {
+    $this->durationMn = $durationMn;
 
-	/**
-	 * Set temperatureC
-	 *
-	 * @param float $temperatureC
-	 *
-	 * @return Sampling
-	 */
-	public function setTemperatureC($temperatureC) {
-		$this->temperatureC = $temperatureC;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get temperatureC
-	 *
-	 * @return float
-	 */
-	public function getTemperatureC() {
-		return $this->temperatureC;
-	}
+  public function getDurationMn(): ?int {
+    return $this->durationMn;
+  }
 
-	/**
-	 * Set conductanceMicroSieCm
-	 *
-	 * @param float $conductanceMicroSieCm
-	 *
-	 * @return Sampling
-	 */
-	public function setConductanceMicroSieCm($conductanceMicroSieCm) {
-		$this->conductanceMicroSieCm = $conductanceMicroSieCm;
-		return $this;
-	}
+  public function setTemperatureC(?float $temperatureC): self {
+    $this->temperatureC = $temperatureC;
 
-	/**
-	 * Get conductanceMicroSieCm
-	 *
-	 * @return float
-	 */
-	public function getConductanceMicroSieCm() {
-		return $this->conductanceMicroSieCm;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set status
-	 *
-	 * @param integer $status
-	 *
-	 * @return Sampling
-	 */
-	public function setStatus($status) {
-		$this->status = $status;
-		return $this;
-	}
+  public function getTemperatureC(): ?float {
+    return $this->temperatureC;
+  }
 
-	/**
-	 * Get status
-	 *
-	 * @return integer
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
+  public function setConductanceMicroSieCm(?float $conductanceMicroSieCm): self {
+    $this->conductanceMicroSieCm = $conductanceMicroSieCm;
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Sampling
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getConductanceMicroSieCm(): ?float {
+    return $this->conductanceMicroSieCm;
+  }
 
-	/**
-	 * Set datePrecision
-	 *
-	 * @param \App\Entity\Voc $datePrecision
-	 *
-	 * @return Sampling
-	 */
-	public function setDatePrecision(\App\Entity\Voc $datePrecision = null) {
-		$this->datePrecision = $datePrecision;
-		return $this;
-	}
+  public function setStatus(bool $status): self {
+    $this->status = $status;
 
-	/**
-	 * Get datePrecision
-	 *
-	 * @return \App\Entity\Voc
-	 */
-	public function getDatePrecision() {
-		return $this->datePrecision;
-	}
+    return $this;
+  }
 
-	/**
-	 * Set donation
-	 *
-	 * @param \App\Entity\Voc $donation
-	 *
-	 * @return Sampling
-	 */
-	public function setDonation(\App\Entity\Voc $donation = null) {
-		$this->donation = $donation;
-		return $this;
-	}
+  public function getStatus(): bool {
+    return $this->status;
+  }
 
-	/**
-	 * Get donation
-	 *
-	 * @return \App\Entity\Voc
-	 */
-	public function getDonation() {
-		return $this->donation;
-	}
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-	/**
-	 * Set site
-	 *
-	 * @param \App\Entity\Site $site
-	 *
-	 * @return Sampling
-	 */
-	public function setSite(\App\Entity\Site $site = null) {
-		$this->site = $site;
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get site
-	 *
-	 * @return \App\Entity\Site
-	 */
-	public function getSite() {
-		return $this->site;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Add method
-	 *
-	 * @param Voc $method
-	 *
-	 * @return Sampling
-	 */
-	public function addMethod(Voc $method) {
-		$this->methods[] = $method;
-		return $this;
-	}
+  public function setDatePrecision(Voc $datePrecision): self {
+    $this->datePrecision = $datePrecision;
 
-	/**
-	 * Remove method
-	 *
-	 * @param Voc $method
-	 */
-	public function removeMethod(Voc $method) {
-		$this->methods->removeElement($method);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get methods
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getMethods() {
-		return $this->methods;
-	}
+  public function getDatePrecision(): Voc {
+    return $this->datePrecision;
+  }
 
-	/**
-	 * Add fixative
-	 *
-	 * @param Voc $fixative
-	 *
-	 * @return Sampling
-	 */
-	public function addFixative(Voc $fixative) {
-		$this->fixatives[] = $fixative;
-		return $this;
-	}
+  public function setDonation(Voc $donation): self {
+    $this->donation = $donation;
 
-	/**
-	 * Remove fixative
-	 *
-	 * @param Voc $fixative
-	 */
-	public function removeFixative(Voc $fixative) {
-		$this->fixatives->removeElement($fixative);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get fixatives
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getFixatives() {
-		return $this->fixatives;
-	}
+  public function getDonation(): Voc {
+    return $this->donation;
+  }
 
-	/**
-	 * Add funding
-	 *
-	 * @param Program $funding
-	 *
-	 * @return Sampling
-	 */
-	public function addFunding(Program $funding) {
-		$this->fundings[] = $funding;
-		return $this;
-	}
+  public function setSite(Site $site): self {
+    $this->site = $site;
 
-	/**
-	 * Remove funding
-	 *
-	 * @param Program $funding
-	 */
-	public function removeFunding(Program $funding) {
-		$this->fundings->removeElement($funding);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get fundings
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getFundings() {
-		return $this->fundings;
-	}
+  public function getSite(): Site {
+    return $this->site;
+  }
 
-	/**
-	 * Add participant
-	 *
-	 * @param Person $participant
-	 *
-	 * @return Sampling
-	 */
-	public function addParticipant(Person $participant) {
-		$this->participants[] = $participant;
-		return $this;
-	}
+  public function addMethod(Voc $method): self {
+    $this->methods[] = $method;
 
-	/**
-	 * Remove participant
-	 *
-	 * @param Person $participant
-	 */
-	public function removeParticipant(Person $participant) {
-		$this->participants->removeElement($participant);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get participants
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getParticipants() {
-		return $this->participants;
-	}
+  public function removeMethod(Voc $method): self {
+    $this->methods->removeElement($method);
 
-	/**
-	 * Add taxon sampling
-	 *
-	 * @param Taxon$targetTaxon
-	 *
-	 * @return Sampling
-	 */
-	public function addTargetTaxon(Taxon $taxon) {
-		$this->targetTaxons[] = $taxon;
+    return $this;
+  }
 
-		return $this;
-	}
+  public function getMethods(): Collection {
+    return $this->methods;
+  }
 
-	/**
-	 * Remove taxon sampling
-	 *
-	 * @param Taxon$targetTaxon
-	 */
-	public function removeTargetTaxon(Taxon $taxon) {
-		$this->targetTaxons->removeElement($taxon);
-	}
+  public function addFixative(Voc $fixative): self {
+    $this->fixatives[] = $fixative;
 
-	/**
-	 * Get targetTaxons
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getTargetTaxons() {
-		return $this->targetTaxons;
-	}
+    return $this;
+  }
+
+  public function removeFixative(Voc $fixative): self {
+    $this->fixatives->removeElement($fixative);
+
+    return $this;
+  }
+
+  public function getFixatives(): Collection {
+    return $this->fixatives;
+  }
+
+  public function addFunding(Program $funding): self {
+    $this->fundings[] = $funding;
+
+    return $this;
+  }
+
+  public function removeFunding(Program $funding): self {
+    $this->fundings->removeElement($funding);
+
+    return $this;
+  }
+
+  public function getFundings(): Collection {
+    return $this->fundings;
+  }
+
+  public function addParticipant(Person $participant): self {
+    $this->participants[] = $participant;
+
+    return $this;
+  }
+
+  public function removeParticipant(Person $participant): self {
+    $this->participants->removeElement($participant);
+
+    return $this;
+  }
+
+  public function getParticipants(): Collection {
+    return $this->participants;
+  }
+
+  public function addTargetTaxon(Taxon $taxon): self {
+    $this->targetTaxons[] = $taxon;
+
+    return $this;
+  }
+
+  public function removeTargetTaxon(Taxon $taxon): self {
+    $this->targetTaxons->removeElement($taxon);
+
+    return $this;
+  }
+
+  public function getTargetTaxons(): Collection {
+    return $this->targetTaxons;
+  }
+
+  private function _generateCode() {
+    $precision = $this->getDatePrecision()
+      ->getCode();
+    $date = $this->getDate();
+    $formats = [
+      'A' => 'Y00',
+      'M' => 'Ym',
+      'J' => 'Ym',
+      'INC' => '000000',
+    ];
+
+    return join('_', [$this->getSite()->getCode(), $date->format($formats[$precision])]);
+  }
 }

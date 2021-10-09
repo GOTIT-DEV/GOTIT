@@ -4,194 +4,103 @@ namespace App\Entity;
 
 use App\Entity\Abstraction\AbstractTimestampedEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Source
- *
- * @ORM\Table(name="source",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_source__source_code", columns={"source_code"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code"}, message="This code is already registered")
- * @author Philippe Grison  <philippe.grison@mnhn.fr>
+ * A bibliographical source
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'source')]
+#[ORM\UniqueConstraint(name: 'uk_source__source_code', columns: ['source_code'])]
+#[UniqueEntity(fields: ['code'], message: 'This code is already registered')]
 class Source extends AbstractTimestampedEntity {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
-	 * @ORM\SequenceGenerator(sequenceName="source_id_seq", allocationSize=1, initialValue=1)
-	 */
-	private int $id;
+  #[ORM\Id]
+  #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+  #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+  private int $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="source_code", type="string", length=255, nullable=false, unique=true)
-	 */
-	private $code;
+  #[ORM\Column(name: 'source_code', type: 'string', length: 255, nullable: false, unique: true)]
+  private string $code;
 
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="source_year", type="integer", nullable=true)
-	 */
-	private $year;
+  #[ORM\Column(name: 'source_title', type: 'string', length: 2048, nullable: false)]
+  private string $title;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="source_title", type="string", length=2048, nullable=false)
-	 */
-	private $title;
+  #[ORM\Column(name: 'source_year', type: 'smallint', nullable: true)]
+  private ?int $year = null;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="source_comments", type="text", nullable=true)
-	 */
-	private $comment;
+  #[ORM\Column(name: 'source_comments', type: 'text', nullable: true)]
+  private ?string $comment = null;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
-	 * @ORM\JoinTable(name="source_is_entered_by",
-	 *  joinColumns={@ORM\JoinColumn(name="source_fk", referencedColumnName="id")},
-	 *  inverseJoinColumns={@ORM\JoinColumn(name="person_fk", referencedColumnName="id")})
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 */
-	protected $providers;
+  #[ORM\ManyToMany(targetEntity: 'Person', cascade: ['persist'])]
+  #[ORM\JoinTable(name: 'source_is_entered_by')]
+  #[ORM\JoinColumn(name: 'source_fk', referencedColumnName: 'id')]
+  #[ORM\InverseJoinColumn(name: 'person_fk', referencedColumnName: 'id')]
+  #[ORM\OrderBy(value: ['id' => 'ASC'])]
+  private array|Collection|ArrayCollection $providers;
 
-	public function __construct() {
-		$this->providers = new ArrayCollection();
-	}
+  public function __construct() {
+    $this->providers = new ArrayCollection();
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId() {
-		return $this->id;
-	}
+  public function getId(): int {
+    return $this->id;
+  }
 
-	/**
-	 * Set code
-	 *
-	 * @param string $code
-	 *
-	 * @return Source
-	 */
-	public function setCode($code) {
-		$this->code = $code;
+  public function setCode(string $code): self {
+    $this->code = $code;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get code
-	 *
-	 * @return string
-	 */
-	public function getCode() {
-		return $this->code;
-	}
+  public function getCode(): string {
+    return $this->code;
+  }
 
-	/**
-	 * Set year
-	 *
-	 * @param integer $year
-	 *
-	 * @return Source
-	 */
-	public function setYear($year) {
-		$this->year = $year;
+  public function setYear(?int $year): self {
+    $this->year = $year;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get year
-	 *
-	 * @return integer
-	 */
-	public function getYear() {
-		return $this->year;
-	}
+  public function getYear(): ?int {
+    return $this->year;
+  }
 
-	/**
-	 * Set title
-	 *
-	 * @param string $title
-	 *
-	 * @return Source
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
+  public function setTitle(string $title): self {
+    $this->title = $title;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get title
-	 *
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+  public function getTitle(): string {
+    return $this->title;
+  }
 
-	/**
-	 * Set comment
-	 *
-	 * @param string $comment
-	 *
-	 * @return Source
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
+  public function setComment(?string $comment): self {
+    $this->comment = $comment;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	/**
-	 * Get comment
-	 *
-	 * @return string
-	 */
-	public function getComment() {
-		return $this->comment;
-	}
+  public function getComment(): ?string {
+    return $this->comment;
+  }
 
-	/**
-	 * Add provider
-	 *
-	 * @param Person $provider
-	 *
-	 * @return Source
-	 */
-	public function addProvider(Person $provider) {
-		$this->providers[] = $provider;
-		return $this;
-	}
+  public function addProvider(Person $provider): self {
+    $this->providers[] = $provider;
 
-	/**
-	 * Remove provider
-	 *
-	 * @param Person $provider
-	 */
-	public function removeProvider(Person $provider) {
-		$this->providers->removeElement($provider);
-	}
+    return $this;
+  }
 
-	/**
-	 * Get providers
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getProviders() {
-		return $this->providers;
-	}
+  public function removeProvider(Person $provider): self {
+    $this->providers->removeElement($provider);
+
+    return $this;
+  }
+
+  public function getProviders(): Collection {
+    return $this->providers;
+  }
 }
