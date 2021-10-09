@@ -25,16 +25,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A DNA sample extracted from a Specimen
  */
 #[ApiResource(
+  attributes: ['security' => '"IS_AUTHENTICATED_FULLY"'],
   itemOperations: [
     'get' => ['normalization_context' => ['groups' => ['item', 'dna:item']]],
-    'delete' => ['security' => "is_granted('ROLE_COLLABORATION') and object.getMetaCreationUser() == user"],
+    'delete' => [
+      'security' => 'is_granted("ROLE_ADMIN") or
+      (is_granted("ROLE_COLLABORATION") and object.getMetaCreationUser() == user)',
+    ],
   ],
   collectionOperations: [
     'get' => ['normalization_context' => ['groups' => ['item', 'dna:list']]],
     'post' => [
       'normalization_context' => ['groups' => ['item', 'dna:item']],
       'denormalization_context' => ['groups' => ['dna:write']],
-      'security' => "is_granted('ROLE_COLLABORATION')",
+      'security' => 'is_granted("ROLE_COLLABORATION")',
     ],
     'import' => [
       'method' => 'POST',

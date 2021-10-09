@@ -9,15 +9,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class DnaCRUDCest {
   protected $router;
 
-  private function generateRoute(string $route, array $params = []) {
-    return $this->router->generate(
-      $route,
-      $params,
-      UrlGeneratorInterface::ABSOLUTE_URL);
-  }
-
   public function _before(ApiTester $I) {
-    $I->setAuth('admin_testing', 'admintesting', 'ROLE_ADMIN');
+    $user = $I->setAuth('admin_testing', 'admintesting', 'ROLE_ADMIN');
+    // $encoder = $I->grabService('security.user_password_hasher');
+    // $I->haveInRepository('App\Entity\User', [
+    //   'username' => 'admin_testing',
+    //   'isActive' => true,
+    //   'name' => 'admin_testing',
+    //   'role' => 'ROLE_ADMIN',
+    //   'password' => $encoder->hashPassword(new \App\Entity\User(), 'admintesting'),
+    // ]);
+    // $I->amHttpAuthenticated('admin_testing', 'admintesting');
     $I->haveHttpHeader('accept', 'application/json');
     $this->router = $I->grabService('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
   }
@@ -25,9 +27,10 @@ class DnaCRUDCest {
   public function testDnaDeletion(ApiTester $I) {
     $I->wantTo('Check successful DNA deletion');
     $dna = $I->have('App\\Entity\\Dna');
-    $I->sendDelete($this->generateRoute('api_dnas_delete_item', ['id' => $dna->getId()]));
+    $dnaId = $dna->getId();
+    $I->sendDelete($this->generateRoute('api_dnas_delete_item', ['id' => $dnaId]));
     $I->seeResponseCodeIs(204);
-    $I->dontSeeInRepository(\App\Entity\Dna::class, ['id' => $dna->getId()]);
+    $I->dontSeeInRepository(\App\Entity\Dna::class, ['id' => $dnaId]);
   }
 
   public function testFailDnaDeletionWithPCR(ApiTester $I) {
@@ -53,5 +56,9 @@ class DnaCRUDCest {
     $I->assertEquals($dna_count, $totalItems[0]);
     $items = $I->grabDataFromResponseByJsonPath('$."hydra:member".*');
     $I->assertCount($dna_count, $items);
+  }
+
+  private function generateRoute(string $route, array $params = []) {
+    return $this->router->generate($route, $params, UrlGeneratorInterface::ABSOLUTE_URL);
   }
 }

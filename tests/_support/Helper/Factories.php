@@ -18,7 +18,9 @@ class Factories extends \Codeception\Module {
     'string' => 'sentence',
     'text' => 'text',
     'bigint' => 'randomNumber',
+    'integer' => 'randomNumber',
     'float' => 'randomFloat',
+    'boolean' => 'boolean',
   ];
 
   protected $fixedValues = [
@@ -26,6 +28,26 @@ class Factories extends \Codeception\Module {
   ];
 
   protected $faker;
+
+  public function _beforeSuite($settings = []) {
+    $this->faker = Factory::create();
+    $validator = Validation::createValidator();
+    /** @var Codeception\Module\DataFactory $factory */
+    $factory = $this->getModule('DataFactory');
+    /** @var Codeception\Module\Doctrine2 $doctrine */
+    $doctrine = $this->getModule('Doctrine2');
+    $em = $doctrine->_getEntityManager();
+    $metadata = $em->getMetadataFactory()->getAllMetadata();
+    foreach ($metadata as $entityMeta) {
+      if (false === $entityMeta->isMappedSuperclass) {
+        $constraintsMeta = $validator
+          ->getMetadataFor($entityMeta->getName())
+          ->getConstraints();
+        $definition = $this->factoryDefFromMetadata($entityMeta, $constraintsMeta);
+        $factory->_define($entityMeta->getName(), $definition);
+      }
+    }
+  }
 
   private function generate(array $mapping, bool $forceUnique) {
     return $this->fixedValues[$mapping['type']] ?? (
@@ -35,7 +57,10 @@ class Factories extends \Codeception\Module {
     );
   }
 
-  private function factoryDefFromMetadata(ClassMetadata $metadata, array $constraintsMeta = []): array {
+  private function factoryDefFromMetadata(
+    ClassMetadata $metadata,
+    array $constraintsMeta = []
+  ): array {
     $definition = [];
     $mappings = $metadata->fieldMappings;
     // dump($metadata->getName());
@@ -57,6 +82,7 @@ class Factories extends \Codeception\Module {
         foreach ($m['joinColumns'] ?? [] as ['nullable' => $nullable]) {
           if (!$nullable) {
             $isNullable = false;
+
             break;
           }
         }
@@ -67,22 +93,5 @@ class Factories extends \Codeception\Module {
     }
 
     return $definition;
-  }
-
-  public function _beforeSuite($settings = []) {
-    $this->faker = Factory::create();
-    $validator = Validation::createValidator();
-    $factory = $this->getModule('DataFactory');
-    $em = $this->getModule('Doctrine2')->_getEntityManager();
-    $metadata = $em->getMetadataFactory()->getAllMetadata();
-    foreach ($metadata as $entityMeta) {
-      if (false === $entityMeta->isMappedSuperclass) {
-        $constraintsMeta = $validator
-          ->getMetadataFor($entityMeta->getName())
-          ->getConstraints();
-        $definition = $this->factoryDefFromMetadata($entityMeta, $constraintsMeta);
-        $factory->_define($entityMeta->getName(), $definition);
-      }
-    }
   }
 }
