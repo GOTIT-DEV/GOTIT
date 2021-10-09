@@ -60,7 +60,7 @@ class DnaCRUDCest {
     $dna = $I->have('App\Entity\Dna');
     $pcr = $I->have('App\Entity\Pcr', ['dna' => $dna]);
     $dna->addPcr($pcr);
-    $I->persistEntity($dna);
+    $I->haveInRepository($dna);
     $I->sendDelete($this->generateRoute('api_dnas_delete_item', ['id' => $dna->getId()]));
     $I->seeResponseCodeIs(HttpCode::UNPROCESSABLE_ENTITY);
   }
