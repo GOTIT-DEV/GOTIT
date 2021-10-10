@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\API\DTO;
 
 use Symfony\Component\Serializer\Annotation\Groups;
 

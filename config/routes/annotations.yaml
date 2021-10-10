@@ -6,7 +6,7 @@ controllers:
     _locale: "%app_locales%"
 
 api:
-  resource: ../../src/Controller/API/
+  resource: ../../src/API/Controller
   type: annotation
   prefix: /api
 

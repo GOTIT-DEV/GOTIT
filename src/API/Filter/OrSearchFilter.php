@@ -1,19 +1,47 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
-namespace App\Filter;
+namespace App\API\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Core\Exception\InvalidArgumentException;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Parameter;
+use Doctrine\ORM\QueryBuilder;
 
 class OrSearchFilter extends SearchFilter {
-  protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null): void {
+  /**
+   * {@inheritdoc}
+   */
+  public function getDescription(string $resourceClass): array {
+    $description = [];
+
+    $properties = $this->getProperties();
+    if (null === $properties) {
+      $properties = array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
+    }
+
+    foreach ($properties as $property => $nullManagement) {
+      if (!$this->isPropertyMapped($property, $resourceClass)) {
+        continue;
+      }
+      $description += $this->getFilterDescription($property);
+    }
+
+    return $description;
+  }
+
+  protected function filterProperty(
+    string $property,
+    $values,
+    QueryBuilder $queryBuilder,
+    QueryNameGeneratorInterface $queryNameGenerator,
+    string $resourceClass,
+    string $operationName = null
+  ): void {
     // Just use this filter for `searchOr` query parameter
-    if ($property !== 'searchOr') {
+    if ('searchOr' !== $property) {
       return;
     }
     $queryJoinParts = [];
@@ -29,7 +57,14 @@ class OrSearchFilter extends SearchFilter {
       $orProperties = explode(',', $fields);
       foreach ($orProperties as $orProperty) {
         // this will include all the nice stuff that the parent class implements before using our adapted `addWhereByStrategy`
-        parent::filterProperty($orProperty, $value, $subQueryBuilder, $queryNameGenerator, $resourceClass, $operationName);
+        parent::filterProperty(
+          $orProperty,
+          $value,
+          $subQueryBuilder,
+          $queryNameGenerator,
+          $resourceClass,
+          $operationName
+        );
       }
 
       // This could result in further join queries so we should add them into our main QueryBuilder
@@ -38,8 +73,12 @@ class OrSearchFilter extends SearchFilter {
 
       // Include updated parameters, we will still have parameters from the original query builder
       foreach ($subQueryBuilder->getParameters() as $parameter) {
-        /** @var Parameter $parameter */
-        $queryBuilder->setParameter($parameter->getName(), $parameter->getValue(), $parameter->getType());
+        // @var Parameter $parameter
+        $queryBuilder->setParameter(
+          $parameter->getName(),
+          $parameter->getValue(),
+          $parameter->getType()
+        );
       }
     }
     $queryBuilder->resetDQLPart('join');
@@ -56,8 +95,18 @@ class OrSearchFilter extends SearchFilter {
 
   /**
    * This method is copied straight from the extended class, swapping `andWhere` for `orWhere`
+   *
+   * @param mixed $values
    */
-  protected function addWhereByStrategy(string $strategy, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $field, $values, bool $caseSensitive): void {
+  protected function addWhereByStrategy(
+    string $strategy,
+    QueryBuilder $queryBuilder,
+    QueryNameGeneratorInterface $queryNameGenerator,
+    string $alias,
+    string $field,
+    $values,
+    bool $caseSensitive
+  ): void {
     if (!\is_array($values)) {
       $values = [$values];
     }
@@ -77,7 +126,10 @@ class OrSearchFilter extends SearchFilter {
 
       $queryBuilder
         ->orWhere($queryBuilder->expr()->in($wrapCase($aliasedField), $valueParameter))
-        ->setParameter($valueParameter, $caseSensitive ? $values : array_map('strtolower', $values));
+        ->setParameter(
+          $valueParameter,
+          $caseSensitive ? $values : array_map('strtolower', $values)
+        );
 
       return;
     }
@@ -94,25 +146,39 @@ class OrSearchFilter extends SearchFilter {
           $wrapCase($aliasedField),
           $wrapCase((string) $queryBuilder->expr()->concat("'%'", $keyValueParameter, "'%'"))
         );
+
         break;
+
       case self::STRATEGY_START:
         $ors[] = $queryBuilder->expr()->like(
           $wrapCase($aliasedField),
           $wrapCase((string) $queryBuilder->expr()->concat($keyValueParameter, "'%'"))
         );
+
         break;
+
       case self::STRATEGY_END:
         $ors[] = $queryBuilder->expr()->like(
           $wrapCase($aliasedField),
           $wrapCase((string) $queryBuilder->expr()->concat("'%'", $keyValueParameter))
         );
+
         break;
+
       case self::STRATEGY_WORD_START:
         $ors[] = $queryBuilder->expr()->orX(
-          $queryBuilder->expr()->like($wrapCase($aliasedField), $wrapCase((string) $queryBuilder->expr()->concat($keyValueParameter, "'%'"))),
-          $queryBuilder->expr()->like($wrapCase($aliasedField), $wrapCase((string) $queryBuilder->expr()->concat("'% '", $keyValueParameter, "'%'")))
+          $queryBuilder->expr()->like(
+            $wrapCase($aliasedField),
+            $wrapCase((string) $queryBuilder->expr()->concat($keyValueParameter, "'%'"))
+          ),
+          $queryBuilder->expr()->like(
+            $wrapCase($aliasedField),
+            $wrapCase((string) $queryBuilder->expr()->concat("'% '", $keyValueParameter, "'%'"))
+          )
         );
+
         break;
+
       default:
         throw new InvalidArgumentException(sprintf('strategy %s does not exist.', $strategy));
       }
@@ -123,38 +189,15 @@ class OrSearchFilter extends SearchFilter {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function getDescription(string $resourceClass): array
-  {
-    $description = [];
-
-    $properties = $this->getProperties();
-    if (null === $properties) {
-      $properties = array_fill_keys($this->getClassMetadata($resourceClass)->getFieldNames(), null);
-    }
-
-    foreach ($properties as $property => $nullManagement) {
-      if (!$this->isPropertyMapped($property, $resourceClass)) {
-        continue;
-      }
-      $description += $this->getFilterDescription($property);
-    }
-
-    return $description;
-  }
-
-  /**
    * Gets filter description.
    */
-  protected function getFilterDescription(string $property): array
-  {
+  protected function getFilterDescription(string $property): array {
     $propertyName = $this->normalizePropertyName($property);
 
     return [
       sprintf('searchOr[%s]', $propertyName) => [
         'property' => $propertyName,
-        'type' => "string",
+        'type' => 'string',
         'required' => false,
       ],
     ];

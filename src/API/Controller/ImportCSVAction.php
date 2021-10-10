@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\API;
+namespace App\API\Controller;
 
 use App\DTO\CsvRecordsRequest;
 use Doctrine\Common\Collections\ArrayCollection;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTransformer;
+namespace App\API\DataTransformer;
 
 use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
@@ -16,6 +16,9 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 
+/**
+ * Data tranformer from CsvRecords DTO to a collection of entities.
+ */
 class CsvRecordsRequestTransformer implements DataTransformerInterface {
   public function __construct(
     private EntityManagerInterface $em,

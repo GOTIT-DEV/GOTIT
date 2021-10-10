@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataPersister;
+namespace App\API\DataPersister;
 
 use ApiPlatform\Core\Bridge\Doctrine\Common\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
@@ -15,10 +15,10 @@ class ValidatedDataPersister implements ContextAwareDataPersisterInterface {
   private $decorated;
 
   public function __construct(
-        private ValidatorInterface $validator,
-        private EntityManagerInterface $em,
-                ManagerRegistry $reg,
-    ) {
+    private ValidatorInterface $validator,
+    private EntityManagerInterface $em,
+    ManagerRegistry $reg,
+  ) {
     $this->decorated = new DataPersister($reg);
   }
 

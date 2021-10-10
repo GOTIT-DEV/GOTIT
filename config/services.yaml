@@ -11,7 +11,7 @@ services:
   _defaults:
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    bind:
+    bind: # made available as arguments with autowiring
       $root_dir: "%kernel.project_dir%"
       $public_dir: "%kernel.project_dir%/public"
   # makes classes in src/ available to be used as services
@@ -35,17 +35,9 @@ services:
           entity: 'App\Entity\Abstraction\AbstractTimestampedEntity',
         }
 
-  listener.adduserdate:
-    class: App\Form\EventListener\AddUserDateFields
-    arguments: ["@security.helper"]
-
-  App\Form\EmbedTypes\:
-    resource: "../src/Form/EmbedTypes/**"
-    arguments: ["@listener.adduserdate"]
-
   # API
-  App\DataTransformer\CsvRecordsRequestTransformer: ~
-  App\DataPersister\ValidatedDataPersister:
+  App\API\DataTransformer\CsvRecordsRequestTransformer: ~
+  App\API\DataPersister\ValidatedDataPersister:
     decorates: "api_platform.doctrine.orm.data_persister"
   App\API\OpenApi\OpenApiFactory:
     decorates: "api_platform.openapi.factory"
