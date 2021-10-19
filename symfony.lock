@@ -231,6 +231,9 @@
     "league/factory-muffin-faker": {
         "version": "v2.3.0"
     },
+    "lsdch/symplify-cs-fixer": {
+        "version": "v3.0.0"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },

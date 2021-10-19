@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2d5d2de5a530f052877aed0efd58b29",
+    "content-hash": "cdfbefcdf62eb130ba15bdbb223dbc79",
     "packages": [
         {
             "name": "api-platform/core",
@@ -9607,6 +9607,64 @@
             "time": "2020-12-13T15:53:28+00:00"
         },
         {
+            "name": "lsdch/symplify-cs-fixer",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lsdch/symplify-cs-fixer.git",
+                "reference": "362e8085d084bdcfbd9456b74b8480bbcc3f1c17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lsdch/symplify-cs-fixer/zipball/362e8085d084bdcfbd9456b74b8480bbcc3f1c17",
+                "reference": "362e8085d084bdcfbd9456b74b8480bbcc3f1c17",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "php": ">=7",
+                "symfony/finder": "^5.3",
+                "symfony/yaml": "^5.3",
+                "symplify/coding-standard": "^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SymplifyCsFixer\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "SymplifyCsFixer\\": "tests"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "suin",
+                    "email": "suinyeze@gmail.com",
+                    "homepage": "https://github.com/suin",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Make Symplify Coding Standard's fixers work with PHP-CS-Fixer",
+            "homepage": "https://github.com/lsdch/symplify-cs-fixer",
+            "keywords": [
+                "coding-standards",
+                "coding-style",
+                "php-cs-fixer",
+                "static-analysis",
+                "symplify-coding-standard"
+            ],
+            "support": {
+                "issues": "https://github.com/lsdch/symplify-cs-fixer/issues",
+                "source": "https://github.com/lsdch/symplify-cs-fixer/tree/v3.0.0"
+            },
+            "time": "2021-10-19T14:22:08+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.10.2",
             "source": {
@@ -11876,64 +11934,6 @@
                 }
             ],
             "time": "2021-06-02T22:15:26+00:00"
-        },
-        {
-            "name": "suin/symplify-cs-fixer",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GOTIT-DEV/symplify-cs-fixer.git",
-                "reference": "2b345866a22a41f35d1e006f85a33603d8c18739"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GOTIT-DEV/symplify-cs-fixer/zipball/2b345866a22a41f35d1e006f85a33603d8c18739",
-                "reference": "2b345866a22a41f35d1e006f85a33603d8c18739",
-                "shasum": ""
-            },
-            "require": {
-                "friendsofphp/php-cs-fixer": "^3.2",
-                "php": ">=7",
-                "symfony/finder": "^5.3",
-                "symfony/yaml": "^5.3",
-                "symplify/coding-standard": "^9.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SymplifyCsFixer\\": "src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "SymplifyCsFixer\\": "tests"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "suin",
-                    "email": "suinyeze@gmail.com",
-                    "homepage": "https://github.com/suin",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Make Symplify Coding Standard's fixers work with PHP-CS-Fixer",
-            "homepage": "https://github.com/suin/php",
-            "keywords": [
-                "coding-standards",
-                "coding-style",
-                "php-cs-fixer",
-                "static-analysis",
-                "symplify-coding-standard"
-            ],
-            "support": {
-                "issues": "https://github.com/suin/php/issues",
-                "source": "https://github.com/GOTIT-DEV/symplify-cs-fixer/tree/v3.0.2"
-            },
-            "time": "2021-10-06T18:51:06+00:00"
         },
         {
             "name": "symfony/browser-kit",
