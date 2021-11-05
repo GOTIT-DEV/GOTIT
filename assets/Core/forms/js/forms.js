@@ -199,8 +199,8 @@ function addEntryForNewRecord($wrapper, id, name) {
   // update existing collection entries in wrapper
   $entries.find("select").append(optionElt).selectpicker("refresh");
   // Update existing select element with new value if no current value is defined
-  if ($entries.length === 1 && !$entries.get(0).find("select").val()) {
-    $entries.get(0).find("select").val(id).selectpicker("refresh");
+  if ($entries.length === 1 && !$entries.first().find("select").val()) {
+    $entries.first().find("select").val(id).selectpicker("refresh");
   } else {
     addEntry($wrapper, id);
   }
