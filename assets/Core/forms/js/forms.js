@@ -192,12 +192,14 @@ export function modalFormSubmitCallback(
  * @param {String} name
  */
 function addEntryForNewRecord($wrapper, id, name) {
-  let optionElt = `<option value=${id}>${name}</option>`;
+  let $optionElt = $(`<option value=${id}>${name}</option>`);
   // update wrapper prototype used to create new collection entries
-  updatePrototype($wrapper, optionElt);
+  updatePrototype($wrapper, $optionElt);
   const $entries = getEntries($wrapper);
   // update existing collection entries in wrapper
-  $entries.find("select").append(optionElt).selectpicker("refresh");
+  $entries.each((index, entry) => {
+    $(entry).find("select option").eq(1).before($optionElt);
+  });
   // Update existing select element with new value if no current value is defined
   if ($entries.length === 1 && !$entries.first().find("select").val()) {
     $entries.first().find("select").val(id).selectpicker("refresh");
@@ -210,12 +212,12 @@ function addEntryForNewRecord($wrapper, id, name) {
 /**
  * Update wrapper prototype used to create new collection entries with additionnal options
  * @param {jQuery element} $wrapper a collection wrapper
- * @param {String} optionElt an <option> tag to be added
+ * @param {String} $optionElt an <option> tag to be added
  */
-function updatePrototype($wrapper, optionElt) {
-  let newPrototype = $wrapper
-    .data("prototype")
-    .replace(/(<select[^>]*>)/, `$1${optionElt}`);
+function updatePrototype($wrapper, $optionElt) {
+  let prototypeElt = $.parseHTML($wrapper.data("prototype"));
+  $(prototypeElt).find("select option").eq(1).before($optionElt);
+  const newPrototype = $(prototypeElt).prop("outerHTML");
   $wrapper.data("prototype", newPrototype);
 }
 
