@@ -143,7 +143,7 @@ class ProgrammeController extends AbstractController {
   }
 
   /**
-   * Creates a new programme entity for modal windows
+   * Creates a new Program entity for modal windows
    *
    * @Route("/newmodal", name="programme_newmodal", methods={"GET", "POST"})
    */
@@ -154,45 +154,35 @@ class ProgrammeController extends AbstractController {
     ]);
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      // flush des données du formulaire
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($programme);
-
-      try {
-        $flush = $em->flush();
-        // mémorize the id and the name of the Program
-        $select_id = $programme->getId();
-        $select_name = $programme->getCodeProgramme();
-        // return an empty Program Entity
-        $programme_new = new Programme();
-        $form = $this->createForm('App\Form\ProgrammeType', $programme_new, [
-          'action_type' => Action::create(),
-        ]);
-        //returns an empty form and the parameters of the new record created
+    if ($form->isSubmitted()) {
+      if (!$form->isValid()) {
         return new JsonResponse([
-          'html_form' => $this->render('modal.html.twig', array('entityname' => 'programme', 'form' => $form->createView()))->getContent(),
-          'select_id' => $select_id,
-          'select_name' => $select_name,
-          'exception_message' => "",
-          'entityname' => 'programme',
-        ]);
-      } catch (\Doctrine\DBAL\DBALException $e) {
-        $exception_message = strval($e);
-        // return an empty Program Entity
-        $programme_new = new Programme();
-        $form = $this->createForm('App\Form\ProgrammeType', $programme_new);
-        // returns a form with the error message
-        return new JsonResponse([
-          'html_form' => $this->render('modal.html.twig', array(
+          'valid' => false,
+          "form" => $this->render('modal-form.html.twig', [
             'entityname' => 'programme',
             'form' => $form->createView(),
-          ))->getContent(),
-          'select_id' => 0,
-          'select_name' => "",
-          'exception_message' => $exception_message,
-          'entityname' => 'programme',
+          ])->getContent(),
         ]);
+      } else {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($programme);
+
+        try {
+          $em->flush();
+          $select_id = $programme->getId();
+          $select_name = $programme->getCodeProgramme();
+          return new JsonResponse([
+            'select_id' => $select_id,
+            'select_name' => $select_name,
+            'entityname' => 'programme',
+          ]);
+        } catch (\Doctrine\DBAL\DBALException $e) {
+          return new JsonResponse([
+            'exception' => true,
+            'exception_message' => $e->getMessage(),
+            'entityname' => 'programme',
+          ]);
+        }
       }
     }
 
