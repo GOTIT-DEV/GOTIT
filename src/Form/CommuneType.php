@@ -44,7 +44,7 @@ class CommuneType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'commune';
   }
 }

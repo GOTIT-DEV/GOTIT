@@ -111,7 +111,7 @@ class SequenceAssembleeType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'sequence_assemblee';
   }
 }

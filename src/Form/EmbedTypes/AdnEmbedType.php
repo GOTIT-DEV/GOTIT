@@ -26,7 +26,7 @@ class AdnEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'bbees_e3sbundle_adn';
   }
 
