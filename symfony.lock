@@ -78,6 +78,9 @@
             "config/routes/fos_js_routing.yaml"
         ]
     },
+    "monolog/monolog": {
+        "version": "2.6.0"
+    },
     "myclabs/php-enum": {
         "version": "1.7.6"
     },
@@ -234,6 +237,21 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/monolog-bridge": {
+        "version": "v5.4.3"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.7",
+            "ref": "213676c4ec929f046dfde5ea8e97625b81bc0578"
+        },
+        "files": [
+            "./config/packages/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v4.4.16"
