@@ -83,7 +83,7 @@ class SchemaInspectorService {
   private function reverse_relations(&$relations) {
     foreach ($relations as $sourceEntity => $targets) {
       foreach ($targets as $targetEntity => $data) {
-        $reverse_relation = function (&$d) use (&$sourceEntity) {
+        $reverse_relation = function ($d) use (&$sourceEntity) {
           return [
             "entity" => $sourceEntity,
             "from" => $d["to"],
