@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +21,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LotMaterielController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
 
   /**
    * Lists all lotMateriel entities.
@@ -27,7 +37,7 @@ class LotMaterielController extends AbstractController {
    * @Route("/", name="lotmateriel_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $lotMateriels = $em->getRepository('App:LotMateriel')->findAll();
 
@@ -41,7 +51,7 @@ class LotMaterielController extends AbstractController {
    * @Route("/search/{q}", requirements={"q"=".+"}, name="lotmateriel_search")
    */
   public function searchAction($q) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('lot.id, lot.codeLotMateriel as code')
       ->from('App:LotMateriel', 'lot')
       ->addOrderBy('code', 'ASC')
@@ -65,7 +75,7 @@ class LotMaterielController extends AbstractController {
    * @Route("/indexjson", name="lotmateriel_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort')
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
@@ -195,7 +205,7 @@ class LotMaterielController extends AbstractController {
   public function newAction(Request $request) {
     $lotMateriel = new Lotmateriel();
 
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
       $lotMateriel->setCollecteFk($sampling);
@@ -287,7 +297,7 @@ class LotMaterielController extends AbstractController {
       $service->DelArrayCollection('LotEstPublieDanss', $lotMateriel, $lotEstPublieDanss);
       $service->DelArrayCollection('LotMaterielEstRealisePars', $lotMateriel, $lotMaterielEstRealisePars);
 
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($lotMateriel);
       try {
         $em->flush();
@@ -329,7 +339,7 @@ class LotMaterielController extends AbstractController {
       ($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($lotMateriel);
         $em->flush();

@@ -21,6 +21,7 @@ use App\Entity\User;
 use App\Form\Enums\Action;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,7 +41,7 @@ class UserController extends AbstractController {
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $users = $em->getRepository('App:User')->findAll();
 
@@ -75,7 +76,7 @@ class UserController extends AbstractController {
    * @Route("/indexjson", name="user_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request) {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
@@ -142,7 +143,7 @@ class UserController extends AbstractController {
 
       $user->setPassword($passwordHash);
       //
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($user);
       try {
         $em->flush();
@@ -210,7 +211,7 @@ class UserController extends AbstractController {
       $plainPassword = $user->getPlainPassword();
       $passwordHash = $hasher->hashPassword($user, $plainPassword);
       $user->setPassword($passwordHash);
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -248,7 +249,7 @@ class UserController extends AbstractController {
     $submittedToken = $request->request->get('token');
 
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       if ($user->getRole() != 'ROLE_ADMIN') {
         try {
           $em->remove($user);

@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,13 +21,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeExtController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all sequenceAssembleeExt entities.
    *
    * @Route("/", name="sequenceassembleeext_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')
       ->findAll();
@@ -47,7 +57,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -187,7 +197,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   public function newAction(Request $request) {
     $sequenceAssembleeExt = new Sequenceassembleeext();
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
@@ -269,7 +279,7 @@ class SequenceAssembleeExtController extends AbstractController {
     // load service  generic_function_e3s
     //
     // load the Entity Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     // store ArrayCollection
     $especeIdentifiees = $service->setArrayCollectionEmbed(
@@ -313,7 +323,7 @@ class SequenceAssembleeExtController extends AbstractController {
         $sqcExtEstRealisePars
       );
 
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($sequenceAssembleeExt);
 
       try {
@@ -360,7 +370,7 @@ class SequenceAssembleeExtController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($sequenceAssembleeExt);
         $em->flush();
@@ -401,7 +411,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   private function createCodeSqcAssExt(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqc = '';
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {
@@ -437,7 +447,7 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   private function createCodeSqcAssExtAlignement(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqcAlignement = '';
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {

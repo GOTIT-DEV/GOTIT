@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ProgrammeController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all programme entities.
    *
    * @Route("/", name="programme_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $programmes = $em->getRepository('App:Programme')->findAll();
 
@@ -44,7 +54,7 @@ class ProgrammeController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -118,7 +128,7 @@ class ProgrammeController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($programme);
       try {
         $flush = $em->flush();
@@ -164,7 +174,7 @@ class ProgrammeController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($programme);
 
         try {
@@ -226,7 +236,7 @@ class ProgrammeController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -263,7 +273,7 @@ class ProgrammeController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($programme);
         $em->flush();

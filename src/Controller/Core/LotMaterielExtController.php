@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielExtController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all lotMaterielExt entities.
    *
    * @Route("/", name="lotmaterielext_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $lotMaterielExts = $em->getRepository('App:LotMaterielExt')->findAll();
 
@@ -45,7 +55,7 @@ class LotMaterielExtController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort')
@@ -164,7 +174,7 @@ class LotMaterielExtController extends AbstractController {
    */
   public function newAction(Request $request) {
     $lotMaterielExt = new Lotmaterielext();
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     if ($sampling_id = $request->get('idFk')) {
       $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
@@ -262,9 +272,9 @@ class LotMaterielExtController extends AbstractController {
       $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMaterielExt, $especeIdentifiees);
       $service->DelArrayCollection('LotMaterielExtEstReferenceDanss', $lotMaterielExt, $lotMaterielExtEstReferenceDanss);
       $service->DelArrayCollection('LotMaterielExtEstRealisePars', $lotMaterielExt, $lotMaterielExtEstRealisePars);
-      $this->getDoctrine()->getManager()->persist($lotMaterielExt);
+      $this->doctrine->getManager()->persist($lotMaterielExt);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -302,7 +312,7 @@ class LotMaterielExtController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($lotMaterielExt);
         $em->flush();

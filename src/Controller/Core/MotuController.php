@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,13 +21,22 @@ use Symfony\Component\Serializer\SerializerInterface;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class MotuController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all motu entities.
    *
    * @Route("/", name="motu_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $motus = $em->getRepository('App:Motu')->findAll();
 
@@ -45,7 +55,7 @@ class MotuController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -125,7 +135,7 @@ class MotuController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($motu);
       try {
         $em->flush();
@@ -193,9 +203,9 @@ class MotuController extends AbstractController {
       // delete ArrayCollection
       $service->DelArrayCollection('MotuEstGenerePars', $motu, $motuEstGenerePars);
       // flush
-      $this->getDoctrine()->getManager()->persist($motu);
+      $this->doctrine->getManager()->persist($motu);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -232,7 +242,7 @@ class MotuController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($motu);
         $em->flush();
@@ -285,7 +295,7 @@ class MotuController extends AbstractController {
    * @Route("/json/methods", name="methods-list", methods={"GET"})
    */
   public function datasetMethodList() {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
       ->from('App:Motu', 'm')

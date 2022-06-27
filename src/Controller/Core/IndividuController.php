@@ -8,6 +8,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +22,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class IndividuController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
 
   /**
    * Lists all individu entities.
@@ -28,7 +38,7 @@ class IndividuController extends AbstractController {
    * @Route("/", name="individu_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $individus = $em->getRepository('App:Individu')->findAll();
 
@@ -41,7 +51,7 @@ class IndividuController extends AbstractController {
    * @Route("/search/{q}", requirements={"q"=".+"}, name="individu_search")
    */
   public function searchAction($q) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Individu', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -60,7 +70,7 @@ class IndividuController extends AbstractController {
    * @Route("/search_with_gene/{query}/{gene}", name="individu_search_with_gene")
    */
   public function searchWithGeneAction(String $query, int $gene) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Individu', 'ind')
       ->leftJoin('App:Adn', 'adn', 'WITH', 'adn.individuFk = ind.id')
@@ -82,7 +92,7 @@ class IndividuController extends AbstractController {
    * @Route("/search_by_codeindmorpho/{q}", requirements={"q"=".+"}, name="individu_search_by_codeindmorpho")
    */
   public function searchByCodeIndmorphoAction($q) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndTriMorpho as code')
       ->from('App:Individu', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -112,7 +122,7 @@ class IndividuController extends AbstractController {
    * @Route("/indexjson", name="individu_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort')
     ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
@@ -238,7 +248,7 @@ class IndividuController extends AbstractController {
     $individu = new Individu();
     $individu->addEspeceIdentifiee(new EspeceIdentifiee());
 
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     if ($biomat_id = $request->get('idFk')) {
       $biomat = $em->getRepository('App:LotMateriel')->find($biomat_id);
       $individu->setLotMaterielFk($biomat);
@@ -322,9 +332,9 @@ class IndividuController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu, $especeIdentifiees);
-      $this->getDoctrine()->getManager()->persist($individu);
+      $this->doctrine->getManager()->persist($individu);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -360,7 +370,7 @@ class IndividuController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($individu);
         $em->flush();
