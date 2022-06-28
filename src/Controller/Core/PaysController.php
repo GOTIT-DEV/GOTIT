@@ -117,7 +117,7 @@ class PaysController extends AbstractController {
   public function newAction(Request $request) {
     $pays = new Pays();
     $form = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -155,7 +155,7 @@ class PaysController extends AbstractController {
   public function showAction(Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
     $editForm = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/pays/edit.html.twig', array(
@@ -174,7 +174,7 @@ class PaysController extends AbstractController {
   public function editAction(Request $request, Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
     $editForm = $this->createForm('App\Form\PaysType', $pays, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

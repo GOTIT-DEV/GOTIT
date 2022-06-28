@@ -194,7 +194,7 @@ class CollecteController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
 
     $form->handleRequest($request);
@@ -232,7 +232,7 @@ class CollecteController extends AbstractController {
   public function showAction(Collecte $collecte) {
     $deleteForm = $this->createDeleteForm($collecte);
     $showForm = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/collecte/edit.html.twig', [
@@ -265,7 +265,7 @@ class CollecteController extends AbstractController {
     // editAction
     $deleteForm = $this->createDeleteForm($collecte);
     $editForm = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
     // dump($collecte->getSamplingParticipants());

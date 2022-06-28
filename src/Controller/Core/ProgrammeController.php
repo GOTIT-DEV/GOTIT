@@ -123,7 +123,7 @@ class ProgrammeController extends AbstractController {
   public function newAction(Request $request) {
     $programme = new Programme();
     $form = $this->createForm('App\Form\ProgrammeType', $programme, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -160,7 +160,7 @@ class ProgrammeController extends AbstractController {
   public function newmodalAction(Request $request) {
     $programme = new Programme();
     $form = $this->createForm('App\Form\ProgrammeType', $programme, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -210,7 +210,7 @@ class ProgrammeController extends AbstractController {
   public function showAction(Programme $programme) {
     $deleteForm = $this->createDeleteForm($programme);
     $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/programme/edit.html.twig', array(
@@ -230,7 +230,7 @@ class ProgrammeController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($programme);
     $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

@@ -119,7 +119,7 @@ class EtablissementController extends AbstractController {
   public function newAction(Request $request) {
     $etablissement = new Etablissement();
     $form = $this->createForm('App\Form\EtablissementType', $etablissement, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -160,7 +160,7 @@ class EtablissementController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::show->value]
     );
 
     return $this->render('Core/etablissement/edit.html.twig', array(
@@ -181,7 +181,7 @@ class EtablissementController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\EtablissementType',
       $etablissement,
-      ['action_type' => Action::edit()]
+      ['action_type' => Action::edit->value]
     );
     $editForm->handleRequest($request);
 

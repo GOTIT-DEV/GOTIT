@@ -49,7 +49,7 @@ class AddUserDateFields implements EventSubscriberInterface {
     $form = $event->getForm();
     $form_type = $form->getConfig()->getOption("action_type");
 
-    if ($form_type == Action::show()) {
+    if ($form_type == Action::show->value) {
       $form->add('dateCre', DateTimeType::class, [
         'widget' => 'single_text',
         'html5' => false,

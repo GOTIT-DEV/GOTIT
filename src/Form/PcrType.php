@@ -34,7 +34,7 @@ class PcrType extends ActionFormType {
       ->add('codePcr', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->add('numPcr', EntityCodeType::class, [

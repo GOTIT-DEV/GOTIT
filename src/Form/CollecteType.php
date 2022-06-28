@@ -35,7 +35,7 @@ class CollecteType extends ActionFormType {
         $this->translator->trans("Station typeahead placeholder"),
         'attr' => [
           "maxlength" => "255",
-          'readonly' => ($options['action_type'] == Action::create() &&
+          'readonly' => ($options['action_type'] == Action::create->value &&
             $sampling->getStationFk()),
         ],
       ])
@@ -43,7 +43,7 @@ class CollecteType extends ActionFormType {
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
           'class' => 'sampling-code',
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->add('datePrecisionVocFk', DatePrecisionType::class, [

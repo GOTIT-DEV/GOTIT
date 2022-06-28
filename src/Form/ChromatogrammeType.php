@@ -34,7 +34,7 @@ class ChromatogrammeType extends ActionFormType {
       ->add('codeChromato', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->add('numYas', TextType::class, array(

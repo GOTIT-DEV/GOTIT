@@ -39,7 +39,7 @@ class LotMaterielType extends ActionFormType {
       ])
       ->add('codeLotMateriel', EntityCodeType::class, [
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
         'disabled' => $this->canEditAdminOnly($options),
       ])

@@ -37,7 +37,7 @@ class IndividuType extends ActionFormType {
       ->add('codeIndTriMorpho', EntityCodeType::class, [
         'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->add('typeIndividuVocFk', BaseVocType::class, [
@@ -45,7 +45,7 @@ class IndividuType extends ActionFormType {
         'placeholder' => 'Choose a Type',
       ]);
 
-    if ($options['action_type'] != Action::create()) {
+    if ($options['action_type'] != Action::create->value) {
       $builder
         ->add('numIndBiomol', null, [
           'disabled' => $hasBioMol && $this->canEditAdminOnly($options),

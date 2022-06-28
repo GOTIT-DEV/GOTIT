@@ -18,7 +18,7 @@ class CommuneType extends ActionFormType {
       ->add('codeCommune', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->add('nomCommune')

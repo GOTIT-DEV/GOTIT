@@ -121,7 +121,7 @@ class SourceController extends AbstractController {
   public function newAction(Request $request) {
     $source = new Source();
     $form = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -157,7 +157,7 @@ class SourceController extends AbstractController {
   public function showAction(Source $source) {
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/source/edit.html.twig', [
@@ -187,7 +187,7 @@ class SourceController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

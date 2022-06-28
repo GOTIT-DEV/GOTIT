@@ -36,7 +36,7 @@ class LotMaterielExtType extends ActionFormType {
       ->add('codeLotMaterielExt', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         "attr" => [
-          'readonly' => ($options['action_type'] == Action::create()),
+          'readonly' => ($options['action_type'] == Action::create->value),
         ],
       ])
       ->add('pigmentationVocFk', BaseVocType::class, [

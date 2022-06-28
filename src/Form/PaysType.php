@@ -18,7 +18,7 @@ class PaysType extends ActionFormType {
       ->add('codePays', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => $options['action_type'] == Action::create(),
+          'readonly' => $options['action_type'] == Action::create->value,
         ],
       ])
       ->addEventSubscriber($this->addUserDate);

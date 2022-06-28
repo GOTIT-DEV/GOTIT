@@ -123,7 +123,7 @@ class ReferentielTaxonController extends AbstractController {
   public function newAction(Request $request) {
     $referentielTaxon = new Referentieltaxon();
     $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -163,7 +163,7 @@ class ReferentielTaxonController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::show->value]
     );
 
     return $this->render('Core/referentieltaxon/edit.html.twig', array(
@@ -184,7 +184,7 @@ class ReferentielTaxonController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
-      ['action_type' => Action::edit()]
+      ['action_type' => Action::edit->value]
     );
     $editForm->handleRequest($request);
 

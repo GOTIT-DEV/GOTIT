@@ -171,7 +171,7 @@ class IndividuLameController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\IndividuLameType', $individuLame, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
 
     $form->handleRequest($request);
@@ -213,7 +213,7 @@ class IndividuLameController extends AbstractController {
   public function showAction(IndividuLame $individuLame) {
     $deleteForm = $this->createDeleteForm($individuLame);
     $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/individulame/edit.html.twig', [
@@ -251,7 +251,7 @@ class IndividuLameController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($individuLame);
     $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

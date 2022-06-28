@@ -184,7 +184,7 @@ class LotMaterielExtController extends AbstractController {
     $form = $this->createForm(
       'App\Form\LotMaterielExtType',
       $lotMaterielExt,
-      ['action_type' => Action::create()]
+      ['action_type' => Action::create->value]
     );
 
     $form->handleRequest($request);
@@ -226,7 +226,7 @@ class LotMaterielExtController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\LotMaterielExtType',
       $lotMaterielExt,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::show->value]
     );
 
     return $this->render('Core/lotmaterielext/edit.html.twig', [
@@ -262,7 +262,7 @@ class LotMaterielExtController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\LotMaterielExtType',
       $lotMaterielExt,
-      ['action_type' => Action::edit()]
+      ['action_type' => Action::edit->value]
     );
 
     $editForm->handleRequest($request);

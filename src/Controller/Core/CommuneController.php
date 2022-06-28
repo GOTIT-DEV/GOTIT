@@ -118,7 +118,7 @@ class CommuneController extends AbstractController {
   public function newAction(Request $request) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -157,7 +157,7 @@ class CommuneController extends AbstractController {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
       'id_pays' => $id_pays,
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -208,7 +208,7 @@ class CommuneController extends AbstractController {
     $deleteForm = $this->createDeleteForm($commune);
 
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
     return $this->render('Core/commune/edit.html.twig', array(
       'commune' => $commune,
@@ -226,7 +226,7 @@ class CommuneController extends AbstractController {
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

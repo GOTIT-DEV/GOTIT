@@ -66,7 +66,7 @@ class ActionFormType extends UserDateTraceType {
       'action_type',
     ]);
     $resolver->setDefault('disabled', function (Options $options) {
-      return $options['action_type'] == Action::show();
+      return $options['action_type'] == Action::show->value;
     });
   }
 }

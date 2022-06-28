@@ -192,7 +192,7 @@ class StationController extends AbstractController {
   public function newAction(Request $request) {
     $station = new Station();
     $form = $this->createForm('App\Form\StationType', $station, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -230,7 +230,7 @@ class StationController extends AbstractController {
     $deleteForm = $this->createDeleteForm($station);
 
     $editForm = $this->createForm('App\Form\StationType', $station, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
     return $this->render('Core/station/edit.html.twig', array(
       'station' => $station,
@@ -255,7 +255,7 @@ class StationController extends AbstractController {
 
     $deleteForm = $this->createDeleteForm($station);
     $editForm = $this->createForm('App\Form\StationType', $station, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

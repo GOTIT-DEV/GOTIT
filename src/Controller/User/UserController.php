@@ -142,7 +142,7 @@ class UserController extends AbstractController {
   public function newAction(Request $request, UserPasswordHasherInterface $hasher) {
     $user = new User();
     $form = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -186,7 +186,7 @@ class UserController extends AbstractController {
     $deleteForm = $this->createDeleteForm($user);
 
     $editForm = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
     return $this->render('user/edit.html.twig', array(
       'user' => $user,
@@ -212,7 +212,7 @@ class UserController extends AbstractController {
     }
     $deleteForm = $this->createDeleteForm($user);
     $editForm = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

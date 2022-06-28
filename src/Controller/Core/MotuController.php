@@ -130,7 +130,7 @@ class MotuController extends AbstractController {
   public function newAction(Request $request) {
     $motu = new Motu();
     $form = $this->createForm('App\Form\MotuType', $motu, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -169,7 +169,7 @@ class MotuController extends AbstractController {
   public function showAction(Motu $motu) {
     $deleteForm = $this->createDeleteForm($motu);
     $editForm = $this->createForm('App\Form\MotuType', $motu, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/motu/edit.html.twig', array(
@@ -195,7 +195,7 @@ class MotuController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($motu);
     $editForm = $this->createForm('App\Form\MotuType', $motu, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

@@ -254,7 +254,7 @@ class IndividuController extends AbstractController {
       $individu->setLotMaterielFk($biomat);
     }
     $form = $this->createForm('App\Form\IndividuType', $individu, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -292,7 +292,7 @@ class IndividuController extends AbstractController {
   public function showAction(Individu $individu) {
     $deleteForm = $this->createDeleteForm($individu);
     $editForm = $this->createForm('App\Form\IndividuType', $individu, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/individu/edit.html.twig', [
@@ -321,11 +321,11 @@ class IndividuController extends AbstractController {
     $deleteForm = $this->createDeleteForm($individu);
     if ($individu->getCodeIndBiomol()) {
       $editForm = $this->createForm('App\Form\IndividuType', $individu, [
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]);
     } else {
       $editForm = $this->createForm('App\Form\IndividuType', $individu, [
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]);
     }
     $editForm->handleRequest($request);

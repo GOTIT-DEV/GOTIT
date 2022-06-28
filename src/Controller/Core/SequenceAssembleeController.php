@@ -249,7 +249,7 @@ class SequenceAssembleeController extends AbstractController {
         "geneVocFk" => $gene,
         "individuFk" => $specimen,
       ],
-      ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
+      ["action_type" => ($gene && $specimen) ? Action::show->value : Action::create->value]
     );
 
     $geneSpecimenForm->handleRequest($request);
@@ -265,7 +265,7 @@ class SequenceAssembleeController extends AbstractController {
 
     // Main form
     $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
-      'action_type' => $gene && $specimen ? Action::create() : Action::show(),
+      'action_type' => $gene && $specimen ? Action::create->value : Action::show->value,
       'gene' => $gene,
       'specimen' => $specimen,
       'attr' => ['id' => "sequence-form"],
@@ -322,7 +322,7 @@ class SequenceAssembleeController extends AbstractController {
       'App\Form\SequenceAssembleeType',
       $sequence,
       [
-        'action_type' => Action::show(),
+        'action_type' => Action::show->value,
         'attr' => ['id' => "sequence-form"],
       ]
     );
@@ -333,7 +333,7 @@ class SequenceAssembleeController extends AbstractController {
           'geneVocFk' => $gene,
           'individuFk' => $specimen,
         ],
-        ["action_type" => Action::show()]
+        ["action_type" => Action::show->value]
       );
     return $this->render('Core/sequenceassemblee/edit.html.twig', [
       'sequenceAssemblee' => $sequence,
@@ -375,7 +375,7 @@ class SequenceAssembleeController extends AbstractController {
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
         ['geneVocFk' => $gene, 'individuFk' => $specimen],
-        ["action_type" => Action::show()]
+        ["action_type" => Action::show->value]
       );
 
     // store ArrayCollection
@@ -403,7 +403,7 @@ class SequenceAssembleeController extends AbstractController {
       [
         'gene' => $gene,
         'specimen' => $specimen,
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]
     );
     $editForm->handleRequest($request);

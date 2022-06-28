@@ -148,7 +148,7 @@ class BoiteController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -188,7 +188,7 @@ class BoiteController extends AbstractController {
   public function showAction(Boite $boite) {
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/boite/edit.html.twig', array(
@@ -219,7 +219,7 @@ class BoiteController extends AbstractController {
 
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
@@ -239,7 +239,7 @@ class BoiteController extends AbstractController {
         );
       }
       $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]);
 
       return $this->render('Core/boite/edit.html.twig', array(

@@ -43,7 +43,7 @@ class BoiteType extends ActionFormType {
         'disabled' => ($boxType != null),
       ));
 
-    if ($boxType != null and $options["action_type"] != Action::create()) {
+    if ($boxType != null and $options["action_type"] != Action::create->value) {
       switch ($boxType->getCode()) {
       case 'LOT':
         $builder->add('lotMateriels', CollectionType::class, array(

@@ -172,7 +172,7 @@ class AdnController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
 
     $form->handleRequest($request);
@@ -214,7 +214,7 @@ class AdnController extends AbstractController {
   public function showAction(Adn $adn) {
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/adn/edit.html.twig', array(
@@ -241,7 +241,7 @@ class AdnController extends AbstractController {
     $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars', $adn);
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 

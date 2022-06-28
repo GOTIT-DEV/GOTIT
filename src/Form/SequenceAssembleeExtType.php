@@ -35,13 +35,13 @@ class SequenceAssembleeExtType extends ActionFormType {
       ->add('codeSqcAssExt', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => Action::create() == $options['action_type'],
+          'readonly' => Action::create->value == $options['action_type'],
         ],
       ])
       ->add('codeSqcAssExtAlignement', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => Action::create() == $options['action_type'],
+          'readonly' => Action::create->value == $options['action_type'],
         ],
       ])
       ->add('accessionNumberSqcAssExt', EntityCodeType::class, [

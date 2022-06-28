@@ -208,7 +208,7 @@ class SequenceAssembleeExtController extends AbstractController {
       $sequenceAssembleeExt,
       [
         'refTaxonLabel' => 'codeTaxon',
-        'action_type' => Action::create(),
+        'action_type' => Action::create->value,
       ]
     );
     $form->handleRequest($request);
@@ -253,7 +253,7 @@ class SequenceAssembleeExtController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
       $sequenceAssembleeExt,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::show->value]
     );
 
     return $this->render('Core/sequenceassembleeext/edit.html.twig', [
@@ -300,7 +300,7 @@ class SequenceAssembleeExtController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
       $sequenceAssembleeExt,
-      ['action_type' => Action::edit()]
+      ['action_type' => Action::edit->value]
     );
     $editForm->handleRequest($request);
 
@@ -341,7 +341,7 @@ class SequenceAssembleeExtController extends AbstractController {
       $editForm = $this->createForm(
         'App\Form\SequenceAssembleeExtType',
         $sequenceAssembleeExt,
-        ['action_type' => Action::edit()]
+        ['action_type' => Action::edit->value]
       );
 
       return $this->render('Core/sequenceassembleeext/edit.html.twig', array(

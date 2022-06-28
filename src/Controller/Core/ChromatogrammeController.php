@@ -181,7 +181,7 @@ class ChromatogrammeController extends AbstractController {
       $chromatogramme->setPcrFk($pcr);
     }
     $form = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -221,7 +221,7 @@ class ChromatogrammeController extends AbstractController {
   public function showAction(Chromatogramme $chromatogramme) {
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/chromatogramme/edit.html.twig', array(
@@ -250,7 +250,7 @@ class ChromatogrammeController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
