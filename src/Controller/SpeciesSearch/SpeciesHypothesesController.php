@@ -22,6 +22,7 @@ use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,6 +35,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class SpeciesHypothesesController extends AbstractController {
+    
+    /**
+     * date of update  : 28/06/2022 
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+       
   /**
    * @Route("/", name="species-hypotheses", methods={"GET"})
    *
@@ -43,7 +54,7 @@ class SpeciesHypothesesController extends AbstractController {
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # fetch MOTU datasets
-    $doctrine = $this->getDoctrine();
+    $doctrine = $this->doctrine;
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # render form template
     return $this->render('SpeciesSearch/species-hypotheses/index.html.twig', array(
