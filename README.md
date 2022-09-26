@@ -19,7 +19,7 @@ Third, access to the database can be granted to any users, including those outsi
 
 **Requirements :**
 
-- PHP7
+- PHP8.1
 - [Yarn v1](https://classic.yarnpkg.com/)
 - [Composer](https://getcomposer.org/)
 - [Symfony CLI](https://symfony.com/download)
