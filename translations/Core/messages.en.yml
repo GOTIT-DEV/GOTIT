@@ -527,7 +527,7 @@ alert.BadFormatDate: Bad date format (DD-MM-YYYY) or bad value (DD=[1,31] MM=[1,
 Type materiel voc fk: Type material
 Taxon full name: Taxon full name
 # db v1
-A faire: Status
+A faire: Processed
 Accession number: Sequence accession number
 Accession number sqc ass ext: External sequence accession number
 Adn fk: DNA
