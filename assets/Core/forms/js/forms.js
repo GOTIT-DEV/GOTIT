@@ -47,6 +47,19 @@ function toggleDeleteButtons($wrapper) {
     )
     .off()
     .click(deleteEntryBtnCallback);
+    // if it's a disabled context hide delete button
+    if ($wrapper.find("input").first().attr('disabled') == "disabled" || 
+            $wrapper.find("select").first().attr('disabled') == "disabled" )
+    {
+        $entries
+          .children(".delete-btn-container")
+          .find(".btn-entry-delete")
+          .toggleClass(
+            "invisible"
+          )
+          .off()
+          .click(deleteEntryBtnCallback);        
+    }
 }
 
 /**
