@@ -2976,6 +2976,11 @@ class ImportFileE3s {
 
         $method = "setMethodeMotuVocFk";
         $entityRel->$method($foreign_record);
+        $entityRel->setDateCre($DateImport);
+        $entityRel->setDateMaj($DateImport);
+        $entityRel->setUserCre($userId);
+        $entityRel->setUserMaj($userId);
+        $em->persist($entityRel);
       }
       $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass_ext !== NULL) {
@@ -2994,19 +2999,19 @@ class ImportFileE3s {
 
         $method = "setMethodeMotuVocFk";
         $entityRel->$method($foreign_record);
+        $entityRel->setDateCre($DateImport);
+        $entityRel->setDateMaj($DateImport);
+        $entityRel->setUserCre($userId);
+        $entityRel->setUserMaj($userId);
+        $em->persist($entityRel);
       }
 
-      $entityRel->setDateCre($DateImport);
-      $entityRel->setDateMaj($DateImport);
-      $entityRel->setUserCre($userId);
-      $entityRel->setUserMaj($userId);
-      $em->persist($entityRel);
       if (!$flagSeq && !$flagSeqExt) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data2["code_seq_ass"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data2) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data2["code_seq_ass"] . '</b> <br>ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
       }
 
       if ($flagSeq && $flagSeqExt) {
-        $message .= $this->translator->trans('importfileService.ERROR duplicate code sqc sqcext') . '<b> : ' . $data2["code_seq_ass"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data2) . "<br>";
+        $message .= $this->translator->trans('importfileService.ERROR duplicate code sqc sqcext') . '<b> : ' . $data2["code_seq_ass"] . '</b>  <br>ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
       }
 
     }

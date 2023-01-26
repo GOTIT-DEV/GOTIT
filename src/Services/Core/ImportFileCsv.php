@@ -55,12 +55,16 @@ class ImportFileCsv {
             $row++;
           }
         }
+        //var_dump($data);     
+        //var_dump($name);         
         if (!$flag_record) {
           // return the column name to NULL if there is no record
-          for ($c = 0; $c < $num; $c++) {
-            $result[0][$name[$c]] = $data[$c];
+          for ($c = 0 ; $c < $num; $c++) {
+            $result[0][$name[$c]] = $name[$c];
+            //var_dump($result[0][$name[$c]]);
           }
         }
+        //exit();
       }
       fclose($handle);
     }

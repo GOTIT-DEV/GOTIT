@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class PersonneController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all personne entities.
    *
    * @Route("/", name="personne_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $personnes = $em->getRepository('App:Personne')->findAll();
     return $this->render('Core/personne/index.html.twig', [
       'personnes' => $personnes,
@@ -42,7 +52,7 @@ class PersonneController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -116,12 +126,12 @@ class PersonneController extends AbstractController {
   public function newAction(Request $request) {
     $personne = new Personne();
     $form = $this->createForm('App\Form\PersonneType', $personne, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($personne);
       try {
         $flush = $em->flush();
@@ -153,7 +163,7 @@ class PersonneController extends AbstractController {
   public function newmodalAction(Request $request) {
     $personne = new Personne();
     $form = $this->createForm('App\Form\PersonneType', $personne, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -167,7 +177,7 @@ class PersonneController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($personne);
 
         try {
@@ -204,7 +214,7 @@ class PersonneController extends AbstractController {
   public function showAction(Personne $personne) {
     $deleteForm = $this->createDeleteForm($personne);
     $editForm = $this->createForm('App\Form\PersonneType', $personne, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/personne/edit.html.twig', array(
@@ -232,13 +242,13 @@ class PersonneController extends AbstractController {
     }
     $deleteForm = $this->createDeleteForm($personne);
     $editForm = $this->createForm('App\Form\PersonneType', $personne, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -275,7 +285,7 @@ class PersonneController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($personne);
         $em->flush();

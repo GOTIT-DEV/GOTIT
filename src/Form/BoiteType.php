@@ -43,7 +43,7 @@ class BoiteType extends ActionFormType {
         'disabled' => ($boxType != null),
       ));
 
-    if ($boxType != null and $options["action_type"] != Action::create()) {
+    if ($boxType != null and $options["action_type"] != Action::create->value) {
       switch ($boxType->getCode()) {
       case 'LOT':
         $builder->add('lotMateriels', CollectionType::class, array(
@@ -108,7 +108,7 @@ class BoiteType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'bbees_e3sbundle_boite';
   }
 }

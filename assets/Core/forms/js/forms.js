@@ -17,12 +17,21 @@ $(() => {
   $("button.btn-entry-add").on("click", addEntryBtnCallback);
   $("button.btn-entry-delete").on("click", deleteEntryBtnCallback);
 
-  // Init collection wrappers
-  $(".collection-wrapper").each(function () {
-    if ($(this).data("index") === 0) initEmptyCollection($(this));
-    toggleDeleteButtons($(this));
-  });
-
+  // Init collection wrappers if it's edit/create context
+    if ($("form").attr("data-action")!= "show") {  
+        $(".collection-wrapper").each(function () {
+          if ($(this).data("index") === 0) initEmptyCollection($(this));
+          toggleDeleteButtons($(this));
+        });
+   }
+  
+  // Hide delete button if show context
+    if ($("form").attr("data-action")== "show") {
+        $(".collection-wrapper").each(function () {
+                hideDeleteButtons($(this));
+        });
+    }
+    
   // Init modal forms
   $(".modal-dialog form").on("submit", modalFormSubmitCallback);
 });
@@ -47,6 +56,25 @@ function toggleDeleteButtons($wrapper) {
     )
     .off()
     .click(deleteEntryBtnCallback);
+    // if it's a disabled context hide delete button
+    if ($wrapper.find("input").first().attr('disabled') == "disabled" || 
+            $wrapper.find("select").first().attr('disabled') == "disabled" ) {
+          hideDeleteButtons($wrapper);
+    }
+}
+
+/**
+ * Hide display of delete buttons in form collections
+ * Depends on whether the field is required and the collection content
+ * @param {JQuery element} $wrapper a collection wrapper (class .collection-wrapper)
+ */
+function hideDeleteButtons($wrapper) {
+    const $entries = getEntries($wrapper);
+    $entries
+      .children(".delete-btn-container")
+      .find(".btn-entry-delete")
+      .toggle()  
+      .off() 
 }
 
 /**

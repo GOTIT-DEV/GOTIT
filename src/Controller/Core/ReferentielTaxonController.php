@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxonController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all referentielTaxon entities.
    *
    * @Route("/", name="referentieltaxon_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $referentielTaxons = $em->getRepository('App:ReferentielTaxon')->findAll();
 
@@ -44,7 +54,7 @@ class ReferentielTaxonController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -113,12 +123,12 @@ class ReferentielTaxonController extends AbstractController {
   public function newAction(Request $request) {
     $referentielTaxon = new Referentieltaxon();
     $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($referentielTaxon);
       try {
         $em->flush();
@@ -153,7 +163,7 @@ class ReferentielTaxonController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
-      ['action_type' => Action::show()]
+      ['action_type' => Action::show->value]
     );
 
     return $this->render('Core/referentieltaxon/edit.html.twig', array(
@@ -174,13 +184,13 @@ class ReferentielTaxonController extends AbstractController {
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
       $referentielTaxon,
-      ['action_type' => Action::edit()]
+      ['action_type' => Action::edit->value]
     );
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -216,7 +226,7 @@ class ReferentielTaxonController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($referentielTaxon);
         $em->flush();
@@ -252,7 +262,7 @@ class ReferentielTaxonController extends AbstractController {
    * @Route("/json/species-list", name="species-list", methods={"GET"})
    */
   public function listSpecies() {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $query = $qb->select('rt')
     // index results by genus
       ->from('App:ReferentielTaxon', 'rt')

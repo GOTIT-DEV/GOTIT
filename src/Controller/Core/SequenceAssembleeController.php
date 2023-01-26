@@ -8,6 +8,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeController extends AbstractController {
+class SequenceAssembleeController extends AbstractController {    
   /**
    * @var integer
    */
@@ -29,6 +30,15 @@ class SequenceAssembleeController extends AbstractController {
    * constante
    */
   const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
 
   /**
    * Lists all sequenceAssemblee entities.
@@ -36,7 +46,7 @@ class SequenceAssembleeController extends AbstractController {
    * @Route("/", name="sequenceassemblee_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $sequenceAssemblees = $em->getRepository('App:SequenceAssemblee')->findAll();
 
@@ -55,7 +65,7 @@ class SequenceAssembleeController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = ($request->get('rowCount') !== NULL)
     ? $request->get('rowCount') : 10;
@@ -239,7 +249,7 @@ class SequenceAssembleeController extends AbstractController {
         "geneVocFk" => $gene,
         "individuFk" => $specimen,
       ],
-      ["action_type" => ($gene && $specimen) ? Action::show() : Action::create()]
+      ["action_type" => ($gene && $specimen) ? Action::show->value : Action::create->value]
     );
 
     $geneSpecimenForm->handleRequest($request);
@@ -255,7 +265,7 @@ class SequenceAssembleeController extends AbstractController {
 
     // Main form
     $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
-      'action_type' => $gene && $specimen ? Action::create() : Action::show(),
+      'action_type' => $gene && $specimen ? Action::create->value : Action::show->value,
       'gene' => $gene,
       'specimen' => $specimen,
       'attr' => ['id' => "sequence-form"],
@@ -270,7 +280,7 @@ class SequenceAssembleeController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
       $sequence->generateAlignmentCode();
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($sequence);
       try {
         $em->flush();
@@ -312,7 +322,7 @@ class SequenceAssembleeController extends AbstractController {
       'App\Form\SequenceAssembleeType',
       $sequence,
       [
-        'action_type' => Action::show(),
+        'action_type' => Action::show->value,
         'attr' => ['id' => "sequence-form"],
       ]
     );
@@ -323,7 +333,7 @@ class SequenceAssembleeController extends AbstractController {
           'geneVocFk' => $gene,
           'individuFk' => $specimen,
         ],
-        ["action_type" => Action::show()]
+        ["action_type" => Action::show->value]
       );
     return $this->render('Core/sequenceassemblee/edit.html.twig', [
       'sequenceAssemblee' => $sequence,
@@ -356,7 +366,7 @@ class SequenceAssembleeController extends AbstractController {
     }
 
     // Recherche du gene et de l'individu pour la sequence
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $id = $sequence->getId();
     $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
@@ -365,7 +375,7 @@ class SequenceAssembleeController extends AbstractController {
       ->createForm(
         'App\Form\Type\GeneSpecimenType',
         ['geneVocFk' => $gene, 'individuFk' => $specimen],
-        ["action_type" => Action::show()]
+        ["action_type" => Action::show->value]
       );
 
     // store ArrayCollection
@@ -393,7 +403,7 @@ class SequenceAssembleeController extends AbstractController {
       [
         'gene' => $gene,
         'specimen' => $specimen,
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]
     );
     $editForm->handleRequest($request);
@@ -465,7 +475,7 @@ class SequenceAssembleeController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($sequenceAssemblee);
         $em->flush();

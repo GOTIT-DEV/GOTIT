@@ -6,6 +6,7 @@ use App\Services\Querybuilder\QueryBuilderService;
 use App\Services\Querybuilder\SchemaInspectorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Security("is_granted('ROLE_INVITED')")
  */
 class QueryBuilderController extends AbstractController {
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * @Route("/", name="query_builder_index")
    * Index : render query form interface
@@ -44,7 +54,7 @@ class QueryBuilderController extends AbstractController {
   public function query(Request $request, QueryBuilderService $service) {
     $data = json_decode($request->getContent(), true);
     $selectedFields = $service->getSelectFields($data);
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $qb = $em->createQueryBuilder();
     $query = $service->makeQuery($data, $qb);
     $q = $query->getQuery();
