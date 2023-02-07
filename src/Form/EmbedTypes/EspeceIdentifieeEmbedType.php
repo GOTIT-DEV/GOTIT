@@ -75,7 +75,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'bbees_e3sbundle_especeidentifiee';
   }
 }

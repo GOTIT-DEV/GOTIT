@@ -27,13 +27,13 @@ class SequenceAssembleeType extends ActionFormType {
     $builder
       ->add('codeSqcAss', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
-        'attr' => ['readonly' => Action::create() == $options['action_type']],
+        'attr' => ['readonly' => Action::create->value == $options['action_type']],
       ])
       ->add('accessionNumber')
       ->add('codeSqcAlignement', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
         'attr' => [
-          'readonly' => Action::create() == $options['action_type'],
+          'readonly' => Action::create->value == $options['action_type'],
           'placeholder' => $this->translator->trans('Auto generated code'),
         ],
       ])
@@ -111,7 +111,7 @@ class SequenceAssembleeType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'sequence_assemblee';
   }
 }

@@ -33,67 +33,85 @@ const modal_map = new Vue({
 
 $(() => {
 
-  const $latitude = $("#station_latDegDec")
-  const $longitude = $("#station_longDegDec")
-  const $modalBtn = $('button#station_showNearbySites')
+    const $latitude = $("#station_latDegDec")
+    const $longitude = $("#station_longDegDec")
+    const $modalBtn = $('button#station_showNearbySites')
+    const $countryInput = $("#station_paysFk")
+    const $municipality = $("#station_communeFk")
 
-  $latitude
-    .change(toggleProximitySitesBtn)
-    .keyup(toggleProximitySitesBtn)
-    .change()
-  $longitude
-    .change(toggleProximitySitesBtn)
-    .keyup(toggleProximitySitesBtn)
-    .change()
+    $latitude
+      .change(toggleProximitySitesBtn)
+      .keyup(toggleProximitySitesBtn)
+      .change()
+    $longitude
+      .change(toggleProximitySitesBtn)
+      .keyup(toggleProximitySitesBtn)
+      .change()
 
-  $modalBtn.click(() => {
-    modal_map.showProximityMap(
-      parseFloat($latitude.val()),
-      parseFloat($longitude.val())
-    )
-  })
+    $modalBtn.click(() => {
+      modal_map.showProximityMap(
+        parseFloat($latitude.val()),
+        parseFloat($longitude.val())
+      )
+    })
 
-  function toggleProximitySitesBtn() {
-    $modalBtn.prop('disabled', !$latitude.val() | !$longitude.val())
-  }
+    function toggleProximitySitesBtn() {
+      $modalBtn.prop('disabled', !$latitude.val() | !$longitude.val())
+    }
 
-  const $countryInput = $("#station_paysFk")
-  const $municipality = $("#station_communeFk")
-  $countryInput.change(event => {
-    const country = event.target.value
-    fetch(Routing.generate('country_municipalities', { id: country }))
-      .then(response => response.json())
-      .then(json => {
-        const options = json.map(item =>
-          `<option value="${item.id}">${item.codeCommune}</option>`
-        )
-        $("#station_communeFk").empty()
-          .append(options).val('')
-          .selectpicker('refresh')
-      })
-  })
+    //
+    let Site = {
 
+        init : function() {
+            $( document ).on( 'change', '#station_paysFk', Site.refresh );
+            $( document ).on( 'change', '#station_communeFk', Site.refresh );
+            Site.refresh();
+        },
 
-  // Municipality modal
-  const modalId = "#modal-station_newMunicipality"
-  initMunicipalityCodeGeneration(modalId)
+        refresh : function() {
 
-  const $modal = $(modalId)
-  $modal.find("form").off("submit").submit(function (event) {
-    event.preventDefault()
-    modalFormSubmitCallback(event, modalCallback)
-  })
+            // const $countryInput = $("#station_paysFk")
+            // const $municipality = $("#station_communeFk")
+            $countryInput.change(event => {
+              const country = event.target.value
+              fetch(Routing.generate('country_municipalities', { id: country }))
+                .then(response => response.json())
+                .then(json => {
+                  const options = json.map(item =>
+                    `<option value="${item.id}">${item.codeCommune}</option>`
+                  )
+                  $("#station_communeFk").empty()
+                    .append(options).val('')
+                    .selectpicker('refresh')
+                })
+            })
 
-  function modalCallback(_, response) {
-    const $modalCountry = $modal.find("select#commune_paysFk")
-    $countryInput.val($modalCountry.val()).selectpicker('refresh')
-    $municipality
-      .append($('<option>', {
-        value: response.select_id,
-        text: response.select_name
-      }))
-      .val(response.select_id)
-      .selectpicker('refresh')
+        }
 
-  }
+    };
+
+    Site.init();
+            
+    // Municipality modal
+    const modalId = "#modal-station_newMunicipality"
+    initMunicipalityCodeGeneration(modalId)
+
+    const $modal = $(modalId)
+    $modal.find("form").off("submit").submit(function (event) {
+      event.preventDefault()
+      modalFormSubmitCallback(event, modalCallback)
+    })
+
+    function modalCallback(_, response) {
+      const $modalCountry = $modal.find("select#commune_paysFk")
+      $countryInput.val($modalCountry.val()).selectpicker('refresh')
+      $municipality
+        .append($('<option>', {
+          value: response.select_id,
+          text: response.select_name
+        }))
+        .val(response.select_id)
+        .selectpicker('refresh')
+
+    }
 })

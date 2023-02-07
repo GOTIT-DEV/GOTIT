@@ -21,6 +21,7 @@ use App\Entity\User;
 use App\Form\Enums\Action;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -33,6 +34,15 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>, Louis Duchemin <ls.duchemin@gmail.com>
  */
 class UserController extends AbstractController {
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+       
   /**
    * Lists all user entities.
    *
@@ -40,7 +50,7 @@ class UserController extends AbstractController {
    * @Security("is_granted('ROLE_ADMIN')")
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $users = $em->getRepository('App:User')->findAll();
 
@@ -75,7 +85,7 @@ class UserController extends AbstractController {
    * @Route("/indexjson", name="user_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request) {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
@@ -132,7 +142,7 @@ class UserController extends AbstractController {
   public function newAction(Request $request, UserPasswordHasherInterface $hasher) {
     $user = new User();
     $form = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -142,7 +152,7 @@ class UserController extends AbstractController {
 
       $user->setPassword($passwordHash);
       //
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($user);
       try {
         $em->flush();
@@ -176,7 +186,7 @@ class UserController extends AbstractController {
     $deleteForm = $this->createDeleteForm($user);
 
     $editForm = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
     return $this->render('user/edit.html.twig', array(
       'user' => $user,
@@ -202,7 +212,7 @@ class UserController extends AbstractController {
     }
     $deleteForm = $this->createDeleteForm($user);
     $editForm = $this->createForm('App\Form\UserType', $user, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
@@ -210,7 +220,7 @@ class UserController extends AbstractController {
       $plainPassword = $user->getPlainPassword();
       $passwordHash = $hasher->hashPassword($user, $plainPassword);
       $user->setPassword($passwordHash);
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -248,7 +258,7 @@ class UserController extends AbstractController {
     $submittedToken = $request->request->get('token');
 
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       if ($user->getRole() != 'ROLE_ADMIN') {
         try {
           $em->remove($user);

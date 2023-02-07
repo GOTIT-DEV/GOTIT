@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CollecteController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
+    
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
 
   /**
    * Lists all collecte entities.
@@ -27,7 +36,7 @@ class CollecteController extends AbstractController {
    * @Route("/", name="collecte_index", methods={"GET", "POST"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $collectes = $em->getRepository('App:Collecte')->findAll();
 
     return $this->render('Core/collecte/index.html.twig', array(
@@ -39,7 +48,7 @@ class CollecteController extends AbstractController {
    * @Route("/search/{q}", requirements={"q"=".+"}, name="collecte_search")
    */
   public function searchAction($q) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('collecte.id, collecte.codeCollecte as code')
       ->from('App:Collecte', 'collecte');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -68,7 +77,7 @@ class CollecteController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
@@ -175,7 +184,7 @@ class CollecteController extends AbstractController {
    */
   public function newAction(Request $request) {
     $collecte = new Collecte();
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     // check if the relational Entity (Station) is given
     if ($site_id = $request->get('idFk')) {
@@ -185,7 +194,7 @@ class CollecteController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
 
     $form->handleRequest($request);
@@ -223,7 +232,7 @@ class CollecteController extends AbstractController {
   public function showAction(Collecte $collecte) {
     $deleteForm = $this->createDeleteForm($collecte);
     $showForm = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/collecte/edit.html.twig', [
@@ -256,7 +265,7 @@ class CollecteController extends AbstractController {
     // editAction
     $deleteForm = $this->createDeleteForm($collecte);
     $editForm = $this->createForm('App\Form\CollecteType', $collecte, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
     // dump($collecte->getSamplingParticipants());
@@ -270,9 +279,9 @@ class CollecteController extends AbstractController {
       $service->DelArrayCollection('ACiblers', $collecte, $originalACiblers);
 
       // flush
-      $this->getDoctrine()->getManager()->persist($collecte);
+      $this->doctrine->getManager()->persist($collecte);
       try {
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
@@ -308,7 +317,7 @@ class CollecteController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($collecte);
         $em->flush();

@@ -22,6 +22,7 @@ use App\Entity\Voc;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,13 +36,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AssignationMotuController extends AbstractController {
 
+    /**
+     * date of update  : 28/06/2022 
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+       
   /**
    * @Route("/", name="assign-motu", methods={"GET"})
    *
    * Index page : Query form interface
    */
   public function index(SpeciesQueryService $service) {
-    $doctrine = $this->getDoctrine();
+    $doctrine = $this->doctrine;
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # fetch species identification criterions

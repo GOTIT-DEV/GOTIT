@@ -2,12 +2,11 @@
 
 {# EDIT : VOC #}
 
-{% block body %}
-    
+{% block body %}   
     {{ parent() }}   
-
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
+	{{ parent() }}
+	{{encore_entry_script_tags('voc-form')}}
 {% endblock %}

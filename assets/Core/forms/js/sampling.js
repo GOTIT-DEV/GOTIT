@@ -29,7 +29,7 @@ $(() => {
 
   function generateSamplingCode(station = '{Site}', date_str, precision) {
     let dateCode = '{Date}'
-    let date = moment(date_str, 'd-mm-Y')
+    let date = moment(date_str, 'dd-mm-Y')
     if (precision === 3)
       dateCode = '0'.repeat(6)
     else if (date.isValid()) {

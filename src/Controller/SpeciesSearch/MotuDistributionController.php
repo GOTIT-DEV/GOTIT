@@ -21,6 +21,7 @@ use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,15 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class MotuDistributionController extends AbstractController {
+    
+   /**
+     * date of update  : 28/06/2022 
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
 
   /**
    * @Route("/", name="distribution", methods={"GET"})
@@ -40,7 +50,7 @@ class MotuDistributionController extends AbstractController {
    * Index : render query form template
    */
   public function index(SpeciesQueryService $service) {
-    $doctrine = $this->getDoctrine();
+    $doctrine = $this->doctrine;
     # fetch datasets
     $datasets = $doctrine->getRepository(Motu::class)->findAll();
     # fetch genus and method sets

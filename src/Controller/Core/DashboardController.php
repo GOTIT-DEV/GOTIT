@@ -5,18 +5,28 @@ namespace App\Controller\Core;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController {
+    /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * @Route("/", name="dashboard")
    * @Security("is_granted('ROLE_INVITED')")
    * @author Philippe Grison  <philippe.grison@mnhn.fr>
    */
-  public function indexAction(GenericFunctionE3s $service) {
+public function indexAction(ManagerRegistry $doctrine, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    // $em = $this->doctrine->getManager();
+    $em = $this->doctrine->getManager();
     //
     $nbcollectes = $em->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
     $nbstations = $em->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();

@@ -45,7 +45,7 @@ class GeneSpecimenType extends ActionFormType {
         ],
       ]);
 
-    if ($options['action_type'] != Action::show()) {
+    if ($options['action_type'] != Action::show->value) {
       $builder->add('button_valid', SubmitType::class, array(
         'label' => 'button.Valid',
         'attr' => ['class' => 'btn btn-round btn-success'],
@@ -64,7 +64,7 @@ class GeneSpecimenType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'gene_specimen_form';
   }
 }

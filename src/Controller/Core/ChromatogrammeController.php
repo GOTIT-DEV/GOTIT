@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  */
 class ChromatogrammeController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
 
   /**
    * Lists all chromatogramme entities.
@@ -26,7 +35,7 @@ class ChromatogrammeController extends AbstractController {
    * @Route("/", name="chromatogramme_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
 
     return $this->render('Core/chromatogramme/index.html.twig', array(
@@ -44,7 +53,7 @@ class ChromatogrammeController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = ($request->get('rowCount') !== NULL)
     ? $request->get('rowCount') : 10;
@@ -165,14 +174,14 @@ class ChromatogrammeController extends AbstractController {
    */
   public function newAction(Request $request) {
     $chromatogramme = new Chromatogramme();
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
     if ($pcr_id = $request->get('idFk')) {
       $pcr = $em->getRepository('App:Pcr')->find($pcr_id);
       $chromatogramme->setPcrFk($pcr);
     }
     $form = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -212,7 +221,7 @@ class ChromatogrammeController extends AbstractController {
   public function showAction(Chromatogramme $chromatogramme) {
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/chromatogramme/edit.html.twig', array(
@@ -241,13 +250,13 @@ class ChromatogrammeController extends AbstractController {
     //
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($chromatogramme);
 
       try {
@@ -287,7 +296,7 @@ class ChromatogrammeController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($chromatogramme);
         $em->flush();

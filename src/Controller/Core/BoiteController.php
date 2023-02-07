@@ -8,6 +8,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,13 +21,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class BoiteController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all boite entities.
    *
    * @Route("/", name="boite_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $boites = $em->getRepository('App:Boite')->findAll();
 
@@ -45,7 +55,7 @@ class BoiteController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -138,12 +148,12 @@ class BoiteController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($boite);
       try {
         $em->flush();
@@ -178,7 +188,7 @@ class BoiteController extends AbstractController {
   public function showAction(Boite $boite) {
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/boite/edit.html.twig', array(
@@ -205,11 +215,11 @@ class BoiteController extends AbstractController {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
     // load the Entity Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
@@ -229,7 +239,7 @@ class BoiteController extends AbstractController {
         );
       }
       $editForm = $this->createForm('App\Form\BoiteType', $boite, [
-        'action_type' => Action::edit(),
+        'action_type' => Action::edit->value,
       ]);
 
       return $this->render('Core/boite/edit.html.twig', array(
@@ -260,7 +270,7 @@ class BoiteController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($boite);
         $em->flush();

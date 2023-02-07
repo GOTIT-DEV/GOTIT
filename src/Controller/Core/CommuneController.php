@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class CommuneController extends AbstractController {
+      
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
   /**
    * Lists all commune entities.
    *
    * @Route("/", name="commune_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $communes = $em->getRepository('App:Commune')->findAll();
 
@@ -44,7 +54,7 @@ class CommuneController extends AbstractController {
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     // load Doctrine Manager
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
     //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
@@ -108,12 +118,12 @@ class CommuneController extends AbstractController {
   public function newAction(Request $request) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($commune);
       try {
         $flush = $em->flush();
@@ -147,7 +157,7 @@ class CommuneController extends AbstractController {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
       'id_pays' => $id_pays,
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
     $form->handleRequest($request);
 
@@ -161,7 +171,7 @@ class CommuneController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($commune);
 
         try {
@@ -198,7 +208,7 @@ class CommuneController extends AbstractController {
     $deleteForm = $this->createDeleteForm($commune);
 
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
     return $this->render('Core/commune/edit.html.twig', array(
       'commune' => $commune,
@@ -216,12 +226,12 @@ class CommuneController extends AbstractController {
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->flush();
       } catch (\Doctrine\DBAL\DBALException $e) {
@@ -259,7 +269,7 @@ class CommuneController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($commune);
         $em->flush();

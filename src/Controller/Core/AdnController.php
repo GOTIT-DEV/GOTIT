@@ -7,6 +7,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +21,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdnController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
+  
+   /**
+     * @author Philippe Grison  <philippe.grison@mnhn.fr>
+     */
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+       }
+
 
   /**
    * Lists all adn entities.
@@ -27,7 +37,7 @@ class AdnController extends AbstractController {
    * @Route("/", name="adn_index", methods={"GET"})
    */
   public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $adns = $em->getRepository('App:Adn')->findAll();
 
@@ -38,7 +48,7 @@ class AdnController extends AbstractController {
    * @Route("/search/{q}", requirements={"q"=".+"}, name="adn_search")
    */
   public function searchAction($q) {
-    $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+    $qb = $this->doctrine->getManager()->createQueryBuilder();
     $qb->select('adn.id, adn.codeAdn as code')->from('App:Adn', 'adn');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
@@ -60,7 +70,7 @@ class AdnController extends AbstractController {
    * @Route("/indexjson", name="adn_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
@@ -154,7 +164,7 @@ class AdnController extends AbstractController {
    */
   public function newAction(Request $request) {
     $adn = new Adn();
-    $em = $this->getDoctrine()->getManager();
+    $em = $this->doctrine->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
       $specimen = $em->getRepository('App:Individu')->find($specimen_id);
@@ -162,7 +172,7 @@ class AdnController extends AbstractController {
     }
 
     $form = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::create(),
+      'action_type' => Action::create->value,
     ]);
 
     $form->handleRequest($request);
@@ -204,7 +214,7 @@ class AdnController extends AbstractController {
   public function showAction(Adn $adn) {
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::show(),
+      'action_type' => Action::show->value,
     ]);
 
     return $this->render('Core/adn/edit.html.twig', array(
@@ -231,13 +241,13 @@ class AdnController extends AbstractController {
     $adnEstRealisePars = $service->setArrayCollection('AdnEstRealisePars', $adn);
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
-      'action_type' => Action::edit(),
+      'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollection('AdnEstRealisePars', $adn, $adnEstRealisePars);
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       $em->persist($adn);
       try {
         $em->flush();
@@ -276,7 +286,7 @@ class AdnController extends AbstractController {
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->doctrine->getManager();
       try {
         $em->remove($adn);
         $em->flush();

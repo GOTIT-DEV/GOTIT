@@ -48,6 +48,7 @@ Encore
   .addEntry("sequence-ext-form", "./assets/Core/forms/js/sequence-ext.js")
   .addEntry("specimen-form", "./assets/Core/forms/js/specimen.js")
   .addEntry("specimen-slide-form", "./assets/Core/forms/js/specimen-slide.js")
+  .addEntry("voc-form", "./assets/Core/forms/js/voc.js")
 
   // Species Search assets
   .addEntry("species-search", "./assets/SpeciesSearch/js/species_search.js")

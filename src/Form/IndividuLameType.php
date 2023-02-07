@@ -85,7 +85,7 @@ class IndividuLameType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix() {
+  public function getBlockPrefix():string {
     return 'bbees_e3sbundle_individulame';
   }
 }

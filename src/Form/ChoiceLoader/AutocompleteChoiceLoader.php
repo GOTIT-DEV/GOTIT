@@ -20,7 +20,7 @@ class AutocompleteChoiceLoader implements ChoiceLoaderInterface {
     $this->choice_value = $choice_value;
   }
 
-  public function loadValuesForChoices(array $choices, $value = null) {
+  public function loadValuesForChoices(array $choices, $value = null):array {
     $choices = array_filter($choices, function ($c) {return $c != null;});
 
     $values = array();
@@ -36,7 +36,7 @@ class AutocompleteChoiceLoader implements ChoiceLoaderInterface {
     return $values;
   }
 
-  public function loadChoiceList($value = null) {
+  public function loadChoiceList($value = null):ChoiceListInterface {
     // is called on form view create after loadValuesForChoices of form create
     if ($this->choiceList instanceof ChoiceListInterface) {
       return $this->choiceList;
@@ -48,7 +48,7 @@ class AutocompleteChoiceLoader implements ChoiceLoaderInterface {
     return $this->choiceList;
   }
 
-  public function loadChoicesForValues(array $values, $value = null) {
+  public function loadChoicesForValues(array $values, $value = null):array {
 
     $choices          = $this->repository->findBy([$this->choice_value => $values]);
     $this->choiceList = new ArrayChoiceList($choices, $value);
