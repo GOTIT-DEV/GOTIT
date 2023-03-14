@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
-use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeInvisibleEmbedType;
 use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\Enums\Action;
@@ -59,21 +59,25 @@ class LotMaterielType extends ActionFormType {
         ],
       ))
       ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'entry_type' => EspeceIdentifieeInvisibleEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
+        'disabled' => true,
+        'attr' => ['class' => 'd-none'],
       ))
       ->add('yeuxVocFk', BaseVocType::class, array(
         'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
+        'required' => false,
       ))
       ->add('pigmentationVocFk', BaseVocType::class, array(
         'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
+        'required' => false,
       ))
       ->add('aFaire', ChoiceType::class, array(
         'choices' => array('NO' => 0, 'YES' => 1),

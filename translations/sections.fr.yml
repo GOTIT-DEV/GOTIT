@@ -3,7 +3,7 @@ core:
   Terrain: Données de terrain
   station: Station
   collecte: Collecte
-  Analyse morphologique: Analyse morphologique
+  Analyse morphologique: Données de laboratoire
   lotmateriel: Lot matériel
   individu: Individu
   individulame: Lame

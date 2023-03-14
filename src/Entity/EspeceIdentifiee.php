@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      @ORM\Index(name="IDX_49D19C8D54DBBD4D", columns={"internal_biological_material_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D7B09E3BC", columns={"taxon_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D5F2C6176", columns={"specimen_fk"}),
+ *      @ORM\Index(name="IDX_pcr_fk ", columns={"pcr_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
@@ -164,6 +166,16 @@ class EspeceIdentifiee {
    * })
    */
   private $sequenceAssembleeFk;
+  
+   /**
+   * @var \Pcr
+   *
+   * @ORM\ManyToOne(targetEntity="Pcr", inversedBy="especeIdentifiees")
+   * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+   * })
+   */
+  private $pcrFk;
 
   /**
    * @ORM\OneToMany(targetEntity="EstIdentifiePar", mappedBy="especeIdentifieeFk", cascade={"persist"})
@@ -544,5 +556,17 @@ class EspeceIdentifiee {
    */
   public function getTypeMaterielVocFk() {
     return $this->typeMaterielVocFk;
+  }
+
+  public function getPcrFk(): ?Pcr
+  {
+      return $this->pcrFk;
+  }
+
+  public function setPcrFk(?Pcr $pcrFk): self
+  {
+      $this->pcrFk = $pcrFk;
+
+      return $this;
   }
 }

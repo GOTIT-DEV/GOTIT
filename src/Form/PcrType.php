@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Form\ActionFormType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\EmbedTypes\PcrEstRealiseParEmbedType;
 use App\Form\Enums\Action;
 use App\Form\Type\BaseVocType;
@@ -63,6 +64,18 @@ class PcrType extends ActionFormType {
       ))
       ->add('detailPcr')
       ->add('remarquePcr')
+      ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'prototype_name' => '__name__',
+        'by_reference' => false,
+        'entry_options' => array(
+          'label' => false,
+          'refTaxonLabel' => $options['refTaxonLabel'],
+        ),
+      ))
       ->add('pcrEstRealisePars', CollectionType::class, array(
         'entry_type' => PcrEstRealiseParEmbedType::class,
         'allow_add' => true,
@@ -87,6 +100,7 @@ class PcrType extends ActionFormType {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\Pcr',
+      'refTaxonLabel' => 'taxname',
     ));
   }
 

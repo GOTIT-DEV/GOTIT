@@ -3,7 +3,7 @@ core:
   Terrain: Field data
   station: Site
   collecte: Sampling
-  Analyse morphologique: Morphological analysis
+  Analyse morphologique: Laboratory data
   lotmateriel: Biological material
   individu: Specimen
   individulame: Specimen slide

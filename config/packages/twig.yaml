@@ -39,8 +39,6 @@ twig:
             text: core.lotmateriel
           - route: individu_index
             text: core.individu
-          - route: individulame_index
-            text: core.individulame
           - route: lotmaterielext_index
             text: core.lotmaterielext
       - route: ~
@@ -71,10 +69,6 @@ twig:
             route_args:
               typeBoite: LOT
             text: core.lotmateriel
-          - route: boite_index
-            route_args:
-              typeBoite: LAME
-            text: core.individulame
           - route: boite_index
             route_args:
               typeBoite: ADN

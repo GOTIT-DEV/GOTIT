@@ -42,10 +42,12 @@ class LotMaterielExtType extends ActionFormType {
       ->add('pigmentationVocFk', BaseVocType::class, [
         'voc_parent' => 'pigmentation',
         'placeholder' => 'Choose a Pigmentation',
+        'required' => false,
       ])
       ->add('yeuxVocFk', BaseVocType::class, [
         'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',
+        'required' => false,
       ])
       ->add('commentaireLotMaterielExt')
       ->add('nbIndividusVocFk', BaseVocType::class, [

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -172,9 +173,16 @@ class Pcr {
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $pcrEstRealisePars;
+  
+  /**
+   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="pcrFk", cascade={"persist"})
+   * @ORM\OrderBy({"id" = "ASC"})
+   */
+  protected $especeIdentifiees;
 
   public function __construct() {
     $this->pcrEstRealisePars = new ArrayCollection();
+    $this->especeIdentifiees = new ArrayCollection();
   }
 
   /**
@@ -569,4 +577,35 @@ class Pcr {
   public function getPcrEstRealisePars() {
     return $this->pcrEstRealisePars;
   }
+
+  /**
+   * @return Collection<int, EspeceIdentifiee>
+   */
+  public function getEspeceIdentifiees(): Collection
+  {
+      return $this->especeIdentifiees;
+  }
+
+  public function addEspeceIdentifiee(EspeceIdentifiee $especeIdentifiee): self
+  {
+      if (!$this->especeIdentifiees->contains($especeIdentifiee)) {
+          $this->especeIdentifiees[] = $especeIdentifiee;
+          $especeIdentifiee->setPcrFk($this);
+      }
+
+      return $this;
+  }
+
+  public function removeEspeceIdentifiee(EspeceIdentifiee $especeIdentifiee): self
+  {
+      if ($this->especeIdentifiees->removeElement($especeIdentifiee)) {
+          // set the owning side to null (unless already changed)
+          if ($especeIdentifiee->getPcrFk() === $this) {
+              $especeIdentifiee->setPcrFk(null);
+          }
+      }
+
+      return $this;
+  }
+
 }
