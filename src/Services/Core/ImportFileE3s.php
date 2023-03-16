@@ -1178,7 +1178,7 @@ class ImportFileE3s {
       $entity->setUserCre($userId);
       $entity->setUserMaj($userId);
       $em->persist($entity);
-
+      
       # Record of PcrEstRealisePar
       foreach ($columnByTable["pcr_est_realise_par"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
@@ -1225,6 +1225,159 @@ class ImportFileE3s {
           }
         }
       }
+      
+      # Record of EspeceIdentifiee
+      $key_taxname = array_keys($columnByTable["espece_identifiee"], "espece_identifiee.referentiel_taxon_fk(referentiel_taxon.taxname)")[0];
+      // var_dump($data[$columnByTable["espece_identifiee"][$key_taxname]]);
+      $entityEspeceIdentifie = NULL;
+      if ($data[$columnByTable["espece_identifiee"][$key_taxname]] != '') {
+        $entityRel = new \App\Entity\EspeceIdentifiee();
+        $entityEspeceIdentifie = $entityRel;
+        $method = "setPcrFk";
+        $entityRel->$method($entity);
+        foreach ($columnByTable["espece_identifiee"] as $ColCsv) {
+          $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
+          if ($dataColCsv !== $data[$ColCsv]) {
+            $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          }
+          if ($dataColCsv === '') {
+            $dataColCsv = NULL;
+          }
+
+          $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
+          $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
+          if (!$flag_foreign) {
+            $varfield = explode(".", $field)[1];
+            // control and standardization of field formats
+            if ($ColCsv == 'espece_identifiee.date_identification') {
+              // adjusts the incomplete date of type m/Y or Y in 01/m/Y or 01/01/ Y
+              if (!is_null($dataColCsv)) {
+                if (count(explode("/", $dataColCsv)) == 2) {
+                  $dataColCsv = "01/" . $dataColCsv;
+                }
+
+                if (count(explode("/", $dataColCsv)) == 1) {
+                  $dataColCsv = "01/01/" . $dataColCsv;
+                }
+
+                $eventDate = date_create_from_format('d/m/Y', $dataColCsv);
+                if (!$eventDate) {
+                  $message .= $this->translator->trans('importfileService.ERROR bad date format') . '<b> : ' . $data[$ColCsv] . "-" . $dataColCsv . "</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  $dataColCsv = NULL;
+                } else {
+                  $tabdate = explode("/", $dataColCsv);
+                  if (checkdate($tabdate[1], $tabdate[0], $tabdate[2])) {
+                    $dataColCsv = date_format($eventDate, 'Y-m-d');
+                    $dataColCsv = new \DateTime($dataColCsv);
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR bad date format') . '<b> : ' . $data[$ColCsv] . "-" . $dataColCsv . "</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    $dataColCsv = NULL;
+                  }
+                }
+              }
+            }
+            // save the values ​​of the field
+            $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
+            $entityRel->$method($dataColCsv);
+          }
+          if ($flag_foreign) {
+            $varfield = explode(".", strstr($field, '(', true))[1];
+            $linker = explode('.', trim($foreign_content[0], "()"));
+            $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
+            $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1], 'field');
+            if (!is_null($dataColCsv)) {
+              //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+              $varfield_parent = strstr($varfield, 'Voc', true);
+              if (!$varfield_parent) {
+                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              } else {
+                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              }
+              if ($foreign_record === NULL) {
+                switch ($foreign_table) {
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+              } else {
+                $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
+                $entityRel->$method($foreign_record);
+              }
+            }
+          }
+        }
+        $entityRel->setDateCre($DateImport);
+        $entityRel->setDateMaj($DateImport);
+        $entityRel->setUserCre($userId);
+        $entityRel->setUserMaj($userId);
+        $em->persist($entityRel);
+      }      
+
+      # Record of EstIdentifiePar
+      if (!is_null($entityEspeceIdentifie)) {
+        foreach ($columnByTable["est_identifie_par"] as $ColCsv) {
+          $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
+          if ($dataColCsv !== $data[$ColCsv]) {
+            $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+          }
+          if ($dataColCsv == '' || trim($dataColCsv) == '') {
+            $dataColCsv = NULL;
+          }
+
+          $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
+          $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
+          $varfield = explode(".", strstr($field, '(', true))[1];
+          $linker = explode('.', trim($foreign_content[0], "()"));
+          $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table');
+          $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1], 'field');
+          $tab_foreign_field = explode("$", $dataColCsv); // We transform the contents of the field into a table
+          if ($flag_foreign && !is_null($dataColCsv)) {
+            foreach ($tab_foreign_field as $val_foreign_field) {
+              $val_foreign_field = trim($val_foreign_field);
+              $entityRel = new \App\Entity\EstIdentifiePar();
+              $method = "setEspeceIdentifieeFk";
+              $entityRel->$method($entityEspeceIdentifie);
+              if (!is_null($val_foreign_field) && $val_foreign_field != '') {
+                //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+                $varfield_parent = strstr($varfield, 'Voc', true);
+                if (!$varfield_parent) {
+                  $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+                } else {
+                  $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+                }
+                if ($foreign_record === NULL) {
+                  switch ($foreign_table) {
+                  case "Voc":
+                    if ($data[$ColCsv] == '') {
+                      $foreign_record = NULL;
+                    } else {
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                } else {
+                  $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
+                  $entityRel->$method($foreign_record);
+                }
+              }
+              $entityRel->setDateCre($DateImport);
+              $entityRel->setDateMaj($DateImport);
+              $entityRel->setUserCre($userId);
+              $entityRel->setUserMaj($userId);
+              $em->persist($entityRel);
+            }
+          }
+        }
+      }      
+      
     }
     if ($message == '') {
       try {
@@ -2394,6 +2547,7 @@ class ImportFileE3s {
           }
         }
       }
+      
     }
     # FLUSH
     if ($message == '') {
