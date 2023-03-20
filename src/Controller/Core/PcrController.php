@@ -111,16 +111,17 @@ class PcrController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     // count all records for the current search
+    $where2 = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $where2 .= ' AND pcr2.adnFk = ' . $request->get('idFk');
+    }
     $total = count(
         $em->getRepository("App:Pcr")
               ->createQueryBuilder('pcr2')
-              ->where($where)
+              ->where($where2)
               ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
               ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr2.adnFk = adn.id')
               ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-              ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr2.geneVocFk = vocGene.id')
-              ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr2.qualitePcrVocFk = vocQualitePcr.id')
-              ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr2.specificiteVocFk = vocSpecificite.id')
             ->getQuery()
             ->getScalarResult()
     );
