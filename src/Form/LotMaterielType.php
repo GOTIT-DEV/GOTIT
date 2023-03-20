@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
-use App\Form\EmbedTypes\EspeceIdentifieeInvisibleEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
 use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\Enums\Action;
@@ -19,6 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+//
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+
 
 class LotMaterielType extends ActionFormType {
   /**
@@ -26,6 +29,8 @@ class LotMaterielType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sampling = $builder->getData()->getCollecteFk();
+    $this->taxon_code_default = ( isset($this->config['internal_biological_material']['taxon_code_default']) ) ? 
+            $this->config['internal_biological_material']['taxon_code_default'] : '';
 
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
@@ -57,18 +62,30 @@ class LotMaterielType extends ActionFormType {
           "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
-      ))
-      ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type' => EspeceIdentifieeInvisibleEmbedType::class,
+      ));
+    
+      if (isset($this->taxon_code_default) && $this->taxon_code_default != '')   { 
+        $builder
+        ->add('especeIdentifiees_taxon_default_code', HiddenType::class,  [
+            'mapped' => false,
+            'attr' => ['class' => 'hidden-field', 'value' => $this->taxon_code_default]
+          ]) ; 
+      } else {
+        $builder
+        ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
         'allow_add' => true,
         'allow_delete' => true,
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
-        'disabled' => true,
+        'required' => true,
         'attr' => ['class' => 'd-none'],
-      ))
+        )) ;
+      } 
+
+      $builder
       ->add('yeuxVocFk', BaseVocType::class, array(
         'voc_parent' => 'yeux',
         'placeholder' => 'Choose a Eye',

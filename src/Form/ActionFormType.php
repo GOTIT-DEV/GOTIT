@@ -14,6 +14,7 @@ use App\Form\UserDateTraceType;
 use App\Form\EventListener\AddUserDateFields;
 use App\Form\Enums\Action;
 use App\Form\DataTransformer\UppercaseTransformer;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ActionFormType extends UserDateTraceType {
   /**
@@ -23,13 +24,15 @@ class ActionFormType extends UserDateTraceType {
     AddUserDateFields $addUserDate,
     Security $security,
     EntityManagerInterface $em,
-    TranslatorInterface $translator
+    TranslatorInterface $translator,
+    ParameterBagInterface $config
   ) {
     parent::__construct($addUserDate);
     $this->security = $security;
     $this->er = $em;
     $this->translator = $translator;
     $this->uppercase_transformer = new UppercaseTransformer();
+    $this->config = $config->get('admin');
   }
 
   protected function upperCaseFields(FormBuilderInterface $builder, array $fields) {

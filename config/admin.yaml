@@ -1,0 +1,9 @@
+parameters:
+    admin:
+        internal_biological_material:
+            taxon_code_default: 'PHYSA_ACUTA'
+        external_biological_material:
+            taxon_code_default: 'PHYSA_ACUTA'
+        specimen:
+            taxon_code_default: 'PHYSA_ACUTA'
+            
