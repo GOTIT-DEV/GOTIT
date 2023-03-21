@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
+use App\Form\EmbedTypes\EspeceIdentifieeInvisibleEmbedType;
 use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\Enums\Action;
@@ -31,6 +32,10 @@ class LotMaterielType extends ActionFormType {
     $sampling = $builder->getData()->getCollecteFk();
     $this->taxon_code_default = ( isset($this->config['internal_biological_material']['taxon_code_default']) ) ? 
             $this->config['internal_biological_material']['taxon_code_default'] : '';
+    $this->eyes_voc_fk = ( isset($this->config['internal_biological_material']['eyes_voc_fk']) ) ? 
+            $this->config['internal_biological_material']['eyes_voc_fk'] : 1;
+    $this->pigmentation_voc_fk = ( isset($this->config['internal_biological_material']['pigmentation_voc_fk']) ) ? 
+            $this->config['internal_biological_material']['pigmentation_voc_fk'] : 1;
 
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
@@ -64,12 +69,22 @@ class LotMaterielType extends ActionFormType {
         ],
       ));
     
-      if (isset($this->taxon_code_default) && $this->taxon_code_default != '')   { 
+      if ($this->taxon_code_default != '')   { 
         $builder
         ->add('especeIdentifiees_taxon_default_code', HiddenType::class,  [
             'mapped' => false,
             'attr' => ['class' => 'hidden-field', 'value' => $this->taxon_code_default]
-          ]) ; 
+          ]) 
+        ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'prototype_name' => '__name__',
+        'by_reference' => false,
+        'entry_options' => array('label' => false),
+        'required' => false,
+        )) ;
       } else {
         $builder
         ->add('especeIdentifiees', CollectionType::class, array(
@@ -81,21 +96,25 @@ class LotMaterielType extends ActionFormType {
         'by_reference' => false,
         'entry_options' => array('label' => false),
         'required' => true,
-        'attr' => ['class' => 'd-none'],
         )) ;
       } 
-
+      if($this->eyes_voc_fk ){
+        $builder
+        ->add('yeuxVocFk', BaseVocType::class, array(
+          'voc_parent' => 'yeux',
+          'placeholder' => 'Choose a Eye',
+          'required' => false,
+        ))  ;        
+      }
+      if($this->pigmentation_voc_fk ){
+        $builder
+        ->add('pigmentationVocFk', BaseVocType::class, array(
+          'voc_parent' => 'pigmentation',
+          'placeholder' => 'Choose a Pigmentation',
+          'required' => false,
+        ))  ;        
+      }
       $builder
-      ->add('yeuxVocFk', BaseVocType::class, array(
-        'voc_parent' => 'yeux',
-        'placeholder' => 'Choose a Eye',
-        'required' => false,
-      ))
-      ->add('pigmentationVocFk', BaseVocType::class, array(
-        'voc_parent' => 'pigmentation',
-        'placeholder' => 'Choose a Pigmentation',
-        'required' => false,
-      ))
       ->add('aFaire', ChoiceType::class, array(
         'choices' => array('NO' => 0, 'YES' => 1),
         'required' => true,

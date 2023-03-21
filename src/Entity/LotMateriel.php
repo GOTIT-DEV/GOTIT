@@ -110,7 +110,7 @@ class LotMateriel {
    *
    * @ORM\ManyToOne(targetEntity="Voc")
    * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
+   *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=true)
    * })
    */
   private $pigmentationVocFk;
@@ -120,7 +120,7 @@ class LotMateriel {
    *
    * @ORM\ManyToOne(targetEntity="Voc")
    * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
+   *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=true)
    * })
    */
   private $yeuxVocFk;

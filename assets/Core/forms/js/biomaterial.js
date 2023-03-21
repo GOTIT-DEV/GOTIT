@@ -23,7 +23,7 @@ $(() => {
     if($taxon_default_code.val()  == '' ){
        var $taxonCode = $taxon.val() ? $taxon.find('option:selected').text() : undefined
     } else {
-       var $taxonCode = $taxon_default_code.val()
+       var $taxonCode = $taxon.val() ? $taxon.find('option:selected').text() : $taxon_default_code.val()
     }
     const code = generateBiomatCode(
       $taxonCode,
