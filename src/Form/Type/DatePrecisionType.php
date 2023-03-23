@@ -23,7 +23,7 @@ class DatePrecisionType extends AbstractType {
       'choice_label' => 'libelle',
       'multiple' => false,
       'expanded' => true,
-      'label_attr' => array('class' => 'radio-inline'),
+      'label_attr' => array('class' => 'radio-inline text-danger'),
       'required' => true,
       'readonly' => false,
     ]);

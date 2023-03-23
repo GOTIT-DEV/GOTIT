@@ -28,7 +28,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
         'voc_parent' => 'critereIdentification',
         'expanded' => true,
         'attr' => ["class" => "stacked"],
-        'label_attr' => array('class' => 'radio-inline'),
+        'label_attr' => array('class' => 'radio-inline text-danger'),
         'required' => true,
       ))
       ->add('dateIdentification', DateFormattedType::class)
@@ -57,6 +57,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
         'prototype_name' => '__name_inner__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
+        'label_attr' => array('class' => 'text-danger'),
       ))
       ->addEventSubscriber($this->addUserDate);
   }

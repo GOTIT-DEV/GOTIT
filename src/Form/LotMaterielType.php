@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Form\ActionFormType;
 use App\Form\EmbedTypes\CompositionLotMaterielEmbedType;
 use App\Form\EmbedTypes\EspeceIdentifieeEmbedType;
-use App\Form\EmbedTypes\EspeceIdentifieeInvisibleEmbedType;
 use App\Form\EmbedTypes\LotEstPublieDansEmbedType;
 use App\Form\EmbedTypes\LotMaterielEstRealiseParEmbedType;
 use App\Form\Enums\Action;
@@ -82,7 +81,7 @@ class LotMaterielType extends ActionFormType {
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'entry_options' => array('label' => false),
+        'entry_options' => array('label' => false, 'required' => true,),
         'required' => false,
         )) ;
       } else {
@@ -98,6 +97,7 @@ class LotMaterielType extends ActionFormType {
         'required' => true,
         )) ;
       } 
+      
       if($this->eyes_voc_fk ){
         $builder
         ->add('yeuxVocFk', BaseVocType::class, array(

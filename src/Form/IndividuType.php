@@ -11,6 +11,8 @@ use App\Form\Type\SearchableSelectType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+//
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class IndividuType extends ActionFormType {
   /**
@@ -20,6 +22,8 @@ class IndividuType extends ActionFormType {
 
     $hasBioMol = (bool) $builder->getData()->getCodeIndBiomol();
     $bioMat = $builder->getData()->getLotMaterielFk();
+    $this->taxon_code_default = ( isset($this->config['specimen']['taxon_code_default']) ) ? 
+        $this->config['specimen']['taxon_code_default'] : '';
 
     $builder
       ->add('lotMaterielFk', SearchableSelectType::class, [
@@ -60,7 +64,8 @@ class IndividuType extends ActionFormType {
     }
 
     $builder
-      ->add('commentaireInd')
+      ->add('commentaireInd');
+    /*
       ->add('especeIdentifiees', CollectionType::class, array(
         'entry_type' => EspeceIdentifieeEmbedType::class,
         'allow_add' => true,
@@ -73,6 +78,39 @@ class IndividuType extends ActionFormType {
           'refTaxonLabel' => $options['refTaxonLabel'],
         ),
       ))
+     */
+            
+      if ($this->taxon_code_default != '')   { 
+        $builder
+        ->add('especeIdentifiees_taxon_default_code', HiddenType::class,  [
+            'mapped' => false,
+            'attr' => ['class' => 'hidden-field', 'value' => $this->taxon_code_default]
+          ]) 
+        ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'prototype_name' => '__name__',
+        'by_reference' => false,
+        'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel'], 'required' => true,),
+        'required' => false,
+        )) ;
+      } else {
+        $builder
+        ->add('especeIdentifiees', CollectionType::class, array(
+        'entry_type' => EspeceIdentifieeEmbedType::class,
+        'allow_add' => true,
+        'allow_delete' => true,
+        'prototype' => true,
+        'prototype_name' => '__name__',
+        'by_reference' => false,
+        'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel'],),
+        'required' => true,
+        )) ;
+      } 
+      
+      $builder      
       ->addEventSubscriber($this->addUserDate);
   }
 
