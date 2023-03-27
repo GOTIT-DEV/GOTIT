@@ -5,6 +5,7 @@ $(() => {
   const $form = $("form[name='bbees_e3sbundle_lotmateriel']")
   const $sampling = $("#bbees_e3sbundle_lotmateriel_collecteFk")
   const $taxon = $("#bbees_e3sbundle_lotmateriel_especeIdentifiees_0_referentielTaxonFk")
+  const $taxon_default_name = $("#bbees_e3sbundle_lotmateriel_especeIdentifiees_taxon_default_name")
   const $taxon_default_code = $("#bbees_e3sbundle_lotmateriel_especeIdentifiees_taxon_default_code")
   const $code = $("#bbees_e3sbundle_lotmateriel_codeLotMateriel")
 
@@ -37,7 +38,6 @@ $(() => {
               });
         }
     }    
-    Biomaterial.init();
 
   if ($form.data('action') == 'new') {
     console.log("new action");
@@ -47,11 +47,11 @@ $(() => {
   }
 
   function updateBiomatCode() {
-    console.log($taxon_default_code.val());
-    if($taxon_default_code.val()  == '' ){
+    console.log('updateBiomatCode : '+$taxon_default_name.val());
+    if($taxon_default_name.val()  == '' ){
        var $taxonCode = $taxon.val() ? $taxon.find('option:selected').text() : undefined
     } else {
-       var $taxonCode = $taxon.val() ? $taxon.find('option:selected').text() : $taxon_default_code.val()
+       var $taxonCode = $taxon.val() ? $taxon.find('option:selected').text() : $taxon_default_name.val()
     }
     const code = generateBiomatCode(
       $taxonCode,
@@ -64,5 +64,8 @@ $(() => {
   function generateBiomatCode(taxon = "{TAXON}", samplingCode = "{SAMPLING}") {
     return `${taxon}|${samplingCode}`
   }
+  
+  Biomaterial.init();
+      
 })
 

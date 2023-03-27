@@ -171,7 +171,7 @@ class IndividuController extends AbstractController {
     LEFT JOIN vocabulary voc_sp_specimen_type
       ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
 		LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
-    INNER JOIN (
+    LEFT JOIN (
       SELECT MAX(ei_spi.id) AS maxei_spi
       FROM identified_species ei_spi
       GROUP BY ei_spi.specimen_fk
@@ -246,7 +246,7 @@ class IndividuController extends AbstractController {
    */
   public function newAction(Request $request) {
     $individu = new Individu();
-    $individu->addEspeceIdentifiee(new EspeceIdentifiee());
+    // $individu->addEspeceIdentifiee(new EspeceIdentifiee());
 
     $em = $this->doctrine->getManager();
     if ($biomat_id = $request->get('idFk')) {

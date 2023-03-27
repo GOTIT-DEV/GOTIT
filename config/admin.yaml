@@ -1,9 +1,11 @@
 parameters:
     admin:
         internal_biological_material:
-            taxon_code_default: 'PHYSA_ACUTA'
+            taxon_name_default: 'PHYSA_ACUTA'
+            taxon_code_default: 'PHYacuta'
             eyes_voc_fk: 0
             pigmentation_voc_fk: 0
         specimen:
-            taxon_code_default: 'PHYSA_ACUTA'
+            taxon_name_default: 'PHYSA_ACUTA'
+            taxon_code_default: 'PHYacuta'
            

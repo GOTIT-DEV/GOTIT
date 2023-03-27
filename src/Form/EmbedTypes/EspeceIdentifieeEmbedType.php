@@ -57,7 +57,6 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
         'prototype_name' => '__name_inner__',
         'by_reference' => false,
         'entry_options' => array('label' => false),
-        'label_attr' => array('class' => 'text-danger'),
       ))
       ->addEventSubscriber($this->addUserDate);
   }

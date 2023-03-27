@@ -29,6 +29,8 @@ class LotMaterielType extends ActionFormType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $sampling = $builder->getData()->getCollecteFk();
+    $this->taxon_name_default = ( isset($this->config['internal_biological_material']['taxon_name_default']) ) ? 
+            $this->config['internal_biological_material']['taxon_name_default'] : '';
     $this->taxon_code_default = ( isset($this->config['internal_biological_material']['taxon_code_default']) ) ? 
             $this->config['internal_biological_material']['taxon_code_default'] : '';
     $this->eyes_voc_fk = ( isset($this->config['internal_biological_material']['eyes_voc_fk']) ) ? 
@@ -66,10 +68,14 @@ class LotMaterielType extends ActionFormType {
           "data-allow-new" => true,
           "data-modal-controller" => 'App\\Controller\\Core\\PersonneController::newmodalAction',
         ],
-      ));
+        ));
     
-      if ($this->taxon_code_default != '')   { 
+      if ($this->taxon_code_default != '' && $this->taxon_name_default != '')   { 
         $builder
+        ->add('especeIdentifiees_taxon_default_name', HiddenType::class,  [
+            'mapped' => false,
+            'attr' => ['class' => 'hidden-field', 'value' => $this->taxon_name_default]
+          ]) 
         ->add('especeIdentifiees_taxon_default_code', HiddenType::class,  [
             'mapped' => false,
             'attr' => ['class' => 'hidden-field', 'value' => $this->taxon_code_default]
@@ -81,7 +87,7 @@ class LotMaterielType extends ActionFormType {
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'entry_options' => array('label' => false, 'required' => true,),
+        'entry_options' => array('label' => false, 'required' => true, 'refTaxonLabel' => $options['refTaxonLabel']),
         'required' => false,
         )) ;
       } else {
@@ -93,11 +99,11 @@ class LotMaterielType extends ActionFormType {
         'prototype' => true,
         'prototype_name' => '__name__',
         'by_reference' => false,
-        'entry_options' => array('label' => false),
+        'entry_options' => array('label' => false, 'refTaxonLabel' => $options['refTaxonLabel']),
         'required' => true,
         )) ;
       } 
-      
+           
       if($this->eyes_voc_fk ){
         $builder
         ->add('yeuxVocFk', BaseVocType::class, array(
@@ -169,6 +175,7 @@ class LotMaterielType extends ActionFormType {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\LotMateriel',
+      'refTaxonLabel' => 'taxname',
     ));
   }
 
