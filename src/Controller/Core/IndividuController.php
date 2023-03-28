@@ -146,7 +146,6 @@ class IndividuController extends AbstractController {
       sampling.sample_code,
       country.country_name,
       municipality.municipality_code,
-      st.site_code,
       sp.specimen_molecular_code, sp.specimen_morphological_code,
       sp.specimen_molecular_number, sp.tube_code,
       sp.date_of_creation, sp.date_of_update,
@@ -175,6 +174,7 @@ class IndividuController extends AbstractController {
       SELECT MAX(ei_spi.id) AS maxei_spi
       FROM identified_species ei_spi
       GROUP BY ei_spi.specimen_fk
+      HAVING ei_spi.specimen_fk IS NOT NULL
     ) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
     LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
     LEFT JOIN vocabulary voc_sp_identification_criterion
@@ -192,7 +192,9 @@ class IndividuController extends AbstractController {
         voc_sp_identification_criterion.code, voc_sp_specimen_type.code,
         sp.creation_user_name,
         user_cre.user_full_name,
-        user_maj.user_full_name"
+        user_maj.user_full_name,
+        ei_sp.id, maxei_spi
+      HAVING (maxei_spi IS NOT NULL OR ei_sp.id IS NULL)"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $em->getConnection()->prepare($rawSql);

@@ -21,18 +21,18 @@ $(() => {
         refresh: function () {
             const $wrapper_bbees_e3sbundle_lotmateriel_especeIdentifiees = $("#wrapper_bbees_e3sbundle_lotmateriel_especeIdentifiees")
                       console.log('load wrapper_bbees_e3sbundle_lotmateriel_especeIdentifiees');
-                      $('#wrapper_bbees_e3sbundle_lotmateriel_especeIdentifiees .collection-entry').each(function (index, element) {
+                      $('[id^=wrapper_bbees_e3sbundle_lotmateriel_especeIdentifiees] .collection-entry').each(function (index_collection, element) {
                           let $element = $(element);
-                          console.log(index);
+                          console.log(index_collection);
                             // clear and hide idVocabularyOestrus
-                            let $idreferentielTaxonFk = $('#bbees_e3sbundle_lotmateriel_especeIdentifiees_'+index+'_referentielTaxonFk');
+                            let $idreferentielTaxonFk = $('#bbees_e3sbundle_lotmateriel_especeIdentifiees_'+index_collection+'_referentielTaxonFk');
                             $idreferentielTaxonFk.attr("required", true);
-                            let $labelreferentielTaxonFk = $("label[for='bbees_e3sbundle_lotmateriel_especeIdentifiees_"+index+"_referentielTaxonFk']");
+                            let $labelreferentielTaxonFk = $("label[for='bbees_e3sbundle_lotmateriel_especeIdentifiees_"+index_collection+"_referentielTaxonFk']");
                             $labelreferentielTaxonFk.addClass('required text-danger');
                             // console.log("bbees_e3sbundle_lotmateriel[especeIdentifiees]["+index+"][critereIdentificationVocFk]");
-                            let $idcritereIdentificationVocFk = $("[name='bbees_e3sbundle_lotmateriel[especeIdentifiees]["+index+"][critereIdentificationVocFk]']");
+                            let $idcritereIdentificationVocFk = $("[name='bbees_e3sbundle_lotmateriel[especeIdentifiees]["+index_collection+"][critereIdentificationVocFk]']");
                             $idcritereIdentificationVocFk.attr("required", true);
-                            let $iddatePrecisionVocFk = $("[name='bbees_e3sbundle_lotmateriel[especeIdentifiees]["+index+"][datePrecisionVocFk]']");
+                            let $iddatePrecisionVocFk = $("[name='bbees_e3sbundle_lotmateriel[especeIdentifiees]["+index_collection+"][datePrecisionVocFk]']");
                             $iddatePrecisionVocFk.attr("required", true);
 
               });

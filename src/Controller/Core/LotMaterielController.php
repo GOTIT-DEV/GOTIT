@@ -129,6 +129,7 @@ class LotMaterielController extends AbstractController {
       SELECT MAX(ei_loti.id) AS maxei_loti
       FROM identified_species ei_loti
       GROUP BY ei_loti.internal_biological_material_fk
+      HAVING ei_loti.internal_biological_material_fk IS NOT NULL
     ) ei_lot2
       ON (ei_lot.id = ei_lot2.maxei_loti)
     LEFT JOIN taxon rt_lot ON ei_lot.taxon_fk = rt_lot.id
@@ -145,7 +146,9 @@ class LotMaterielController extends AbstractController {
       rt_lot.taxon_name, ei_lot.identification_date,
       lot.creation_user_name,
       user_cre.user_full_name,
-      user_maj.user_full_name"
+      user_maj.user_full_name,
+      ei_lot.id, maxei_loti
+      HAVING (maxei_loti IS NOT NULL OR ei_lot.id IS NULL)"
       . " ORDER BY " . $orderBy;
 
     // execute query and fill tab to show in the bootgrid list (see index.htm)
