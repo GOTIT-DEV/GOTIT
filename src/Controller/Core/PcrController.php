@@ -105,12 +105,27 @@ class PcrController extends AbstractController {
       ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
       ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
+      ->setFirstResult($minRecord)
+      ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
     $nb = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+    // count all records for the current search
+    $where2 = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $where2 .= ' AND pcr2.adnFk = ' . $request->get('idFk');
+    }
+    $total = count(
+        $em->getRepository("App:Pcr")
+              ->createQueryBuilder('pcr2')
+              ->where($where2)
+              ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
+              ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr2.adnFk = adn.id')
+              ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+            ->getQuery()
+            ->getScalarResult()
+    );
+    // build column content
     $lastTaxname = '';
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
@@ -162,7 +177,7 @@ class PcrController extends AbstractController {
       "rowCount" => $rowCount,
       "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total" => $nb, // total data array
+      "total" => $total, // total data array
     ]);
   }
 
