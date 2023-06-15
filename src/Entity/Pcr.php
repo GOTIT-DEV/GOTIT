@@ -175,7 +175,7 @@ class Pcr {
   protected $pcrEstRealisePars;
   
   /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="pcrFk", cascade={"persist"})
+   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="pcrFk", cascade={"persist"}, orphanRemoval=true)
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $especeIdentifiees;
@@ -578,6 +578,7 @@ class Pcr {
     return $this->pcrEstRealisePars;
   }
 
+  
   /**
    * @return Collection<int, EspeceIdentifiee>
    */
@@ -604,8 +605,9 @@ class Pcr {
               $especeIdentifiee->setPcrFk(null);
           }
       }
-
       return $this;
   }
 
+  
+  
 }
