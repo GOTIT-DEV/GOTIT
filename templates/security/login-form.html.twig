@@ -1,19 +1,17 @@
 {% trans_default_domain 'ui' %}
 
 <form id="login-form" action="{{path('login')}}" method="post">
-	<div class="messages text-danger"></div>
+	<div class="messages text-danger">
+		{% if error %}
+			{{ error.messageKey|trans(error.messageData, 'security') }}
+		{% endif %}
+	</div>
 
 	<div class="form-group">
 		<label class="col-form-label" for="username">
 			{{ 'login.username'|trans }}
 		</label>
-		<input
-			id="username"
-			type="text"
-			name="_username"
-			class="form-control"
-			placeholder=""
-			required="required">
+		<input id="username" type="text" name="_username" value="{{ last_username|default('') }}" class="form-control" placeholder="" required="required">
 	</div>
 	<div class="form-group">
 		<label for="password" class="col-form-label">
