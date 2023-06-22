@@ -165,6 +165,8 @@ class Station {
    */
   private $precisionLatLongVocFk;
 
+  private $accessingUser;
+
   /**
    * Get id
    *
@@ -241,6 +243,20 @@ class Station {
   }
 
   /**
+   * Get latitude with variable precision depending on the user
+   *
+   * @param \App\Entity\User|null $user
+   * @return float
+   */
+  public function getLatitude(User $user = null) {
+    if ($user === null) {
+      return round($this->latDegDec, 2);
+    } else {
+      return $this->latDegDec;
+    }
+  }
+
+  /**
    * Set longDegDec
    *
    * @param float $longDegDec
@@ -255,11 +271,23 @@ class Station {
 
   /**
    * Get longDegDec
-   *
    * @return float
    */
   public function getLongDegDec() {
     return $this->longDegDec;
+  }
+
+  /**
+   * Get longitude with variable precision depending on the current user
+   * @param \App\Entity\User|null $user
+   * @return float
+   */
+  public function getLongitude(User $user = null) {
+    if ($user === null) {
+      return round($this->longDegDec, 2);
+    } else {
+      return $this->longDegDec;
+    }
   }
 
   /**

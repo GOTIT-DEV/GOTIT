@@ -5,9 +5,9 @@ namespace App\Controller\Core;
 use App\Entity\Station;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,14 +21,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class StationController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
+  /**
+   * @author Philippe Grison  <philippe.grison@mnhn.fr>
+   */
+  private $doctrine;
+  public function __construct(ManagerRegistry $doctrine) {
+    $this->doctrine = $doctrine;
+  }
 
   /**
    * Lists all station entities.
@@ -77,6 +76,7 @@ class StationController extends AbstractController {
    * @Route("/indexjson", name="station_indexjson", methods={"POST"})
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
+    $user = $this->getUser();
     // load Doctrine Manager
     $em = $this->doctrine->getManager();
     //
@@ -118,8 +118,8 @@ class StationController extends AbstractController {
         "station.nomStation" => $entity->getNomStation(),
         "commune.codeCommune" => $entity->getCommuneFk()->getCodeCommune(),
         "pays.codePays" => $entity->getPaysFk()->getCodePays(),
-        "station.latDegDec" => $entity->getLatDegDec(),
-        "station.longDegDec" => $entity->getLongDegDec(),
+        "station.latDegDec" => $entity->getLatitude($user),
+        "station.longDegDec" => $entity->getLongitude($user),
         "station.dateCre" => $DateCre,
         "station.dateMaj" => $DateMaj,
         "userCreId" => $service->GetUserCreId($entity),
@@ -174,6 +174,12 @@ class StationController extends AbstractController {
     ));
 
     $sites = $stmt->fetchAll();
+    if ($this->getUser() === null) {
+      foreach ($sites as $i => $site) {
+        $sites[$i]["latitude"] = round($site["latitude"], 2);
+        $sites[$i]["longitude"] = round($site["longitude"], 2);
+      }
+    }
 
     return new JsonResponse([
       'sites' => $sites,

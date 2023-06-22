@@ -3,15 +3,18 @@
 namespace App\Services\SpeciesSearch;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Service SpeciesQueryService
  */
 class SpeciesQueryService {
   private $entityManager;
+  private $security;
 
-  public function __construct(EntityManagerInterface $manager) {
+  public function __construct(EntityManagerInterface $manager, Security $security) {
     $this->entityManager = $manager;
+    $this->security = $security;
   }
 
   /***************************************************************************
@@ -444,9 +447,21 @@ class SpeciesQueryService {
       m.municipality_name, c.country_name";
 
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
-    $stmt->execute(['taxon_id' => $id]);
+    $result = $stmt->executeQuery(['taxon_id' => $id]);
+    return $this->obfuscateCoords($result->fetchAllAssociative());
+  }
 
-    return $stmt->fetchAll();
+  private function obfuscateCoords($data) {
+    $current_user = $this->security->getUser();
+    if ($current_user === null) {
+      return array_map(function ($row) {
+        $row["latitude"] = round($row["latitude"], 2);
+        $row["longitude"] = round($row["longitude"], 2);
+        return $row;
+      }, $data);
+    } else {
+      return $data;
+    }
   }
 
   public function getSpeciesGeoSummary($data, $co1 = false) {
@@ -642,7 +657,7 @@ class SpeciesQueryService {
     $stmt->bindValue('id_dataset', $data->get('dataset'));
     $stmt->bindValue('id_methode', $data->get('methods'));
 
-    $stmt->execute();
-    return $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    return $this->obfuscateCoords($res->fetchAllAssociative());
   }
 }
