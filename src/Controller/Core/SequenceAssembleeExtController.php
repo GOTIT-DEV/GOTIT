@@ -17,11 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Sequenceassembleeext controller.
  *
  * @Route("sequenceassembleeext")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SequenceAssembleeExtController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

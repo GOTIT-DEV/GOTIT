@@ -15,10 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * Controller for querying the GOTIT database.
  *
  * @Route("/qbuilder")
- * @Security("is_granted('ROLE_INVITED')")
  */
 class QueryBuilderController extends AbstractController {
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

@@ -20,7 +20,6 @@ class DashboardController extends AbstractController {
 
   /**
    * @Route("/", name="dashboard")
-   * @Security("is_granted('ROLE_INVITED')")
    * @author Philippe Grison  <philippe.grison@mnhn.fr>
    */
 public function indexAction(ManagerRegistry $doctrine, GenericFunctionE3s $service) {

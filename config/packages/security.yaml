@@ -30,13 +30,14 @@ security:
         check_path: login
       logout:
         path: logout
-        target: login
       remember_me:
         secret: "%kernel.secret%"
         lifetime: 604800 # 1 week in seconds
         path: /
         name: remember_logged_in
         secure: true
+      login_throttling:
+        max_attempts: 3
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

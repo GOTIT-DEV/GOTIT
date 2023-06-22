@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Lotmaterielext controller.
  *
  * @Route("lotmaterielext")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielExtController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

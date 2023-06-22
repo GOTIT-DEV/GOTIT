@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Source controller.
  *
  * @Route("source")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class SourceController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

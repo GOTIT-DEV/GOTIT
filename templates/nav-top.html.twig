@@ -4,48 +4,81 @@
 		<i class="fas fa-bars"></i>
 	</a>
 
-	<div id="top-nav-dropdown-menu" class=" dropdown">
-		{% if app.user.username is defined %}
-			<a data-target="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-				{{app.user.username}}
-				:
-				{{app.user.roles|first|trans}}
-			</a>
-			<ul id="dropdown-usermenu" class="dropdown-menu dropdown-menu-right">
-				{% if is_granted('ROLE_PROJECT') %}
-					<li>
-						<a href="{{ path('user_index')}}{{app.user.id}}/edit">
-							<i class="fas fa-user"></i>
-							{{"Profile"|trans}}
-						</a>
-					</li>
-				{% endif %}
-				{% if second_language is defined %}
-					{% set target_locale = app.request.getDefaultLocale() %}
-					{% if app.request.getLocale() == target_locale %}
-						{% set target_locale = second_language %}
-					{% endif %}
-					{% set current_route = app.request.attributes.get('_route') %}
-					{% set route_params = app.request.attributes.get("_route_params") %}
-					{% set route_args = app.request.query|merge(route_params)|merge({_locale: target_locale}) %}
-					<li>
-						<a href="{{path(app.request.attributes.get('_route'), route_args)}}">
-							<i class="fas fa-globe"></i>
-							{{'Switch version'|trans}}
-							{{app.request.getLocale()|upper}}
-							/
-							{{target_locale|upper}}
-						</a>
-					</li>
-				{% endif %}
-				<li>
-					<a href="{{path('logout') }}">
-						<i class="fas fa-sign-out-alt"></i>
-						Logout
-					</a>
-				</li>
-			</ul>
 
+	<div id="top-nav-right-ui">
+		{% if second_language is defined %}
+			{% set current_route = app.request.attributes.get('_route') %}
+			{% set route_params = app.request.attributes.get("_route_params") %}
+			<div id="top-nav-lang-menu" class=" dropdown">
+				<a
+					data-target="#"
+					class="dropdown-toggle"
+					role="button"
+					data-toggle="dropdown"
+					aria-expanded="false">
+					<i class="fa-solid fa-language"></i>
+				</a>
+				<ul id="dropdown-lang-options" class="dropdown-menu">
+					<li>
+						{% set route_args = app.request.query|merge(route_params)|merge({_locale: app.request.getDefaultLocale()}) %}
+						<a href="{{path(app.request.attributes.get('_route'), route_args)}}">{{app.request.getDefaultLocale()|upper}}</a>
+					</li>
+					<li>
+						{% set route_args = app.request.query|merge(route_params)|merge({_locale: second_language}) %}
+						<a href="{{path(app.request.attributes.get('_route'), route_args)}}">{{second_language|upper}}</a>
+					</li>
+				</ul>
+			</div>
+			{#
+																																																																																																																																																																					      <li>
+																																																																																																																																																																		        <a href="{{path(app.request.attributes.get('_route'), route_args)}}">
+																																																																																																																																																																		          <i class="fas fa-globe"></i>
+																																																																																																																																																																		          {{'Switch version'|trans}}
+																																																																																																																																																																		          {{app.request.getLocale()|upper}} /
+																																																																																																																																																																		          {{target_locale|upper}}
+																																																																																																																																																																		        </a>
+																																																																																																																																																																		      </li>
+																																																																																																																																																															            #}
+		{% endif %}
+
+
+		{% if app.user.username is defined %}
+			<div id="top-nav-dropdown-menu" class=" dropdown">
+				<a
+					data-target="#"
+					class="dropdown-toggle"
+					role="button"
+					data-toggle="dropdown"
+					aria-expanded="false">
+					{{app.user.username}} : {{app.user.roles|first|trans}}
+				</a>
+				<ul id="dropdown-usermenu" class="dropdown-menu dropdown-menu-right">
+					{% if is_granted('ROLE_PROJECT') %}
+						<li>
+							<a href="{{ path('user_index')}}{{app.user.id}}/edit">
+								<i class="fas fa-user"></i>
+								{{"Profile"|trans}}
+							</a>
+						</li>
+					{% endif %}
+					<li>
+						<a href="{{path('logout') }}">
+							<i class="fas fa-sign-out-alt"></i>
+							Logout
+						</a>
+					</li>
+				</ul>
+			</div>
+		{% else %}
+			{% set login_path = path('login', {
+        _target_path:
+          path( app.request.attributes.get('_route'),
+                app.request.query|merge(app.request.attributes.get("_route_params")))
+      })
+      %}
+			<a type="button" href="{{ login_path }}" class="btn btn-outline-primary font-weight-bold">
+				Sign in
+			</a>
 		{% endif %}
 	</div>
 </nav>

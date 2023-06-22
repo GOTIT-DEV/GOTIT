@@ -30,13 +30,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * Controller for querying MOTU distribution
  *
  * @Route("/distribution")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class MotuDistributionController extends AbstractController {
-    
+
    /**
-     * date of update  : 28/06/2022 
+     * date of update  : 28/06/2022
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */
     private $doctrine;

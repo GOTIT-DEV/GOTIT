@@ -17,11 +17,10 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Motu controller.
  *
  * @Route("motu")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class MotuController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

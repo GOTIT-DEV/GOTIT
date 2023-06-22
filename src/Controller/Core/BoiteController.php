@@ -17,11 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Boite controller.
  *
  * @Route("boite")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class BoiteController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

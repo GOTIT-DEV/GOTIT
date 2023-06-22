@@ -16,12 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
  * Station controller.
  *
  * @Route("station")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class StationController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

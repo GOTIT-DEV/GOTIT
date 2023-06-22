@@ -31,20 +31,19 @@ use Symfony\Component\Routing\Annotation\Route;
  * Controller for querying MOTU assignments
  *
  * @Route("/assign-motu")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class AssignationMotuController extends AbstractController {
 
     /**
-     * date of update  : 28/06/2022 
+     * date of update  : 28/06/2022
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */
     private $doctrine;
     public function __construct(ManagerRegistry $doctrine) {
         $this->doctrine = $doctrine;
        }
-       
+
   /**
    * @Route("/", name="assign-motu", methods={"GET"})
    *

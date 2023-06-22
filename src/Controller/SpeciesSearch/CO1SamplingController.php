@@ -30,7 +30,6 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Controller for querying COI sampling coverage
  *
  * @Route("/co1-sampling")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class CO1SamplingController extends AbstractController {

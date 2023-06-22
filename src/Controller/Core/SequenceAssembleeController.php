@@ -17,10 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * Sequenceassemblee controller.
  *
  * @Route("sequenceassemblee")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeController extends AbstractController {    
+class SequenceAssembleeController extends AbstractController {
   /**
    * @var integer
    */
@@ -30,7 +29,7 @@ class SequenceAssembleeController extends AbstractController {
    * constante
    */
   const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

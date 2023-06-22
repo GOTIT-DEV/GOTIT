@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class EtablissementController extends AbstractController {
-      
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

@@ -29,7 +29,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * among sequences, individuals and biological materials
  *
  * @Route("/consistency")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
 class TaxonConsistencyController extends AbstractController {

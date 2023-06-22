@@ -9,29 +9,47 @@ nav.top-nav {
   background: #ededed;
   border-bottom: 1px solid @top-nav-highlight-color;
 
+  #top-nav-right-ui {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
 
-
+    #top-nav-lang-menu {
+      font-size: large;
+      > a {
+        padding: 0 10px;
+      }
+      #dropdown-lang-options {
+        min-width: 100%;
+        font-weight: bold;
+        a {
+          text-align: center;
+        }
+      }
+    }
+  }
 
   #top-nav-dropdown-menu a {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
   }
 
   .dropdown {
     height: @top-nav-height;
 
-    &.open > a.dropdown-toggle {background-color: #d9dee4;}
+    &.open > a.dropdown-toggle {
+      background-color: #d9dee4;
+    }
 
     a.dropdown-toggle {
-      
       display: inline-block;
       height: 100%;
       padding: 0 20px;
       display: flex;
       align-items: center;
-      &:hover{
+      &:hover {
         background-color: @top-nav-highlight-color;
       }
-      &::after{
+      &::after {
         font-size: 18px;
         margin-bottom: 3px;
       }
@@ -40,12 +58,12 @@ nav.top-nav {
     ul.dropdown-menu {
       border-radius: 0;
       margin-top: 0;
-      li>a {
+      li > a {
         padding: 10px;
-        display:block;
+        display: block;
         width: 100%;
         white-space: nowrap;
-        &:hover{
+        &:hover {
           background-color: @top-nav-highlight-color;
         }
         i {
@@ -55,13 +73,10 @@ nav.top-nav {
     }
   }
 
-
-
   a#menu-toggle {
     cursor: pointer;
     font-size: 26px;
     padding: 0 20px;
-
 
     // height: 100%;
     // .toggle {

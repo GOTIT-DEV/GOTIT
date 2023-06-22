@@ -16,12 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
  * Collecte controller.
  *
  * @Route("collecte")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class CollecteController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

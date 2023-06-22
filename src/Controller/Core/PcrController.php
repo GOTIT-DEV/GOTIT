@@ -16,13 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * Pcr controller.
  *
  * @Route("pcr")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  *
  */
 class PcrController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

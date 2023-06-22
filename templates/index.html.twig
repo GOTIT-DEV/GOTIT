@@ -72,7 +72,7 @@
 <script type="text/javascript">     
 
 const urlParams = new URLSearchParams(window.location.search);
-const current_user_id = {{app.user.id}}
+const current_user_id = {{app.user.id|default("undefined")}}
 
 const is_granted = {
     ROLE_COLLABORATION : {{is_granted("ROLE_COLLABORATION")|json_encode()}},
@@ -80,7 +80,7 @@ const is_granted = {
 }
 
 function is_owner(row){
-    return current_user_id == row.userCreId
+    return current_user_id && current_user_id == row.userCreId
 }
 
 $(document).ready(function(){

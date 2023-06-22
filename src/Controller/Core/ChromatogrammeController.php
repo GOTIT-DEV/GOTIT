@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Chromatogramme controller.
  *
  * @Route("chromatogramme")
- * @Security("is_granted('ROLE_INVITED')")
  *
  */
 class ChromatogrammeController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

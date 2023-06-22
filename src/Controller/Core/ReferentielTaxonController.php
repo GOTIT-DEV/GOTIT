@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Referentieltaxon controller.
  *
  * @Route("referentieltaxon")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ReferentielTaxonController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

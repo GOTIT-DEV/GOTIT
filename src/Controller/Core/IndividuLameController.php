@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Individulame controller.
  *
  * @Route("individulame")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class IndividuLameController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

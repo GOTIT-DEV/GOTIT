@@ -113,7 +113,6 @@ twig:
       - route: ~
         text: queries.species search
         icon: fas fa-bug
-        auth_required: ROLE_INVITED
         children:
           - route: co1-sampling
             text: queries.sampling.nav
@@ -128,7 +127,6 @@ twig:
       - route: query_builder_index
         text: queries.querybuilder.nav
         icon: fas fa-search
-        auth_required: ROLE_INVITED
         children: []
 
 when@test:

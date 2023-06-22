@@ -16,12 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
  * Adn controller.
  *
  * @Route("adn")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class AdnController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-  
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

@@ -16,12 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
  * Lotmateriel controller.
  *
  * @Route("lotmateriel")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class LotMaterielController extends AbstractController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-    
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */

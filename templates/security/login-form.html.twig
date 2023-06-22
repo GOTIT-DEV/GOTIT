@@ -1,0 +1,48 @@
+{% trans_default_domain 'ui' %}
+
+<form id="login-form" action="{{path('login')}}" method="post">
+	<div class="messages text-danger"></div>
+
+	<div class="form-group">
+		<label class="col-form-label" for="username">
+			{{ 'login.username'|trans }}
+		</label>
+		<input
+			id="username"
+			type="text"
+			name="_username"
+			class="form-control"
+			placeholder=""
+			required="required">
+	</div>
+	<div class="form-group">
+		<label for="password" class="col-form-label">
+			{{ 'login.password'|trans }}
+		</label>
+
+		<input
+			id="password"
+			type="password"
+			name="_password"
+			class="form-control"
+			required="required">
+	</div>
+	<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+	{% if app.request.query.get("_target_path") is defined %}
+		<input type="hidden" name="_target_path" value="{{app.request.query.get('_target_path')}}">
+	{% endif %}
+
+	<div class="checkbox mb-3">
+		<label>
+			<input v-model="credentials._remember_me" type="checkbox" name="_remember_me">
+			{{ 'login.remember me'|trans }}
+		</label>
+	</div>
+
+	<div id="login-btn-group" class="form-group">
+		<button id="login-btn" type="submit" class="btn btn-success btn-block">
+			{{ 'login.sign in'|trans }}
+			<i class="fas fa-key"></i>
+		</button>
+	</div>
+</form>

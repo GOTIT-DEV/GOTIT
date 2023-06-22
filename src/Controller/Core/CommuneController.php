@@ -16,11 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * Commune controller.
  *
  * @Route("commune")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class CommuneController extends AbstractController {
-      
+
    /**
      * @author Philippe Grison  <philippe.grison@mnhn.fr>
      */
