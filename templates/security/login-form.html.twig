@@ -11,13 +11,13 @@
 
 	<div class="form-group">
 		<label class="col-form-label" for="username">
-			{{ 'login.username'|trans }}
+			{{ 'login.username'|trans|capitalize }}
 		</label>
 		<input id="username" type="text" name="_username" value="{{ last_username|default('') }}" class="form-control" placeholder="" required="required">
 	</div>
 	<div class="form-group">
 		<label for="password" class="col-form-label">
-			{{ 'login.password'|trans }}
+			{{ 'login.password'|trans|capitalize }}
 		</label>
 
 		<input
@@ -35,13 +35,13 @@
 	<div class="checkbox mb-3">
 		<label>
 			<input v-model="credentials._remember_me" type="checkbox" name="_remember_me">
-			{{ 'login.remember me'|trans }}
+			{{ 'login.remember me'|trans|capitalize }}
 		</label>
 	</div>
 
 	<div id="login-btn-group" class="form-group">
 		<button id="login-btn" type="submit" class="btn btn-success btn-block">
-			{{ 'login.sign in'|trans }}
+			{{ 'login.sign in'|trans|capitalize }}
 			<i class="fas fa-key"></i>
 		</button>
 	</div>
