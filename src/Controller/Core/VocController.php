@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -35,7 +34,6 @@ class VocController extends AbstractController {
    * Lists all voc entities.
    *
    * @Route("/", name="voc_index", methods={"GET"})
-   * @Security("is_granted('ROLE_INVITED')")
    */
   public function indexAction() {
     $em = $this->doctrine->getManager();
@@ -52,17 +50,14 @@ class VocController extends AbstractController {
    * @Route("/parent/{parent}", name="list_voc", methods={"GET"})
    */
   public function listVoc(String $parent, SerializerInterface $serializer) {
-    $user = $this->getUser();
+
     $voc = $this->doctrine
       ->getRepository(Voc::class)
       ->findByParent($parent);
-    if ($user === null and $parent !== "critereIdentification") {
-      return $this->json(["error" => "Access forbidden to unauthenticated users."], Response::HTTP_FORBIDDEN);
-    } else {
-      return JsonResponse::fromJsonString(
-        $serializer->serialize($voc, "json")
-      );
-    }
+
+    return JsonResponse::fromJsonString(
+      $serializer->serialize($voc, "json")
+    );
   }
 
   /**
@@ -72,7 +67,6 @@ class VocController extends AbstractController {
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
    * @Route("/indexjson", name="voc_indexjson", methods={"POST"})
-   * @Security("is_granted('ROLE_INVITED')")
    */
   public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
     // load Doctrine Manager
@@ -173,7 +167,6 @@ class VocController extends AbstractController {
    * Finds and displays a voc entity.
    *
    * @Route("/{id}", name="voc_show", methods={"GET"})
-   * @Security("is_granted('ROLE_INVITED')")
    */
   public function showAction(Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);

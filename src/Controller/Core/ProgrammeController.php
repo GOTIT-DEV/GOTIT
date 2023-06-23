@@ -5,9 +5,9 @@ namespace App\Controller\Core;
 use App\Entity\Programme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,18 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
  * Programme controller.
  *
  * @Route("programme")
- * @Security("is_granted('ROLE_INVITED')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 class ProgrammeController extends AbstractController {
-      
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+
+  /**
+   * @author Philippe Grison  <philippe.grison@mnhn.fr>
+   */
+  private $doctrine;
+  public function __construct(ManagerRegistry $doctrine) {
+    $this->doctrine = $doctrine;
+  }
 
   /**
    * Lists all programme entities.

@@ -86,7 +86,6 @@ twig:
       - route: ~
         text: core.Référentiels
         icon: fas fa-lock
-        auth_required: ROLE_ADMIN
         children:
           - route: voc_index
             text: core.voc
@@ -98,13 +97,10 @@ twig:
             text: core.commune
           - route: personne_index
             text: core.personne
-            auth_required: ROLE_COLLABORATION
           - route: programme_index
             text: core.programme
-            auth_required: ROLE_PROJECT
           - route: etablissement_index
             text: core.etablissement
-            auth_required: ROLE_PROJECT
       - route: user_index
         text: core.users
         icon: fas fa-users
