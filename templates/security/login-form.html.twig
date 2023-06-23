@@ -1,11 +1,13 @@
 {% trans_default_domain 'ui' %}
 
 <form id="login-form" action="{{path('login')}}" method="post">
-	<div class="messages text-danger">
-		{% if error %}
+	{% if error %}
+		<div
+			class="messages alert alert-danger"
+			style="text-align:center; margin-top: ">
 			{{ error.messageKey|trans(error.messageData, 'security') }}
-		{% endif %}
-	</div>
+		</div>
+	{% endif %}
 
 	<div class="form-group">
 		<label class="col-form-label" for="username">
