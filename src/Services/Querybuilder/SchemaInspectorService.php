@@ -8,6 +8,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SchemaInspectorService {
 
+  private $em;
+  private $translator;
+
   public function __construct(EntityManagerInterface $em, TranslatorInterface $translator) {
     $this->em = $em;
     $this->translator = $translator;
@@ -105,6 +108,7 @@ class SchemaInspectorService {
   private function parse_metadata(ClassMetadata $metadata) {
     $class = $metadata->getName();
     $table = $metadata->getTableName();
+    $entity = $this->parse_entity_name($class);
 
     $make_filter = function ($field) use ($table) {
 
@@ -128,10 +132,17 @@ class SchemaInspectorService {
       return $filter;
     };
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
+
+    if ($entity === "Station" || $entity === "Personne") {
+      $filters = array_values(array_filter($filters, function ($f) {
+        return $f["id"] !== "infoDescription" && $f['id'] !== "commentairePersonne";
+      }));
+    }
+
     return [
       "class" => $class,
       "filters" => $filters,
-      "entity" => $this->parse_entity_name($class),
+      "entity" => $entity,
       "name" => $table,
       "label" => $this->translator->trans($table, [], "tables")
     ];

@@ -73,6 +73,22 @@ class QueryBuilderService {
     $query = $qb->from('App:' . $table, $alias);
     foreach ($initial["fields"] as $field) {
       // Adding every field selected for the initial table with their alias
+      if ($user instanceof User) {
+        $query = $query->addSelect($this->selectClause($alias, $field));
+      } elseif ($table === "Station") {
+        if ($field['id'] === "latDegDec" || $field['id'] === "longDegDec") {
+          $query = $query->addSelect($this->scrambledSelectClause($alias, $field));
+        } elseif ($field['id'] !== 'infoDescription') {
+          $query = $query->addSelect($this->selectClause($alias, $field));
+        }
+      } elseif ($table === "Personne") {
+        if ($field['id'] !== "commentairePersonne") {
+          $query = $query->addSelect($this->selectClause($alias, $field));
+        }
+      } else {
+        $query = $query->addSelect($this->selectClause($alias, $field));
+      }
+
       if (
         !($user instanceof User) &&
         $table === "Station" && (
