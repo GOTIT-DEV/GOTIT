@@ -85,7 +85,7 @@ twig:
         children: []
       - route: ~
         text: core.Référentiels
-        icon: fas fa-lock
+        icon: fas fa-folder-tree
         children:
           - route: voc_index
             text: core.voc
