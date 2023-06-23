@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Form\ActionFormType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,6 +14,7 @@ class PersonneType extends ActionFormType {
    * {@inheritdoc}
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
+    $user = $this->security->getUser();
     $builder->add('nomPersonne')
       ->add('nomComplet', null, [
         'required' => false,
@@ -31,8 +33,10 @@ class PersonneType extends ActionFormType {
         'multiple' => false,
         'expanded' => false,
         'required' => false,
-      ])
-      ->add('commentairePersonne');
+      ]);
+    if ($user instanceof User) {
+      $builder->add('commentairePersonne');
+    }
 
     $builder->addEventSubscriber($this->addUserDate);
 
@@ -54,7 +58,7 @@ class PersonneType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_personne';
   }
 }
