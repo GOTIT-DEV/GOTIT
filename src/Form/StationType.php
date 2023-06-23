@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Pays;
+use App\Entity\User;
 use App\Form\ActionFormType;
 use App\Form\Type\BaseVocType;
 use App\Form\Type\CoordinateType;
@@ -29,7 +30,7 @@ class StationType extends ActionFormType {
         "disabled" => $this->canEditAdminOnly($options),
       ])
       ->add('nomStation');
-    if ($user !== null) {
+    if ($user instanceof User) {
       $builder->add('infoDescription');
     }
     $builder->add('paysFk', CountryVocType::class)
@@ -83,7 +84,7 @@ class StationType extends ActionFormType {
         "sort_by_id" => true,
       ))
       ->add('altitudeM');
-    if ($user !== null) {
+    if ($user instanceof User) {
       $builder->add('commentaireStation');
     }
     $builder->addEventSubscriber($this->addUserDate);

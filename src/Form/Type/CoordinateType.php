@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\OptionsResolver\Options;
@@ -19,7 +20,7 @@ class CoordinateType extends AbstractType {
   public function configureOptions(OptionsResolver $resolver): void{
     $user = $this->security->getUser();
     $resolver->setNormalizer('scale', static function (Options $opts, $value) use ($user) {
-      return $user !== null ? 5 : 2;
+      return $user instanceof User ? 5 : 2;
     });
   }
   public function getParent():  ? string {

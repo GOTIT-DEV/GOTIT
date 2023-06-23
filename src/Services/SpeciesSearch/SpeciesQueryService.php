@@ -2,6 +2,7 @@
 
 namespace App\Services\SpeciesSearch;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -453,14 +454,14 @@ class SpeciesQueryService {
 
   private function obfuscateCoords($data) {
     $current_user = $this->security->getUser();
-    if ($current_user === null) {
+    if ($current_user instanceof User) {
+      return $data;
+    } else {
       return array_map(function ($row) {
         $row["latitude"] = round($row["latitude"], 2);
         $row["longitude"] = round($row["longitude"], 2);
         return $row;
       }, $data);
-    } else {
-      return $data;
     }
   }
 

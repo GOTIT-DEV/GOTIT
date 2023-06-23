@@ -248,11 +248,11 @@ class Station {
    * @param \App\Entity\User|null $user
    * @return float
    */
-  public function getLatitude(User $user = null) {
-    if ($user === null) {
-      return round($this->latDegDec, 2);
-    } else {
+  public function getLatitude(User | null $user = null) {
+    if ($user instanceof User) {
       return $this->latDegDec;
+    } else {
+      return round($this->latDegDec, 2);
     }
   }
 
@@ -282,11 +282,11 @@ class Station {
    * @param \App\Entity\User|null $user
    * @return float
    */
-  public function getLongitude(User $user = null) {
-    if ($user === null) {
-      return round($this->longDegDec, 2);
-    } else {
+  public function getLongitude(User | null $user = null) {
+    if ($user instanceof User) {
       return $this->longDegDec;
+    } else {
+      return round($this->longDegDec, 2);
     }
   }
 
