@@ -4,9 +4,8 @@ namespace App\Controller\Querybuilder;
 
 use App\Services\Querybuilder\QueryBuilderService;
 use App\Services\Querybuilder\SchemaInspectorService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,13 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class QueryBuilderController extends AbstractController {
 
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+  /**
+   * @author Philippe Grison  <philippe.grison@mnhn.fr>
+   */
+  private $doctrine;
+  public function __construct(ManagerRegistry $doctrine) {
+    $this->doctrine = $doctrine;
+  }
 
   /**
    * @Route("/", name="query_builder_index")
@@ -55,7 +54,8 @@ class QueryBuilderController extends AbstractController {
     $selectedFields = $service->getSelectFields($data);
     $em = $this->doctrine->getManager();
     $qb = $em->createQueryBuilder();
-    $query = $service->makeQuery($data, $qb);
+    $user = $this->getUser();
+    $query = $service->makeQuery($data, $qb, $user);
     $q = $query->getQuery();
     $results = $q->getScalarResult();
     return new JsonResponse([

@@ -2,6 +2,7 @@
 
 namespace App\Services\Querybuilder;
 
+use App\Entity\User;
 use InvalidArgumentException;
 
 /**
@@ -14,10 +15,10 @@ class QueryBuilderService {
    * @param mixed $data $query all the info from the form and the state of the query.
    * @return array $query the full query.
    */
-  public function makeQuery($data, $query) {
+  public function makeQuery($data, $query, $user) {
 
-    $this->parseFirstBlock($data["initial"], $query);
-    $this->parseJoinsBlocks($data["joins"] ?? [], $query);
+    $this->parseFirstBlock($data["initial"], $query, $user);
+    $this->parseJoinsBlocks($data["joins"] ?? [], $query, $user);
 
     return $query;
   }
@@ -49,6 +50,14 @@ class QueryBuilderService {
     return $resultsTab;
   }
 
+  private function selectClause($alias, $field) {
+    return $alias . "." . $field['id'] . " AS " . $alias . "_" . $field['id'];
+  }
+
+  private function scrambledSelectClause($alias, $field) {
+    return "ROUND(CAST(" . $alias . "." . $field['id'] . " AS numeric), 2) AS " . $alias . "_" . $field['id'];
+  }
+
   /**
    * Parse the first block of querybuilder.
    *
@@ -57,14 +66,24 @@ class QueryBuilderService {
    *
    * Warning : by default, all fields are checked for the first table, please keep at least one field selected.
    */
-  private function parseFirstBlock($initial, $qb) {
+  private function parseFirstBlock($initial, $qb, User | null $user) {
     $table = $initial["table"];
     $alias = $initial["alias"];
     // Adding the initial table to the query
     $query = $qb->from('App:' . $table, $alias);
     foreach ($initial["fields"] as $field) {
       // Adding every field selected for the initial table with their alias
-      $query = $query->addSelect($alias . "." . $field['id'] . " AS " . $alias . "_" . $field['id']);
+      if (
+        !($user instanceof User) &&
+        $table === "Station" && (
+          $field['id'] === "latDegDec" ||
+          $field['id'] === "longDegDec"
+        )) {
+        // Scramble coordinates
+        $query = $query->addSelect($this->scrambledSelectClause($alias, $field));
+      } else {
+        $query = $query->addSelect($this->selectClause($alias, $field));
+      }
     };
     // If there are some constraints addedby the user
     if ($initial['rules']) {
@@ -85,11 +104,24 @@ class QueryBuilderService {
    *
    * Warning : by default, no fields are checked for the chosen adjacent table, the user is free to keep it that way or choose some fields to return.
    */
-  private function parseJoinsBlocks($joins, $query) {
+  private function parseJoinsBlocks($joins, $query, User | null $user) {
     foreach ($joins as $j) {
       // Adding the fields to the query if the user chooses to return some.
       foreach ($j["fields"] ?? [] as $field) {
-        $query = $query->addSelect($j["alias"] . "." . $field['id'] . " AS " . $j["alias"] . "_" . $field['id']);
+
+        if (
+          !($user instanceof User) &&
+          $j['table'] === "Station" && (
+            $field['id'] === "latDegDec" ||
+            $field['id'] === "longDegDec"
+          )) {
+          // Scramble coordinates
+          $query = $query->addSelect($this->scrambledSelectClause($j['alias'], $field));
+        } else {
+          $query = $query->addSelect($this->selectClause($j['alias'], $field));
+        }
+
+        // $query = $query->addSelect($j["alias"] . "." . $field['id'] . " AS " . $j["alias"] . "_" . $field['id']);
       };
       // Join tables
       $query = $this->makeJoin($j, $query);
