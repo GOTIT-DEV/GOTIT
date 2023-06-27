@@ -8,6 +8,7 @@ use App\Form\Type\DateFormattedType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Controller\Core\PersonneController;
 
 class MotuType extends ActionFormType {
   /**
@@ -49,7 +50,7 @@ class MotuType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_motu';
   }
 }

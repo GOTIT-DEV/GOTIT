@@ -2,7 +2,7 @@
 
 namespace App\Form\EventListener;
 
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -17,7 +17,7 @@ class AddUserDateFields implements EventSubscriberInterface {
     $this->security = $security;
   }
 
-  public static function getSubscribedEvents():array {
+  public static function getSubscribedEvents(): array {
     return [
       FormEvents::PRE_SET_DATA => 'onPreSetData',
       FormEvents::SUBMIT => 'onSubmit',

@@ -4,7 +4,6 @@ namespace App\Controller\Core\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -12,14 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Import Pays controller.
  *
- * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("importfilesetablissement")]
+#[IsGranted("ROLE_PROJECT")]
 class ImportFileEtablissementController extends EntityController {
 
   #[Route("/", name: "importfilesetablissement_index")]
@@ -33,19 +33,17 @@ class ImportFileEtablissementController extends EntityController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN' || $user->getRole() == 'ROLE_PROJECT') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Institution' => 'institution'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
+    $form = $this->createFormBuilder()
+      ->setMethod('POST')
+      ->add('type_csv', ChoiceType::class, array(
+        'choice_translation_domain' => false,
+        'choices' => array(
+          ' ' => array('Institution' => 'institution'),
+        ),
+      ))
+      ->add('fichier', FileType::class)
+      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      ->getForm();
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request

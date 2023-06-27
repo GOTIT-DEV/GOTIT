@@ -8,6 +8,7 @@ use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Controller\Core\PersonneController;
 
 class SourceType extends ActionFormType {
   /**
@@ -55,7 +56,7 @@ class SourceType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_source';
   }
 }

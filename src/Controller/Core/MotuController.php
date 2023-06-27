@@ -5,14 +5,12 @@ namespace App\Controller\Core;
 use App\Entity\Motu;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Motu controller.
@@ -110,10 +108,9 @@ class MotuController extends EntityController {
 
   /**
    * Creates a new motu entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "motu_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function newAction(Request $request) {
     $motu = new Motu();
     $form = $this->createForm('App\Form\MotuType', $motu, [
@@ -166,10 +163,9 @@ class MotuController extends EntityController {
 
   /**
    * Displays a form to edit an existing motu entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}/edit", name: "motu_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function editAction(Request $request, Motu $motu, GenericFunctionE3s $service) {
     // store ArrayCollection
     $motuEstGenerePars = $service->setArrayCollection('MotuEstGenerePars', $motu);
@@ -209,10 +205,9 @@ class MotuController extends EntityController {
 
   /**
    * Deletes a motu entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}", name: "motu_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Motu $motu) {
     $form = $this->createDeleteForm($motu);
     $form->handleRequest($request);

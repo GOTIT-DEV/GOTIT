@@ -7,16 +7,13 @@ use App\Entity\EspeceIdentifiee;
 use App\Entity\Individu;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Individu controller.
- *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("individu")]
@@ -221,10 +218,9 @@ class IndividuController extends EntityController {
 
   /**
    * Creates a new individu entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "individu_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $individu = new Individu();
     $individu->addEspeceIdentifiee(new EspeceIdentifiee());
@@ -283,10 +279,9 @@ class IndividuController extends EntityController {
 
   /**
    * Displays a form to edit an existing individu entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "individu_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Individu $individu, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -339,10 +334,9 @@ class IndividuController extends EntityController {
 
   /**
    * Deletes a individu entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "individu_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Individu $individu) {
     $form = $this->createDeleteForm($individu);
     $form->handleRequest($request);

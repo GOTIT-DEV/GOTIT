@@ -9,9 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController {
-  /**
-   * @Route("/login", name="login")
-   */
+  #[Route("/login", name: "login")]
   public function login(AuthenticationUtils $authenticationUtils): Response {
     // get the login error if there is one
     $error = $authenticationUtils->getLastAuthenticationError();
@@ -25,9 +23,8 @@ class SecurityController extends AbstractController {
     ]);
   }
 
-  /**
-   * @Route("/api/login", name="json_login")
-   */
+
+  #[Route("/api/login", name: "json_login")]
   public function json_login(AuthenticationUtils $authenticationUtils): Response {
     // get the login error if there is one
     $error = $authenticationUtils->getLastAuthenticationError();
@@ -39,9 +36,7 @@ class SecurityController extends AbstractController {
     ]);
   }
 
-  /**
-   * @Route("/logout", name="logout")
-   */
+  #[Route("/logout", name: "logout")]
   public function logout() {
     throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
   }

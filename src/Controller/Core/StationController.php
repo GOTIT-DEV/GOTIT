@@ -5,11 +5,11 @@ namespace App\Controller\Core;
 use App\Entity\Station;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Station controller.
@@ -166,9 +166,9 @@ class StationController extends EntityController {
 
   /**
    * Creates a new station entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "station_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $station = new Station();
     $form = $this->createForm('App\Form\StationType', $station, [
@@ -219,10 +219,9 @@ class StationController extends EntityController {
 
   /**
    * Displays a form to edit an existing station entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "station_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Station $station) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -265,9 +264,9 @@ class StationController extends EntityController {
 
   /**
    * Deletes a station entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "station_delete", methods: ["DELETE", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Station $station) {
     $form = $this->createDeleteForm($station);
     $form->handleRequest($request);

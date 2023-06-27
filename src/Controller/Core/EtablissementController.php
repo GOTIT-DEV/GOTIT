@@ -6,16 +6,13 @@ use App\Controller\EntityController;
 use App\Entity\Etablissement;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Etablissement controller.
- *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("etablissement")]
@@ -98,10 +95,9 @@ class EtablissementController extends EntityController {
 
   /**
    * Creates a new etablissement entity.
-   *
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/new", name: "etablissement_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function newAction(Request $request) {
     $etablissement = new Etablissement();
     $form = $this->createForm('App\Form\EtablissementType', $etablissement, [
@@ -156,10 +152,9 @@ class EtablissementController extends EntityController {
 
   /**
    * Displays a form to edit an existing etablissement entity.
-   *
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/{id}/edit", name: "etablissement_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function editAction(Request $request, Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
     $editForm = $this->createForm(
@@ -198,10 +193,9 @@ class EtablissementController extends EntityController {
 
   /**
    * Deletes a etablissement entity.
-   *
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/{id}", name: "etablissement_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function deleteAction(Request $request, Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);
     $form->handleRequest($request);

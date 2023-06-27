@@ -11,12 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Import Pays controller.
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("importfilespays")]
+#[IsGranted("ROLE_ADMIN")]
 class ImportFilePaysController extends EntityController {
 
   #[Route("/", name: "importfilespays_index")]
@@ -30,19 +32,17 @@ class ImportFilePaysController extends EntityController {
     //creation of the form with a drop-down list
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
-    if ($user->getRole() == 'ROLE_ADMIN') {
-      $form = $this->createFormBuilder()
-        ->setMethod('POST')
-        ->add('type_csv', ChoiceType::class, array(
-          'choice_translation_domain' => false,
-          'choices' => array(
-            ' ' => array('Country' => 'country'),
-          ),
-        ))
-        ->add('fichier', FileType::class)
-        ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
-        ->getForm();
-    }
+    $form = $this->createFormBuilder()
+      ->setMethod('POST')
+      ->add('type_csv', ChoiceType::class, array(
+        'choice_translation_domain' => false,
+        'choices' => array(
+          ' ' => array('Country' => 'country'),
+        ),
+      ))
+      ->add('fichier', FileType::class)
+      ->add('envoyer', SubmitType::class, array('label' => 'Envoyer'))
+      ->getForm();
     $form->handleRequest($request);
 
     if ($form->isSubmitted()) { //processing form request

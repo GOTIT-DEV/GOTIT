@@ -64,7 +64,7 @@ class VocType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_voc';
   }
 }

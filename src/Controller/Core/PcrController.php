@@ -6,10 +6,10 @@ use App\Controller\EntityController;
 use App\Entity\Pcr;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Pcr controller.
@@ -160,10 +160,9 @@ class PcrController extends EntityController {
 
   /**
    * Creates a new pcr entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "pcr_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $pcr = new Pcr();
     // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
@@ -223,9 +222,9 @@ class PcrController extends EntityController {
 
   /**
    * Displays a form to edit an existing pcr entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "pcr_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Pcr $pcr, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -275,9 +274,9 @@ class PcrController extends EntityController {
 
   /**
    * Deletes a pcr entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "pcr_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Pcr $pcr) {
     $form = $this->createDeleteForm($pcr);
     $form->handleRequest($request);

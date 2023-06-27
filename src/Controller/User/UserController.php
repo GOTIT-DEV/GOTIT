@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * User controller.
@@ -34,9 +35,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends EntityController {
   /**
    * Lists all user entities.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/", name: "user_index", methods: ["GET"])]
+  #[IsGranted('ROLE_ADMIN')]
   public function indexAction() {
 
     $users = $this->getRepository(User::class)->findAll();
@@ -117,9 +118,9 @@ class UserController extends EntityController {
 
   /**
    * Creates a new user entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "user_new", methods: ["GET", "POST"])]
+  #[IsGranted('ROLE_ADMIN')]
   public function newAction(Request $request, UserPasswordHasherInterface $hasher) {
     $user = new User();
     $form = $this->createForm('App\Form\UserType', $user, [
@@ -175,9 +176,9 @@ class UserController extends EntityController {
 
   /**
    * Displays a form to edit an existing user entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "user_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, User $user, UserPasswordHasherInterface $hasher) {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     if (

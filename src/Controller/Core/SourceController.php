@@ -5,13 +5,11 @@ namespace App\Controller\Core;
 use App\Entity\Source;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Source controller.
@@ -98,10 +96,9 @@ class SourceController extends EntityController {
 
   /**
    * Creates a new source entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "source_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $source = new Source();
     $form = $this->createForm('App\Form\SourceType', $source, [
@@ -151,9 +148,9 @@ class SourceController extends EntityController {
 
   /**
    * Displays a form to edit an existing source entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "source_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -198,9 +195,9 @@ class SourceController extends EntityController {
 
   /**
    * Deletes a source entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "source_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Source $source) {
     $form = $this->createDeleteForm($source);
     $form->handleRequest($request);

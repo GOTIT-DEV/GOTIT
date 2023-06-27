@@ -6,14 +6,12 @@ use App\Controller\EntityController;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Voc controller.
@@ -112,9 +110,9 @@ class VocController extends EntityController {
 
   /**
    * Creates a new voc entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "voc_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function newAction(Request $request) {
     $voc = new Voc();
     $form = $this->createForm('App\Form\VocType', $voc, [
@@ -164,9 +162,9 @@ class VocController extends EntityController {
 
   /**
    * Displays a form to edit an existing voc entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}/edit", name: "voc_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function editAction(Request $request, Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
     $editForm = $this->createForm('App\Form\VocType', $voc, [
@@ -203,9 +201,9 @@ class VocController extends EntityController {
 
   /**
    * Deletes a voc entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}", name: "voc_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Voc $voc) {
     $form = $this->createDeleteForm($voc);
     $form->handleRequest($request);

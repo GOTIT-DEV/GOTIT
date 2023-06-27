@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Voc;
+use App\Form\EmbedTypes\EstIdentifieParEmbedType;
 
 class EspeceIdentifieeEmbedType extends UserDateTraceType {
 

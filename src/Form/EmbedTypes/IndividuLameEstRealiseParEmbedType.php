@@ -27,7 +27,7 @@ class IndividuLameEstRealiseParEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_individulameestrealisepar';
   }
 }

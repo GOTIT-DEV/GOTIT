@@ -6,14 +6,12 @@ use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Individu;
 use App\Entity\Boite;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Adn controller.
@@ -146,10 +144,9 @@ class AdnController extends EntityController {
 
   /**
    * Creates a new adn entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "adn_new", methods: ["GET", "POST"])]
+  #[IsGranted('ROLE_COLLABORATION')]
   public function newAction(Request $request) {
     $adn = new Adn();
 
@@ -213,9 +210,9 @@ class AdnController extends EntityController {
   /**
    * Displays a form to edit an existing adn entity.
    *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "adn_edit", methods: ["GET", "POST"])]
+  #[IsGranted('ROLE_COLLABORATION')]
   public function editAction(Request $request, Adn $adn, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -261,9 +258,8 @@ class AdnController extends EntityController {
 
   /**
    * Deletes a adn entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[IsGranted('ROLE_COLLABORATION')]
   #[Route("/{id}", name: "adn_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Adn $adn) {
     $form = $this->createDeleteForm($adn);

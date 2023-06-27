@@ -5,12 +5,12 @@ namespace App\Controller\Core;
 use App\Entity\Pays;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Country controller.
@@ -92,10 +92,9 @@ class PaysController extends EntityController {
 
   /**
    * Creates a new pay entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "pays_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function newAction(Request $request) {
     $pays = new Pays();
     $form = $this->createForm('App\Form\PaysType', $pays, [
@@ -147,10 +146,9 @@ class PaysController extends EntityController {
 
   /**
    * Displays a form to edit an existing pay entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}/edit", name: "pays_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function editAction(Request $request, Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
     $editForm = $this->createForm('App\Form\PaysType', $pays, [
@@ -186,10 +184,9 @@ class PaysController extends EntityController {
 
   /**
    * Deletes a pay entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}", name: "pays_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Pays $pays) {
     $form = $this->createDeleteForm($pays);
     $form->handleRequest($request);

@@ -6,11 +6,11 @@ use App\Entity\EstAligneEtTraite;
 use App\Entity\SequenceAssemblee;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Sequenceassemblee controller.
@@ -167,9 +167,9 @@ class SequenceAssembleeController extends EntityController {
 
   /**
    * Creates a new sequenceAssemblee entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "sequenceassemblee_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
 
     $sequence = new Sequenceassemblee();
@@ -313,10 +313,9 @@ class SequenceAssembleeController extends EntityController {
 
   /**
    * Displays a form to edit an existing sequenceAssemblee entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "sequenceassemblee_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(
     Request $request,
     SequenceAssemblee $sequence,
@@ -429,9 +428,9 @@ class SequenceAssembleeController extends EntityController {
 
   /**
    * Deletes a sequenceAssemblee entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "sequenceassemblee_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
     $form = $this->createDeleteForm($sequenceAssemblee);
     $form->handleRequest($request);

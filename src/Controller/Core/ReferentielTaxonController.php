@@ -6,10 +6,10 @@ use App\Controller\EntityController;
 use App\Entity\ReferentielTaxon;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Referentieltaxon controller.
@@ -98,9 +98,9 @@ class ReferentielTaxonController extends EntityController {
 
   /**
    * Creates a new referentielTaxon entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "referentieltaxon_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function newAction(Request $request) {
     $referentielTaxon = new Referentieltaxon();
     $form = $this->createForm('App\Form\ReferentielTaxonType', $referentielTaxon, [
@@ -154,9 +154,9 @@ class ReferentielTaxonController extends EntityController {
 
   /**
    * Displays a form to edit an existing referentielTaxon entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}/edit", name: "referentieltaxon_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function editAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
     $editForm = $this->createForm(
@@ -194,9 +194,9 @@ class ReferentielTaxonController extends EntityController {
 
   /**
    * Deletes a referentielTaxon entity.
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}", name: "referentieltaxon_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $form = $this->createDeleteForm($referentielTaxon);
     $form->handleRequest($request);

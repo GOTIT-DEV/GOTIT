@@ -14,6 +14,8 @@ use App\Form\Type\EntityCodeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\ActionFormType;
+use App\Controller\Core\PersonneController;
 
 class SequenceAssembleeType extends ActionFormType {
   /**
@@ -111,7 +113,7 @@ class SequenceAssembleeType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'sequence_assemblee';
   }
 }

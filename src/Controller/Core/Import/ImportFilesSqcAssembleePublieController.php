@@ -4,8 +4,6 @@ namespace App\Controller\Core\Import;
 
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,14 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * ImportIndividu controller.
  *
- * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("importfilessqcassembleepublie")]
+#[IsGranted("ROLE_COLLABORATION")]
 class ImportFilesSqcAssembleePublieController extends EntityController {
 
   #[Route("/", name: "importfilessqcassembleepublie_index")]

@@ -17,7 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Individu;
 use App\Entity\Boite;
-use App\Controller\Core\PersonneController;
 
 class AdnType extends ActionFormType {
 

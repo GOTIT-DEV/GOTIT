@@ -5,17 +5,14 @@ namespace App\Controller\Core;
 use App\Entity\Chromatogramme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Chromatogramme controller.
- *
- *
  */
 #[Route("chromatogramme")]
 class ChromatogrammeController extends EntityController {
@@ -153,9 +150,8 @@ class ChromatogrammeController extends EntityController {
 
   /**
    * Creates a new chromatogramme entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[IsGranted("ROLE_COLLABORATION")]
   #[Route("/new", name: "chromatogramme_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $chromatogramme = new Chromatogramme();
@@ -216,10 +212,9 @@ class ChromatogrammeController extends EntityController {
 
   /**
    * Displays a form to edit an existing chromatogramme entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "chromatogramme_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Chromatogramme $chromatogramme) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -268,10 +263,9 @@ class ChromatogrammeController extends EntityController {
 
   /**
    * Deletes a chromatogramme entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "chromatogramme_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
     $form = $this->createDeleteForm($chromatogramme);
     $form->handleRequest($request);

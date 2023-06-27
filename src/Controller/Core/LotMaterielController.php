@@ -5,12 +5,11 @@ namespace App\Controller\Core;
 use App\Entity\LotMateriel;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Lotmateriel controller.
@@ -179,10 +178,9 @@ class LotMaterielController extends EntityController {
 
   /**
    * Creates a new lotMateriel entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "lotmateriel_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $lotMateriel = new Lotmateriel();
 
@@ -241,10 +239,9 @@ class LotMaterielController extends EntityController {
 
   /**
    * Displays a form to edit an existing lotMateriel entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "lotmateriel_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -304,10 +301,9 @@ class LotMaterielController extends EntityController {
 
   /**
    * Deletes a lotMateriel entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "lotmateriel_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, LotMateriel $lotMateriel) {
     $form = $this->createDeleteForm($lotMateriel);
     $form->handleRequest($request);

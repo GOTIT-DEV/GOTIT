@@ -6,16 +6,13 @@ use App\Controller\EntityController;
 use App\Entity\IndividuLame;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Individulame controller.
- *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("individulame")]
@@ -141,10 +138,9 @@ class IndividuLameController extends EntityController {
 
   /**
    * Creates a new individuLame entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "individulame_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $individuLame = new Individulame();
 
@@ -207,10 +203,9 @@ class IndividuLameController extends EntityController {
 
   /**
    * Displays a form to edit an existing individuLame entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "individulame_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(
     Request $request,
     IndividuLame $individuLame,
@@ -271,10 +266,9 @@ class IndividuLameController extends EntityController {
 
   /**
    * Deletes a individuLame entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "individulame_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, IndividuLame $individuLame) {
     $form = $this->createDeleteForm($individuLame);
     $form->handleRequest($request);

@@ -5,13 +5,12 @@ namespace App\Controller\Core;
 use App\Entity\Collecte;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use App\Entity\Station;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Collecte controller.
@@ -161,10 +160,9 @@ class CollecteController extends EntityController {
 
   /**
    * Creates a new collecte entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "collecte_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $collecte = new Collecte();
     // check if the relational Entity (Station) is given
@@ -224,10 +222,9 @@ class CollecteController extends EntityController {
 
   /**
    * Displays a form to edit an existing collecte entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "collecte_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Collecte $collecte, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -286,10 +283,9 @@ class CollecteController extends EntityController {
 
   /**
    * Deletes a collecte entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "collecte_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Collecte $collecte) {
     $form = $this->createDeleteForm($collecte);
     $form->handleRequest($request);

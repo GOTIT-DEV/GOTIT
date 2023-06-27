@@ -6,16 +6,13 @@ use App\Controller\EntityController;
 use App\Entity\Commune;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Commune controller.
- *
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("commune")]
@@ -23,7 +20,6 @@ class CommuneController extends EntityController {
 
   /**
    * Lists all commune entities.
-   *
    */
   #[Route("/", name: "commune_index", methods: ["GET"])]
   public function indexAction() {
@@ -97,10 +93,9 @@ class CommuneController extends EntityController {
 
   /**
    * Creates a new commune entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/new", name: "commune_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function newAction(Request $request) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
@@ -201,10 +196,9 @@ class CommuneController extends EntityController {
 
   /**
    * Displays a form to edit an existing commune entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}/edit", name: "commune_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
@@ -240,10 +234,9 @@ class CommuneController extends EntityController {
 
   /**
    * Deletes a commune entity.
-   *
-   * @Security("is_granted('ROLE_ADMIN')")
    */
   #[Route("/{id}", name: "commune_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Commune $commune) {
     $form = $this->createDeleteForm($commune);
     $form->handleRequest($request);

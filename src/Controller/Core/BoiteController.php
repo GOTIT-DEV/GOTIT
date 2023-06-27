@@ -7,10 +7,10 @@ use App\Entity\Boite;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Boite controller.
@@ -111,9 +111,8 @@ class BoiteController extends EntityController {
 
   /**
    * Creates a new boite entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[IsGranted("ROLE_COLLABORATION")]
   #[Route("/new", name: "boite_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
 
@@ -179,10 +178,9 @@ class BoiteController extends EntityController {
 
   /**
    * Displays a form to edit an existing boite entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "boite_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, Boite $boite) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -235,10 +233,9 @@ class BoiteController extends EntityController {
 
   /**
    * Deletes a boite entity.
-   *
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "boite_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Boite $boite) {
     $form = $this->createDeleteForm($boite);
     $form->handleRequest($request);

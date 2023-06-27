@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * ImportIndividu controller.
@@ -19,6 +20,7 @@ use App\Controller\EntityController;
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
 #[Route("importfilesindividu")]
+#[IsGranted("ROLE_PROJECT")]
 class ImportFilesIndividuController extends EntityController {
 
   #[Route("/", name: "importfilesindividu_index")]

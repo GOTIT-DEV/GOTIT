@@ -30,13 +30,13 @@ class DatePrecisionType extends AbstractType {
     $resolver->setNormalizer('attr', function (Options $options, $value) {
       $attrs = $value;
       $attrs['class'] = array_key_exists("class", $value)
-      ? $value['class'] . " date-precision"
-      : 'date-precision';
+        ? $value['class'] . " date-precision"
+        : 'date-precision';
       return $attrs;
     });
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

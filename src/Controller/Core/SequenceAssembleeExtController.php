@@ -2,13 +2,13 @@
 
 namespace App\Controller\Core;
 
-use App\Entity\SequenceAssembleeExt;
-use App\Form\Enums\Action;
-use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Services\Core\GenericFunctionE3s;
+use App\Form\Enums\Action;
+use App\Entity\SequenceAssembleeExt;
 use App\Controller\EntityController;
 
 /**
@@ -174,9 +174,9 @@ class SequenceAssembleeExtController extends EntityController {
 
   /**
    * Creates a new sequenceAssembleeExt entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/new", name: "sequenceassembleeext_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function newAction(Request $request) {
     $sequenceAssembleeExt = new Sequenceassembleeext();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
@@ -245,9 +245,9 @@ class SequenceAssembleeExtController extends EntityController {
 
   /**
    * Displays a form to edit an existing sequenceAssembleeExt entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}/edit", name: "sequenceassembleeext_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -334,9 +334,9 @@ class SequenceAssembleeExtController extends EntityController {
 
   /**
    * Deletes a sequenceAssembleeExt entity.
-   * @Security("is_granted('ROLE_COLLABORATION')")
    */
   #[Route("/{id}", name: "sequenceassembleeext_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt) {
     $form = $this->createDeleteForm($sequenceAssembleeExt);
     $form->handleRequest($request);

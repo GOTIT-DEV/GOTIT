@@ -6,10 +6,10 @@ use App\Controller\EntityController;
 use App\Entity\Programme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Programme controller.
@@ -98,9 +98,9 @@ class ProgrammeController extends EntityController {
 
   /**
    * Creates a new programme entity.
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/new", name: "programme_new", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function newAction(Request $request) {
     $programme = new Programme();
     $form = $this->createForm('App\Form\ProgrammeType', $programme, [
@@ -199,9 +199,9 @@ class ProgrammeController extends EntityController {
 
   /**
    * Displays a form to edit an existing programme entity.
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/{id}/edit", name: "programme_edit", methods: ["GET", "POST"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function editAction(Request $request, Programme $programme) {
     //
     $deleteForm = $this->createDeleteForm($programme);
@@ -237,9 +237,9 @@ class ProgrammeController extends EntityController {
 
   /**
    * Deletes a programme entity.
-   * @Security("is_granted('ROLE_PROJECT')")
    */
   #[Route("/{id}", name: "programme_delete", methods: ["DELETE"])]
+  #[IsGranted("ROLE_PROJECT")]
   public function deleteAction(Request $request, Programme $programme) {
     $form = $this->createDeleteForm($programme);
     $form->handleRequest($request);
