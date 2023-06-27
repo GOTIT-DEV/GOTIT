@@ -69,13 +69,6 @@ class Station {
   /**
    * @var string
    *
-   * @ORM\Column(name="location_info", type="text", nullable=true)
-   */
-  private $infoLocalisation;
-
-  /**
-   * @var string
-   *
    * @ORM\Column(name="site_description", type="text", nullable=true)
    */
   private $infoDescription;
