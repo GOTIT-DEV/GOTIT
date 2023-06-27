@@ -14,7 +14,7 @@ class EntityController extends AbstractController {
     $this->entityManager = $em;
   }
 
-  public function getUser(): User {
+  public function getUser(): User | null {
     return parent::getUser();
   }
 
