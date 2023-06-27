@@ -33,7 +33,7 @@
     "symfony/serializer": "^6.3",
     "symfony/twig-bundle": "^6.3",
     "symfony/validator": "^6.3",
-    "symfony/webpack-encore-bundle": "1.*",
+    "symfony/webpack-encore-bundle": "^2.0",
     "symfony/yaml": "^6.3",
     "willdurand/js-translation-bundle": "5.*"
   },
