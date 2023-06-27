@@ -89,18 +89,6 @@ class QueryBuilderService {
       } else {
         $query = $query->addSelect($this->selectClause($alias, $field));
       }
-
-      if (
-        !($user instanceof User) &&
-        $table === "Station" && ($field['id'] === "latDegDec" ||
-          $field['id'] === "longDegDec"
-        )
-      ) {
-        // Scramble coordinates
-        $query = $query->addSelect($this->scrambledSelectClause($alias, $field));
-      } else {
-        $query = $query->addSelect($this->selectClause($alias, $field));
-      }
     };
     // If there are some constraints addedby the user
     if ($initial['rules']) {
