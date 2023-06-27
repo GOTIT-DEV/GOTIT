@@ -81,9 +81,6 @@
     "monolog/monolog": {
         "version": "2.6.0"
     },
-    "myclabs/php-enum": {
-        "version": "1.7.6"
-    },
     "nikic/php-parser": {
         "version": "v4.10.2"
     },
