@@ -1,6 +1,6 @@
 # VOCABULARY ###################################################################
 # Vocabulary (table Voc) : Examples of vocabulary labels (translations fr/en)
-# NOTE : Only add vocabulary terms for which translation is needed. 
+# NOTE : Only add vocabulary terms for which translation is needed.
 # By default,the primary langage vocabulary label will be used
 # 1 - DELETE THE FIRST PART OF THAT FILE IF ENGLISH IS USED AS A PRIMARY LANGAGE
 LOT: LOT
@@ -171,11 +171,11 @@ Centaine d'individus (>100): HUNDRED SPECIMENS (>100)
 Nombre inconnu: NUMBER NOT KNOWN
 # 1 - END OF DELETE THE FIRST PART OF THAT FILE IF ENGLISH IS USED AS A PRIMARY LANGAGE
 
-# 
+#
 list.linkSequenceassemblee: Seq(s)
 alert.codeIndBiomol empty: specimen molecular code is empty. You have to enter it in the Specimen form
 alert.codeIndTriMorpho empty: specimen morphological code is empty. You have to enter it in the Specimen form
-    
+
 # autocomplete field form
 Chromatogramme typeahead placeholder: Type the first letters of the chromatogram Code
 Chromatogramme typeahead: Chromatogram
@@ -185,7 +185,7 @@ Adn typeahead placeholder: Type the first letters of the DNA Code
 Adn typeahead: DNA
 Individu typeahead placeholder: Type the first letters of the Specimen Molecular Code
 Individu codeIndTriMorpho typeahead placeholder: Type the first letters of the specimen morphological code
-Individu typeahead: Specimen 
+Individu typeahead: Specimen
 Lotmateriel typeahead placeholder: Type the first letters of the Internal biological material Code
 Lotmateriel typeahead: Internal biological material
 Lotmaterielext typeahead placeholder: Type the first letters of the External biological material Code
@@ -215,13 +215,13 @@ vocParent.primerChromato: Primer Chromato
 vocParent.primerPcrEnd: Primer PCR End
 vocParent.primerPcrStart: Primer PCR Start
 vocParent.qualiteAdn: DNA quality
-vocParent.qualiteChromato: Chromatogram quality 
-vocParent.qualitePcr: PCR quality 
+vocParent.qualiteChromato: Chromatogram quality
+vocParent.qualitePcr: PCR quality
 vocParent.samplingMethod: sampling method
 vocParent.specificite: PCR specificity
 vocParent.statutSqcAss: Sequence status
 vocParent.typeBoite: Box type
-vocParent.typeCollection: Collection type 
+vocParent.typeCollection: Collection type
 vocParent.typeIndividu: Specimen type
 vocParent.yeux: Vision
 
@@ -240,7 +240,7 @@ list.linkIndividu: Ind(s)
 list.linkIndividu_codestation: Ind/Si
 list.linkChromatogramme: Chr(s)
 list.linkCollecte: Sam
-# Column titles 
+# Column titles
 list.Parent libelle: Parent (label)
 list.Parent code: Parent (code)
 list.vocLibelle: Title (database)
@@ -252,7 +252,7 @@ list.List source: Source(s)
 list.List code adn: List of DNA code(s)
 list.Date creation lot materiel: Date creation
 list.lastCodeSeqAss: Last sequence code
-list.lastStatutSeqAss: Last status 
+list.lastStatutSeqAss: Last status
 list.lastCodeSeqAlignement: Last alignment code
 list.lastDateSeqAss: Last sequence date
 list.Date maj: Date Up
@@ -272,7 +272,7 @@ button.Back: Back
 button.exportToCSV: Export to CSV file
 button.exportToCSV-title: UTF-8 encoding and comma point separator
 button.See Stations Around: See nearby sites
-button.Close: Close 
+button.Close: Close
 # Button titles in csv file uploading tools
 button.ImportVoc: Import new set of Vocabulary
 button.ImportReferentieltaxon: Import new set of Taxa
@@ -386,14 +386,14 @@ Envoyer: Import CSV file
 # Error messages from the data uploading procedures (ImportFileE3s)
 importfileService.ERROR Unknown file imported: ERROR -  UNKNOWN CSV file imported
 importfileService.ERROR Unknown template file: ERROR - UNKNOWN template file
-importfileService.ERROR bad number of columns in CSV file: ERROR - Wrong number of columns in CSV file - cf. GOTIT Help 
-importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain correct column names - cf. GOTIT Help 
+importfileService.ERROR bad number of columns in CSV file: ERROR - Wrong number of columns in CSV file - cf. GOTIT Help
+importfileService.ERROR bad column in CSV file: ERROR - the CSV file does not contain correct column names - cf. GOTIT Help
 importfileService.ERROR bad data OUI-NON: ERROR - INVALID record { OUI / NON , YES / NO, 1 / 0}
 importfileService.ERROR bad data YES-NO: ERROR - INVALID record ( YES / NO )
 importfileService.ERROR duplicate code sqc sqcext: ERROR - Duplicate sequence code, code already exists in database
 importfileService.ERROR bad float format: ERROR - Wrong FLOAT format
 importfileService.ERROR bad date format: ERROR - Wrong date format ( dd / mm / yyyy )
-importfileService.ERROR unknown record: ERROR - UNKNOWN record 
+importfileService.ERROR unknown record: ERROR - UNKNOWN record
 importfileService.ERROR bad character: ERROR - Special characters are to be deleted in
 importfileService.ERROR assession number already assign: ERROR - Accession number is already assigned to the sequence
 importfileService.ERROR sqc already store: ERROR - The sequence is already assigned to a box
@@ -403,7 +403,7 @@ importfileService.ERROR lot already store: ERROR - The material is already assig
 importfileService.ERROR slide already store: ERROR - The slide is already assigned to a box
 importfileService.ERROR adn already store: ERROR - The DNA extract is already assigned to a box
 importfileService.ERROR no box code for material: ERROR - the box code has not been entered for the code material
-importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code Slide coll 
+importfileService.ERROR no box code: ERROR -  the box code has not been entered for the code Slide coll
 importfileService.ERROR duplicate record: ERROR - DUPLICATE record, record already in database
 importfileService.ERROR duplicate code: ERROR - DUPLICATE code, code already in database
 importfileService.ERROR bad code: ERROR - UNKNOWN code
@@ -412,7 +412,7 @@ importfileService.Problem of FLUSH: PROBLEM of FLUSH ! the import process is sto
 importfileService.Import OK: Data import is successful. Number of records Imported
 
 #  BUTTON TITLES IN PAGES FOR UPLOADING DATA IN BATCHES ########################
-import.liste: Upload other set of files 
+import.liste: Upload other set of files
 import.boite.lotmaterielrange: Store biological material as file
 import.boite.individulamerange: Store slide as file
 import.boite.adnrange: Store DNA box as file
@@ -514,7 +514,7 @@ legales_mentions: Legal notices
 Switch version: Switch version
 modal-title.Station - Localisation: Map of nearby sites (0.1x0.1deg ~ 10x10km) from the GPS point (map center)
 # PopUp alert messages related to date management
-alert.datePrecisionINCONNU:  date fields must be left blank 
+alert.datePrecisionINCONNU:  date fields must be left blank
 alert.datePrecisionANNEE:  All date fields have to be filled with the format 01-01-YYYY
 alert.datePrecisionMOIS:  All date fields have to be filled with the format 01-MM-YYYY
 alert.datePrecisionJOUR:  All date fields have to be filled with the format DD-MM-YYYY
@@ -741,3 +741,5 @@ ROLE_PROJECT: PROJECT MEMBER
 ROLE_COLLABORATION: COLLABORATION MEMBER
 ROLE_INVITED: INVITED MEMBER
 Profile: User profile
+
+scrambled_coordinates: "Coordinates are scrambled to protect the exact location of sites. Only authenticated users may access coordinates with full precision."

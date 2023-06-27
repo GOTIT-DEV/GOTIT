@@ -577,3 +577,5 @@ ROLE_PROJECT: MEMBRE PROJET
 ROLE_COLLABORATION: MEMBRE COLLABORATION
 ROLE_INVITED: INVITÉ
 Profile: Profil utilisateur
+
+scrambled_coordinates: "La précision des coordonnées des stations d'échantillons est réduite pour protéger leur localisation. Identifiez-vous pour accéder aux coordonnées exactes."

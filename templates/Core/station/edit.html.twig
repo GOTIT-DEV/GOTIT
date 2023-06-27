@@ -10,6 +10,12 @@
 {% block headincl %}{% endblock %}
 
 {% block body %}
+	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		<div class="alert alert-info">
+			<i class="fa fa-info-circle"></i>
+			{{ "scrambled_coordinates"|trans}}
+		</div>
+	{% endif %}
 	{{ parent() }}
 	<div id="map-modal"></div>
 {% endblock %}
