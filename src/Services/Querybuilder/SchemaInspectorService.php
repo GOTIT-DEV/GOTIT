@@ -65,7 +65,8 @@ class SchemaInspectorService {
           }
           return $acc;
         },
-        []);
+        []
+      );
     }
 
     # add relations the other way back
@@ -124,8 +125,8 @@ class SchemaInspectorService {
 
       if ($table == "vocabulary" && $field['fieldName'] == "parent") {
         $filter['choices'] = array_map('current', $this->em
-            ->createQuery('select distinct v.parent from App:Voc v')
-            ->getArrayResult());
+          ->createQuery('select distinct v.parent from App:Voc v')
+          ->getArrayResult());
         $filter['type'] = 'custom-component';
       }
 
@@ -133,9 +134,18 @@ class SchemaInspectorService {
     };
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
 
-    if ($entity === "Station" || $entity === "Personne") {
+    if ($entity === "Station") {
       $filters = array_values(array_filter($filters, function ($f) {
-        return $f["id"] !== "infoDescription" && $f['id'] !== "commentairePersonne";
+        return $f["id"] !== "infoDescription"
+          && $f['id'] !== "commentaireStation";
+      }));
+    } elseif ($entity === "Personne") {
+      $filters = array_values(array_filter($filters, function ($f) {
+        return $f['id'] !== "commentairePersonne";
+      }));
+    } elseif ($entity === "Collecte") {
+      $filters = array_values(array_filter($filters, function ($f) {
+        return $f['id'] !== "commentaireCollecte";
       }));
     }
 

@@ -22,6 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Station;
 use App\Controller\Core\ProgrammeController;
 use App\Controller\Core\PersonneController;
+use App\Entity\User;
 
 class CollecteType extends ActionFormType {
 
@@ -128,14 +129,16 @@ class CollecteType extends ActionFormType {
         'multiple' => false,
         'expanded' => true,
         'label_attr' => ['class' => 'radio-inline'],
-      ])
-      ->add('commentaireCollecte')
-      ->add('legVocFk', BaseVocType::class, [
-        'voc_parent' => 'leg',
-        'sort_by_id' => true,
-        'expanded' => true,
-        'label_attr' => ['class' => 'radio-inline'],
-      ])
+      ]);
+    if ($this->security->getUser() instanceof User) {
+      $builder->add('commentaireCollecte');
+    }
+    $builder->add('legVocFk', BaseVocType::class, [
+      'voc_parent' => 'leg',
+      'sort_by_id' => true,
+      'expanded' => true,
+      'label_attr' => ['class' => 'radio-inline'],
+    ])
       ->addEventSubscriber($this->addUserDate);
   }
 
