@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Etablissement;
 
 class PersonneType extends ActionFormType {
   /**
@@ -23,7 +24,7 @@ class PersonneType extends ActionFormType {
         'required' => false,
       ])
       ->add('etablissementFk', EntityType::class, [
-        'class' => 'App:Etablissement',
+        'class' => Etablissement::class,
         'placeholder' => 'Choose a Etablissement',
         'choice_label' => 'nom_etablissement',
         'query_builder' => function (EntityRepository $er) {

@@ -14,7 +14,7 @@ class EstFinanceParEmbedType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('programmeFk', EntityType::class, array(
-      'class' => 'App:Programme',
+      'class' => Programme::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('programme')
           ->orderBy('programme.codeProgramme', 'ASC');
@@ -39,7 +39,7 @@ class EstFinanceParEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_estfinancepar';
   }
 }

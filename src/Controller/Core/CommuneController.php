@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Commune;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -15,28 +16,18 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Commune controller.
  *
- * @Route("commune")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CommuneController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("commune")]
+class CommuneController extends EntityController {
 
   /**
    * Lists all commune entities.
    *
-   * @Route("/", name="commune_index", methods={"GET"})
    */
+  #[Route("/", name: "commune_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $communes = $em->getRepository('App:Commune')->findAll();
+    $communes = $this->getRepository(Commune::class)->findAll();
 
     return $this->render('Core/commune/index.html.twig', array(
       'communes' => $communes,
@@ -48,19 +39,14 @@ class CommuneController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="commune_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "commune_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');
+      ? $request->get('sort')
+      : array('commune.dateMaj' => 'desc', 'commune.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(commune.codeCommune) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
@@ -69,7 +55,8 @@ class CommuneController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Commune")->createQueryBuilder('commune')
+    $entities_toshow = $this->getRepository(Commune::class)
+      ->createQueryBuilder('commune')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Pays', 'pays', 'WITH', 'commune.paysFk = pays.id')
@@ -78,14 +65,14 @@ class CommuneController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id, "commune.id" => $id,
         "commune.codeCommune" => $entity->getCodeCommune(),
@@ -111,9 +98,9 @@ class CommuneController extends AbstractController {
   /**
    * Creates a new commune entity.
    *
-   * @Route("/new", name="commune_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/new", name: "commune_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
@@ -122,11 +109,10 @@ class CommuneController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($commune);
+      $this->entityManager->persist($commune);
       try {
-        $flush = $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -149,9 +135,8 @@ class CommuneController extends AbstractController {
 
   /**
    * Creates a new commune entity for modal windows
-   *
-   * @Route("/newmodal", name="commune_newmodal", methods={"GET", "POST"})
    */
+  #[Route("/newmodal", name: "commune_newmodal", methods: ["GET", "POST"])]
   public function newmodalAction(Request $request, $id_pays = null) {
     $commune = new Commune();
     $form = $this->createForm('App\Form\CommuneType', $commune, [
@@ -170,11 +155,10 @@ class CommuneController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->doctrine->getManager();
-        $em->persist($commune);
+        $this->entityManager->persist($commune);
 
         try {
-          $flush = $em->flush();
+          $flush = $this->entityManager->flush();
           $select_id = $commune->getId();
           $select_name = $commune->getCodeCommune();
           return new JsonResponse([
@@ -182,7 +166,7 @@ class CommuneController extends AbstractController {
             'select_name' => $select_name,
             'entityname' => 'commune',
           ]);
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (\Exception $e) {
           return new JsonResponse([
             'exception' => true,
             'exception_message' => $e->getMessage(),
@@ -200,9 +184,8 @@ class CommuneController extends AbstractController {
 
   /**
    * Finds and displays a commune entity.
-   *
-   * @Route("/{id}", name="commune_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "commune_show", methods: ["GET"])]
   public function showAction(Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
 
@@ -219,9 +202,9 @@ class CommuneController extends AbstractController {
   /**
    * Displays a form to edit an existing commune entity.
    *
-   * @Route("/{id}/edit", name="commune_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/{id}/edit", name: "commune_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
@@ -230,10 +213,9 @@ class CommuneController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -259,20 +241,21 @@ class CommuneController extends AbstractController {
   /**
    * Deletes a commune entity.
    *
-   * @Route("/{id}", name="commune_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/{id}", name: "commune_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Commune $commune) {
     $form = $this->createDeleteForm($commune);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
-    if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
+    if (($form->isSubmitted() && $form->isValid())
+      || $this->isCsrfTokenValid('delete-item', $submittedToken)
+    ) {
       try {
-        $em->remove($commune);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($commune);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

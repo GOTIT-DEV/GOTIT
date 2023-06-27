@@ -11,43 +11,32 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Collecte controller.
  *
- * @Route("collecte")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class CollecteController extends AbstractController {
+#[Route("collecte")]
+class CollecteController extends EntityController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
 
   /**
    * Lists all collecte entities.
-   *
-   * @Route("/", name="collecte_index", methods={"GET", "POST"})
    */
+  #[Route("/", name: "collecte_index", methods: ["GET", "POST"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-    $collectes = $em->getRepository('App:Collecte')->findAll();
+    $collectes = $this->getRepository(Collecte::class)->findAll();
 
     return $this->render('Core/collecte/index.html.twig', array(
       'collectes' => $collectes,
     ));
   }
 
-  /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="collecte_search")
-   */
+  #[Route("/search/{q}", requirements: ["q" => ".+"], name: "collecte_search")]
   public function searchAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('collecte.id, collecte.codeCollecte as code')
       ->from('App:Collecte', 'collecte');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -60,10 +49,8 @@ class CollecteController extends AbstractController {
     $qb->addOrderBy('code', 'ASC');
     $qb->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $results = $qb->getQuery()->getResult();
-    // Ajax answer
-    return $this->json(
-      $results
-    );
+
+    return $this->json($results);
   }
 
   /**
@@ -72,19 +59,15 @@ class CollecteController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="collecte_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "collecte_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
       'collecte.dateMaj' => 'desc',
       'collecte.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
 
     // initializes the searchPhrase variable
     $where = 'LOWER(collecte.codeCollecte) LIKE :criteriaLower';
@@ -97,7 +80,8 @@ class CollecteController extends AbstractController {
     }
     // Search the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Collecte")->createQueryBuilder('collecte')
+    $entities_toshow = $this->getRepository(Collecte::class)
+      ->createQueryBuilder('collecte')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
@@ -109,33 +93,33 @@ class CollecteController extends AbstractController {
       ->getResult();
     $nb_entities = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCollecte = ($entity->getDateCollecte() !== null)
-      ? $entity->getDateCollecte()->format('Y-m-d') : null;
+        ? $entity->getDateCollecte()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // search for material associated with a sampling
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = ' . $id
       )->getResult();
       $linkLotmaterielFk = (count($query) > 0) ? $id : '';
       // search for external material associated with a sampling
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = ' . $id
       )->getResult();
       $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
       // search for external sequence associated with a sampling
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id
       )->getResult();
       $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
       )->getResult();
       $arrayTaxonsCibler = array();
@@ -178,17 +162,15 @@ class CollecteController extends AbstractController {
   /**
    * Creates a new collecte entity.
    *
-   * @Route("/new", name="collecte_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "collecte_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $collecte = new Collecte();
-    $em = $this->doctrine->getManager();
-
     // check if the relational Entity (Station) is given
     if ($site_id = $request->get('idFk')) {
       // set the RelationalEntityFk for the new Entity
-      $site = $em->getRepository('App:Station')->find($site_id);
+      $site = $this->getRepository(Station::class)->find($site_id);
       $collecte->setStationFk($site);
     }
 
@@ -198,10 +180,10 @@ class CollecteController extends AbstractController {
 
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($collecte);
+      $this->entityManager->persist($collecte);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -225,9 +207,8 @@ class CollecteController extends AbstractController {
 
   /**
    * Finds and displays a collecte entity.
-   *
-   * @Route("/{id}", name="collecte_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "collecte_show", methods: ["GET"])]
   public function showAction(Collecte $collecte) {
     $deleteForm = $this->createDeleteForm($collecte);
     $showForm = $this->createForm('App\Form\CollecteType', $collecte, [
@@ -244,9 +225,9 @@ class CollecteController extends AbstractController {
   /**
    * Displays a form to edit an existing collecte entity.
    *
-   * @Route("/{id}/edit", name="collecte_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "collecte_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Collecte $collecte, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -267,7 +248,6 @@ class CollecteController extends AbstractController {
       'action_type' => Action::edit->value,
     ]);
     $editForm->handleRequest($request);
-    // dump($collecte->getSamplingParticipants());
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       // delete ArrayCollection
@@ -278,10 +258,10 @@ class CollecteController extends AbstractController {
       $service->DelArrayCollection('ACiblers', $collecte, $originalACiblers);
 
       // flush
-      $this->doctrine->getManager()->persist($collecte);
+      $this->entityManager->persist($collecte);
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -307,20 +287,19 @@ class CollecteController extends AbstractController {
   /**
    * Deletes a collecte entity.
    *
-   * @Route("/{id}", name="collecte_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "collecte_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Collecte $collecte) {
     $form = $this->createDeleteForm($collecte);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($collecte);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($collecte);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

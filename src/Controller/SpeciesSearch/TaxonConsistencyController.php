@@ -28,16 +28,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * Controller for querying species assignment consistency
  * among sequences, individuals and biological materials
  *
- * @Route("/consistency")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
+#[Route("/consistency")]
 class TaxonConsistencyController extends AbstractController {
 
   /**
-   * @Route("/", name="consistency", methods={"GET"})
    *
    * Index : render query form template
    */
+  #[Route("/", name: "consistency", methods: ["GET"])]
   public function index(SpeciesQueryService $service) {
     # fetch genus set
     $genus_set = $service->getGenusSet();
@@ -48,10 +48,9 @@ class TaxonConsistencyController extends AbstractController {
   }
 
   /**
-   * @Route("/query", name="consistency-query", methods={"POST"})
-   *
    * Returns a JSON response with species assignment at each identification level
    */
+  #[Route("/query", name: "consistency-query", methods: ["POST"])]
   public function searchQuery(Request $request, SpeciesQueryService $service) {
     $data = json_decode($request->getContent(), true);
     $res = $service->getSpeciesAssignment($data);

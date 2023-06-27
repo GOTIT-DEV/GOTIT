@@ -17,11 +17,10 @@
 
 namespace App\Controller\User;
 
+use App\Controller\EntityController;
 use App\Entity\User;
 use App\Form\Enums\Action;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -29,30 +28,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * User controller.
- *
- * @Route("user")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>, Louis Duchemin <ls.duchemin@gmail.com>
  */
-class UserController extends AbstractController {
-    
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-       
+#[Route("user")]
+class UserController extends EntityController {
   /**
    * Lists all user entities.
-   *
-   * @Route("/", name="user_index", methods={"GET"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/", name: "user_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $users = $em->getRepository('App:User')->findAll();
+    $users = $this->getRepository(User::class)->findAll();
 
     return $this->render('user/index.html.twig', array(
       'users' => $users,
@@ -61,9 +48,8 @@ class UserController extends AbstractController {
 
   /**
    * Get currently logged in user public informations
-   *
-   * @Route("/current", name="user_current", methods={"GET"})
    */
+  #[Route("/current", name: "user_current", methods: ["GET"])]
   public function currentUserAction() {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
     $user = $this->getUser();
@@ -81,21 +67,17 @@ class UserController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="user_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "user_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request) {
-    $em = $this->doctrine->getManager();
-
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
       'user.dateMaj' => 'desc',
       'user.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:User")
+    $entities_toshow = $this->getRepository(User::class)
       ->createQueryBuilder('user')
       ->where('LOWER(user.username) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
@@ -108,9 +90,9 @@ class UserController extends AbstractController {
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $tab_toshow[] = array(
         "id" => $id,
         "user.id" => $id,
@@ -135,10 +117,9 @@ class UserController extends AbstractController {
 
   /**
    * Creates a new user entity.
-   *
-   * @Route("/new", name="user_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/new", name: "user_new", methods: ["GET", "POST"])]
   public function newAction(Request $request, UserPasswordHasherInterface $hasher) {
     $user = new User();
     $form = $this->createForm('App\Form\UserType', $user, [
@@ -151,12 +132,10 @@ class UserController extends AbstractController {
       $passwordHash = $hasher->hashPassword($user, $plainPassword);
 
       $user->setPassword($passwordHash);
-      //
-      $em = $this->doctrine->getManager();
-      $em->persist($user);
+      $this->entityManager->persist($user);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -179,9 +158,8 @@ class UserController extends AbstractController {
 
   /**
    * Finds and displays a user entity.
-   *
-   * @Route("/{id}", name="user_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "user_show", methods: ["GET"])]
   public function showAction(User $user) {
     $deleteForm = $this->createDeleteForm($user);
 
@@ -197,12 +175,10 @@ class UserController extends AbstractController {
 
   /**
    * Displays a form to edit an existing user entity.
-   *
-   * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "user_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, User $user, UserPasswordHasherInterface $hasher) {
-    //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
@@ -220,10 +196,9 @@ class UserController extends AbstractController {
       $plainPassword = $user->getPlainPassword();
       $passwordHash = $hasher->hashPassword($user, $plainPassword);
       $user->setPassword($passwordHash);
-      $em = $this->doctrine->getManager();
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -248,9 +223,8 @@ class UserController extends AbstractController {
 
   /**
    * Deletes a user entity.
-   *
-   * @Route("/{id}", name="user_delete", methods={"DELETE"})
    */
+  #[Route("/{id}", name: "user_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, User $user) {
     $form = $this->createDeleteForm($user);
     $form->handleRequest($request);
@@ -258,12 +232,11 @@ class UserController extends AbstractController {
     $submittedToken = $request->request->get('token');
 
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       if ($user->getRole() != 'ROLE_ADMIN') {
         try {
-          $em->remove($user);
-          $em->flush();
-        } catch (\Doctrine\DBAL\DBALException $e) {
+          $this->entityManager->remove($user);
+          $this->entityManager->flush();
+        } catch (\Exception $e) {
           $exception_message = addslashes(
             html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
           );

@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Individu;
 
 class AdnListeIndBiomolType extends AbstractType {
   /**
@@ -14,7 +15,7 @@ class AdnListeIndBiomolType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('individuFk', EntityType::class, array(
-      'class' => 'App:Individu',
+      'class' => Individu::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('ind')
           ->where('ind.codeIndBiomol IS NOT NULL')
@@ -39,7 +40,7 @@ class AdnListeIndBiomolType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_adn';
   }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Etablissement;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -15,27 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Etablissement controller.
  *
- * @Route("etablissement")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class EtablissementController extends AbstractController {
-  /**
-   * @author Philippe Grison  <philippe.grison@mnhn.fr>
-   */
-  private $doctrine;
-  public function __construct(ManagerRegistry $doctrine) {
-    $this->doctrine = $doctrine;
-  }
+#[Route("etablissement")]
+class EtablissementController extends EntityController {
+
 
   /**
    * Lists all etablissement entities.
-   *
-   * @Route("/", name="etablissement_index", methods={"GET"})
    */
+  #[Route("/", name: "etablissement_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $etablissements = $em->getRepository('App:Etablissement')->findAll();
+    $etablissements = $this->getRepository(Etablissement::class)->findAll();
 
     return $this->render('Core/etablissement/index.html.twig', array(
       'etablissements' => $etablissements,
@@ -47,19 +40,14 @@ class EtablissementController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="etablissement_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "etablissement_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');
+      ? $request->get('sort')
+      : array('etablissement.dateMaj' => 'desc', 'etablissement.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(etablissement.nomEtablissement) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
@@ -68,8 +56,8 @@ class EtablissementController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em
-      ->getRepository("App:Etablissement")
+    $entities_toshow = $this
+      ->getRepository(Etablissement::class)
       ->createQueryBuilder('etablissement')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -78,14 +66,14 @@ class EtablissementController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id,
@@ -111,9 +99,9 @@ class EtablissementController extends AbstractController {
   /**
    * Creates a new etablissement entity.
    *
-   * @Route("/new", name="etablissement_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/new", name: "etablissement_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $etablissement = new Etablissement();
     $form = $this->createForm('App\Form\EtablissementType', $etablissement, [
@@ -122,11 +110,10 @@ class EtablissementController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($etablissement);
+      $this->entityManager->persist($etablissement);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -150,9 +137,8 @@ class EtablissementController extends AbstractController {
 
   /**
    * Finds and displays a etablissement entity.
-   *
-   * @Route("/{id}", name="etablissement_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "etablissement_show", methods: ["GET"])]
   public function showAction(Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
     $editForm = $this->createForm(
@@ -171,9 +157,9 @@ class EtablissementController extends AbstractController {
   /**
    * Displays a form to edit an existing etablissement entity.
    *
-   * @Route("/{id}/edit", name="etablissement_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/{id}/edit", name: "etablissement_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
     $editForm = $this->createForm(
@@ -185,8 +171,8 @@ class EtablissementController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -213,9 +199,9 @@ class EtablissementController extends AbstractController {
   /**
    * Deletes a etablissement entity.
    *
-   * @Route("/{id}", name="etablissement_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/{id}", name: "etablissement_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);
     $form->handleRequest($request);
@@ -224,11 +210,10 @@ class EtablissementController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($etablissement);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($etablissement);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

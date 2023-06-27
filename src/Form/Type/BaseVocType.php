@@ -13,9 +13,11 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\Translator;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Voc;
 
 class BaseVocType extends AbstractType {
   protected $translator;
+  protected $entityManager;
 
   public function __construct(TranslatorInterface $translator, EntityManagerInterface $em) {
     $this->translator = $translator;
@@ -38,7 +40,7 @@ class BaseVocType extends AbstractType {
 
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-      'class' => 'App:Voc',
+      'class' => Voc::class,
       'choice_label' => 'libelle',
       'choice_attr' => function ($choice, $key, $value) {
         return ['data-code' => $choice->getCode()];
@@ -52,15 +54,17 @@ class BaseVocType extends AbstractType {
       'sort_by_id' => false,
     ]);
     $resolver->setRequired('voc_parent');
-    $resolver->setNormalizer('query_builder',
+    $resolver->setNormalizer(
+      'query_builder',
       function (Options $options, $qbFactory) {
         return $qbFactory($this->entityManager->getRepository($options['class']))
           ->where("voc.parent = :parent")
           ->setParameter('parent', $options['voc_parent']);
-      });
+      }
+    );
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

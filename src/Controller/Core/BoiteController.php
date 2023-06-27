@@ -2,42 +2,29 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Boite;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Boite controller.
- *
- * @Route("boite")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class BoiteController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("storage")]
+class BoiteController extends EntityController {
 
   /**
    * Lists all boite entities.
-   *
-   * @Route("/", name="boite_index", methods={"GET"})
    */
+  #[Route("/", name: "boite_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $boites = $em->getRepository('App:Boite')->findAll();
+    $boites = $this->getRepository(Boite::class)->findAll();
 
     return $this->render('Core/boite/index.html.twig', array(
       'boites' => $boites,
@@ -49,17 +36,13 @@ class BoiteController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="boite_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "boite_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('boite.dateMaj' => 'desc', 'boite.id' => 'desc');
+      ? $request->get('sort')
+      : array('boite.dateMaj' => 'desc', 'boite.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -73,19 +56,18 @@ class BoiteController extends AbstractController {
     }
     // Search for the list to show EstAligneEtTraite
     $tab_toshow = [];
-    $entities_toshow = $em
-      ->getRepository("App:Boite")
+    $entities_toshow = $this->getRepository(Boite::class)
       ->createQueryBuilder('boite')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin(
-        'App:Voc',
+        Voc::class,
         'vocCodeCollection',
         'WITH',
         'boite.codeCollectionVocFk = vocCodeCollection.id'
       )
       ->leftJoin(
-        'App:Voc',
+        Voc::class,
         'vocTypeBoite',
         'WITH',
         'boite.typeBoiteVocFk = vocTypeBoite.id'
@@ -95,14 +77,14 @@ class BoiteController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "boite.id" => $id,
@@ -130,15 +112,15 @@ class BoiteController extends AbstractController {
   /**
    * Creates a new boite entity.
    *
-   * @Route("/new", name="boite_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "boite_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
 
     $boite = new Boite();
 
     if ($request->get("typeBoite")) {
-      $boxTypeRepo = $this->getDoctrine()->getRepository(Voc::class);
+      $boxTypeRepo = $this->getRepository(Voc::class);
       $boxType = $boxTypeRepo->findOneBy([
         'code' => $request->get('typeBoite'),
         'parent' => 'typeBoite',
@@ -152,11 +134,10 @@ class BoiteController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($boite);
+      $this->entityManager->persist($boite);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -181,9 +162,8 @@ class BoiteController extends AbstractController {
 
   /**
    * Finds and displays a boite entity.
-   *
-   * @Route("/{id}", name="boite_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "boite_show", methods: ["GET"])]
   public function showAction(Boite $boite) {
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
@@ -200,9 +180,9 @@ class BoiteController extends AbstractController {
   /**
    * Displays a form to edit an existing boite entity.
    *
-   * @Route("/{id}/edit", name="boite_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "boite_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Boite $boite) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -213,8 +193,6 @@ class BoiteController extends AbstractController {
     ) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
-    // load the Entity Manager
-    $em = $this->doctrine->getManager();
 
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
@@ -223,11 +201,11 @@ class BoiteController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em->persist($boite);
+      $this->entityManager->persist($boite);
       // flush
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -258,9 +236,9 @@ class BoiteController extends AbstractController {
   /**
    * Deletes a boite entity.
    *
-   * @Route("/{id}", name="boite_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "boite_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Boite $boite) {
     $form = $this->createDeleteForm($boite);
     $form->handleRequest($request);
@@ -269,11 +247,10 @@ class BoiteController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($boite);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($boite);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ChoiceLoader\AutocompleteChoiceLoader;
 
 class SearchableSelectType extends AbstractType {
+  protected $entityManager;
 
   public function __construct(EntityManagerInterface $em) {
     $this->entityManager = $em;
@@ -45,7 +46,7 @@ class SearchableSelectType extends AbstractType {
     });
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

@@ -5,50 +5,35 @@ namespace App\Controller\Core;
 use App\Entity\Station;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Station controller.
- *
- * @Route("station")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class StationController extends AbstractController {
+#[Route("station")]
+class StationController extends EntityController {
   const MAX_RESULTS_TYPEAHEAD = 20;
 
   /**
-   * @author Philippe Grison  <philippe.grison@mnhn.fr>
-   */
-  private $doctrine;
-  public function __construct(ManagerRegistry $doctrine) {
-    $this->doctrine = $doctrine;
-  }
-
-  /**
    * Lists all station entities.
-   *
-   * @Route("/", name="station_index", methods={"GET"})
    */
+  #[Route("/", name: "station_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $stations = $em->getRepository('App:Station')->findAll();
+    $stations = $this->getRepository(Station::class)->findAll();
 
     return $this->render('Core/station/index.html.twig', array(
       'stations' => $stations,
     ));
   }
 
-  /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="station_search")
-   */
+  #[Route("/search/{q}", requirements: ["q" => ".+"], name: "station_search")]
   public function searchAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('station.id, station.codeStation as code')
       ->from('App:Station', 'station');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -72,22 +57,17 @@ class StationController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="station_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "station_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     $user = $this->getUser();
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('station.dateMaj' => 'desc', 'station.id' => 'desc');
+      ? $request->get('sort')
+      : array('station.dateMaj' => 'desc', 'station.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Station")
+    $entities_toshow = $this->getRepository(Station::class)
       ->createQueryBuilder('station')
       ->where('LOWER(station.codeStation) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
@@ -98,15 +78,15 @@ class StationController extends AbstractController {
       ->getResult();
     $nb_entities = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
-      $query = $em->createQuery(
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+      $query = $this->entityManager->createQuery(
         'SELECT collecte.id FROM App:Collecte collecte
                 WHERE collecte.stationFk = ' . $id
       )->getResult();
@@ -137,9 +117,7 @@ class StationController extends AbstractController {
     ]);
   }
 
-  /**
-   * @Route("/proximity/", name="nearby_stations", methods={"POST"})
-   */
+  #[Route("/proximity/", name: "nearby_stations", methods: ["POST"])]
   public function geoCoords(Request $request) {
     $data = $request->request;
     $latitude = $data->get('latitude');
@@ -163,17 +141,15 @@ class StationController extends AbstractController {
         ll_to_earth(:latitude, :longitude)
       ) <= :radius";
 
-    $stmt = $this->doctrine->getManager()
-      ->getConnection()
-      ->prepare($sqlQuery);
+    $stmt = $this->entityManager->getConnection()->prepare($sqlQuery);
 
-    $stmt->execute(array(
+    $res = $stmt->executeQuery(array(
       'longitude' => $longitude,
       'latitude' => $latitude,
       'radius' => $radius,
     ));
 
-    $sites = $stmt->fetchAll();
+    $sites = $res->fetchAllAssociative();
     if ($this->getUser() === null) {
       foreach ($sites as $i => $site) {
         $sites[$i]["latitude"] = round($site["latitude"], 2);
@@ -190,10 +166,9 @@ class StationController extends AbstractController {
 
   /**
    * Creates a new station entity.
-   *
-   * @Route("/new", name="station_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "station_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $station = new Station();
     $form = $this->createForm('App\Form\StationType', $station, [
@@ -202,11 +177,10 @@ class StationController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($station);
+      $this->entityManager->persist($station);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -228,9 +202,8 @@ class StationController extends AbstractController {
 
   /**
    * Finds and displays a station entity.
-   *
-   * @Route("/{id}", name="station_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "station_show", methods: ["GET"])]
   public function showAction(Station $station) {
     $deleteForm = $this->createDeleteForm($station);
 
@@ -247,9 +220,9 @@ class StationController extends AbstractController {
   /**
    * Displays a form to edit an existing station entity.
    *
-   * @Route("/{id}/edit", name="station_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "station_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Station $station) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -265,10 +238,9 @@ class StationController extends AbstractController {
     $editForm->handleRequest($request);
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -293,21 +265,19 @@ class StationController extends AbstractController {
 
   /**
    * Deletes a station entity.
-   *
-   * @Route("/{id}", name="station_delete", methods={"DELETE","POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "station_delete", methods: ["DELETE", "POST"])]
   public function deleteAction(Request $request, Station $station) {
     $form = $this->createDeleteForm($station);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($station);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($station);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

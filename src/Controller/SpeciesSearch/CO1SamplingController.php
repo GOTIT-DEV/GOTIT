@@ -28,16 +28,15 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller for querying COI sampling coverage
- *
- * @Route("/co1-sampling")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
+#[Route("/co1-sampling")]
 class CO1SamplingController extends AbstractController {
 
   /**
-   * @Route("/", name="co1-sampling", methods={"GET"})
    * Index : render query form interface
    */
+  #[Route("/", name: "co1-sampling", methods: ["GET"])]
   public function index(SpeciesQueryService $service) {
 
     # fetch genus set
@@ -49,18 +48,14 @@ class CO1SamplingController extends AbstractController {
   }
 
   /**
-   * @Route("/query", name="co1-sampling-query", methods={"POST"})
-   *
    * Returns a JSON response with COI sampling statistics
    */
+  #[Route("/query", name: "co1-sampling-query", methods: ["POST"])]
   public function samplingCoverageSummary(Request $request, SpeciesQueryService $service) {
-    # POST parameters
     $data = $request->request;
-
     # fetch sampling data
     $biomat_coverage = $service->getSpeciesGeoSummary($data, $coi = false);
     $co1_coverage = $service->getSpeciesGeoSummary($data, $coi = true);
-
     # merge specimen sampling data and COI sampling data
     foreach ($biomat_coverage as $id => $species_data) {
       $biomat_coverage[$id] = array_merge(
@@ -80,18 +75,19 @@ class CO1SamplingController extends AbstractController {
     }
 
     $res = json_encode(array_values($biomat_coverage), JSON_NUMERIC_CHECK);
-    # return JSON response
     return JsonResponse::fromJsonString($res);
   }
 
   /**
-   * @Route("/species/{id}", name="co1-species-sampling", methods={"GET"})
-   *
    * Returns a JSON response with sampling geographical coordinates for target species
    * Used to plot sampling on a world map projection
    */
-  public function speciesSamplingCoverage(ReferentielTaxon $taxon,
-    SpeciesQueryService $service, SerializerInterface $serializer) {
+  #[Route("/species/{id}", name: "co1-species-sampling", methods: ["GET"])]
+  public function speciesSamplingCoverage(
+    ReferentielTaxon $taxon,
+    SpeciesQueryService $service,
+    SerializerInterface $serializer
+  ) {
 
     # fetch sampling sites
     $sites = $service->getSpeciesSamplingDetails($taxon->getId());

@@ -2,55 +2,40 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Pcr;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Pcr controller.
- *
- * @Route("pcr")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
- *
  */
-class PcrController extends AbstractController {
+#[Route("pcr")]
+class PcrController extends EntityController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
 
   /**
    * Lists all pcr entities.
-   *
-   * @Route("/", name="pcr_index", methods={"GET"})
-   * @Route("/", name="pcrchromato_index", methods={"GET"})
    */
+  #[Route("/", name: "pcr_index", methods: ["GET"])]
+  #[Route("/", name: "pcrchromato_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $pcrs = $em->getRepository('App:Pcr')->findAll();
+    $pcrs = $this->getRepository(Pcr::class)->findAll();
 
     return $this->render('Core/pcr/index.html.twig', array(
       'pcrs' => $pcrs,
     ));
   }
 
-  /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="pcr_search")
-   */
+  #[Route("/search/{q}", requirements: ["q" => ".+"], name: "pcr_search")]
   public function searchAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('pcr.id, pcr.codePcr as code')
       ->from('App:Pcr', 'pcr');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -70,13 +55,9 @@ class PcrController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="pcr_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "pcr_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
       'pcr.dateMaj' => 'desc', 'pcr.id' => 'desc',
@@ -94,7 +75,7 @@ class PcrController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Pcr")
+    $entities_toshow = $this->getRepository(Pcr::class)
       ->createQueryBuilder('pcr')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -108,40 +89,37 @@ class PcrController extends AbstractController {
       ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
-    $nb = count($entities_toshow);
-    // count all records for the current search
     $where2 = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
     if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
       $where2 .= ' AND pcr2.adnFk = ' . $request->get('idFk');
     }
     $total = count(
-        $em->getRepository("App:Pcr")
-              ->createQueryBuilder('pcr2')
-              ->where($where2)
-              ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-              ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr2.adnFk = adn.id')
-              ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-            ->getQuery()
-            ->getScalarResult()
+      $this->getRepository(Pcr::class)
+        ->createQueryBuilder('pcr2')
+        ->where($where2)
+        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
+        ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr2.adnFk = adn.id')
+        ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+        ->getQuery()
+        ->getScalarResult()
     );
     // build column content
-    $lastTaxname = '';
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DatePcr = ($entity->getDatePcr() !== null)
-      ? $entity->getDatePcr()->format('Y-m-d') : null;
+        ? $entity->getDatePcr()->format('Y-m-d') : null;
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // Search chromatograms associated to a PCR
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT chromato.id FROM App:Chromatogramme chromato
                 WHERE chromato.pcrFk = ' . $id
       )->getResult();
       $linkChromatogramme = (count($query) > 0) ? $id : '';
       // concatenated list of people
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp
                 JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id
       )->getResult();
@@ -183,15 +161,14 @@ class PcrController extends AbstractController {
   /**
    * Creates a new pcr entity.
    *
-   * @Route("/new", name="pcr_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "pcr_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $pcr = new Pcr();
-    $em = $this->doctrine->getManager();
     // check if the relational Entity (Adn) is given and set the RelationalEntityFk for the new Entity
     if ($dna_id = $request->get('idFk')) {
-      $dna = $em->getRepository('App:Adn')->find($dna_id);
+      $dna = $this->getRepository(Adn::class)->find($dna_id);
       $pcr->setAdnFk($dna);
     }
     $form = $this->createForm('App\Form\PcrType', $pcr, [
@@ -201,11 +178,11 @@ class PcrController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($pcr);
+      $this->entityManager->persist($pcr);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -229,9 +206,8 @@ class PcrController extends AbstractController {
 
   /**
    * Finds and displays a pcr entity.
-   *
-   * @Route("/{id}", name="pcr_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "pcr_show", methods: ["GET"])]
   public function showAction(Pcr $pcr) {
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
@@ -247,11 +223,9 @@ class PcrController extends AbstractController {
 
   /**
    * Displays a form to edit an existing pcr entity.
-   *
-   * @Route("/{id}/edit", name="pcr_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
-   *
    */
+  #[Route("/{id}/edit", name: "pcr_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Pcr $pcr, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -272,12 +246,11 @@ class PcrController extends AbstractController {
 
       $service->DelArrayCollection('PcrEstRealisePars', $pcr, $pcrEstRealisePars);
 
-      $em = $this->doctrine->getManager();
-      $em->persist($pcr);
+      $this->entityManager->persist($pcr);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -302,22 +275,19 @@ class PcrController extends AbstractController {
 
   /**
    * Deletes a pcr entity.
-   *
-   * @Route("/{id}", name="pcr_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
-   *
    */
+  #[Route("/{id}", name: "pcr_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Pcr $pcr) {
     $form = $this->createDeleteForm($pcr);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($pcr);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($pcr);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

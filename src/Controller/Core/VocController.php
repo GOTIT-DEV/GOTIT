@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -16,29 +17,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Voc controller.
- *
- * @Route("voc")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class VocController extends AbstractController {
-
-  /**
-   * @author Philippe Grison  <philippe.grison@mnhn.fr>
-   */
-  private $doctrine;
-  public function __construct(ManagerRegistry $doctrine) {
-    $this->doctrine = $doctrine;
-  }
+#[Route("voc")]
+class VocController extends EntityController {
 
   /**
    * Lists all voc entities.
-   *
-   * @Route("/", name="voc_index", methods={"GET"})
    */
+  #[Route("/", name: "voc_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $vocs = $em->getRepository('App:Voc')->findAll();
+    $vocs = $this->getRepository(Voc::class)->findAll();
 
     return $this->render('Core/voc/index.html.twig', array(
       'vocs' => $vocs,
@@ -47,13 +37,11 @@ class VocController extends AbstractController {
 
   /**
    * List voc in a parent category
-   * @Route("/parent/{parent}", name="list_voc", methods={"GET"})
    */
+  #[Route("/parent/{parent}", name: "list_voc", methods: ["GET"])]
   public function listVoc(String $parent, SerializerInterface $serializer) {
 
-    $voc = $this->doctrine
-      ->getRepository(Voc::class)
-      ->findByParent($parent);
+    $voc = $this->getRepository(Voc::class)->findByParent($parent);
 
     return JsonResponse::fromJsonString(
       $serializer->serialize($voc, "json")
@@ -65,20 +53,15 @@ class VocController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="voc_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "voc_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('voc.dateMaj' => 'desc', 'voc.id' => 'desc');
+      ? $request->get('sort')
+      : array('voc.dateMaj' => 'desc', 'voc.id' => 'desc');
 
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
@@ -86,7 +69,8 @@ class VocController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Voc")->createQueryBuilder('voc')
+    $entities_toshow = $this->getRepository(Voc::class)
+      ->createQueryBuilder('voc')
       ->where('LOWER(voc.libelle) LIKE :criteriaLower')
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -94,14 +78,14 @@ class VocController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "voc.id" => $id,
@@ -128,10 +112,9 @@ class VocController extends AbstractController {
 
   /**
    * Creates a new voc entity.
-   *
-   * @Route("/new", name="voc_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/new", name: "voc_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $voc = new Voc();
     $form = $this->createForm('App\Form\VocType', $voc, [
@@ -140,11 +123,10 @@ class VocController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($voc);
+      $this->entityManager->persist($voc);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -165,9 +147,8 @@ class VocController extends AbstractController {
 
   /**
    * Finds and displays a voc entity.
-   *
-   * @Route("/{id}", name="voc_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "voc_show", methods: ["GET"])]
   public function showAction(Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
     $editForm = $this->createForm('App\Form\VocType', $voc, [
@@ -183,10 +164,9 @@ class VocController extends AbstractController {
 
   /**
    * Displays a form to edit an existing voc entity.
-   *
-   * @Route("/{id}/edit", name="voc_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/{id}/edit", name: "voc_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
     $editForm = $this->createForm('App\Form\VocType', $voc, [
@@ -196,8 +176,8 @@ class VocController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -223,10 +203,9 @@ class VocController extends AbstractController {
 
   /**
    * Deletes a voc entity.
-   *
-   * @Route("/{id}", name="voc_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_ADMIN')")
    */
+  #[Route("/{id}", name: "voc_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Voc $voc) {
     $form = $this->createDeleteForm($voc);
     $form->handleRequest($request);
@@ -235,11 +214,10 @@ class VocController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($voc);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($voc);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

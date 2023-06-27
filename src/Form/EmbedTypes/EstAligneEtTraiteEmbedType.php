@@ -14,7 +14,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('chromatogrammeFk', EntityType::class, [
-      'class' => 'App:Chromatogramme',
+      'class' => Chromatogramme::class,
       'query_builder' => function (EntityRepository $er) use ($options) {
         $qb = $er->createQueryBuilder('chromatogramme');
         return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
@@ -51,7 +51,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'estaligneettraite';
   }
 }

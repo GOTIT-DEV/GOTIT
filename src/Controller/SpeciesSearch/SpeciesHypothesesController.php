@@ -21,40 +21,27 @@ use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesHypothesesService;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Controller for querying motu species hypotheses
- *
- * @Route("/species-hypotheses")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
-class SpeciesHypothesesController extends AbstractController {
-
-    /**
-     * date of update  : 28/06/2022
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("/species-hypotheses")]
+class SpeciesHypothesesController extends EntityController {
 
   /**
-   * @Route("/", name="species-hypotheses", methods={"GET"})
-   *
    * Index : render query form template
    */
+  #[Route("/", name: "species-hypotheses", methods: ["GET"])]
   public function indexAction(SpeciesQueryService $service) {
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # fetch MOTU datasets
-    $doctrine = $this->doctrine;
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $this->getRepository(Motu::class)->findAll();
     # render form template
     return $this->render('SpeciesSearch/species-hypotheses/index.html.twig', array(
       'datasets' => $datasets,
@@ -63,10 +50,9 @@ class SpeciesHypothesesController extends AbstractController {
   }
 
   /**
-   * @Route("/query", name="species-hypotheses-query", methods={"POST"})
-   *
    * Returns a JSON reponse with species hypotheses data
    */
+  #[Route("/query", name: "species-hypotheses-query", methods: ["POST"])]
   public function searchQuery(Request $request, SpeciesHypothesesService $service) {
     $result = $service->processQuery($request->request);
     return new JsonResponse($result);

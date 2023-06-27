@@ -11,7 +11,7 @@ class PersonneEmbedType extends AbstractType {
 
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-      'class' => 'App:Personne',
+      'class' => Personne::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('personne')
           ->orderBy('personne.nomPersonne', 'ASC');
@@ -24,7 +24,7 @@ class PersonneEmbedType extends AbstractType {
     ]);
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

@@ -7,47 +7,25 @@ use App\Entity\SequenceAssemblee;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Sequenceassemblee controller.
- *
- * @Route("sequenceassemblee")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeController extends AbstractController {
-  /**
-   * @var integer
-   */
-  private $geneVocFk = null;
-  private $individuFk = null;
-  /**
-   * constante
-   */
+#[Route("sequenceassemblee")]
+class SequenceAssembleeController extends EntityController {
   const DATEINF_SQCALIGNEMENT_AUTO = '2018-05-01';
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
 
   /**
    * Lists all sequenceAssemblee entities.
-   *
-   * @Route("/", name="sequenceassemblee_index", methods={"GET"})
    */
+  #[Route("/", name: "sequenceassemblee_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $sequenceAssemblees = $em->getRepository('App:SequenceAssemblee')->findAll();
+    $sequenceAssemblees = $this->getRepository(SequenceAssemblee::class)->findAll();
 
     return $this->render('Core/sequenceassemblee/index.html.twig', array(
       'sequenceAssemblees' => $sequenceAssemblees,
@@ -59,18 +37,14 @@ class SequenceAssembleeController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="sequenceassemblee_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "sequenceassemblee_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = ($request->get('rowCount') !== NULL)
-    ? $request->get('rowCount') : 10;
+      ? $request->get('rowCount') : 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "sq.date_of_update DESC, sq.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "sq.date_of_update DESC, sq.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(sq.internal_sequence_code) LIKE :criteriaLower';
@@ -148,14 +122,14 @@ class SequenceAssembleeController extends AbstractController {
       . $having
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
@@ -193,10 +167,9 @@ class SequenceAssembleeController extends AbstractController {
 
   /**
    * Creates a new sequenceAssemblee entity.
-   *
-   * @Route("/new", name="sequenceassemblee_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "sequenceassemblee_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
 
     $sequence = new Sequenceassemblee();
@@ -205,9 +178,7 @@ class SequenceAssembleeController extends AbstractController {
     $specimenFk = $request->get('individuFk');
     $geneFk = $request->get('geneVocFk');
 
-    $chromatoRepo = $this->getDoctrine()
-      ->getManager()
-      ->getRepository("App:Chromatogramme");
+    $chromatoRepo = $this->getRepository(Chromatogramme::class);
 
     if ($chromatoFk) {
       $chromato = $chromatoRepo->find($chromatoFk);
@@ -279,11 +250,10 @@ class SequenceAssembleeController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
       $sequence->generateAlignmentCode();
-      $em = $this->doctrine->getManager();
-      $em->persist($sequence);
+      $this->entityManager->persist($sequence);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -309,9 +279,8 @@ class SequenceAssembleeController extends AbstractController {
 
   /**
    * Finds and displays a sequenceAssemblee entity.
-   *
-   * @Route("/{id}", name="sequenceassemblee_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "sequenceassemblee_show", methods: ["GET"])]
   public function showAction(SequenceAssemblee $sequence) {
     $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
@@ -345,9 +314,9 @@ class SequenceAssembleeController extends AbstractController {
   /**
    * Displays a form to edit an existing sequenceAssemblee entity.
    *
-   * @Route("/{id}/edit", name="sequenceassemblee_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "sequenceassemblee_edit", methods: ["GET", "POST"])]
   public function editAction(
     Request $request,
     SequenceAssemblee $sequence,
@@ -365,8 +334,6 @@ class SequenceAssembleeController extends AbstractController {
     }
 
     // Recherche du gene et de l'individu pour la sequence
-    $em = $this->doctrine->getManager();
-    $id = $sequence->getId();
     $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
 
@@ -430,10 +397,10 @@ class SequenceAssembleeController extends AbstractController {
         $sequence,
         $sequenceAssembleeEstRealisePars
       );
-      $em->persist($sequence);
+      $this->entityManager->persist($sequence);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -462,10 +429,9 @@ class SequenceAssembleeController extends AbstractController {
 
   /**
    * Deletes a sequenceAssemblee entity.
-   *
-   * @Route("/{id}", name="sequenceassemblee_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "sequenceassemblee_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
     $form = $this->createDeleteForm($sequenceAssemblee);
     $form->handleRequest($request);
@@ -474,11 +440,10 @@ class SequenceAssembleeController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($sequenceAssemblee);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($sequenceAssemblee);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

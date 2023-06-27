@@ -11,6 +11,7 @@ use App\Form\Type\SearchableSelectType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\LotMateriel;
 
 class IndividuType extends ActionFormType {
   /**
@@ -23,7 +24,7 @@ class IndividuType extends ActionFormType {
 
     $builder
       ->add('lotMaterielFk', SearchableSelectType::class, [
-        'class' => 'App:LotMateriel',
+        'class' => LotMateriel::class,
         'choice_label' => 'codeLotMateriel',
         'placeholder' => "Lotmateriel typeahead placeholder",
         'disabled' => $this->canEditAdminOnly($options),
@@ -90,7 +91,7 @@ class IndividuType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_individu';
   }
 }

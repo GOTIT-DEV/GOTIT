@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\IndividuLame;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -15,28 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Individulame controller.
  *
- * @Route("individulame")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuLameController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("individulame")]
+class IndividuLameController extends EntityController {
 
   /**
    * Lists all individuLame entities.
-   *
-   * @Route("/", name="individulame_index", methods={"GET"})
    */
+  #[Route("/", name: "individulame_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $individuLames = $em->getRepository('App:IndividuLame')->findAll();
+    $individuLames = $this->getRepository(IndividuLame::class)->findAll();
 
     return $this->render(
       'Core/individulame/index.html.twig',
@@ -49,17 +39,13 @@ class IndividuLameController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="individulame_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "individulame_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "ss.date_of_update DESC, ss.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "ss.date_of_update DESC, ss.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -110,14 +96,14 @@ class IndividuLameController extends AbstractController {
 		  LEFT JOIN dna ON dna.specimen_fk = sp.id"
       . " WHERE " . $where . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
@@ -156,16 +142,14 @@ class IndividuLameController extends AbstractController {
   /**
    * Creates a new individuLame entity.
    *
-   * @Route("/new", name="individulame_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "individulame_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $individuLame = new Individulame();
 
-    $em = $this->doctrine->getManager();
-
     if ($specimen_id = $request->get('idFk')) {
-      $specimen = $em->getRepository('App:Individu')->find($specimen_id);
+      $specimen = $this->getRepository(Individu::class)->find($specimen_id);
       $individuLame->setIndividuFk($specimen);
     }
 
@@ -177,11 +161,11 @@ class IndividuLameController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($individuLame);
+      $this->entityManager->persist($individuLame);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -206,9 +190,8 @@ class IndividuLameController extends AbstractController {
 
   /**
    * Finds and displays a individuLame entity.
-   *
-   * @Route("/{id}", name="individulame_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "individulame_show", methods: ["GET"])]
   public function showAction(IndividuLame $individuLame) {
     $deleteForm = $this->createDeleteForm($individuLame);
     $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
@@ -225,9 +208,9 @@ class IndividuLameController extends AbstractController {
   /**
    * Displays a form to edit an existing individuLame entity.
    *
-   * @Route("/{id}/edit", name="individulame_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "individulame_edit", methods: ["GET", "POST"])]
   public function editAction(
     Request $request,
     IndividuLame $individuLame,
@@ -247,7 +230,6 @@ class IndividuLameController extends AbstractController {
       'IndividuLameEstRealisePars',
       $individuLame
     );
-    //
     $deleteForm = $this->createDeleteForm($individuLame);
     $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
       'action_type' => Action::edit->value,
@@ -261,11 +243,10 @@ class IndividuLameController extends AbstractController {
         $individuLameEstRealisePars
       );
 
-      $em = $this->doctrine->getManager();
-      $em->persist($individuLame);
+      $this->entityManager->persist($individuLame);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -291,9 +272,9 @@ class IndividuLameController extends AbstractController {
   /**
    * Deletes a individuLame entity.
    *
-   * @Route("/{id}", name="individulame_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "individulame_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, IndividuLame $individuLame) {
     $form = $this->createDeleteForm($individuLame);
     $form->handleRequest($request);
@@ -302,11 +283,10 @@ class IndividuLameController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($individuLame);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($individuLame);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

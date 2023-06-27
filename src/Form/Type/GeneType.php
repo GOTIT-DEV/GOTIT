@@ -6,12 +6,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use App\Entity\Voc;
 
 class GeneType extends AbstractType {
 
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-      'class' => 'App:Voc',
+      'class' => Voc::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('voc')
           ->where("voc.parent = 'gene'")
@@ -24,7 +25,7 @@ class GeneType extends AbstractType {
     ]);
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

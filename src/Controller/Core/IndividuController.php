@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\EspeceIdentifiee;
 use App\Entity\Individu;
 use App\Form\Enums\Action;
@@ -16,41 +17,28 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Individu controller.
  *
- * @Route("individu")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class IndividuController extends AbstractController {
+#[Route("individu")]
+class IndividuController extends EntityController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
 
   /**
    * Lists all individu entities.
-   *
-   * @Route("/", name="individu_index", methods={"GET"})
    */
+  #[Route("/", name: "individu_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $individus = $em->getRepository('App:Individu')->findAll();
+    $individus = $this->getRepository(Individu::class)->findAll();
 
     return $this->render('Core/individu/index.html.twig', [
       'individus' => $individus,
     ]);
   }
 
-  /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="individu_search")
-   */
+  #[Route("/search/{q}", requirements: ["q" => ".+"], name: "individu_search")]
   public function searchAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Individu', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -65,11 +53,9 @@ class IndividuController extends AbstractController {
     return $this->json($results);
   }
 
-  /**
-   * @Route("/search_with_gene/{query}/{gene}", name="individu_search_with_gene")
-   */
+  #[Route("/search_with_gene/{query}/{gene}", name: "individu_search_with_gene")]
   public function searchWithGeneAction(String $query, int $gene) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
       ->from('App:Individu', 'ind')
       ->leftJoin('App:Adn', 'adn', 'WITH', 'adn.individuFk = ind.id')
@@ -87,11 +73,9 @@ class IndividuController extends AbstractController {
     return $this->json($results);
   }
 
-  /**
-   * @Route("/search_by_codeindmorpho/{q}", requirements={"q"=".+"}, name="individu_search_by_codeindmorpho")
-   */
+  #[Route("/search_by_codeindmorpho/{q}", requirements: ["q" => ".+"], name: "individu_search_by_codeindmorpho")]
   public function searchByCodeIndmorphoAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
+    $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndTriMorpho as code')
       ->from('App:Individu', 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -117,15 +101,13 @@ class IndividuController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="individu_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->doctrine->getManager();
+  #[Route("/indexjson", name: "individu_indexjson", methods: ["POST"])]
+  public function indexjsonAction(Request $request) {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort')
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "sp.date_of_update DESC, sp.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "sp.date_of_update DESC, sp.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -194,14 +176,14 @@ class IndividuController extends AbstractController {
         user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $linkAdn = $val['list_dna'] ? strval($val['id']) : '';
@@ -240,16 +222,15 @@ class IndividuController extends AbstractController {
   /**
    * Creates a new individu entity.
    *
-   * @Route("/new", name="individu_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "individu_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $individu = new Individu();
     $individu->addEspeceIdentifiee(new EspeceIdentifiee());
 
-    $em = $this->doctrine->getManager();
     if ($biomat_id = $request->get('idFk')) {
-      $biomat = $em->getRepository('App:LotMateriel')->find($biomat_id);
+      $biomat = $this->getRepository(LotMateriel::class)->find($biomat_id);
       $individu->setLotMaterielFk($biomat);
     }
     $form = $this->createForm('App\Form\IndividuType', $individu, [
@@ -258,10 +239,10 @@ class IndividuController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($individu);
+      $this->entityManager->persist($individu);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -285,9 +266,8 @@ class IndividuController extends AbstractController {
 
   /**
    * Finds and displays a individu entity.
-   *
-   * @Route("/{id}", name="individu_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "individu_show", methods: ["GET"])]
   public function showAction(Individu $individu) {
     $deleteForm = $this->createDeleteForm($individu);
     $editForm = $this->createForm('App\Form\IndividuType', $individu, [
@@ -304,9 +284,9 @@ class IndividuController extends AbstractController {
   /**
    * Displays a form to edit an existing individu entity.
    *
-   * @Route("/{id}/edit", name="individu_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "individu_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Individu $individu, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -331,10 +311,10 @@ class IndividuController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $individu, $especeIdentifiees);
-      $this->doctrine->getManager()->persist($individu);
+      $this->entityManager->persist($individu);
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -360,20 +340,19 @@ class IndividuController extends AbstractController {
   /**
    * Deletes a individu entity.
    *
-   * @Route("/{id}", name="individu_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "individu_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Individu $individu) {
     $form = $this->createDeleteForm($individu);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($individu);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($individu);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

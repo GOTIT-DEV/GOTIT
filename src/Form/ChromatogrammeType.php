@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Pcr;
+use App\Entity\Etablissement;
 
 class ChromatogrammeType extends ActionFormType {
   /**
@@ -22,7 +24,7 @@ class ChromatogrammeType extends ActionFormType {
 
     $builder
       ->add('pcrFk', SearchableSelectType::class, [
-        'class' => 'App:Pcr',
+        'class' => Pcr::class,
         'choice_label' => 'codePcr',
         'placeholder' => $this->translator->trans("Pcr typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
@@ -51,7 +53,7 @@ class ChromatogrammeType extends ActionFormType {
         'placeholder' => 'Choose a quality',
       ))
       ->add('etablissementFk', EntityType::class, array(
-        'class' => 'App:Etablissement',
+        'class' => Etablissement::class,
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('etablissement')
             ->orderBy('etablissement.nomEtablissement', 'ASC');
@@ -78,7 +80,7 @@ class ChromatogrammeType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_chromatogramme';
   }
 }

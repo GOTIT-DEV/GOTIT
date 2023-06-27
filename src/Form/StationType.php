@@ -17,6 +17,8 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Controller\Core\CommuneController;
+use App\Entity\Commune;
 
 class StationType extends ActionFormType {
   /**
@@ -95,9 +97,9 @@ class StationType extends ActionFormType {
 
     $formModifier = function (FormInterface $form, Pays $paysFk = null) {
       $form
-      // Commune
+        // Commune
         ->add('communeFk', EntityType::class, array(
-          'class' => 'App:Commune',
+          'class' => Commune::class,
           'query_builder' => function (EntityRepository $er) use ($paysFk) {
             $query = $er->createQueryBuilder('commune')
               ->orderBy('commune.codeCommune', 'ASC');
@@ -112,8 +114,7 @@ class StationType extends ActionFormType {
           'multiple' => false,
           'expanded' => false,
           'placeholder' => 'Choose a Commune',
-        ))
-      ;
+        ));
     };
 
     $builder->addEventListener(
@@ -138,37 +139,6 @@ class StationType extends ActionFormType {
         $formModifier($event->getForm()->getParent(), $paysFk);
       }
     );
-
-/*
-// pre-set data in the form according to already filled fields
-$builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-$station = $event->getData();
-$form = $event->getForm();
-var_dump($station->getPaysFk()->getId());
-
-$form
-// Commune
-->add('communeFk', EntityType::class, array(
-'class' => 'App:Commune',
-'query_builder' => function (EntityRepository $er) use ($station) {
-$query = $er->createQueryBuilder('commune')
-->orderBy('commune.codeCommune', 'ASC');
-if ($station->getPaysFk()) {
-$query = $query->where('commune.paysFk = :country')
-->setParameter('country', $station->getPaysFk()->getId());
-}
-return $query;
-},
-'attr'  =>  array('style'=>'display:none;'),
-'choice_label' => 'codeCommune',
-'multiple' => false,
-'expanded' => false,
-'placeholder' => 'Choose a Commune',
-))
-;
-});
- */
-
   }
 
   /**

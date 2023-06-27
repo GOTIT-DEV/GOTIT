@@ -17,10 +17,10 @@
 
 namespace App\Controller\SpeciesSearch;
 
+use App\Controller\EntityController;
 use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,33 +29,20 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controller for querying MOTU distribution
  *
- * @Route("/distribution")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
-class MotuDistributionController extends AbstractController {
-
-   /**
-     * date of update  : 28/06/2022
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
+#[Route("/distribution")]
+class MotuDistributionController extends EntityController {
   /**
-   * @Route("/", name="distribution", methods={"GET"})
-   *
    * Index : render query form template
    */
+  #[Route("/", name: "distribution", methods: ["GET"])]
   public function index(SpeciesQueryService $service) {
-    $doctrine = $this->doctrine;
     # fetch datasets
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $this->getRepository(Motu::class)->findAll();
     # fetch genus and method sets
     $genus_set = $service->getGenusSet();
     $methods_list = $service->listMethodsByDate();
-    # render form template
     return $this->render('SpeciesSearch/motu-distribution/index.html.twig', array(
       'genus_set' => $genus_set,
       'datasets' => $datasets,
@@ -64,20 +51,16 @@ class MotuDistributionController extends AbstractController {
   }
 
   /**
-   * @Route("/query", name="distribution-query", methods={"POST"})
-   *
    * returns a JSON response with
    * - query : the initial query parameters
    * - rows : geographical + motu data for each sequence
    * - methode : MOTU method details
    */
+  #[Route("/query", name: "distribution-query", methods: ["POST"])]
   public function searchQuery(Request $request, SpeciesQueryService $service) {
-    # POST parameters
     $data = $request->request;
-    # Obtention de la localisation géographique
     $res = $service->getMotuGeoLocation($data);
     $methode = $service->getMethod($data->get('methode'), $data->get('dataset'));
-    # Renvoi réponse JSON
     return new JsonResponse([
       'query' => $data->all(),
       'rows' => $res,

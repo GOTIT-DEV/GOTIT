@@ -13,24 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Controller\EntityController;
 
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesmotu")
  * @Security("is_granted('ROLE_PROJECT')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesMotuController extends AbstractController {
-  /**
-   * @var string
-   */
-  private $type_csv;
+#[Route("importfilesmotu")]
+class ImportFilesMotuController extends EntityController {
 
-  /**
-   * @Route("/", name="importfilesmotu_index")
-   *
-   */
+  #[Route("/", name: "importfilesmotu_index")]
   public function indexAction(
     Request $request,
     ImportFileE3s $importFileE3sService,
@@ -45,7 +39,7 @@ class ImportFilesMotuController extends AbstractController {
       $form = $this->createFormBuilder()
         ->setMethod('POST')
         ->add('motuFk', EntityType::class, array(
-          'class' => 'App:Motu',
+          'class' => Motu::class,
           'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('motu')
               ->leftJoin('App:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
@@ -61,26 +55,26 @@ class ImportFilesMotuController extends AbstractController {
 
     if ($form->isSubmitted()) { //processing form request
       $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-      $this->type_csv = "MOTU";
+      $type_csv = "MOTU";
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-      $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
+      $message = "Import : " . $nom_fichier_download . " ( Template " . $type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
-      $pathToTemplate = $service->getCsvPath($this->type_csv);
+      $pathToTemplate = $service->getCsvPath($type_csv);
       //
       $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate, $fichier));
       $message .= $checkName;
       if ($checkName == '') {
-        switch ($this->type_csv) {
-        case 'MOTU':
-          if ($form->get('fichier')->getData() !== NULL) {
-            // suppression des donnéee assignées
-            $message .= $importFileE3sService->importCSVDataMotuFile($fichier, $form->get('motuFk')->getData(), $user->getId());
-          } else {
-            $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
-          }
-          break;
-        default:
-          $message .= "ERROR - Bad SELECTED choice ?";
+        switch ($type_csv) {
+          case 'MOTU':
+            if ($form->get('fichier')->getData() !== NULL) {
+              // suppression des donnéee assignées
+              $message .= $importFileE3sService->importCSVDataMotuFile($fichier, $form->get('motuFk')->getData(), $user->getId());
+            } else {
+              $message .= "ERROR : <b>l'importation n a pas été effectué car le fichier de données de motu n'a pas été downloader</b>";
+            }
+            break;
+          default:
+            $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));

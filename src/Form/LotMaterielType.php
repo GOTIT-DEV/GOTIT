@@ -19,6 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Collecte;
+use App\Controller\Core\PersonneController;
+use App\Entity\Boite;
 
 class LotMaterielType extends ActionFormType {
   /**
@@ -29,7 +32,7 @@ class LotMaterielType extends ActionFormType {
 
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
-        'class' => 'App:Collecte',
+        'class' => Collecte::class,
         'choice_label' => 'codeCollecte',
         'placeholder' => $this->translator->trans("Collecte typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
@@ -86,7 +89,7 @@ class LotMaterielType extends ActionFormType {
       ->add('commentaireConseilSqc')
       ->add('commentaireLotMateriel')
       ->add('boiteFk', EntityType::class, array(
-        'class' => 'App:Boite',
+        'class' => Boite::class,
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('boite')
             ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
@@ -135,7 +138,7 @@ class LotMaterielType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_lotmateriel';
   }
 }

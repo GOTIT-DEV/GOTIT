@@ -20,43 +20,29 @@ namespace App\Controller\SpeciesSearch;
 use App\Entity\Motu;
 use App\Entity\Voc;
 use App\Services\SpeciesSearch\SpeciesQueryService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Controller for querying MOTU assignments
- *
- * @Route("/assign-motu")
  * @author Louis Duchemin <ls.duchemin@gmail.com>
  */
-class AssignationMotuController extends AbstractController {
-
-    /**
-     * date of update  : 28/06/2022
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("/assign-motu")]
+class AssignationMotuController extends EntityController {
 
   /**
-   * @Route("/", name="assign-motu", methods={"GET"})
-   *
    * Index page : Query form interface
    */
+  #[Route("/", name: "assign-motu", methods: ["GET"])]
   public function index(SpeciesQueryService $service) {
-    $doctrine = $this->doctrine;
     # fetch genus set
     $genus_set = $service->getGenusSet();
     # fetch species identification criterions
-    $criteres = $doctrine->getRepository(Voc::class)->findByParent('critereIdentification');
+    $criteres = $this->getRepository(Voc::class)->findByParent('critereIdentification');
     # fetch motu datasets
-    $datasets = $doctrine->getRepository(Motu::class)->findAll();
+    $datasets = $this->getRepository(Motu::class)->findAll();
 
     # render form
     return $this->render('SpeciesSearch/assign-motu/index.html.twig', array(
@@ -67,20 +53,16 @@ class AssignationMotuController extends AbstractController {
   }
 
   /**
-   * @Route("/query", name="motu-query", methods={"POST"})
-   *
    * Returns a JSON response with
    *  - rows : an array of motu count for each method in target dataset
    *  - query : an array of original query parameters
    * (methods, identification level and criterions). Used to query details
    * for a molecular method
    */
+  #[Route("/query", name: "motu-query", methods: ["POST"])]
   public function searchQuery(Request $request, SpeciesQueryService $service) {
-    # POST parameters
     $data = $request->request;
-    # execute query
     $res = $service->getMotuCountList($data);
-    # return JSON response
     return new JsonResponse(array(
       'rows' => $res,
       'query' => $data->all(),
@@ -88,18 +70,14 @@ class AssignationMotuController extends AbstractController {
   }
 
   /**
-   * @Route("/detailsModal", name="motu-modal", methods={"POST"})
-   *
    * Returns a JSON response with
    * - rows : array of sequence MOTU assignments
    * Shown in modal pop-up : details for one molecular method
    */
+  #[Route("/detailsModal", name: "motu-modal", methods: ["POST"])]
   public function detailsModal(Request $request, SpeciesQueryService $service) {
-    # POST parameters
     $data = $request->request;
-    # execute query
     $res = $service->getMotuSeqList($data);
-    # return JSON response
     return new JsonResponse($res);
   }
 }

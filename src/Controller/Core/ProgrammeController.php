@@ -2,41 +2,28 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Programme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Programme controller.
- *
- * @Route("programme")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ProgrammeController extends AbstractController {
-
-  /**
-   * @author Philippe Grison  <philippe.grison@mnhn.fr>
-   */
-  private $doctrine;
-  public function __construct(ManagerRegistry $doctrine) {
-    $this->doctrine = $doctrine;
-  }
+#[Route("programme")]
+class ProgrammeController extends EntityController {
 
   /**
    * Lists all programme entities.
-   *
-   * @Route("/", name="programme_index", methods={"GET"})
    */
+  #[Route("/", name: "programme_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $programmes = $em->getRepository('App:Programme')->findAll();
+    $programmes = $this->getRepository(Programme::class)->findAll();
 
     return $this->render('Core/programme/index.html.twig', array(
       'programmes' => $programmes,
@@ -48,17 +35,13 @@ class ProgrammeController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="programme_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "programme_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('programme.dateMaj' => 'desc', 'programme.id' => 'desc');
+      ? $request->get('sort')
+      : array('programme.dateMaj' => 'desc', 'programme.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -69,8 +52,8 @@ class ProgrammeController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em
-      ->getRepository("App:Programme")
+    $entities_toshow = $this->entityManager
+      ->getRepository(Programme::class)
       ->createQueryBuilder('programme')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -79,14 +62,14 @@ class ProgrammeController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "programme.id" => $id,
@@ -115,10 +98,9 @@ class ProgrammeController extends AbstractController {
 
   /**
    * Creates a new programme entity.
-   *
-   * @Route("/new", name="programme_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/new", name: "programme_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $programme = new Programme();
     $form = $this->createForm('App\Form\ProgrammeType', $programme, [
@@ -127,11 +109,10 @@ class ProgrammeController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($programme);
+      $this->entityManager->persist($programme);
       try {
-        $flush = $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $flush = $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -153,9 +134,8 @@ class ProgrammeController extends AbstractController {
 
   /**
    * Creates a new Program entity for modal windows
-   *
-   * @Route("/newmodal", name="programme_newmodal", methods={"GET", "POST"})
    */
+  #[Route("/newmodal", name: "programme_newmodal", methods: ["GET", "POST"])]
   public function newmodalAction(Request $request) {
     $programme = new Programme();
     $form = $this->createForm('App\Form\ProgrammeType', $programme, [
@@ -173,11 +153,10 @@ class ProgrammeController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->doctrine->getManager();
-        $em->persist($programme);
+        $this->entityManager->persist($programme);
 
         try {
-          $em->flush();
+          $this->entityManager->flush();
           $select_id = $programme->getId();
           $select_name = $programme->getCodeProgramme();
           return new JsonResponse([
@@ -185,7 +164,7 @@ class ProgrammeController extends AbstractController {
             'select_name' => $select_name,
             'entityname' => 'programme',
           ]);
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (\Exception $e) {
           return new JsonResponse([
             'exception' => true,
             'exception_message' => $e->getMessage(),
@@ -203,9 +182,8 @@ class ProgrammeController extends AbstractController {
 
   /**
    * Finds and displays a programme entity.
-   *
-   * @Route("/{id}", name="programme_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "programme_show", methods: ["GET"])]
   public function showAction(Programme $programme) {
     $deleteForm = $this->createDeleteForm($programme);
     $editForm = $this->createForm('App\Form\ProgrammeType', $programme, [
@@ -221,10 +199,9 @@ class ProgrammeController extends AbstractController {
 
   /**
    * Displays a form to edit an existing programme entity.
-   *
-   * @Route("/{id}/edit", name="programme_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/{id}/edit", name: "programme_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Programme $programme) {
     //
     $deleteForm = $this->createDeleteForm($programme);
@@ -235,8 +212,8 @@ class ProgrammeController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -260,10 +237,9 @@ class ProgrammeController extends AbstractController {
 
   /**
    * Deletes a programme entity.
-   *
-   * @Route("/{id}", name="programme_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_PROJECT')")
    */
+  #[Route("/{id}", name: "programme_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Programme $programme) {
     $form = $this->createDeleteForm($programme);
     $form->handleRequest($request);
@@ -272,11 +248,10 @@ class ProgrammeController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($programme);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($programme);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

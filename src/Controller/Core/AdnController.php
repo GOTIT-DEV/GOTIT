@@ -2,6 +2,7 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
@@ -11,44 +12,33 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Individu;
+use App\Entity\Boite;
 
 /**
  * Adn controller.
  *
- * @Route("adn")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class AdnController extends AbstractController {
+#[Route("adn")]
+class AdnController extends EntityController {
   const MAX_RESULTS_TYPEAHEAD = 20;
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
 
   /**
    * Lists all adn entities.
-   *
-   * @Route("/", name="adn_index", methods={"GET"})
    */
+  #[Route("/", name: "adn_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $adns = $em->getRepository('App:Adn')->findAll();
+    $adns = $this->getRepository(Adn::class)->findAll();
 
     return $this->render('Core/adn/index.html.twig', ['adns' => $adns]);
   }
 
-  /**
-   * @Route("/search/{q}", requirements={"q"=".+"}, name="adn_search")
-   */
+  #[Route("/search/{q}", requirements: ["q" => ".+"], name: "adn_search")]
   public function searchAction($q) {
-    $qb = $this->doctrine->getManager()->createQueryBuilder();
-    $qb->select('adn.id, adn.codeAdn as code')->from('App:Adn', 'adn');
+    $qb = $this->entityManager->createQueryBuilder();
+    $qb->select('adn.id, adn.codeAdn as code')->from(Adn::class, 'adn');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(adn.codeAdn) like :q' . $i . ')')
@@ -65,11 +55,9 @@ class AdnController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="adn_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "adn_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $em = $this->doctrine->getManager();
 
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
@@ -87,37 +75,38 @@ class AdnController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em->getRepository("App:Adn")->createQueryBuilder('adn')
+    $entities_toshow = $this->getRepository(Adn::class)
+      ->createQueryBuilder('adn')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-      ->leftJoin('App:Boite', 'boite', 'WITH', 'adn.boiteFk = boite.id')
+      ->leftJoin(Individu::class, 'individu', 'WITH', 'adn.individuFk = individu.id')
+      ->leftJoin(Boite::class, 'boite', 'WITH', 'adn.boiteFk = boite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateAdn = $entity->getDateAdn()
-      ? $entity->getDateAdn()->format('Y-m-d') : null;
+        ? $entity->getDateAdn()->format('Y-m-d') : null;
       $codeBoite = $entity->getBoiteFk()
-      ? $entity->getBoiteFk()->getCodeBoite() : null;
+        ? $entity->getBoiteFk()->getCodeBoite() : null;
       $DateMaj = $entity->getDateMaj()
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = $entity->getDateCre()
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
 
       // search the PCRs from the DNA
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT pcr.id FROM App:Pcr pcr WHERE pcr.adnFk = ' . $id
       )->getResult();
       $linkPcr = (count($query) > 0) ? $id : '';
 
       // concatenated list of people
-      $query = $em->createQuery(
+      $query = $this->entityManager->createQuery(
         'SELECT p.nomPersonne as nom
         FROM App:AdnEstRealisePar erp
         JOIN erp.personneFk p
@@ -158,15 +147,14 @@ class AdnController extends AbstractController {
   /**
    * Creates a new adn entity.
    *
-   * @Route("/new", name="adn_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "adn_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $adn = new Adn();
-    $em = $this->doctrine->getManager();
 
     if ($specimen_id = $request->get('idFk')) {
-      $specimen = $em->getRepository('App:Individu')->find($specimen_id);
+      $specimen = $this->getRepository(Individu::class)->find($specimen_id);
       $adn->setIndividuFk($specimen);
     }
 
@@ -178,11 +166,11 @@ class AdnController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($adn);
+      $this->entityManager->persist($adn);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -207,9 +195,8 @@ class AdnController extends AbstractController {
 
   /**
    * Finds and displays a adn entity.
-   *
-   * @Route("/{id}", name="adn_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "adn_show", methods: ["GET"])]
   public function showAction(Adn $adn) {
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
@@ -226,9 +213,9 @@ class AdnController extends AbstractController {
   /**
    * Displays a form to edit an existing adn entity.
    *
-   * @Route("/{id}/edit", name="adn_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "adn_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Adn $adn, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -246,11 +233,10 @@ class AdnController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       $service->DelArrayCollection('AdnEstRealisePars', $adn, $adnEstRealisePars);
-      $em = $this->doctrine->getManager();
-      $em->persist($adn);
+      $this->entityManager->persist($adn);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -276,20 +262,19 @@ class AdnController extends AbstractController {
   /**
    * Deletes a adn entity.
    *
-   * @Route("/{id}", name="adn_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "adn_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Adn $adn) {
     $form = $this->createDeleteForm($adn);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($adn);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($adn);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

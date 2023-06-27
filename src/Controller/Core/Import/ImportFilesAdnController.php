@@ -5,31 +5,24 @@ namespace App\Controller\Core\Import;
 use App\Services\Core\ImportFileCsv;
 use App\Services\Core\ImportFileE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Controller\EntityController;
 
 /**
  * ImportIndividu controller.
  *
- * @Route("importfilesadn")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesAdnController extends AbstractController {
-  /**
-   * @var string
-   */
-  private $type_csv;
+#[Route("importfilesadn")]
+class ImportFilesAdnController extends EntityController {
 
-  /**
-   * @Route("/", name="importfilesadn_index")
-   *
-   */
+  #[Route("/", name: "importfilesadn_index")]
   public function indexAction(
     Request $request,
     ImportFileE3s $importFileE3sService,
@@ -88,30 +81,30 @@ class ImportFilesAdnController extends AbstractController {
 
     if ($form->isSubmitted()) { //processing form request
       $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-      $this->type_csv = $form->get('type_csv')->getData();
+      $type_csv = $form->get('type_csv')->getData();
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-      $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
+      $message = "Import : " . $nom_fichier_download . " ( Template " . $type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
-      $pathToTemplate = $service->getCsvPath($this->type_csv);
+      $pathToTemplate = $service->getCsvPath($type_csv);
       //
       $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate, $fichier));
       $message .= $checkName;
       if ($checkName == '') {
-        switch ($this->type_csv) {
-        case 'DNA':
-          $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());
-          break;
-        case 'vocabulary':
-          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-          break;
-        case 'box':
-          $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
-          break;
-        case 'person':
-          $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
-          break;
-        default:
-          $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
+        switch ($type_csv) {
+          case 'DNA':
+            $message .= $importFileE3sService->importCSVDataAdn($fichier, $user->getId());
+            break;
+          case 'vocabulary':
+            $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+            break;
+          case 'box':
+            $message .= $importFileE3sService->importCSVDataBoite($fichier, $user->getId());
+            break;
+          case 'person':
+            $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
+            break;
+          default:
+            $message .= "!  Le choix de la liste de fichier à importer ne correspond a aucun cas ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));

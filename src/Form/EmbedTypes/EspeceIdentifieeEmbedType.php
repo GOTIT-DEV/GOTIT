@@ -34,7 +34,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
       ->add('dateIdentification', DateFormattedType::class)
       ->add('datePrecisionVocFk', DatePrecisionType::class)
       ->add('typeMaterielVocFk', EntityType::class, array(
-        'class' => 'App:Voc',
+        'class' => Voc::class,
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('voc')
             ->where('voc.parent LIKE :parent')
@@ -75,7 +75,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_especeidentifiee';
   }
 }

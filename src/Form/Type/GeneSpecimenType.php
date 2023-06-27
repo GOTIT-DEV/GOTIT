@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\Type\SearchableSelectType;
+use App\Entity\Individu;
 
 class GeneSpecimenType extends ActionFormType {
 
@@ -37,7 +39,7 @@ class GeneSpecimenType extends ActionFormType {
         },
       ])
       ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+        'class' => Individu::class,
         'choice_label' => 'codeIndBiomol',
         'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
         'attr' => [
@@ -51,7 +53,6 @@ class GeneSpecimenType extends ActionFormType {
         'attr' => ['class' => 'btn btn-round btn-success'],
       ));
     }
-
   }
 
   /**
@@ -64,7 +65,7 @@ class GeneSpecimenType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'gene_specimen_form';
   }
 }

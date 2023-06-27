@@ -43,7 +43,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
+      $query_adn = $em->getRepository(Adn::class)->createQueryBuilder('adn')
         ->where('adn.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
@@ -57,7 +57,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -90,7 +90,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -122,7 +122,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataAdnRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_adn = $em->getRepository("App:Adn")->createQueryBuilder('adn')
+      $query_adn = $em->getRepository(Adn::class)->createQueryBuilder('adn')
         ->where('adn.codeAdn  LIKE :code_adn')
         ->setParameter('code_adn', $data["code_adn"])
         ->getQuery()
@@ -136,7 +136,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -170,7 +170,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataAdnRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -202,7 +202,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataIndividuLamelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
+      $query_lame = $em->getRepository(IndividuLame::class)->createQueryBuilder('lame')
         ->where('lame.codeLameColl  LIKE :code_lame_coll')
         ->setParameter('code_lame_coll', $data["code_lame_coll"])
         ->getQuery()
@@ -216,7 +216,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -249,7 +249,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -281,7 +281,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataIndividuLamelRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lame = $em->getRepository("App:IndividuLame")->createQueryBuilder('lame')
+      $query_lame = $em->getRepository(IndividuLame::class)->createQueryBuilder('lame')
         ->where('lame.codeLameColl  LIKE :code_lame_coll')
         ->setParameter('code_lame_coll', $data["code_lame_coll"])
         ->getQuery()
@@ -295,7 +295,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -329,7 +329,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataIndividuLamelRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -361,7 +361,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository(LotMateriel::class)->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
@@ -375,7 +375,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -408,7 +408,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -440,7 +440,7 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielRange as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository(LotMateriel::class)->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
@@ -454,7 +454,7 @@ class ImportFileE3s {
       $flagBoiteAffecte = 0;
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
         $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+        $query_boite = $em->getRepository(Boite::class)->createQueryBuilder('boite')
           ->where('boite.codeBoite LIKE :code_boite')
           ->setParameter('code_boite', $data["code_boite"])
           ->getQuery()
@@ -488,7 +488,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielRange) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -520,12 +520,12 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataLotMaterielPublie as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_lot = $em->getRepository("App:LotMateriel")->createQueryBuilder('lot')
+      $query_lot = $em->getRepository(LotMateriel::class)->createQueryBuilder('lot')
         ->where('lot.codeLotMateriel LIKE :code_lot_materiel')
         ->setParameter('code_lot_materiel', $data["code_lot_materiel"])
         ->getQuery()
         ->getResult();
-      $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
+      $query_source = $em->getRepository(Source::class)->createQueryBuilder('source')
         ->where('source.codeSource LIKE :code_source')
         ->setParameter('code_source', $data["source.code_source"])
         ->getQuery()
@@ -538,9 +538,8 @@ class ImportFileE3s {
         if (count($query_source) == 0) {
           $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code_source"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
-
       } else {
-        $query_lepd = $em->getRepository("App:LotEstPublieDans")->createQueryBuilder('lepd')
+        $query_lepd = $em->getRepository(LotEstPublieDans::class)->createQueryBuilder('lepd')
           ->where('lepd.lotMaterielFk = :id_lot')
           ->setParameter('id_lot', $query_lot[0]->getId())
           ->andwhere('source.codeSource = :code_source')
@@ -572,7 +571,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataLotMaterielPublie) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -604,12 +603,12 @@ class ImportFileE3s {
     $message = '';
     $info = $this->translator->trans('importfileService.Date of data set import') . ' : ' . $DateImport->format('Y-m-d H:i:s');
     foreach ($csvDataSqcAssembleePublie as $l => $data) { // 1- Line-to-line data processing ($ l)
-      $query_sa = $em->getRepository("App:SequenceAssemblee")->createQueryBuilder('sa')
+      $query_sa = $em->getRepository(SequenceAssemblee::class)->createQueryBuilder('sa')
         ->where('sa.codeSqcAss LIKE :code_sqc_ass')
         ->setParameter('code_sqc_ass', $data["code_sqc_ass"])
         ->getQuery()
         ->getResult();
-      $query_source = $em->getRepository("App:Source")->createQueryBuilder('source')
+      $query_source = $em->getRepository(Source::class)->createQueryBuilder('source')
         ->where('source.codeSource LIKE :code_source')
         ->setParameter('code_source', $data["source.code_source"])
         ->getQuery()
@@ -622,9 +621,8 @@ class ImportFileE3s {
         if (count($query_source) == 0) {
           $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["source.code_source"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         }
-
       } else {
-        $query_lepd = $em->getRepository("App:SqcEstPublieDans")->createQueryBuilder('sepd')
+        $query_lepd = $em->getRepository(SqcEstPublieDans::class)->createQueryBuilder('sepd')
           ->where('sepd.sequenceAssembleeFk = :id_sa')
           ->setParameter('id_sa', $query_sa[0]->getId())
           ->getQuery()
@@ -637,7 +635,6 @@ class ImportFileE3s {
           if ($query_sa[0]->getAccessionNumber() != '') {
             $message .= $this->translator->trans('importfileService.ERROR assession number already assign') . '<b> : ' . $query_sa[0]->getAccessionNumber() . ' / ' . $data["code_sqc_ass"] . ' </b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
-
         } else {
           $method = "setAccessionNumber";
           $query_sa[0]->$method($data["accession_number"]);
@@ -662,7 +659,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataSqcAssembleePublie) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -709,7 +706,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           if ($ColCsv == 'source.code_source') {
-            $record_entity = $em->getRepository("App:Source")->findOneBy(array("codeSource" => $dataColCsv));
+            $record_entity = $em->getRepository(Source::class)->findOneBy(array("codeSource" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -737,15 +734,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " [" . $data[$ColCsv] . ']</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " [" . $data[$ColCsv] . ']</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -789,15 +786,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -816,7 +813,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -864,7 +861,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'pcr.code_pcr') {
-            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv));
+            $record_entity = $em->getRepository(Pcr::class)->findOneBy(array("codePcr" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -917,15 +914,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -975,11 +972,11 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case "Voc":
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                  break;
-                default:
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  case "Voc":
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 }
               } else {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1009,7 +1006,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           if ($ColCsv == 'chromatogramme.code_chromato') { // On teste pour savoir si le chromatogramme.code_chromato a déja été créé.
-            $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv));
+            $record_entity = $em->getRepository(Chromatogramme::class)->findOneBy(array("codeChromato" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1033,15 +1030,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1059,7 +1056,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -1103,7 +1100,7 @@ class ImportFileE3s {
         if (!$flag_foreign) {
           $varfield = explode(".", $field)[1];
           if ($ColCsv == 'pcr.code_pcr') {
-            $record_entity = $em->getRepository("App:Pcr")->findOneBy(array("codePcr" => $dataColCsv));
+            $record_entity = $em->getRepository(Pcr::class)->findOneBy(array("codePcr" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1156,15 +1153,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1207,11 +1204,11 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1230,7 +1227,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -1275,7 +1272,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'chromatogramme.code_chromato') {
-            $record_entity = $em->getRepository("App:Chromatogramme")->findOneBy(array("codeChromato" => $dataColCsv));
+            $record_entity = $em->getRepository(Chromatogramme::class)->findOneBy(array("codeChromato" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1299,15 +1296,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1325,7 +1322,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -1375,7 +1372,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'adn.code_adn') {
-            $record_entity = $em->getRepository("App:Adn")->findOneBy(array("codeAdn" => $dataColCsv));
+            $record_entity = $em->getRepository(Adn::class)->findOneBy(array("codeAdn" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1432,15 +1429,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1483,15 +1480,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1510,7 +1507,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -1553,7 +1550,7 @@ class ImportFileE3s {
           }
           $varfield = explode(".", $field)[1];
           if ($field == 'programme.codeProgramme') {
-            $record_entity = $em->getRepository("App:Programme")->findOneBy(array("codeProgramme" => $dataColCsv));
+            $record_entity = $em->getRepository(Programme::class)->findOneBy(array("codeProgramme" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b><br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1579,7 +1576,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -1624,7 +1621,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($field == 'collecte.codeCollecte') {
-            $record_entity = $em->getRepository("App:Collecte")->findOneBy(array("codeCollecte" => $dataColCsv));
+            $record_entity = $em->getRepository(Collecte::class)->findOneBy(array("codeCollecte" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -1636,7 +1633,6 @@ class ImportFileE3s {
               if ($dataColCsv == '') {
                 $message .= $this->translator->trans('importfileService.ERROR bad float format') . '<b> : ' . $data[$ColCsv] . "</b>  <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
-
             } else {
               $dataColCsv = NULL;
             }
@@ -1702,15 +1698,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . $field . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . $field . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1752,15 +1748,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1803,8 +1799,8 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1847,8 +1843,8 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1891,8 +1887,8 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1935,8 +1931,8 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . "-" . $varfield . "-" . $varfield_parent . "-" . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -1955,7 +1951,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -2005,7 +2001,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($field); var_dump($ColCsv);
           if ($ColCsv == 'individu_lame.code_lame_coll') {
-            $record_entity = $em->getRepository("App:IndividuLame")->findOneBy(array("codeLameColl" => $dataColCsv));
+            $record_entity = $em->getRepository(IndividuLame::class)->findOneBy(array("codeLameColl" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -2059,15 +2055,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2111,15 +2107,15 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case "Voc":
-                  if ($data[$ColCsv] == '') {
-                    $foreign_record = NULL;
-                  } else {
-                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                  }
-                  break;
-                default:
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  case "Voc":
+                    if ($data[$ColCsv] == '') {
+                      $foreign_record = NULL;
+                    } else {
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 }
               } else {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2140,7 +2136,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -2190,13 +2186,13 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'individu.code_ind_biomol' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndBiomol" => $dataColCsv));
+            $record_entity = $em->getRepository(Individu::class)->findOneBy(array("codeIndBiomol" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
           if ($ColCsv == 'code_ind_tri_morpho' && !is_null($dataColCsv)) {
-            $record_entity = $em->getRepository("App:Individu")->findOneBy(array("codeIndTriMorpho" => $dataColCsv));
+            $record_entity = $em->getRepository(Individu::class)->findOneBy(array("codeIndTriMorpho" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -2220,15 +2216,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2312,15 +2308,15 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case "Voc":
-                  if ($data[$ColCsv] == '') {
-                    $foreign_record = NULL;
-                  } else {
-                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                  }
-                  break;
-                default:
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  case "Voc":
+                    if ($data[$ColCsv] == '') {
+                      $foreign_record = NULL;
+                    } else {
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 }
               } else {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2370,15 +2366,15 @@ class ImportFileE3s {
                 }
                 if ($foreign_record === NULL) {
                   switch ($foreign_table) {
-                  case "Voc":
-                    if ($data[$ColCsv] == '') {
-                      $foreign_record = NULL;
-                    } else {
-                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                    }
-                    break;
-                  default:
-                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    case "Voc":
+                      if ($data[$ColCsv] == '') {
+                        $foreign_record = NULL;
+                      } else {
+                        $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                      }
+                      break;
+                    default:
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                   }
                 } else {
                   $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2400,7 +2396,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -2444,7 +2440,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             if ($field == 'boite.codeBoite') {
-              $record_entity = $em->getRepository("App:Boite")->findOneBy(array("codeBoite" => $dataColCsv));
+              $record_entity = $em->getRepository(Boite::class)->findOneBy(array("codeBoite" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -2470,8 +2466,8 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " parent=" . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " parent=" . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2493,7 +2489,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -2543,7 +2539,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'lot_materiel.code_lot_materiel') {
-            $record_entity = $em->getRepository("App:LotMateriel")->findOneBy(array("codeLotMateriel" => $dataColCsv));
+            $record_entity = $em->getRepository(LotMateriel::class)->findOneBy(array("codeLotMateriel" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -2611,18 +2607,18 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Boite":
-              // la valeur NULL est permise
-              break;
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Boite":
+                // la valeur NULL est permise
+                break;
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2664,15 +2660,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2715,15 +2711,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2765,11 +2761,11 @@ class ImportFileE3s {
             }
 
             $entityRel->setNbIndividus($nb_individu);
-            $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $type_individu, "parent" => 'typeIndividu'));
+            $foreign_record = $em->getRepository(Voc::class)->findOneBy(array("code" => $type_individu, "parent" => 'typeIndividu'));
             if ($foreign_record === NULL) {
               switch ("Voc") {
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $type_individu . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $type_individu . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $entityRel->setTypeIndividuVocFk($foreign_record);
@@ -2846,15 +2842,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2896,15 +2892,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -2923,7 +2919,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -2959,7 +2955,7 @@ class ImportFileE3s {
     foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
       $flagSeq = 0;
       $flagSeqExt = 0;
-      $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+      $record_entity_sqc_ass = $em->getRepository(SequenceAssemblee::class)->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass !== NULL) {
         $flagSeq = 1;
         $entityRel = new \App\Entity\Assigne();
@@ -2969,7 +2965,7 @@ class ImportFileE3s {
         $entityRel->$method($record_entity_sqc_ass);
         $method = "setNumMotu";
         $entityRel->$method($data2["num_motu"]);
-        $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+        $foreign_record = $em->getRepository(Voc::class)->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
         if ($foreign_record === NULL) {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
@@ -2982,7 +2978,7 @@ class ImportFileE3s {
         $entityRel->setUserMaj($userId);
         $em->persist($entityRel);
       }
-      $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
+      $record_entity_sqc_ass_ext = $em->getRepository(SequenceAssembleeExt::class)->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
       if ($record_entity_sqc_ass_ext !== NULL) {
         $flagSeqExt = 1;
         $entityRel = new \App\Entity\Assigne();
@@ -2992,7 +2988,7 @@ class ImportFileE3s {
         $entityRel->$method($record_entity_sqc_ass_ext);
         $method = "setNumMotu";
         $entityRel->$method($data2["num_motu"]);
-        $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+        $foreign_record = $em->getRepository(Voc::class)->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
         if ($foreign_record === NULL) {
           $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
         }
@@ -3013,14 +3009,13 @@ class ImportFileE3s {
       if ($flagSeq && $flagSeqExt) {
         $message .= $this->translator->trans('importfileService.ERROR duplicate code sqc sqcext') . '<b> : ' . $data2["code_seq_ass"] . '</b>  <br>ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
       }
-
     }
 
     if ($message == '') {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -3115,15 +3110,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . "]</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3166,15 +3161,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3194,7 +3189,7 @@ class ImportFileE3s {
         foreach ($csvDataMotu as $l2 => $data2) { // 1- Line-to-line data processing ($ l)
           $flagSeq = 0;
           $flagSeqExt = 0;
-          $record_entity_sqc_ass = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
+          $record_entity_sqc_ass = $em->getRepository(SequenceAssemblee::class)->findOneBy(array("codeSqcAss" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass !== NULL) {
             $flagSeq = 1;
             $entityRel = new \App\Entity\Assigne();
@@ -3204,7 +3199,7 @@ class ImportFileE3s {
             $entityRel->$method($record_entity_sqc_ass);
             $method = "setNumMotu";
             $entityRel->$method($data2["num_motu"]);
-            $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+            $foreign_record = $em->getRepository(Voc::class)->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
             if ($foreign_record === NULL) {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b>  <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
@@ -3212,7 +3207,7 @@ class ImportFileE3s {
             $method = "setMethodeMotuVocFk";
             $entityRel->$method($foreign_record);
           }
-          $record_entity_sqc_ass_ext = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
+          $record_entity_sqc_ass_ext = $em->getRepository(SequenceAssembleeExt::class)->findOneBy(array("codeSqcAssExt" => $data2["code_seq_ass"]));
           if ($record_entity_sqc_ass_ext !== NULL) {
             $flagSeqExt = 1;
             $entityRel = new \App\Entity\Assigne();
@@ -3222,7 +3217,7 @@ class ImportFileE3s {
             $entityRel->$method($record_entity_sqc_ass_ext);
             $method = "setNumMotu";
             $entityRel->$method($data2["num_motu"]);
-            $foreign_record = $em->getRepository("App:Voc")->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
+            $foreign_record = $em->getRepository(Voc::class)->findOneBy(array("code" => $data2["code_methode_motu"], "parent" => "methodeMotu"));
             if ($foreign_record === NULL) {
               $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $data2["code_methode_motu"] . '</b> INCONNU <br> ligne ' . (string) ($l2 + 2) . ": " . join(';', $data2) . "<br>";
             }
@@ -3243,7 +3238,6 @@ class ImportFileE3s {
           if ($flagSeq && $flagSeqExt) {
             $message .= $this->translator->trans('importfileService.ERROR duplicate code sqc sqcext') . '<b> : ' . $data2["code_seq_ass"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data2) . "<br>";
           }
-
         }
       } else {
         return ($this->translator->trans('importfileService.ERROR bad columns in CSV'));
@@ -3254,7 +3248,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvDataMotu) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -3303,7 +3297,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             if ($ColCsv == 'etablissement.nom_etablissement') {
-              $record_entity = $em->getRepository("App:Etablissement")->findOneBy(array("nomEtablissement" => $dataColCsv));
+              $record_entity = $em->getRepository(Etablissement::class)->findOneBy(array("nomEtablissement" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -3329,7 +3323,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -3372,7 +3366,7 @@ class ImportFileE3s {
           $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
           $varfield = explode(".", $field)[1];
           if ($field == 'pays.codePays') {
-            $record_pays = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $dataColCsv));
+            $record_pays = $em->getRepository(Pays::class)->findOneBy(array("codePays" => $dataColCsv));
             if ($record_pays !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }
@@ -3394,7 +3388,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -3442,7 +3436,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'sequence_assemblee_ext.code_sqc_ass_ext') {
-            $record_entity = $em->getRepository("App:SequenceAssembleeExt")->findOneBy(array("codeSqcAssExt" => $dataColCsv));
+            $record_entity = $em->getRepository(SequenceAssembleeExt::class)->findOneBy(array("codeSqcAssExt" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -3495,15 +3489,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3545,15 +3539,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3596,15 +3590,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3682,15 +3676,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3732,15 +3726,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3759,7 +3753,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -3807,7 +3801,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'lot_materiel_ext.code_lot_materiel_ext') {
-            $record_entity = $em->getRepository("App:LotMaterielExt")->findOneBy(array("codeLotMaterielExt" => $dataColCsv));
+            $record_entity = $em->getRepository(LotMaterielExt::class)->findOneBy(array("codeLotMaterielExt" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -3860,15 +3854,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3910,15 +3904,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -3961,15 +3955,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4047,15 +4041,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4097,15 +4091,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4124,7 +4118,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4169,7 +4163,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($field == 'station.codeStation') { // On teste pour savoir si le code_station a déja été créé.
-            $record_station = $em->getRepository("App:Station")->findOneBy(array("codeStation" => $dataColCsv));
+            $record_station = $em->getRepository(Station::class)->findOneBy(array("codeStation" => $dataColCsv));
             if ($record_station !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }
@@ -4199,43 +4193,43 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case 'Commune':
-              if ($dataColCsv != '') {
-                $CodeCommune = $dataColCsv;
-                if (array_key_exists($CodeCommune, $list_new_commune)) {
-                  $commune = $list_new_commune[$CodeCommune];
-                } else { // if CodeCommune is null create a new commune with a codeCommune as Nom_Commune|Nom_Region|Nom_Pays and field site_name = "Nom Commune" and municipality_name = "Nom Region"
-                  $commune = new \App\Entity\Commune();
-                  $commune->setCodeCommune($CodeCommune);
-                  $list_field_commune = explode("|", $dataColCsv);
-                  $commune->setNomCommune(str_replace("_", " ", $list_field_commune[0]));
-                  $commune->setNomRegion(str_replace("_", " ", $list_field_commune[1]));
-                  $commune->setDateCre($DateImport);
-                  $commune->setDateMaj($DateImport);
-                  $commune->setUserCre($userId);
-                  $commune->setUserMaj($userId);
-                  $pays_fk = $em->getRepository("App:Pays")->findOneBy(array("codePays" => $list_field_commune[2]));
-                  if ($pays_fk === NULL) {
-                    $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case 'Commune':
+                if ($dataColCsv != '') {
+                  $CodeCommune = $dataColCsv;
+                  if (array_key_exists($CodeCommune, $list_new_commune)) {
+                    $commune = $list_new_commune[$CodeCommune];
+                  } else { // if CodeCommune is null create a new commune with a codeCommune as Nom_Commune|Nom_Region|Nom_Pays and field site_name = "Nom Commune" and municipality_name = "Nom Region"
+                    $commune = new \App\Entity\Commune();
+                    $commune->setCodeCommune($CodeCommune);
+                    $list_field_commune = explode("|", $dataColCsv);
+                    $commune->setNomCommune(str_replace("_", " ", $list_field_commune[0]));
+                    $commune->setNomRegion(str_replace("_", " ", $list_field_commune[1]));
+                    $commune->setDateCre($DateImport);
+                    $commune->setDateMaj($DateImport);
+                    $commune->setUserCre($userId);
+                    $commune->setUserMaj($userId);
+                    $pays_fk = $em->getRepository(Pays::class)->findOneBy(array("codePays" => $list_field_commune[2]));
+                    if ($pays_fk === NULL) {
+                      $message .= $this->translator->trans('importfileService.ERROR bad code') . ' : ' . $list_field_commune[2] . '</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    $commune->setPaysFk($pays_fk);
+                    $em->persist($commune);
+                    $list_new_commune[$CodeCommune] = $commune; // we keep in memory the communes created
                   }
-                  $commune->setPaysFk($pays_fk);
-                  $em->persist($commune);
-                  $list_new_commune[$CodeCommune] = $commune; // we keep in memory the communes created
+                  $foreign_fieldName = $foreign_table . "Fk";
+                  $method = $importFileCsvService->TransformNameForSymfony($foreign_fieldName, 'set');
+                  $entity->$method($commune);
                 }
-                $foreign_fieldName = $foreign_table . "Fk";
-                $method = $importFileCsvService->TransformNameForSymfony($foreign_fieldName, 'set');
-                $entity->$method($commune);
-              }
-              break;
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . $foreign_table . "-" . $foreign_field . " <b>" . $dataColCsv . '</b> <br> ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
+                break;
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . $foreign_table . "-" . $foreign_field . " <b>" . $dataColCsv . '</b> <br> ligne ' . (string) ($l + 1) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4259,7 +4253,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4307,7 +4301,7 @@ class ImportFileE3s {
           $varfield = explode(".", $field)[1];
           // var_dump($ColCsv); var_dump($field); exit;
           if ($ColCsv == 'sequence_assemblee.code_sqc_ass') {
-            $record_entity = $em->getRepository("App:SequenceAssemblee")->findOneBy(array("codeSqcAss" => $dataColCsv));
+            $record_entity = $em->getRepository(SequenceAssemblee::class)->findOneBy(array("codeSqcAss" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $dataColCsv . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -4360,15 +4354,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4410,15 +4404,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4461,15 +4455,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4512,15 +4506,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4598,15 +4592,15 @@ class ImportFileE3s {
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
-            case "Voc":
-              if ($data[$ColCsv] == '') {
-                $foreign_record = NULL;
-              } else {
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-              }
-              break;
-            default:
-              $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           } else {
             $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4648,15 +4642,15 @@ class ImportFileE3s {
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
-              case "Voc":
-                if ($data[$ColCsv] == '') {
-                  $foreign_record = NULL;
-                } else {
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                }
-                break;
-              default:
-                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                case "Voc":
+                  if ($data[$ColCsv] == '') {
+                    $foreign_record = NULL;
+                  } else {
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  }
+                  break;
+                default:
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
             } else {
               $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4675,7 +4669,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4718,7 +4712,7 @@ class ImportFileE3s {
             $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
           }
           if ($ColCsv == 'referentiel_taxon.taxname') { // On teste pour savoir si le taxname a déja été créé.
-            $record_entity = $em->getRepository("App:ReferentielTaxon")->findOneBy(array("taxname" => $dataColCsv));
+            $record_entity = $em->getRepository(ReferentielTaxon::class)->findOneBy(array("taxname" => $dataColCsv));
             if ($record_entity !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -4753,7 +4747,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4797,7 +4791,7 @@ class ImportFileE3s {
           }
           // On teste pour savoir si le code_voc n existe pas deja pour ce parent
           if ($ColCsv == 'voc.parent') {
-            $record_voc = $em->getRepository("App:Voc")->findOneBy(array("parent" => $dataColCsv, "code" => $code));
+            $record_voc = $em->getRepository(Voc::class)->findOneBy(array("parent" => $dataColCsv, "code" => $code));
             if ($record_voc !== NULL) {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
@@ -4822,7 +4816,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4872,7 +4866,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             if ($ColCsv == 'personne.nom_personne') {
-              $record_entity = $em->getRepository("App:Personne")->findOneBy(array("nomPersonne" => $dataColCsv));
+              $record_entity = $em->getRepository(Personne::class)->findOneBy(array("nomPersonne" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -4897,18 +4891,18 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case 'etablissement':
-                  // la valeur NULL est permise
-                  break;
-                case "Voc":
-                  if ($data[$ColCsv] == '') {
-                    $foreign_record = NULL;
-                  } else {
-                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                  }
-                  break;
-                default:
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  case 'etablissement':
+                    // la valeur NULL est permise
+                    break;
+                  case "Voc":
+                    if ($data[$ColCsv] == '') {
+                      $foreign_record = NULL;
+                    } else {
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 }
               } else {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -4932,7 +4926,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -4982,7 +4976,7 @@ class ImportFileE3s {
           if (!$flag_foreign) {
             $varfield = explode(".", $field)[1];
             if ($ColCsv == 'commune.code_commune') {
-              $record_entity = $em->getRepository("App:Commune")->findOneBy(array("codeCommune" => $dataColCsv));
+              $record_entity = $em->getRepository(Commune::class)->findOneBy(array("codeCommune" => $dataColCsv));
               if ($record_entity !== NULL) {
                 $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . " / " . $ColCsv . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
               }
@@ -5007,15 +5001,15 @@ class ImportFileE3s {
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
-                case "Voc":
-                  if ($data[$ColCsv] == '') {
-                    $foreign_record = NULL;
-                  } else {
-                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                  }
-                  break;
-                default:
-                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  case "Voc":
+                    if ($data[$ColCsv] == '') {
+                      $foreign_record = NULL;
+                    } else {
+                      $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                    }
+                    break;
+                  default:
+                    $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $field . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $dataColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
                 }
               } else {
                 $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
@@ -5024,9 +5018,9 @@ class ImportFileE3s {
             } else {
               // cas des valeurs NULL
               switch ($foreign_table) {
-              case 'Pays':
-                $message .= $this->translator->trans('importfileService.ERROR NULL value') . ' : ' . $field . " <b>[" . $ColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-                break;
+                case 'Pays':
+                  $message .= $this->translator->trans('importfileService.ERROR NULL value') . ' : ' . $field . " <b>[" . $ColCsv . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                  break;
               }
             }
           }
@@ -5046,7 +5040,7 @@ class ImportFileE3s {
       try {
         $flush = $em->flush();
         return $this->translator->trans('importfileService.Import OK') . ' = ' . count($csvData) . '</br>' . $info;
-      } catch (\Doctrine\DBAL\DBALException $e) {
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

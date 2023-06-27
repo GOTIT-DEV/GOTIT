@@ -6,37 +6,26 @@ use App\Entity\LotMaterielExt;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Lotmaterielext controller.
  *
- * @Route("lotmaterielext")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class LotMaterielExtController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("lotmaterielext")]
+class LotMaterielExtController extends EntityController {
 
   /**
    * Lists all lotMaterielExt entities.
-   *
-   * @Route("/", name="lotmaterielext_index", methods={"GET"})
    */
+  #[Route("/", name: "lotmaterielext_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $lotMaterielExts = $em->getRepository('App:LotMaterielExt')->findAll();
+    $lotMaterielExts = $this->getRepository(LotMaterielExt::class)->findAll();
 
     return $this->render(
       'Core/lotmaterielext/index.html.twig',
@@ -50,18 +39,14 @@ class LotMaterielExtController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="lotmaterielext_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
+  #[Route("/indexjson", name: "lotmaterielext_indexjson", methods: ["POST"])]
+  public function indexjsonAction(Request $request) {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort')
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "lot.date_of_update DESC, lot.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "lot.date_of_update DESC, lot.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(lot.external_biological_material_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
@@ -127,14 +112,14 @@ class LotMaterielExtController extends AbstractController {
       . " ORDER BY " . $orderBy;
 
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
@@ -168,15 +153,14 @@ class LotMaterielExtController extends AbstractController {
   /**
    * Creates a new lotMaterielExt entity.
    *
-   * @Route("/new", name="lotmaterielext_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "lotmaterielext_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $lotMaterielExt = new Lotmaterielext();
-    $em = $this->doctrine->getManager();
 
     if ($sampling_id = $request->get('idFk')) {
-      $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
+      $sampling = $this->getRepository(Collecte::class)->find($sampling_id);
       $lotMaterielExt->setCollecteFk($sampling);
     }
 
@@ -189,11 +173,11 @@ class LotMaterielExtController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($lotMaterielExt);
+      $this->entityManager->persist($lotMaterielExt);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -218,8 +202,8 @@ class LotMaterielExtController extends AbstractController {
   /**
    * Finds and displays a lotMaterielExt entity.
    *
-   * @Route("/{id}", name="lotmaterielext_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "lotmaterielext_show", methods: ["GET"])]
   public function showAction(LotMaterielExt $lotMaterielExt) {
     $deleteForm = $this->createDeleteForm($lotMaterielExt);
     $editForm = $this->createForm(
@@ -238,9 +222,9 @@ class LotMaterielExtController extends AbstractController {
   /**
    * Displays a form to edit an existing lotMaterielExt entity.
    *
-   * @Route("/{id}/edit", name="lotmaterielext_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "lotmaterielext_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, LotMaterielExt $lotMaterielExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -271,10 +255,10 @@ class LotMaterielExtController extends AbstractController {
       $service->DelArrayCollectionEmbed('EspeceIdentifiees', 'EstIdentifiePars', $lotMaterielExt, $especeIdentifiees);
       $service->DelArrayCollection('LotMaterielExtEstReferenceDanss', $lotMaterielExt, $lotMaterielExtEstReferenceDanss);
       $service->DelArrayCollection('LotMaterielExtEstRealisePars', $lotMaterielExt, $lotMaterielExtEstRealisePars);
-      $this->doctrine->getManager()->persist($lotMaterielExt);
+      $this->entityManager->persist($lotMaterielExt);
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -300,9 +284,9 @@ class LotMaterielExtController extends AbstractController {
   /**
    * Deletes a lotMaterielExt entity.
    *
-   * @Route("/{id}", name="lotmaterielext_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "lotmaterielext_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, LotMaterielExt $lotMaterielExt) {
     $form = $this->createDeleteForm($lotMaterielExt);
     $form->handleRequest($request);
@@ -311,11 +295,10 @@ class LotMaterielExtController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($lotMaterielExt);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($lotMaterielExt);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

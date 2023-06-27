@@ -14,6 +14,8 @@ use App\Form\Type\SearchableSelectType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Adn;
+use App\Controller\Core\PersonneController;
 
 class PcrType extends ActionFormType {
   /**
@@ -23,7 +25,7 @@ class PcrType extends ActionFormType {
     $adn = $builder->getData()->getAdnFk();
     $builder
       ->add('adnFk', SearchableSelectType::class, [
-        'class' => 'App:Adn',
+        'class' => Adn::class,
         'choice_label' => 'codeAdn',
         'placeholder' => $this->translator->trans("Adn typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
@@ -93,7 +95,7 @@ class PcrType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_pcr';
   }
 }

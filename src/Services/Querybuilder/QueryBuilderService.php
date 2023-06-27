@@ -3,6 +3,7 @@
 namespace App\Services\Querybuilder;
 
 use App\Entity\User;
+use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 
 /**
@@ -13,7 +14,7 @@ class QueryBuilderService {
    * Create the query.
    *
    * @param mixed $data $query all the info from the form and the state of the query.
-   * @return array $query the full query.
+   * @return QueryBuilder $query the full query.
    */
   public function makeQuery($data, $query, $user) {
 
@@ -91,10 +92,10 @@ class QueryBuilderService {
 
       if (
         !($user instanceof User) &&
-        $table === "Station" && (
-          $field['id'] === "latDegDec" ||
+        $table === "Station" && ($field['id'] === "latDegDec" ||
           $field['id'] === "longDegDec"
-        )) {
+        )
+      ) {
         // Scramble coordinates
         $query = $query->addSelect($this->scrambledSelectClause($alias, $field));
       } else {
@@ -127,10 +128,10 @@ class QueryBuilderService {
 
         if (
           !($user instanceof User) &&
-          $j['table'] === "Station" && (
-            $field['id'] === "latDegDec" ||
+          $j['table'] === "Station" && ($field['id'] === "latDegDec" ||
             $field['id'] === "longDegDec"
-          )) {
+          )
+        ) {
           // Scramble coordinates
           $query = $query->addSelect($this->scrambledSelectClause($j['alias'], $field));
         } else {
@@ -188,74 +189,74 @@ class QueryBuilderService {
 
     // Find the right operator
     switch ($rule["operator"]) {
-    case 'equals':
-    case '=':
-    case 'on_day':
-      return $qb->expr()->eq($column, $value);
-      break;
-    case 'does_not_equal':
-    case '<>':
-    case '!=':
-    case '≠':
-    case 'not_on_day':
-      return $qb->expr()->neq($column, $value);
-      break;
-    case 'in':
-      return $qb->expr()->in($column, $value);
-      break;
-    case 'not_in':
-      return $qb->expr()->notIn($column, $value);
-      break;
-    case 'less':
-    case '<':
-      return $qb->expr()->lt($column, $value);
-      break;
-    case 'less_or_equal':
-    case '<=':
-    case '≤':
-      return $qb->expr()->lte($column, $value);
-      break;
-    case 'greater':
-    case '>':
-      return $qb->expr()->gt($column, $value);
-      break;
-    case 'greater_or_equal':
-    case '>=':
-    case '≥':
-      return $qb->expr()->gte($column, $value);
-      break;
-    case 'between':
-      return $qb->expr()->between($column, ...$value);
-      break;
-    case 'not_between':
-      return $qb->expr()->not($qb->expr()->between($column, ...$value));
-      break;
-    case 'is_null':
-      return $qb->expr()->isNull($column);
-      break;
-    case 'is_not_null':
-      return $qb->expr()->not($qb->expr()->isNull($column));
-      break;
-    case 'begins_with':
-    case 'ends_with':
-    case 'contains':
-      return $qb->expr()->like('lower(' . $column . ')', strtolower($value));
-      break;
-    case 'not_begins_with':
-    case 'does_not_contain':
-    case 'not_ends_with':
-      return $qb->expr()->not($qb->expr()->like('lower(' . $column . ')', strtolower($value)));
-      break;
-    case 'is_empty':
-      return $qb->expr()->eq($column, "''");
-      break;
-    case 'is_not_empty':
-      return $qb->expr()->not($qb->expr()->eq($column, "''"));
-      break;
+      case 'equals':
+      case '=':
+      case 'on_day':
+        return $qb->expr()->eq($column, $value);
+        break;
+      case 'does_not_equal':
+      case '<>':
+      case '!=':
+      case '≠':
+      case 'not_on_day':
+        return $qb->expr()->neq($column, $value);
+        break;
+      case 'in':
+        return $qb->expr()->in($column, $value);
+        break;
+      case 'not_in':
+        return $qb->expr()->notIn($column, $value);
+        break;
+      case 'less':
+      case '<':
+        return $qb->expr()->lt($column, $value);
+        break;
+      case 'less_or_equal':
+      case '<=':
+      case '≤':
+        return $qb->expr()->lte($column, $value);
+        break;
+      case 'greater':
+      case '>':
+        return $qb->expr()->gt($column, $value);
+        break;
+      case 'greater_or_equal':
+      case '>=':
+      case '≥':
+        return $qb->expr()->gte($column, $value);
+        break;
+      case 'between':
+        return $qb->expr()->between($column, ...$value);
+        break;
+      case 'not_between':
+        return $qb->expr()->not($qb->expr()->between($column, ...$value));
+        break;
+      case 'is_null':
+        return $qb->expr()->isNull($column);
+        break;
+      case 'is_not_null':
+        return $qb->expr()->not($qb->expr()->isNull($column));
+        break;
+      case 'begins_with':
+      case 'ends_with':
+      case 'contains':
+        return $qb->expr()->like('lower(' . $column . ')', strtolower($value));
+        break;
+      case 'not_begins_with':
+      case 'does_not_contain':
+      case 'not_ends_with':
+        return $qb->expr()->not($qb->expr()->like('lower(' . $column . ')', strtolower($value)));
+        break;
+      case 'is_empty':
+        return $qb->expr()->eq($column, "''");
+        break;
+      case 'is_not_empty':
+        return $qb->expr()->not($qb->expr()->eq($column, "''"));
+        break;
 
-    default:
-      throw new InvalidArgumentException("Querybuilder : Unknown operator " . $rule['operator']);
-      break;
+      default:
+        throw new InvalidArgumentException("Querybuilder : Unknown operator " . $rule['operator']);
+        break;
     }
   }
 
@@ -276,7 +277,6 @@ class QueryBuilderService {
       } else {
         throw new InvalidArgumentException("Querybuilder : unknown rule type " . $rule['type']);
       }
-
     };
     // Create an array with all the rules
     if ($group['children']) {

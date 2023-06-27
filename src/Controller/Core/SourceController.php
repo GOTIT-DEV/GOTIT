@@ -11,32 +11,21 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Source controller.
- *
- * @Route("source")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SourceController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("source")]
+class SourceController extends EntityController {
 
   /**
    * Lists all source entities.
-   *
-   * @Route("/", name="source_index", methods={"GET"})
    */
+  #[Route("/", name: "source_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-
-    $sources = $em->getRepository('App:Source')->findAll();
+    $sources = $this->getRepository(Source::class)->findAll();
 
     return $this->render('Core/source/index.html.twig', array(
       'sources' => $sources,
@@ -49,18 +38,14 @@ class SourceController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="source_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "source_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('source.dateMaj' => 'desc', 'source.id' => 'desc');
+      ? $request->get('sort')
+      : array('source.dateMaj' => 'desc', 'source.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(source.codeSource) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
@@ -69,8 +54,8 @@ class SourceController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em
-      ->getRepository("App:Source")
+    $entities_toshow = $this->entityManager
+      ->getRepository(Source::class)
       ->createQueryBuilder('source')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -79,14 +64,14 @@ class SourceController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //
       $tab_toshow[] = array(
         "id" => $id,
@@ -114,9 +99,9 @@ class SourceController extends AbstractController {
   /**
    * Creates a new source entity.
    *
-   * @Route("/new", name="source_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "source_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $source = new Source();
     $form = $this->createForm('App\Form\SourceType', $source, [
@@ -125,11 +110,10 @@ class SourceController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($source);
+      $this->entityManager->persist($source);
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -150,9 +134,8 @@ class SourceController extends AbstractController {
 
   /**
    * Finds and displays a source entity.
-   *
-   * @Route("/{id}", name="source_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "source_show", methods: ["GET"])]
   public function showAction(Source $source) {
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
@@ -168,10 +151,9 @@ class SourceController extends AbstractController {
 
   /**
    * Displays a form to edit an existing source entity.
-   *
-   * @Route("/{id}/edit", name="source_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "source_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -179,11 +161,7 @@ class SourceController extends AbstractController {
     if ($user->getRole() == 'ROLE_COLLABORATION' && $source->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
-    // load service  generic_function_e3s
-    //
-    // store ArrayCollection
     $sourceAEteIntegrePars = $service->setArrayCollection('SourceAEteIntegrePars', $source);
-    //
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
       'action_type' => Action::edit->value,
@@ -192,11 +170,9 @@ class SourceController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        // delete ArrayCollection
         $service->DelArrayCollection('SourceAEteIntegrePars', $source, $sourceAEteIntegrePars);
-        // flush
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -222,10 +198,9 @@ class SourceController extends AbstractController {
 
   /**
    * Deletes a source entity.
-   *
-   * @Route("/{id}", name="source_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "source_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Source $source) {
     $form = $this->createDeleteForm($source);
     $form->handleRequest($request);
@@ -234,11 +209,10 @@ class SourceController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($source);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($source);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

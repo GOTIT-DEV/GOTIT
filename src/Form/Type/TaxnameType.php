@@ -6,12 +6,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use App\Entity\ReferentielTaxon;
 
 class TaxnameType extends AbstractType {
 
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-      'class' => 'App:ReferentielTaxon',
+      'class' => ReferentielTaxon::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('rt')
           ->orderBy('rt.taxname', 'ASC');
@@ -27,7 +28,7 @@ class TaxnameType extends AbstractType {
     ]);
   }
 
-  public function getParent():?string {
+  public function getParent(): ?string {
     return EntityType::class;
   }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Controller\Core;
 
+use App\Controller\EntityController;
 use App\Entity\Personne;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
-use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,27 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Personne controller.
  *
- * @Route("personne")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class PersonneController extends AbstractController {
-
-  /**
-   * @author Philippe Grison  <philippe.grison@mnhn.fr>
-   */
-  private $doctrine;
-  public function __construct(ManagerRegistry $doctrine) {
-    $this->doctrine = $doctrine;
-  }
+#[Route("personne")]
+class PersonneController extends EntityController {
 
   /**
    * Lists all personne entities.
-   *
-   * @Route("/", name="personne_index", methods={"GET"})
    */
+  #[Route("/", name: "personne_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-    $personnes = $em->getRepository('App:Personne')->findAll();
+    $personnes = $this->getRepository(Personne::class)->findAll();
     return $this->render('Core/personne/index.html.twig', [
       'personnes' => $personnes,
     ]);
@@ -46,19 +35,14 @@ class PersonneController extends AbstractController {
    * a) 1 search criterion ($ request-> get ('searchPhrase')) insensitive to the case and  applied to a field
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
-   *
-   * @Route("/indexjson", name="personne_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "personne_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? $request->get('sort')
-    : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');
+      ? $request->get('sort')
+      : array('personne.dateMaj' => 'desc', 'personne.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
-    $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(personne.nomPersonne) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
@@ -67,8 +51,8 @@ class PersonneController extends AbstractController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $em
-      ->getRepository("App:Personne")
+    $entities_toshow = $this->entityManager
+      ->getRepository(Personne::class)
       ->createQueryBuilder('personne')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
@@ -83,16 +67,16 @@ class PersonneController extends AbstractController {
       ->getResult();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateMaj = ($entity->getDateMaj() !== null)
-      ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $DateCre = ($entity->getDateCre() !== null)
-      ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
+        ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       $NomEtablissement = ($entity->getEtablissementFk() !== null)
-      ? $entity->getEtablissementFk()->getNomEtablissement() : null;
+        ? $entity->getEtablissementFk()->getNomEtablissement() : null;
       //
       $tab_toshow[] = array(
         "id" => $id, "personne.id" => $id,
@@ -118,10 +102,9 @@ class PersonneController extends AbstractController {
 
   /**
    * Creates a new personne entity.
-   *
-   * @Route("/new", name="personne_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "personne_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $personne = new Personne();
     $form = $this->createForm('App\Form\PersonneType', $personne, [
@@ -130,11 +113,10 @@ class PersonneController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->doctrine->getManager();
-      $em->persist($personne);
+      $this->entityManager->persist($personne);
       try {
-        $flush = $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $flush = $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -156,9 +138,8 @@ class PersonneController extends AbstractController {
 
   /**
    * Creates a new personne entity for modal windows
-   *
-   * @Route("/newmodal", name="personne_newmodal", methods={"GET", "POST"})
    */
+  #[Route("/newmodal", name: "personne_newmodal", methods: ["GET", "POST"])]
   public function newmodalAction(Request $request) {
     $personne = new Personne();
     $form = $this->createForm('App\Form\PersonneType', $personne, [
@@ -176,11 +157,10 @@ class PersonneController extends AbstractController {
           ])->getContent(),
         ]);
       } else {
-        $em = $this->doctrine->getManager();
-        $em->persist($personne);
+        $this->entityManager->persist($personne);
 
         try {
-          $flush = $em->flush();
+          $flush = $this->entityManager->flush();
           $select_id = $personne->getId();
           $select_name = $personne->getNomPersonne();
           // returns the parameters of the new record created
@@ -189,7 +169,7 @@ class PersonneController extends AbstractController {
             'select_name' => $select_name,
             'entityname' => 'personne',
           ]);
-        } catch (\Doctrine\DBAL\DBALException $e) {
+        } catch (\Exception $e) {
           return new JsonResponse([
             'exception' => true,
             'exception_message' => $e->getMessage(),
@@ -207,9 +187,8 @@ class PersonneController extends AbstractController {
 
   /**
    * Finds and displays a personne entity.
-   *
-   * @Route("/{id}", name="personne_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "personne_show", methods: ["GET"])]
   public function showAction(Personne $personne) {
     $deleteForm = $this->createDeleteForm($personne);
     $editForm = $this->createForm('App\Form\PersonneType', $personne, [
@@ -225,10 +204,9 @@ class PersonneController extends AbstractController {
 
   /**
    * Displays a form to edit an existing personne entity.
-   *
-   * @Route("/{id}/edit", name="personne_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "personne_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Personne $personne) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -247,8 +225,8 @@ class PersonneController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
       try {
-        $this->doctrine->getManager()->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -272,10 +250,9 @@ class PersonneController extends AbstractController {
 
   /**
    * Deletes a personne entity.
-   *
-   * @Route("/{id}", name="personne_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "personne_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Personne $personne) {
     $form = $this->createDeleteForm($personne);
     $form->handleRequest($request);
@@ -284,11 +261,10 @@ class PersonneController extends AbstractController {
     if (($form->isSubmitted() && $form->isValid()) ||
       $this->isCsrfTokenValid('delete-item', $submittedToken)
     ) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($personne);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($personne);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

@@ -13,6 +13,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Individu;
+use App\Entity\Boite;
+use App\Controller\Core\PersonneController;
 
 class IndividuLameType extends ActionFormType {
   /**
@@ -23,7 +26,7 @@ class IndividuLameType extends ActionFormType {
 
     $builder
       ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+        'class' => Individu::class,
         'choice_label' => 'codeIndTriMorpho',
         'placeholder' => $this->translator
           ->trans("Individu codeIndTriMorpho typeahead placeholder"),
@@ -41,7 +44,7 @@ class IndividuLameType extends ActionFormType {
       ->add('nomDossierPhotos')
       ->add('commentaireLame')
       ->add('boiteFk', EntityType::class, array(
-        'class' => 'App:Boite',
+        'class' => Boite::class,
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('boite')
             ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
@@ -85,7 +88,7 @@ class IndividuLameType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_individulame';
   }
 }

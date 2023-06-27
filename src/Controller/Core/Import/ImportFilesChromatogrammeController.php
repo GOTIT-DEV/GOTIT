@@ -12,24 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Controller\EntityController;
 
 /**
  * ImportIndividu controller.
  *
- * @Route("importfileschromatogramme")
  * @Security("is_granted('ROLE_COLLABORATION')")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class ImportFilesChromatogrammeController extends AbstractController {
-  /**
-   * @var string
-   */
-  private $type_csv;
+#[Route("importfileschromatogramme")]
+class ImportFilesChromatogrammeController extends EntityController {
 
-  /**
-   * @Route("/", name="importfileschromatogramme_index")
-   *
-   */
+  #[Route("/", name: "importfileschromatogramme_index")]
   public function indexAction(
     Request $request,
     ImportFileE3s $importFileE3sService,
@@ -86,27 +80,27 @@ class ImportFilesChromatogrammeController extends AbstractController {
 
     if ($form->isSubmitted()) { //processing form request
       $fichier = $form->get('fichier')->getData()->getRealPath(); // path to the tmp file created
-      $this->type_csv = $form->get('type_csv')->getData();
+      $type_csv = $form->get('type_csv')->getData();
       $nom_fichier_download = $form->get('fichier')->getData()->getClientOriginalName();
-      $message = "Import : " . $nom_fichier_download . " ( Template " . $this->type_csv . ".csv )<br />";
+      $message = "Import : " . $nom_fichier_download . " ( Template " . $type_csv . ".csv )<br />";
       // test if the file imported match the good columns name of the template file
-      $pathToTemplate = $service->getCsvPath($this->type_csv);
+      $pathToTemplate = $service->getCsvPath($type_csv);
       //
       $checkName = $translator->trans($service->checkNameCSVfile2Template($pathToTemplate, $fichier));
       $message .= $checkName;
       if ($checkName == '') {
-        switch ($this->type_csv) {
-        case 'chromatogram':
-          $message .= $importFileE3sService->importCSVDataChromato($fichier, $user->getId());
-          break;
-        case 'vocabulary':
-          $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
-          break;
-        case 'institution':
-          $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
-          break;
-        default:
-          $message .= "ERROR - Bad SELECTED choice ?";
+        switch ($type_csv) {
+          case 'chromatogram':
+            $message .= $importFileE3sService->importCSVDataChromato($fichier, $user->getId());
+            break;
+          case 'vocabulary':
+            $message .= $importFileE3sService->importCSVDataVoc($fichier, $user->getId());
+            break;
+          case 'institution':
+            $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
+            break;
+          default:
+            $message .= "ERROR - Bad SELECTED choice ?";
         }
       }
       return $this->render('Core/importfilecsv/importfiles.html.twig', array("message" => $message, 'form' => $form->createView()));

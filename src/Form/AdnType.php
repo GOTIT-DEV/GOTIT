@@ -15,6 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Individu;
+use App\Entity\Boite;
+use App\Controller\Core\PersonneController;
 
 class AdnType extends ActionFormType {
 
@@ -25,7 +28,7 @@ class AdnType extends ActionFormType {
     $specimen = $builder->getData()->getIndividuFk();
     $builder
       ->add('individuFk', SearchableSelectType::class, [
-        'class' => 'App:Individu',
+        'class' => Individu::class,
         'choice_label' => 'codeIndBioMol',
         'placeholder' => $this->translator->trans("Individu typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
@@ -53,7 +56,7 @@ class AdnType extends ActionFormType {
         'placeholder' => 'Choose a quality',
       ])
       ->add('boiteFk', EntityType::class, array(
-        'class' => 'App:Boite',
+        'class' => Boite::class,
         'query_builder' => function (EntityRepository $er) {
           return $er->createQueryBuilder('boite')
             ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
@@ -96,7 +99,7 @@ class AdnType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_adn';
   }
 }

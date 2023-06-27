@@ -19,6 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Station;
+use App\Controller\Core\ProgrammeController;
+use App\Controller\Core\PersonneController;
 
 class CollecteType extends ActionFormType {
 
@@ -29,7 +32,7 @@ class CollecteType extends ActionFormType {
     $sampling = $builder->getData();
     $builder
       ->add('stationFk', SearchableSelectType::class, [
-        'class' => 'App:Station',
+        'class' => Station::class,
         'choice_label' => 'codeStation',
         'placeholder' =>
         $this->translator->trans("Station typeahead placeholder"),
@@ -149,7 +152,7 @@ class CollecteType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_collecte';
   }
 }

@@ -6,38 +6,25 @@ use App\Entity\SequenceAssembleeExt;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Controller\EntityController;
 
 /**
  * Sequenceassembleeext controller.
- *
- * @Route("sequenceassembleeext")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
-class SequenceAssembleeExtController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
+#[Route("sequenceassembleeext")]
+class SequenceAssembleeExtController extends EntityController {
 
   /**
    * Lists all sequenceAssembleeExt entities.
-   *
-   * @Route("/", name="sequenceassembleeext_index", methods={"GET"})
    */
+  #[Route("/", name: "sequenceassembleeext_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
 
-    $sequenceAssembleeExts = $em->getRepository('App:SequenceAssembleeExt')
+    $sequenceAssembleeExts = $this->getRepository(SequenceAssembleeExt::class)
       ->findAll();
 
     return $this->render(
@@ -52,16 +39,13 @@ class SequenceAssembleeExtController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="sequenceassembleeext_indexjson", methods={"POST"})
    */
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service, TranslatorInterface $translator) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
+  #[Route("/indexjson", name: "sequenceassembleeext_indexjson", methods: ["POST"])]
+  public function indexjsonAction(Request $request) {
     $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "sq.date_of_update DESC, sq.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "sq.date_of_update DESC, sq.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -142,14 +126,14 @@ class SequenceAssembleeExtController extends AbstractController {
       sq.creation_user_name, user_cre.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     foreach ($entities_toshow as $key => $val) {
       $tab_toshow[] = array(
@@ -190,16 +174,14 @@ class SequenceAssembleeExtController extends AbstractController {
 
   /**
    * Creates a new sequenceAssembleeExt entity.
-   *
-   * @Route("/new", name="sequenceassembleeext_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "sequenceassembleeext_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $sequenceAssembleeExt = new Sequenceassembleeext();
-    $em = $this->doctrine->getManager();
     // check if the relational Entity (Collecte) is given and set the RelationalEntityFk for the new Entity
     if ($sampling_id = $request->get('idFk')) {
-      $sampling = $em->getRepository('App:Collecte')->find($sampling_id);
+      $sampling = $this->getRepository(Collecte::class)->find($sampling_id);
       $sequenceAssembleeExt->setCollecteFk($sampling);
     }
     $form = $this->createForm(
@@ -214,11 +196,11 @@ class SequenceAssembleeExtController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($sequenceAssembleeExt);
+      $this->entityManager->persist($sequenceAssembleeExt);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = str_replace(
           ['"', "'"],
           ['\"', "\'"],
@@ -244,9 +226,8 @@ class SequenceAssembleeExtController extends AbstractController {
 
   /**
    * Finds and displays a sequenceAssembleeExt entity.
-   *
-   * @Route("/{id}", name="sequenceassembleeext_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "sequenceassembleeext_show", methods: ["GET"])]
   public function showAction(SequenceAssembleeExt $sequenceAssembleeExt) {
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
     $editForm = $this->createForm(
@@ -264,10 +245,9 @@ class SequenceAssembleeExtController extends AbstractController {
 
   /**
    * Displays a form to edit an existing sequenceAssembleeExt entity.
-   *
-   * @Route("/{id}/edit", name="sequenceassembleeext_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "sequenceassembleeext_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -275,10 +255,6 @@ class SequenceAssembleeExtController extends AbstractController {
     if ($user->getRole() == 'ROLE_COLLABORATION' && $sequenceAssembleeExt->getUserCre() != $user->getId()) {
       $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'ACCESS DENIED');
     }
-    // load service  generic_function_e3s
-    //
-    // load the Entity Manager
-    $em = $this->doctrine->getManager();
 
     // store ArrayCollection
     $especeIdentifiees = $service->setArrayCollectionEmbed(
@@ -322,12 +298,11 @@ class SequenceAssembleeExtController extends AbstractController {
         $sqcExtEstRealisePars
       );
 
-      $em = $this->doctrine->getManager();
-      $em->persist($sequenceAssembleeExt);
+      $this->entityManager->persist($sequenceAssembleeExt);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -359,21 +334,19 @@ class SequenceAssembleeExtController extends AbstractController {
 
   /**
    * Deletes a sequenceAssembleeExt entity.
-   *
-   * @Route("/{id}", name="sequenceassembleeext_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "sequenceassembleeext_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt) {
     $form = $this->createDeleteForm($sequenceAssembleeExt);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($sequenceAssembleeExt);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($sequenceAssembleeExt);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -410,7 +383,6 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   private function createCodeSqcAssExt(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqc = '';
-    $em = $this->doctrine->getManager();
     $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {
@@ -419,13 +391,13 @@ class SequenceAssembleeExtController extends AbstractController {
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
         $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
-        $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+          $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       reset($arrayReferentielTaxon);
       $firstTaxname = current($arrayReferentielTaxon);
       $codeSqc = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
-      ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
+        ? $firstTaxname : $codeStatutSqcAss . '_' . $firstTaxname;
       $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
       $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();
@@ -446,7 +418,6 @@ class SequenceAssembleeExtController extends AbstractController {
    */
   private function createCodeSqcAssExtAlignement(SequenceAssembleeExt $sequenceAssembleeExt) {
     $codeSqcAlignement = '';
-    $em = $this->doctrine->getManager();
     $EspeceIdentifiees = $sequenceAssembleeExt->getEspeceIdentifiees();
     $nbEspeceIdentifiees = count($EspeceIdentifiees);
     if ($nbEspeceIdentifiees > 0) {
@@ -455,14 +426,14 @@ class SequenceAssembleeExtController extends AbstractController {
       $arrayReferentielTaxon = array();
       foreach ($EspeceIdentifiees as $entityEspeceIdentifiees) {
         $arrayReferentielTaxon[$entityEspeceIdentifiees->getReferentielTaxonFk()->getId()] =
-        $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
+          $entityEspeceIdentifiees->getReferentielTaxonFk()->getCodeTaxon();
       }
       ksort($arrayReferentielTaxon);
       end($arrayReferentielTaxon);
       $lastCodeTaxon = current($arrayReferentielTaxon);
       $codeSqcAlignement = (substr($codeStatutSqcAss, 0, 5) == 'VALID')
-      ? $lastCodeTaxon
-      : $codeStatutSqcAss . '_' . $lastCodeTaxon;
+        ? $lastCodeTaxon
+        : $codeStatutSqcAss . '_' . $lastCodeTaxon;
       $codeCollecte = $sequenceAssembleeExt->getCollecteFk()->getCodeCollecte();
       $numIndividuSqcAssExt = $sequenceAssembleeExt->getNumIndividuSqcAssExt();
       $accessionNumberSqcAssExt = $sequenceAssembleeExt->getAccessionNumberSqcAssExt();

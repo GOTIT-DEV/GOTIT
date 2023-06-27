@@ -116,7 +116,7 @@ class SpeciesQueryService {
       ->leftJoin('App:Pcr', 'motu_pcr', 'WITH', "motu_pcr.id = motu_chr.pcrFk")
       ->leftJoin('App:Adn', 'motu_adn', 'WITH', "motu_adn.id = motu_pcr.adnFk")
       ->leftJoin('App:Individu', 'motu_ind', 'WITH', "motu_ind.id = motu_adn.individuFk")
-      ->join('App:EspeceIdentifiée', 'motu_eid', 'WITH', "motu_eid.individuFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
+      ->join('App:EspeceIdentifiee', 'motu_eid', 'WITH', "motu_eid.individuFk = motu_ind.id OR motu_eid.sequenceAssembleeExtFk=motu_sext.id")
       ->join('App:Voc', 'motu_voc', 'WITH', "motu_voc.id = $alias.methodeMotuVocFk")
       ->join('App:Motu', 'motu_date', 'WITH', "motu_date.id = $alias.motuFk");
   }
@@ -139,23 +139,23 @@ class SpeciesQueryService {
       ->from('App:ReferentielTaxon', 'rt')
       ->join('App:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk');
     switch ($level) {
-    case 1: #lot matériel
-      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
-      break;
+      case 1: #lot matériel
+        $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
+          ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+        $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
+        break;
 
-    case 2: #individu
-      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-      $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
-      break;
+      case 2: #individu
+        $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+        $query = $this->joinIndivSeq($query, 'i', 'seq')->addSelect('COUNT(DISTINCT seq.id) as count_seq');
+        break;
 
-    case 3: # sequence
-      $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
-        ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
-      break;
+      case 3: # sequence
+        $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
+          ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
+          ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+          ->addSelect('(COUNT(DISTINCT seq.id) + COUNT(DISTINCT seqext.id)) as count_seq');
+        break;
     }
 
     $query = $query->join('App:Motu', 'motu', 'WITH', 'ass.motuFk = motu.id')
@@ -209,27 +209,27 @@ class SpeciesQueryService {
       ->join('App:EspeceIdentifiee', 'e', 'WITH', 'rt.id = e.referentielTaxonFk')
       ->join('App:Voc', 'v', 'WITH', 'e.critereIdentificationVocFk=v.id');
     switch ($level) {
-    case 1: # Bio material
-      $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
-        ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
-      $query = $this->joinIndivSeq($query, 'i', 'seq');
-      break;
+      case 1: # Bio material
+        $query = $query->join('App:LotMateriel', 'lm', 'WITH', 'lm.id=e.lotMaterielFk')
+          ->join('App:Individu', 'i', 'WITH', 'i.lotMaterielFk = lm.id');
+        $query = $this->joinIndivSeq($query, 'i', 'seq');
+        break;
 
-    case 2: # Specimen
-      $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
-      $query = $this->joinIndivSeq($query, 'i', 'seq');
-      break;
+      case 2: # Specimen
+        $query = $query->join('App:Individu', 'i', 'WITH', 'i.id = e.individuFk');
+        $query = $this->joinIndivSeq($query, 'i', 'seq');
+        break;
 
-    case 3: # Sequence
-      $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
-        ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
-        ->leftJoin('App:EstAligneEtTraite', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
-        ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
-        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
-        ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
-        ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
-        ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
-      break;
+      case 3: # Sequence
+        $query = $query->leftJoin('App:SequenceAssemblee', 'seq', 'WITH', 'seq.id=e.sequenceAssembleeFk')
+          ->leftJoin('App:SequenceAssembleeExt', 'seqext', 'WITH', 'seqext.id=e.sequenceAssembleeExtFk')
+          ->leftJoin('App:EstAligneEtTraite', 'chrom_proc', 'WITH', 'chrom_proc.sequenceAssembleeFk = seq.id')
+          ->leftJoin('App:Chromatogramme', 'chromatogram', 'WITH', 'chrom_proc.chromatogrammeFk = chromatogram.id')
+          ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogram.pcrFk = pcr.id')
+          ->join('App:Assigne', 'ass', 'WITH', 'ass.sequenceAssembleeExtFk=seqext.id OR ass.sequenceAssembleeFk=seq.id')
+          ->join('App:Voc', 'vocGene', 'WITH', 'vocGene.id=seqext.geneVocFk OR vocGene.id=pcr.geneVocFk')
+          ->addSelect('seqext.id as id_ext, seqext.codeSqcAssExt as codeExt, seqext.accessionNumberSqcAssExt as acc_ext');
+        break;
     }
 
     $query = $query->join('App:Motu', 'm', 'WITH', 'ass.motuFk = m.id')
@@ -281,22 +281,22 @@ class SpeciesQueryService {
 
     $qb = $this->entityManager->createQueryBuilder();
     $query =
-    $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm')
+      $qb->select('lm.id as id_lm, lm.codeLotMateriel as code_lm')
       ->addSelect('biomat.id as idtax_lm, biomat.taxname as taxname_lm') // taxon lot matériel
       ->addSelect('lmvoc.code as criterion_code_biomat, lmvoc.libelle as criterion_title_biomat') // critere lot matériel
-    // ->addSelect('indiv as ind') // individu
+      // ->addSelect('indiv as ind') // individu
       ->addSelect('indiv.id as id_indiv, indiv.codeIndBiomol as code_biomol, indiv.codeIndTriMorpho as code_tri_morpho') // individu
       ->addSelect('spec.id as idtax_indiv, spec.taxname as taxname_indiv') // taxon individu
       ->addSelect('ivoc.code as criterion_code_specimen, ivoc.libelle as criterion_title_specimen') // critere individu
       ->addSelect('seq.id as id_seq, seq.codeSqcAss as code_seq') // séquence
       ->addSelect('seqrt.id as idtax_seq, seqrt.taxname as taxname_seq') // taxon séquence
       ->addSelect('seqvoc.code as criterion_code_seq, seqvoc.libelle as criterion_title_seq') // critere sequence
-    // JOIN lot matériel
+      // JOIN lot matériel
       ->from('App:LotMateriel', 'lm')
       ->join('App:EspeceIdentifiee', 'eidlm', 'WITH', 'lm.id = eidlm.lotMaterielFk')
       ->join('App:ReferentielTaxon', 'biomat', 'WITH', 'biomat.id = eidlm.referentielTaxonFk')
       ->join('App:Voc', 'lmvoc', 'WITH', 'eidlm.critereIdentificationVocFk=lmvoc.id')
-    // JOIN individu
+      // JOIN individu
       ->join('App:Individu', 'indiv', 'WITH', 'indiv.lotMaterielFk = lm.id')
       ->join('App:EspeceIdentifiee', 'eidindiv', 'WITH', 'indiv.id = eidindiv.individuFk')
       ->join('App:ReferentielTaxon', 'spec', 'WITH', 'spec.id = eidindiv.referentielTaxonFk')
@@ -364,7 +364,6 @@ class SpeciesQueryService {
         ],
       ];
     }, $res);
-
   }
 
   public function getSpeciesSamplingDetails($id) {

@@ -6,36 +6,25 @@ use App\Entity\Chromatogramme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\EntityController;
 
 /**
  * Chromatogramme controller.
  *
- * @Route("chromatogramme")
  *
  */
-class ChromatogrammeController extends AbstractController {
-
-   /**
-     * @author Philippe Grison  <philippe.grison@mnhn.fr>
-     */
-    private $doctrine;
-    public function __construct(ManagerRegistry $doctrine) {
-        $this->doctrine = $doctrine;
-       }
-
+#[Route("chromatogramme")]
+class ChromatogrammeController extends EntityController {
   /**
    * Lists all chromatogramme entities.
-   *
-   * @Route("/", name="chromatogramme_index", methods={"GET"})
    */
+  #[Route("/", name: "chromatogramme_index", methods: ["GET"])]
   public function indexAction() {
-    $em = $this->doctrine->getManager();
-    $chromatogrammes = $em->getRepository('App:Chromatogramme')->findAll();
+    $chromatogrammes = $this->getRepository(Chromatogramme::class)->findAll();
 
     return $this->render('Core/chromatogramme/index.html.twig', array(
       'chromatogrammes' => $chromatogrammes,
@@ -48,17 +37,14 @@ class ChromatogrammeController extends AbstractController {
    * b) the number of lines to display ($ request-> get ('rowCount'))
    * c) 1 sort criterion on a collone ($ request-> get ('sort'))
    *
-   * @Route("/indexjson", name="chromatogramme_indexjson", methods={"POST"})
    */
+  #[Route("/indexjson", name: "chromatogramme_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    // load Doctrine Manager
-    $em = $this->doctrine->getManager();
-    //
     $rowCount = ($request->get('rowCount') !== NULL)
-    ? $request->get('rowCount') : 10;
+      ? $request->get('rowCount') : 10;
     $orderBy = ($request->get('sort') !== NULL)
-    ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    : "chromato.date_of_update DESC, chromato.id DESC";
+      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+      : "chromato.date_of_update DESC, chromato.id DESC";
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
@@ -117,14 +103,14 @@ class ChromatogrammeController extends AbstractController {
               user_cre.user_full_name, user_maj.user_full_name"
       . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $em->getConnection()->prepare($rawSql);
+    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $stmt->execute();
-    $entities_toshow = $stmt->fetchAll();
+    $res = $stmt->executeQuery();
+    $entities_toshow = $res->fetchAllAssociative();
     $nb = count($entities_toshow);
     $entities_toshow = ($request->get('rowCount') > 0)
-    ? array_slice($entities_toshow, $minRecord, $rowCount)
-    : array_slice($entities_toshow, $minRecord);
+      ? array_slice($entities_toshow, $minRecord, $rowCount)
+      : array_slice($entities_toshow, $minRecord);
 
     $get_code = function ($string) {
       return explode(",", rtrim(ltrim($string, "{"), "}"))[0];
@@ -132,7 +118,7 @@ class ChromatogrammeController extends AbstractController {
 
     foreach ($entities_toshow as $key => $val) {
       $linkSqcAss = $get_code($val['last_internal_sequence_code']) !== 'NULL'
-      ? strval($val['id']) : '';
+        ? strval($val['id']) : '';
       $tab_toshow[] = array(
         "id" => $val['id'],
         "chromato.id" => $val['id'],
@@ -168,15 +154,14 @@ class ChromatogrammeController extends AbstractController {
   /**
    * Creates a new chromatogramme entity.
    *
-   * @Route("/new", name="chromatogramme_new", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/new", name: "chromatogramme_new", methods: ["GET", "POST"])]
   public function newAction(Request $request) {
     $chromatogramme = new Chromatogramme();
-    $em = $this->doctrine->getManager();
     // check if the relational Entity (Pcr) is given and set the RelationalEntityFk for the new Entity
     if ($pcr_id = $request->get('idFk')) {
-      $pcr = $em->getRepository('App:Pcr')->find($pcr_id);
+      $pcr = $this->getRepository(Pcr::class)->find($pcr_id);
       $chromatogramme->setPcrFk($pcr);
     }
     $form = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
@@ -186,11 +171,11 @@ class ChromatogrammeController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $em->persist($chromatogramme);
+      $this->entityManager->persist($chromatogramme);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -214,9 +199,8 @@ class ChromatogrammeController extends AbstractController {
 
   /**
    * Finds and displays a chromatogramme entity.
-   *
-   * @Route("/{id}", name="chromatogramme_show", methods={"GET"})
    */
+  #[Route("/{id}", name: "chromatogramme_show", methods: ["GET"])]
   public function showAction(Chromatogramme $chromatogramme) {
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
@@ -233,9 +217,9 @@ class ChromatogrammeController extends AbstractController {
   /**
    * Displays a form to edit an existing chromatogramme entity.
    *
-   * @Route("/{id}/edit", name="chromatogramme_edit", methods={"GET", "POST"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}/edit", name: "chromatogramme_edit", methods: ["GET", "POST"])]
   public function editAction(Request $request, Chromatogramme $chromatogramme) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -255,12 +239,11 @@ class ChromatogrammeController extends AbstractController {
 
     if ($editForm->isSubmitted() && $editForm->isValid()) {
 
-      $em = $this->doctrine->getManager();
-      $em->persist($chromatogramme);
+      $this->entityManager->persist($chromatogramme);
 
       try {
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );
@@ -286,20 +269,19 @@ class ChromatogrammeController extends AbstractController {
   /**
    * Deletes a chromatogramme entity.
    *
-   * @Route("/{id}", name="chromatogramme_delete", methods={"DELETE"})
    * @Security("is_granted('ROLE_COLLABORATION')")
    */
+  #[Route("/{id}", name: "chromatogramme_delete", methods: ["DELETE"])]
   public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
     $form = $this->createDeleteForm($chromatogramme);
     $form->handleRequest($request);
 
     $submittedToken = $request->request->get('token');
     if (($form->isSubmitted() && $form->isValid()) || $this->isCsrfTokenValid('delete-item', $submittedToken)) {
-      $em = $this->doctrine->getManager();
       try {
-        $em->remove($chromatogramme);
-        $em->flush();
-      } catch (\Doctrine\DBAL\DBALException $e) {
+        $this->entityManager->remove($chromatogramme);
+        $this->entityManager->flush();
+      } catch (\Exception $e) {
         $exception_message = addslashes(
           html_entity_decode(strval($e), ENT_QUOTES, 'UTF-8')
         );

@@ -15,6 +15,8 @@ use App\Form\Type\SearchableSelectType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Collecte;
+use App\Controller\Core\PersonneController;
 
 class LotMaterielExtType extends ActionFormType {
   /**
@@ -25,7 +27,7 @@ class LotMaterielExtType extends ActionFormType {
 
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
-        'class' => 'App:Collecte',
+        'class' => Collecte::class,
         'choice_label' => 'codeCollecte',
         'placeholder' => $this->translator->trans("Collecte typeahead placeholder"),
         'disabled' => $this->canEditAdminOnly($options),
@@ -100,7 +102,7 @@ class LotMaterielExtType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_lotmaterielext';
   }
 }

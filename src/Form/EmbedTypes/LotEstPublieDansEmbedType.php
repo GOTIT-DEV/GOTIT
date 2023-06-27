@@ -14,7 +14,7 @@ class LotEstPublieDansEmbedType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder->add('sourceFk', EntityType::class, array(
-      'class' => 'App:Source',
+      'class' => Source::class,
       'query_builder' => function (EntityRepository $er) {
         return $er->createQueryBuilder('source')
           ->orderBy('source.codeSource', 'ASC');
@@ -38,7 +38,7 @@ class LotEstPublieDansEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function getBlockPrefix():string {
+  public function getBlockPrefix(): string {
     return 'bbees_e3sbundle_lotestpubliedans';
   }
 }
