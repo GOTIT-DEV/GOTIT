@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
 use App\Entity\Station;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Doctrine\ORM\Mapping\Entity;
 
 /**
  * Collecte controller.

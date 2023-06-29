@@ -19,7 +19,6 @@ namespace App\Controller\SpeciesSearch;
 
 use App\Entity\ReferentielTaxon;
 use App\Services\SpeciesSearch\SpeciesQueryService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

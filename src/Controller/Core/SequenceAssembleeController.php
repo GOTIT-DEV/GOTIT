@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\Chromatogramme;
 
 /**
  * Sequenceassemblee controller.
@@ -39,7 +40,7 @@ class SequenceAssembleeController extends EntityController {
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    */
   #[Route("/indexjson", name: "sequenceassemblee_indexjson", methods: ["POST"])]
-  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
+  public function indexjsonAction(Request $request) {
     $rowCount = ($request->get('rowCount') !== NULL)
       ? $request->get('rowCount') : 10;
     $orderBy = ($request->get('sort') !== NULL)

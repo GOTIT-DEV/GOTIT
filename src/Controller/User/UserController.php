@@ -20,7 +20,6 @@ namespace App\Controller\User;
 use App\Controller\EntityController;
 use App\Entity\User;
 use App\Form\Enums\Action;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

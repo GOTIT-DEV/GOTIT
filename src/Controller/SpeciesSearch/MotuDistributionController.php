@@ -20,8 +20,6 @@ namespace App\Controller\SpeciesSearch;
 use App\Controller\EntityController;
 use App\Entity\Motu;
 use App\Services\SpeciesSearch\SpeciesQueryService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

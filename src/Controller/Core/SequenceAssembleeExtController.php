@@ -10,6 +10,7 @@ use App\Services\Core\GenericFunctionE3s;
 use App\Form\Enums\Action;
 use App\Entity\SequenceAssembleeExt;
 use App\Controller\EntityController;
+use App\Entity\Collecte;
 
 /**
  * Sequenceassembleeext controller.
