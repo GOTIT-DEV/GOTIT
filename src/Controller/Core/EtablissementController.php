@@ -194,7 +194,7 @@ class EtablissementController extends EntityController {
   /**
    * Deletes a etablissement entity.
    */
-  #[Route("/{id}", name: "etablissement_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "etablissement_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_PROJECT")]
   public function deleteAction(Request $request, Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);

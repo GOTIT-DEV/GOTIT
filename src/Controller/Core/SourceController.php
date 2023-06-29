@@ -196,7 +196,7 @@ class SourceController extends EntityController {
   /**
    * Deletes a source entity.
    */
-  #[Route("/{id}", name: "source_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "source_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Source $source) {
     $form = $this->createDeleteForm($source);

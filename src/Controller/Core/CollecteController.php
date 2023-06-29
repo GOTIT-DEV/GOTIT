@@ -285,7 +285,7 @@ class CollecteController extends EntityController {
   /**
    * Deletes a collecte entity.
    */
-  #[Route("/{id}", name: "collecte_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "collecte_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Collecte $collecte) {
     $form = $this->createDeleteForm($collecte);

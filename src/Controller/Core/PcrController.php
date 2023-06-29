@@ -276,7 +276,7 @@ class PcrController extends EntityController {
   /**
    * Deletes a pcr entity.
    */
-  #[Route("/{id}", name: "pcr_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "pcr_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Pcr $pcr) {
     $form = $this->createDeleteForm($pcr);

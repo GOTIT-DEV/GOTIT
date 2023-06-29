@@ -268,7 +268,7 @@ class IndividuLameController extends EntityController {
   /**
    * Deletes a individuLame entity.
    */
-  #[Route("/{id}", name: "individulame_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "individulame_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, IndividuLame $individuLame) {
     $form = $this->createDeleteForm($individuLame);

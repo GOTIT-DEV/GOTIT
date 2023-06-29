@@ -185,7 +185,7 @@ class PaysController extends EntityController {
   /**
    * Deletes a pay entity.
    */
-  #[Route("/{id}", name: "pays_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "pays_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Pays $pays) {
     $form = $this->createDeleteForm($pays);

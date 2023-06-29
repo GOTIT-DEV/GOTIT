@@ -238,7 +238,7 @@ class ProgrammeController extends EntityController {
   /**
    * Deletes a programme entity.
    */
-  #[Route("/{id}", name: "programme_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "programme_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_PROJECT")]
   public function deleteAction(Request $request, Programme $programme) {
     $form = $this->createDeleteForm($programme);

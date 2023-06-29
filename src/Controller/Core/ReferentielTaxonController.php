@@ -195,7 +195,7 @@ class ReferentielTaxonController extends EntityController {
   /**
    * Deletes a referentielTaxon entity.
    */
-  #[Route("/{id}", name: "referentieltaxon_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "referentieltaxon_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon) {
     $form = $this->createDeleteForm($referentielTaxon);

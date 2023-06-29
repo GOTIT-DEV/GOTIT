@@ -251,7 +251,7 @@ class PersonneController extends EntityController {
   /**
    * Deletes a personne entity.
    */
-  #[Route("/{id}", name: "personne_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "personne_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Personne $personne) {
     $form = $this->createDeleteForm($personne);

@@ -303,7 +303,7 @@ class LotMaterielController extends EntityController {
   /**
    * Deletes a lotMateriel entity.
    */
-  #[Route("/{id}", name: "lotmateriel_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "lotmateriel_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, LotMateriel $lotMateriel) {
     $form = $this->createDeleteForm($lotMateriel);

@@ -336,7 +336,7 @@ class IndividuController extends EntityController {
   /**
    * Deletes a individu entity.
    */
-  #[Route("/{id}", name: "individu_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "individu_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Individu $individu) {
     $form = $this->createDeleteForm($individu);

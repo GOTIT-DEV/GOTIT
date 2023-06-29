@@ -430,7 +430,7 @@ class SequenceAssembleeController extends EntityController {
   /**
    * Deletes a sequenceAssemblee entity.
    */
-  #[Route("/{id}", name: "sequenceassemblee_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "sequenceassemblee_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
     $form = $this->createDeleteForm($sequenceAssemblee);

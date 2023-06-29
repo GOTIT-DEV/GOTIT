@@ -206,7 +206,7 @@ class MotuController extends EntityController {
   /**
    * Deletes a motu entity.
    */
-  #[Route("/{id}", name: "motu_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "motu_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Motu $motu) {
     $form = $this->createDeleteForm($motu);

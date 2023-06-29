@@ -235,7 +235,7 @@ class CommuneController extends EntityController {
   /**
    * Deletes a commune entity.
    */
-  #[Route("/{id}", name: "commune_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "commune_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Commune $commune) {
     $form = $this->createDeleteForm($commune);

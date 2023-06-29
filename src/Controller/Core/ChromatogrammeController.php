@@ -265,7 +265,7 @@ class ChromatogrammeController extends EntityController {
   /**
    * Deletes a chromatogramme entity.
    */
-  #[Route("/{id}", name: "chromatogramme_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "chromatogramme_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
     $form = $this->createDeleteForm($chromatogramme);

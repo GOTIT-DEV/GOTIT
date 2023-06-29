@@ -260,7 +260,7 @@ class AdnController extends EntityController {
    * Deletes a adn entity.
    */
   #[IsGranted('ROLE_COLLABORATION')]
-  #[Route("/{id}", name: "adn_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "adn_delete", methods: ["DELETE", "POST"])]
   public function deleteAction(Request $request, Adn $adn) {
     $form = $this->createDeleteForm($adn);
     $form->handleRequest($request);

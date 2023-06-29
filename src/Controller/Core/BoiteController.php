@@ -234,7 +234,7 @@ class BoiteController extends EntityController {
   /**
    * Deletes a boite entity.
    */
-  #[Route("/{id}", name: "boite_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "boite_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
   public function deleteAction(Request $request, Boite $boite) {
     $form = $this->createDeleteForm($boite);

@@ -202,7 +202,7 @@ class VocController extends EntityController {
   /**
    * Deletes a voc entity.
    */
-  #[Route("/{id}", name: "voc_delete", methods: ["DELETE"])]
+  #[Route("/{id}", name: "voc_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
   public function deleteAction(Request $request, Voc $voc) {
     $form = $this->createDeleteForm($voc);
