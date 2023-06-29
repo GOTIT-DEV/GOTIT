@@ -6,6 +6,28 @@ use App\Entity\Motu;
 use App\Services\Core\ImportFileCsv;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Adn;
+use App\Entity\Boite;
+use App\Entity\IndividuLame;
+use App\Entity\LotMateriel;
+use App\Entity\Source;
+use App\Entity\LotEstPublieDans;
+use App\Entity\SequenceAssemblee;
+use App\Entity\SqcEstPublieDans;
+use App\Entity\Pcr;
+use App\Entity\Chromatogramme;
+use App\Entity\Programme;
+use App\Entity\Collecte;
+use App\Entity\Individu;
+use App\Entity\Voc;
+use App\Entity\SequenceAssembleeExt;
+use App\Entity\Etablissement;
+use App\Entity\Pays;
+use App\Entity\LotMaterielExt;
+use App\Entity\Station;
+use App\Entity\ReferentielTaxon;
+use App\Entity\Personne;
+use App\Entity\Commune;
 
 /**
  * Service ImportFileE3s

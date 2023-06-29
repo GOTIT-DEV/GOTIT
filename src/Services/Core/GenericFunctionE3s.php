@@ -136,5 +136,4 @@ class GenericFunctionE3s {
 
     return true;
   }
-
 }
