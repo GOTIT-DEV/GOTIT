@@ -236,7 +236,7 @@ class SequenceAssembleeController extends EntityController {
 
     // Main form
     $form = $this->createForm('App\Form\SequenceAssembleeType', $sequence, [
-      'action_type' => $gene && $specimen ? Action::create->value : Action::show->value,
+      'action_type' => Action::create->value,
       'gene' => $gene,
       'specimen' => $specimen,
       'attr' => ['id' => "sequence-form"],
