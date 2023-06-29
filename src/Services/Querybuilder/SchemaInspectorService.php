@@ -5,15 +5,19 @@ namespace App\Services\Querybuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\User;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class SchemaInspectorService {
 
   private $em;
   private $translator;
+  private $security;
 
-  public function __construct(EntityManagerInterface $em, TranslatorInterface $translator) {
+  public function __construct(EntityManagerInterface $em, TranslatorInterface $translator, Security $security) {
     $this->em = $em;
     $this->translator = $translator;
+    $this->security = $security;
   }
 
   public function make_qbuilder_config() {
@@ -134,19 +138,21 @@ class SchemaInspectorService {
     };
     $filters = array_values(array_map($make_filter, $metadata->fieldMappings));
 
-    if ($entity === "Station") {
-      $filters = array_values(array_filter($filters, function ($f) {
-        return $f["id"] !== "infoDescription"
-          && $f['id'] !== "commentaireStation";
-      }));
-    } elseif ($entity === "Personne") {
-      $filters = array_values(array_filter($filters, function ($f) {
-        return $f['id'] !== "commentairePersonne";
-      }));
-    } elseif ($entity === "Collecte") {
-      $filters = array_values(array_filter($filters, function ($f) {
-        return $f['id'] !== "commentaireCollecte";
-      }));
+    if (!($this->security->getUser() instanceof User)) {
+      if ($entity === "Station") {
+        $filters = array_values(array_filter($filters, function ($f) {
+          return $f["id"] !== "infoDescription"
+            && $f['id'] !== "commentaireStation";
+        }));
+      } elseif ($entity === "Personne") {
+        $filters = array_values(array_filter($filters, function ($f) {
+          return $f['id'] !== "commentairePersonne";
+        }));
+      } elseif ($entity === "Collecte") {
+        $filters = array_values(array_filter($filters, function ($f) {
+          return $f['id'] !== "commentaireCollecte";
+        }));
+      }
     }
 
     return [
