@@ -553,14 +553,14 @@ class SpeciesQueryService {
 
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);
     if ($data->get('species')) {
-      $stmt->execute(array(
+      $res = $stmt->executeQuery(array(
         'genus' => $data->get('genus'),
         'species' => $data->get('species'),
       ));
     } else {
-      $stmt->execute();
+      $res = $stmt->executeQuery();
     }
-    return $stmt->fetchAll(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
+    return $res->fetchAllAssociative(\PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC);
   }
 
   public function getMotuGeoLocation($data) {

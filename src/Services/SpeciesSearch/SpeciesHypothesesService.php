@@ -9,8 +9,7 @@ use App\Services\SpeciesSearch\SpeciesQueryService;
 /**
  * Species hypotheses rearrangements service
  */
-class SpeciesHypothesesService
-{
+class SpeciesHypothesesService {
   private $entityManager; // database manager
 
   // Parameters
@@ -28,16 +27,14 @@ class SpeciesHypothesesService
   /**
    * Constructeur
    */
-  public function __construct(EntityManagerInterface $manager, SpeciesQueryService $qbservice)
-  {
+  public function __construct(EntityManagerInterface $manager, SpeciesQueryService $qbservice) {
     $this->entityManager = $manager;
     $this->qbservice     = $qbservice;
     $this->fwdCounter    = [];
     $this->revCounter    = [];
   }
 
-  public function processQuery(ParameterBag $parameters)
-  {
+  public function processQuery(ParameterBag $parameters) {
     $this->setParameters($parameters);
     $this->fetch();
     if (!$this->rawResults) {
@@ -49,8 +46,7 @@ class SpeciesHypothesesService
     return $this->getResults();
   }
 
-  public function setParameters(ParameterBag $parameters)
-  {
+  public function setParameters(ParameterBag $parameters) {
     $this->parameters = $parameters;
     $this->reference  = $parameters->get('reference');
     if ($this->reference != "motu") {
@@ -65,8 +61,7 @@ class SpeciesHypothesesService
   /**
    * Initialize les compteurs de réarrangement par méthode
    */
-  public function initCounter(&$counter)
-  {
+  public function initCounter(&$counter) {
     $methodes = $this->qbservice->getMethodsByDate($this->target); // liste des méthodes
     $keys     = ['match', 'split', 'lump', 'reshuffling']; // clés de comptage
     foreach ($methodes as $m) {
@@ -84,8 +79,7 @@ class SpeciesHypothesesService
   /**
    * Compte les séquences et les stations par méthode sur la base des listes
    */
-  public function countSeqSta()
-  {
+  public function countSeqSta() {
     foreach ($this->rawResults as &$row) {
       $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq'][]     = $row['seq'];
       $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq_ext'][] = $row['seq_ext'];
@@ -112,8 +106,7 @@ class SpeciesHypothesesService
   /**
    * Supprime les lignes en double générées par les stations/séquences
    */
-  public function simplify()
-  {
+  public function simplify() {
     $this->rawResults = array_intersect_key(
       $this->rawResults,
       array_unique(array_map(function ($row) {
@@ -125,8 +118,7 @@ class SpeciesHypothesesService
   /**
    * Comparer les références par méthode à toutes les autres méthodes
    */
-  public function compare()
-  {
+  public function compare() {
     foreach ($this->refIndex as $date => $methodes) {
       foreach ($methodes as $methode => $motus) {
         // Comptage
@@ -148,8 +140,7 @@ class SpeciesHypothesesService
    * Comptage des réarrangements entre l'ensemble de référence pour une méthode
    * et l'ensemble à comparer, pour une méthode
    */
-  public function compareSets($refSet, $targetSet)
-  {
+  public function compareSets($refSet, $targetSet) {
     $fwd = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     $rev = array_fill_keys(['match', 'split', 'lump', 'reshuffling'], 0);
     foreach ($refSet as $ref_id => $ref_rows) {
@@ -201,8 +192,7 @@ class SpeciesHypothesesService
   /**
    * Filtre les résultats de comptage en fonction de la référence
    */
-  public function filterCounts($counter)
-  {
+  public function filterCounts($counter) {
     $filtered = [];
     foreach ($counter as $date => $methodes) {
       foreach ($methodes as $methode => $counts) {
@@ -222,8 +212,7 @@ class SpeciesHypothesesService
   /**
    * Construit le contenu de la référence JSON
    */
-  public function getResults()
-  {
+  public function getResults() {
     // Filtrage des comptages
     return array(
       'recto' => $this->filterCounts($this->fwdCounter),
@@ -234,8 +223,7 @@ class SpeciesHypothesesService
   /**
    * Execute la requête pour obtenir les résultats bruts sur les séquences et leur MOTU
    */
-  public function fetch()
-  {
+  public function fetch() {
     $pdo = $this->entityManager->getConnection();
 
     if ($this->reference != 'motu') {
@@ -280,13 +268,13 @@ class SpeciesHypothesesService
         // taxa filter
         $rawSql .= " AND R.id = :tax_id";
         $stmt = $pdo->prepare($rawSql);
-        $stmt->execute(array(
+        $res = $stmt->executeQuery(array(
           'tax_id'         => $this->parameters->get('taxname'),
           'target_dataset' => $this->target,
         ));
       } else {
         $stmt = $pdo->prepare($rawSql);
-        $stmt->execute(array(
+        $res = $stmt->executeQuery(array(
           'target_dataset' => $this->target,
         ));
       }
@@ -336,21 +324,20 @@ class SpeciesHypothesesService
                 AND m1.id = :id_dataset";
 
       $stmt = $pdo->prepare($rawSql);
-      $stmt->execute(array(
+      $res = $stmt->executeQuery(array(
         'id_methode'     => $id_methode,
         'id_dataset'     => $id_dataset,
         'target_dataset' => $this->target,
       ));
     }
     // Données brutes des séquences et assignations par méthode
-    $this->rawResults = $stmt->fetchAll();
+    $this->rawResults = $res->fetchAllAssociative();
   }
 
   /**
    * Indexation des résultats bruts selon la référence et selon chaque méthode
    */
-  public function indexResults()
-  {
+  public function indexResults() {
     foreach ($this->rawResults as $row) {
       $this->refIndex[$row['id_dataset']][$row['id_methode']][$row['id_ref']][]       = $row;
       $this->compareIndex[$row['id_dataset']][$row['id_methode']][$row['motu_number']][] = $row;
