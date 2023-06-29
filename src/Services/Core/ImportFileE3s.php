@@ -566,7 +566,7 @@ class ImportFileE3s {
           ->setParameter('id_lot', $query_lot[0]->getId())
           ->andwhere('source.codeSource = :code_source')
           ->setParameter('code_source', $data["source.code_source"])
-          ->leftJoin('App:Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
+          ->leftJoin('App\\Entity\\Source', 'source', 'WITH', 'lepd.sourceFk = source.id')
           ->getQuery()
           ->getResult();
         if (count($query_lepd) != 0) {
@@ -750,9 +750,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -802,9 +802,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -930,9 +930,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -988,9 +988,9 @@ class ImportFileE3s {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
               $varfield_parent = strstr($varfield, 'Voc', true);
               if (!$varfield_parent) {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
               } else {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
@@ -1046,9 +1046,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -1169,9 +1169,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -1220,9 +1220,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1312,9 +1312,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -1445,9 +1445,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1496,9 +1496,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1714,9 +1714,9 @@ class ImportFileE3s {
           $varfield_parent = strstr($varfield, 'Voc', true);
           // var_dump($varfield); var_dump($varfield_parent); var_dump($field);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -1764,9 +1764,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1815,9 +1815,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1859,9 +1859,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1903,9 +1903,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -1947,9 +1947,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2071,9 +2071,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2123,9 +2123,9 @@ class ImportFileE3s {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
               $varfield_parent = strstr($varfield, 'Voc', true);
               if (!$varfield_parent) {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
               } else {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
@@ -2232,9 +2232,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2324,9 +2324,9 @@ class ImportFileE3s {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
               $varfield_parent = strstr($varfield, 'Voc', true);
               if (!$varfield_parent) {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
               } else {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
@@ -2382,9 +2382,9 @@ class ImportFileE3s {
                 //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
                 $varfield_parent = strstr($varfield, 'Voc', true);
                 if (!$varfield_parent) {
-                  $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+                  $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
                 } else {
-                  $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+                  $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
                 }
                 if ($foreign_record === NULL) {
                   switch ($foreign_table) {
@@ -2482,9 +2482,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2623,9 +2623,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -2676,9 +2676,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2727,9 +2727,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -2858,9 +2858,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -2908,9 +2908,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3126,9 +3126,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3177,9 +3177,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3505,9 +3505,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -3555,9 +3555,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3606,9 +3606,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3692,9 +3692,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -3742,9 +3742,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3870,9 +3870,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -3920,9 +3920,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -3971,9 +3971,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4057,9 +4057,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -4107,9 +4107,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4209,9 +4209,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -4370,9 +4370,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -4420,9 +4420,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4471,9 +4471,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4522,9 +4522,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4608,9 +4608,9 @@ class ImportFileE3s {
           //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
           $varfield_parent = strstr($varfield, 'Voc', true);
           if (!$varfield_parent) {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
           } else {
-            $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+            $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
           }
           if ($foreign_record === NULL) {
             switch ($foreign_table) {
@@ -4658,9 +4658,9 @@ class ImportFileE3s {
             //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
             $varfield_parent = strstr($varfield, 'Voc', true);
             if (!$varfield_parent) {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
             } else {
-              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+              $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
             }
             if ($foreign_record === NULL) {
               switch ($foreign_table) {
@@ -4907,9 +4907,9 @@ class ImportFileE3s {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
               $varfield_parent = strstr($varfield, 'Voc', true);
               if (!$varfield_parent) {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
               } else {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
@@ -5017,9 +5017,9 @@ class ImportFileE3s {
               //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
               $varfield_parent = strstr($varfield, 'Voc', true);
               if (!$varfield_parent) {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv));
               } else {
-                $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
+                $foreign_record = $em->getRepository("App\\Entity\\" . $foreign_table)->findOneBy(array($foreign_field => $dataColCsv, "parent" => $varfield_parent));
               }
               if ($foreign_record === NULL) {
                 switch ($foreign_table) {
