@@ -5,6 +5,7 @@ namespace App\Services\SpeciesSearch;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\InputBag;
 
 /**
  * Service SpeciesQueryService
@@ -124,12 +125,12 @@ class SpeciesQueryService {
   /*****************************************************************************
    * QUERIES
    *****************************************************************************/
-  public function getMotuCountList($data) {
+  public function getMotuCountList(InputBag $data) {
 
     $level = $data->get('level');
-    $methods = $data->get('methods');
+    $methods = $data->all('methods');
     $dataset = $data->get('dataset');
-    $criteria = $data->get('criteria');
+    $criteria = $data->all('criteria');
 
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.taxname as taxon, rt.id')
