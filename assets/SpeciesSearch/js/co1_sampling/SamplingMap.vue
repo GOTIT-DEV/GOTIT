@@ -125,7 +125,7 @@ export default {
   },
   data() {
     return {
-      selectedSite: null,
+      selectedSite: this.sites[0],
       markerSettings: {
         radius: 8,
         opacity: 0.8,

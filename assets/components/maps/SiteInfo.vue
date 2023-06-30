@@ -2,7 +2,7 @@
   <div class="site-info">
     <label>
       <a :href="url">
-        <b>{{ site.site_code }}</b>
+        <b>{{ site?.site_code }}</b>
       </a>
     </label>
     <b-table-lite
@@ -11,7 +11,7 @@
       dark
       tbody-tr-class="site-table"
       table-class="mb-0"
-      :items="[site]"
+      :items="site ? [site] : []"
       :fields="fields"
     >
       <template #cell(motu)="data">
@@ -21,9 +21,9 @@
       </template>
     </b-table-lite>
     <span class="site-location text-capitalize">
-      {{ site.municipality.toLowerCase() }}
+      {{ site?.municipality.toLowerCase() }}
     </span>
-    <span class="site-location">{{ site.country }}</span>
+    <span class="site-location">{{ site?.country }}</span>
   </div>
 </template>
 
@@ -62,10 +62,12 @@ export default {
       return [...this.extraFields, ...this.baseFields];
     },
     url() {
-      return Routing.generate("station_show", {
-        id: this.site.site_id,
-        _locale: Translator.locale,
-      });
+      return this.site
+        ? Routing.generate("station_show", {
+            id: this.site.site_id,
+            _locale: Translator.locale,
+          })
+        : undefined;
     },
   },
 };

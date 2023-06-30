@@ -1,5 +1,5 @@
 <template>
-  <l-popup v-if="site" ref="popup" class="site-popup">
+  <l-popup ref="popup" class="site-popup">
     <site-info :site="site" :extra-fields="fields" />
   </l-popup>
 </template>
@@ -22,9 +22,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-.site-popup {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style lang="less"></style>
