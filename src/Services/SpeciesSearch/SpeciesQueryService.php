@@ -196,7 +196,7 @@ class SpeciesQueryService {
     $id_method = $data->get('method');
     $dataset = $data->get('dataset');
     $level = $data->get('level');
-    $criteria = $data->get('criteria');
+    $criteria = $data->all('criteria');
 
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt.id as idesp, rt.taxname')
