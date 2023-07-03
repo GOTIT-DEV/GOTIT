@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\Motu;
 
 /**
  * ImportIndividu controller.
