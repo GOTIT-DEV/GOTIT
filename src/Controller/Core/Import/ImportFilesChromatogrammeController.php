@@ -42,6 +42,7 @@ class ImportFilesChromatogrammeController extends EntityController {
             ' ' => array('Chromatogram' => 'chromatogram'),
             '  ' => array('Institution' => 'institution'),
             '   ' => array('Vocabulary' => 'vocabulary'),
+            '    ' => array('Personne' => 'personne'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -56,6 +57,7 @@ class ImportFilesChromatogrammeController extends EntityController {
           'choices' => array(
             ' ' => array('Chromatogram' => 'chromatogram'),
             '  ' => array('Institution' => 'institution'),
+            '    ' => array('Personne' => 'personne'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -69,6 +71,7 @@ class ImportFilesChromatogrammeController extends EntityController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Chromatogram' => 'chromatogram'),
+            '  ' => array('Personne' => 'personne'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -97,6 +100,9 @@ class ImportFilesChromatogrammeController extends EntityController {
             break;
           case 'institution':
             $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
+            break;
+          case 'personne':
+            $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
             break;
           default:
             $message .= "ERROR - Bad SELECTED choice ?";

@@ -79,8 +79,8 @@ class IndividuLameController extends EntityController {
         ON sp.internal_biological_material_fk = lot.id
 	  	JOIN sampling ON sampling.id = lot.sampling_fk
 			JOIN site st ON st.id = sampling.site_fk
-      LEFT JOIN country ON st.country_fk = country.id
-      LEFT JOIN municipality ON st.municipality_fk = municipality.id
+      JOIN country ON st.country_fk = country.id
+      JOIN municipality ON st.municipality_fk = municipality.id
       LEFT JOIN vocabulary voc_sp_specimen_type
         ON sp.specimen_type_voc_fk = voc_sp_specimen_type.id
 	  	LEFT JOIN identified_species ei_sp ON ei_sp.specimen_fk = sp.id
@@ -90,8 +90,7 @@ class IndividuLameController extends EntityController {
 				GROUP BY ei_spi.specimen_fk) ei_sp2 ON (ei_sp.id = ei_sp2.maxei_spi)
 			LEFT JOIN taxon rt_sp ON ei_sp.taxon_fk = rt_sp.id
       LEFT JOIN vocabulary voc_sp_identification_criterion
-        ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id
-		  LEFT JOIN dna ON dna.specimen_fk = sp.id"
+        ON ei_sp.identification_criterion_voc_fk = voc_sp_identification_criterion.id"
       . " WHERE " . $where . " ORDER BY " . $orderBy;
     // execute query and fill tab to show in the bootgrid list (see index.htm)
     $stmt = $this->entityManager->getConnection()->prepare($rawSql);

@@ -40,7 +40,8 @@ class CollecteType extends ActionFormType {
         'attr' => [
           "maxlength" => "255",
           'readonly' => ($options['action_type'] == Action::create->value &&
-            $sampling->getStationFk()),
+            $sampling->getStationFk() ||
+            !$this->security->isGranted('ROLE_ADMIN')),
         ],
       ])
       ->add('codeCollecte', EntityCodeType::class, [

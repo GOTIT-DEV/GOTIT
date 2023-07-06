@@ -28,12 +28,14 @@
 	{% endif %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path( route_importfiles ) }}" class="btn btn-light border btn-sm" role="button">
-			<i class="fas fa-upload"></i>
-			{{['button.Import',entityname|capitalize]|join|trans}}</a>
+			<i class="fa fa-upload"></i>
+			{{['button.Import',entityname|capitalize]|join|trans}}
+		</a>
 	{% else %}
-		<i class="fas fa-upload"></i>
 		<a href="#" class="btn btn-secondary btn-sm disabled" role="button">
-			{{['button.Import',entityname|capitalize]|join|trans}}</a>
+			<i class="fa fa-upload"></i>
+			{{['button.Import',entityname|capitalize]|join|trans}}
+		</a>
 	{% endif %}
 {% endblock %}
 

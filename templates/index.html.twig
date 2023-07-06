@@ -32,7 +32,7 @@
     {{ 'button.showAllRecord'|trans }}
   </a>
 
-  {% if is_granted('ROLE_COLLABORATION') %}
+  {% if is_granted('ROLE_COLLABORATION') and not (route in ['voc_index', 'referentieltaxon_index', 'programme_index', 'etablissement_index', 'pays_index', 'commune_index']) %}
     {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
         <a href="{{ path_action_new }}"
           class="btn btn-success btn-sm"
@@ -80,7 +80,7 @@ const is_granted = {
 }
 
 function is_owner(row){
-    return current_user_id && current_user_id == row.userCreId
+    return current_user_id && (current_user_id == row.userCreId || current_user_id == row.creation_user_name)
 }
 
 $(document).ready(function(){
@@ -139,7 +139,9 @@ $(document).ready(function(){
             },
             "edit": function(column, row, value)
             {
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
+                if( (is_granted.ROLE_PROJECT && "{{not (route in ['motu_index', 'voc_index', 'referentieltaxon_index', 'pays_index', 'commune_index'])}}" ) || 
+                    (is_granted.ROLE_COLLABORATION && is_owner(row))
+                  ) {
                     return `<a href="${row.id}/edit?${urlParams.toString()}" class="btn btn-sm">
                             <i class="fas fa-edit"></i></a>`;  
                 } else {
@@ -149,7 +151,9 @@ $(document).ready(function(){
             "delete": function(column, row, value)
             {
                 let form_action = `${row.id}?${urlParams.toString()}`
-                if( is_granted.ROLE_PROJECT || (is_granted.ROLE_COLLABORATION && is_owner(row))) {
+                if( (is_granted.ROLE_PROJECT && "{{not (route in ['motu_index', 'voc_index', 'referentieltaxon_index', 'pays_index', 'commune_index'])}}" ) || 
+                    (is_granted.ROLE_COLLABORATION && is_owner(row))
+                  ) {
                     return `<form  method="post" action="${form_action}"
                                 onsubmit="return confirm('Do you really want to delete this record?');" >
                             <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />
