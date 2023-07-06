@@ -11,6 +11,7 @@ use App\Services\SpeciesSearch\SpeciesQueryService;
  */
 class SpeciesHypothesesService {
   private $entityManager; // database manager
+  private $qbservice;
 
   // Parameters
   private $parameters; // POST params
@@ -49,7 +50,7 @@ class SpeciesHypothesesService {
   public function setParameters(ParameterBag $parameters) {
     $this->parameters = $parameters;
     $this->reference  = $parameters->get('reference');
-    if ($this->reference != "motu") {
+    if ($this->reference !== "motu") {
       $this->target = $parameters->get('target-dataset');
     } else {
       $this->target = $parameters->get('dataset');
@@ -76,9 +77,6 @@ class SpeciesHypothesesService {
     }
   }
 
-  /**
-   * Compte les séquences et les stations par méthode sur la base des listes
-   */
   public function countSeqSta() {
     foreach ($this->rawResults as &$row) {
       $this->fwdCounter[$row['id_dataset']][$row['id_methode']]['seq'][]     = $row['seq'];
@@ -199,7 +197,7 @@ class SpeciesHypothesesService {
         // Retenir les résultats du même dataset et méthode différente de la référence
         if (
           $this->parameters->get('reference') < 2 || // pas de filtre si ref morpho
-          ($date == $this->parameters->get('dataset') &&
+          ($date == $this->target &&
             $methode != $this->parameters->get('methode'))
         ) {
           $filtered[] = $counts;
