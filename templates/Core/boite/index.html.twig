@@ -25,10 +25,6 @@
 			{{ ('button.New' ~ entityname|capitalize)|trans }}
 		</a>
 
-		<button class="btn btn-light border btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">
-			<i class="fas fa-file-export"></i>
-			{{'button.exportToCSV'|trans}}
-		</button>
 
 	{% else %}
 
@@ -38,6 +34,11 @@
 		</a>
 
 	{% endif %}
+
+	<button class="btn btn-light border btn-sm" id="export" data-export="export" data-toggle="tooltip" data-align="right" title="{{'button.exportToCSV-title'|trans}}">
+		<i class="fas fa-file-export"></i>
+		{{'button.exportToCSV'|trans}}
+	</button>
 
 	{% if box_type != NULL %}
 		<div class="btn-group btn-group-sm">
