@@ -42,7 +42,7 @@ class ImportFilesChromatogrammeController extends EntityController {
             ' ' => array('Chromatogram' => 'chromatogram'),
             '  ' => array('Institution' => 'institution'),
             '   ' => array('Vocabulary' => 'vocabulary'),
-            '    ' => array('Personne' => 'personne'),
+            '    ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -57,7 +57,7 @@ class ImportFilesChromatogrammeController extends EntityController {
           'choices' => array(
             ' ' => array('Chromatogram' => 'chromatogram'),
             '  ' => array('Institution' => 'institution'),
-            '    ' => array('Personne' => 'personne'),
+            '    ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -71,7 +71,7 @@ class ImportFilesChromatogrammeController extends EntityController {
           'choice_translation_domain' => false,
           'choices' => array(
             ' ' => array('Chromatogram' => 'chromatogram'),
-            '  ' => array('Personne' => 'personne'),
+            '  ' => array('Person' => 'person'),
           ),
         ))
         ->add('fichier', FileType::class)
@@ -101,7 +101,7 @@ class ImportFilesChromatogrammeController extends EntityController {
           case 'institution':
             $message .= $importFileE3sService->importCSVDataEtablissement($fichier, $user->getId());
             break;
-          case 'personne':
+          case 'person':
             $message .= $importFileE3sService->importCSVDataPersonne($fichier, $user->getId());
             break;
           default:
