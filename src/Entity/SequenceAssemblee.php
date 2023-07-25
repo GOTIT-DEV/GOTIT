@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Assign;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -139,11 +141,18 @@ class SequenceAssemblee {
    */
   protected $estAligneEtTraites;
 
+  /**
+   * @ORM\OneToMany(targetEntity="Assigne", mappedBy="sequenceAssembleeFk", cascade={"persist"})
+   * @ORM\OrderBy({"id" = "ASC"})
+   */
+  protected Collection $motuAssignations;
+
   public function __construct() {
     $this->sequenceAssembleeEstRealisePars = new ArrayCollection();
     $this->sqcEstPublieDanss = new ArrayCollection();
     $this->especeIdentifiees = new ArrayCollection();
     $this->estAligneEtTraites = new ArrayCollection();
+    $this->motuAssignations = new ArrayCollection();
   }
 
   /**
@@ -153,6 +162,22 @@ class SequenceAssemblee {
    */
   public function getId() {
     return $this->id;
+  }
+
+  public function getMotuAssignations() {
+    return $this->motuAssignations;
+  }
+
+  public function addMotuAssignation(Assigne $assignation) {
+    $assignation->setSequenceAssembleeFk($this);
+    $this->motuAssignations[] = $assignation;
+
+    return $this;
+  }
+
+  public function removeMotuAssignation(Assigne $assignation) {
+    $this->motuAssignations->removeElement($assignation);
+    return $this;
   }
 
   /**
@@ -536,11 +561,11 @@ class SequenceAssemblee {
   public function getGeneVocFk() {
     $process = $this->estAligneEtTraites->first();
     return $process
-    ? $process
+      ? $process
       ->getChromatogrammeFk()
       ->getPcrFk()
       ->getGeneVocFk()
-    : null;
+      : null;
   }
 
   /**
@@ -554,12 +579,12 @@ class SequenceAssemblee {
   public function getIndividuFk() {
     $process = $this->estAligneEtTraites->first();
     return $process
-    ? $process
+      ? $process
       ->getChromatogrammeFk()
       ->getPcrFk()
       ->getAdnFk()
       ->getIndividuFk()
-    : null;
+      : null;
   }
 
   /**

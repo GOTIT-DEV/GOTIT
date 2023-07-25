@@ -26,11 +26,7 @@ class MotuController extends EntityController {
    */
   #[Route("/", name: "motu_index", methods: ["GET"])]
   public function indexAction() {
-    $motus = $this->getRepository(Motu::class)->findAll();
-
-    return $this->render('Core/motu/index.html.twig', array(
-      'motus' => $motus,
-    ));
+    return $this->render('Core/motu/index.html.twig');
   }
 
   /**

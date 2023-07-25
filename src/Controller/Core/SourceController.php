@@ -23,11 +23,7 @@ class SourceController extends EntityController {
    */
   #[Route("/", name: "source_index", methods: ["GET"])]
   public function indexAction() {
-    $sources = $this->getRepository(Source::class)->findAll();
-
-    return $this->render('Core/source/index.html.twig', array(
-      'sources' => $sources,
-    ));
+    return $this->render('Core/source/index.html.twig');
   }
 
   /**

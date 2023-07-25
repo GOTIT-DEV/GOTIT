@@ -24,14 +24,7 @@ class SequenceAssembleeExtController extends EntityController {
    */
   #[Route("/", name: "sequenceassembleeext_index", methods: ["GET"])]
   public function indexAction() {
-
-    $sequenceAssembleeExts = $this->getRepository(SequenceAssembleeExt::class)
-      ->findAll();
-
-    return $this->render(
-      'Core/sequenceassembleeext/index.html.twig',
-      ['sequenceAssembleeExts' => $sequenceAssembleeExts]
-    );
+    return $this->render('Core/sequenceassembleeext/index.html.twig');
   }
 
   /**

@@ -24,13 +24,7 @@ class LotMaterielExtController extends EntityController {
    */
   #[Route("/", name: "lotmaterielext_index", methods: ["GET"])]
   public function indexAction() {
-
-    $lotMaterielExts = $this->getRepository(LotMaterielExt::class)->findAll();
-
-    return $this->render(
-      'Core/lotmaterielext/index.html.twig',
-      ['lotMaterielExts' => $lotMaterielExts]
-    );
+    return $this->render('Core/lotmaterielext/index.html.twig');
   }
 
   /**

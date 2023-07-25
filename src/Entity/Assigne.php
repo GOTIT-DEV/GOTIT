@@ -85,7 +85,7 @@ class Assigne {
   /**
    * @var \SequenceAssemblee
    *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee")
+   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="motus")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true)
    * })

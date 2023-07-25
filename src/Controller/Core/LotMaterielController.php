@@ -26,12 +26,7 @@ class LotMaterielController extends EntityController {
    */
   #[Route("/", name: "lotmateriel_index", methods: ["GET"])]
   public function indexAction() {
-    $lotMateriels = $this->getRepository(LotMateriel::class)->findAll();
-
-    return $this->render(
-      'Core/lotmateriel/index.html.twig',
-      ['lotMateriels' => $lotMateriels]
-    );
+    return $this->render('Core/lotmateriel/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "lotmateriel_search")]

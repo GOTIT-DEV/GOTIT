@@ -27,11 +27,7 @@ class CollecteController extends EntityController {
    */
   #[Route("/", name: "collecte_index", methods: ["GET", "POST"])]
   public function indexAction() {
-    $collectes = $this->getRepository(Collecte::class)->findAll();
-
-    return $this->render('Core/collecte/index.html.twig', array(
-      'collectes' => $collectes,
-    ));
+    return $this->render('Core/collecte/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "collecte_search")]

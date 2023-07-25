@@ -24,12 +24,7 @@ class EtablissementController extends EntityController {
    */
   #[Route("/", name: "etablissement_index", methods: ["GET"])]
   public function indexAction() {
-
-    $etablissements = $this->getRepository(Etablissement::class)->findAll();
-
-    return $this->render('Core/etablissement/index.html.twig', array(
-      'etablissements' => $etablissements,
-    ));
+    return $this->render('Core/etablissement/index.html.twig');
   }
 
   /**

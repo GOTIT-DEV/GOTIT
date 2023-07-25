@@ -23,11 +23,7 @@ class ReferentielTaxonController extends EntityController {
    */
   #[Route("/", name: "referentieltaxon_index", methods: ["GET"])]
   public function indexAction() {
-    $referentielTaxons = $this->getRepository(ReferentielTaxon::class)->findAll();
-
-    return $this->render('Core/referentieltaxon/index.html.twig', array(
-      'referentielTaxons' => $referentielTaxons,
-    ));
+    return $this->render('Core/referentieltaxon/index.html.twig');
   }
 
   /**

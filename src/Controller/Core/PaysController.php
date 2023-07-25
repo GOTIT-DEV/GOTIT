@@ -24,11 +24,7 @@ class PaysController extends EntityController {
    */
   #[Route("/", name: "pays_index", methods: ["GET"])]
   public function indexAction() {
-    $pays = $this->getRepository(Pays::class)->findAll();
-
-    return $this->render('Core/pays/index.html.twig', array(
-      'pays' => $pays,
-    ));
+    return $this->render('Core/pays/index.html.twig');
   }
 
   /**

@@ -27,10 +27,7 @@ class AdnController extends EntityController {
    */
   #[Route("/", name: "adn_index", methods: ["GET"])]
   public function indexAction() {
-
-    $adns = $this->getRepository(Adn::class)->findAll();
-
-    return $this->render('Core/adn/index.html.twig', ['adns' => $adns]);
+    return $this->render('Core/adn/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "adn_search")]
@@ -63,7 +60,9 @@ class AdnController extends EntityController {
       'adn.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
     $where = 'LOWER(adn.codeAdn) LIKE :criteriaLower';
+
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
@@ -73,19 +72,32 @@ class AdnController extends EntityController {
     }
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $this->getRepository(Adn::class)
-      ->createQueryBuilder('adn')
-      ->where($where)
-      ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
+    $qb = $this->getRepository(Adn::class)
+      ->createQueryBuilder('adn');
+    if ($searchPhrase) {
+      $qb = $qb
+        ->where('LOWER(adn.codeAdn) LIKE :criteriaLower')
+        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%');
+    }
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $qb = $qb->andWhere('adn.individuFk = :individuFk')
+        ->setParameter('individuFk', $request->get('idFk'));
+    }
+    $qb = $qb
       ->leftJoin(Individu::class, 'individu', 'WITH', 'adn.individuFk = individu.id')
-      ->leftJoin(Boite::class, 'boite', 'WITH', 'adn.boiteFk = boite.id')
+      ->leftJoin(Boite::class, 'boite', 'WITH', 'adn.boiteFk = boite.id');
+
+    $query_total = clone $qb;
+    $total = $query_total->select('count(adn.id)')->getQuery()->getSingleScalarResult();
+
+    $entities_toshow = $qb
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
+      ->setFirstResult($minRecord)
+      ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
-    $nb = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+
+
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateAdn = $entity->getDateAdn()
@@ -138,7 +150,7 @@ class AdnController extends EntityController {
       "rowCount" => $rowCount,
       "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total" => $nb, // total data array
+      "total" => $total, // total data array
     ]);
   }
 

@@ -24,11 +24,7 @@ class StationController extends EntityController {
    */
   #[Route("/", name: "station_index", methods: ["GET"])]
   public function indexAction() {
-    $stations = $this->getRepository(Station::class)->findAll();
-
-    return $this->render('Core/station/index.html.twig', array(
-      'stations' => $stations,
-    ));
+    return $this->render('Core/station/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "station_search")]

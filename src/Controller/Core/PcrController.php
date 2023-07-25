@@ -26,12 +26,7 @@ class PcrController extends EntityController {
   #[Route("/", name: "pcr_index", methods: ["GET"])]
   #[Route("/", name: "pcrchromato_index", methods: ["GET"])]
   public function indexAction() {
-
-    $pcrs = $this->getRepository(Pcr::class)->findAll();
-
-    return $this->render('Core/pcr/index.html.twig', array(
-      'pcrs' => $pcrs,
-    ));
+    return $this->render('Core/pcr/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "pcr_search")]
@@ -66,22 +61,32 @@ class PcrController extends EntityController {
     $minRecord = intval($request->get('current') - 1) * $rowCount;
     $maxRecord = $rowCount;
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if ($request->get('searchPattern') && !$searchPhrase) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND pcr.adnFk = ' . $request->get('idFk');
-    }
+
     // Search for the list to show
     $tab_toshow = [];
-    $entities_toshow = $this->getRepository(Pcr::class)
-      ->createQueryBuilder('pcr')
-      ->where($where)
-      ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
+    $query = $this->getRepository(Pcr::class)
+      ->createQueryBuilder('pcr');
+    if ($searchPhrase) {
+      $query = $query
+        ->where('LOWER(individu.codeIndBiomol) LIKE :criteriaLower')
+        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%');
+    }
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $query = $query->andWhere('pcr.adnFk = :adnFk')
+        ->setParameter('adnFk', $request->get('idFk'));
+    }
+    $query = $query
       ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
+      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id');
+
+    $query_total = clone $query;
+    $total = $query_total->select('count(pcr.id)')->getQuery()->getSingleScalarResult();
+
+    $entities_toshow = $query
       ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
       ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
       ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
@@ -90,20 +95,7 @@ class PcrController extends EntityController {
       ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
-    $where2 = 'LOWER(individu.codeIndBiomol) LIKE :criteriaLower';
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where2 .= ' AND pcr2.adnFk = ' . $request->get('idFk');
-    }
-    $total = count(
-      $this->getRepository(Pcr::class)
-        ->createQueryBuilder('pcr2')
-        ->where($where2)
-        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-        ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr2.adnFk = adn.id')
-        ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-        ->getQuery()
-        ->getScalarResult()
-    );
+
     // build column content
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();

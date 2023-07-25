@@ -61,7 +61,7 @@ class EstAligneEtTraite {
   /**
    * @var \Chromatogramme
    *
-   * @ORM\ManyToOne(targetEntity="Chromatogramme")
+   * @ORM\ManyToOne(targetEntity="Chromatogramme", inversedBy="assemblages")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="chromatogram_fk", referencedColumnName="id", nullable=false)
    * })

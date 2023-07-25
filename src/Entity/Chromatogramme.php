@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -125,6 +127,16 @@ class Chromatogramme {
    */
   private $codeChromatoSpecificite;
 
+
+  /**
+   * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="chromatogrammeFk")
+   */
+  private Collection $assemblages;
+
+  public function __construct() {
+    $this->assemblages = new ArrayCollection();
+  }
+
   /**
    * Get id
    *
@@ -132,6 +144,19 @@ class Chromatogramme {
    */
   public function getId() {
     return $this->id;
+  }
+
+  public function getAssemblages(): Collection {
+    return $this->assemblages;
+  }
+  public function addAssemblage(EstAligneEtTraite $assemblage): Chromatogramme {
+    $assemblage->setChromatogrammeFk($this);
+    $this->assemblages[] = $assemblage;
+    return $this;
+  }
+  public function removeAssemblage(EstAligneEtTraite $assemblage): Chromatogramme {
+    $this->assemblages->removeElement($assemblage);
+    return $this;
   }
 
   /**

@@ -23,11 +23,7 @@ class ProgrammeController extends EntityController {
    */
   #[Route("/", name: "programme_index", methods: ["GET"])]
   public function indexAction() {
-    $programmes = $this->getRepository(Programme::class)->findAll();
-
-    return $this->render('Core/programme/index.html.twig', array(
-      'programmes' => $programmes,
-    ));
+    return $this->render('Core/programme/index.html.twig');
   }
 
   /**

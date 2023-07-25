@@ -24,12 +24,7 @@ class IndividuLameController extends EntityController {
    */
   #[Route("/", name: "individulame_index", methods: ["GET"])]
   public function indexAction() {
-    $individuLames = $this->getRepository(IndividuLame::class)->findAll();
-
-    return $this->render(
-      'Core/individulame/index.html.twig',
-      ['individuLames' => $individuLames]
-    );
+    return $this->render('Core/individulame/index.html.twig');
   }
 
   /**

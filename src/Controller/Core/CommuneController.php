@@ -23,11 +23,7 @@ class CommuneController extends EntityController {
    */
   #[Route("/", name: "commune_index", methods: ["GET"])]
   public function indexAction() {
-    $communes = $this->getRepository(Commune::class)->findAll();
-
-    return $this->render('Core/commune/index.html.twig', array(
-      'communes' => $communes,
-    ));
+    return $this->render('Core/commune/index.html.twig');
   }
 
   /**

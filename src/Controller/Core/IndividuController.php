@@ -26,12 +26,7 @@ class IndividuController extends EntityController {
    */
   #[Route("/", name: "individu_index", methods: ["GET"])]
   public function indexAction() {
-
-    $individus = $this->getRepository(Individu::class)->findAll();
-
-    return $this->render('Core/individu/index.html.twig', [
-      'individus' => $individus,
-    ]);
+    return $this->render('Core/individu/index.html.twig');
   }
 
   #[Route("/search/{q}", requirements: ["q" => ".+"], name: "individu_search")]

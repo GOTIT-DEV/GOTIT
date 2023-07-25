@@ -24,10 +24,7 @@ class PersonneController extends EntityController {
    */
   #[Route("/", name: "personne_index", methods: ["GET"])]
   public function indexAction() {
-    $personnes = $this->getRepository(Personne::class)->findAll();
-    return $this->render('Core/personne/index.html.twig', [
-      'personnes' => $personnes,
-    ]);
+    return $this->render('Core/personne/index.html.twig');
   }
 
   /**

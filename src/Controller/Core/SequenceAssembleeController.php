@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Chromatogramme;
+use App\Entity\EspeceIdentifiee;
+use App\Entity\ReferentielTaxon;
+use App\Entity\SqcEstPublieDans;
 
 /**
  * Sequenceassemblee controller.
@@ -26,11 +29,7 @@ class SequenceAssembleeController extends EntityController {
    */
   #[Route("/", name: "sequenceassemblee_index", methods: ["GET"])]
   public function indexAction() {
-    $sequenceAssemblees = $this->getRepository(SequenceAssemblee::class)->findAll();
-
-    return $this->render('Core/sequenceassemblee/index.html.twig', array(
-      'sequenceAssemblees' => $sequenceAssemblees,
-    ));
+    return $this->render('Core/sequenceassemblee/index.html.twig');
   }
 
   /**
@@ -40,16 +39,21 @@ class SequenceAssembleeController extends EntityController {
    * c) 1 sort criterion on a column ($ request-> get ('sort'))
    */
   #[Route("/indexjson", name: "sequenceassemblee_indexjson", methods: ["POST"])]
-  public function indexjsonAction(Request $request) {
+  public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
     $rowCount = ($request->get('rowCount') !== NULL)
       ? $request->get('rowCount') : 10;
-    $orderBy = ($request->get('sort') !== NULL)
-      ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-      : "sq.date_of_update DESC, sq.id DESC";
+    // $orderBy = ($request->get('sort') !== NULL)
+    //   ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
+    //   : "sq.date_of_update DESC, sq.id DESC";
+    $orderBy = $request->get('sort') ?: [
+      'seq.dateMaj' => 'desc',
+      'seq.id' => 'desc',
+    ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
+
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
     $where = 'LOWER(sq.internal_sequence_code) LIKE :criteriaLower';
-    $having = ' ';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -61,99 +65,77 @@ class SequenceAssembleeController extends EntityController {
       $where .= ' AND chromato.id = ' . $request->get('idFk');
     }
 
+
+    $qb = $this->getRepository(SequenceAssemblee::class)
+      ->createQueryBuilder('seq')
+      ->join(EstAligneEtTraite::class, 'chrom_process', 'WITH', 'chrom_process.sequenceAssembleeFk = seq.id')
+      ->join(Chromatogramme::class, 'chromato', 'WITH', 'chrom_process.chromatogrammeFk = chromato.id');
+
+    if ($searchPhrase) {
+      $qb = $qb->where('LOWER(seq.codeSqcAss) LIKE :criteriaLower')
+        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%');
+    }
+
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $qb = $qb
+        ->andWhere('chromato.id = :chromato')
+        ->setParameter('chromato', $request->get('idFk'));
+    }
+
+    $query_total = clone $qb;
+    $total = $query_total->select('count(chromato.id)')->getQuery()->getSingleScalarResult();
+
+    /** @var SequenceAssemblee[] */
+    $entities_toshow = $qb
+      ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
+      ->setFirstResult($minRecord)
+      ->setMaxResults($maxRecord)
+      ->getQuery()
+      ->getResult();
+
     // Search for the list to show
     $tab_toshow = [];
-    $rawSql = "SELECT
-      sq.id,
-      sq.internal_sequence_code,
-      sq.internal_sequence_creation_date,
-      sq.creation_user_name,
-      sq.date_of_creation,
-      sq.date_of_update,
-      voc_internal_sequence_status.code as code_voc_internal_sequence_status,
-      sq.internal_sequence_creation_date,
-      sq.internal_sequence_alignment_code,
-      sq.internal_sequence_accession_number,
-      rt_sq.taxon_name as last_taxname_sq,
-      ei_sq.identification_date as last_date_identification_sq,
-      voc_sq_identification_criterion.code as code_sq_identification_criterion,
-      user_cre.user_full_name as user_cre_username,
-      user_maj.user_full_name as user_maj_username,
-      voc_gene.code as voc_internal_sequence_gene_code,
-      string_agg(DISTINCT sp.specimen_molecular_code, ' ;') as list_specimen_molecular_code,
-      string_agg(DISTINCT source.source_title, ' ; ') as list_source,
-      string_agg(DISTINCT cast( chromato.id as character varying) ,';') as list_chromato ,
-      CASE
-          WHEN (count(motu_number.id)=0) THEN 0
-          WHEN (count(motu_number.id)>0) THEN 1
-      END motu_flag
-      FROM  internal_sequence sq
-        LEFT JOIN user_db user_cre ON user_cre.id = sq.creation_user_name
-        LEFT JOIN user_db user_maj ON user_maj.id = sq.update_user_name
-        LEFT JOIN vocabulary voc_internal_sequence_status
-          ON sq.internal_sequence_status_voc_fk = voc_internal_sequence_status.id
-        LEFT JOIN internal_sequence_is_published_in isip
-          ON isip.internal_sequence_fk = sq.id
-        LEFT JOIN source ON isip.source_fk = source.id
-        LEFT JOIN motu_number ON motu_number.internal_sequence_fk = sq.id
-        LEFT JOIN chromatogram_is_processed_to eaet
-          ON eaet.internal_sequence_fk = sq.id
-        LEFT JOIN chromatogram chromato ON eaet.chromatogram_fk = chromato.id
-        JOIN pcr ON chromato.pcr_fk = pcr.id
-        LEFT JOIN vocabulary voc_gene ON pcr.gene_voc_fk = voc_gene.id
-        JOIN dna ON pcr.dna_fk = dna.id
-        JOIN specimen sp ON dna.specimen_fk = sp.id
-        LEFT JOIN identified_species ei_sq ON ei_sq.internal_sequence_fk = sq.id
-        INNER JOIN (
-          SELECT MAX(ei_sqi.id) AS maxei_sqi
-          FROM identified_species ei_sqi
-          GROUP BY ei_sqi.internal_sequence_fk
-        ) ei_sq2 ON (ei_sq.id = ei_sq2.maxei_sqi)
-        LEFT JOIN taxon rt_sq ON ei_sq.taxon_fk = rt_sq.id
-        LEFT JOIN vocabulary voc_sq_identification_criterion
-          ON ei_sq.identification_criterion_voc_fk = voc_sq_identification_criterion.id"
-      . " WHERE " . $where . "
-        GROUP BY sq.id,sq.internal_sequence_code, internal_sequence_creation_date,
-        sq.creation_user_name, sq.date_of_creation, sq.date_of_update,
-        voc_internal_sequence_status.code,
-        sq.internal_sequence_creation_date, sq.internal_sequence_alignment_code, sq.internal_sequence_accession_number,
-        rt_sq.taxon_name, ei_sq.identification_date, voc_sq_identification_criterion.code,
-        user_cre.user_full_name, user_maj.user_full_name,
-        voc_gene.code"
-      . $having
-      . " ORDER BY " . $orderBy;
-    // execute query and fill tab to show in the bootgrid list (see index.htm)
-    $stmt = $this->entityManager->getConnection()->prepare($rawSql);
-    $stmt->bindValue('criteriaLower', strtolower($searchPhrase) . '%');
-    $res = $stmt->executeQuery();
-    $entities_toshow = $res->fetchAllAssociative();
-    $nb = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
 
-    foreach ($entities_toshow as $key => $val) {
+
+
+    foreach ($entities_toshow as $key => $seq) {
+
+      $sources = $seq->getSqcEstPublieDanss()
+        ->map(function (SqcEstPublieDans $rel) {
+          return $rel->getSourceFk()->getLibelleSource();
+        })
+        ->toArray();
+
+      /** @var Chromatogramme */
+      $chromato = $seq->getEstAligneEtTraites()->first()->getChromatogrammeFk();
+      $specimen = $chromato->getPcrFk()->getAdnFk()->getIndividuFk();
+
+      /** @var EspeceIdentifiee */
+      $last_id = $seq->getEspeceIdentifiees()
+        ->reduce(function ($acc, EspeceIdentifiee $id) {
+          $latest = $acc === null ? 0 : $acc;
+          return $id->getId() > $latest ? $id : $acc;
+        });
+
       $tab_toshow[] = array(
-        "id" => $val['id'], "sq.id" => $val['id'],
-        "internal_sequence_code" => $val['internal_sequence_code'],
-        "internal_sequence_alignment_code" => $val['internal_sequence_alignment_code'],
-        "internal_sequence_accession_number" => $val['internal_sequence_accession_number'],
-        "voc_internal_sequence_gene_code" => $val['voc_internal_sequence_gene_code'],
-        "voc_internal_sequence_status.code" => $val['code_voc_internal_sequence_status'],
-        "sq.internal_sequence_creation_date" => $val['internal_sequence_creation_date'],
-        "list_specimen_molecular_code" => $val['list_specimen_molecular_code'],
-        "list_source" => $val['list_source'],
-        "list_chromato" => $val['list_chromato'],
-        "internal_sequence_creation_date" => $val['internal_sequence_creation_date'],
-        "sq.date_of_creation" => $val['date_of_creation'],
-        "sq.date_of_update" => $val['date_of_update'],
-        "last_taxname_sq" => $val['last_taxname_sq'],
-        "last_date_identification_sq" => $val['last_date_identification_sq'],
-        "code_sq_identification_criterion" => $val['code_sq_identification_criterion'],
-        "motu_flag" => $val['motu_flag'],
-        "creation_user_name" => $val['creation_user_name'],
-        "user_cre.user_full_name" => ($val['user_cre_username'] != null) ? $val['user_cre_username'] : 'NA',
-        "user_maj.user_full_name" => ($val['user_maj_username'] != null) ? $val['user_maj_username'] : 'NA',
+        "id" => $seq->getId(), "sq.id" => $seq->getId(),
+        "internal_sequence_code" => $seq->getCodeSqcAss(),
+        "internal_sequence_alignment_code" => $seq->getCodeSqcAlignement(),
+        "internal_sequence_accession_number" => $seq->getAccessionNumber(),
+        "voc_internal_sequence_gene_code" => $seq->getGeneVocFk()->getCode(),
+        "voc_internal_sequence_status.code" => $seq->getStatutSqcAssVocFk()->getCode(),
+        "internal_sequence_creation_date" => $seq->getDateCreationSqcAss()?->format('Y-m-d'),
+        "list_specimen_molecular_code" => $specimen->getCodeIndBiomol(),
+        "list_source" => implode(', ', $sources),
+        "sq.date_of_creation" => $seq->getDateCre()?->format('Y-m-d H:i:s'),
+        "sq.date_of_update" => $seq->getDateMaj()?->format('Y-m-d H:i:s'),
+        "last_taxname_sq" => $last_id?->getReferentielTaxonFk()->getTaxname(),
+        "last_date_identification_sq" => $last_id?->getDateIdentification()?->format('Y-m-d'),
+        "code_sq_identification_criterion" => $last_id?->getCritereIdentificationVocFk()->getCode(),
+        "motu_flag" => count($seq->getMotuAssignations()),
+        "creation_user_name" => $service->GetUserCreUsername($seq),
+        "user_cre.user_full_name" => $service->GetUserCreUserfullname($seq),
+        "user_maj.user_full_name" => $service->GetUserMajUserfullname($seq),
       );
     }
 
@@ -162,7 +144,7 @@ class SequenceAssembleeController extends EntityController {
       "rowCount" => $rowCount,
       "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total" => $nb,
+      "total" => $total,
     ]);
   }
 

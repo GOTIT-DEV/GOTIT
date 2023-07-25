@@ -24,11 +24,7 @@ class BoiteController extends EntityController {
    */
   #[Route("/", name: "boite_index", methods: ["GET"])]
   public function indexAction() {
-    $boites = $this->getRepository(Boite::class)->findAll();
-
-    return $this->render('Core/boite/index.html.twig', array(
-      'boites' => $boites,
-    ));
+    return $this->render('Core/boite/index.html.twig');
   }
 
   /**

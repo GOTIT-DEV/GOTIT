@@ -25,12 +25,7 @@ class VocController extends EntityController {
    */
   #[Route("/", name: "voc_index", methods: ["GET"])]
   public function indexAction() {
-
-    $vocs = $this->getRepository(Voc::class)->findAll();
-
-    return $this->render('Core/voc/index.html.twig', array(
-      'vocs' => $vocs,
-    ));
+    return $this->render('Core/voc/index.html.twig');
   }
 
   /**
