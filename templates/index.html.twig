@@ -32,7 +32,11 @@
     {{ 'button.showAllRecord'|trans }}
   </a>
 
-  {% if is_granted('ROLE_COLLABORATION') and not (route in ['voc_index', 'referentieltaxon_index', 'programme_index', 'etablissement_index', 'pays_index', 'commune_index']) %}
+  {% if is_granted('ROLE_ADMIN') or 
+    (
+      is_granted('ROLE_COLLABORATION') and 
+      not (route in ['voc_index', 'referentieltaxon_index', 'programme_index', 'etablissement_index', 'pays_index', 'commune_index'])
+    ) %}
     {% set path_action_new = path(route_new) ~ "?nameFk=" ~ varUrl_nameFk ~ "&idFk=" ~ varUrl_idFk %}
         <a href="{{ path_action_new }}"
           class="btn btn-success btn-sm"
