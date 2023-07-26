@@ -64,6 +64,7 @@ class CollecteController extends EntityController {
       'collecte.id' => 'desc',
     ];
     $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
 
     // initializes the searchPhrase variable
     $where = 'LOWER(collecte.codeCollecte) LIKE :criteriaLower';
@@ -76,21 +77,29 @@ class CollecteController extends EntityController {
     }
     // Search the list to show
     $tab_toshow = [];
-    $entities_toshow = $this->getRepository(Collecte::class)
-      ->createQueryBuilder('collecte')
-      ->where($where)
-      ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Station', 'station', 'WITH', 'collecte.stationFk = station.id')
-      ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
-      ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
-      ->leftJoin('App:Voc', 'voc', 'WITH', 'collecte.legVocFk = voc.id')
+    $qb = $this->getRepository(Collecte::class)
+      ->createQueryBuilder('collecte');
+    if ($searchPhrase) {
+      $qb = $qb->where('LOWER(collecte.codeCollecte) LIKE :criteriaLower')
+        ->setParameter('criteriaLower', strtolower($searchPhrase) . '%');
+    }
+    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
+      $qb->where('collecte.stationFk = :station')
+        ->setParameter('station', $request->get('idFk'));
+    }
+
+    $query_total = clone $qb;
+    $total = $query_total->select('count(collecte.id)')
+      ->getQuery()
+      ->getSingleScalarResult();
+
+    $entities_toshow = $qb
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
+      ->setFirstResult($minRecord)
+      ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
-    $nb_entities = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCollecte = ($entity->getDateCollecte() !== null)
@@ -151,7 +160,7 @@ class CollecteController extends EntityController {
       "rowCount" => $rowCount,
       "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total" => $nb_entities,
+      "total" => $total,
     ]);
   }
 

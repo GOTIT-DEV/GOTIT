@@ -62,20 +62,31 @@ class StationController extends EntityController {
       ? $request->get('sort')
       : array('station.dateMaj' => 'desc', 'station.id' => 'desc');
     $minRecord = intval($request->get('current') - 1) * $rowCount;
+    $maxRecord = $rowCount;
     $tab_toshow = [];
-    $entities_toshow = $this->getRepository(Station::class)
-      ->createQueryBuilder('station')
-      ->where('LOWER(station.codeStation) LIKE :criteriaLower')
-      ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%')
+
+    $searchPhrase = $request->get('searchPhrase');
+    if ($request->get('searchPattern') && !$searchPhrase) {
+      $searchPhrase = $request->get('searchPattern');
+    }
+
+    $qb = $this->getRepository(Station::class)
+      ->createQueryBuilder('station');
+    if ($searchPhrase) {
+      $qb = $qb->where('LOWER(station.codeStation) LIKE :criteriaLower')
+        ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%');
+    }
+    $entities_toshow = $qb
       ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
       ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+      ->setFirstResult($minRecord)
+      ->setMaxResults($maxRecord)
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
-    $nb_entities = count($entities_toshow);
-    $entities_toshow = ($request->get('rowCount') > 0)
-      ? array_slice($entities_toshow, $minRecord, $rowCount)
-      : array_slice($entities_toshow, $minRecord);
+
+    $nb_entities =  $this->getRepository(Station::class)->count([]);
+
     foreach ($entities_toshow as $entity) {
       $id = $entity->getId();
       $DateCre = ($entity->getDateCre() !== null)
