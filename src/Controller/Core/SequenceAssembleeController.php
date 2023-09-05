@@ -10,11 +10,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use App\Entity\Adn;
+use App\Entity\Assigne;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Chromatogramme;
 use App\Entity\EspeceIdentifiee;
+use App\Entity\Individu;
+use App\Entity\Pcr;
 use App\Entity\ReferentielTaxon;
 use App\Entity\SqcEstPublieDans;
+use App\Entity\Voc;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Sequenceassemblee controller.
@@ -40,11 +46,7 @@ class SequenceAssembleeController extends EntityController {
    */
   #[Route("/indexjson", name: "sequenceassemblee_indexjson", methods: ["POST"])]
   public function indexjsonAction(Request $request, GenericFunctionE3s $service) {
-    $rowCount = ($request->get('rowCount') !== NULL)
-      ? $request->get('rowCount') : 10;
-    // $orderBy = ($request->get('sort') !== NULL)
-    //   ? array_keys($request->get('sort'))[0] . " " . array_values($request->get('sort'))[0]
-    //   : "sq.date_of_update DESC, sq.id DESC";
+    $rowCount = $request->get('rowCount') ?: 10;
     $orderBy = $request->get('sort') ?: [
       'seq.dateMaj' => 'desc',
       'seq.id' => 'desc',
@@ -53,7 +55,6 @@ class SequenceAssembleeController extends EntityController {
     $maxRecord = $rowCount;
 
     // initializes the searchPhrase variable as appropriate and sets the condition according to the url idFk parameter
-    $where = 'LOWER(sq.internal_sequence_code) LIKE :criteriaLower';
     $searchPhrase = $request->get('searchPhrase');
     if (
       $request->get('searchPattern') !== null &&
@@ -61,15 +62,33 @@ class SequenceAssembleeController extends EntityController {
     ) {
       $searchPhrase = $request->get('searchPattern');
     }
-    if ($request->get('idFk') && filter_var($request->get('idFk'), FILTER_VALIDATE_INT) !== false) {
-      $where .= ' AND chromato.id = ' . $request->get('idFk');
-    }
 
 
     $qb = $this->getRepository(SequenceAssemblee::class)
       ->createQueryBuilder('seq')
-      ->join(EstAligneEtTraite::class, 'chrom_process', 'WITH', 'chrom_process.sequenceAssembleeFk = seq.id')
-      ->join(Chromatogramme::class, 'chromato', 'WITH', 'chrom_process.chromatogrammeFk = chromato.id');
+      ->select(
+        'seq as sequence,
+        specimen.codeIndBiomol as specimen_molecular_code,
+        last_id.dateIdentification, id_criterion.code as criterion,
+        taxon.taxname,
+        geneVoc.code as gene, statusVoc.code as status'
+      )
+      ->join(
+        EstAligneEtTraite::class,
+        'chrom_process',
+        'WITH',
+        'chrom_process.sequenceAssembleeFk = seq.id '
+      )
+      ->join(Chromatogramme::class, 'chromato', 'WITH', 'chrom_process.chromatogrammeFk = chromato.id')
+      ->join(
+        EspeceIdentifiee::class,
+        "last_id",
+        "WITH",
+        "seq.id = last_id.sequenceAssembleeFk and last_id.dateIdentification = (
+        SELECT MAX(all_id.dateIdentification) FROM \App\Entity\EspeceIdentifiee all_id
+        WHERE all_id.sequenceAssembleeFk = seq.id
+      )"
+      );
 
     if ($searchPhrase) {
       $qb = $qb->where('LOWER(seq.codeSqcAss) LIKE :criteriaLower')
@@ -83,22 +102,32 @@ class SequenceAssembleeController extends EntityController {
     }
 
     $query_total = clone $qb;
-    $total = $query_total->select('count(chromato.id)')->getQuery()->getSingleScalarResult();
+    $total = $query_total->select('count(distinct(seq))')->getQuery()->getSingleScalarResult();
 
-    /** @var SequenceAssemblee[] */
-    $entities_toshow = $qb
+    $query = $qb
+      ->join(Voc::class, "statusVoc", "WITH", "statusVoc.id = seq.statutSqcAssVocFk")
+      ->join(Pcr::class, "pcr", "WITH", "chromato.pcrFk = pcr.id")
+      ->join(Adn::class, "dna", "WITH", "pcr.adnFk = dna.id")
+      ->join(Individu::class, "specimen", "WITH", "dna.individuFk = specimen.id")
+      ->join(Voc::class, "id_criterion", "WITH", "last_id.critereIdentificationVocFk = id_criterion.id")
+      ->join(ReferentielTaxon::class, "taxon", "WITH", "taxon.id = last_id.referentielTaxonFk")
+      ->join(Voc::class, "geneVoc", "WITH", "geneVoc.id = pcr.geneVocFk")
+      ->distinct()
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->setFirstResult($minRecord)
       ->setMaxResults($maxRecord)
-      ->getQuery()
-      ->getResult();
+      ->getQuery();
+
+    $results = $query->getResult();
+
+
 
     // Search for the list to show
     $tab_toshow = [];
+    foreach ($results as $key => $row) {
 
-
-
-    foreach ($entities_toshow as $key => $seq) {
+      /** @var SequenceAssemblee */
+      $seq = $row["sequence"];
 
       $sources = $seq->getSqcEstPublieDanss()
         ->map(function (SqcEstPublieDans $rel) {
@@ -106,37 +135,28 @@ class SequenceAssembleeController extends EntityController {
         })
         ->toArray();
 
-      /** @var Chromatogramme */
-      $chromato = $seq->getEstAligneEtTraites()->first()->getChromatogrammeFk();
-      $specimen = $chromato->getPcrFk()->getAdnFk()->getIndividuFk();
-
-      /** @var EspeceIdentifiee */
-      $last_id = $seq->getEspeceIdentifiees()
-        ->reduce(function ($acc, EspeceIdentifiee $id) {
-          $latest = $acc === null ? 0 : $acc;
-          return $id->getId() > $latest ? $id : $acc;
-        });
-
-      $tab_toshow[] = array(
-        "id" => $seq->getId(), "sq.id" => $seq->getId(),
-        "internal_sequence_code" => $seq->getCodeSqcAss(),
-        "internal_sequence_alignment_code" => $seq->getCodeSqcAlignement(),
-        "internal_sequence_accession_number" => $seq->getAccessionNumber(),
-        "voc_internal_sequence_gene_code" => $seq->getGeneVocFk()->getCode(),
-        "voc_internal_sequence_status.code" => $seq->getStatutSqcAssVocFk()->getCode(),
-        "internal_sequence_creation_date" => $seq->getDateCreationSqcAss()?->format('Y-m-d'),
-        "list_specimen_molecular_code" => $specimen->getCodeIndBiomol(),
+      $tab_toshow[] = [
+        "id" => $seq->getId(),
+        "seq.id" => $seq->getId(),
+        "seq.codeSqcAss" => $seq->getCodeSqcAss(),
+        "seq.codeSqcAlignement" => $seq->getCodeSqcAlignement(),
+        "seq.accessionNumber" => $seq->getAccessionNumber(),
+        "gene" => $seq->getGeneVocFk()->getCode(),
+        "status" => $seq->getStatutSqcAssVocFk()->getCode(),
+        "seq.DateCreationSqcAss" => $seq->getDateCreationSqcAss()?->format('Y-m-d'),
+        "specimen_molecular_code" => $row["specimen_molecular_code"],
         "list_source" => implode(', ', $sources),
-        "sq.date_of_creation" => $seq->getDateCre()?->format('Y-m-d H:i:s'),
-        "sq.date_of_update" => $seq->getDateMaj()?->format('Y-m-d H:i:s'),
-        "last_taxname_sq" => $last_id?->getReferentielTaxonFk()->getTaxname(),
-        "last_date_identification_sq" => $last_id?->getDateIdentification()?->format('Y-m-d'),
-        "code_sq_identification_criterion" => $last_id?->getCritereIdentificationVocFk()->getCode(),
-        "motu_flag" => count($seq->getMotuAssignations()),
+        "taxon.taxname" => $row["taxname"],
+        "dateIdentification" => $row["dateIdentification"]?->format('Y-m-d'),
+        "criterion" => $row["criterion"],
+        // "motu_count" => $row["motu_count"],
+        "motu_count" => $seq->getMotuAssignations()->count(),
         "creation_user_name" => $service->GetUserCreUsername($seq),
+        "seq.dateCre" => $seq->getDateCre()?->format('Y-m-d H:i:s'),
+        "seq.dateMaj" => $seq->getDateMaj()?->format('Y-m-d H:i:s'),
         "user_cre.user_full_name" => $service->GetUserCreUserfullname($seq),
         "user_maj.user_full_name" => $service->GetUserMajUserfullname($seq),
-      );
+      ];
     }
 
     return new JsonResponse([
@@ -144,7 +164,7 @@ class SequenceAssembleeController extends EntityController {
       "rowCount" => $rowCount,
       "rows" => $tab_toshow,
       "searchPhrase" => $searchPhrase,
-      "total" => $total,
+      "total" => $total
     ]);
   }
 

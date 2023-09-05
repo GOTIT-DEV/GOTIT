@@ -22,76 +22,73 @@
 {% endblock %}
 
 {% block body %}
-	{# 
-				    definition of columns to display 
-					  for sortable columns, suffix the field names 
-					  with the names of tables tableName.fieldName 
-					#}
+	{#
+																			    definition of columns to display
+																				  for sortable columns, suffix the field names
+																				  with the names of tables tableName.fieldName
+																				#}
 	<div class="table-responsive">
 		<table id="grid-basic" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th data-column-id="sq.id" data-type="numeric" data-visible="false">
+					<th data-column-id="seq.id" data-type="numeric" data-visible="false">
 						Id
 					</th>
-					<th data-column-id="list_specimen_molecular_code" data-visible="false">
+					<th data-column-id="specimen_molecular_code" data-visible="false">
 						{{'Code ind biomol'|trans}}
 					</th>
-					<th
-						data-column-id="internal_sequence_code"
-						data-sortable="true"
-						data-visible="true">
+					<th data-column-id="seq.codeSqcAss" data-sortable="true" data-visible="true">
 						{{'Code sqc ass'|trans}}
 					</th>
 					<th
-						data-column-id="internal_sequence_alignment_code"
+						data-column-id="seq.codeSqcAlignement"
 						data-sortable="true"
 						data-visible="false">
 						{{'Code sqc alignement'|trans}}
 					</th>
-					<th data-column-id="voc_internal_sequence_gene_code" data-sortable="true">
+					<th data-column-id="gene" data-sortable="true">
 						{{'Gene voc fk'|trans}}
 					</th>
-					<th
-						data-column-id="voc_internal_sequence_status.code"
-						data-sortable="true"
-						data-visible="true">
+					<th data-column-id="status" data-sortable="true" data-visible="true">
 						{{'Statut sqc ass voc fk'|trans}}
 					</th>
-					<th data-column-id="internal_sequence_accession_number" data-visible="true">
+					<th data-column-id="seq.accessionNumber" data-visible="true">
 						{{'list.Accession number'|trans}}
 					</th>
 					<th
-						data-column-id="internal_sequence_creation_date"
+						data-column-id="seq.DateCreationSqcAss"
 						data-type="date"
 						data-visible="false">
 						{{'Date creation sqc ass'|trans}}
 					</th>
-					<th data-column-id="last_taxname_sq" data-sortable="true" data-visible="true">
+					<th data-column-id="taxon.taxname" data-sortable="true" data-visible="true">
 						{{'list.Last taxname'|trans}}
 					</th>
-					<th data-column-id="list_source" data-sortable="true" data-visible="false">
+					<th data-column-id="list_source" data-sortable="false" data-visible="false">
 						{{'list.List source'|trans}}
 					</th>
-					<th
-						data-column-id="code_sq_identification_criterion"
-						data-sortable="true"
-						data-visible="false">
+					<th data-column-id="criterion" data-sortable="true" data-visible="false">
 						{{'list.Last identification critere'|trans}}
 					</th>
-					<th data-column-id="motu_flag" data-sortable="true" data-visible="true">
+					<th data-column-id="motu_count" data-sortable="false" data-visible="true">
 						{{'list.MotuAssigne'|trans}}
 					</th>
-					<th data-column-id="sq.date_of_update" data-width="100">
+					<th data-column-id="seq.dateMaj" data-width="100">
 						{{'list.Date maj'|trans}}
 					</th>
-					<th data-column-id="sq.date_of_creation" data-width="100" data-visible="false">
+					<th data-column-id="seq.dateCre" data-width="100" data-visible="false">
 						{{'list.Date cre'|trans}}
 					</th>
-					<th data-column-id="user_cre.user_full_name" data-width="10" data-visible="false">
+					<th
+						data-column-id="user_cre.user_full_name"
+						data-width="10"
+						data-visible="false">
 						{{'list.User cre'|trans}}
 					</th>
-					<th data-column-id="user_maj.user_full_name" data-width="10" data-visible="false">
+					<th
+						data-column-id="user_maj.user_full_name"
+						data-width="10"
+						data-visible="false">
 						{{'list.User maj'|trans}}
 					</th>
 					<th

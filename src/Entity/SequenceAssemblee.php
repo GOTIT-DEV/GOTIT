@@ -155,6 +155,7 @@ class SequenceAssemblee {
     $this->motuAssignations = new ArrayCollection();
   }
 
+
   /**
    * Get id
    *
