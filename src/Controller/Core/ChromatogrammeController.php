@@ -9,10 +9,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\EntityController;
+use App\Entity\Adn;
 use App\Entity\EstAligneEtTraite;
+use App\Entity\Individu;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Pcr;
 use App\Entity\SequenceAssemblee;
+use App\Entity\Voc;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -68,53 +71,88 @@ class ChromatogrammeController extends EntityController {
     $query_total = clone $qb;
     $total = $query_total->select('count(chromato.id)')->getQuery()->getSingleScalarResult();
 
-    /** @var Chromatogramme[] */
+    // $qb = $qb
+    //   ->select("chromato, chrom_quality.code as quality,
+    //   pcr.codePcr, pcr.numPcr, pcr_gene.code as gene,
+    //   dna.codeAdn, specimen.codeIndBiomol,
+    //   last_seq.codeSqcAlignement,
+    //   last_seq.codeSqcAss,
+    //   last_seq.dateCreationSqcAss")
+    //   // seq_status.code as last_seq_status,
+    //   ->join(Voc::class, "chrom_quality", "WITH", "chrom_quality = chromato.qualiteChromatoVocFk")
+    //   ->join(Pcr::class, "pcr")
+    //   ->join(Voc::class, "pcr_gene", "WITH", "pcr_gene = pcr.geneVocFk")
+    //   ->join(Adn::class, "dna", "WITH", "dna = pcr.adnFk")
+    //   ->join(Individu::class, "specimen", "WITH", "specimen = dna.individuFk")
+    //   ->leftJoin(EstAligneEtTraite::class, "assembly", "WITH", "assembly.chromatogrammeFk = chromato")
+    //   ->join(
+    //     SequenceAssemblee::class,
+    //     "last_seq",
+    //     "WITH",
+    //     "assembly.sequenceAssembleeFk = last_seq.id and last_seq.dateCreationSqcAss = (
+    //       SELECT MAX(all_seq.dateCreationSqcAss) FROM \App\Entity\SequenceAssemblee all_seq
+    //       WHERE all_seq.id = assembly.sequenceAssembleeFk
+    //     )"
+    //   );
+    // ->join(Voc::class, "seq_status", "WITH", "seq_status.id = last_seq.statutSqcAssVocFk");
+
     $entities_toshow = $qb
+      ->select("chromato as chrom, chrom_quality.code as quality,
+      pcr.codePcr, pcr.numPcr, pcr_gene.code as gene,
+      dna.codeAdn, specimen.codeIndBiomol,
+      seq_status.code as last_seq_status,
+      last_seq.codeSqcAlignement,
+      last_seq.codeSqcAss,
+      last_seq.dateCreationSqcAss")
+      ->join(Voc::class, "chrom_quality", "WITH", "chrom_quality = chromato.qualiteChromatoVocFk")
+      ->join(Pcr::class, "pcr", "WITH", "pcr = chromato.pcrFk")
+      ->join(Voc::class, "pcr_gene", "WITH", "pcr_gene = pcr.geneVocFk")
+      ->join(Adn::class, "dna", "WITH", "dna = pcr.adnFk")
+      ->join(Individu::class, "specimen", "WITH", "specimen = dna.individuFk")
+      ->leftJoin(EstAligneEtTraite::class, "assemb", "WITH", "assemb.chromatogrammeFk = chromato")
+      ->join(
+        SequenceAssemblee::class,
+        "last_seq",
+        "WITH",
+        "assemb.sequenceAssembleeFk = last_seq.id and last_seq.dateCreationSqcAss = (
+          SELECT MAX(all_seq.dateCreationSqcAss) FROM \App\Entity\SequenceAssemblee all_seq
+          WHERE all_seq.id = assemb.sequenceAssembleeFk
+        )"
+      )
+      ->join(Voc::class, "seq_status", "WITH", "seq_status.id = last_seq.statutSqcAssVocFk")
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->setFirstResult($minRecord)
       ->setMaxResults($maxRecord)
       ->getQuery()
       ->getResult();
 
-    foreach ($entities_toshow as $key => $entity) {
-      $pcr = $entity->getPcrFk();
-      $dna = $pcr->getAdnFk();
-      $specimen = $dna->getIndividuFk();
-      /** @var SequenceAssemblee|null */
-      $latest_seq = $entity->getAssemblages()
-        ->map(function (EstAligneEtTraite $assemblage) {
-          return $assemblage->getSequenceAssembleeFk();
-        })
-        ->reduce(function ($acc, SequenceAssemblee $s) {
-          $latest = $acc === null ? 0 : $acc;
-          return $s->getId() > $latest ? $s : $acc;
-        });
 
+
+    foreach ($entities_toshow as $key => $row) {
+      $entity = $row["chrom"];
       $linkSqcAss = count($entity->getAssemblages()) > 0
         ? strval($entity->getId()) : '';
       $tab_toshow[] = array(
         "id" => $entity->getId(),
         "chromato.id" => $entity->getId(),
-        "sp.specimen_molecular_code" => $specimen->getCodeIndBiomol(),
-        "dna.dna_code" => $dna->getCodeAdn(),
-        "chromato.chromatogram_code" => $entity->getCodeChromato(),
-        "code_voc_gene" => $pcr->getGeneVocFk()->getCode(),
-        "pcr.pcr_code" => $pcr->getCodePcr(),
-        "pcr.pcr_number" => $pcr->getNumPcr(),
-        "code_voc_chromato_quality" => $entity->getQualiteChromatoVocFk()->getCode(),
-        "chromato.date_of_creation" => $entity->getDateCre()?->format('Y-m-d H:i:s'),
-        "chromato.date_of_update" => $entity->getDateMaj()?->format('Y-m-d H:i:s'),
+        "specimen.codeIndBiomol" => $row["codeIndBiomol"],
+        "dna.codeAdn" => $row["codeAdn"],
+        "chromato.codeChromato" => $entity->getCodeChromato(),
+        "gene" => $row["gene"],
+        "pcr.codePcr" => $row["codePcr"],
+        "pcr.numPcr" => $row["numPcr"],
+        "quality" => $row["quality"],
+        "chromato.dateCre" => $entity->getDateCre()?->format('Y-m-d H:i:s'),
+        "chromato.dateMaj" => $entity->getDateMaj()?->format('Y-m-d H:i:s'),
         "creation_user_name" => $entity->getUserCre(),
         "user_cre.user_full_name" =>
         $service->GetUserCreUserfullname($entity),
         "user_maj.user_full_name" =>
         $service->GetUserMajUserfullname($entity),
-        "last_internal_sequence_code" =>
-        $latest_seq?->getCodeSqcAss(),
-        "last_internal_sequence_status_voc" => $latest_seq?->getStatutSqcAssVocFk()->getCode(),
-        "last_internal_sequence_alignment_code" =>
-        $latest_seq?->getCodeSqcAlignement(),
-        "last_internal_sequence_creation_date" => $latest_seq?->getDateCreationSqcAss()?->format('Y-m-d'),
+        "last_seq.codeSqcAss" => $row["codeSqcAss"],
+        "last_seq_status" => $row["last_seq_status"],
+        "last_seq.codeSqcAlignement" => $row["codeSqcAlignement"],
+        "last_seq.dateCreationSqcAss" => $row["dateCreationSqcAss"]?->format('Y-m-d'),
         "linkSequenceassemblee" => $linkSqcAss,
       );
     }
