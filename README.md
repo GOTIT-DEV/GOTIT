@@ -1,4 +1,4 @@
-# GOTIT : Gene, Occurence & Taxa in Integrative Taxonomy - GOTIT 3.0 -Symf5.4LTS / PHP8
+# GOTIT : Gene, Occurence & Taxa in Integrative Taxonomy - GOTIT 3.0@220923 -Symf5.4LTS / PHP8
 
 A postgreSQL database and web interface for optimizing the input, management, and sharing of species occurrence data, metadata and vouchers produced on a day-by-day basis by biodiversity laboratories involved in the delimitation, inventory and distribution of species.
 
