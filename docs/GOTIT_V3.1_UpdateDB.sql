@@ -26,3 +26,11 @@ ALTER TABLE public.ibm_sb
       REFERENCES storage_box
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
+
+-- INSERT EXISTING VALUES IN ibm_sb
+INSERT INTO ibm_sb (internal_biological_material_fk, storage_box_fk)
+select id, storage_box_fk from internal_biological_material where storage_box_fk IS NOT NULL;
+
+-- DELETE field storage_box_fk from internal_biological_material table
+UPDATE internal_biological_material SET storage_box_fk = NULL;
+ALTER TABLE internal_biological_material  DROP COLUMN storage_box_fk;

@@ -529,7 +529,7 @@ Yeux voc fk: Vision
 # titles of collections or N-N type relational tables
 Source a ete integre pars: Est integrée par
 Adns: ADN
-Lot materiels: Lot matériel
+Lots materiels: Lot(s) matériel
 Individu lames: Lames
 Motu est genere pars: Est générée par
 Auto generated code: Code auto-généré
@@ -554,6 +554,7 @@ A pour fixateurs: Fixateur
 Est finance pars: Programme
 Est effectue pars: Est realisé par
 A ciblers: Taxa ciblés par collecte
+Boites: Boite(s)
 
 # USER BUNDLE  #################################################################
 # table User_db

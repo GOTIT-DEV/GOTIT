@@ -135,7 +135,7 @@ class LotMaterielType extends ActionFormType {
       ->add('boites', EntityType::class, [
             'class'        => 'App\\Entity\\Boite',
             'choice_label' => 'codeBoite',
-            'label'        => 'codeBoite label',
+            'label'        => 'Boites',
             'expanded'     => false,
             'multiple'     => true,
             'required' => false,
