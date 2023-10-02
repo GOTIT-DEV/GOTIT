@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 //
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IndividuType extends ActionFormType {
   /**
@@ -100,23 +101,19 @@ class IndividuType extends ActionFormType {
       } 
 
     $builder
-      ->add('commentaireInd');
-    /*
-      ->add('especeIdentifiees', CollectionType::class, array(
-        'entry_type' => EspeceIdentifieeEmbedType::class,
-        'allow_add' => true,
-        'allow_delete' => true,
-        'prototype' => true,
-        'prototype_name' => '__name__',
-        'by_reference' => false,
-        'entry_options' => array(
-          'label' => false,
-          'refTaxonLabel' => $options['refTaxonLabel'],
-        ),
-      ))
-     */
+      ->add('stock', ChoiceType::class, array(
+        'choices' => array('NO' => 0, 'YES' => 1),
+        'required' => true,
+        'choice_translation_domain' => true,
+        'multiple' => false,
+        'expanded' => true,
+        'label_attr' => array('class' => 'radio-inline'),
+      ));
       
-      $builder      
+    $builder            
+      ->add('commentaireInd');
+      
+    $builder      
       ->addEventSubscriber($this->addUserDate);
   }
 

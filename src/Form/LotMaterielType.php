@@ -131,21 +131,16 @@ class LotMaterielType extends ActionFormType {
       ))
       ->add('commentaireConseilSqc')
       ->add('commentaireLotMateriel')
-      ->add('boiteFk', EntityType::class, array(
-        'class' => 'App:Boite',
-        'query_builder' => function (EntityRepository $er) {
-          return $er->createQueryBuilder('boite')
-            ->leftJoin('App:Voc', 'voc', 'WITH', 'boite.typeBoiteVocFk = voc.id')
-            ->where('voc.code LIKE :codetype')
-            ->setParameter('codetype', 'LOT')
-            ->orderBy('LOWER(boite.codeBoite)', 'ASC');
-        },
-        'placeholder' => 'Choose a Box',
-        'choice_label' => 'codeBoite',
-        'multiple' => false,
-        'expanded' => false,
-        'required' => false,
-      ))
+                
+      ->add('boites', EntityType::class, [
+            'class'        => 'App\\Entity\\Boite',
+            'choice_label' => 'codeBoite',
+            'label'        => 'codeBoite label',
+            'expanded'     => false,
+            'multiple'     => true,
+            'required' => false,
+        ])   
+               
       ->add('compositionLotMateriels', CollectionType::class, array(
         'entry_type' => CompositionLotMaterielEmbedType::class,
         'allow_add' => true,

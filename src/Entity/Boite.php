@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -109,11 +110,15 @@ class Boite {
    */
   private $typeBoiteVocFk;
 
+  
   /**
-   * @ORM\OneToMany(targetEntity="LotMateriel", mappedBy="boiteFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
-   */
-  protected $lotMateriels;
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="LotMateriel", mappedBy="boites", cascade={"persist"})
+     * 
+     */
+    private $lotsMateriels = array();
+
 
   /**
    * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
@@ -128,9 +133,9 @@ class Boite {
   protected $individuLames;
 
   public function __construct() {
-    $this->lotMateriels = new ArrayCollection();
     $this->adns = new ArrayCollection();
     $this->individuLames = new ArrayCollection();
+    $this->lotsMateriels = new ArrayCollection();
   }
 
   /**
@@ -363,38 +368,6 @@ class Boite {
   }
 
   /**
-   * Add lotMateriel
-   *
-   * @param \App\Entity\LotMateriel $lotMateriel
-   *
-   * @return Boite
-   */
-  public function addLotMateriel(\App\Entity\LotMateriel $lotMateriel) {
-    $lotMateriel->setBoiteFk($this);
-    $this->lotMateriels[] = $lotMateriel;
-
-    return $this;
-  }
-
-  /**
-   * Remove lotMateriel
-   *
-   * @param \App\Entity\LotMateriel $lotMateriel
-   */
-  public function removeLotMateriel(\App\Entity\LotMateriel $lotMateriel) {
-    $this->lotMateriels->removeElement($lotMateriel);
-  }
-
-  /**
-   * Get lotMateriels
-   *
-   * @return \Doctrine\Common\Collections\Collection
-   */
-  public function getLotMateriels() {
-    return $this->lotMateriels;
-  }
-
-  /**
    * Add adn
    *
    * @param \App\Entity\Adn $adn
@@ -456,5 +429,32 @@ class Boite {
    */
   public function getIndividuLames() {
     return $this->individuLames;
+  }
+
+  /**
+   * @return Collection<int, LotMateriel>
+   */
+  public function getLotsMateriels(): Collection
+  {
+      return $this->lotsMateriels;
+  }
+
+  public function addLotsMateriel(LotMateriel $lotsMateriel): self
+  {
+      if (!$this->lotsMateriels->contains($lotsMateriel)) {
+          $this->lotsMateriels[] = $lotsMateriel;
+          $lotsMateriel->addBoite($this);
+      }
+
+      return $this;
+  }
+
+  public function removeLotsMateriel(LotMateriel $lotsMateriel): self
+  {
+      if ($this->lotsMateriels->removeElement($lotsMateriel)) {
+          $lotsMateriel->removeBoite($this);
+      }
+
+      return $this;
   }
 }

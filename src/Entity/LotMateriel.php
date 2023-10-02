@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -135,15 +136,22 @@ class LotMateriel {
    */
   private $collecteFk;
 
-  /**
-   * @var \Boite
-   *
-   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="lotMateriels")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * })
-   */
-  private $boiteFk;
+  
+   /**
+     *
+     * @ORM\ManyToMany(targetEntity="Boite", inversedBy="lotsMateriels", cascade={"persist"})
+     * @ORM\JoinTable(name="ibm_sb",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $boites= array();
+
+  
 
   /**
    * @ORM\OneToMany(targetEntity="LotMaterielEstRealisePar", mappedBy="lotMaterielFk", cascade={"persist"})
@@ -174,6 +182,7 @@ class LotMateriel {
     $this->lotEstPublieDanss = new ArrayCollection();
     $this->especeIdentifiees = new ArrayCollection();
     $this->compositionLotMateriels = new ArrayCollection();
+    $this->boites = new ArrayCollection();
   }
 
   /**
@@ -450,28 +459,6 @@ class LotMateriel {
   }
 
   /**
-   * Set boiteFk
-   *
-   * @param \App\Entity\Boite $boiteFk
-   *
-   * @return LotMateriel
-   */
-  public function setBoiteFk(\App\Entity\Boite $boiteFk = null) {
-    $this->boiteFk = $boiteFk;
-
-    return $this;
-  }
-
-  /**
-   * Get boiteFk
-   *
-   * @return \App\Entity\Boite
-   */
-  public function getBoiteFk() {
-    return $this->boiteFk;
-  }
-
-  /**
    * Add lotMaterielEstRealisePar
    *
    * @param \App\Entity\LotMaterielEstRealisePar $lotMaterielEstRealisePar
@@ -642,5 +629,29 @@ class LotMateriel {
    */
   public function getAFaire() {
     return $this->aFaire;
+  }
+
+  /**
+   * @return Collection<int, Boite>
+   */
+  public function getBoites(): Collection
+  {
+      return $this->boites;
+  }
+
+  public function addBoite(Boite $boite): self
+  {
+      if (!$this->boites->contains($boite)) {
+          $this->boites[] = $boite;
+      }
+
+      return $this;
+  }
+
+  public function removeBoite(Boite $boite): self
+  {
+      $this->boites->removeElement($boite);
+
+      return $this;
   }
 }

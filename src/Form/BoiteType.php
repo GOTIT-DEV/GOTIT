@@ -46,7 +46,7 @@ class BoiteType extends ActionFormType {
     if ($boxType != null and $options["action_type"] != Action::create->value) {
       switch ($boxType->getCode()) {
       case 'LOT':
-        $builder->add('lotMateriels', CollectionType::class, array(
+        $builder->add('lotsMateriels', CollectionType::class, array(
           'entry_type' => LotMaterielEmbedType::class,
           // 'allow_add' => true,
           // 'allow_delete' => true,
