@@ -1,3 +1,6 @@
+-- UPGRADE DATABASE TO v3.0 GOTIT version
+
+
 -- ADD a foreign key pcr_fk  in identified_species table
 ALTER TABLE identified_species ADD COLUMN pcr_fk BIGINT; 
 CREATE INDEX IDX_pcr_fk ON identified_species
