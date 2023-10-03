@@ -412,6 +412,9 @@ class ImportFileCsv {
     if ($type == 'get') {
       $field_name_symfony = 'get' . $field_name_symfony;
     }
+    if ($type == 'add') {
+      $field_name_symfony = 'add' . $field_name_symfony;
+    }
 
     return $field_name_symfony;
   }
