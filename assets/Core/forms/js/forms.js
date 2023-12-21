@@ -139,6 +139,7 @@ function deleteEntryBtnCallback(event) {
 function modalFormResponseCallback($form, response) {
   // Find the target collection wrapper for the modal form
   let $wrapper = $($form.closest(".modal-container").data("target"));
+  console.log($wrapper);
   // Add the new option as an entry in the collection
   addEntryForNewRecord($wrapper, response.select_id, response.select_name);
 }
