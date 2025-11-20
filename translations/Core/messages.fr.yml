@@ -484,7 +484,7 @@ Num ind biomol: Numero moléculaire individu
 Num individu sqc ass ext: Numero moléculaire individu séquence externe assemblée
 Num motu: Numero MOTU
 Num pcr: Numero PCR
-Num yas: Numero YAS
+Num yas: Numero chromatogramme
 Ordre: Ordre
 Origine sqc ass ext voc fk: Origine séquence externe assemblée
 Parent: Parent

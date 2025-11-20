@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class LotMaterielExtType extends ActionFormType {
   /**
    * {@inheritdoc}
@@ -78,7 +79,8 @@ class LotMaterielExtType extends ActionFormType {
         'prototype_name' => '__name__',
         'by_reference' => false,
         'entry_options' => ['label' => false],
-      ])
+        'required' => false,
+      ])                        
       ->add('lotMaterielExtEstReferenceDanss', CollectionType::class, [
         'entry_type' => LotMaterielExtEstReferenceDansEmbedType::class,
         'allow_add' => true,

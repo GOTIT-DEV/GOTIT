@@ -59,7 +59,7 @@ class IndividuType extends ActionFormType {
         ])
         ->add('codeIndBiomol', EntityCodeType::class, [
           'disabled' => $hasBioMol && $this->canEditAdminOnly($options),
-          'required' => false,
+          'required' => true,
           'attr' => [
             'data-generate' => !$hasBioMol,
           ],
