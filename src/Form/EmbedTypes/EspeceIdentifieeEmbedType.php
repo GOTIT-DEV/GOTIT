@@ -46,7 +46,7 @@ class EspeceIdentifieeEmbedType extends UserDateTraceType {
         'multiple' => false,
         'expanded' => true,
         'label_attr' => array('class' => 'radio-inline'),
-        'required' => true,
+        'required' => false,
       ))
       ->add('commentaireEspId')
       ->add('estIdentifiePars', CollectionType::class, array(

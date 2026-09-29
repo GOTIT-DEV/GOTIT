@@ -4,7 +4,7 @@ twig:
   strict_variables: "%kernel.debug%"
   exception_controller: null
   globals:
-    app_name: World Asellidae Database
+    app_name: Physa Database
     navbar_menu_entries:
       # USAGE :
       # - route: nav link route name (~ for non-link menu wrappers)

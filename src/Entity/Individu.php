@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -60,6 +61,14 @@ class Individu {
    * @ORM\Column(name="specimen_molecular_number", type="string", length=255, nullable=true)
    */
   private $numIndBiomol;
+  
+  /**
+   * @var integer
+   *
+   * @ORM\Column(name="stock", type="smallint", nullable=false)
+   */
+  private $stock;
+
 
   /**
    * @var string
@@ -121,7 +130,7 @@ class Individu {
    * @ORM\OrderBy({"id" = "ASC"})
    */
   protected $especeIdentifiees;
-
+  
   public function __construct() {
     $this->especeIdentifiees = new ArrayCollection();
   }
@@ -407,5 +416,17 @@ class Individu {
    */
   public function getEspeceIdentifiees() {
     return $this->especeIdentifiees;
+  }
+
+  public function getStock(): ?int
+  {
+      return $this->stock;
+  }
+
+  public function setStock(int $stock): self
+  {
+      $this->stock = $stock;
+
+      return $this;
   }
 }

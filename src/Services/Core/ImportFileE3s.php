@@ -373,35 +373,58 @@ class ImportFileE3s {
 
       $flagBoite = 1;
       $flagBoiteAffecte = 0;
+      $listCodeBoite = [];
       if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
-          ->getQuery()
-          ->getResult();
-        $flagBoite = count($query_boite);
-      }
-      if ($flagBoiteAffecte && $flagBoite == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        
+        $listCodeBoite = explode("$", $data["code_boite"]); // We transform the contents of the field into a table
+        foreach ($listCodeBoite as $code_boite) {
+          
+            $flagBoiteAffecte = 1;
+            $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+              ->where('boite.codeBoite LIKE :code_boite')
+              ->setParameter('code_boite', $code_boite)
+              ->getQuery()
+              ->getResult();
+            if (count($query_boite) == 0) {
+                $flagBoite = 0;
+                $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $code_boite . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+            }
+        
+        }
+        
       }
 
-      if ($flagLot && $flagBoite) {
-        if ($flagBoiteAffecte) {
-          $query_lot[0]->setBoiteFk($query_boite[0]);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
-          $em->persist($query_lot[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
-        } else {
-          $query_lot[0]->setBoiteFk(null);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
-          $em->persist($query_lot[0]);
-        }
+      /*
+      if ($flagLot && $flagBoite && $flagBoiteAffecte) { // test if Box is already record for the Material
+         $listeBoites = $query_lot[0]->getBoites(); 
+         foreach ($listeBoites as $l => $boite) {
+             if ($boite == $query_boite[0]) {
+                $message .= $this->translator->trans('importfileService.ERROR box already assigned') . '<b> : ' . $data["code_lot_materiel"] . ' - '. $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";            
+             }
+         }
       }
+       * 
+       */
+      if ($flagLot && $flagBoite) {
+        $listeBoites = $query_lot[0]->getBoites(); 
+            foreach ($listeBoites as $l => $boite) { // remove all Boxes assigned to Material
+                $query_lot[0]->removeBoite($boite);
+              }
+        if ($flagBoiteAffecte) { // add Box(es) to Material 
+            foreach ($listCodeBoite as $code_boite) {  
+              $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $code_boite)
+                ->getQuery()
+                ->getResult();
+              $query_lot[0]->addBoite($query_boite[0]);            
+            }
+        } else { // remove all Boxes assigned to Material if code_boite is NULL or ''
+        }
+        $query_lot[0]->setDateMaj($DateImport);
+        $query_lot[0]->setUserMaj($userId);
+        $em->persist($query_lot[0]);
+      }      
     }
 
     if ($message == '') {
@@ -452,34 +475,43 @@ class ImportFileE3s {
 
       $flagBoite = 1;
       $flagBoiteAffecte = 0;
-      if ($data["code_boite"] != null || $data["code_boite"] != '') {
-        $flagBoiteAffecte = 1;
-        $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
-          ->where('boite.codeBoite LIKE :code_boite')
-          ->setParameter('code_boite', $data["code_boite"])
-          ->getQuery()
-          ->getResult();
-        $flagBoite = count($query_boite);
+      $listCodeBoite = [];
+      if ($data["code_boite"] != null || $data["code_boite"] != '') {        
+        $listCodeBoite = explode("$", $data["code_boite"]); // We transform the contents of the field into a table
+        foreach ($listCodeBoite as $code_boite) {          
+            $flagBoiteAffecte = 1;
+            $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+              ->where('boite.codeBoite LIKE :code_boite')
+              ->setParameter('code_boite', $code_boite)
+              ->getQuery()
+              ->getResult();
+            if (count($query_boite) == 0) {
+                $flagBoite = 0;
+                $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $code_boite . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+            }        
+        }        
       }
+      
       if ($flagBoiteAffecte == 0) {
         $message .= $this->translator->trans("importfileService.ERROR no box code for material") . '<b> : ' . $data["code_lot_materiel"] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
       }
 
-      if ($flagBoiteAffecte && $flagBoite == 0) {
-        $message .= $this->translator->trans('importfileService.ERROR bad code') . '<b> : ' . $data["code_boite"] . '</b> <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
-      }
-
+      
       if ($flagLot && $flagBoite && $flagBoiteAffecte) {
-        if ($query_lot[0]->getBoiteFk() != null) {
-          $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code_lot_materiel"] . '</b> / ' . $query_lot[0]->getBoiteFk()->getCodeBoite() . ' <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        if (count($query_lot[0]->getBoites()) != 0) {
+            $message .= $this->translator->trans('importfileService.ERROR lot already store') . '<b> : ' . $data["code_lot_materiel"] . '</b>  <br>ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
         } else {
-          $query_lot[0]->setBoiteFk($query_boite[0]);
-          $query_lot[0]->setDateMaj($DateImport);
-          $query_lot[0]->setUserMaj($userId);
-          $em->persist($query_lot[0]);
-          $query_boite[0]->setDateMaj($DateImport);
-          $query_boite[0]->setUserMaj($userId);
-          $em->persist($query_boite[0]);
+            foreach ($listCodeBoite as $code_boite) {  
+              $query_boite = $em->getRepository("App:Boite")->createQueryBuilder('boite')
+                ->where('boite.codeBoite LIKE :code_boite')
+                ->setParameter('code_boite', $code_boite)
+                ->getQuery()
+                ->getResult();
+              $query_lot[0]->addBoite($query_boite[0]);            
+            }
+            $query_lot[0]->setDateMaj($DateImport);
+            $query_lot[0]->setUserMaj($userId);
+            $em->persist($query_lot[0]);
         }
       }
     }
@@ -2354,6 +2386,21 @@ class ImportFileE3s {
               $message .= $this->translator->trans('importfileService.ERROR duplicate code') . '<b> : ' . $data[$ColCsv] . "</b> <br>ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
             }
           }
+          if ($ColCsv == 'individu.stock') {
+            if ($dataColCsv != '') {
+              if ($dataColCsv == 'OUI' || $dataColCsv == 'YES' || $dataColCsv == '1') {
+                $dataColCsv = 1;
+              }
+              if ($dataColCsv == 'NON' || $dataColCsv == 'NO' || $dataColCsv == '0') {
+                $dataColCsv = 0;
+              }
+              if ($dataColCsv !== 1 && $dataColCsv !== 0) {
+                $message .= $this->translator->trans('importfileService.ERROR bad data OUI-NON') . '<b> : ' . $ColCsv . "/ " . $data[$ColCsv] . "</b>  <br> ligne " . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              }
+            } else {
+              $dataColCsv = 1; //  default value  = 1 when inserting a new specimen in the database
+            }
+          }
           // save the values ​​of the field
           $method = $importFileCsvService->TransformNameForSymfony($varfield, 'set');
           $entity->$method($dataColCsv);
@@ -2790,6 +2837,50 @@ class ImportFileE3s {
       $entity->setUserMaj($userId);
       $em->persist($entity);
 
+      # Record of N-N LotMateriel<->Boite record(s)
+      foreach ($columnByTable["lot_materiel_est_stocke_dans"] as $ColCsv) {
+        $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
+        if ($dataColCsv !== $data[$ColCsv]) {
+          $message .= $this->translator->trans('importfileService.ERROR bad character') . '<b> : ' . $data[$ColCsv] . '</b> <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+        }
+        $field = $importFileCsvService->TransformNameForSymfony($ColCsv, 'field');
+        $flag_foreign = preg_match('(\((.*?)\))', $ColCsv, $foreign_content); // flag to know if 1) it is a foreign key
+        $varfield = explode(".", strstr($field, '(', true))[1]; // boites
+        $linker = explode('.', trim($foreign_content[0], "()"));
+        $foreign_table = $importFileCsvService->TransformNameForSymfony($linker[0], 'table'); // Boite
+        $foreign_field = $importFileCsvService->TransformNameForSymfony($linker[1], 'field'); // codeBoite
+        $tab_foreign_field = explode("$", $dataColCsv); // We transform the contents of the field into a table
+        if ($flag_foreign && trim($dataColCsv) != '') {
+          foreach ($tab_foreign_field as $val_foreign_field) {
+            $val_foreign_field = trim($val_foreign_field);           
+            //  test if it is a foreign key of the Voc table of the form: parentVocFk or parentVocAliasFk
+            $varfield_parent = strstr($varfield, 'Voc', true);
+            if (!$varfield_parent) {
+              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field));
+            } else {
+              $foreign_record = $em->getRepository("App:" . $foreign_table)->findOneBy(array($foreign_field => $val_foreign_field, "parent" => $varfield_parent));
+            }
+            if ($foreign_record === NULL) {
+              switch ($foreign_table) {
+              case "Voc":
+                if ($data[$ColCsv] == '') {
+                  $foreign_record = NULL;
+                } else {
+                  $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . "." . $varfield_parent . " <b>[" . $data[$ColCsv] . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+                }
+                break;
+              default:
+                $message .= $this->translator->trans('importfileService.ERROR unknown record') . ' : ' . $foreign_table . "." . $foreign_field . " <b>[" . $val_foreign_field . ']</b>  <br> ligne ' . (string) ($l + 2) . ": " . join(';', $data) . "<br>";
+              }
+            } else {
+              $method = $importFileCsvService->TransformNameForSymfony($foreign_table, 'add');
+              $entity->$method($foreign_record);
+            }
+            $em->persist($entity);
+          }
+        }
+      }
+      
       # Record of LotMaterielEstRealisePar
       foreach ($columnByTable["lot_materiel_est_realise_par"] as $ColCsv) {
         $dataColCsv = $importFileCsvService->suppCharSpeciaux($data[$ColCsv], 'tnrOx');
