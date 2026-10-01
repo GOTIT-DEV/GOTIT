@@ -20,6 +20,8 @@ yarn-error.log
 .idea
 
 TESTIMPORT_V2/
-/nbproject/private/
+/nbproject/
+/composer_7-3.phar
+/config/packages/monolog.yaml
 /public/.htaccess_demo
 /public/.htaccess.bup
