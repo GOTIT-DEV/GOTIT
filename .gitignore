@@ -23,5 +23,6 @@ TESTIMPORT_V2/
 /nbproject/
 /composer_7-3.phar
 /config/packages/monolog.yaml
+/session-*.md
 /public/.htaccess_demo
 /public/.htaccess.bup
