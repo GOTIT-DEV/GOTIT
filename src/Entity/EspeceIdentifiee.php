@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      @ORM\Index(name="IDX_49D19C8D54DBBD4D", columns={"internal_biological_material_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D7B09E3BC", columns={"taxon_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D5F2C6176", columns={"specimen_fk"}),
- *      @ORM\Index(name="IDX_pcr_fk ", columns={"pcr_fk"}),
+ *      @ORM\Index(name="IDX_pcr_fk", columns={"pcr_fk"}),
  *      @ORM\Index(name="IDX_49D19C8D5BE90E48", columns={"internal_sequence_fk"})})
  * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
