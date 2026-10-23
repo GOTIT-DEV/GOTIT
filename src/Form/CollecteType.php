@@ -29,7 +29,7 @@ class CollecteType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $sampling = $builder->getData();
     $builder
       ->add('stationFk', SearchableSelectType::class, [
@@ -146,7 +146,7 @@ class CollecteType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults([
       'data_class' => 'App\Entity\Collecte',

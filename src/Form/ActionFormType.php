@@ -51,7 +51,7 @@ class ActionFormType extends UserDateTraceType {
     }
   }
 
-  public function buildView(FormView $view, FormInterface $form, array $options) {
+  public function buildView(FormView $view, FormInterface $form, array $options): void {
     parent::buildView($view, $form, $options);
 
     // Expose action_type in form templates
@@ -65,7 +65,7 @@ class ActionFormType extends UserDateTraceType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setRequired([
       'action_type',

@@ -14,7 +14,7 @@ class SourceType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $builder
       ->add('codeSource', EntityCodeType::class, [
         'disabled' => $this->canEditAdminOnly($options),
@@ -46,7 +46,7 @@ class SourceType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\Source',

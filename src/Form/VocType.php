@@ -13,11 +13,11 @@ class VocType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
 
     $qb = $this->er->createQueryBuilder();
     $query = $qb->select('voc.parent')
-      ->from('App:Voc', 'voc')
+      ->from(\App\Entity\Voc::class, 'voc')
       ->groupBy('voc.parent')
       ->orderBy('voc.parent')
       ->getQuery();
@@ -54,7 +54,7 @@ class VocType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\Voc',

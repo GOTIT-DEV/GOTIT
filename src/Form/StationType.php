@@ -24,7 +24,7 @@ class StationType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $user = $this->security->getUser();
     $station = $builder->getData();
     $builder
@@ -144,7 +144,7 @@ class StationType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\Station',

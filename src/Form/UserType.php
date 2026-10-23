@@ -15,7 +15,7 @@ class UserType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
 
     $isAdminForm = $builder->getData()->getRole() == "ROLE_ADMIN";
 
@@ -52,7 +52,7 @@ class UserType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\User',

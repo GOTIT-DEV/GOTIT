@@ -10,7 +10,7 @@ use App\Entity\Voc;
 
 class SequenceStatusType extends AbstractType {
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'class' => Voc::class,
       'query_builder' => function (EntityRepository $er) {

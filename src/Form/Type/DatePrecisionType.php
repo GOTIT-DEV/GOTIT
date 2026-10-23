@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 class DatePrecisionType extends AbstractType {
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'class' => 'App\Entity\Voc',
       'query_builder' => function (EntityRepository $er) {

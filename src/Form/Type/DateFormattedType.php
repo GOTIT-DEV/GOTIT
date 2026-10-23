@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 
 class DateFormattedType extends AbstractType {
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'widget' => 'single_text',
       'format' => 'dd-MM-yyyy',

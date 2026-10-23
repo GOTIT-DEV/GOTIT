@@ -10,7 +10,7 @@ use App\Entity\ReferentielTaxon;
 
 class TaxnameType extends AbstractType {
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'class' => ReferentielTaxon::class,
       'query_builder' => function (EntityRepository $er) {

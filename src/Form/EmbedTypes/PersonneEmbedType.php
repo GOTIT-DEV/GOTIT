@@ -10,7 +10,7 @@ use App\Entity\Personne;
 
 class PersonneEmbedType extends AbstractType {
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'class' => Personne::class,
       'query_builder' => function (EntityRepository $er) {

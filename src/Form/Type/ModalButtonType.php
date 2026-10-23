@@ -10,14 +10,14 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class ModalButtonType extends ButtonType {
 
-  public function buildView(FormView $view, FormInterface $form, array $options) {
+  public function buildView(FormView $view, FormInterface $form, array $options): void {
     parent::buildView($view, $form, $options);
 
     // Expose action_type in form templates
     $view->vars['icon_class'] = $options['icon_class'];
   }
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setNormalizer('attr', function (Options $options, $value) {
       return array_merge($value, [
         'data-toggle' => "modal",

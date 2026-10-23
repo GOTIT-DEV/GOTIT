@@ -17,7 +17,7 @@ class UserDateTraceType extends AbstractType {
     $this->addUserDate = $addUserDate;
   }
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->addNormalizer(
       'allow_extra_fields',
       function (Options $options, $value) {

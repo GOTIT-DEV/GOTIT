@@ -23,7 +23,7 @@ class SequenceAssembleeExtType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $sampling = $builder->getData()->getCollecteFk();
     $builder
       ->add('collecteFk', SearchableSelectType::class, [
@@ -110,7 +110,7 @@ class SequenceAssembleeExtType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\SequenceAssembleeExt',

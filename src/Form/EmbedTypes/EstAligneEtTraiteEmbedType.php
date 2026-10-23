@@ -13,15 +13,15 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $builder->add('chromatogrammeFk', EntityType::class, [
       'class' => Chromatogramme::class,
       'query_builder' => function (EntityRepository $er) use ($options) {
         $qb = $er->createQueryBuilder('chromatogramme');
-        return $qb->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-          ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-          ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-          ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+        return $qb->leftJoin(\App\Entity\Pcr::class, 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+          ->leftJoin(\App\Entity\Adn::class, 'adn', 'WITH', 'pcr.adnFk = adn.id')
+          ->leftJoin(\App\Entity\Individu::class, 'individu', 'WITH', 'adn.individuFk = individu.id')
+          ->leftJoin(\App\Entity\Voc::class, 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
           ->where('pcr.geneVocFk = :geneVocFk')
           ->andwhere('individu.id = :individuFk')
           ->setParameters([
@@ -41,7 +41,7 @@ class EstAligneEtTraiteEmbedType extends AbstractType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults(array(
       'data_class' => 'App\Entity\EstAligneEtTraite',
       'geneVocFk' => null,

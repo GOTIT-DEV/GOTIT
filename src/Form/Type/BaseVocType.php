@@ -22,7 +22,7 @@ class BaseVocType extends AbstractType {
     $this->entityManager = $em;
   }
 
-  public function finishView(FormView $view, FormInterface $form, array $options) {
+  public function finishView(FormView $view, FormInterface $form, array $options): void {
     // Order translated labels
     $collator = new \Collator($this->translator->getLocale());
     usort(
@@ -36,7 +36,7 @@ class BaseVocType extends AbstractType {
     );
   }
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     $resolver->setDefaults([
       'class' => Voc::class,
       'choice_label' => 'libelle',

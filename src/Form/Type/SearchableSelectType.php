@@ -17,7 +17,7 @@ class SearchableSelectType extends AbstractType {
     $this->entityManager = $em;
   }
 
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
 
     $resolver->setRequired(["choice_label", "class"]);
 

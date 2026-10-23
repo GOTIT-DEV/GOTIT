@@ -17,7 +17,7 @@ class GeneSpecimenType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
+  public function buildForm(FormBuilderInterface $builder, array $options): void {
     $form_data = $builder->getData();
     $gene = $form_data['geneVocFk'];
     $specimen = $form_data['individuFk'];
@@ -58,7 +58,7 @@ class GeneSpecimenType extends ActionFormType {
   /**
    * {@inheritdoc}
    */
-  public function configureOptions(OptionsResolver $resolver) {
+  public function configureOptions(OptionsResolver $resolver): void {
     parent::configureOptions($resolver);
   }
 
