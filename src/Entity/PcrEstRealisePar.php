@@ -7,70 +7,58 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PcrEstRealisePar
  *
- * @ORM\Table(name="pcr_is_done_by",
- *  indexes={
- *      @ORM\Index(name="IDX_1041853B2B63D494", columns={"pcr_fk"}),
- *      @ORM\Index(name="IDX_1041853BB53CD04C", columns={"person_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'pcr_is_done_by')]
+#[ORM\Index(name: 'IDX_1041853B2B63D494', columns: ['pcr_fk'])]
+#[ORM\Index(name: 'IDX_1041853BB53CD04C', columns: ['person_fk'])]
 class PcrEstRealisePar {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="pcr_is_done_by_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'pcr_is_done_by_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Pcr
-   *
-   * @ORM\ManyToOne(targetEntity="Pcr", inversedBy="pcrEstRealisePars")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Pcr::class, inversedBy: 'pcrEstRealisePars')]
+  #[ORM\JoinColumn(name: 'pcr_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
   private $pcrFk;
 
   /**
    * @var \Personne
-   *
-   * @ORM\ManyToOne(targetEntity="Personne")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Personne::class)]
+  #[ORM\JoinColumn(name: 'person_fk', referencedColumnName: 'id', nullable: false)]
   private $personneFk;
 
   /**

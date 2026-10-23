@@ -8,154 +8,126 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Station
  *
- * @ORM\Table(name="site",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_site__site_code", columns={"site_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_9F39F8B143D4E2C", columns={"municipality_fk"}),
- *      @ORM\Index(name="IDX_9F39F8B1B1C3431A", columns={"country_fk"}),
- *      @ORM\Index(name="IDX_9F39F8B14D50D031", columns={"access_point_voc_fk"}),
- *      @ORM\Index(name="IDX_9F39F8B1C23046AE", columns={"habitat_type_voc_fk"}),
- *      @ORM\Index(name="IDX_9F39F8B1E86DBD90", columns={"coordinate_precision_voc_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeStation"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeStation'], message: 'This code is already registered')]
+#[ORM\Table(name: 'site')]
+#[ORM\Index(name: 'IDX_9F39F8B143D4E2C', columns: ['municipality_fk'])]
+#[ORM\Index(name: 'IDX_9F39F8B1B1C3431A', columns: ['country_fk'])]
+#[ORM\Index(name: 'IDX_9F39F8B14D50D031', columns: ['access_point_voc_fk'])]
+#[ORM\Index(name: 'IDX_9F39F8B1C23046AE', columns: ['habitat_type_voc_fk'])]
+#[ORM\Index(name: 'IDX_9F39F8B1E86DBD90', columns: ['coordinate_precision_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_site__site_code', columns: ['site_code'])]
 class Station {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="site_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'site_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="site_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'site_code', type: 'string', length: 255, nullable: false)]
   private $codeStation;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="site_name", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'site_name', type: 'string', length: 1024, nullable: false)]
   private $nomStation;
 
   /**
    * @var float
-   *
-   * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=false)
    */
+  #[ORM\Column(name: 'latitude', type: 'float', precision: 10, scale: 0, nullable: false)]
   private $latDegDec;
 
   /**
    * @var float
-   *
-   * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=false)
    */
+  #[ORM\Column(name: 'longitude', type: 'float', precision: 10, scale: 0, nullable: false)]
   private $longDegDec;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="elevation", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'elevation', type: 'bigint', nullable: true)]
   private $altitudeM;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="site_description", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'site_description', type: 'text', nullable: true)]
   private $infoDescription;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="site_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'site_comments', type: 'text', nullable: true)]
   private $commentaireStation;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Commune
-   *
-   * @ORM\ManyToOne(targetEntity="Commune")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="municipality_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Commune::class)]
+  #[ORM\JoinColumn(name: 'municipality_fk', referencedColumnName: 'id', nullable: false)]
   private $communeFk;
 
   /**
    * @var \Pays
-   *
-   * @ORM\ManyToOne(targetEntity="Pays")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Pays::class)]
+  #[ORM\JoinColumn(name: 'country_fk', referencedColumnName: 'id', nullable: false)]
   private $paysFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="access_point_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'access_point_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $pointAccesVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="habitat_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'habitat_type_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $habitatTypeVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="coordinate_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'coordinate_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $precisionLatLongVocFk;
 
   private $accessingUser;

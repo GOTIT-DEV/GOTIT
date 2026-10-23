@@ -9,122 +9,98 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Boite
  *
- * @ORM\Table(name="storage_box",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_storage_box__box_code", columns={"box_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_7718EDEF9E7B0E1F", columns={"collection_type_voc_fk"}),
- *      @ORM\Index(name="IDX_7718EDEF41A72D48", columns={"collection_code_voc_fk"}),
- *      @ORM\Index(name="IDX_7718EDEF57552D30", columns={"box_type_voc_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeBoite"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeBoite'], message: 'This code is already registered')]
+#[ORM\Table(name: 'storage_box')]
+#[ORM\Index(name: 'IDX_7718EDEF9E7B0E1F', columns: ['collection_type_voc_fk'])]
+#[ORM\Index(name: 'IDX_7718EDEF41A72D48', columns: ['collection_code_voc_fk'])]
+#[ORM\Index(name: 'IDX_7718EDEF57552D30', columns: ['box_type_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_storage_box__box_code', columns: ['box_code'])]
 class Boite {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="storage_box_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'storage_box_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="box_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'box_code', type: 'string', length: 255, nullable: false)]
   private $codeBoite;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="box_title", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'box_title', type: 'string', length: 1024, nullable: false)]
   private $libelleBoite;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="box_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'box_comments', type: 'text', nullable: true)]
   private $commentaireBoite;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="collection_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'collection_type_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $typeCollectionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="collection_code_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'collection_code_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $codeCollectionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="box_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'box_type_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $typeBoiteVocFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="LotMateriel", mappedBy="boiteFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeLotMateriel" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \LotMateriel::class, mappedBy: 'boiteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['codeLotMateriel' => 'ASC'])]
   protected $lotMateriels;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Adn", mappedBy="boiteFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeAdn" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \Adn::class, mappedBy: 'boiteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['codeAdn' => 'ASC'])]
   protected $adns;
 
-  /**
-   * @ORM\OneToMany(targetEntity="IndividuLame", mappedBy="boiteFk", cascade={"persist"})
-   * @ORM\OrderBy({"codeLameColl" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \IndividuLame::class, mappedBy: 'boiteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['codeLameColl' => 'ASC'])]
   protected $individuLames;
 
   public function __construct() {

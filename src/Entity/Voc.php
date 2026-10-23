@@ -8,77 +8,68 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Voc
  *
- * @ORM\Table(name="vocabulary",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_vocabulary__parent__code", columns={"code", "parent"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"code", "parent"}, message="This code is already registered for the specified parent")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['code', 'parent'], message: 'This code is already registered for the specified parent')]
+#[ORM\Table(name: 'vocabulary')]
+#[ORM\UniqueConstraint(name: 'uk_vocabulary__parent__code', columns: ['code', 'parent'])]
 class Voc {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="vocabulary_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'vocabulary_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'code', type: 'string', length: 255, nullable: false)]
   private $code;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="vocabulary_title", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'vocabulary_title', type: 'string', length: 1024, nullable: false)]
   private $libelle;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="parent", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'parent', type: 'string', length: 255, nullable: false)]
   private $parent;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="voc_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'voc_comments', type: 'text', nullable: true)]
   private $commentaire;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**

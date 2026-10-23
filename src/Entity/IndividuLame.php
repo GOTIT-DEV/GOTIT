@@ -9,124 +9,102 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * IndividuLame
  *
- * @ORM\Table(name="specimen_slide",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_specimen_slide__collection_slide_code", columns={"collection_slide_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_8DA827E2A30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_8DA827E22B644673", columns={"storage_box_fk"}),
- *      @ORM\Index(name="IDX_8DA827E25F2C6176", columns={"specimen_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeLameColl"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeLameColl'], message: 'This code is already registered')]
+#[ORM\Table(name: 'specimen_slide')]
+#[ORM\Index(name: 'IDX_8DA827E2A30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_8DA827E22B644673', columns: ['storage_box_fk'])]
+#[ORM\Index(name: 'IDX_8DA827E25F2C6176', columns: ['specimen_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_specimen_slide__collection_slide_code', columns: ['collection_slide_code'])]
 class IndividuLame {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="specimen_slide_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'specimen_slide_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="collection_slide_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'collection_slide_code', type: 'string', length: 255, nullable: false)]
   private $codeLameColl;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="slide_title", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'slide_title', type: 'string', length: 1024, nullable: false)]
   private $libelleLame;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="slide_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'slide_date', type: 'date', nullable: true)]
   private $dateLame;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="photo_folder_name", type="string", length=1024, nullable=true)
    */
+  #[ORM\Column(name: 'photo_folder_name', type: 'string', length: 1024, nullable: true)]
   private $nomDossierPhotos;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="slide_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'slide_comments', type: 'text', nullable: true)]
   private $commentaireLame;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Boite
-   *
-   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="individuLames")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Boite::class, inversedBy: 'individuLames')]
+  #[ORM\JoinColumn(name: 'storage_box_fk', referencedColumnName: 'id', nullable: true)]
   private $boiteFk;
 
   /**
    * @var \Individu
-   *
-   * @ORM\ManyToOne(targetEntity="Individu")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Individu::class)]
+  #[ORM\JoinColumn(name: 'specimen_fk', referencedColumnName: 'id', nullable: false)]
   private $individuFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="IndividuLameEstRealisePar", mappedBy="individuLameFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \IndividuLameEstRealisePar::class, mappedBy: 'individuLameFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $individuLameEstRealisePars;
 
   public function __construct() {

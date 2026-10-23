@@ -7,70 +7,58 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SqcExtEstReferenceDans
  *
- * @ORM\Table(name="external_sequence_is_published_in",
- *  indexes={
- *      @ORM\Index(name="IDX_8D0E8D6A821B1D3F", columns={"source_fk"}),
- *      @ORM\Index(name="IDX_8D0E8D6ACDD1F756", columns={"external_sequence_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'external_sequence_is_published_in')]
+#[ORM\Index(name: 'IDX_8D0E8D6A821B1D3F', columns: ['source_fk'])]
+#[ORM\Index(name: 'IDX_8D0E8D6ACDD1F756', columns: ['external_sequence_fk'])]
 class SqcExtEstReferenceDans {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="external_sequence_is_published_in_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'external_sequence_is_published_in_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Source
-   *
-   * @ORM\ManyToOne(targetEntity="Source")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="source_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Source::class)]
+  #[ORM\JoinColumn(name: 'source_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
   private $sourceFk;
 
   /**
    * @var \SequenceAssembleeExt
-   *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="sqcExtEstReferenceDanss")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \SequenceAssembleeExt::class, inversedBy: 'sqcExtEstReferenceDanss')]
+  #[ORM\JoinColumn(name: 'external_sequence_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
   private $sequenceAssembleeExtFk;
 
   /**

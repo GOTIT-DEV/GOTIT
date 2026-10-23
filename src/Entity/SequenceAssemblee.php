@@ -11,140 +11,112 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * SequenceAssemblee
  *
- * @ORM\Table(name="internal_sequence",
- * uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_code", columns={"internal_sequence_code"}),
- *      @ORM\UniqueConstraint(name="uk_internal_sequence__internal_sequence_alignment_code", columns={"internal_sequence_alignment_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_353CF669A30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_353CF66988085E0F", columns={"internal_sequence_status_voc_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeSqcAss"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeSqcAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeSqcAss'], message: 'This code is already registered')]
+#[UniqueEntity(fields: ['codeSqcAlignement'], message: 'This code is already registered')]
+#[ORM\Table(name: 'internal_sequence')]
+#[ORM\Index(name: 'IDX_353CF669A30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_353CF66988085E0F', columns: ['internal_sequence_status_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_internal_sequence__internal_sequence_code', columns: ['internal_sequence_code'])]
+#[ORM\UniqueConstraint(name: 'uk_internal_sequence__internal_sequence_alignment_code', columns: ['internal_sequence_alignment_code'])]
 class SequenceAssemblee {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="internal_sequence_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'internal_sequence_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="internal_sequence_code", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'internal_sequence_code', type: 'string', length: 1024, nullable: false)]
   private $codeSqcAss;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="internal_sequence_creation_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'internal_sequence_creation_date', type: 'date', nullable: true)]
   private $dateCreationSqcAss;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="internal_sequence_accession_number", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'internal_sequence_accession_number', type: 'string', length: 255, nullable: true)]
   private $accessionNumber;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="internal_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
+  #[ORM\Column(name: 'internal_sequence_alignment_code', type: 'string', length: 1024, nullable: true)]
   private $codeSqcAlignement;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="internal_sequence_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'internal_sequence_comments', type: 'text', nullable: true)]
   private $commentaireSqcAss;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'internal_sequence_status_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $statutSqcAssVocFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="SequenceAssembleeEstRealisePar", mappedBy="sequenceAssembleeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \SequenceAssembleeEstRealisePar::class, mappedBy: 'sequenceAssembleeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $sequenceAssembleeEstRealisePars;
 
-  /**
-   * @ORM\OneToMany(targetEntity="SqcEstPublieDans", mappedBy="sequenceAssembleeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \SqcEstPublieDans::class, mappedBy: 'sequenceAssembleeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $sqcEstPublieDanss;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EspeceIdentifiee::class, mappedBy: 'sequenceAssembleeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $especeIdentifiees;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="sequenceAssembleeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EstAligneEtTraite::class, mappedBy: 'sequenceAssembleeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $estAligneEtTraites;
 
-  /**
-   * @ORM\OneToMany(targetEntity="Assigne", mappedBy="sequenceAssembleeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \Assigne::class, mappedBy: 'sequenceAssembleeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected Collection $motuAssignations;
 
   public function __construct() {

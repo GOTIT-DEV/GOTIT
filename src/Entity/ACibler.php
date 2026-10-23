@@ -22,71 +22,59 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ACibler
  *
- * @ORM\Table(name="has_targeted_taxa", 
- *  indexes={
- *      @ORM\Index(name="IDX_C0DF0CE4662D9B98", columns={"sampling_fk"}), 
- *      @ORM\Index(name="IDX_C0DF0CE47B09E3BC", columns={"taxon_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'has_targeted_taxa')]
+#[ORM\Index(name: 'IDX_C0DF0CE4662D9B98', columns: ['sampling_fk'])]
+#[ORM\Index(name: 'IDX_C0DF0CE47B09E3BC', columns: ['taxon_fk'])]
 class ACibler
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="has_targeted_taxa_id_seq", allocationSize=1, initialValue=1)
      */
+    #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'has_targeted_taxa_id_seq', allocationSize: 1, initialValue: 1)]
     private $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
     private $dateCre;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
     private $dateMaj;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
      */
+    #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
     private $userCre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
+    #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
     private $userMaj;
 
     /**
      * @var \Collecte
-     *
-     * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="aCiblers")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
      */
+    #[ORM\ManyToOne(targetEntity: \Collecte::class, inversedBy: 'aCiblers')]
+    #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private $collecteFk;
 
     /**
      * @var \ReferentielTaxon
-     *
-     * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\ManyToOne(targetEntity: \ReferentielTaxon::class)]
+    #[ORM\JoinColumn(name: 'taxon_fk', referencedColumnName: 'id', nullable: false)]
     private $referentielTaxonFk;
 
 

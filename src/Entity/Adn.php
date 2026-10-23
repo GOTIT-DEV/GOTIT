@@ -9,140 +9,113 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Adn
  *
- * @ORM\Table(name="dna",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_dna__dna_code", columns={"dna_code"})},
- *  indexes={
- *      @ORM\Index(name="adn_code_adn", columns={"dna_code"}),
- *      @ORM\Index(name="idx_dna__date_precision_voc_fk", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="idx_dna__specimen_fk", columns={"specimen_fk"}),
- *      @ORM\Index(name="idx_dna__dna_extraction_method_voc_fk", columns={"dna_extraction_method_voc_fk"}),
- *      @ORM\Index(name="idx_dna__storage_box_fk", columns={"storage_box_fk"}),
- *      @ORM\Index(name="IDX_1DCF9AF9C53B46B", columns={"dna_quality_voc_fk"}) })
- * @ORM\Entity
- * @UniqueEntity(fields={"codeAdn"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeAdn'], message: 'This code is already registered')]
+#[ORM\Table(name: 'dna')]
+#[ORM\Index(name: 'adn_code_adn', columns: ['dna_code'])]
+#[ORM\Index(name: 'idx_dna__date_precision_voc_fk', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'idx_dna__specimen_fk', columns: ['specimen_fk'])]
+#[ORM\Index(name: 'idx_dna__dna_extraction_method_voc_fk', columns: ['dna_extraction_method_voc_fk'])]
+#[ORM\Index(name: 'idx_dna__storage_box_fk', columns: ['storage_box_fk'])]
+#[ORM\Index(name: 'IDX_1DCF9AF9C53B46B', columns: ['dna_quality_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_dna__dna_code', columns: ['dna_code'])]
 class Adn {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="dna_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'dna_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="dna_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'dna_code', type: 'string', length: 255, nullable: false)]
   private $codeAdn;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="dna_extraction_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'dna_extraction_date', type: 'date', nullable: true)]
   private $dateAdn;
 
   /**
    * @var float
-   *
-   * @ORM\Column(name="dna_concentration", type="float", precision=10, scale=0, nullable=true)
    */
+  #[ORM\Column(name: 'dna_concentration', type: 'float', precision: 10, scale: 0, nullable: true)]
   private $concentrationNgMicrolitre;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="dna_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'dna_comments', type: 'text', nullable: true)]
   private $commentaireAdn;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="dna_extraction_method_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'dna_extraction_method_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $methodeExtractionAdnVocFk;
 
   /**
    * @var \Individu
-   *
-   * @ORM\ManyToOne(targetEntity="Individu")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Individu::class)]
+  #[ORM\JoinColumn(name: 'specimen_fk', referencedColumnName: 'id', nullable: false)]
   private $individuFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="dna_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'dna_quality_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $qualiteAdnVocFk;
 
   /**
    * @var \Boite
-   *
-   * @ORM\ManyToOne(targetEntity="Boite", inversedBy="adns")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="storage_box_fk", referencedColumnName="id", nullable=true)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Boite::class, inversedBy: 'adns')]
+  #[ORM\JoinColumn(name: 'storage_box_fk', referencedColumnName: 'id', nullable: true)]
   private $boiteFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="AdnEstRealisePar", mappedBy="adnFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \AdnEstRealisePar::class, mappedBy: 'adnFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $adnEstRealisePars;
 
   public function __construct() {

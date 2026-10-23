@@ -8,88 +8,76 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Personne
  *
- * @ORM\Table(name="person",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_person__person_name", columns={"person_name"})},
- *  indexes={@ORM\Index(name="IDX_FCEC9EFE8441376", columns={"institution_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"nomPersonne"}, message="A person with this name is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['nomPersonne'], message: 'A person with this name is already registered')]
+#[ORM\Table(name: 'person')]
+#[ORM\Index(name: 'IDX_FCEC9EFE8441376', columns: ['institution_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_person__person_name', columns: ['person_name'])]
 class Personne {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="person_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'person_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="person_name", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'person_name', type: 'string', length: 255, nullable: false)]
   private $nomPersonne;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="person_full_name", type="string", length=1024, nullable=true)
    */
+  #[ORM\Column(name: 'person_full_name', type: 'string', length: 1024, nullable: true)]
   private $nomComplet;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="person_name_bis", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'person_name_bis', type: 'string', length: 255, nullable: true)]
   private $nomPersonneRef;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="person_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'person_comments', type: 'text', nullable: true)]
   private $commentairePersonne;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Etablissement
-   *
-   * @ORM\ManyToOne(targetEntity="Etablissement")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=true)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Etablissement::class)]
+  #[ORM\JoinColumn(name: 'institution_fk', referencedColumnName: 'id', nullable: true)]
   private $etablissementFk;
 
   /**

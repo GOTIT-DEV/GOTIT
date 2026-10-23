@@ -9,162 +9,130 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Collecte
  *
- * @ORM\Table(name="sampling",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_sampling__sample_code", columns={"sample_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_55AE4A3DA30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_55AE4A3D50BB334E", columns={"donation_voc_fk"}),
- *      @ORM\Index(name="IDX_55AE4A3D369AB36B", columns={"site_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeCollecte"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeCollecte'], message: 'This code is already registered')]
+#[ORM\Table(name: 'sampling')]
+#[ORM\Index(name: 'IDX_55AE4A3DA30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_55AE4A3D50BB334E', columns: ['donation_voc_fk'])]
+#[ORM\Index(name: 'IDX_55AE4A3D369AB36B', columns: ['site_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_sampling__sample_code', columns: ['sample_code'])]
 class Collecte {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="sampling_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'sampling_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="sample_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'sample_code', type: 'string', length: 255, nullable: false)]
   private $codeCollecte;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="sampling_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'sampling_date', type: 'date', nullable: true)]
   private $dateCollecte;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="sampling_duration", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'sampling_duration', type: 'bigint', nullable: true)]
   private $dureeEchantillonnageMn;
 
   /**
    * @var float
-   *
-   * @ORM\Column(name="temperature", type="float", precision=10, scale=0, nullable=true)
    */
+  #[ORM\Column(name: 'temperature', type: 'float', precision: 10, scale: 0, nullable: true)]
   private $temperatureC;
 
   /**
    * @var float
-   *
-   * @ORM\Column(name="specific_conductance", type="float", precision=10, scale=0, nullable=true)
    */
+  #[ORM\Column(name: 'specific_conductance', type: 'float', precision: 10, scale: 0, nullable: true)]
   private $conductiviteMicroSieCm;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="sample_status", type="smallint", nullable=false)
    */
+  #[ORM\Column(name: 'sample_status', type: 'smallint', nullable: false)]
   private $aFaire;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="sampling_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'sampling_comments', type: 'text', nullable: true)]
   private $commentaireCollecte;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="donation_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'donation_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $legVocFk;
 
   /**
    * @var \Station
-   *
-   * @ORM\ManyToOne(targetEntity="Station")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="site_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Station::class)]
+  #[ORM\JoinColumn(name: 'site_fk', referencedColumnName: 'id', nullable: false)]
   private $stationFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="APourSamplingMethod", mappedBy="collecteFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \APourSamplingMethod::class, mappedBy: 'collecteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $aPourSamplingMethods;
 
-  /**
-   * @ORM\OneToMany(targetEntity="APourFixateur", mappedBy="collecteFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \APourFixateur::class, mappedBy: 'collecteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $aPourFixateurs;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EstFinancePar", mappedBy="collecteFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EstFinancePar::class, mappedBy: 'collecteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $estFinancePars;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EstEffectuePar", mappedBy="collecteFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EstEffectuePar::class, mappedBy: 'collecteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $estEffectuePars;
 
-  /**
-   * @ORM\OneToMany(targetEntity="ACibler", mappedBy="collecteFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \ACibler::class, mappedBy: 'collecteFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $aCiblers;
 
   public function __construct() {

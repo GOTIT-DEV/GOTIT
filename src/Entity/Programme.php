@@ -8,98 +8,86 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Programme
  *
- * @ORM\Table(name="program",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_program__program_code", columns={"program_code"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeProgramme"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeProgramme'], message: 'This code is already registered')]
+#[ORM\Table(name: 'program')]
+#[ORM\UniqueConstraint(name: 'uk_program__program_code', columns: ['program_code'])]
 class Programme {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="program_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'program_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="program_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'program_code', type: 'string', length: 255, nullable: false)]
   private $codeProgramme;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="program_name", type="string", length=1024, nullable=false)
    */
+  #[ORM\Column(name: 'program_name', type: 'string', length: 1024, nullable: false)]
   private $nomProgramme;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="coordinator_names", type="text", nullable=false)
    */
+  #[ORM\Column(name: 'coordinator_names', type: 'text', nullable: false)]
   private $nomsResponsables;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="funding_agency", type="string", length=1024, nullable=true)
    */
+  #[ORM\Column(name: 'funding_agency', type: 'string', length: 1024, nullable: true)]
   private $typeFinanceur;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="starting_year", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'starting_year', type: 'bigint', nullable: true)]
   private $anneeDebut;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="ending_year", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'ending_year', type: 'bigint', nullable: true)]
   private $anneeFin;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="program_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'program_comments', type: 'text', nullable: true)]
   private $commentaireProgramme;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**

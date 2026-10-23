@@ -9,168 +9,134 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Pcr
  *
- * @ORM\Table(name="pcr",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_pcr__pcr_code", columns={"pcr_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_5B6B99369D3CDB05", columns={"gene_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99368B4A1710", columns={"pcr_quality_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99366CCC2566", columns={"pcr_specificity_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99362C5B04A7", columns={"forward_primer_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B9936F1694267", columns={"reverse_primer_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B9936A30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_5B6B99364B06319D", columns={"dna_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codePcr"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codePcr'], message: 'This code is already registered')]
+#[ORM\Table(name: 'pcr')]
+#[ORM\Index(name: 'IDX_5B6B99369D3CDB05', columns: ['gene_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99368B4A1710', columns: ['pcr_quality_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99366CCC2566', columns: ['pcr_specificity_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99362C5B04A7', columns: ['forward_primer_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B9936F1694267', columns: ['reverse_primer_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B9936A30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_5B6B99364B06319D', columns: ['dna_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_pcr__pcr_code', columns: ['pcr_code'])]
 class Pcr {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="pcr_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'pcr_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="pcr_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'pcr_code', type: 'string', length: 255, nullable: false)]
   private $codePcr;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="pcr_number", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'pcr_number', type: 'string', length: 255, nullable: false)]
   private $numPcr;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="pcr_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'pcr_date', type: 'date', nullable: true)]
   private $datePcr;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="pcr_details", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'pcr_details', type: 'text', nullable: true)]
   private $detailPcr;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="pcr_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'pcr_comments', type: 'text', nullable: true)]
   private $remarquePcr;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'gene_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $geneVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'pcr_quality_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $qualitePcrVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_specificity_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'pcr_specificity_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $specificiteVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="forward_primer_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'forward_primer_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $primerPcrStartVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="reverse_primer_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'reverse_primer_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $primerPcrEndVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Adn
-   *
-   * @ORM\ManyToOne(targetEntity="Adn")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="dna_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Adn::class)]
+  #[ORM\JoinColumn(name: 'dna_fk', referencedColumnName: 'id', nullable: false)]
   private $adnFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="PcrEstRealisePar", mappedBy="pcrFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \PcrEstRealisePar::class, mappedBy: 'pcrFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $pcrEstRealisePars;
 
   public function __construct() {

@@ -9,151 +9,120 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * LotMaterielExt
  *
- * @ORM\Table(name="external_biological_material",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_external_biological_material__external_biological_material_c", columns={"external_biological_material_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_EEFA43F3662D9B98", columns={"sampling_fk"}),
- *      @ORM\Index(name="IDX_EEFA43F3A30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_EEFA43F382ACDC4", columns={"number_of_specimens_voc_fk"}),
- *      @ORM\Index(name="IDX_EEFA43F3B0B56B73", columns={"pigmentation_voc_fk"}),
- *      @ORM\Index(name="IDX_EEFA43F3A897CC9E", columns={"eyes_voc_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeLotMaterielExt"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeLotMaterielExt'], message: 'This code is already registered')]
+#[ORM\Table(name: 'external_biological_material')]
+#[ORM\Index(name: 'IDX_EEFA43F3662D9B98', columns: ['sampling_fk'])]
+#[ORM\Index(name: 'IDX_EEFA43F3A30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_EEFA43F382ACDC4', columns: ['number_of_specimens_voc_fk'])]
+#[ORM\Index(name: 'IDX_EEFA43F3B0B56B73', columns: ['pigmentation_voc_fk'])]
+#[ORM\Index(name: 'IDX_EEFA43F3A897CC9E', columns: ['eyes_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_external_biological_material__external_biological_material_c', columns: ['external_biological_material_code'])]
 class LotMaterielExt {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="external_biological_material_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'external_biological_material_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_biological_material_code", type="string", length=255, nullable=false, unique=true)
    */
+  #[ORM\Column(name: 'external_biological_material_code', type: 'string', length: 255, nullable: false, unique: true)]
   private $codeLotMaterielExt;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="external_biological_material_creation_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'external_biological_material_creation_date', type: 'date', nullable: true)]
   private $dateCreationLotMaterielExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_biological_material_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'external_biological_material_comments', type: 'text', nullable: true)]
   private $commentaireLotMaterielExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="number_of_specimens_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'number_of_specimens_comments', type: 'text', nullable: true)]
   private $commentaireNbIndividus;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Collecte
-   *
-   * @ORM\ManyToOne(targetEntity="Collecte")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Collecte::class)]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id', nullable: false)]
   private $collecteFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="number_of_specimens_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'number_of_specimens_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $nbIndividusVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pigmentation_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'pigmentation_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $pigmentationVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="eyes_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'eyes_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $yeuxVocFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="LotMaterielExtEstRealisePar", mappedBy="lotMaterielExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \LotMaterielExtEstRealisePar::class, mappedBy: 'lotMaterielExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $lotMaterielExtEstRealisePars;
 
-  /**
-   * @ORM\OneToMany(targetEntity="LotMaterielExtEstReferenceDans", mappedBy="lotMaterielExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \LotMaterielExtEstReferenceDans::class, mappedBy: 'lotMaterielExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $lotMaterielExtEstReferenceDanss;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="lotMaterielExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EspeceIdentifiee::class, mappedBy: 'lotMaterielExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $especeIdentifiees;
 
   public function __construct() {

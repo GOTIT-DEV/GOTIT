@@ -8,150 +8,130 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * ReferentielTaxon
  *
- * @ORM\Table(name="taxon",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_taxon__taxon_name", columns={"taxon_name"}),
- *      @ORM\UniqueConstraint(name="uk_taxon__taxon_code", columns={"taxon_code"}) } )
- * @ORM\Entity
- * @UniqueEntity(fields={"taxname"}, message="This name already exists")
- * @UniqueEntity(fields={"codeTaxon"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['taxname'], message: 'This name already exists')]
+#[UniqueEntity(fields: ['codeTaxon'], message: 'This code is already registered')]
+#[ORM\Table(name: 'taxon')]
+#[ORM\UniqueConstraint(name: 'uk_taxon__taxon_name', columns: ['taxon_name'])]
+#[ORM\UniqueConstraint(name: 'uk_taxon__taxon_code', columns: ['taxon_code'])]
 class ReferentielTaxon {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="taxon_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'taxon_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_name", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'taxon_name', type: 'string', length: 255, nullable: false)]
   private $taxname;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_full_name", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'taxon_full_name', type: 'string', length: 255, nullable: true)]
   private $taxonFullName;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_rank", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'taxon_rank', type: 'string', length: 255, nullable: false)]
   private $rank;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="subclass", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'subclass', type: 'string', length: 255, nullable: true)]
   private $subclass;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_order", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'taxon_order', type: 'string', length: 255, nullable: true)]
   private $ordre;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="family", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'family', type: 'string', length: 255, nullable: true)]
   private $family;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="genus", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'genus', type: 'string', length: 255, nullable: true)]
   private $genus;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="species", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'species', type: 'string', length: 255, nullable: true)]
   private $species;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="subspecies", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'subspecies', type: 'string', length: 255, nullable: true)]
   private $subspecies;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="taxon_validity", type="smallint", nullable=false)
    */
+  #[ORM\Column(name: 'taxon_validity', type: 'smallint', nullable: false)]
   private $validity;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'taxon_code', type: 'string', length: 255, nullable: false)]
   private $codeTaxon;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'taxon_comments', type: 'text', nullable: true)]
   private $commentaireRef;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="clade", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'clade', type: 'string', length: 255, nullable: true)]
   private $clade;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="taxon_synonym", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'taxon_synonym', type: 'string', length: 255, nullable: true)]
   private $taxnameRef;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**

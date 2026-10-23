@@ -10,115 +10,94 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Chromatogramme
  *
- * @ORM\Table(name="chromatogram",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_chromatogram__chromatogram_code", columns={"chromatogram_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_FCB2DAB7286BBCA9", columns={"chromato_primer_voc_fk"}),
- *      @ORM\Index(name="IDX_FCB2DAB7206FE5C0", columns={"chromato_quality_voc_fk"}),
- *      @ORM\Index(name="IDX_FCB2DAB7E8441376", columns={"institution_fk"}),
- *      @ORM\Index(name="IDX_FCB2DAB72B63D494", columns={"pcr_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeChromato"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeChromato'], message: 'This code is already registered')]
+#[ORM\Table(name: 'chromatogram')]
+#[ORM\Index(name: 'IDX_FCB2DAB7286BBCA9', columns: ['chromato_primer_voc_fk'])]
+#[ORM\Index(name: 'IDX_FCB2DAB7206FE5C0', columns: ['chromato_quality_voc_fk'])]
+#[ORM\Index(name: 'IDX_FCB2DAB7E8441376', columns: ['institution_fk'])]
+#[ORM\Index(name: 'IDX_FCB2DAB72B63D494', columns: ['pcr_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_chromatogram__chromatogram_code', columns: ['chromatogram_code'])]
 class Chromatogramme {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="chromatogram_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'chromatogram_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="chromatogram_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'chromatogram_code', type: 'string', length: 255, nullable: false)]
   private $codeChromato;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="chromatogram_number", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'chromatogram_number', type: 'string', length: 255, nullable: false)]
   private $numYas;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="chromatogram_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'chromatogram_comments', type: 'text', nullable: true)]
   private $commentaireChromato;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="chromato_primer_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'chromato_primer_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $primerChromatoVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="chromato_quality_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'chromato_quality_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $qualiteChromatoVocFk;
 
   /**
    * @var \Etablissement
-   *
-   * @ORM\ManyToOne(targetEntity="Etablissement")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="institution_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Etablissement::class)]
+  #[ORM\JoinColumn(name: 'institution_fk', referencedColumnName: 'id', nullable: false)]
   private $etablissementFk;
 
   /**
    * @var \Pcr
-   *
-   * @ORM\ManyToOne(targetEntity="Pcr")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="pcr_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Pcr::class)]
+  #[ORM\JoinColumn(name: 'pcr_fk', referencedColumnName: 'id', nullable: false)]
   private $pcrFk;
 
   /**
@@ -128,9 +107,7 @@ class Chromatogramme {
   private $codeChromatoSpecificite;
 
 
-  /**
-   * @ORM\OneToMany(targetEntity="EstAligneEtTraite", mappedBy="chromatogrammeFk")
-   */
+  #[ORM\OneToMany(targetEntity: \EstAligneEtTraite::class, mappedBy: 'chromatogrammeFk')]
   private Collection $assemblages;
 
   public function __construct() {

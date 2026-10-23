@@ -8,167 +8,130 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EspeceIdentifiee
  *
- * @ORM\Table(name="identified_species",
- *  indexes={
- *      @ORM\Index(name="IDX_801C3911B669F53D", columns={"type_material_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DFB5F790", columns={"identification_criterion_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DA30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_49D19C8DCDD1F756", columns={"external_sequence_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D40D80ECD", columns={"external_biological_material_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D54DBBD4D", columns={"internal_biological_material_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D7B09E3BC", columns={"taxon_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D5F2C6176", columns={"specimen_fk"}),
- *      @ORM\Index(name="IDX_49D19C8D5BE90E48", columns={"internal_sequence_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'identified_species')]
+#[ORM\Index(name: 'IDX_801C3911B669F53D', columns: ['type_material_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DFB5F790', columns: ['identification_criterion_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DA30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8DCDD1F756', columns: ['external_sequence_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D40D80ECD', columns: ['external_biological_material_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D54DBBD4D', columns: ['internal_biological_material_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D7B09E3BC', columns: ['taxon_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D5F2C6176', columns: ['specimen_fk'])]
+#[ORM\Index(name: 'IDX_49D19C8D5BE90E48', columns: ['internal_sequence_fk'])]
 class EspeceIdentifiee {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="identified_species_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'identified_species_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="identification_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'identification_date', type: 'date', nullable: true)]
   private $dateIdentification;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="identified_species_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'identified_species_comments', type: 'text', nullable: true)]
   private $commentaireEspId;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="type_material_voc_fk", referencedColumnName="id", nullable=true)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'type_material_voc_fk', referencedColumnName: 'id', nullable: true)]
   private $typeMaterielVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="identification_criterion_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'identification_criterion_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $critereIdentificationVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \SequenceAssembleeExt
-   *
-   * @ORM\ManyToOne(targetEntity="SequenceAssembleeExt", inversedBy="especeIdentifiees")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \SequenceAssembleeExt::class, inversedBy: 'especeIdentifiees')]
+  #[ORM\JoinColumn(name: 'external_sequence_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
   private $sequenceAssembleeExtFk;
 
   /**
    * @var \LotMaterielExt
-   *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="especeIdentifiees")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \LotMaterielExt::class, inversedBy: 'especeIdentifiees')]
+  #[ORM\JoinColumn(name: 'external_biological_material_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
   private $lotMaterielExtFk;
 
   /**
    * @var \LotMateriel
-   *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="especeIdentifiees")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \LotMateriel::class, inversedBy: 'especeIdentifiees')]
+  #[ORM\JoinColumn(name: 'internal_biological_material_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
   private $lotMaterielFk;
 
   /**
    * @var \ReferentielTaxon
-   *
-   * @ORM\ManyToOne(targetEntity="ReferentielTaxon")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="taxon_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \ReferentielTaxon::class)]
+  #[ORM\JoinColumn(name: 'taxon_fk', referencedColumnName: 'id', nullable: false)]
   private $referentielTaxonFk;
 
   /**
    * @var \Individu
-   *
-   * @ORM\ManyToOne(targetEntity="Individu", inversedBy="especeIdentifiees")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Individu::class, inversedBy: 'especeIdentifiees')]
+  #[ORM\JoinColumn(name: 'specimen_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
   private $individuFk;
 
   /**
    * @var \SequenceAssemblee
-   *
-   * @ORM\ManyToOne(targetEntity="SequenceAssemblee", inversedBy="especeIdentifiees")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_sequence_fk", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \SequenceAssemblee::class, inversedBy: 'especeIdentifiees')]
+  #[ORM\JoinColumn(name: 'internal_sequence_fk', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
   private $sequenceAssembleeFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EstIdentifiePar", mappedBy="especeIdentifieeFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EstIdentifiePar::class, mappedBy: 'especeIdentifieeFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $estIdentifiePars;
 
   public function __construct() {

@@ -4,94 +4,83 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * Commune
  *
- * @ORM\Table(name="municipality",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_municipality__municipality_code", columns={"municipality_code"})},
- *  indexes={@ORM\Index(name="IDX_E2E2D1EEB1C3431A", columns={"country_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeCommune"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeCommune'], message: 'This code is already registered')]
+#[ORM\Table(name: 'municipality')]
+#[ORM\Index(name: 'IDX_E2E2D1EEB1C3431A', columns: ['country_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_municipality__municipality_code', columns: ['municipality_code'])]
 class Commune {
   /**
    * @var integer
-   *
-   * @Groups("own")
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="municipality_id_seq", allocationSize=1, initialValue=1)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'municipality_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @Groups("own")
-   * @ORM\Column(name="municipality_code", type="string", length=255, nullable=false)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'municipality_code', type: 'string', length: 255, nullable: false)]
   private $codeCommune;
 
   /**
    * @var string
-   *
-   * @Groups("own")
-   * @ORM\Column(name="municipality_name", type="string", length=1024, nullable=false)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'municipality_name', type: 'string', length: 1024, nullable: false)]
   private $nomCommune;
 
   /**
    * @var string
-   *
-   * @Groups("own")
-   * @ORM\Column(name="region_name", type="string", length=1024, nullable=false)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'region_name', type: 'string', length: 1024, nullable: false)]
   private $nomRegion;
 
   /**
    * @var \DateTime
-   *
-   * @Groups("own")
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @Groups("own")
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @Groups("own")
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @Groups("own")
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[Groups('own')]
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Pays
-   *
-   * @ORM\ManyToOne(targetEntity="Pays", inversedBy="communes")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="country_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Pays::class, inversedBy: 'communes')]
+  #[ORM\JoinColumn(name: 'country_fk', referencedColumnName: 'id', nullable: false)]
   private $paysFk;
 
   /**

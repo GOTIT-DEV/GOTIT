@@ -7,84 +7,70 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CompositionLotMateriel
  *
- * @ORM\Table(name="composition_of_internal_biological_material",
- *  indexes={
- *      @ORM\Index(name="IDX_10A697444236D33E", columns={"specimen_type_voc_fk"}),
- *      @ORM\Index(name="IDX_10A6974454DBBD4D", columns={"internal_biological_material_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'composition_of_internal_biological_material')]
+#[ORM\Index(name: 'IDX_10A697444236D33E', columns: ['specimen_type_voc_fk'])]
+#[ORM\Index(name: 'IDX_10A6974454DBBD4D', columns: ['internal_biological_material_fk'])]
 class CompositionLotMateriel {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="composition_of_internal_biological_material_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'composition_of_internal_biological_material_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="number_of_specimens", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'number_of_specimens', type: 'bigint', nullable: true)]
   private $nbIndividus;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="internal_biological_material_composition_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'internal_biological_material_composition_comments', type: 'text', nullable: true)]
   private $commentaireCompoLotMateriel;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'specimen_type_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $typeIndividuVocFk;
 
   /**
    * @var \LotMateriel
-   *
-   * @ORM\ManyToOne(targetEntity="LotMateriel", inversedBy="compositionLotMateriels")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \LotMateriel::class, inversedBy: 'compositionLotMateriels')]
+  #[ORM\JoinColumn(name: 'internal_biological_material_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
   private $lotMaterielFk;
 
   /**

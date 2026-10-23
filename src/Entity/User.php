@@ -26,123 +26,102 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * User
  *
- * @ORM\Table(name="user_db",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_db__username", columns={"username"})})
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="This username is already taken")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity(repositoryClass: \App\Repository\UserRepository::class)]
+#[UniqueEntity(fields: ['username'], message: 'This username is already taken')]
+#[ORM\Table(name: 'user_db')]
+#[ORM\UniqueConstraint(name: 'uk_user_db__username', columns: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'user_db_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_name", type="string", length=255, nullable=false, unique=true)
    */
+  #[ORM\Column(name: 'user_name', type: 'string', length: 255, nullable: false, unique: true)]
   private $username;
 
-  /**
-   * @Assert\NotBlank()
-   * @Assert\Length(
-   *      min = 8,
-   *      max = 50,
-   *      minMessage = "Your password  must be at least {{ limit }} characters long",
-   *      maxMessage = "Your password  cannot be longer than {{ limit }} characters"
-   * )
-   */
+  #[Assert\NotBlank]
+  #[Assert\Length(min: 8, max: 50, minMessage: 'Your password  must be at least {{ limit }} characters long', maxMessage: 'Your password  cannot be longer than {{ limit }} characters')]
   private $plainPassword;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_password", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'user_password', type: 'string', length: 255, nullable: false)]
   private $password;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_email", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'user_email', type: 'string', length: 255, nullable: true)]
   private $email;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_role", type="string")
    */
+  #[ORM\Column(name: 'user_role', type: 'string')]
   private $role;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="salt", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'salt', type: 'string', length: 255, nullable: true)]
   private $salt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_full_name", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'user_full_name', type: 'string', length: 255, nullable: false)]
   private $name;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_institution", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'user_institution', type: 'string', length: 255, nullable: true)]
   private $institution;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var int
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var int
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var int
-   *
-   * @ORM\Column(name="user_is_active", type="smallint")
    */
+  #[ORM\Column(name: 'user_is_active', type: 'smallint')]
   private $isActive;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="user_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'user_comments', type: 'text', nullable: true)]
   private $commentaireUser;
 
   public function __construct() {
@@ -152,7 +131,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     // $this->salt = md5(uniqid('', true));
   }
 
-  public function eraseCredentials() {
+  public function eraseCredentials(): void {
   }
 
   /**

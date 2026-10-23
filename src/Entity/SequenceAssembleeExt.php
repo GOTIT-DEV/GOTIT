@@ -9,175 +9,140 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * SequenceAssembleeExt
  *
- * @ORM\Table(name="external_sequence",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_code", columns={"external_sequence_code"}),
- *      @ORM\UniqueConstraint(name="uk_external_sequence__external_sequence_alignment_code", columns={"external_sequence_alignment_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_9E9F85CF9D3CDB05", columns={"gene_voc_fk"}),
- *      @ORM\Index(name="IDX_9E9F85CFA30C442F", columns={"date_precision_voc_fk"}),
- *      @ORM\Index(name="IDX_9E9F85CF514D78E0", columns={"external_sequence_origin_voc_fk"}),
- *      @ORM\Index(name="IDX_9E9F85CF662D9B98", columns={"sampling_fk"}),
- *      @ORM\Index(name="IDX_9E9F85CF88085E0F", columns={"external_sequence_status_voc_fk"})})
- * @ORM\Entity
- * @UniqueEntity(fields={"codeSqcAssExt"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeSqcAssExtAlignement"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeSqcAssExt'], message: 'This code is already registered')]
+#[UniqueEntity(fields: ['codeSqcAssExtAlignement'], message: 'This code is already registered')]
+#[ORM\Table(name: 'external_sequence')]
+#[ORM\Index(name: 'IDX_9E9F85CF9D3CDB05', columns: ['gene_voc_fk'])]
+#[ORM\Index(name: 'IDX_9E9F85CFA30C442F', columns: ['date_precision_voc_fk'])]
+#[ORM\Index(name: 'IDX_9E9F85CF514D78E0', columns: ['external_sequence_origin_voc_fk'])]
+#[ORM\Index(name: 'IDX_9E9F85CF662D9B98', columns: ['sampling_fk'])]
+#[ORM\Index(name: 'IDX_9E9F85CF88085E0F', columns: ['external_sequence_status_voc_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_external_sequence__external_sequence_code', columns: ['external_sequence_code'])]
+#[ORM\UniqueConstraint(name: 'uk_external_sequence__external_sequence_alignment_code', columns: ['external_sequence_alignment_code'])]
 class SequenceAssembleeExt {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="external_sequence_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'external_sequence_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_code", type="string", length=1024, nullable=false, unique=true)
    */
+  #[ORM\Column(name: 'external_sequence_code', type: 'string', length: 1024, nullable: false, unique: true)]
   private $codeSqcAssExt;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="external_sequence_creation_date", type="date", nullable=true)
    */
+  #[ORM\Column(name: 'external_sequence_creation_date', type: 'date', nullable: true)]
   private $dateCreationSqcAssExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_accession_number", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'external_sequence_accession_number', type: 'string', length: 255, nullable: false)]
   private $accessionNumberSqcAssExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_alignment_code", type="string", length=1024, nullable=true)
    */
+  #[ORM\Column(name: 'external_sequence_alignment_code', type: 'string', length: 1024, nullable: true)]
   private $codeSqcAssExtAlignement;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_specimen_number", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'external_sequence_specimen_number', type: 'string', length: 255, nullable: false)]
   private $numIndividuSqcAssExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_primary_taxon", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'external_sequence_primary_taxon', type: 'string', length: 255, nullable: true)]
   private $taxonOrigineSqcAssExt;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="external_sequence_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'external_sequence_comments', type: 'text', nullable: true)]
   private $commentaireSqcAssExt;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="gene_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'gene_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $geneVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="date_precision_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'date_precision_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $datePrecisionVocFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_origin_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'external_sequence_origin_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $origineSqcAssExtVocFk;
 
   /**
    * @var \Collecte
-   *
-   * @ORM\ManyToOne(targetEntity="Collecte")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Collecte::class)]
+  #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id', nullable: false)]
   private $collecteFk;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_sequence_status_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'external_sequence_status_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $statutSqcAssVocFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="SqcExtEstRealisePar", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \SqcExtEstRealisePar::class, mappedBy: 'sequenceAssembleeExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $sqcExtEstRealisePars;
 
-  /**
-   * @ORM\OneToMany(targetEntity="SqcExtEstReferenceDans", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \SqcExtEstReferenceDans::class, mappedBy: 'sequenceAssembleeExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $sqcExtEstReferenceDanss;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="sequenceAssembleeExtFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EspeceIdentifiee::class, mappedBy: 'sequenceAssembleeExtFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $especeIdentifiees;
 
   public function __construct() {

@@ -9,117 +9,96 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Individu
  *
- * @ORM\Table(name="specimen",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="uk_specimen__specimen_morphological_code", columns={"specimen_morphological_code"}),
- *      @ORM\UniqueConstraint(name="uk_specimen__specimen_molecular_code", columns={"specimen_molecular_code"})},
- *  indexes={
- *      @ORM\Index(name="IDX_5EE42FCE4236D33E", columns={"specimen_type_voc_fk"}),
- *      @ORM\Index(name="IDX_5EE42FCE54DBBD4D", columns={"internal_biological_material_fk"})
- * })
- * @ORM\Entity
- * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
- * @UniqueEntity(fields={"codeIndTriMorpho"}, message="This code is already registered")
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[UniqueEntity(fields: ['codeIndTriMorpho'], message: 'This code is already registered')]
+#[UniqueEntity(fields: ['codeIndTriMorpho'], message: 'This code is already registered')]
+#[ORM\Table(name: 'specimen')]
+#[ORM\Index(name: 'IDX_5EE42FCE4236D33E', columns: ['specimen_type_voc_fk'])]
+#[ORM\Index(name: 'IDX_5EE42FCE54DBBD4D', columns: ['internal_biological_material_fk'])]
+#[ORM\UniqueConstraint(name: 'uk_specimen__specimen_morphological_code', columns: ['specimen_morphological_code'])]
+#[ORM\UniqueConstraint(name: 'uk_specimen__specimen_molecular_code', columns: ['specimen_molecular_code'])]
 class Individu {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="specimen_id_seq ", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'specimen_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="specimen_molecular_code", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'specimen_molecular_code', type: 'string', length: 255, nullable: true)]
   private $codeIndBiomol;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="specimen_morphological_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'specimen_morphological_code', type: 'string', length: 255, nullable: false)]
   private $codeIndTriMorpho;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="tube_code", type="string", length=255, nullable=false)
    */
+  #[ORM\Column(name: 'tube_code', type: 'string', length: 255, nullable: false)]
   private $codeTube;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="specimen_molecular_number", type="string", length=255, nullable=true)
    */
+  #[ORM\Column(name: 'specimen_molecular_number', type: 'string', length: 255, nullable: true)]
   private $numIndBiomol;
 
   /**
    * @var string
-   *
-   * @ORM\Column(name="specimen_comments", type="text", nullable=true)
    */
+  #[ORM\Column(name: 'specimen_comments', type: 'text', nullable: true)]
   private $commentaireInd;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Voc
-   *
-   * @ORM\ManyToOne(targetEntity="Voc")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="specimen_type_voc_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Voc::class)]
+  #[ORM\JoinColumn(name: 'specimen_type_voc_fk', referencedColumnName: 'id', nullable: false)]
   private $typeIndividuVocFk;
 
   /**
    * @var \LotMateriel
-   *
-   * @ORM\ManyToOne(targetEntity="LotMateriel")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="internal_biological_material_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \LotMateriel::class)]
+  #[ORM\JoinColumn(name: 'internal_biological_material_fk', referencedColumnName: 'id', nullable: false)]
   private $lotMaterielFk;
 
-  /**
-   * @ORM\OneToMany(targetEntity="EspeceIdentifiee", mappedBy="individuFk", cascade={"persist"})
-   * @ORM\OrderBy({"id" = "ASC"})
-   */
+  #[ORM\OneToMany(targetEntity: \EspeceIdentifiee::class, mappedBy: 'individuFk', cascade: ['persist'])]
+  #[ORM\OrderBy(['id' => 'ASC'])]
   protected $especeIdentifiees;
 
   public function __construct() {

@@ -23,71 +23,59 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * APourSamplingMethod
  *
- * @ORM\Table(name="sampling_is_done_with_method", 
- *  indexes={
- *      @ORM\Index(name="IDX_5A6BD88A29B38195", columns={"sampling_method_voc_fk"}), 
- *      @ORM\Index(name="IDX_5A6BD88A662D9B98", columns={"sampling_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sampling_is_done_with_method')]
+#[ORM\Index(name: 'IDX_5A6BD88A29B38195', columns: ['sampling_method_voc_fk'])]
+#[ORM\Index(name: 'IDX_5A6BD88A662D9B98', columns: ['sampling_fk'])]
 class APourSamplingMethod
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="sampling_is_done_with_method_id_seq", allocationSize=1, initialValue=1)
      */
+    #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'sampling_is_done_with_method_id_seq', allocationSize: 1, initialValue: 1)]
     private $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
     private $dateCre;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
      */
+    #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
     private $dateMaj;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
      */
+    #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
     private $userCre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
      */
+    #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
     private $userMaj;
 
     /**
      * @var \Voc
-     *
-     * @ORM\ManyToOne(targetEntity="Voc")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sampling_method_voc_fk", referencedColumnName="id", nullable=false)
-     * })
      */
+    #[ORM\ManyToOne(targetEntity: \Voc::class)]
+    #[ORM\JoinColumn(name: 'sampling_method_voc_fk', referencedColumnName: 'id', nullable: false)]
     private $samplingMethodVocFk;
 
     /**
      * @var \Collecte
-     *
-     * @ORM\ManyToOne(targetEntity="Collecte", inversedBy="aPourSamplingMethods")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sampling_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
      */
+    #[ORM\ManyToOne(targetEntity: \Collecte::class, inversedBy: 'aPourSamplingMethods')]
+    #[ORM\JoinColumn(name: 'sampling_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     private $collecteFk;
     
 

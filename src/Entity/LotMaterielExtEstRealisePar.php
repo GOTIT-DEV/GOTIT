@@ -7,70 +7,58 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LotMaterielExtEstRealisePar
  *
- * @ORM\Table(name="external_biological_material_is_processed_by",
- *  indexes={
- *      @ORM\Index(name="IDX_7D78636FB53CD04C", columns={"person_fk"}),
- *      @ORM\Index(name="IDX_7D78636F40D80ECD", columns={"external_biological_material_fk"})})
- * @ORM\Entity
  * @author Philippe Grison  <philippe.grison@mnhn.fr>
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'external_biological_material_is_processed_by')]
+#[ORM\Index(name: 'IDX_7D78636FB53CD04C', columns: ['person_fk'])]
+#[ORM\Index(name: 'IDX_7D78636F40D80ECD', columns: ['external_biological_material_fk'])]
 class LotMaterielExtEstRealisePar {
   /**
    * @var integer
-   *
-   * @ORM\Column(name="id", type="bigint", nullable=false)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="IDENTITY")
-   * @ORM\SequenceGenerator(sequenceName="external_biological_material_is_processed_by_id_seq", allocationSize=1, initialValue=1)
    */
+  #[ORM\Column(name: 'id', type: 'bigint', nullable: false)]
+  #[ORM\Id]
+  #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+  #[ORM\SequenceGenerator(sequenceName: 'external_biological_material_is_processed_by_id_seq', allocationSize: 1, initialValue: 1)]
   private $id;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_creation", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_creation', type: 'datetime', nullable: true)]
   private $dateCre;
 
   /**
    * @var \DateTime
-   *
-   * @ORM\Column(name="date_of_update", type="datetime", nullable=true)
    */
+  #[ORM\Column(name: 'date_of_update', type: 'datetime', nullable: true)]
   private $dateMaj;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="creation_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'creation_user_name', type: 'bigint', nullable: true)]
   private $userCre;
 
   /**
    * @var integer
-   *
-   * @ORM\Column(name="update_user_name", type="bigint", nullable=true)
    */
+  #[ORM\Column(name: 'update_user_name', type: 'bigint', nullable: true)]
   private $userMaj;
 
   /**
    * @var \Personne
-   *
-   * @ORM\ManyToOne(targetEntity="Personne")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="person_fk", referencedColumnName="id", nullable=false)
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \Personne::class)]
+  #[ORM\JoinColumn(name: 'person_fk', referencedColumnName: 'id', nullable: false)]
   private $personneFk;
 
   /**
    * @var \LotMaterielExt
-   *
-   * @ORM\ManyToOne(targetEntity="LotMaterielExt", inversedBy="lotMaterielExtEstRealisePars")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="external_biological_material_fk", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-   * })
    */
+  #[ORM\ManyToOne(targetEntity: \LotMaterielExt::class, inversedBy: 'lotMaterielExtEstRealisePars')]
+  #[ORM\JoinColumn(name: 'external_biological_material_fk', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
   private $lotMaterielExtFk;
 
   /**
