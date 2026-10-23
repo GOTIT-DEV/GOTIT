@@ -17,13 +17,15 @@
 
 namespace App\Controller\User;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\User;
 use App\Form\Enums\Action;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -160,7 +162,7 @@ class UserController extends EntityController {
    * Finds and displays a user entity.
    */
   #[Route("/{id}", name: "user_show", methods: ["GET"])]
-  public function showAction(User $user) {
+  public function showAction(#[MapEntity(id: 'id')] User $user) {
     $deleteForm = $this->createDeleteForm($user);
 
     $editForm = $this->createForm('App\Form\UserType', $user, [
@@ -178,7 +180,7 @@ class UserController extends EntityController {
    */
   #[Route("/{id}/edit", name: "user_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, User $user, UserPasswordHasherInterface $hasher) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] User $user, UserPasswordHasherInterface $hasher) {
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     if (
       $user->getRole() == 'ROLE_COLLABORATION' &&
@@ -225,7 +227,7 @@ class UserController extends EntityController {
    * Deletes a user entity.
    */
   #[Route("/{id}", name: "user_delete", methods: ["DELETE"])]
-  public function deleteAction(Request $request, User $user) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] User $user) {
     $form = $this->createDeleteForm($user);
     $form->handleRequest($request);
 

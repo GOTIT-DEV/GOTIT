@@ -2,6 +2,8 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Boite;
 use App\Entity\Voc;
@@ -9,7 +11,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -159,7 +161,7 @@ class BoiteController extends EntityController {
    * Finds and displays a boite entity.
    */
   #[Route("/{id}", name: "boite_show", methods: ["GET"])]
-  public function showAction(Boite $boite) {
+  public function showAction(#[MapEntity(id: 'id')] Boite $boite) {
     $deleteForm = $this->createDeleteForm($boite);
     $editForm = $this->createForm('App\Form\BoiteType', $boite, [
       'action_type' => Action::show->value,
@@ -177,7 +179,7 @@ class BoiteController extends EntityController {
    */
   #[Route("/{id}/edit", name: "boite_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Boite $boite) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Boite $boite) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -232,7 +234,7 @@ class BoiteController extends EntityController {
    */
   #[Route("/{id}", name: "boite_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Boite $boite) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Boite $boite) {
     $form = $this->createDeleteForm($boite);
     $form->handleRequest($request);
 

@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Voc;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -142,7 +144,7 @@ class VocController extends EntityController {
    * Finds and displays a voc entity.
    */
   #[Route("/{id}", name: "voc_show", methods: ["GET"])]
-  public function showAction(Voc $voc) {
+  public function showAction(#[MapEntity(id: 'id')] Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
     $editForm = $this->createForm('App\Form\VocType', $voc, [
       'action_type' => Action::show->value,
@@ -160,7 +162,7 @@ class VocController extends EntityController {
    */
   #[Route("/{id}/edit", name: "voc_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function editAction(Request $request, Voc $voc) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Voc $voc) {
     $deleteForm = $this->createDeleteForm($voc);
     $editForm = $this->createForm('App\Form\VocType', $voc, [
       'action_type' => Action::edit->value,
@@ -199,7 +201,7 @@ class VocController extends EntityController {
    */
   #[Route("/{id}", name: "voc_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function deleteAction(Request $request, Voc $voc) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Voc $voc) {
     $form = $this->createDeleteForm($voc);
     $form->handleRequest($request);
 

@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Chromatogramme;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Entity\EstAligneEtTraite;
@@ -215,7 +217,7 @@ class ChromatogrammeController extends EntityController {
    * Finds and displays a chromatogramme entity.
    */
   #[Route("/{id}", name: "chromatogramme_show", methods: ["GET"])]
-  public function showAction(Chromatogramme $chromatogramme) {
+  public function showAction(#[MapEntity(id: 'id')] Chromatogramme $chromatogramme) {
     $deleteForm = $this->createDeleteForm($chromatogramme);
     $editForm = $this->createForm('App\Form\ChromatogrammeType', $chromatogramme, [
       'action_type' => Action::show->value,
@@ -233,7 +235,7 @@ class ChromatogrammeController extends EntityController {
    */
   #[Route("/{id}/edit", name: "chromatogramme_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Chromatogramme $chromatogramme) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Chromatogramme $chromatogramme) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -284,7 +286,7 @@ class ChromatogrammeController extends EntityController {
    */
   #[Route("/{id}", name: "chromatogramme_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Chromatogramme $chromatogramme) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Chromatogramme $chromatogramme) {
     $form = $this->createDeleteForm($chromatogramme);
     $form->handleRequest($request);
 

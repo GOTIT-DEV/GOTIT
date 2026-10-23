@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\EstAligneEtTraite;
 use App\Entity\SequenceAssemblee;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Entity\Assigne;
@@ -190,10 +192,10 @@ class SequenceAssembleeController extends EntityController {
       $specimen = $pcr->getAdnFk()->getIndividuFk();
     } elseif ($specimenFk && $geneFk) {
       $chromato = $chromatoRepo->createQueryBuilder('chromatogramme')
-        ->leftJoin('App:Pcr', 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
-        ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-        ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id')
-        ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+        ->leftJoin(\App\Entity\Pcr::class, 'pcr', 'WITH', 'chromatogramme.pcrFk = pcr.id')
+        ->leftJoin(\App\Entity\Adn::class, 'adn', 'WITH', 'pcr.adnFk = adn.id')
+        ->leftJoin(\App\Entity\Individu::class, 'individu', 'WITH', 'adn.individuFk = individu.id')
+        ->leftJoin(\App\Entity\Voc::class, 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
         ->andWhere('individu.id = :individuId')
         ->andWhere('vocGene.id = :geneFk')
         ->setParameter(':individuId', $specimenFk)
@@ -284,7 +286,7 @@ class SequenceAssembleeController extends EntityController {
    * Finds and displays a sequenceAssemblee entity.
    */
   #[Route("/{id}", name: "sequenceassemblee_show", methods: ["GET"])]
-  public function showAction(SequenceAssemblee $sequence) {
+  public function showAction(#[MapEntity(id: 'id')] SequenceAssemblee $sequence) {
     $gene = $sequence->getGeneVocFk();
     $specimen = $sequence->getIndividuFk();
 
@@ -321,7 +323,7 @@ class SequenceAssembleeController extends EntityController {
   #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(
     Request $request,
-    SequenceAssemblee $sequence,
+    #[MapEntity(id: 'id')] SequenceAssemblee $sequence,
     GenericFunctionE3s $service
   ) {
 
@@ -434,7 +436,7 @@ class SequenceAssembleeController extends EntityController {
    */
   #[Route("/{id}", name: "sequenceassemblee_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, SequenceAssemblee $sequenceAssemblee) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] SequenceAssemblee $sequenceAssemblee) {
     $form = $this->createDeleteForm($sequenceAssemblee);
     $form->handleRequest($request);
 

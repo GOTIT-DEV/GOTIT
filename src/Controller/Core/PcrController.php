@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Pcr;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Adn;
 
@@ -33,7 +35,7 @@ class PcrController extends EntityController {
   public function searchAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('pcr.id, pcr.codePcr as code')
-      ->from('App:Pcr', 'pcr');
+      ->from(\App\Entity\Pcr::class, 'pcr');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(pcr.codePcr) like :q' . $i . ')');
@@ -80,16 +82,16 @@ class PcrController extends EntityController {
         ->setParameter('adnFk', $request->get('idFk'));
     }
     $query = $query
-      ->leftJoin('App:Adn', 'adn', 'WITH', 'pcr.adnFk = adn.id')
-      ->leftJoin('App:Individu', 'individu', 'WITH', 'adn.individuFk = individu.id');
+      ->leftJoin(\App\Entity\Adn::class, 'adn', 'WITH', 'pcr.adnFk = adn.id')
+      ->leftJoin(\App\Entity\Individu::class, 'individu', 'WITH', 'adn.individuFk = individu.id');
 
     $query_total = clone $query;
     $total = $query_total->select('count(pcr.id)')->getQuery()->getSingleScalarResult();
 
     $entities_toshow = $query
-      ->leftJoin('App:Voc', 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
-      ->leftJoin('App:Voc', 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
-      ->leftJoin('App:Voc', 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
+      ->leftJoin(\App\Entity\Voc::class, 'vocGene', 'WITH', 'pcr.geneVocFk = vocGene.id')
+      ->leftJoin(\App\Entity\Voc::class, 'vocQualitePcr', 'WITH', 'pcr.qualitePcrVocFk = vocQualitePcr.id')
+      ->leftJoin(\App\Entity\Voc::class, 'vocSpecificite', 'WITH', 'pcr.specificiteVocFk = vocSpecificite.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->setFirstResult($minRecord)
       ->setMaxResults($maxRecord)
@@ -107,13 +109,13 @@ class PcrController extends EntityController {
         ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // Search chromatograms associated to a PCR
       $query = $this->entityManager->createQuery(
-        'SELECT chromato.id FROM App:Chromatogramme chromato
+        'SELECT chromato.id FROM App\\Entity\\Chromatogramme chromato
                 WHERE chromato.pcrFk = ' . $id
       )->getResult();
       $linkChromatogramme = (count($query) > 0) ? $id : '';
       // concatenated list of people
       $query = $this->entityManager->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:PcrEstRealisePar erp
+        'SELECT p.nomPersonne as nom FROM App\\Entity\\PcrEstRealisePar erp
                 JOIN erp.personneFk p WHERE erp.pcrFk = ' . $id
       )->getResult();
       $arrayListePersonne = array();
@@ -200,7 +202,7 @@ class PcrController extends EntityController {
    * Finds and displays a pcr entity.
    */
   #[Route("/{id}", name: "pcr_show", methods: ["GET"])]
-  public function showAction(Pcr $pcr) {
+  public function showAction(#[MapEntity(id: 'id')] Pcr $pcr) {
     $deleteForm = $this->createDeleteForm($pcr);
     $editForm = $this->createForm('App\Form\PcrType', $pcr, [
       'action_type' => Action::show->value,
@@ -218,7 +220,7 @@ class PcrController extends EntityController {
    */
   #[Route("/{id}/edit", name: "pcr_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Pcr $pcr, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Pcr $pcr, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -270,7 +272,7 @@ class PcrController extends EntityController {
    */
   #[Route("/{id}", name: "pcr_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Pcr $pcr) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Pcr $pcr) {
     $form = $this->createDeleteForm($pcr);
     $form->handleRequest($request);
 

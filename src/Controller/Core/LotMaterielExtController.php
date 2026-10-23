@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\LotMaterielExt;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Collecte;
@@ -197,7 +199,7 @@ class LotMaterielExtController extends EntityController {
    *
    */
   #[Route("/{id}", name: "lotmaterielext_show", methods: ["GET"])]
-  public function showAction(LotMaterielExt $lotMaterielExt) {
+  public function showAction(#[MapEntity(id: 'id')] LotMaterielExt $lotMaterielExt) {
     $deleteForm = $this->createDeleteForm($lotMaterielExt);
     $editForm = $this->createForm(
       'App\Form\LotMaterielExtType',
@@ -217,7 +219,7 @@ class LotMaterielExtController extends EntityController {
    */
   #[Route("/{id}/edit", name: "lotmaterielext_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, LotMaterielExt $lotMaterielExt, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] LotMaterielExt $lotMaterielExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -278,7 +280,7 @@ class LotMaterielExtController extends EntityController {
    */
   #[Route("/{id}", name: "lotmaterielext_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, LotMaterielExt $lotMaterielExt) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] LotMaterielExt $lotMaterielExt) {
     $form = $this->createDeleteForm($lotMaterielExt);
     $form->handleRequest($request);
 

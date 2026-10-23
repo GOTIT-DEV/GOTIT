@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Station;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -31,7 +33,7 @@ class StationController extends EntityController {
   public function searchAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('station.id, station.codeStation as code')
-      ->from('App:Station', 'station');
+      ->from(\App\Entity\Station::class, 'station');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(station.codeStation) like :q' . $i . ')');
@@ -77,8 +79,8 @@ class StationController extends EntityController {
         ->setParameter('criteriaLower', strtolower($request->get('searchPhrase')) . '%');
     }
     $entities_toshow = $qb
-      ->leftJoin('App:Pays', 'pays', 'WITH', 'station.paysFk = pays.id')
-      ->leftJoin('App:Commune', 'commune', 'WITH', 'station.communeFk = commune.id')
+      ->leftJoin(\App\Entity\Pays::class, 'pays', 'WITH', 'station.paysFk = pays.id')
+      ->leftJoin(\App\Entity\Commune::class, 'commune', 'WITH', 'station.communeFk = commune.id')
       ->setFirstResult($minRecord)
       ->setMaxResults($maxRecord)
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
@@ -94,7 +96,7 @@ class StationController extends EntityController {
       $DateMaj = ($entity->getDateMaj() !== null)
         ? $entity->getDateMaj()->format('Y-m-d H:i:s') : null;
       $query = $this->entityManager->createQuery(
-        'SELECT collecte.id FROM App:Collecte collecte
+        'SELECT collecte.id FROM App\\Entity\\Collecte collecte
                 WHERE collecte.stationFk = ' . $id
       )->getResult();
       $stationFk = (count($query) > 0) ? $id : '';
@@ -211,7 +213,7 @@ class StationController extends EntityController {
    * Finds and displays a station entity.
    */
   #[Route("/{id}", name: "station_show", methods: ["GET"])]
-  public function showAction(Station $station) {
+  public function showAction(#[MapEntity(id: 'id')] Station $station) {
     $deleteForm = $this->createDeleteForm($station);
 
     $editForm = $this->createForm('App\Form\StationType', $station, [
@@ -229,7 +231,7 @@ class StationController extends EntityController {
    */
   #[Route("/{id}/edit", name: "station_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Station $station) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Station $station) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -274,7 +276,7 @@ class StationController extends EntityController {
    */
   #[Route("/{id}", name: "station_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Station $station) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Station $station) {
     $form = $this->createDeleteForm($station);
     $form->handleRequest($request);
 

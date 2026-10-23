@@ -2,6 +2,8 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\EspeceIdentifiee;
 use App\Entity\Individu;
@@ -9,7 +11,7 @@ use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\LotMateriel;
 
@@ -33,7 +35,7 @@ class IndividuController extends EntityController {
   public function searchAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
-      ->from('App:Individu', 'ind');
+      ->from(\App\Entity\Individu::class, 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(ind.codeIndBiomol) like :q' . $i . ')');
@@ -50,10 +52,10 @@ class IndividuController extends EntityController {
   public function searchWithGeneAction(String $query, int $gene) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndBiomol as code')
-      ->from('App:Individu', 'ind')
-      ->leftJoin('App:Adn', 'adn', 'WITH', 'adn.individuFk = ind.id')
-      ->leftJoin('App:Pcr', 'pcr', 'WITH', 'pcr.adnFk = adn.id')
-      ->leftJoin('App:Voc', 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
+      ->from(\App\Entity\Individu::class, 'ind')
+      ->leftJoin(\App\Entity\Adn::class, 'adn', 'WITH', 'adn.individuFk = ind.id')
+      ->leftJoin(\App\Entity\Pcr::class, 'pcr', 'WITH', 'pcr.adnFk = adn.id')
+      ->leftJoin(\App\Entity\Voc::class, 'vocgene', 'WITH', 'pcr.geneVocFk = vocgene.id')
       ->andWhere('LOWER(ind.codeIndBiomol) LIKE :searchcode')
       ->andWhere('vocgene.id = :idvocgene ')
       ->setParameter('searchcode', strtolower($query) . '%')
@@ -70,7 +72,7 @@ class IndividuController extends EntityController {
   public function searchByCodeIndmorphoAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('ind.id, ind.codeIndTriMorpho as code')
-      ->from('App:Individu', 'ind');
+      ->from(\App\Entity\Individu::class, 'ind');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     $and = [];
     for ($i = 0; $i < count($query); $i++) {
@@ -260,7 +262,7 @@ class IndividuController extends EntityController {
    * Finds and displays a individu entity.
    */
   #[Route("/{id}", name: "individu_show", methods: ["GET"])]
-  public function showAction(Individu $individu) {
+  public function showAction(#[MapEntity(id: 'id')] Individu $individu) {
     $deleteForm = $this->createDeleteForm($individu);
     $editForm = $this->createForm('App\Form\IndividuType', $individu, [
       'action_type' => Action::show->value,
@@ -278,7 +280,7 @@ class IndividuController extends EntityController {
    */
   #[Route("/{id}/edit", name: "individu_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Individu $individu, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Individu $individu, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -333,7 +335,7 @@ class IndividuController extends EntityController {
    */
   #[Route("/{id}", name: "individu_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Individu $individu) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Individu $individu) {
     $form = $this->createDeleteForm($individu);
     $form->handleRequest($request);
 

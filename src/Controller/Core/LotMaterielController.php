@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\LotMateriel;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Collecte;
@@ -33,7 +35,7 @@ class LotMaterielController extends EntityController {
   public function searchAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('lot.id, lot.codeLotMateriel as code')
-      ->from('App:LotMateriel', 'lot')
+      ->from(\App\Entity\LotMateriel::class, 'lot')
       ->addOrderBy('code', 'ASC')
       ->setMaxResults(self::MAX_RESULTS_TYPEAHEAD);
     $query = explode(' ', strtolower(trim(urldecode($q))));
@@ -220,7 +222,7 @@ class LotMaterielController extends EntityController {
    * Finds and displays a lotMateriel entity.
    */
   #[Route("/{id}", name: "lotmateriel_show", methods: ["GET"])]
-  public function showAction(LotMateriel $lotMateriel) {
+  public function showAction(#[MapEntity(id: 'id')] LotMateriel $lotMateriel) {
     $deleteForm = $this->createDeleteForm($lotMateriel);
     $editForm = $this->createForm('App\Form\LotMaterielType', $lotMateriel, [
       'action_type' => Action::show->value,
@@ -238,7 +240,7 @@ class LotMaterielController extends EntityController {
    */
   #[Route("/{id}/edit", name: "lotmateriel_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, LotMateriel $lotMateriel, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] LotMateriel $lotMateriel, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -300,7 +302,7 @@ class LotMaterielController extends EntityController {
    */
   #[Route("/{id}", name: "lotmateriel_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, LotMateriel $lotMateriel) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] LotMateriel $lotMateriel) {
     $form = $this->createDeleteForm($lotMateriel);
     $form->handleRequest($request);
 

@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Personne;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -54,7 +56,7 @@ class PersonneController extends EntityController {
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
       ->leftJoin(
-        'App:Etablissement',
+        \App\Entity\Etablissement::class,
         'etablissement',
         'WITH',
         'personne.etablissementFk = etablissement.id'
@@ -186,7 +188,7 @@ class PersonneController extends EntityController {
    * Finds and displays a personne entity.
    */
   #[Route("/{id}", name: "personne_show", methods: ["GET"])]
-  public function showAction(Personne $personne) {
+  public function showAction(#[MapEntity(id: 'id')] Personne $personne) {
     $deleteForm = $this->createDeleteForm($personne);
     $editForm = $this->createForm('App\Form\PersonneType', $personne, [
       'action_type' => Action::show->value,
@@ -204,7 +206,7 @@ class PersonneController extends EntityController {
    */
   #[Route("/{id}/edit", name: "personne_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Personne $personne) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Personne $personne) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -250,7 +252,7 @@ class PersonneController extends EntityController {
    */
   #[Route("/{id}", name: "personne_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Personne $personne) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Personne $personne) {
     $form = $this->createDeleteForm($personne);
     $form->handleRequest($request);
 

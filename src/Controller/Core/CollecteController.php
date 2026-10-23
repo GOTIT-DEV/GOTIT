@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Collecte;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use App\Entity\Station;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -34,7 +36,7 @@ class CollecteController extends EntityController {
   public function searchAction($q) {
     $qb = $this->entityManager->createQueryBuilder();
     $qb->select('collecte.id, collecte.codeCollecte as code')
-      ->from('App:Collecte', 'collecte');
+      ->from(\App\Entity\Collecte::class, 'collecte');
     $query = explode(' ', strtolower(trim(urldecode($q))));
     for ($i = 0; $i < count($query); $i++) {
       $qb->andWhere('(LOWER(collecte.codeCollecte) like :q' . $i . ')');
@@ -110,22 +112,22 @@ class CollecteController extends EntityController {
         ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       // search for material associated with a sampling
       $query = $this->entityManager->createQuery(
-        'SELECT lot.id FROM App:LotMateriel lot WHERE lot.collecteFk = ' . $id
+        'SELECT lot.id FROM App\\Entity\\LotMateriel lot WHERE lot.collecteFk = ' . $id
       )->getResult();
       $linkLotmaterielFk = (count($query) > 0) ? $id : '';
       // search for external material associated with a sampling
       $query = $this->entityManager->createQuery(
-        'SELECT lotext.id FROM App:LotMaterielExt lotext WHERE lotext.collecteFk = ' . $id
+        'SELECT lotext.id FROM App\\Entity\\LotMaterielExt lotext WHERE lotext.collecteFk = ' . $id
       )->getResult();
       $linkLotmaterielextFk = (count($query) > 0) ? $id : '';
       // search for external sequence associated with a sampling
       $query = $this->entityManager->createQuery(
-        'SELECT sqcext.id FROM App:SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id
+        'SELECT sqcext.id FROM App\\Entity\\SequenceAssembleeExt sqcext WHERE sqcext.collecteFk = ' . $id
       )->getResult();
       $linkSequenceassembleeextFk = (count($query) > 0) ? $id : '';
       // Search for the concatenated list of targeted taxa
       $query = $this->entityManager->createQuery(
-        'SELECT rt.taxname as taxname FROM App:ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
+        'SELECT rt.taxname as taxname FROM App\\Entity\\ACibler ac JOIN ac.referentielTaxonFk rt WHERE ac.collecteFk = ' . $id
       )->getResult();
       $arrayTaxonsCibler = array();
       foreach ($query as $taxon) {
@@ -213,7 +215,7 @@ class CollecteController extends EntityController {
    * Finds and displays a collecte entity.
    */
   #[Route("/{id}", name: "collecte_show", methods: ["GET"])]
-  public function showAction(Collecte $collecte) {
+  public function showAction(#[MapEntity(id: 'id')] Collecte $collecte) {
     $deleteForm = $this->createDeleteForm($collecte);
     $showForm = $this->createForm('App\Form\CollecteType', $collecte, [
       'action_type' => Action::show->value,
@@ -231,7 +233,7 @@ class CollecteController extends EntityController {
    */
   #[Route("/{id}/edit", name: "collecte_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Collecte $collecte, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Collecte $collecte, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -292,7 +294,7 @@ class CollecteController extends EntityController {
    */
   #[Route("/{id}", name: "collecte_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Collecte $collecte) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Collecte $collecte) {
     $form = $this->createDeleteForm($collecte);
     $form->handleRequest($request);
 

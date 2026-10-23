@@ -2,8 +2,10 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Services\Core\GenericFunctionE3s;
@@ -222,7 +224,7 @@ class SequenceAssembleeExtController extends EntityController {
    * Finds and displays a sequenceAssembleeExt entity.
    */
   #[Route("/{id}", name: "sequenceassembleeext_show", methods: ["GET"])]
-  public function showAction(SequenceAssembleeExt $sequenceAssembleeExt) {
+  public function showAction(#[MapEntity(id: 'id')] SequenceAssembleeExt $sequenceAssembleeExt) {
     $deleteForm = $this->createDeleteForm($sequenceAssembleeExt);
     $editForm = $this->createForm(
       'App\Form\SequenceAssembleeExtType',
@@ -242,7 +244,7 @@ class SequenceAssembleeExtController extends EntityController {
    */
   #[Route("/{id}/edit", name: "sequenceassembleeext_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] SequenceAssembleeExt $sequenceAssembleeExt, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -331,7 +333,7 @@ class SequenceAssembleeExtController extends EntityController {
    */
   #[Route("/{id}", name: "sequenceassembleeext_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, SequenceAssembleeExt $sequenceAssembleeExt) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] SequenceAssembleeExt $sequenceAssembleeExt) {
     $form = $this->createDeleteForm($sequenceAssembleeExt);
     $form->handleRequest($request);
 

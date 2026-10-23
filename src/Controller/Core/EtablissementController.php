@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Etablissement;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -130,7 +132,7 @@ class EtablissementController extends EntityController {
    * Finds and displays a etablissement entity.
    */
   #[Route("/{id}", name: "etablissement_show", methods: ["GET"])]
-  public function showAction(Etablissement $etablissement) {
+  public function showAction(#[MapEntity(id: 'id')] Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
     $editForm = $this->createForm(
       'App\Form\EtablissementType',
@@ -150,7 +152,7 @@ class EtablissementController extends EntityController {
    */
   #[Route("/{id}/edit", name: "etablissement_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_PROJECT")]
-  public function editAction(Request $request, Etablissement $etablissement) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Etablissement $etablissement) {
     $deleteForm = $this->createDeleteForm($etablissement);
     $editForm = $this->createForm(
       'App\Form\EtablissementType',
@@ -191,7 +193,7 @@ class EtablissementController extends EntityController {
    */
   #[Route("/{id}", name: "etablissement_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_PROJECT")]
-  public function deleteAction(Request $request, Etablissement $etablissement) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Etablissement $etablissement) {
     $form = $this->createDeleteForm($etablissement);
     $form->handleRequest($request);
 

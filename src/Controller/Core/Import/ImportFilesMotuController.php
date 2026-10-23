@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -42,7 +42,7 @@ class ImportFilesMotuController extends EntityController {
           'class' => Motu::class,
           'query_builder' => function (EntityRepository $er) {
             return $er->createQueryBuilder('motu')
-              ->leftJoin('App:Assigne', 'assigne', 'WITH', 'assigne.motuFk = motu.id')
+              ->leftJoin(\App\Entity\Assigne::class, 'assigne', 'WITH', 'assigne.motuFk = motu.id')
               ->where('assigne.id IS NULL');
           },
           'placeholder' => 'MOTU', 'choice_label' => 'nomFichierCsv', 'multiple' => false, 'expanded' => false,

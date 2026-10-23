@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Individu;
 use App\Entity\Boite;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -111,14 +113,14 @@ class AdnController extends EntityController {
 
       // search the PCRs from the DNA
       $query = $this->entityManager->createQuery(
-        'SELECT pcr.id FROM App:Pcr pcr WHERE pcr.adnFk = ' . $id
+        'SELECT pcr.id FROM App\\Entity\\Pcr pcr WHERE pcr.adnFk = ' . $id
       )->getResult();
       $linkPcr = (count($query) > 0) ? $id : '';
 
       // concatenated list of people
       $query = $this->entityManager->createQuery(
         'SELECT p.nomPersonne as nom
-        FROM App:AdnEstRealisePar erp
+        FROM App\\Entity\\AdnEstRealisePar erp
         JOIN erp.personneFk p
         WHERE erp.adnFk = ' . $id
       )->getResult();
@@ -206,7 +208,7 @@ class AdnController extends EntityController {
    * Finds and displays a adn entity.
    */
   #[Route("/{id}", name: "adn_show", methods: ["GET"])]
-  public function showAction(Adn $adn) {
+  public function showAction(#[MapEntity(id: 'id')] Adn $adn) {
     $deleteForm = $this->createDeleteForm($adn);
     $editForm = $this->createForm('App\Form\AdnType', $adn, [
       'action_type' => Action::show->value,
@@ -225,7 +227,7 @@ class AdnController extends EntityController {
    */
   #[Route("/{id}/edit", name: "adn_edit", methods: ["GET", "POST"])]
   #[IsGranted('ROLE_COLLABORATION')]
-  public function editAction(Request $request, Adn $adn, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Adn $adn, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -273,7 +275,7 @@ class AdnController extends EntityController {
    */
   #[IsGranted('ROLE_COLLABORATION')]
   #[Route("/{id}", name: "adn_delete", methods: ["DELETE", "POST"])]
-  public function deleteAction(Request $request, Adn $adn) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Adn $adn) {
     $form = $this->createDeleteForm($adn);
     $form->handleRequest($request);
 

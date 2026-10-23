@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Motu;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -70,7 +72,7 @@ class MotuController extends EntityController {
         ? $entity->getDateCre()->format('Y-m-d H:i:s') : null;
       //  concatenated list of people
       $query = $this->entityManager->createQuery(
-        'SELECT p.nomPersonne as nom FROM App:MotuEstGenerePar megp
+        'SELECT p.nomPersonne as nom FROM App\\Entity\\MotuEstGenerePar megp
 				JOIN megp.personneFk p WHERE megp.motuFk = ' . $id
       )->getResult();
       $arrayListePersonne = array();
@@ -144,7 +146,7 @@ class MotuController extends EntityController {
    * Finds and displays a motu entity.
    */
   #[Route("/{id}", name: "motu_show", methods: ["GET"])]
-  public function showAction(Motu $motu) {
+  public function showAction(#[MapEntity(id: 'id')] Motu $motu) {
     $deleteForm = $this->createDeleteForm($motu);
     $editForm = $this->createForm('App\Form\MotuType', $motu, [
       'action_type' => Action::show->value,
@@ -162,7 +164,7 @@ class MotuController extends EntityController {
    */
   #[Route("/{id}/edit", name: "motu_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function editAction(Request $request, Motu $motu, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Motu $motu, GenericFunctionE3s $service) {
     // store ArrayCollection
     $motuEstGenerePars = $service->setArrayCollection('MotuEstGenerePars', $motu);
 
@@ -204,7 +206,7 @@ class MotuController extends EntityController {
    */
   #[Route("/{id}", name: "motu_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function deleteAction(Request $request, Motu $motu) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Motu $motu) {
     $form = $this->createDeleteForm($motu);
     $form->handleRequest($request);
 
@@ -267,9 +269,9 @@ class MotuController extends EntityController {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb
       ->select('v.id method_id, v.code method_code, m.id as dataset_id, m.libelleMotu as dataset_name')
-      ->from('App:Motu', 'm')
-      ->join('App:Assigne', 'a', 'WITH', 'a.motuFk=m')
-      ->join('App:Voc', 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
+      ->from(\App\Entity\Motu::class, 'm')
+      ->join(\App\Entity\Assigne::class, 'a', 'WITH', 'a.motuFk=m')
+      ->join(\App\Entity\Voc::class, 'v', 'WITH', "a.methodeMotuVocFk=v AND v.code != 'HAPLO'")
       ->distinct()
       ->getQuery();
 

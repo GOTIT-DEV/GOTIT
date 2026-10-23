@@ -5,7 +5,7 @@ namespace App\Controller\Core;
 use App\Services\Core\GenericFunctionE3s;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use App\Entity\Adn;
 use App\Entity\Chromatogramme;
@@ -24,23 +24,23 @@ class DashboardController extends EntityController {
 
   #[Route("/", name: "dashboard")]
   public function indexAction(ManagerRegistry $doctrine, GenericFunctionE3s $service) {
-    $nbcollectes = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Collecte u')->getSingleScalarResult();
-    $nbstations = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Station u')->getSingleScalarResult();
-    $nbLotMateriel = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:LotMateriel u')->getSingleScalarResult();
-    $nbLotMaterielExt = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:LotMaterielExt u')->getSingleScalarResult();
-    $nbIndividu = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Individu u')->getSingleScalarResult();
-    $nbIndividuLame = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:IndividuLame u')->getSingleScalarResult();
-    $nbAdn = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Adn u')->getSingleScalarResult();
-    $nbPcr = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Pcr u')->getSingleScalarResult();
-    $nbChromatogramme = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Chromatogramme u')->getSingleScalarResult();
-    $nbSequenceAssemblee = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssemblee u')->getSingleScalarResult();
-    $nbSequenceAssembleeExt = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:SequenceAssembleeExt u')->getSingleScalarResult();
-    $nbMotu = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Assigne u')->getSingleScalarResult();
-    $nbMotuSqcAss = count($this->entityManager->createQuery('SELECT COUNT(sa.id) FROM App:Assigne u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
-    $nbMotuSqcAssExt = count($this->entityManager->createQuery('SELECT COUNT(sae.id) FROM App:Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
-    $nbBoite = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Boite u')->getSingleScalarResult();
-    $nbSource = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App:Source u')->getSingleScalarResult();
-    $nbTaxon = count($this->entityManager->createQuery('SELECT COUNT(rt.id) FROM App:EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
+    $nbcollectes = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Collecte u')->getSingleScalarResult();
+    $nbstations = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Station u')->getSingleScalarResult();
+    $nbLotMateriel = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\LotMateriel u')->getSingleScalarResult();
+    $nbLotMaterielExt = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\LotMaterielExt u')->getSingleScalarResult();
+    $nbIndividu = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Individu u')->getSingleScalarResult();
+    $nbIndividuLame = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\IndividuLame u')->getSingleScalarResult();
+    $nbAdn = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Adn u')->getSingleScalarResult();
+    $nbPcr = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Pcr u')->getSingleScalarResult();
+    $nbChromatogramme = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Chromatogramme u')->getSingleScalarResult();
+    $nbSequenceAssemblee = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\SequenceAssemblee u')->getSingleScalarResult();
+    $nbSequenceAssembleeExt = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\SequenceAssembleeExt u')->getSingleScalarResult();
+    $nbMotu = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Assigne u')->getSingleScalarResult();
+    $nbMotuSqcAss = count($this->entityManager->createQuery('SELECT COUNT(sa.id) FROM App\\Entity\\Assigne u JOIN u.sequenceAssembleeFk sa GROUP BY sa.id')->getResult());
+    $nbMotuSqcAssExt = count($this->entityManager->createQuery('SELECT COUNT(sae.id) FROM App\\Entity\\Assigne u JOIN u.sequenceAssembleeExtFk sae GROUP BY sae.id')->getResult());
+    $nbBoite = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Boite u')->getSingleScalarResult();
+    $nbSource = $this->entityManager->createQuery('SELECT COUNT(u.id) FROM App\\Entity\\Source u')->getSingleScalarResult();
+    $nbTaxon = count($this->entityManager->createQuery('SELECT COUNT(rt.id) FROM App\\Entity\\EspeceIdentifiee u JOIN u.referentielTaxonFk rt GROUP BY rt.id')->getResult());
     //
     $tab_toshow = [];
     // returns the last records of the dna

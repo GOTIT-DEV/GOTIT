@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\ReferentielTaxon;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -133,7 +135,7 @@ class ReferentielTaxonController extends EntityController {
    * Finds and displays a referentielTaxon entity.
    */
   #[Route("/{id}", name: "referentieltaxon_show", methods: ["GET"])]
-  public function showAction(ReferentielTaxon $referentielTaxon) {
+  public function showAction(#[MapEntity(id: 'id')] ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
@@ -153,7 +155,7 @@ class ReferentielTaxonController extends EntityController {
    */
   #[Route("/{id}/edit", name: "referentieltaxon_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function editAction(Request $request, ReferentielTaxon $referentielTaxon) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] ReferentielTaxon $referentielTaxon) {
     $deleteForm = $this->createDeleteForm($referentielTaxon);
     $editForm = $this->createForm(
       'App\Form\ReferentielTaxonType',
@@ -193,7 +195,7 @@ class ReferentielTaxonController extends EntityController {
    */
   #[Route("/{id}", name: "referentieltaxon_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function deleteAction(Request $request, ReferentielTaxon $referentielTaxon) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] ReferentielTaxon $referentielTaxon) {
     $form = $this->createDeleteForm($referentielTaxon);
     $form->handleRequest($request);
 
@@ -235,7 +237,7 @@ class ReferentielTaxonController extends EntityController {
     $qb = $this->entityManager->createQueryBuilder();
     $query = $qb->select('rt')
       // index results by genus
-      ->from('App:ReferentielTaxon', 'rt')
+      ->from(\App\Entity\ReferentielTaxon::class, 'rt')
       ->where('rt.species IS NOT NULL')
       ->orderBy('rt.genus, rt.species')
       ->getQuery();

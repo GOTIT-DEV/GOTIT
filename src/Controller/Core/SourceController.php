@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Source;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -129,7 +131,7 @@ class SourceController extends EntityController {
    * Finds and displays a source entity.
    */
   #[Route("/{id}", name: "source_show", methods: ["GET"])]
-  public function showAction(Source $source) {
+  public function showAction(#[MapEntity(id: 'id')] Source $source) {
     $deleteForm = $this->createDeleteForm($source);
     $editForm = $this->createForm('App\Form\SourceType', $source, [
       'action_type' => Action::show->value,
@@ -147,7 +149,7 @@ class SourceController extends EntityController {
    */
   #[Route("/{id}/edit", name: "source_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function editAction(Request $request, Source $source, GenericFunctionE3s $service) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Source $source, GenericFunctionE3s $service) {
     //  access control for user type  : ROLE_COLLABORATION
     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     $user = $this->getUser();
@@ -194,7 +196,7 @@ class SourceController extends EntityController {
    */
   #[Route("/{id}", name: "source_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, Source $source) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Source $source) {
     $form = $this->createDeleteForm($source);
     $form->handleRequest($request);
 

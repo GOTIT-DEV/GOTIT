@@ -17,12 +17,14 @@
 
 namespace App\Controller\SpeciesSearch;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\ReferentielTaxon;
 use App\Services\SpeciesSearch\SpeciesQueryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -83,7 +85,7 @@ class CO1SamplingController extends AbstractController {
    */
   #[Route("/species/{id}", name: "co1-species-sampling", methods: ["GET"])]
   public function speciesSamplingCoverage(
-    ReferentielTaxon $taxon,
+    #[MapEntity(id: 'id')] ReferentielTaxon $taxon,
     SpeciesQueryService $service,
     SerializerInterface $serializer
   ) {

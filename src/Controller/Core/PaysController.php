@@ -2,12 +2,14 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Entity\Pays;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Controller\EntityController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -127,7 +129,7 @@ class PaysController extends EntityController {
    * Finds and displays a pay entity.
    */
   #[Route("/{id}", name: "pays_show", methods: ["GET"])]
-  public function showAction(Pays $pays) {
+  public function showAction(#[MapEntity(id: 'id')] Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
     $editForm = $this->createForm('App\Form\PaysType', $pays, [
       'action_type' => Action::show->value,
@@ -145,7 +147,7 @@ class PaysController extends EntityController {
    */
   #[Route("/{id}/edit", name: "pays_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function editAction(Request $request, Pays $pays) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Pays $pays) {
     $deleteForm = $this->createDeleteForm($pays);
     $editForm = $this->createForm('App\Form\PaysType', $pays, [
       'action_type' => Action::edit->value,
@@ -183,7 +185,7 @@ class PaysController extends EntityController {
    */
   #[Route("/{id}", name: "pays_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function deleteAction(Request $request, Pays $pays) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Pays $pays) {
     $form = $this->createDeleteForm($pays);
     $form->handleRequest($request);
 
@@ -226,7 +228,7 @@ class PaysController extends EntityController {
    * List all municipalities in a country
    */
   #[Route("/{id}/municipalities", name: "country_municipalities", methods: ["GET"])]
-  public function listMunicipalities(Pays $country, SerializerInterface $serializer) {
+  public function listMunicipalities(#[MapEntity(id: 'id')] Pays $country, SerializerInterface $serializer) {
     $json = $serializer->serialize($country->getCommunes(), "json", ['groups' => "own"]);
     return JsonResponse::fromJsonString($json);
   }

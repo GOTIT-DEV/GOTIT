@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\Commune;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -51,7 +53,7 @@ class CommuneController extends EntityController {
       ->createQueryBuilder('commune')
       ->where($where)
       ->setParameter('criteriaLower', strtolower($searchPhrase) . '%')
-      ->leftJoin('App:Pays', 'pays', 'WITH', 'commune.paysFk = pays.id')
+      ->leftJoin(\App\Entity\Pays::class, 'pays', 'WITH', 'commune.paysFk = pays.id')
       ->addOrderBy(array_keys($orderBy)[0], array_values($orderBy)[0])
       ->getQuery()
       ->getResult();
@@ -177,7 +179,7 @@ class CommuneController extends EntityController {
    * Finds and displays a commune entity.
    */
   #[Route("/{id}", name: "commune_show", methods: ["GET"])]
-  public function showAction(Commune $commune) {
+  public function showAction(#[MapEntity(id: 'id')] Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
 
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
@@ -195,7 +197,7 @@ class CommuneController extends EntityController {
    */
   #[Route("/{id}/edit", name: "commune_edit", methods: ["GET", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function editAction(Request $request, Commune $commune) {
+  public function editAction(Request $request, #[MapEntity(id: 'id')] Commune $commune) {
     $deleteForm = $this->createDeleteForm($commune);
     $editForm = $this->createForm('App\Form\CommuneType', $commune, [
       'action_type' => Action::edit->value,
@@ -233,7 +235,7 @@ class CommuneController extends EntityController {
    */
   #[Route("/{id}", name: "commune_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_ADMIN")]
-  public function deleteAction(Request $request, Commune $commune) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] Commune $commune) {
     $form = $this->createDeleteForm($commune);
     $form->handleRequest($request);
 

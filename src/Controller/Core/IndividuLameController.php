@@ -2,13 +2,15 @@
 
 namespace App\Controller\Core;
 
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 use App\Controller\EntityController;
 use App\Entity\IndividuLame;
 use App\Form\Enums\Action;
 use App\Services\Core\GenericFunctionE3s;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Individu;
 
@@ -183,7 +185,7 @@ class IndividuLameController extends EntityController {
    * Finds and displays a individuLame entity.
    */
   #[Route("/{id}", name: "individulame_show", methods: ["GET"])]
-  public function showAction(IndividuLame $individuLame) {
+  public function showAction(#[MapEntity(id: 'id')] IndividuLame $individuLame) {
     $deleteForm = $this->createDeleteForm($individuLame);
     $editForm = $this->createForm('App\Form\IndividuLameType', $individuLame, [
       'action_type' => Action::show->value,
@@ -203,7 +205,7 @@ class IndividuLameController extends EntityController {
   #[IsGranted("ROLE_COLLABORATION")]
   public function editAction(
     Request $request,
-    IndividuLame $individuLame,
+    #[MapEntity(id: 'id')] IndividuLame $individuLame,
     GenericFunctionE3s $service
   ) {
     //  access control for user type  : ROLE_COLLABORATION
@@ -264,7 +266,7 @@ class IndividuLameController extends EntityController {
    */
   #[Route("/{id}", name: "individulame_delete", methods: ["DELETE", "POST"])]
   #[IsGranted("ROLE_COLLABORATION")]
-  public function deleteAction(Request $request, IndividuLame $individuLame) {
+  public function deleteAction(Request $request, #[MapEntity(id: 'id')] IndividuLame $individuLame) {
     $form = $this->createDeleteForm($individuLame);
     $form->handleRequest($request);
 
