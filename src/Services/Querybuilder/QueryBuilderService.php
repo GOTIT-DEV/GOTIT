@@ -71,7 +71,7 @@ class QueryBuilderService {
     $table = $initial["table"];
     $alias = $initial["alias"];
     // Adding the initial table to the query
-    $query = $qb->from('App:' . $table, $alias);
+    $query = $qb->from('App\\Entity\\' . $table, $alias);
     foreach ($initial["fields"] as $field) {
       // Adding every field selected for the initial table with their alias
       if ($user instanceof User) {
@@ -302,7 +302,7 @@ class QueryBuilderService {
 
     $joinFields = $source . " = " . $target;
 
-    $joinArgs = ['App:' . $table, $alias, 'WITH', $joinFields];
+    $joinArgs = ['App\\Entity\\' . $table, $alias, 'WITH', $joinFields];
 
     $joinType = $joinBlock["join"]['type'];
     if ($joinType == "Inner Join") {

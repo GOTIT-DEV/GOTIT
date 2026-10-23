@@ -27,7 +27,7 @@ class SchemaInspectorService {
 
     // Fetch content of tables to be used as select options
     $schema['Voc']['content'] = $this->em
-      ->createQuery('select v.id, v.code, v.libelle, v.parent from App:Voc v')
+      ->createQuery('select v.id, v.code, v.libelle, v.parent from App\\Entity\\Voc v')
       ->getArrayResult();
 
     return $schema;
@@ -129,7 +129,7 @@ class SchemaInspectorService {
 
       if ($table == "vocabulary" && $field['fieldName'] == "parent") {
         $filter['choices'] = array_map('current', $this->em
-          ->createQuery('select distinct v.parent from App:Voc v')
+          ->createQuery('select distinct v.parent from App\\Entity\\Voc v')
           ->getArrayResult());
         $filter['type'] = 'custom-component';
       }
