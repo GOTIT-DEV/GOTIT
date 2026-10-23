@@ -20,6 +20,8 @@ framework:
   php_errors:
     log: true
 
+  handle_all_throwables: true
+
 when@test:
   framework:
     test: true
